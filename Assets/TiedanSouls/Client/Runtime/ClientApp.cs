@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Infra.Controller;
+using TiedanSouls.Main.Controller;
+using TiedanSouls.World.Controller;
 
 namespace TiedanSouls.Main.Entry {
 
@@ -11,18 +13,33 @@ namespace TiedanSouls.Main.Entry {
 
         InfraController infraController;
 
+        MainController mainController;
+
+        WorldController worldController;
+
         bool isInit;
 
         void Awake() {
 
+            // ==== Instantiate ====
             InfraContext infraContext = new InfraContext();
             infraController = new InfraController();
 
-            infraController.Inject(GetComponentInChildren<Canvas>(), infraContext);
+            mainController = new MainController();
 
+            worldController = new WorldController();
+
+            // ==== Inject ====
+            infraController.Inject(GetComponentInChildren<Canvas>(), infraContext);
+            mainController.Inject(infraContext);
+            worldController.Inject(infraContext);
+
+            // ==== Init ====
             Action action = async () => {
 
                 await infraController.Init();
+                worldController.Init();
+                mainController.Init();
 
                 isInit = true;
             };
