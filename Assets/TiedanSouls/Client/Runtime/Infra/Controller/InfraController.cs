@@ -18,6 +18,9 @@ namespace TiedanSouls.Infra.Controller {
 
         public async Task Init() {
 
+            var assetCore = infraContext.AssetCore;
+            await assetCore.Init();
+
             var uiCore = infraContext.UICore;
             await uiCore.Init();
 
