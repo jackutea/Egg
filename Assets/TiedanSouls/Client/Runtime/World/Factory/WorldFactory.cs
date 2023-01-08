@@ -36,7 +36,12 @@ namespace TiedanSouls.World {
             }
             var entity = GameObject.Instantiate(go).GetComponent<RoleEntity>();
             entity.Ctor();
+            entity.OnCollisionEnterHandle += OnCollisionEnter;
             return entity;
+        }
+
+        void OnCollisionEnter(RoleEntity role, Collision2D other) {
+            TDLog.Log("OnCollisionEnter: " + other.gameObject.name);
         }
 
     }

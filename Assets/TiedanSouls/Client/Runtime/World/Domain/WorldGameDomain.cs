@@ -10,7 +10,7 @@ namespace TiedanSouls.World.Domain {
         WorldContext worldContext;
         WorldDomain worldDomain;
 
-        public WorldGameDomain() {}
+        public WorldGameDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldDomain worldDomain) {
             this.infraContext = infraContext;
@@ -22,9 +22,19 @@ namespace TiedanSouls.World.Domain {
 
             var fieldDomain = worldDomain.FieldDomain;
             fieldDomain.SpawnField();
-            
+
             var roleDomain = worldDomain.RoleDomain;
             roleDomain.SpawnRole(new Vector2(3, 3));
+
+        }
+
+        public void TickGameLoop() {
+
+            // Process Input
+
+            // Process Logic
+
+            // Process Render
 
         }
 

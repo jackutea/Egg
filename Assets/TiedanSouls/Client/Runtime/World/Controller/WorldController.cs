@@ -33,6 +33,18 @@ namespace TiedanSouls.World.Controller {
             };
         }
 
+        public void FixedTick() {
+
+        }
+
+        public void Tick(float dt) {
+            worldDomain.GameDomain.TickGameLoop();
+        }
+
+        public void LateTick(float dt) {
+
+        }
+
     }
 
 }
