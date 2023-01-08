@@ -1,4 +1,5 @@
 using UnityEngine;
+using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
 
@@ -25,20 +26,24 @@ namespace TiedanSouls.World.Domain {
 
             // ==== Spawn ====
             var fieldDomain = worldDomain.FieldDomain;
-            fieldDomain.SpawnField();
+            var field = fieldDomain.SpawnField();
 
             var roleDomain = worldDomain.RoleDomain;
-            int ownerID = roleDomain.SpawnRole(AllyCollection.PLAYER, new Vector2(3, 3));
+            var owner = roleDomain.SpawnRole(AllyCollection.PLAYER, new Vector2(3, 3));
+            _ = roleDomain.SpawnRole(AllyCollection.ENEMY, new Vector2(5, 5));
 
-            int enemyID = roleDomain.SpawnRole(AllyCollection.ENEMY, new Vector2(5, 5));
+            // ==== Camera ====
+            var cameraSetter = infraContext.CameraCore.SetterAPI;
+            cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
+            cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
 
             var stateEntity = worldContext.StateEntity;
-            stateEntity.ownerRoleID = ownerID;
+            stateEntity.ownerRoleID = owner.ID;
             stateEntity.isRunning = true;
 
         }
 
-        public void TickGameLoop() {
+        public void TickGameLoop(float dt) {
 
             var stateEntity = worldContext.StateEntity;
             if (!stateEntity.isRunning) {
@@ -57,6 +62,7 @@ namespace TiedanSouls.World.Domain {
                 }
                 roleDomain.Move(role);
                 roleDomain.Jump(role);
+                roleDomain.Falling(role, dt);
             }
 
             // Process Logic

@@ -8,13 +8,14 @@ namespace TiedanSouls.World.Entities {
 
         float moveSpeed = 5.5f;
         float jumpSpeed = 14f;
+        float fallingAcceleration = 24f;
+        float fallingSpeedMax = 40f;
+        float fallingSpeed;
 
         bool isJumping;
         bool isGround;
 
-        public MoveComponent() {
-            isGround = true;
-        }
+        public MoveComponent() { }
 
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;
@@ -28,7 +29,7 @@ namespace TiedanSouls.World.Entities {
 
         public void Jump(bool isJumpPress) {
             if (isJumpPress && !isJumping && isGround) {
-                
+
                 isJumping = true;
                 isGround = false;
 
@@ -39,10 +40,19 @@ namespace TiedanSouls.World.Entities {
             }
         }
 
+        public void Falling(float dt) {
+            var velo = rb.velocity;
+            velo.y -= fallingAcceleration * dt;
+            if (velo.y < -fallingSpeedMax) {
+                velo.y = -fallingSpeedMax;
+            }
+            rb.velocity = velo;
+        }
+
         public void EnterGround() {
             isGround = true;
             isJumping = false;
         }
-        
+
     }
 }
