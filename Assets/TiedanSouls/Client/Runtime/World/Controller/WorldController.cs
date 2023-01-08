@@ -8,9 +8,11 @@ namespace TiedanSouls.World.Controller {
 
         InfraContext infraContext;
         WorldContext worldContext;
+        WorldDomain worldDomain;
 
         public WorldController() {
             worldContext = new WorldContext();
+            worldDomain = new WorldDomain();
         }
 
         public void Inject(InfraContext infraContext) {
@@ -19,15 +21,15 @@ namespace TiedanSouls.World.Controller {
 
             worldContext.WorldFactory.Inject(infraContext);
 
+            worldDomain.GameDomain.Inject(infraContext, worldContext, worldDomain);
+            worldDomain.FieldDomain.Inject(infraContext, worldContext);
+            worldDomain.RoleDomain.Inject(infraContext, worldContext);
+
         }
 
         public void Init() {
             infraContext.EventCenter.OnStartGameHandle += () => {
-                TDLog.Log("WorldController: StartGame");
-                var field = worldContext.WorldFactory.CreateFieldEntity();
-
-                var role = worldContext.WorldFactory.CreateRoleEntity();
-                role.SetPos(new Vector2(3, 5));
+                worldDomain.GameDomain.EnterGame();
             };
         }
 
