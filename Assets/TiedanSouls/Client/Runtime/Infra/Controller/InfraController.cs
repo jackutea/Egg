@@ -35,8 +35,8 @@ namespace TiedanSouls.Infra.Controller {
             inputSetter.Bind(InputKeyCollection.MOVE_UP, KeyCode.W);
             inputSetter.Bind(InputKeyCollection.MOVE_DOWN, KeyCode.S);
             inputSetter.Bind(InputKeyCollection.JUMP, KeyCode.Space);
-            inputSetter.Bind(InputKeyCollection.ATTACK, KeyCode.Mouse0);
-            inputSetter.Bind(InputKeyCollection.TIME_STOP, KeyCode.Mouse1);
+            inputSetter.Bind(InputKeyCollection.MELEE, KeyCode.Mouse0);
+            inputSetter.Bind(InputKeyCollection.CRUSH, KeyCode.Mouse1);
 
         }
 

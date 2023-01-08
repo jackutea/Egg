@@ -41,10 +41,6 @@ namespace TiedanSouls.World.Controller {
             worldDomain.GameDomain.TickGameLoop();
         }
 
-        public void LateTick(float dt) {
-
-        }
-
     }
 
 }

@@ -24,13 +24,34 @@ namespace TiedanSouls.World.Domain {
             fieldDomain.SpawnField();
 
             var roleDomain = worldDomain.RoleDomain;
-            roleDomain.SpawnRole(new Vector2(3, 3));
+            int ownerID = roleDomain.SpawnRole(new Vector2(3, 3));
+
+            var stateEntity = worldContext.StateEntity;
+            stateEntity.ownerRoleID = ownerID;
+            stateEntity.isRunning = true;
 
         }
 
         public void TickGameLoop() {
 
+            var stateEntity = worldContext.StateEntity;
+            if (!stateEntity.isRunning) {
+                return;
+            }
+
+            var roleDomain = worldDomain.RoleDomain;
+
+            var roleRepo = worldContext.RoleRepo;
+            var allRole = roleRepo.GetAll();
+
             // Process Input
+            foreach (var role in allRole) {
+                if (role.ID == stateEntity.ownerRoleID) {
+                    roleDomain.RecordOwnerInput(role);
+                }
+                roleDomain.Move(role);
+                roleDomain.Jump(role);
+            }
 
             // Process Logic
 

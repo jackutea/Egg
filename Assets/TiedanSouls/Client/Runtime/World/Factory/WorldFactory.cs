@@ -2,6 +2,7 @@ using UnityEngine;
 using TiedanSouls.Asset;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Entities;
+using TiedanSouls.World.Service;
 
 namespace TiedanSouls.World {
 
@@ -27,7 +28,7 @@ namespace TiedanSouls.World {
             return entity;
         }
 
-        public RoleEntity CreateRoleEntity() {
+        public RoleEntity CreateRoleEntity(IDService idService) {
             var assetGetter = infraContext.AssetCore.Getter;
             bool has = assetGetter.TryGetWorldAsset("entity_role", out GameObject go);
             if (!has) {
@@ -36,12 +37,11 @@ namespace TiedanSouls.World {
             }
             var entity = GameObject.Instantiate(go).GetComponent<RoleEntity>();
             entity.Ctor();
-            entity.OnCollisionEnterHandle += OnCollisionEnter;
-            return entity;
-        }
+            
+            int id = idService.PickRoleID();
+            entity.SetID(id);
 
-        void OnCollisionEnter(RoleEntity role, Collision2D other) {
-            TDLog.Log("OnCollisionEnter: " + other.gameObject.name);
+            return entity;
         }
 
     }
