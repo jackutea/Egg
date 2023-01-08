@@ -17,11 +17,13 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public int SpawnRole(Vector2 pos) {
+        public int SpawnRole(sbyte ally, Vector2 pos) {
 
             var idService = worldContext.IDService;
             var role = worldContext.WorldFactory.CreateRoleEntity(idService);
             role.SetPos(pos);
+
+            role.SetAlly(ally);
 
             role.OnCollisionEnterHandle += OnCollisionEnter;
 

@@ -20,11 +20,17 @@ namespace TiedanSouls.World.Domain {
 
         public void EnterGame() {
 
+            // ==== Physics ====
+            Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE, true);
+
+            // ==== Spawn ====
             var fieldDomain = worldDomain.FieldDomain;
             fieldDomain.SpawnField();
 
             var roleDomain = worldDomain.RoleDomain;
-            int ownerID = roleDomain.SpawnRole(new Vector2(3, 3));
+            int ownerID = roleDomain.SpawnRole(AllyCollection.PLAYER, new Vector2(3, 3));
+
+            int enemyID = roleDomain.SpawnRole(AllyCollection.ENEMY, new Vector2(5, 5));
 
             var stateEntity = worldContext.StateEntity;
             stateEntity.ownerRoleID = ownerID;
