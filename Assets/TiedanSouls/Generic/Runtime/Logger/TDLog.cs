@@ -16,5 +16,9 @@ namespace TiedanSouls {
             Debug.LogError(message);
         }
 
+        public static void Assert(bool condition) {
+            Debug.Assert(condition);
+        }
+
     }
 }

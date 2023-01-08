@@ -53,6 +53,8 @@ namespace TiedanSouls.Main.Entry {
                 return;
             }
 
+            worldController.FixedTick();
+
         }
 
         void Update() {
@@ -63,6 +65,7 @@ namespace TiedanSouls.Main.Entry {
 
             float dt = Time.deltaTime;
             infraController.Tick(dt);
+            worldController.Tick(dt);
 
         }
 
