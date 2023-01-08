@@ -9,6 +9,10 @@ namespace TiedanSouls.World.Entities {
         public int ID => id;
         public void SetID(int value) => this.id = value;
 
+        sbyte ally;
+        public sbyte Ally => ally;
+        public void SetAlly(sbyte value) => this.ally = value;
+
         Transform body;
         Rigidbody2D rb;
 
@@ -35,7 +39,7 @@ namespace TiedanSouls.World.Entities {
             TDLog.Assert(rb != null);
             TDLog.Assert(footCom != null);
 
-            footCom.OnCollisionEnterHandle += OnCollisionEnter;
+            footCom.OnCollisionEnterHandle += OnFootEnter;
 
         }
 
@@ -57,7 +61,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Phx Event ====
-        void OnCollisionEnter(Collision2D other) {
+        void OnFootEnter(Collision2D other) {
             OnCollisionEnterHandle.Invoke(this, other);
         }
 
