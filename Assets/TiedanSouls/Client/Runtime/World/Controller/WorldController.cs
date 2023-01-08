@@ -24,7 +24,10 @@ namespace TiedanSouls.World.Controller {
         public void Init() {
             infraContext.EventCenter.OnStartGameHandle += () => {
                 TDLog.Log("WorldController: StartGame");
-                var entity = worldContext.WorldFactory.CreateFieldEntity();
+                var field = worldContext.WorldFactory.CreateFieldEntity();
+
+                var role = worldContext.WorldFactory.CreateRoleEntity();
+                role.SetPos(new Vector2(3, 5));
             };
         }
 

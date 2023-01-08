@@ -27,6 +27,18 @@ namespace TiedanSouls.World {
             return entity;
         }
 
+        public RoleEntity CreateRoleEntity() {
+            var assetGetter = infraContext.AssetCore.Getter;
+            bool has = assetGetter.TryGetWorldAsset("entity_role", out GameObject go);
+            if (!has) {
+                TDLog.Error("Failed to get asset: entity_role");
+                return null;
+            }
+            var entity = GameObject.Instantiate(go).GetComponent<RoleEntity>();
+            entity.Ctor();
+            return entity;
+        }
+
     }
 
 }
