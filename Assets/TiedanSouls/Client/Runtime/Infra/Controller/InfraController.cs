@@ -47,6 +47,8 @@ namespace TiedanSouls.Infra.Controller {
         public void LateTick(float dt) {
             var cameraCore = infraContext.CameraCore;
             cameraCore.Tick(dt);
+
+            TDLog.Log("Camera Position: ");
         }
 
     }

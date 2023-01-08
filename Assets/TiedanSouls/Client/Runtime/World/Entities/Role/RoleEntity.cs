@@ -29,7 +29,7 @@ namespace TiedanSouls.World.Entities {
             inputRecordCom = new RoleInputRecordComponent();
 
             body = transform.Find("body");
-            rb = body.GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
 
             footCom = body.GetComponentInChildren<FootComponent>();
 
@@ -54,6 +54,10 @@ namespace TiedanSouls.World.Entities {
 
         public void Jump() {
             moveCom.Jump(inputRecordCom.IsJump);
+        }
+
+        public void Falling(float dt) {
+            moveCom.Falling(dt);
         }
 
         public void EnterGround() {

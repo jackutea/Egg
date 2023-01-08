@@ -22,6 +22,9 @@ namespace TiedanSouls.World.Facades {
         RoleRepository roleRepo;
         public RoleRepository RoleRepo => roleRepo;
 
+        FieldRepository fieldRepo;
+        public FieldRepository FieldRepo => fieldRepo;
+
         public WorldContext() {
             
             stateEntity = new WorldStateEntity();
@@ -31,6 +34,7 @@ namespace TiedanSouls.World.Facades {
             idService = new IDService();
             
             roleRepo = new RoleRepository();
+            fieldRepo = new FieldRepository();
 
         }
 

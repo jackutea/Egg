@@ -17,7 +17,7 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public int SpawnRole(sbyte ally, Vector2 pos) {
+        public RoleEntity SpawnRole(sbyte ally, Vector2 pos) {
 
             var idService = worldContext.IDService;
             var role = worldContext.WorldFactory.CreateRoleEntity(idService);
@@ -30,7 +30,7 @@ namespace TiedanSouls.World.Domain {
             var repo = worldContext.RoleRepo;
             repo.Add(role);
 
-            return role.ID;
+            return role;
         }
 
         void OnCollisionEnter(RoleEntity role, Collision2D other) {
@@ -75,6 +75,10 @@ namespace TiedanSouls.World.Domain {
 
         public void Jump(RoleEntity role) {
             role.Jump();
+        }
+
+        public void Falling(RoleEntity role, float dt) {
+            role.Falling(dt);
         }
 
     }
