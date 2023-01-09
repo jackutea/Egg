@@ -7,6 +7,6 @@ namespace TiedanSouls {
         SpecMelee,  // 特殊攻击
         BoomMelee,  // 爆发攻击
         Infinity,   // 大招
-        Crush,      // 冲刺
+        Dash,      // 冲刺
     }
 }

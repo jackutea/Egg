@@ -42,7 +42,7 @@ namespace TiedanSouls.Infra.Controller {
             inputSetter.Bind(InputKeyCollection.SPEC_MELEE, KeyCode.Mouse1);
             inputSetter.Bind(InputKeyCollection.BOOM_MELEE, KeyCode.Mouse2);
             inputSetter.Bind(InputKeyCollection.INFINITY, KeyCode.F);
-            inputSetter.Bind(InputKeyCollection.CRUSH, KeyCode.LeftShift);
+            inputSetter.Bind(InputKeyCollection.DASH, KeyCode.LeftShift);
 
         }
 

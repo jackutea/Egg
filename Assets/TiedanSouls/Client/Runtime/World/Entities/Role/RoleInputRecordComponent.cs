@@ -28,9 +28,9 @@ namespace TiedanSouls.World.Entities {
         public bool IsInfinity => isInfinity;
         public void SetInfinity(bool value) => this.isInfinity = value;
 
-        bool isCrush;
-        public bool IsCrush => isCrush;
-        public void SetCrush(bool value) => this.isCrush = value;
+        bool isDash;
+        public bool IsDash => isDash;
+        public void SetDash(bool value) => this.isDash = value;
 
         public RoleInputRecordComponent() { }
 

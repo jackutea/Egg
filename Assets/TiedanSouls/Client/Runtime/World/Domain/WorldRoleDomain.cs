@@ -132,9 +132,9 @@ namespace TiedanSouls.World.Domain {
             bool isInfinity = inputGetter.GetPressing(InputKeyCollection.INFINITY);
             inputRecordCom.SetInfinity(isInfinity);
 
-            // - Crush
-            bool isCrush = inputGetter.GetPressing(InputKeyCollection.CRUSH);
-            inputRecordCom.SetCrush(isCrush);
+            // - Dash
+            bool isDash = inputGetter.GetPressing(InputKeyCollection.DASH);
+            inputRecordCom.SetDash(isDash);
 
         }
 
@@ -168,8 +168,8 @@ namespace TiedanSouls.World.Domain {
                 CastByType(role, SkillorType.BoomMelee);
             } else if (inputRecordCom.IsInfinity) {
                 CastByType(role, SkillorType.Infinity);
-            } else if (inputRecordCom.IsCrush) {
-                CastByType(role, SkillorType.Crush);
+            } else if (inputRecordCom.IsDash) {
+                CastByType(role, SkillorType.Dash);
             } else if (inputRecordCom.IsMelee) {
                 CastByType(role, SkillorType.Melee);
             }
