@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprite
+  m_EditorClassIdentifier: 
+  m_GroupName: Sprite
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 34077516a178c4c4eb7a46b53c8f27d9
+  m_SerializeEntries:
+  - m_GUID: 91a9e0a2d2681aa42aba37a6045cec47
+    m_Address: spr_role_tiedan_1000
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sprite
+  - m_GUID: ca8df00fca5927447b2eea21f17e9d2c
+    m_Address: spr_role_enemy_100_000
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sprite
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0bd534ae4072a9845bd99d6bcd94b9ec, type: 2}
+    - {fileID: 11400000, guid: b622ff898479ba44fb62a90c0ebdb0ec, type: 2}

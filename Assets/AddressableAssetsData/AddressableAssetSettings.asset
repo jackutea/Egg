@@ -45,6 +45,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ce6d70a8e06115d46a032e6efb66a2fe, type: 2}
   - {fileID: 11400000, guid: 680670728a9021c49bbef7404ebec28d, type: 2}
   - {fileID: 11400000, guid: e972f621a8d537240ae627cee7e83ed4, type: 2}
+  - {fileID: 11400000, guid: 816f74cf7f72f744f804c69052ed067c, type: 2}
+  - {fileID: 11400000, guid: 7bb8b3a82cdcff84f99d65f9b58597a4, type: 2}
+  - {fileID: 11400000, guid: 65dc96b3d14e1ce458f6cf001e42f45c, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -87,6 +90,9 @@ MonoBehaviour:
     m_LabelNames:
     - UILayout
     - World
+    - TM_Skillor
+    - TM_Role
+    - Sprite
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f420fc4a494c7174e922ab8136332be4, type: 2}

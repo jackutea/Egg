@@ -29,8 +29,8 @@ namespace TiedanSouls.World.Domain {
             var field = fieldDomain.SpawnField();
 
             var roleDomain = worldDomain.RoleDomain;
-            var owner = roleDomain.SpawnRole(AllyCollection.PLAYER, new Vector2(3, 3));
-            _ = roleDomain.SpawnRole(AllyCollection.ENEMY, new Vector2(5, 5));
+            var owner = roleDomain.SpawnRole(1000, AllyCollection.PLAYER, new Vector2(3, 3));
+            _ = roleDomain.SpawnRole(100_000, AllyCollection.ENEMY, new Vector2(5, 5));
 
             // ==== Camera ====
             var cameraSetter = infraContext.CameraCore.SetterAPI;
@@ -51,6 +51,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             var roleDomain = worldDomain.RoleDomain;
+            var roleFSMDomain = worldDomain.RoleFSMDomain;
 
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
@@ -60,9 +61,7 @@ namespace TiedanSouls.World.Domain {
                 if (role.ID == stateEntity.ownerRoleID) {
                     roleDomain.RecordOwnerInput(role);
                 }
-                roleDomain.Move(role);
-                roleDomain.Jump(role);
-                roleDomain.Falling(role, dt);
+                roleFSMDomain.Tick(role, dt);
             }
 
             // Process Logic

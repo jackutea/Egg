@@ -1,21 +1,37 @@
+using System;
 using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
+    [Serializable]
     public class MoveComponent {
 
         Rigidbody2D rb;
 
-        float moveSpeed = 5.5f;
-        float jumpSpeed = 14f;
-        float fallingAcceleration = 24f;
-        float fallingSpeedMax = 40f;
-        float fallingSpeed;
+        [SerializeField] float moveSpeed;
+        [SerializeField] float jumpSpeed;
+        [SerializeField] float fallingAcceleration;
+        [SerializeField] float fallingSpeedMax;
 
         bool isJumping;
         bool isGround;
 
-        public MoveComponent() { }
+        public MoveComponent() {
+            isJumping = false;
+            isGround = false;
+
+            moveSpeed = 4f;
+            jumpSpeed = 15f;
+            fallingAcceleration = 30f;
+            fallingSpeedMax = 50f;
+        }
+
+        public void Initialize(float moveSpeed, float jumpSpeed, float fallingAcceleration, float fallingSpeedMax) {
+            this.moveSpeed = moveSpeed;
+            this.jumpSpeed = jumpSpeed;
+            this.fallingAcceleration = fallingAcceleration;
+            this.fallingSpeedMax = fallingSpeedMax;
+        }
 
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;

@@ -9,7 +9,10 @@ namespace TiedanSouls {
 
         public const ushort JUMP = 5;
         public const ushort MELEE = 6;
-        public const ushort CRUSH = 7;
+        public const ushort SPEC_MELEE = 7;
+        public const ushort BOOM_MELEE = 8;
+        public const ushort INFINITY = 9;
+        public const ushort CRUSH = 10;
 
     }
 

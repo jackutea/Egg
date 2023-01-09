@@ -13,10 +13,14 @@ namespace TiedanSouls.World.Facades {
         WorldRoleDomain roleDomain;
         public WorldRoleDomain RoleDomain => roleDomain;
 
+        WorldRoleFSMDomain roleFSMDomain;
+        public WorldRoleFSMDomain RoleFSMDomain => roleFSMDomain;   
+
         public WorldDomain() {
             gameDomain = new WorldGameDomain();
             fieldDomain = new WorldFieldDomain();
             roleDomain = new WorldRoleDomain();
+            roleFSMDomain = new WorldRoleFSMDomain();
         }
 
     }
