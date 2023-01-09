@@ -8,15 +8,30 @@ namespace TiedanSouls.World.Entities {
 
         Rigidbody2D rb;
 
-        [SerializeField] float moveSpeed = 5.5f;
-        [SerializeField] float jumpSpeed = 13f;
-        [SerializeField] float fallingAcceleration = 24f;
-        [SerializeField] float fallingSpeedMax = 40f;
+        [SerializeField] float moveSpeed;
+        [SerializeField] float jumpSpeed;
+        [SerializeField] float fallingAcceleration;
+        [SerializeField] float fallingSpeedMax;
 
         bool isJumping;
         bool isGround;
 
-        public MoveComponent() { }
+        public MoveComponent() {
+            isJumping = false;
+            isGround = false;
+
+            moveSpeed = 4f;
+            jumpSpeed = 15f;
+            fallingAcceleration = 30f;
+            fallingSpeedMax = 50f;
+        }
+
+        public void Initialize(float moveSpeed, float jumpSpeed, float fallingAcceleration, float fallingSpeedMax) {
+            this.moveSpeed = moveSpeed;
+            this.jumpSpeed = jumpSpeed;
+            this.fallingAcceleration = fallingAcceleration;
+            this.fallingSpeedMax = fallingSpeedMax;
+        }
 
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;

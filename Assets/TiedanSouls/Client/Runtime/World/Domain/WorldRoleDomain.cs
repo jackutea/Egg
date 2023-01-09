@@ -18,12 +18,45 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public RoleEntity SpawnRole(sbyte ally, Vector2 pos) {
+        public RoleEntity SpawnRole(int typeID, sbyte ally, Vector2 pos) {
 
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
 
-            var role = worldContext.WorldFactory.CreateRoleEntity(idService);
+            // - Entity
+            var worldAssets = infraContext.AssetCore.WorldAssets;
+            bool has = worldAssets.TryGet("entity_role", out GameObject go);
+            if (!has) {
+                TDLog.Error("Failed to get asset: entity_role");
+                return null;
+            }
+
+            var role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
+            role.Ctor();
+            
+            // - ID
+            int id = idService.PickRoleID();
+            role.SetID(id);
+
+            // - TM
+            has = templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM);
+            if (!has) {
+                TDLog.Error("Failed to get role template: " + typeID);
+                return null;
+            }
+
+            // - Mesh
+            var spriteAssets = infraContext.AssetCore.SpriteAssets;
+            has = spriteAssets.TryGet(roleTM.meshName, out Sprite sprite);
+            if (!has) {
+                TDLog.Error("Failed to get sprite: " + roleTM.meshName);
+                return null;
+            }
+            role.SetMesh(sprite);
+
+            // - Move
+            var moveCom = role.MoveCom;
+            moveCom.Initialize(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
             // - Pos
             role.SetPos(pos);
@@ -32,14 +65,18 @@ namespace TiedanSouls.World.Domain {
             role.SetAlly(ally);
 
             // - Skillor
-            var skillor = new SkillorModel();
-            bool has = templateCore.SkillorTemplate.TryGet(1000, out SkillorTM tm);
-            if (!has) {
-                TDLog.Error("Failed to get skillor template: 1000");
-                return null;
+            if (roleTM.skillorTypeIDArray!= null) {
+                foreach (var skillorTypeID in roleTM.skillorTypeIDArray) {
+                    var skillor = new SkillorModel();
+                    has = templateCore.SkillorTemplate.TryGet(skillorTypeID, out SkillorTM skillorTM);
+                    if (!has) {
+                        TDLog.Error("Failed to get skillor template: " + skillorTypeID);
+                        return null;
+                    }
+                    skillor.FromTM(skillorTM);
+                    role.SkillorSlotCom.Add(skillor);
+                }
             }
-            skillor.FromTM(tm);
-            role.SkillorSlotCom.Add(skillor);
 
             // - Physics
             role.OnCollisionEnterHandle += OnCollisionEnter;

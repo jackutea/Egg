@@ -29,8 +29,8 @@ namespace TiedanSouls.World.Domain {
             var field = fieldDomain.SpawnField();
 
             var roleDomain = worldDomain.RoleDomain;
-            var owner = roleDomain.SpawnRole(AllyCollection.PLAYER, new Vector2(3, 3));
-            _ = roleDomain.SpawnRole(AllyCollection.ENEMY, new Vector2(5, 5));
+            var owner = roleDomain.SpawnRole(1000, AllyCollection.PLAYER, new Vector2(3, 3));
+            _ = roleDomain.SpawnRole(100_000, AllyCollection.ENEMY, new Vector2(5, 5));
 
             // ==== Camera ====
             var cameraSetter = infraContext.CameraCore.SetterAPI;

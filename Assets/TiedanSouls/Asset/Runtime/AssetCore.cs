@@ -1,26 +1,23 @@
 using System.Threading.Tasks;
-using TiedanSouls.Asset.Facades;
 
 namespace TiedanSouls.Asset {
 
     public class AssetCore {
 
-        AssetContext assetContext;
+        WorldAssets worldAssets;
+        public WorldAssets WorldAssets => worldAssets;
 
-        AssetGetterAPI getterAPI;
-        public IAssetGetterAPI Getter => getterAPI;
+        SpriteAssets spriteAssets;
+        public SpriteAssets SpriteAssets => spriteAssets;
 
         public AssetCore() {
-            
-            assetContext = new AssetContext();
-
-            getterAPI = new AssetGetterAPI();
-            getterAPI.Inject(assetContext);
-
+            worldAssets = new WorldAssets();
+            spriteAssets = new SpriteAssets();
         }
 
         public async Task Init() {
-            await assetContext.WorldAssets.LoadAll();
+            await worldAssets.LoadAll();
+            await spriteAssets.LoadAll();
         }
 
     }

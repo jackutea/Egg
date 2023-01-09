@@ -15,9 +15,11 @@ namespace TiedanSouls.World.Entities {
 
         Transform body;
         Rigidbody2D rb;
+        SpriteRenderer sr;
 
         FootComponent footCom;
         [SerializeField] MoveComponent moveCom;
+        public MoveComponent MoveCom => moveCom;
 
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
@@ -38,6 +40,7 @@ namespace TiedanSouls.World.Entities {
 
             body = transform.Find("body");
             rb = GetComponent<Rigidbody2D>();
+            sr = body.Find("mesh").GetComponent<SpriteRenderer>();
 
             footCom = body.GetComponentInChildren<FootComponent>();
 
@@ -51,11 +54,16 @@ namespace TiedanSouls.World.Entities {
 
         }
 
+        // ==== Mesh ====
+        public void SetMesh(Sprite spr) {
+            sr.sprite = spr;
+        }
+
+        // ==== Locomotion ====
         public void SetPos(Vector2 pos) {
             body.position = pos;
         }
 
-        // ==== Locomotion ====
         public void Move() {
             moveCom.Move(inputRecordCom.MoveAxis);
         }
