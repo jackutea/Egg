@@ -17,14 +17,14 @@ namespace TiedanSouls.World.Entities {
         Rigidbody2D rb;
 
         FootComponent footCom;
-        MoveComponent moveCom;
+        [SerializeField] MoveComponent moveCom;
 
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
 
         RoleInputRecordComponent inputRecordCom;
         public RoleInputRecordComponent InputRecordCom => inputRecordCom;
-        
+
         SkillorSlotComponent skillorSlotCom;
         public SkillorSlotComponent SkillorSlotCom => skillorSlotCom;
 
