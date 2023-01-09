@@ -12,7 +12,7 @@ namespace TiedanSouls.World.Entities {
             if (tm.boxes != null) {
                 var boxes = new SkillorBoxElement[tm.boxes.Length];
                 for (int i = 0; i < boxes.Length; i += 1) {
-                    boxes[i] = new SkillorBoxElement();
+                    boxes[i] = new GameObject("skillor_box").AddComponent<SkillorBoxElement>();
                     boxes[i].FromTM(tm.boxes[i]);
                 }
                 this.boxes = boxes;

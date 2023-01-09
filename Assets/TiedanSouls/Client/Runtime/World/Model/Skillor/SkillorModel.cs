@@ -7,6 +7,9 @@ namespace TiedanSouls.World.Entities {
         int typeID;
         public int TypeID => typeID;
 
+        SkillorType skillorType;
+        public SkillorType SkillorType => skillorType;
+
         SkillorFrameElement[] frames;
         int frameIndex;
 
@@ -14,6 +17,7 @@ namespace TiedanSouls.World.Entities {
 
         public void FromTM(Template.SkillorTM tm) {
             typeID = tm.typeID;
+            skillorType = tm.skillorType;
             if (tm.frames != null) {
                 var frames = new SkillorFrameElement[tm.frames.Length];
                 for (int i = 0; i < frames.Length; i += 1) {
@@ -34,17 +38,25 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void ActiveNextFrame(Vector2 parentPos, float parentZAngle) {
-            // deactivate current frame
-            var frames = this.frames;
-            if (frames != null && frameIndex < frames.Length) {
-                frames[frameIndex].Deactive();
-            }
-
+            DeactiveCurrent();
             // activate next frame
             frameIndex += 1;
             if (frames != null && frameIndex < frames.Length) {
                 frames[frameIndex].Active(parentPos, parentZAngle);
             }
+        }
+
+        void DeactiveCurrent() {
+            // deactivate current frame
+            var frames = this.frames;
+            if (frames != null && frameIndex < frames.Length) {
+                frames[frameIndex].Deactive();
+            }
+        }
+
+        public void Reset() {
+            DeactiveCurrent();
+            frameIndex = 0;
         }
 
     }

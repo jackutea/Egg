@@ -15,6 +15,7 @@ MonoBehaviour:
   tm:
     typeID: 1000
     name: "\u666E\u653B"
+    skillorType: 1
     frames:
     - boxes: []
     - boxes:

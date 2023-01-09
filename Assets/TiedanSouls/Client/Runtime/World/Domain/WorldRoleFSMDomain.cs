@@ -22,6 +22,7 @@ namespace TiedanSouls.World.Domain {
 
         public void Tick(RoleEntity role, float dt) {
             ApplyIdle(role, dt);
+            ApplyCasting(role, dt);
         }
 
         void ApplyIdle(RoleEntity role, float dt) {
@@ -34,6 +35,29 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Move(role);
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
+            roleDomain.CastByInput(role);
+        }
+
+        void ApplyCasting(RoleEntity role, float dt) {
+            var fsm = role.FSMCom;
+            if (fsm.Status != RoleFSMStatus.Casting) {
+                return;
+            }
+
+            var castingSkillor = fsm.CastingState.castingSkillor;
+            SkillorFrameElement frame;
+            if (!castingSkillor.TryGetCurrentFrame(out frame)) {
+                fsm.EnterIdle();
+                castingSkillor.Reset();
+                return;
+            }
+
+            // current frame logic
+
+            // next frame
+            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z);
+
+            // TDLog.Log("Casting");
         }
 
     }

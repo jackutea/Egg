@@ -2,29 +2,31 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class SkillorBoxElement {
+    public class SkillorBoxElement : MonoBehaviour {
 
-        Collider2D collider;
+        Collider2D coll;
         Vector2 originPos;
         float originZAngle;
 
-        public SkillorBoxElement() {}
-
         public void FromTM(Template.SkillorBoxTM tm) {
-            collider = tm.ToCollider2D();
-            originPos = collider.transform.position;
-            originZAngle = collider.transform.rotation.eulerAngles.z;
+            coll = tm.ToCollider2D(gameObject);
+            originPos = tm.center;
+            originZAngle = tm.zRotation;
             Deactive();
         }
 
         public void Deactive() {
-            collider.enabled = false;
+            coll.enabled = false;
         }
 
         public void Active(Vector2 parentPos, float parentZAngle) {
-            collider.enabled = true;
-            collider.transform.position = originPos + parentPos;
-            collider.transform.rotation = Quaternion.Euler(0, 0, originZAngle + parentZAngle);
+            coll.enabled = true;
+            transform.position = parentPos;
+            transform.rotation = Quaternion.Euler(0, 0, originZAngle + parentZAngle);
+        }
+
+        void OnTriggerEnter2D(Collider2D other) {
+            TDLog.Log("SkillorBoxElement.OnTriggerEnter2D: " + other.name);
         }
 
     }

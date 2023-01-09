@@ -61,7 +61,7 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Locomotion ====
         public void SetPos(Vector2 pos) {
-            body.position = pos;
+            transform.position = pos;
         }
 
         public void Move() {

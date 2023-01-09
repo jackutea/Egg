@@ -16,6 +16,18 @@ namespace TiedanSouls.World.Entities {
         public bool IsMelee => isMelee;
         public void SetMelee(bool value) => this.isMelee = value;
 
+        bool isSpecMelee;
+        public bool IsSpecMelee => isSpecMelee;
+        public void SetSpecMelee(bool value) => this.isSpecMelee = value;
+
+        bool isBoomMelee;
+        public bool IsBoomMelee => isBoomMelee;
+        public void SetBoomMelee(bool value) => this.isBoomMelee = value;
+
+        bool isInfinity;
+        public bool IsInfinity => isInfinity;
+        public void SetInfinity(bool value) => this.isInfinity = value;
+
         bool isCrush;
         public bool IsCrush => isCrush;
         public void SetCrush(bool value) => this.isCrush = value;

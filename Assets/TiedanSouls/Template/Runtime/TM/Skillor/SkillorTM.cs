@@ -8,6 +8,7 @@ namespace TiedanSouls.Template {
 
         public int typeID;
         public string name;
+        public SkillorType skillorType;
 
         public SkillorFrameTM[] frames;
 
