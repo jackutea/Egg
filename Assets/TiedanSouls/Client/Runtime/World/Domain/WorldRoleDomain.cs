@@ -2,6 +2,7 @@ using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
 using TiedanSouls.World.Entities;
+using TiedanSouls.Template;
 
 namespace TiedanSouls.World.Domain {
 
@@ -20,12 +21,31 @@ namespace TiedanSouls.World.Domain {
         public RoleEntity SpawnRole(sbyte ally, Vector2 pos) {
 
             var idService = worldContext.IDService;
+            var templateCore = infraContext.TemplateCore;
+
             var role = worldContext.WorldFactory.CreateRoleEntity(idService);
+
+            // - Pos
             role.SetPos(pos);
 
+            // - Ally
             role.SetAlly(ally);
 
+            // - Skillor
+            var skillor = new SkillorModel();
+            bool has = templateCore.SkillorTemplate.TryGet(1000, out SkillorTM tm);
+            if (!has) {
+                TDLog.Error("Failed to get skillor template: 1000");
+                return null;
+            }
+            skillor.FromTM(tm);
+            role.SkillorSlotCom.Add(skillor);
+
+            // - Physics
             role.OnCollisionEnterHandle += OnCollisionEnter;
+
+            // - FSM
+            role.FSMCom.EnterIdle();
 
             var repo = worldContext.RoleRepo;
             repo.Add(role);

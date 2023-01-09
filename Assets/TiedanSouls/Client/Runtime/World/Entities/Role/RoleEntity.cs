@@ -19,14 +19,22 @@ namespace TiedanSouls.World.Entities {
         FootComponent footCom;
         MoveComponent moveCom;
 
+        RoleFSMComponent fsmCom;
+        public RoleFSMComponent FSMCom => fsmCom;
+
         RoleInputRecordComponent inputRecordCom;
         public RoleInputRecordComponent InputRecordCom => inputRecordCom;
+        
+        SkillorSlotComponent skillorSlotCom;
+        public SkillorSlotComponent SkillorSlotCom => skillorSlotCom;
 
         public event Action<RoleEntity, Collision2D> OnCollisionEnterHandle;
 
         public void Ctor() {
 
+            fsmCom = new RoleFSMComponent();
             inputRecordCom = new RoleInputRecordComponent();
+            skillorSlotCom = new SkillorSlotComponent();
 
             body = transform.Find("body");
             rb = GetComponent<Rigidbody2D>();

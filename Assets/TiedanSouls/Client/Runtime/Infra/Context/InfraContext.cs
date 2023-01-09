@@ -2,6 +2,7 @@ using GameArki.PlatformerCamera;
 using GameArki.FreeInput;
 using UIRenderer;
 using TiedanSouls.Asset;
+using TiedanSouls.Template;
 
 namespace TiedanSouls.Infra.Facades {
 
@@ -22,12 +23,16 @@ namespace TiedanSouls.Infra.Facades {
         AssetCore assetCore;
         public AssetCore AssetCore => assetCore;
 
+        TemplateCore templateCore;
+        public TemplateCore TemplateCore => templateCore;
+
         public InfraContext() {
             cameraCore = new PFCore();
             inputCore = new FreeInputCore();
             uiCore = new UICore();
             eventCenter = new InfraEventCenter();
             assetCore = new AssetCore();
+            templateCore = new TemplateCore();
         }
 
     }

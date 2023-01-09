@@ -21,6 +21,9 @@ namespace TiedanSouls.Infra.Controller {
             var assetCore = infraContext.AssetCore;
             await assetCore.Init();
 
+            var templateCore = infraContext.TemplateCore;
+            await templateCore.Init();
+
             var uiCore = infraContext.UICore;
             await uiCore.Init();
 
@@ -47,8 +50,6 @@ namespace TiedanSouls.Infra.Controller {
         public void LateTick(float dt) {
             var cameraCore = infraContext.CameraCore;
             cameraCore.Tick(dt);
-
-            TDLog.Log("Camera Position: ");
         }
 
     }

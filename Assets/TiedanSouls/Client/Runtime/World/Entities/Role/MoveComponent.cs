@@ -7,7 +7,7 @@ namespace TiedanSouls.World.Entities {
         Rigidbody2D rb;
 
         float moveSpeed = 5.5f;
-        float jumpSpeed = 14f;
+        float jumpSpeed = 13f;
         float fallingAcceleration = 24f;
         float fallingSpeedMax = 40f;
         float fallingSpeed;

@@ -51,6 +51,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             var roleDomain = worldDomain.RoleDomain;
+            var roleFSMDomain = worldDomain.RoleFSMDomain;
 
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
@@ -60,9 +61,7 @@ namespace TiedanSouls.World.Domain {
                 if (role.ID == stateEntity.ownerRoleID) {
                     roleDomain.RecordOwnerInput(role);
                 }
-                roleDomain.Move(role);
-                roleDomain.Jump(role);
-                roleDomain.Falling(role, dt);
+                roleFSMDomain.Tick(role, dt);
             }
 
             // Process Logic
