@@ -57,12 +57,16 @@ namespace TiedanSouls.World.Domain {
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
 
-            // Process Input
             foreach (var role in allRole) {
+
+                // Process Input
                 if (role.ID == stateEntity.ownerRoleID) {
                     roleDomain.RecordOwnerInput(role);
                 }
+
+                // Process Logic
                 roleFSMDomain.Tick(role, dt);
+
             }
 
             // Process Logic
