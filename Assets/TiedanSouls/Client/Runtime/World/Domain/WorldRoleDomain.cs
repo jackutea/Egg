@@ -113,27 +113,27 @@ namespace TiedanSouls.World.Domain {
             inputRecordCom.SetMoveAxis(moveAxis);
 
             // - Jump
-            bool isJump = inputGetter.GetPressing(InputKeyCollection.JUMP);
+            bool isJump = inputGetter.GetDown(InputKeyCollection.JUMP);
             inputRecordCom.SetJumping(isJump);
 
             // - Melee && HoldMelee
-            bool isMelee = inputGetter.GetPressing(InputKeyCollection.MELEE);
+            bool isMelee = inputGetter.GetDown(InputKeyCollection.MELEE);
             inputRecordCom.SetMelee(isMelee);
 
             // - SpecMelee
-            bool isSpecMelee = inputGetter.GetPressing(InputKeyCollection.SPEC_MELEE);
+            bool isSpecMelee = inputGetter.GetDown(InputKeyCollection.SPEC_MELEE);
             inputRecordCom.SetSpecMelee(isSpecMelee);
 
             // - BoomMelee
-            bool isBoomMelee = inputGetter.GetPressing(InputKeyCollection.BOOM_MELEE);
+            bool isBoomMelee = inputGetter.GetDown(InputKeyCollection.BOOM_MELEE);
             inputRecordCom.SetBoomMelee(isBoomMelee);
 
             // - Infinity
-            bool isInfinity = inputGetter.GetPressing(InputKeyCollection.INFINITY);
+            bool isInfinity = inputGetter.GetDown(InputKeyCollection.INFINITY);
             inputRecordCom.SetInfinity(isInfinity);
 
             // - Dash
-            bool isDash = inputGetter.GetPressing(InputKeyCollection.DASH);
+            bool isDash = inputGetter.GetDown(InputKeyCollection.DASH);
             inputRecordCom.SetDash(isDash);
 
         }
