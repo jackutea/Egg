@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
@@ -52,21 +53,51 @@ namespace TiedanSouls.World.Domain {
 
             var roleDomain = worldDomain.RoleDomain;
             var roleFSMDomain = worldDomain.RoleFSMDomain;
+            var phxDomain = worldDomain.WorldPhysicsDomain;
 
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
 
-            // Process Input
             foreach (var role in allRole) {
+
+                // Process Input
                 if (role.ID == stateEntity.ownerRoleID) {
                     roleDomain.RecordOwnerInput(role);
                 }
+
+                // Process Logic
                 roleFSMDomain.Tick(role, dt);
+
             }
 
             // Process Logic
+            phxDomain.Tick(dt);
+
+            CleanupRole();
 
             // Process Render
+
+        }
+
+        void CleanupRole() {
+
+            var roleRepo = worldContext.RoleRepo;
+            var allRole = roleRepo.GetAll();
+
+            Span<int> waitRemove = stackalloc int[roleRepo.Count];
+            int count = 0;
+
+            foreach (var role in allRole) {
+                if (role.FSMCom.Status == RoleFSMStatus.Dead) {
+                    role.TearDown();
+                    waitRemove[count] = role.ID;
+                    count += 1;
+                }
+            }
+
+            for (int i = 0; i < count; i += 1) {
+                roleRepo.RemoveByID(waitRemove[i]);
+            }
 
         }
 

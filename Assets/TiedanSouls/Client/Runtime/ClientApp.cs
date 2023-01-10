@@ -21,6 +21,10 @@ namespace TiedanSouls.Main.Entry {
 
         void Awake() {
 
+            GameObject.DontDestroyOnLoad(gameObject);
+
+            Application.targetFrameRate = 120;
+
             // ==== Instantiate ====
             InfraContext infraContext = new InfraContext();
             infraController = new InfraController();

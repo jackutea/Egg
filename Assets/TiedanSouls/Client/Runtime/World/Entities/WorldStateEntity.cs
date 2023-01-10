@@ -5,6 +5,8 @@ namespace TiedanSouls.World.Entities {
         public bool isRunning;
         public int ownerRoleID;
 
+        public float phxRestTime;
+
         public WorldStateEntity() {}
 
     }

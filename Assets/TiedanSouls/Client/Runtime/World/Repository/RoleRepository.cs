@@ -6,6 +6,7 @@ namespace TiedanSouls.World {
     public class RoleRepository {
 
         Dictionary<int, RoleEntity> all;
+        public int Count => all.Count;
 
         public RoleRepository() {
             all = new Dictionary<int, RoleEntity>();
@@ -21,6 +22,10 @@ namespace TiedanSouls.World {
 
         public void Remove(RoleEntity role) {
             all.Remove(role.ID);
+        }
+
+        public void RemoveByID(int id) {
+            all.Remove(id);
         }
 
         public IEnumerable<RoleEntity> GetAll() {

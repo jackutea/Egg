@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
     public class SkillorModel {
+
+        object owner;
+        public RoleEntity Owner => owner as RoleEntity;
 
         int typeID;
         public int TypeID => typeID;
@@ -13,7 +17,11 @@ namespace TiedanSouls.World.Entities {
         SkillorFrameElement[] frames;
         int frameIndex;
 
-        public SkillorModel() { }
+        public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
+
+        public SkillorModel(RoleEntity owner) {
+            this.owner = owner;
+        }
 
         public void FromTM(Template.SkillorTM tm) {
             typeID = tm.typeID;
@@ -21,7 +29,7 @@ namespace TiedanSouls.World.Entities {
             if (tm.frames != null) {
                 var frames = new SkillorFrameElement[tm.frames.Length];
                 for (int i = 0; i < frames.Length; i += 1) {
-                    frames[i] = new SkillorFrameElement();
+                    frames[i] = new SkillorFrameElement(this);
                     frames[i].FromTM(tm.frames[i]);
                 }
                 this.frames = frames;
@@ -57,6 +65,10 @@ namespace TiedanSouls.World.Entities {
         public void Reset() {
             DeactiveCurrent();
             frameIndex = 0;
+        }
+
+        public void OnEnterOther(Collider2D other) {
+            OnTriggerEnterHandle.Invoke(this, other);
         }
 
     }

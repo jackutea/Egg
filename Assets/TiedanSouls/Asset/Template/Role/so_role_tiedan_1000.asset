@@ -15,6 +15,9 @@ MonoBehaviour:
   tm:
     typeID: 1000
     name: "\u94C1\u86CB"
+    hpMax: 100
+    gpMax: 10
+    epMax: 100
     moveSpeed: 4
     jumpSpeed: 15
     fallingAcceleration: 30

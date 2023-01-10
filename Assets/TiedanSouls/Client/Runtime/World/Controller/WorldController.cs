@@ -25,6 +25,7 @@ namespace TiedanSouls.World.Controller {
             worldDomain.FieldDomain.Inject(infraContext, worldContext);
             worldDomain.RoleDomain.Inject(infraContext, worldContext);
             worldDomain.RoleFSMDomain.Inject(infraContext, worldContext, worldDomain);
+            worldDomain.WorldPhysicsDomain.Inject(infraContext, worldContext, worldDomain);
 
         }
 
