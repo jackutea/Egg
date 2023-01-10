@@ -62,6 +62,11 @@ namespace TiedanSouls.World.Entities {
 
         }
 
+        public void TearDown() {
+            footCom.OnCollisionEnterHandle -= OnFootEnter;
+            GameObject.Destroy(gameObject);
+        }
+
         // ==== Mesh ====
         public void SetMesh(Sprite spr) {
             sr.sprite = spr;

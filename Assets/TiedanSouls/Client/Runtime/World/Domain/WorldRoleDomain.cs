@@ -246,10 +246,19 @@ namespace TiedanSouls.World.Domain {
             // Weapon Damage
             var curWeapon = cur.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
-            
+
             TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + other.ID);
             TDLog.Log($"Cur: {cur.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");
 
+            if (other.AttrCom.HP <= 0) {
+                RoleDie(other);
+            }
+
+        }
+
+        void RoleDie(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.EnterDead();
         }
 
     }

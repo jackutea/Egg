@@ -13,10 +13,14 @@ namespace TiedanSouls.World.Entities {
         RoleBeHurtStateModel beHurtState;
         public RoleBeHurtStateModel BeHurtState => beHurtState;
 
+        RoleDeadStateModel deadState;
+        public RoleDeadStateModel DeadState => deadState;
+
         public RoleFSMComponent() {
             status = RoleFSMStatus.Idle;
             castingState = new RoleCastingStateModel();
             beHurtState = new RoleBeHurtStateModel();
+            deadState = new RoleDeadStateModel();
         }
 
         public void EnterIdle() {
@@ -32,6 +36,10 @@ namespace TiedanSouls.World.Entities {
             status = RoleFSMStatus.BeHurt;
             beHurtState.stunFrame = stunFrame;
             beHurtState.knockForce = knockForce;
+        }
+
+        public void EnterDead() {
+            status = RoleFSMStatus.Dead;
         }
 
     }
