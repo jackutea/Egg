@@ -39,6 +39,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         void ApplyCasting(RoleEntity role, float dt) {
+
             var fsm = role.FSMCom;
             if (fsm.Status != RoleFSMStatus.Casting) {
                 return;
@@ -56,6 +57,9 @@ namespace TiedanSouls.World.Domain {
             }
 
             // current frame logic
+            if (frame.hasDash) {
+                roleDomain.Dash(role, Vector2.right, frame.dashForce);
+            }
             roleDomain.Falling(role, dt);
 
             // next frame

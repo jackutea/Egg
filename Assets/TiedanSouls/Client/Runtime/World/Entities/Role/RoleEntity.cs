@@ -81,6 +81,10 @@ namespace TiedanSouls.World.Entities {
             moveCom.Move(inputRecordCom.MoveAxis, attrCom.MoveSpeed);
         }
 
+        public void Dash(Vector2 dir, Vector2 force) {
+            moveCom.Dash(dir, force);
+        }
+
         public void Jump() {
             moveCom.Jump(inputRecordCom.IsJump, attrCom.JumpSpeed);
         }

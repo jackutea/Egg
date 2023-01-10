@@ -22,5 +22,5 @@ MonoBehaviour:
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
-    skillorTypeIDArray: e8030000
+    skillorTypeIDArray: 01000000e8030000
     meshName: spr_role_tiedan_1000
