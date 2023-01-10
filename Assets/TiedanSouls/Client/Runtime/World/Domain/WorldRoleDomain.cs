@@ -74,12 +74,13 @@ namespace TiedanSouls.World.Domain {
                         return null;
                     }
                     skillor.FromTM(skillorTM);
+                    skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
                     role.SkillorSlotCom.Add(skillor);
                 }
             }
 
             // - Physics
-            role.OnCollisionEnterHandle += OnCollisionEnter;
+            role.OnCollisionEnterHandle += OnRoleCollisionEnter;
 
             // - FSM
             role.FSMCom.EnterIdle();
@@ -90,9 +91,17 @@ namespace TiedanSouls.World.Domain {
             return role;
         }
 
-        void OnCollisionEnter(RoleEntity role, Collision2D other) {
+        void OnRoleCollisionEnter(RoleEntity role, Collision2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.EnterGround();
+            }
+        }
+
+        void OnSkillorTriggerEnter(SkillorModel skillor, Collider2D other) {
+            var go = other.gameObject;
+            var otherRole = go.GetComponent<RoleEntity>();
+            if (otherRole != null) {
+                TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + otherRole.ID);
             }
         }
 
@@ -182,6 +191,8 @@ namespace TiedanSouls.World.Domain {
                 TDLog.Error("Failed to get skillor: " + skillorType);
                 return;
             }
+
+            TDLog.Log("Cast: " + skillorType + " -> " + role.ID + " -> " + skillor.TypeID);
 
             Cast(role, skillor);
         }

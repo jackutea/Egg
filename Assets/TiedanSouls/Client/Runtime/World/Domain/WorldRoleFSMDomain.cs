@@ -49,6 +49,7 @@ namespace TiedanSouls.World.Domain {
             if (!castingSkillor.TryGetCurrentFrame(out frame)) {
                 fsm.EnterIdle();
                 castingSkillor.Reset();
+                TDLog.Log("END Casting");
                 return;
             }
 
@@ -57,7 +58,7 @@ namespace TiedanSouls.World.Domain {
             // next frame
             castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z);
 
-            // TDLog.Log("Casting");
+            TDLog.Log("Casting");
         }
 
     }

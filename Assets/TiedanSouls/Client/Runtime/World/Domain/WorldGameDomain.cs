@@ -52,6 +52,7 @@ namespace TiedanSouls.World.Domain {
 
             var roleDomain = worldDomain.RoleDomain;
             var roleFSMDomain = worldDomain.RoleFSMDomain;
+            var phxDomain = worldDomain.WorldPhysicsDomain;
 
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
@@ -65,6 +66,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Process Logic
+            phxDomain.Tick(dt);
 
             // Process Render
 

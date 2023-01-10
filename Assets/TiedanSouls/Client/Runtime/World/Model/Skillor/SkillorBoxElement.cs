@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
@@ -7,6 +8,8 @@ namespace TiedanSouls.World.Entities {
         Collider2D coll;
         Vector2 originPos;
         float originZAngle;
+
+        public event Action<Collider2D> OnTriggerEnterHandle;
 
         public void FromTM(Template.SkillorBoxTM tm) {
             coll = tm.ToCollider2D(gameObject);
@@ -26,7 +29,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         void OnTriggerEnter2D(Collider2D other) {
-            TDLog.Log("SkillorBoxElement.OnTriggerEnter2D: " + other.name);
+            OnTriggerEnterHandle.Invoke(other);
         }
 
     }

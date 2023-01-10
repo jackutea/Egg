@@ -213,6 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7571536917207120232}
   - component: {fileID: 7959436883505601034}
+  - component: {fileID: 3197978030065951472}
   - component: {fileID: -1991195809391081136}
   m_Layer: 6
   m_Name: entity_role
@@ -258,6 +259,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &3197978030065951472
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571536917207120233}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
 --- !u!114 &-1991195809391081136
 MonoBehaviour:
   m_ObjectHideFlags: 0
