@@ -8,6 +8,11 @@ namespace TiedanSouls.World.Entities {
         object parentPtr;
         public SkillorModel Parent => parentPtr as SkillorModel;
 
+        // - Dash
+        public bool hasDash;
+        public Vector2 dashForce;
+        public bool isDashEnd;
+
         SkillorBoxElement[] boxes;
 
         public SkillorFrameElement(SkillorModel parent) {
@@ -15,6 +20,12 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void FromTM(Template.SkillorFrameTM tm) {
+
+            // - Dash
+            this.hasDash = tm.hasDash;
+            this.dashForce = tm.dashForce;
+            this.isDashEnd = tm.isDashEnd;
+
             if (tm.boxes != null) {
                 var boxes = new SkillorBoxElement[tm.boxes.Length];
                 for (int i = 0; i < boxes.Length; i += 1) {

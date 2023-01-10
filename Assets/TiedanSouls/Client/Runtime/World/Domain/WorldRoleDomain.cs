@@ -176,6 +176,10 @@ namespace TiedanSouls.World.Domain {
             role.Move();
         }
 
+        public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
+            role.Dash(dir, force);
+        }
+
         public void Jump(RoleEntity role) {
             role.Jump();
         }

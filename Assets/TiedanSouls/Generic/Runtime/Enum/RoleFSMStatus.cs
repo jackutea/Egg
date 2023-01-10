@@ -6,5 +6,6 @@ namespace TiedanSouls {
         BeHurt,
         Dead,
         ReStanding,
+        Dash,
     }
 }

@@ -10,27 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61cf4c8cebfa8d94c854999f8f491e1a, type: 3}
-  m_Name: so_skillor_role_melee_1000
+  m_Name: so_skillor_role_dash_1
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1000
-    name: "\u666E\u653B"
-    skillorType: 1
+    typeID: 1
+    name: "\u51B2\u523A"
+    skillorType: 6
     frames:
-    - hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      boxes: []
-    - hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      boxes:
-      - shapeType: 0
-        center: {x: 1, y: 1}
-        size: {x: 3, y: 3}
-        zRotation: 0
-    - hasDash: 0
-      dashForce: {x: 0, y: 0}
+    - hasDash: 1
+      dashForce: {x: 5, y: 0}
       isDashEnd: 0
       boxes: []
     - hasDash: 0
@@ -39,5 +27,5 @@ MonoBehaviour:
       boxes: []
     - hasDash: 0
       dashForce: {x: 0, y: 0}
-      isDashEnd: 0
+      isDashEnd: 1
       boxes: []
