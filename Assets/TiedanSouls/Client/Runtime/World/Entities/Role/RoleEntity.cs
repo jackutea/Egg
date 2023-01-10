@@ -21,6 +21,9 @@ namespace TiedanSouls.World.Entities {
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
+        RoleAttributeComponent attrCom;
+        public RoleAttributeComponent AttrCom => attrCom;
+
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
 
@@ -30,6 +33,9 @@ namespace TiedanSouls.World.Entities {
         SkillorSlotComponent skillorSlotCom;
         public SkillorSlotComponent SkillorSlotCom => skillorSlotCom;
 
+        WeaponSlotComponent weaponSlotCom;
+        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
+
         public event Action<RoleEntity, Collision2D> OnCollisionEnterHandle;
 
         public void Ctor() {
@@ -37,6 +43,8 @@ namespace TiedanSouls.World.Entities {
             fsmCom = new RoleFSMComponent();
             inputRecordCom = new RoleInputRecordComponent();
             skillorSlotCom = new SkillorSlotComponent();
+            weaponSlotCom = new WeaponSlotComponent();
+            attrCom = new RoleAttributeComponent();
 
             body = transform.Find("body");
             rb = GetComponent<Rigidbody2D>();
@@ -65,19 +73,24 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Move() {
-            moveCom.Move(inputRecordCom.MoveAxis);
+            moveCom.Move(inputRecordCom.MoveAxis, attrCom.MoveSpeed);
         }
 
         public void Jump() {
-            moveCom.Jump(inputRecordCom.IsJump);
+            moveCom.Jump(inputRecordCom.IsJump, attrCom.JumpSpeed);
         }
 
         public void Falling(float dt) {
-            moveCom.Falling(dt);
+            moveCom.Falling(dt, attrCom.FallingAcceleration, attrCom.FallingSpeedMax);
         }
 
         public void EnterGround() {
             moveCom.EnterGround();
+        }
+
+        // ==== Hit ====
+        public void HitBeHurt(int atk) {
+            attrCom.HitBeHurt(atk);
         }
 
         // ==== Phx Event ====

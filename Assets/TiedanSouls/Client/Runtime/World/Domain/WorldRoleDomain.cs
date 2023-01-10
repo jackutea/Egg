@@ -55,8 +55,9 @@ namespace TiedanSouls.World.Domain {
             role.SetMesh(sprite);
 
             // - Move
-            var moveCom = role.MoveCom;
-            moveCom.Initialize(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
+            var attrCom = role.AttrCom;
+            attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
+            attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
             // - Pos
             role.SetPos(pos);
@@ -65,9 +66,10 @@ namespace TiedanSouls.World.Domain {
             role.SetAlly(ally);
 
             // - Skillor
+            // Dash / BoomMelee / Infinity
             if (roleTM.skillorTypeIDArray != null) {
                 foreach (var skillorTypeID in roleTM.skillorTypeIDArray) {
-                    var skillor = new SkillorModel();
+                    var skillor = new SkillorModel(role);
                     has = templateCore.SkillorTemplate.TryGet(skillorTypeID, out SkillorTM skillorTM);
                     if (!has) {
                         TDLog.Error("Failed to get skillor template: " + skillorTypeID);
@@ -78,6 +80,26 @@ namespace TiedanSouls.World.Domain {
                     role.SkillorSlotCom.Add(skillor);
                 }
             }
+
+            // - Weapon
+            // Weapon
+            has = templateCore.WeaponTemplate.TryGet(100, out WeaponTM weaponTM);
+            if (!has) {
+                TDLog.Error("Failed to get weapon template: " + 100);
+                return null;
+            }
+            var weapon = new WeaponModel();
+            weapon.weaponType = weaponTM.weaponType;
+            weapon.typeID = weaponTM.typeID;
+            weapon.atk = weaponTM.atk;
+            weapon.def = weaponTM.def;
+            weapon.crit = weaponTM.crit;
+            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
+            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
+            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
+            role.WeaponSlotCom.SetWeapon(weapon);
+
+            // Weapon Skillor: Melee / HoldMelee / SpecMelee
 
             // - Physics
             role.OnCollisionEnterHandle += OnRoleCollisionEnter;
@@ -91,6 +113,7 @@ namespace TiedanSouls.World.Domain {
             return role;
         }
 
+        // ==== Physics Event ====
         void OnRoleCollisionEnter(RoleEntity role, Collision2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.EnterGround();
@@ -101,10 +124,11 @@ namespace TiedanSouls.World.Domain {
             var go = other.gameObject;
             var otherRole = go.GetComponent<RoleEntity>();
             if (otherRole != null) {
-                TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + otherRole.ID);
+                RoleHitRole(skillor, otherRole);
             }
         }
 
+        // ==== Input ====
         public void RecordOwnerInput(RoleEntity ownerRole) {
 
             var inputGetter = infraContext.InputCore.Getter;
@@ -147,6 +171,7 @@ namespace TiedanSouls.World.Domain {
 
         }
 
+        // ==== Locomotion ====
         public void Move(RoleEntity role) {
             role.Move();
         }
@@ -159,6 +184,7 @@ namespace TiedanSouls.World.Domain {
             role.Falling(dt);
         }
 
+        // ==== Cast ====
         public void CastByInput(RoleEntity role) {
 
             // Allowed When Idle
@@ -192,14 +218,38 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            TDLog.Log("Cast: " + skillorType + " -> " + role.ID + " -> " + skillor.TypeID);
+            // TDLog.Log("Cast: " + skillorType + " -> " + role.ID + " -> " + skillor.TypeID);
 
             Cast(role, skillor);
         }
 
-        public void Cast(RoleEntity role, SkillorModel skillor) {
+        void Cast(RoleEntity role, SkillorModel skillor) {
             var fsm = role.FSMCom;
             fsm.EnterCasting(skillor);
+        }
+
+        // ==== Hit ====
+        void RoleHitRole(SkillorModel skillor, RoleEntity other) {
+
+            var cur = skillor.Owner;
+
+            // Me Check
+            if (cur == other) {
+                return;
+            }
+
+            // Ally Check
+            if (cur.Ally == other.Ally) {
+                return;
+            }
+
+            // Weapon Damage
+            var curWeapon = cur.WeaponSlotCom.Weapon;
+            other.HitBeHurt(curWeapon.atk);
+            
+            TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + other.ID);
+            TDLog.Log($"Cur: {cur.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");
+
         }
 
     }

@@ -44,21 +44,24 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
+            var roleDomain = worldDomain.RoleDomain;
+
             var castingSkillor = fsm.CastingState.castingSkillor;
             SkillorFrameElement frame;
             if (!castingSkillor.TryGetCurrentFrame(out frame)) {
                 fsm.EnterIdle();
                 castingSkillor.Reset();
-                TDLog.Log("END Casting");
+                // TDLog.Log("END Casting");
                 return;
             }
 
             // current frame logic
+            roleDomain.Falling(role, dt);
 
             // next frame
             castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z);
 
-            TDLog.Log("Casting");
+            // TDLog.Log("Casting");
         }
 
     }

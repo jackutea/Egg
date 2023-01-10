@@ -5,6 +5,9 @@ namespace TiedanSouls.World.Entities {
 
     public class SkillorModel {
 
+        object owner;
+        public RoleEntity Owner => owner as RoleEntity;
+
         int typeID;
         public int TypeID => typeID;
 
@@ -16,7 +19,9 @@ namespace TiedanSouls.World.Entities {
 
         public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
 
-        public SkillorModel() { }
+        public SkillorModel(RoleEntity owner) {
+            this.owner = owner;
+        }
 
         public void FromTM(Template.SkillorTM tm) {
             typeID = tm.typeID;

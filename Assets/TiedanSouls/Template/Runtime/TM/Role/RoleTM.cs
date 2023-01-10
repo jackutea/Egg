@@ -9,6 +9,11 @@ namespace TiedanSouls.Template {
         public int typeID;
         public string name;
 
+        // - Health
+        public int hpMax;
+        public int gpMax;
+        public int epMax;
+
         // - Move
         public float moveSpeed;
         public float jumpSpeed;

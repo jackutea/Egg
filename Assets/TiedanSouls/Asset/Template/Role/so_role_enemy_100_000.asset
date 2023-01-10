@@ -15,8 +15,12 @@ MonoBehaviour:
   tm:
     typeID: 100000
     name: "\u5C0F\u602A"
+    hpMax: 100
+    gpMax: 100
+    epMax: 100
     moveSpeed: 5
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
+    skillorTypeIDArray: 
     meshName: spr_role_enemy_100_000
