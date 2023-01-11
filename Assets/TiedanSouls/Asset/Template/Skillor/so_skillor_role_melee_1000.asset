@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
-    name: "\u666E\u653B"
+    name: "\u957F\u67AA\u666E\u653B"
     skillorType: 1
     frames:
     - hasDash: 0
@@ -24,11 +24,59 @@ MonoBehaviour:
     - hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
       boxes:
       - shapeType: 0
-        center: {x: 1, y: 1}
-        size: {x: 3, y: 3}
+        center: {x: 1, y: 0.8}
+        size: {x: 2, y: 0.8}
         zRotation: 0
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes:
+      - shapeType: 0
+        center: {x: 1.25, y: 0.8}
+        size: {x: 2.5, y: 0.8}
+        zRotation: 0
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes:
+      - shapeType: 0
+        center: {x: 1.5, y: 0.8}
+        size: {x: 3, y: 0.8}
+        zRotation: 0
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      boxes: []
     - hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
