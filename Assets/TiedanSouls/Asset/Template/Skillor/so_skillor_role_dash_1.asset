@@ -18,12 +18,32 @@ MonoBehaviour:
     skillorType: 6
     frames:
     - hasDash: 1
-      dashForce: {x: 5, y: 0}
+      dashForce: {x: 20, y: 0}
       isDashEnd: 0
       boxes: []
     - hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 1
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 1
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 1
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 1
+      boxes: []
+    - hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 1
       boxes: []
     - hasDash: 0
       dashForce: {x: 0, y: 0}
