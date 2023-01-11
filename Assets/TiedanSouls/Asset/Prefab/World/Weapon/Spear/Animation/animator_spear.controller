@@ -51,7 +51,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: anim_spear_melee_1000_02
+  m_Name: anim_spear_melee_1010
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -135,7 +135,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: anim_spear_melee_1000_01
+  m_Name: anim_spear_melee_1000
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -149,7 +149,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
+  m_Motion: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -162,7 +162,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: anim_spear_melee_1000_03
+  m_Name: anim_spear_melee_1020
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -176,7 +176,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
+  m_Motion: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
