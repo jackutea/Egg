@@ -41,4 +41,4 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    weaponAnimName: anim_spear_melee_1000_01
+    weaponAnimName: anim_spear_melee_1000
