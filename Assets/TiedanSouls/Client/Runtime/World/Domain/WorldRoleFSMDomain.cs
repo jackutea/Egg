@@ -58,12 +58,12 @@ namespace TiedanSouls.World.Domain {
 
             // current frame logic
             if (frame.hasDash) {
-                roleDomain.Dash(role, Vector2.right, frame.dashForce);
+                roleDomain.Dash(role, Vector2.right * role.FaceXDir, frame.dashForce);
             }
             roleDomain.Falling(role, dt);
 
             // next frame
-            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z);
+            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
 
             // TDLog.Log("Casting");
         }
