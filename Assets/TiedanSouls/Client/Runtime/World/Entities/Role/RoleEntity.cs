@@ -45,13 +45,18 @@ namespace TiedanSouls.World.Entities {
 
             faceXDir = 1;
 
+            body = transform.Find("body");
+
             fsmCom = new RoleFSMComponent();
             inputRecordCom = new RoleInputRecordComponent();
             skillorSlotCom = new SkillorSlotComponent();
+
+            var weaponRoot = body.Find("weapon_root");
             weaponSlotCom = new WeaponSlotComponent();
+            weaponSlotCom.Inject(weaponRoot);
+
             attrCom = new RoleAttributeComponent();
 
-            body = transform.Find("body");
             rb = GetComponent<Rigidbody2D>();
             sr = body.Find("mesh").GetComponent<SpriteRenderer>();
 
@@ -84,13 +89,17 @@ namespace TiedanSouls.World.Entities {
 
         public void Move() {
             Vector2 moveAxis = inputRecordCom.MoveAxis;
+
+            // Renderer
             if (moveAxis.x > 0) {
                 faceXDir = 1;
-                sr.transform.localScale = new Vector3(faceXDir, 1, 1);
+                body.localScale = new Vector3(faceXDir, 1, 1);
             } else if (moveAxis.x < 0) {
                 faceXDir = -1;
-                sr.transform.localScale = new Vector3(faceXDir, 1, 1);
+                body.localScale = new Vector3(faceXDir, 1, 1);
             }
+
+            // Logic
             moveCom.Move(moveAxis, attrCom.MoveSpeed);
         }
 

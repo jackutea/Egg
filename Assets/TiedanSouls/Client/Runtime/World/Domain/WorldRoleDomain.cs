@@ -82,7 +82,14 @@ namespace TiedanSouls.World.Domain {
             }
 
             // - Weapon
-            // Weapon
+            // Weapon Mod
+            has = infraContext.AssetCore.WeaponAssets.TryGet("mod_spear", out GameObject weaponModPrefab);
+            if (!has) {
+                TDLog.Error("Failed to get weapon mod: " + "mod_spear");
+                return null;
+            }
+
+            // Weapon TM
             has = templateCore.WeaponTemplate.TryGet(100, out WeaponTM weaponTM);
             if (!has) {
                 TDLog.Error("Failed to get weapon template: " + 100);
@@ -97,6 +104,8 @@ namespace TiedanSouls.World.Domain {
             weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
             weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
             weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
+            var weaponMod = GameObject.Instantiate(weaponModPrefab, role.WeaponSlotCom.WeaponRoot);
+            weapon.SetMod(weaponMod);
             role.WeaponSlotCom.SetWeapon(weapon);
 
             // Weapon Skillor: Melee / HoldMelee / SpecMelee

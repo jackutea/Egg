@@ -30,6 +30,7 @@ namespace TiedanSouls.World.Entities {
         public void EnterCasting(SkillorModel skillorModel) {
             status = RoleFSMStatus.Casting;
             castingState.castingSkillor = skillorModel;
+            castingState.isEntering = true;
         }
 
         public void EnterBeHurt(int stunFrame, Vector2 knockForce) {

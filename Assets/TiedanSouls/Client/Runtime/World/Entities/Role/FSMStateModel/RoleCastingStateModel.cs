@@ -4,6 +4,8 @@ namespace TiedanSouls.World.Entities {
 
         public SkillorModel castingSkillor;
 
+        public bool isEntering;
+
         public RoleCastingStateModel() {}
 
     }

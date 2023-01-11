@@ -17,7 +17,8 @@ MonoBehaviour:
     typeID: 100
     atk: 5
     def: 0
+    crit: 0
     skillorMeleeTypeID: 0
     skillorHoldMeleeTypeID: 0
     skillorSpecMeleeTypeID: 0
-    meshName: 
+    meshName: mod_spear
