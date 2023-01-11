@@ -12,6 +12,8 @@ namespace TiedanSouls.Template {
 
         public SkillorFrameTM[] frames;
 
+        public string weaponAnimName;
+        
         public SkillorTM() { }
 
     }

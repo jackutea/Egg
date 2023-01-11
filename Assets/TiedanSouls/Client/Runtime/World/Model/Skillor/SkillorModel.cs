@@ -17,6 +17,8 @@ namespace TiedanSouls.World.Entities {
         SkillorFrameElement[] frames;
         int frameIndex;
 
+        public string weaponAnimName;
+
         public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
 
         public SkillorModel(RoleEntity owner) {
@@ -26,6 +28,7 @@ namespace TiedanSouls.World.Entities {
         public void FromTM(Template.SkillorTM tm) {
             typeID = tm.typeID;
             skillorType = tm.skillorType;
+            weaponAnimName = tm.weaponAnimName;
             if (tm.frames != null) {
                 var frames = new SkillorFrameElement[tm.frames.Length];
                 for (int i = 0; i < frames.Length; i += 1) {

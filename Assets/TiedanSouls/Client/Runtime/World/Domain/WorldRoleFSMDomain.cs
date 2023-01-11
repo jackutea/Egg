@@ -47,7 +47,15 @@ namespace TiedanSouls.World.Domain {
 
             var roleDomain = worldDomain.RoleDomain;
 
-            var castingSkillor = fsm.CastingState.castingSkillor;
+            var stateModel = fsm.CastingState;
+            var castingSkillor = stateModel.castingSkillor;
+
+            if (stateModel.isEntering) {
+                stateModel.isEntering = false;
+                role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
+                return;
+            }
+
             SkillorFrameElement frame;
             if (!castingSkillor.TryGetCurrentFrame(out frame)) {
                 fsm.EnterIdle();
