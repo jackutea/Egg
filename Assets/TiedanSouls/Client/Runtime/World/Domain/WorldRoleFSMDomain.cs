@@ -56,24 +56,34 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            SkillorFrameElement frame;
-            if (!castingSkillor.TryGetCurrentFrame(out frame)) {
-                fsm.EnterIdle();
-                castingSkillor.Reset();
-                // TDLog.Log("END Casting");
-                return;
+            float restTime = stateModel.restTime;
+            restTime += dt;
+
+            while (restTime >= stateModel.targetRate) {
+
+                restTime -= stateModel.targetRate;
+
+                SkillorFrameElement frame;
+                if (!castingSkillor.TryGetCurrentFrame(out frame)) {
+                    fsm.EnterIdle();
+                    castingSkillor.Reset();
+                    // TDLog.Log("END Casting");
+                    return;
+                }
+
+                // current frame logic
+                if (frame.hasDash) {
+                    roleDomain.Dash(role, Vector2.right * role.FaceXDir, frame.dashForce);
+                }
+                roleDomain.Falling(role, dt);
+
+                // next frame
+                castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
+
             }
 
-            // current frame logic
-            if (frame.hasDash) {
-                roleDomain.Dash(role, Vector2.right * role.FaceXDir, frame.dashForce);
-            }
-            roleDomain.Falling(role, dt);
+            stateModel.restTime = restTime;
 
-            // next frame
-            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
-
-            // TDLog.Log("Casting");
         }
 
     }
