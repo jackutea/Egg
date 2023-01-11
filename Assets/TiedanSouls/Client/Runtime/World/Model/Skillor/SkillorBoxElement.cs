@@ -22,10 +22,12 @@ namespace TiedanSouls.World.Entities {
             coll.enabled = false;
         }
 
-        public void Active(Vector2 parentPos, float parentZAngle) {
+        public void Active(Vector2 parentPos, float parentZAngle, sbyte faceXDir) {
             coll.enabled = true;
-            transform.position = parentPos;
-            transform.rotation = Quaternion.Euler(0, 0, originZAngle + parentZAngle);
+            Vector2 pos = originPos;
+            pos.x *= faceXDir;
+            transform.position = parentPos + pos;
+            transform.rotation = Quaternion.Euler(0, faceXDir < 0 ? 180 : 0, parentZAngle + originZAngle);
         }
 
         void OnTriggerEnter2D(Collider2D other) {

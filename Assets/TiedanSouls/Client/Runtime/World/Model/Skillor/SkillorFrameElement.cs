@@ -45,10 +45,10 @@ namespace TiedanSouls.World.Entities {
             }
         }
 
-        public void Active(Vector2 parentPos, float parentZAngle) {
+        public void Active(Vector2 parentPos, float parentZAngle, sbyte faceXDir) {
             if (boxes != null) {
                 for (int i = 0; i < boxes.Length; i += 1) {
-                    boxes[i].Active(parentPos, parentZAngle);
+                    boxes[i].Active(parentPos, parentZAngle, faceXDir);
                 }
             }
         }

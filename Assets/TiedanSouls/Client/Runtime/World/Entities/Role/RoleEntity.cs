@@ -17,6 +17,9 @@ namespace TiedanSouls.World.Entities {
         Rigidbody2D rb;
         SpriteRenderer sr;
 
+        sbyte faceXDir;
+        public sbyte FaceXDir => faceXDir;
+
         FootComponent footCom;
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
@@ -39,6 +42,8 @@ namespace TiedanSouls.World.Entities {
         public event Action<RoleEntity, Collision2D> OnCollisionEnterHandle;
 
         public void Ctor() {
+
+            faceXDir = 1;
 
             fsmCom = new RoleFSMComponent();
             inputRecordCom = new RoleInputRecordComponent();
@@ -78,7 +83,15 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Move() {
-            moveCom.Move(inputRecordCom.MoveAxis, attrCom.MoveSpeed);
+            Vector2 moveAxis = inputRecordCom.MoveAxis;
+            if (moveAxis.x > 0) {
+                faceXDir = 1;
+                sr.transform.localScale = new Vector3(faceXDir, 1, 1);
+            } else if (moveAxis.x < 0) {
+                faceXDir = -1;
+                sr.transform.localScale = new Vector3(faceXDir, 1, 1);
+            }
+            moveCom.Move(moveAxis, attrCom.MoveSpeed);
         }
 
         public void Dash(Vector2 dir, Vector2 force) {

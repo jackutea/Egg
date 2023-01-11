@@ -45,12 +45,12 @@ namespace TiedanSouls.World.Entities {
             return false;
         }
 
-        public void ActiveNextFrame(Vector2 parentPos, float parentZAngle) {
+        public void ActiveNextFrame(Vector2 parentPos, float parentZAngle, sbyte faceXDir) {
             DeactiveCurrent();
             // activate next frame
             frameIndex += 1;
             if (frames != null && frameIndex < frames.Length) {
-                frames[frameIndex].Active(parentPos, parentZAngle);
+                frames[frameIndex].Active(parentPos, parentZAngle, faceXDir);
             }
         }
 
