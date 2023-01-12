@@ -34,6 +34,7 @@ namespace TiedanSouls.World.Domain {
             var roleDomain = worldDomain.RoleDomain;
             roleDomain.Move(role);
             roleDomain.Jump(role);
+            roleDomain.CrossDown(role);
             roleDomain.Falling(role, dt);
             roleDomain.CastByInput(role);
         }
