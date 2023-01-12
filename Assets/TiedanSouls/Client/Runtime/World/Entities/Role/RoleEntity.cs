@@ -5,6 +5,8 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
+        public EntityType EntityType => EntityType.Role;
+
         int id;
         public int ID => id;
         public void SetID(int value) => this.id = value;
@@ -45,6 +47,7 @@ namespace TiedanSouls.World.Entities {
         public HpBarHUDComponent HpBarHUDCom => hpBarHUDCom;
 
         public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnFootCollisionExitHandle;
         public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
 
         public void Ctor() {
@@ -84,12 +87,14 @@ namespace TiedanSouls.World.Entities {
             TDLog.Assert(footCom != null);
 
             footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
+            footCom.OnCollisionExitHandle += OnFootCollisionExit;
             bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
 
         }
 
         public void TearDown() {
             footCom.OnCollisionEnterHandle -= OnFootCollisionEnter;
+            footCom.OnCollisionExitHandle -= OnFootCollisionExit;
             GameObject.Destroy(gameObject);
         }
 
@@ -150,7 +155,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void LeaveCrossPlatform() {
-            moveCom.LeaveCrossPlatform();
+            moveCom.LeaveGround();
             SetFootTrigger(false);
         }
 
@@ -167,6 +172,10 @@ namespace TiedanSouls.World.Entities {
 
         void OnFootCollisionEnter(Collision2D other) {
             OnFootCollisionEnterHandle.Invoke(this, other);
+        }
+
+        void OnFootCollisionExit(Collision2D other) {
+            OnFootCollisionExitHandle.Invoke(this, other);
         }
 
         void OnBodyTriggerExit(Collider2D other) {

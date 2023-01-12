@@ -8,6 +8,9 @@ namespace TiedanSouls.World.Entities {
         object parentPtr;
         public SkillorModel Parent => parentPtr as SkillorModel;
 
+        // - Hit
+        public HitPowerModel hitPower;
+
         // - Dash
         public bool hasDash;
         public Vector2 dashForce;
@@ -20,6 +23,12 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void FromTM(Template.SkillorFrameTM tm) {
+
+            // - Hit
+            if (tm.hitPower != null) {
+                this.hitPower = new HitPowerModel();
+                hitPower.FromTM(tm.hitPower);
+            }
 
             // - Dash
             this.hasDash = tm.hasDash;

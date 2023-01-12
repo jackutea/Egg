@@ -69,7 +69,8 @@ namespace TiedanSouls.World.Domain {
             // Dash / BoomMelee / Infinity
             if (roleTM.skillorTypeIDArray != null) {
                 foreach (var skillorTypeID in roleTM.skillorTypeIDArray) {
-                    var skillor = new SkillorModel(role);
+                    int skillorID = idService.PickSkillorID();
+                    var skillor = new SkillorModel(skillorID, role);
                     has = templateCore.SkillorTemplate.TryGet(skillorTypeID, out SkillorTM skillorTM);
                     if (!has) {
                         TDLog.Error("Failed to get skillor template: " + skillorTypeID);
@@ -123,6 +124,7 @@ namespace TiedanSouls.World.Domain {
 
             // - Physics
             role.OnFootCollisionEnterHandle += OnRoleFootCollisionEnter;
+            role.OnFootCollisionExitHandle += OnRoleFootCollisionExit;
             role.OnBodyTriggerExitHandle += OnRoleFootTriggerExit;
 
             // - FSM
@@ -142,6 +144,14 @@ namespace TiedanSouls.World.Domain {
                 role.EnterGround();
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
                 role.EnterCrossPlatform();
+            }
+        }
+
+        void OnRoleFootCollisionExit(RoleEntity role, Collision2D other) {
+            if (other.gameObject.layer == LayerCollection.GROUND) {
+                role.LeaveGround();
+            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
+                role.LeaveCrossPlatform();
             }
         }
 
@@ -278,24 +288,32 @@ namespace TiedanSouls.World.Domain {
         // ==== Hit ====
         void RoleHitRole(SkillorModel skillor, RoleEntity other) {
 
-            var cur = skillor.Owner;
+            var caster = skillor.Owner;
 
             // Me Check
-            if (cur == other) {
+            if (caster == other) {
                 return;
             }
 
             // Ally Check
-            if (cur.Ally == other.Ally) {
+            if (caster.Ally == other.Ally) {
                 return;
             }
 
+            // Damage Arbit: Prevent Multi Hit
+            var damageArbitService = worldContext.DamageArbitService;
+            if (damageArbitService.IsInArbit(skillor.EntityType, skillor.ID, other.EntityType, other.ID)) {
+                return;
+            }
+
+            damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
+
             // Weapon Damage
-            var curWeapon = cur.WeaponSlotCom.Weapon;
+            var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
 
             TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + other.ID);
-            TDLog.Log($"Cur: {cur.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");
+            TDLog.Log($"Cur: {caster.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");
 
             if (other.AttrCom.HP <= 0) {
                 RoleDie(other);

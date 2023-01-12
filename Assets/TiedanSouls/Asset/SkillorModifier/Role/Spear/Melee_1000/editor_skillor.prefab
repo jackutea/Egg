@@ -45,6 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 5
+    knockbackFrame: 5
+    blowUpForce: 0
+    hitStunFrame: 5
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -92,6 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -139,6 +153,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -186,6 +207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -233,6 +261,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -280,6 +315,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -327,6 +369,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -517,6 +566,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 5
+    knockbackFrame: 5
+    blowUpForce: 0
+    hitStunFrame: 5
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -564,6 +620,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -611,6 +674,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -658,6 +728,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -769,6 +846,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -816,6 +900,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -864,6 +955,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 5
+    knockbackFrame: 5
+    blowUpForce: 0
+    hitStunFrame: 5
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -982,6 +1080,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0

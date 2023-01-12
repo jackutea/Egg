@@ -6,6 +6,9 @@ namespace TiedanSouls.Template {
     [Serializable]
     public class SkillorFrameTM {
 
+        // - Hit
+        public HitPowerTM hitPower;
+
         // - Dash
         public bool hasDash;
         public Vector2 dashForce;

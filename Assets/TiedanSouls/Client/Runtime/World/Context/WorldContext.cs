@@ -18,6 +18,9 @@ namespace TiedanSouls.World.Facades {
         IDService idService;
         public IDService IDService => idService;
 
+        DamageArbitService damageArbitService;
+        public DamageArbitService DamageArbitService => damageArbitService;
+
         // ==== Repository ====
         RoleRepository roleRepo;
         public RoleRepository RoleRepo => roleRepo;
@@ -32,6 +35,7 @@ namespace TiedanSouls.World.Facades {
             worldFactory = new WorldFactory();
             
             idService = new IDService();
+            damageArbitService = new DamageArbitService();
             
             roleRepo = new RoleRepository();
             fieldRepo = new FieldRepository();

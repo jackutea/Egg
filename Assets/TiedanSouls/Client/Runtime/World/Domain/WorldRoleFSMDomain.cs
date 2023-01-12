@@ -66,8 +66,15 @@ namespace TiedanSouls.World.Domain {
 
                 SkillorFrameElement frame;
                 if (!castingSkillor.TryGetCurrentFrame(out frame)) {
-                    fsm.EnterIdle();
+
+                    // remove damage arbit
+                    var damageArbitService = worldContext.DamageArbitService;
+                    damageArbitService.Remove(castingSkillor.EntityType, castingSkillor.ID);
+
                     castingSkillor.Reset();
+                    
+                    fsm.EnterIdle();
+                    
                     // TDLog.Log("END Casting");
                     return;
                 }
