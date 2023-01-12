@@ -5,6 +5,8 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
+        public EntityType EntityType => EntityType.Role;
+
         int id;
         public int ID => id;
         public void SetID(int value) => this.id = value;
