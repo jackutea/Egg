@@ -17,39 +17,102 @@ MonoBehaviour:
     name: "\u957F\u67AA\u666E\u653B"
     skillorType: 1
     frames:
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 5
+        knockbackFrame: 5
+        blowUpForce: 0
+        hitStunFrame: 5
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes:
@@ -57,7 +120,14 @@ MonoBehaviour:
         center: {x: 1, y: 0.8}
         size: {x: 2, y: 0.8}
         zRotation: 0
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 5
+        knockbackFrame: 5
+        blowUpForce: 0
+        hitStunFrame: 5
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes:
@@ -65,7 +135,14 @@ MonoBehaviour:
         center: {x: 1.25, y: 0.8}
         size: {x: 2.5, y: 0.8}
         zRotation: 0
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 5
+        knockbackFrame: 5
+        blowUpForce: 0
+        hitStunFrame: 5
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes:
@@ -73,19 +150,47 @@ MonoBehaviour:
         center: {x: 1.5, y: 0.8}
         size: {x: 3, y: 0.8}
         zRotation: 0
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       boxes: []
