@@ -10,6 +10,10 @@ namespace TiedanSouls.World.Entities {
 
         bool isJumping;
         bool isGround;
+        public bool IsGround => isGround;
+
+        bool isStandCrossPlatform;
+        public bool IsStandCrossPlatform => isStandCrossPlatform;
 
         public MoveComponent() {
             isJumping = false;
@@ -58,6 +62,20 @@ namespace TiedanSouls.World.Entities {
         public void EnterGround() {
             isGround = true;
             isJumping = false;
+        }
+
+        public void LeaveGround() {
+            isGround = false;
+        }
+
+        public void EnterCrossPlatform() {
+            EnterGround();
+            isStandCrossPlatform = true;
+        }
+
+        public void LeaveCrossPlatform() {
+            LeaveGround();
+            isStandCrossPlatform = false;
         }
 
     }

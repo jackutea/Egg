@@ -111,7 +111,8 @@ namespace TiedanSouls.World.Domain {
             // Weapon Skillor: Melee / HoldMelee / SpecMelee
 
             // - Physics
-            role.OnCollisionEnterHandle += OnRoleCollisionEnter;
+            role.OnFootCollisionEnterHandle += OnRoleFootCollisionEnter;
+            role.OnBodyTriggerExitHandle += OnRoleFootTriggerExit;
 
             // - FSM
             role.FSMCom.EnterIdle();
@@ -123,9 +124,17 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Physics Event ====
-        void OnRoleCollisionEnter(RoleEntity role, Collision2D other) {
+        void OnRoleFootCollisionEnter(RoleEntity role, Collision2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.EnterGround();
+            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
+                role.EnterCrossPlatform();
+            }
+        }
+
+        void OnRoleFootTriggerExit(RoleEntity role, Collider2D other) {
+            if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
+                role.LeaveCrossPlatform();
             }
         }
 
@@ -151,6 +160,14 @@ namespace TiedanSouls.World.Domain {
                 moveAxis.x = 1;
             } else {
                 moveAxis.x = 0;
+            }
+
+            if (inputGetter.GetPressing(InputKeyCollection.MOVE_DOWN)) {
+                moveAxis.y = -1;
+            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
+                moveAxis.y = 1;
+            } else {
+                moveAxis.y = 0;
             }
             inputRecordCom.SetMoveAxis(moveAxis);
 
@@ -191,6 +208,10 @@ namespace TiedanSouls.World.Domain {
 
         public void Jump(RoleEntity role) {
             role.Jump();
+        }
+
+        public void CrossDown(RoleEntity role) {
+            role.CrossDown();
         }
 
         public void Falling(RoleEntity role, float dt) {

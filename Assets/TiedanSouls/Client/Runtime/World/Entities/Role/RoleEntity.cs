@@ -21,6 +21,8 @@ namespace TiedanSouls.World.Entities {
         public sbyte FaceXDir => faceXDir;
 
         FootComponent footCom;
+        RoleBodyCollComponent bodyCollCom;
+
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
@@ -39,7 +41,8 @@ namespace TiedanSouls.World.Entities {
         WeaponSlotComponent weaponSlotCom;
         public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
 
-        public event Action<RoleEntity, Collision2D> OnCollisionEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
+        public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
 
         public void Ctor() {
 
@@ -60,7 +63,11 @@ namespace TiedanSouls.World.Entities {
             rb = GetComponent<Rigidbody2D>();
             sr = body.Find("mesh").GetComponent<SpriteRenderer>();
 
-            footCom = body.GetComponentInChildren<FootComponent>();
+            footCom = body.Find("coll_foot").GetComponent<FootComponent>();
+            footCom.Ctor();
+
+            bodyCollCom = body.Find("coll_body").GetComponent<RoleBodyCollComponent>();
+            bodyCollCom.Ctor();
 
             moveCom = new MoveComponent();
             moveCom.Inject(rb);
@@ -68,12 +75,13 @@ namespace TiedanSouls.World.Entities {
             TDLog.Assert(rb != null);
             TDLog.Assert(footCom != null);
 
-            footCom.OnCollisionEnterHandle += OnFootEnter;
+            footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
+            bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
 
         }
 
         public void TearDown() {
-            footCom.OnCollisionEnterHandle -= OnFootEnter;
+            footCom.OnCollisionEnterHandle -= OnFootCollisionEnter;
             GameObject.Destroy(gameObject);
         }
 
@@ -111,6 +119,12 @@ namespace TiedanSouls.World.Entities {
             moveCom.Jump(inputRecordCom.IsJump, attrCom.JumpSpeed);
         }
 
+        public void CrossDown() {
+            if (inputRecordCom.MoveAxis.y < 0 && moveCom.IsStandCrossPlatform) {
+                SetFootTrigger(true);
+            }
+        }
+
         public void Falling(float dt) {
             moveCom.Falling(dt, attrCom.FallingAcceleration, attrCom.FallingSpeedMax);
         }
@@ -119,14 +133,36 @@ namespace TiedanSouls.World.Entities {
             moveCom.EnterGround();
         }
 
+        public void LeaveGround() {
+            moveCom.LeaveGround();
+        }
+
+        public void EnterCrossPlatform() {
+            moveCom.EnterCrossPlatform();
+        }
+
+        public void LeaveCrossPlatform() {
+            moveCom.LeaveCrossPlatform();
+            SetFootTrigger(false);
+        }
+
         // ==== Hit ====
         public void HitBeHurt(int atk) {
             attrCom.HitBeHurt(atk);
         }
 
-        // ==== Phx Event ====
-        void OnFootEnter(Collision2D other) {
-            OnCollisionEnterHandle.Invoke(this, other);
+        // ==== Phx ====
+        public void SetFootTrigger(bool isTrigger) {
+            footCom.SetTrigger(isTrigger);
+            bodyCollCom.SetTrigger(isTrigger);
+        }
+
+        void OnFootCollisionEnter(Collision2D other) {
+            OnFootCollisionEnterHandle.Invoke(this, other);
+        }
+
+        void OnBodyTriggerExit(Collider2D other) {
+            OnBodyTriggerExitHandle.Invoke(this, other);
         }
 
     }
