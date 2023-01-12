@@ -41,6 +41,9 @@ namespace TiedanSouls.World.Entities {
         WeaponSlotComponent weaponSlotCom;
         public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
 
+        HpBarHUDComponent hpBarHUDCom;
+        public HpBarHUDComponent HpBarHUDCom => hpBarHUDCom;
+
         public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
         public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
 
@@ -57,6 +60,11 @@ namespace TiedanSouls.World.Entities {
             var weaponRoot = body.Find("weapon_root");
             weaponSlotCom = new WeaponSlotComponent();
             weaponSlotCom.Inject(weaponRoot);
+
+            var hpBarHUDRoot = body.Find("hud_root");
+            hpBarHUDCom = new HpBarHUDComponent();
+            hpBarHUDCom.Inject(hpBarHUDRoot);
+
 
             attrCom = new RoleAttributeComponent();
 
