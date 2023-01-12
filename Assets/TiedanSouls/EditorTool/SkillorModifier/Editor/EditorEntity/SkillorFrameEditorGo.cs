@@ -5,6 +5,8 @@ namespace TiedanSouls.SkillorModifier.Editor {
 
     public class SkillorFrameEditorGo : MonoBehaviour {
 
+        [SerializeField] HitPowerTM hitPower;
+
         [SerializeField] bool hasDash;
         [SerializeField] Vector2 dashForce;
         [SerializeField] bool isDashEnd;
@@ -16,6 +18,8 @@ namespace TiedanSouls.SkillorModifier.Editor {
         public SkillorFrameTM ToTM() {
 
             var tm = new SkillorFrameTM();
+            tm.hitPower = hitPower;
+            
             tm.hasDash = hasDash;
             tm.dashForce = dashForce;
             tm.isDashEnd = isDashEnd;

@@ -66,16 +66,12 @@ namespace TiedanSouls.World.Entities {
 
         public void LeaveGround() {
             isGround = false;
+            isStandCrossPlatform = false;
         }
 
         public void EnterCrossPlatform() {
             EnterGround();
             isStandCrossPlatform = true;
-        }
-
-        public void LeaveCrossPlatform() {
-            LeaveGround();
-            isStandCrossPlatform = false;
         }
 
     }
