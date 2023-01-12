@@ -19,6 +19,9 @@ namespace TiedanSouls.Template {
         // ==== Defense ====
         public short sufferPowerLevel;
 
+        // ==== Other ====
+        public short hitStopFrame;
+
     }
 
 }

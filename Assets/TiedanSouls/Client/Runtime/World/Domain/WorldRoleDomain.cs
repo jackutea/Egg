@@ -292,12 +292,22 @@ namespace TiedanSouls.World.Domain {
             if (damageArbitService.IsInArbit(skillor.EntityType, skillor.ID, other.EntityType, other.ID)) {
                 return;
             }
-
             damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
 
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
+
+            // Frame Effector
+            bool hasFrame = skillor.TryGetCurrentFrame(out var frame);
+            if (!hasFrame) {
+                TDLog.Error("Failed to get frame");
+                return;
+            }
+
+            if (frame.hitPower != null) {
+                TDLog.Log("TODO: Hit Power");
+            }
 
             TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + other.ID);
             TDLog.Log($"Cur: {caster.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");

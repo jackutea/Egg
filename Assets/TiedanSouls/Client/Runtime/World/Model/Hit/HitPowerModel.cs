@@ -15,15 +15,23 @@ namespace TiedanSouls.World.Entities {
         // ==== Defense ====
         public short sufferPowerLevel;
 
+        // ==== Other ====
+        public short hitStopFrame;
+
         public HitPowerModel() { }
 
         public void FromTM(Template.HitPowerTM tm) {
+
             this.knockbackForce = tm.knockbackForce;
             this.knockbackFrame = tm.knockbackFrame;
             this.blowUpForce = tm.blowUpForce;
             this.hitStunFrame = tm.hitStunFrame;
             this.breakPowerLevel = tm.breakPowerLevel;
+
             this.sufferPowerLevel = tm.sufferPowerLevel;
+
+            this.hitStopFrame = tm.hitStopFrame;
+            
         }
 
     }
