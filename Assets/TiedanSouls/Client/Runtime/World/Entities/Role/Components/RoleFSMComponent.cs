@@ -29,14 +29,20 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterCasting(SkillorModel skillorModel) {
             status = RoleFSMStatus.Casting;
-            castingState.castingSkillor = skillorModel;
-            castingState.isEntering = true;
+            var stateModel = castingState;
+            stateModel.castingSkillor = skillorModel;
+            stateModel.isEntering = true;
         }
 
-        public void EnterBeHurt(int stunFrame, Vector2 knockForce) {
+        public void EnterBeHurt(Vector2 fromPos, HitPowerModel hitPowerModel) {
             status = RoleFSMStatus.BeHurt;
-            beHurtState.stunFrame = stunFrame;
-            beHurtState.knockForce = knockForce;
+            var stateModel = beHurtState;
+            stateModel.fromPos = fromPos;
+            stateModel.knockbackForce = hitPowerModel.knockbackForce;
+            stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
+            stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
+            stateModel.curFrame = 0;
+            stateModel.isEnter = true;
         }
 
         public void EnterDead() {
