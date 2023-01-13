@@ -294,9 +294,24 @@ namespace TiedanSouls.World.Domain {
             }
             damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
 
+            RoleHitRole_Damage(caster, skillor, other);
+            RoleHitRole_FrameEffector(caster, skillor, other);
+
+        }
+
+        void RoleHitRole_Damage(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
+
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
+
+            if (other.AttrCom.HP <= 0) {
+                RoleDie(other);
+            }
+
+        }
+
+        void RoleHitRole_FrameEffector(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
 
             // Frame Effector
             bool hasFrame = skillor.TryGetCurrentFrame(out var frame);
@@ -305,15 +320,23 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            if (frame.hitPower != null) {
-                TDLog.Log("TODO: Hit Power");
+            SkillorFrameElement otherFrame = null;
+            var otherFSM = other.FSMCom;
+            if (otherFSM.Status == RoleFSMStatus.Casting) {
+                var otherSkillor = otherFSM.CastingState.castingSkillor;
+                otherSkillor.TryGetCurrentFrame(out otherFrame);
             }
 
-            TDLog.Log("OnSkillorTriggerEnter: " + skillor.TypeID + " -> " + other.ID);
-            TDLog.Log($"Cur: {caster.ID} Hurt: {other.ID}, other hp Left: {other.AttrCom.HP}");
+            var hitPower = frame.hitPower;
+            if (frame.hitPower != null) {
 
-            if (other.AttrCom.HP <= 0) {
-                RoleDie(other);
+                if (otherFrame != null && hitPower.breakPowerLevel < otherFrame.hitPower.sufferPowerLevel) {
+                    // Not Break
+                    return;
+                }
+
+                otherFSM.EnterBeHurt(caster.GetPos(), hitPower);
+
             }
 
         }

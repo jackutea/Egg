@@ -23,6 +23,7 @@ namespace TiedanSouls.World.Domain {
         public void Tick(RoleEntity role, float dt) {
             ApplyIdle(role, dt);
             ApplyCasting(role, dt);
+            ApplyBeHurt(role, dt);
         }
 
         void ApplyIdle(RoleEntity role, float dt) {
@@ -53,6 +54,7 @@ namespace TiedanSouls.World.Domain {
 
             if (stateModel.isEntering) {
                 stateModel.isEntering = false;
+                role.MoveCom.StopHorizontal();
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
                 return;
             }
@@ -72,9 +74,9 @@ namespace TiedanSouls.World.Domain {
                     damageArbitService.Remove(castingSkillor.EntityType, castingSkillor.ID);
 
                     castingSkillor.Reset();
-                    
+
                     fsm.EnterIdle();
-                    
+
                     // TDLog.Log("END Casting");
                     return;
                 }
@@ -91,6 +93,34 @@ namespace TiedanSouls.World.Domain {
             }
 
             stateModel.restTime = restTime;
+
+        }
+
+        void ApplyBeHurt(RoleEntity role, float dt) {
+
+            var fsm = role.FSMCom;
+            if (fsm.Status != RoleFSMStatus.BeHurt) {
+                return;
+            }
+
+            var roleDomain = worldDomain.RoleDomain;
+
+            var stateModel = fsm.BeHurtState;
+
+            if (stateModel.isEnter) {
+                stateModel.isEnter = false;
+
+                Vector2 dir = role.GetPos() - stateModel.fromPos;
+                role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
+                return;
+            }
+
+            if (stateModel.curFrame >= stateModel.hitStunFrame && stateModel.curFrame >= stateModel.knockbackFrame) {
+                fsm.EnterIdle();
+                return;
+            }
+
+            stateModel.curFrame += 1;
 
         }
 
