@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace TiedanSouls.Asset {
+
     public class HUDAssets{
+        
         Dictionary<string, GameObject> all;
 
         public HUDAssets() {

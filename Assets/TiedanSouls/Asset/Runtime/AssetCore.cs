@@ -15,6 +15,7 @@ namespace TiedanSouls.Asset {
 
         HUDAssets hudAssets;
         public HUDAssets HUDAssets =>hudAssets;
+        
         public AssetCore() {
             worldAssets = new WorldAssets();
             spriteAssets = new SpriteAssets();

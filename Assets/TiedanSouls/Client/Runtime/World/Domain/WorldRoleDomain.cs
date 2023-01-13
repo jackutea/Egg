@@ -90,8 +90,8 @@ namespace TiedanSouls.World.Domain {
                 TDLog.Error("Failed to get HUD mod: " + "hud_hp_bar");
                 return null;
             }
-            var hpBar = GameObject.Instantiate(hpBarHUDPrefab);
-            role.HpBarHUDCom.SetHpBarHUD(hpBar);
+            var hpBar = GameObject.Instantiate(hpBarHUDPrefab,role.HudSlotCom.HudRoot);
+            role.HudSlotCom.SetHpBarHUD(hpBar);
 
             // - Weapon
             // Weapon Mod
@@ -129,9 +129,7 @@ namespace TiedanSouls.World.Domain {
 
             // - FSM
             role.FSMCom.EnterIdle();
-
-            // HpBarHUD
-            
+    
             var repo = worldContext.RoleRepo;
             repo.Add(role);
 
