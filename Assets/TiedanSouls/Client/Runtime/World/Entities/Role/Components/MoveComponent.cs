@@ -37,6 +37,18 @@ namespace TiedanSouls.World.Entities {
             rb.velocity = velo;
         }
 
+        public void KnockBack(float dir, float force) {
+            var velo = rb.velocity;
+            velo.x = force * dir;
+            rb.velocity = velo;
+        }
+
+        public void StopHorizontal() {
+            var velo = rb.velocity;
+            velo.x = 0;
+            rb.velocity = velo;
+        }
+
         public void Jump(bool isJumpPress, float jumpSpeed) {
             if (isJumpPress && !isJumping && isGround) {
 

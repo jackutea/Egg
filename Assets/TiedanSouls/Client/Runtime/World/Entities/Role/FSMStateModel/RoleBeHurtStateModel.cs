@@ -4,9 +4,16 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleBeHurtStateModel {
 
-        public int stunFrame;
+        public Vector2 fromPos;
 
-        public Vector2 knockForce;
+        public float knockbackForce;
+        public int knockbackFrame;
+
+        public int hitStunFrame;
+
+        public int curFrame;
+
+        public bool isEnter;
 
         public RoleBeHurtStateModel() {}
 

@@ -100,6 +100,10 @@ namespace TiedanSouls.World.Entities {
             transform.position = pos;
         }
 
+        public Vector2 GetPos() {
+            return transform.position;
+        }
+
         public void Move() {
             Vector2 moveAxis = inputRecordCom.MoveAxis;
 
