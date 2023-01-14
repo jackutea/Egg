@@ -46,12 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPower:
-    knockbackForce: 5
-    knockbackFrame: 5
+    knockbackForce: 0
+    knockbackFrame: 0
     blowUpForce: 0
-    hitStunFrame: 5
+    hitStunFrame: 20
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -106,6 +107,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -160,6 +162,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -214,6 +217,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -268,6 +272,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -322,6 +327,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -376,6 +382,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -567,12 +574,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPower:
-    knockbackForce: 5
-    knockbackFrame: 5
+    knockbackForce: 0
+    knockbackFrame: 0
     blowUpForce: 0
-    hitStunFrame: 5
+    hitStunFrame: 20
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -627,6 +635,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -681,6 +690,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -735,6 +745,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -853,6 +864,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -907,6 +919,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -956,12 +969,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPower:
-    knockbackForce: 5
-    knockbackFrame: 5
+    knockbackForce: 0
+    knockbackFrame: 0
     blowUpForce: 0
-    hitStunFrame: 5
+    hitStunFrame: 20
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
@@ -1087,6 +1101,7 @@ MonoBehaviour:
     hitStunFrame: 0
     breakPowerLevel: 0
     sufferPowerLevel: 0
+    hitStopFrame: 0
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0

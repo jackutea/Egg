@@ -10,8 +10,11 @@ namespace TiedanSouls.Asset {
         SpriteAssets spriteAssets;
         public SpriteAssets SpriteAssets => spriteAssets;
 
-        WeaponAssets weaponAssets;
-        public WeaponAssets WeaponAssets => weaponAssets;
+        WeaponModAssets weaponModAssets;
+        public WeaponModAssets WeaponModAssets => weaponModAssets;
+
+        RoleModAssets roleModAssets;
+        public RoleModAssets RoleModAssets => roleModAssets;
 
         HUDAssets hudAssets;
         public HUDAssets HUDAssets =>hudAssets;
@@ -19,14 +22,16 @@ namespace TiedanSouls.Asset {
         public AssetCore() {
             worldAssets = new WorldAssets();
             spriteAssets = new SpriteAssets();
-            weaponAssets = new WeaponAssets();
+            weaponModAssets = new WeaponModAssets();
+            roleModAssets = new RoleModAssets();
             hudAssets = new HUDAssets();
         }
 
         public async Task Init() {
             await worldAssets.LoadAll();
             await spriteAssets.LoadAll();
-            await weaponAssets.LoadAll();
+            await weaponModAssets.LoadAll();
+            await roleModAssets.LoadAll();
             await hudAssets.LoadAll();
         }
 
