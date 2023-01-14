@@ -24,7 +24,7 @@ namespace TiedanSouls.Template {
         public int[] skillorTypeIDArray;
 
         // - Renderer
-        public string meshName;
+        public string modName;
 
     }
 

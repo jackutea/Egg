@@ -10,6 +10,7 @@ namespace TiedanSouls {
         public const string TM_WEAPON = "TM_Weapon";
 
         public const string MOD_WEAPON = "Mod_Weapon";
+        public const string MOD_ROLE = "Mod_Role";
 
     }
 

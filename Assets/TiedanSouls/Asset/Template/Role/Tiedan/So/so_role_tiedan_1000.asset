@@ -23,4 +23,4 @@ MonoBehaviour:
     fallingAcceleration: 30
     fallingSpeedMax: 50
     skillorTypeIDArray: 01000000e8030000
-    meshName: spr_role_tiedan_1000
+    modName: mod_role_tiedan_1000

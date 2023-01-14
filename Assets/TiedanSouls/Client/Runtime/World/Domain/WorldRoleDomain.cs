@@ -46,13 +46,14 @@ namespace TiedanSouls.World.Domain {
             }
 
             // - Mesh
-            var spriteAssets = infraContext.AssetCore.SpriteAssets;
-            has = spriteAssets.TryGet(roleTM.meshName, out Sprite sprite);
+            var roleModAssets = infraContext.AssetCore.RoleModAssets;
+            has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
             if (!has) {
-                TDLog.Error("Failed to get sprite: " + roleTM.meshName);
+                TDLog.Error("Failed to get sprite: " + roleTM.modName);
                 return null;
             }
-            role.SetMesh(sprite);
+            GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.Body);
+            role.SetMod(roleMod);
 
             // - Move
             var attrCom = role.AttrCom;
@@ -84,7 +85,7 @@ namespace TiedanSouls.World.Domain {
 
             // - Weapon
             // Weapon Mod
-            has = infraContext.AssetCore.WeaponAssets.TryGet("mod_spear", out GameObject weaponModPrefab);
+            has = infraContext.AssetCore.WeaponModAssets.TryGet("mod_spear", out GameObject weaponModPrefab);
             if (!has) {
                 TDLog.Error("Failed to get weapon mod: " + "mod_spear");
                 return null;

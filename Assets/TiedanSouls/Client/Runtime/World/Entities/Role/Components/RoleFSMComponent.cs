@@ -7,6 +7,9 @@ namespace TiedanSouls.World.Entities {
         RoleFSMStatus status;
         public RoleFSMStatus Status => status;
 
+        RoleIdleStateModel idleState;
+        public RoleIdleStateModel IdleState => idleState;
+
         RoleCastingStateModel castingState;
         public RoleCastingStateModel CastingState => castingState;
 
@@ -18,6 +21,7 @@ namespace TiedanSouls.World.Entities {
 
         public RoleFSMComponent() {
             status = RoleFSMStatus.Idle;
+            idleState = new RoleIdleStateModel();
             castingState = new RoleCastingStateModel();
             beHurtState = new RoleBeHurtStateModel();
             deadState = new RoleDeadStateModel();
@@ -25,6 +29,7 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterIdle() {
             status = RoleFSMStatus.Idle;
+            idleState.isEnter = true;
         }
 
         public void EnterCasting(SkillorModel skillorModel) {
