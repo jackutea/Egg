@@ -8,8 +8,8 @@ namespace TiedanSouls.World.Entities {
         Transform hudRoot;
         public Transform HudRoot => hudRoot;
 
-        GameObject hpBarHUD;
-        public GameObject HpBarHUD => hpBarHUD;
+        HpBarHUD hpBarHUD;
+        public HpBarHUD HpBarHUD => hpBarHUD;
 
         public HUDSlotComponent () { }
 
@@ -17,7 +17,7 @@ namespace TiedanSouls.World.Entities {
             this.hudRoot = hudRoot;
         }
 
-        public void SetHpBarHUD(GameObject hpBarHUD){
+        public void SetHpBarHUD(HpBarHUD hpBarHUD){
             this.hpBarHUD = hpBarHUD;
         }
 

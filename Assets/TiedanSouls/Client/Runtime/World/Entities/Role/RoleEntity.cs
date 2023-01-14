@@ -16,12 +16,16 @@ namespace TiedanSouls.World.Entities {
         public void SetAlly(sbyte value) => this.ally = value;
 
         Transform body;
+        public Transform Body => body;
+
         Rigidbody2D rb;
-        SpriteRenderer sr;
 
         sbyte faceXDir;
         public sbyte FaceXDir => faceXDir;
 
+        RoleModComponent modCom;
+        public RoleModComponent ModCom => modCom;
+        
         FootComponent footCom;
         RoleBodyCollComponent bodyCollCom;
 
@@ -56,36 +60,47 @@ namespace TiedanSouls.World.Entities {
 
             body = transform.Find("body");
 
+            // - FSM
             fsmCom = new RoleFSMComponent();
+
+            // - Input
             inputRecordCom = new RoleInputRecordComponent();
+
+            // - Skillor
             skillorSlotCom = new SkillorSlotComponent();
 
+            // - Weapon
             var weaponRoot = body.Find("weapon_root");
             weaponSlotCom = new WeaponSlotComponent();
             weaponSlotCom.Inject(weaponRoot);
 
-            var hudRoot = body.Find("hud_root");
+            var hudRoot = transform.Find("hud_root");
             hudSlotCom = new HUDSlotComponent();
             hudSlotCom.Inject(hudRoot);
 
 
+            // - Attribute
             attrCom = new RoleAttributeComponent();
 
-            rb = GetComponent<Rigidbody2D>();
-            sr = body.Find("mesh").GetComponent<SpriteRenderer>();
-
+            // - Collider
             footCom = body.Find("coll_foot").GetComponent<FootComponent>();
             footCom.Ctor();
 
             bodyCollCom = body.Find("coll_body").GetComponent<RoleBodyCollComponent>();
             bodyCollCom.Ctor();
 
+            // - Movement
+            rb = GetComponent<Rigidbody2D>();
             moveCom = new MoveComponent();
             moveCom.Inject(rb);
 
             TDLog.Assert(rb != null);
             TDLog.Assert(footCom != null);
 
+            // - Mod
+            modCom = new RoleModComponent();
+
+            // ==== Bind Event ====
             footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
             footCom.OnCollisionExitHandle += OnFootCollisionExit;
             bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
@@ -98,9 +113,9 @@ namespace TiedanSouls.World.Entities {
             GameObject.Destroy(gameObject);
         }
 
-        // ==== Mesh ====
-        public void SetMesh(Sprite spr) {
-            sr.sprite = spr;
+        // ==== Mod ====
+        public void SetMod(GameObject mod) {
+            modCom.SetMod(mod);
         }
 
         // ==== Locomotion ====

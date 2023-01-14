@@ -15,11 +15,6 @@ namespace TiedanSouls.World.Entities {
         float percent;
         float moveSpeed = 0.03f;
 
-        public void Awake()
-        {
-            Ctor();
-            SetHpBar(50,100);
-        }
 
         public void Ctor() {
             hpBarMove = transform.Find("hud_hp_move").GetComponent<Image>();

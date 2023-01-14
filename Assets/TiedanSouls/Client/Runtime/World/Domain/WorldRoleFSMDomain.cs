@@ -32,6 +32,12 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
+            var stateModel = fsm.IdleState;
+            if (stateModel.isEnter) {
+                stateModel.isEnter = false;
+                role.ModCom.Anim_PlayIdle();
+            }
+
             var roleDomain = worldDomain.RoleDomain;
             roleDomain.Move(role);
             roleDomain.Jump(role);
@@ -112,6 +118,8 @@ namespace TiedanSouls.World.Domain {
 
                 Vector2 dir = role.GetPos() - stateModel.fromPos;
                 role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
+
+                role.ModCom.Anim_PlayBeHurt();
                 return;
             }
 

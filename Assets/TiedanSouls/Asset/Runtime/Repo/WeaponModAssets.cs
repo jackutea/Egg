@@ -5,11 +5,11 @@ using UnityEngine.AddressableAssets;
 
 namespace TiedanSouls.Asset {
 
-    public class WeaponAssets {
+    public class WeaponModAssets {
 
         Dictionary<string, GameObject> all;
 
-        public WeaponAssets() {
+        public WeaponModAssets() {
             all = new Dictionary<string, GameObject>();
         }
 
