@@ -1,4 +1,5 @@
 using UnityEngine;
+using GameArki.BTTreeNS;
 using TiedanSouls.Asset;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Entities;
@@ -32,7 +33,7 @@ namespace TiedanSouls.World {
             return entity;
         }
 
-        public RoleEntity CreateRoleEntity(int typeID, sbyte ally, Vector2 pos) {
+        public RoleEntity CreateRoleEntity(RoleControlType controlType, int typeID, sbyte ally, Vector2 pos) {
 
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
@@ -81,6 +82,15 @@ namespace TiedanSouls.World {
             // - Ally
             role.SetAlly(ally);
 
+            // - ControlType
+            role.SetControlType(controlType);
+
+            // ==== AI ====
+            if (controlType == RoleControlType.AI) {
+                var ai = CreateAIStrategy(role, typeID);
+                role.SetAIStrategy(ai);
+            }
+
             // ==== Skillor ====
             // Dash / BoomMelee / Infinity
             if (roleTM.skillorTypeIDArray != null) {
@@ -99,6 +109,29 @@ namespace TiedanSouls.World {
             CreateWeapon(role, 100);
 
             return role;
+
+        }
+
+        // ==== AI ====
+        RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
+
+            // - Nodes
+            var patrolAIAction = new RolePatrolAIAction();
+            patrolAIAction.Inject(role, worldContext);
+            BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction);
+
+            BTTreeNode root = BTTreeFactory.CreateSelectorNode();
+            root.AddChild(patrolNode);
+
+            // - Tree
+            BTTree bt = new BTTree();
+            bt.Initialize(root);
+
+            // - Strategy
+            RoleAIStrategy ai = new RoleAIStrategy();
+            ai.Inject(bt);
+
+            return ai;
 
         }
 

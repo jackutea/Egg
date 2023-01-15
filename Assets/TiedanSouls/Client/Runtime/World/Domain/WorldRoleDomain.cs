@@ -18,10 +18,10 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public RoleEntity SpawnRole(int typeID, sbyte ally, Vector2 pos) {
+        public RoleEntity SpawnRole(RoleControlType controlType, int typeID, sbyte ally, Vector2 pos) {
 
             var factory = worldContext.WorldFactory;
-            var role = factory.CreateRoleEntity(typeID, ally, pos);
+            var role = factory.CreateRoleEntity(controlType, typeID, ally, pos);
 
             // ==== Init ====
             // - Skillor 
@@ -37,6 +37,12 @@ namespace TiedanSouls.World.Domain {
 
             // - FSM
             role.FSMCom.EnterIdle();
+
+            // - AI
+            if (controlType == RoleControlType.AI) {
+                var ai = role.AIStrategy;
+                ai.Activate();
+            }
 
             var repo = worldContext.RoleRepo;
             repo.Add(role);

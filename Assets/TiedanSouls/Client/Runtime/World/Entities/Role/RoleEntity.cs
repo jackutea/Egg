@@ -20,9 +20,17 @@ namespace TiedanSouls.World.Entities {
         Transform body;
         public Transform Body => body;
 
-        // ==== Renderer ====
-        RoleModComponent modCom;
-        public RoleModComponent ModCom => modCom;
+        // ==== Input ====
+        RoleControlType controlType;
+        public RoleControlType ControlType => controlType;
+        public void SetControlType(RoleControlType value) => this.controlType = value;
+
+        RoleInputRecordComponent inputRecordCom;
+        public RoleInputRecordComponent InputRecordCom => inputRecordCom;
+
+        object aiStrategy;
+        public RoleAIStrategy AIStrategy => aiStrategy as RoleAIStrategy;
+        public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
 
         // ==== Locomotion ====
         Rigidbody2D rb;
@@ -41,15 +49,18 @@ namespace TiedanSouls.World.Entities {
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
 
-        RoleInputRecordComponent inputRecordCom;
-        public RoleInputRecordComponent InputRecordCom => inputRecordCom;
-
         SkillorSlotComponent skillorSlotCom;
         public SkillorSlotComponent SkillorSlotCom => skillorSlotCom;
 
         WeaponSlotComponent weaponSlotCom;
         public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
 
+        // ==== Renderer ====
+        // - Mod
+        RoleModComponent modCom;
+        public RoleModComponent ModCom => modCom;
+
+        // - HUD
         HUDSlotComponent hudSlotCom;
         public HUDSlotComponent HudSlotCom => hudSlotCom;
 
