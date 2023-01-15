@@ -20,108 +20,15 @@ namespace TiedanSouls.World.Domain {
 
         public RoleEntity SpawnRole(int typeID, sbyte ally, Vector2 pos) {
 
-            var idService = worldContext.IDService;
-            var templateCore = infraContext.TemplateCore;
+            var factory = worldContext.WorldFactory;
+            var role = factory.CreateRoleEntity(typeID, ally, pos);
 
-            // - Entity
-            var worldAssets = infraContext.AssetCore.WorldAssets;
-            bool has = worldAssets.TryGet("entity_role", out GameObject go);
-            if (!has) {
-                TDLog.Error("Failed to get asset: entity_role");
-                return null;
+            // ==== Init ====
+            // - Skillor 
+            var allSkillor = role.SkillorSlotCom.GetAll();
+            foreach (var skillor in allSkillor) {
+                skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
             }
-
-            var role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
-            role.Ctor();
-
-            // - ID
-            int id = idService.PickRoleID();
-            role.SetID(id);
-
-            // - TM
-            has = templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM);
-            if (!has) {
-                TDLog.Error("Failed to get role template: " + typeID);
-                return null;
-            }
-
-            // - Mesh
-            var roleModAssets = infraContext.AssetCore.RoleModAssets;
-            has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
-            if (!has) {
-                TDLog.Error("Failed to get sprite: " + roleTM.modName);
-                return null;
-            }
-            GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.Body);
-            role.SetMod(roleMod);
-
-            // - Move
-            var attrCom = role.AttrCom;
-            attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
-            attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
-
-            // - Pos
-            role.SetPos(pos);
-
-            // - Ally
-            role.SetAlly(ally);
-
-            // - Skillor
-            // Dash / BoomMelee / Infinity
-            if (roleTM.skillorTypeIDArray != null) {
-                foreach (var skillorTypeID in roleTM.skillorTypeIDArray) {
-                    int skillorID = idService.PickSkillorID();
-                    var skillor = new SkillorModel(skillorID, role);
-                    has = templateCore.SkillorTemplate.TryGet(skillorTypeID, out SkillorTM skillorTM);
-                    if (!has) {
-                        TDLog.Error("Failed to get skillor template: " + skillorTypeID);
-                        return null;
-                    }
-                    skillor.FromTM(skillorTM);
-                    skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
-                    role.SkillorSlotCom.Add(skillor);
-                }
-            
-            }
-
-            // - HUD
-            // HpBar
-            has = infraContext.AssetCore.HUDAssets.TryGet("hud_hp_bar",out GameObject hpBarHUDPrefab);
-            if (!has) {
-                TDLog.Error("Failed to get HUD mod: " + "hud_hp_bar");
-                return null;
-            }
-            var hpBar = GameObject.Instantiate(hpBarHUDPrefab,role.HudSlotCom.HudRoot);
-            role.HudSlotCom.SetHpBarHUD(hpBar.GetComponent<HpBarHUD>());
-
-            // - Weapon
-            // Weapon Mod
-            has = infraContext.AssetCore.WeaponModAssets.TryGet("mod_spear", out GameObject weaponModPrefab);
-            if (!has) {
-                TDLog.Error("Failed to get weapon mod: " + "mod_spear");
-                return null;
-            }
-
-            // Weapon TM
-            has = templateCore.WeaponTemplate.TryGet(100, out WeaponTM weaponTM);
-            if (!has) {
-                TDLog.Error("Failed to get weapon template: " + 100);
-                return null;
-            }
-            var weapon = new WeaponModel();
-            weapon.weaponType = weaponTM.weaponType;
-            weapon.typeID = weaponTM.typeID;
-            weapon.atk = weaponTM.atk;
-            weapon.def = weaponTM.def;
-            weapon.crit = weaponTM.crit;
-            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
-            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
-            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
-            var weaponMod = GameObject.Instantiate(weaponModPrefab, role.WeaponSlotCom.WeaponRoot);
-            weapon.SetMod(weaponMod);
-            role.WeaponSlotCom.SetWeapon(weapon);
-
-            // Weapon Skillor: Melee / HoldMelee / SpecMelee
 
             // - Physics
             role.OnFootCollisionEnterHandle += OnRoleFootCollisionEnter;
@@ -130,7 +37,7 @@ namespace TiedanSouls.World.Domain {
 
             // - FSM
             role.FSMCom.EnterIdle();
-    
+
             var repo = worldContext.RoleRepo;
             repo.Add(role);
 
@@ -307,7 +214,11 @@ namespace TiedanSouls.World.Domain {
             damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
 
             RoleHitRole_Damage(caster, skillor, other);
-            RoleHitRole_FrameEffector(caster, skillor, other);
+            if (other.AttrCom.HP <= 0) {
+                RoleDie(other);
+            } else {
+                RoleHitRole_FrameEffector(caster, skillor, other);
+            }
 
         }
 
@@ -316,10 +227,6 @@ namespace TiedanSouls.World.Domain {
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
-
-            if (other.AttrCom.HP <= 0) {
-                RoleDie(other);
-            }
 
         }
 
