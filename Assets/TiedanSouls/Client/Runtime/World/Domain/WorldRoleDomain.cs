@@ -57,6 +57,10 @@ namespace TiedanSouls.World.Domain {
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
                 role.EnterCrossPlatform();
             }
+            if (other.gameObject.layer == LayerCollection.AirWall_Reborn) {   
+                var reborn = other.gameObject.GetComponent<RebornAirWall>();
+                role.DropBeHurt(reborn.Damage,reborn.RebornPos);
+            }
         }
 
         void OnRoleFootCollisionExit(RoleEntity role, Collision2D other) {

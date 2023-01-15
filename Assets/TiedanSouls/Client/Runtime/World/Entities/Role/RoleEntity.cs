@@ -67,7 +67,7 @@ namespace TiedanSouls.World.Entities {
         public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
         public event Action<RoleEntity, Collision2D> OnFootCollisionExitHandle;
         public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
-
+        
         public void Ctor() {
 
             faceXDir = 1;
@@ -88,6 +88,7 @@ namespace TiedanSouls.World.Entities {
             weaponSlotCom = new WeaponSlotComponent();
             weaponSlotCom.Inject(weaponRoot);
 
+            // - HUD
             var hudRoot = transform.Find("hud_root");
             hudSlotCom = new HUDSlotComponent();
             hudSlotCom.Inject(hudRoot);
@@ -195,6 +196,14 @@ namespace TiedanSouls.World.Entities {
         // ==== Hit ====
         public void HitBeHurt(int atk) {
             attrCom.HitBeHurt(atk);
+            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP,attrCom.HPMax);
+        }
+
+        // ==== Drop ====
+        public void DropBeHurt(int damage,Vector2 rebornPos){
+            attrCom.HitBeHurt(damage);
+            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP,attrCom.HPMax);
+            SetPos(rebornPos);
         }
 
         // ==== Phx ====
