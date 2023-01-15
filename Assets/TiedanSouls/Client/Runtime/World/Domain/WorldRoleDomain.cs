@@ -307,7 +307,11 @@ namespace TiedanSouls.World.Domain {
             damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
 
             RoleHitRole_Damage(caster, skillor, other);
-            RoleHitRole_FrameEffector(caster, skillor, other);
+            if (other.AttrCom.HP <= 0) {
+                RoleDie(other);
+            } else {
+                RoleHitRole_FrameEffector(caster, skillor, other);
+            }
 
         }
 
@@ -316,10 +320,6 @@ namespace TiedanSouls.World.Domain {
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHurt(curWeapon.atk);
-
-            if (other.AttrCom.HP <= 0) {
-                RoleDie(other);
-            }
 
         }
 
