@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bb8b3a82cdcff84f99d65f9b58597a4, type: 2}
   - {fileID: 11400000, guid: 50a5fc3a6e916df44870485004c686d4, type: 2}
   - {fileID: 11400000, guid: 7503bb2ab6c74154b88e0d3d0efb7803, type: 2}
+  - {fileID: 11400000, guid: ff6bc0f1756e5d04ebd431e1eecbd369, type: 2}
   - {fileID: 11400000, guid: 655dd8d51bd70b24e90ea3b3a9ef7d68, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
@@ -98,6 +99,7 @@ MonoBehaviour:
     - TM_Role
     - TM_Weapon
     - Mod_Weapon
+    - HUD
     - Mod_Role
   m_SchemaTemplates: []
   m_GroupTemplateObjects:

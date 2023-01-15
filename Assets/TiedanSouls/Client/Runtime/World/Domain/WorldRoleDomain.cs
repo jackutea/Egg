@@ -81,7 +81,18 @@ namespace TiedanSouls.World.Domain {
                     skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
                     role.SkillorSlotCom.Add(skillor);
                 }
+            
             }
+
+            // - HUD
+            // HpBar
+            has = infraContext.AssetCore.HUDAssets.TryGet("hud_hp_bar",out GameObject hpBarHUDPrefab);
+            if (!has) {
+                TDLog.Error("Failed to get HUD mod: " + "hud_hp_bar");
+                return null;
+            }
+            var hpBar = GameObject.Instantiate(hpBarHUDPrefab,role.HudSlotCom.HudRoot);
+            role.HudSlotCom.SetHpBarHUD(hpBar.GetComponent<HpBarHUD>());
 
             // - Weapon
             // Weapon Mod
@@ -119,7 +130,7 @@ namespace TiedanSouls.World.Domain {
 
             // - FSM
             role.FSMCom.EnterIdle();
-
+    
             var repo = worldContext.RoleRepo;
             repo.Add(role);
 
