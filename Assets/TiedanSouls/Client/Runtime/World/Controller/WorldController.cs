@@ -19,7 +19,7 @@ namespace TiedanSouls.World.Controller {
 
             this.infraContext = infraContext;
 
-            worldContext.WorldFactory.Inject(infraContext);
+            worldContext.WorldFactory.Inject(infraContext, worldContext);
 
             worldDomain.GameDomain.Inject(infraContext, worldContext, worldDomain);
             worldDomain.FieldDomain.Inject(infraContext, worldContext);

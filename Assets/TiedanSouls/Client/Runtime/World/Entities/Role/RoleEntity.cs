@@ -5,6 +5,7 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
+        // ==== ID ====
         public EntityType EntityType => EntityType.Role;
 
         int id;
@@ -15,20 +16,22 @@ namespace TiedanSouls.World.Entities {
         public sbyte Ally => ally;
         public void SetAlly(sbyte value) => this.ally = value;
 
+        // ==== Root ====
         Transform body;
         public Transform Body => body;
 
-        Rigidbody2D rb;
-
-        sbyte faceXDir;
-        public sbyte FaceXDir => faceXDir;
-
+        // ==== Renderer ====
         RoleModComponent modCom;
         public RoleModComponent ModCom => modCom;
-        
+
+        // ==== Locomotion ====
+        Rigidbody2D rb;
         FootComponent footCom;
         RoleBodyCollComponent bodyCollCom;
 
+        sbyte faceXDir;
+        public sbyte FaceXDir => faceXDir;
+        
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
