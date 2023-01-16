@@ -154,45 +154,119 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Cast ====
-        public void CastByInput(RoleEntity role) {
+        public bool CastByInput(RoleEntity role) {
 
-            // Allowed When Idle
-            var fsm = role.FSMCom;
-            if (fsm.Status != RoleFSMStatus.Idle) {
-                return;
-            }
-
-            // Not Allowed When Dead || Hurt
-            // Need Cancel When Casting
-
+            // - Get Input TypeID
             var inputRecordCom = role.InputRecordCom;
+            SkillorType inputSkillorType = SkillorType.None;
             if (inputRecordCom.IsSpecMelee) {
-                CastByType(role, SkillorType.SpecMelee);
+                inputSkillorType = SkillorType.SpecMelee;
             } else if (inputRecordCom.IsBoomMelee) {
-                CastByType(role, SkillorType.BoomMelee);
+                inputSkillorType = SkillorType.BoomMelee;
             } else if (inputRecordCom.IsInfinity) {
-                CastByType(role, SkillorType.Infinity);
+                inputSkillorType = SkillorType.Infinity;
             } else if (inputRecordCom.IsDash) {
-                CastByType(role, SkillorType.Dash);
+                inputSkillorType = SkillorType.Dash;
             } else if (inputRecordCom.IsMelee) {
-                CastByType(role, SkillorType.Melee);
+                inputSkillorType = SkillorType.Melee;
             }
+
+            if (inputSkillorType == SkillorType.None) {
+                return false;
+            }
+
+            var skillorSlotCom = role.SkillorSlotCom;
+            bool has = skillorSlotCom.TryGetByType(inputSkillorType, out var skillor);
+            if (!has) {
+                TDLog.Error("Failed to get skillor: " + inputSkillorType);
+                return false;
+            }
+
+            int inputTypeID = skillor.TypeID;
+
+            // - Judge Allow Cast
+            bool allowCast = AllowCast(role, ref inputTypeID);
+            if (!allowCast) {
+                return false;
+            }
+
+            // - Cast
+            Cast(role, inputTypeID);
+
+            return true;
+
         }
 
-        void CastByType(RoleEntity role, SkillorType skillorType) {
+        bool AllowCast(RoleEntity role, ref int inputSkillorTypeID) {
+
+            var fsm = role.FSMCom;
+
+            if (fsm.Status == RoleFSMStatus.Idle) {
+                return true;
+            }
+
+            // Cancel To
+            if (fsm.Status == RoleFSMStatus.Casting) {
+
+                var castingSkillor = fsm.CastingState.castingSkillor;
+
+                bool hasFrame = castingSkillor.TryGetCurrentFrame(out var frame);
+
+                // - No Frame
+                if (!hasFrame) {
+                    TDLog.Error("No Frame: " + castingSkillor.OriginalSkillorTypeID);
+                    return false;
+                }
+
+                // No Cancel
+                var cancels = frame.cancels;
+                if (cancels == null || cancels.Length == 0) {
+                    return false;
+                }
+
+                var skillorSlotCom = role.SkillorSlotCom;
+                for (int i = 0; i < cancels.Length; i += 1) {
+                    SkillorCancelModel cancel = cancels[i];
+                    int nextSkillorTypeID = cancel.nextSkillorTypeID;
+                    if (cancel.isCombo) {
+                        // - Combo Cancel
+                        if (castingSkillor.OriginalSkillorTypeID == inputSkillorTypeID || castingSkillor.TypeID == inputSkillorTypeID) {
+                            if (skillorSlotCom.TryGet(nextSkillorTypeID, out var nextSkillor)) {
+                                inputSkillorTypeID = nextSkillor.TypeID;
+                                TDLog.Log("Combo Cancel: " + castingSkillor.TypeID + " -> " + nextSkillor.TypeID);
+                                return true;
+                            } else {
+                                TDLog.Error("Failed to get skillor: " + nextSkillorTypeID);
+                                return false;
+                            }
+                        }
+                    } else {
+                        // - Normal Cancel
+                        if (nextSkillorTypeID == inputSkillorTypeID) {
+                            if (skillorSlotCom.TryGet(nextSkillorTypeID, out var nextSkillor)) {
+                                TDLog.Log("Normal Cancel: " + castingSkillor.TypeID + " -> " + nextSkillor.TypeID);
+                                return true;
+                            } else {
+                                TDLog.Error("Failed to get skillor: " + nextSkillorTypeID);
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return false;
+
+        }
+
+        void Cast(RoleEntity role, int typeID) {
             var skillorSlotCom = role.SkillorSlotCom;
-            bool has = skillorSlotCom.TryGetByType(skillorType, out var skillor);
+            bool has = skillorSlotCom.TryGet(typeID, out var skillor);
             if (!has) {
-                TDLog.Error("Failed to get skillor: " + skillorType);
+                TDLog.Error("Failed to get skillor: " + typeID);
                 return;
             }
-
-            // TDLog.Log("Cast: " + skillorType + " -> " + role.ID + " -> " + skillor.TypeID);
-
-            Cast(role, skillor);
-        }
-
-        void Cast(RoleEntity role, SkillorModel skillor) {
             var fsm = role.FSMCom;
             fsm.EnterCasting(skillor);
         }

@@ -16,7 +16,7 @@ MonoBehaviour:
     typeID: 1010
     name: "\u957F\u67AA\u666E\u653B2"
     skillorType: 0
-    originalSkillorTypeID: 0
+    originalSkillorTypeID: 1000
     frames:
     - hitPower:
         knockbackForce: 0
@@ -173,6 +173,70 @@ MonoBehaviour:
         center: {x: 1.5, y: 0.8}
         size: {x: 3, y: 0.8}
         zRotation: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancels:
+      - nextSkillorTypeID: 1020
+        nextStartFrame: 0
+        isCombo: 1
+      boxes: []
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancels:
+      - nextSkillorTypeID: 1020
+        nextStartFrame: 0
+        isCombo: 1
+      boxes: []
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancels:
+      - nextSkillorTypeID: 1020
+        nextStartFrame: 0
+        isCombo: 1
+      boxes: []
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancels:
+      - nextSkillorTypeID: 1020
+        nextStartFrame: 0
+        isCombo: 1
+      boxes: []
     - hitPower:
         knockbackForce: 0
         knockbackFrame: 0

@@ -27,6 +27,7 @@ namespace TiedanSouls.World.Entities {
         // - Frames
         SkillorFrameElement[] frames;
         int frameIndex;
+        public int FrameIndex => frameIndex;
 
         // - Renderer
         public string weaponAnimName;
@@ -40,9 +41,15 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void FromTM(Template.SkillorTM tm) {
+
+            // - Identity
             typeID = tm.typeID;
             skillorType = tm.skillorType;
-            weaponAnimName = tm.weaponAnimName;
+
+            // - Combo
+            originalSkillorTypeID = tm.originalSkillorTypeID;
+
+            // - Frames
             if (tm.frames != null) {
                 var frames = new SkillorFrameElement[tm.frames.Length];
                 for (int i = 0; i < frames.Length; i += 1) {
@@ -51,6 +58,10 @@ namespace TiedanSouls.World.Entities {
                 }
                 this.frames = frames;
             }
+
+            // - Renderer
+            weaponAnimName = tm.weaponAnimName;
+
         }
 
         public bool TryGetCurrentFrame(out SkillorFrameElement frame) {

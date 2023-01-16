@@ -56,6 +56,124 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels: []
+--- !u!1 &1194637443190408027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4125813635238953706}
+  - component: {fileID: 8676159319724607650}
+  m_Layer: 6
+  m_Name: f_16
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4125813635238953706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194637443190408027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276964595569449947}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8676159319724607650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194637443190408027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
+--- !u!1 &1447185010851787013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5217063460465535806}
+  - component: {fileID: 4964425800176869494}
+  m_Layer: 6
+  m_Name: f_15
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5217063460465535806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447185010851787013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276964595569449947}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4964425800176869494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447185010851787013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
 --- !u!1 &2751762365838299412
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,6 +931,10 @@ Transform:
   - {fileID: 5276964594923655577}
   - {fileID: 6558981009823917128}
   - {fileID: 3695139728223582522}
+  - {fileID: 5217063460465535806}
+  - {fileID: 4125813635238953706}
+  - {fileID: 8065628448977731408}
+  - {fileID: 4865809781922984069}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1133,3 +1255,121 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels: []
+--- !u!1 &7906714211953763104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8065628448977731408}
+  - component: {fileID: 57110003566872164}
+  m_Layer: 6
+  m_Name: f_17
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8065628448977731408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906714211953763104}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276964595569449947}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &57110003566872164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906714211953763104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
+--- !u!1 &8808161410358063242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4865809781922984069}
+  - component: {fileID: 8179435035136391177}
+  m_Layer: 6
+  m_Name: f_18
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4865809781922984069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808161410358063242}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276964595569449947}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8179435035136391177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808161410358063242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
