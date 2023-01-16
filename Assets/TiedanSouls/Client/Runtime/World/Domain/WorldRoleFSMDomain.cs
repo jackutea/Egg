@@ -43,7 +43,7 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Jump(role);
             roleDomain.CrossDown(role);
             roleDomain.Falling(role, dt);
-            roleDomain.CastByInput(role);
+            _ = roleDomain.CastByInput(role);
         }
 
         void ApplyCasting(RoleEntity role, float dt) {
@@ -91,10 +91,14 @@ namespace TiedanSouls.World.Domain {
                 if (frame.hasDash) {
                     roleDomain.Dash(role, Vector2.right * role.FaceXDir, frame.dashForce);
                 }
+
                 roleDomain.Falling(role, dt);
 
-                // next frame
-                castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
+                bool hasCast = roleDomain.CastByInput(role);
+                if (!hasCast) {
+                    // next frame
+                    castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
+                }
 
             }
 

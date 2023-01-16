@@ -8,10 +8,17 @@ namespace TiedanSouls.SkillorModifier.Editor {
 
         [SerializeField] SkillorSo so;
 
+        // - Identity
         [SerializeField] int typeID;
         [SerializeField] string skillorName;
         [SerializeField] SkillorType skillorType;
 
+        // - Combo
+        [SerializeField] int originalSkillorTypeID;
+
+        // - Frames (By GetComponentsInChildren<SkillorFrameEditorGo>)
+
+        // - Renderer
         [SerializeField] AnimationClip weaponAnim;
 
         [ContextMenu("Save")]
@@ -20,11 +27,15 @@ namespace TiedanSouls.SkillorModifier.Editor {
             var tm = new SkillorTM();
             so.tm = tm;
 
+            // - Identity
             tm.typeID = typeID;
             tm.name = skillorName;
             tm.skillorType = skillorType;
-            tm.weaponAnimName = weaponAnim.name;
 
+            // - Combo
+            tm.originalSkillorTypeID = originalSkillorTypeID;
+
+            // - Frames
             var frameEditors = GetComponentsInChildren<SkillorFrameEditorGo>();
             if (frameEditors.Length == 0) {
                 return;
@@ -37,6 +48,10 @@ namespace TiedanSouls.SkillorModifier.Editor {
                 tm.frames[i] = eFrame.ToTM();
             }
 
+            // - Renderer
+            tm.weaponAnimName = weaponAnim.name;
+
+            // - Save
             EditorUtility.SetDirty(so);
 
         }

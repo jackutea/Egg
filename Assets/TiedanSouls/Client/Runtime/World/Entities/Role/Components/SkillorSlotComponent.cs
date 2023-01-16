@@ -15,7 +15,7 @@ namespace TiedanSouls.World.Entities {
 
         public void Add(SkillorModel model) {
             all.Add(model.TypeID, model);
-            if (model.SkillorType != SkillorType.Normal) {
+            if (model.SkillorType != SkillorType.None) {
                 allByType.Add(model.SkillorType, model);
             }
         }

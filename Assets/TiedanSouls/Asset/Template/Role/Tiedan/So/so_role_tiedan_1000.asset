@@ -22,5 +22,5 @@ MonoBehaviour:
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
-    skillorTypeIDArray: 01000000e8030000
+    skillorTypeIDArray: 01000000e8030000f2030000fc030000
     modName: mod_role_tiedan_1000

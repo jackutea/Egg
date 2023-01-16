@@ -27,6 +27,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - TM_Skillor
+  - m_GUID: 66a0b57e05ce1c0479ba63c0ad97c13e
+    m_Address: so_skillor_role_melee_1010
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TM_Skillor
+  - m_GUID: 8994e734922b09049867a9f2643a9188
+    m_Address: so_skillor_role_melee_1020
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TM_Skillor
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

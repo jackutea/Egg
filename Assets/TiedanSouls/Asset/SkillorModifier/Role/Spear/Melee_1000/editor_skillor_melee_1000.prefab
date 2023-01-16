@@ -56,6 +56,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &1431670268792126611
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +115,199 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
+--- !u!1 &2032543677756863898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1072769245988361079}
+  - component: {fileID: 4415024395713574492}
+  m_Layer: 6
+  m_Name: f_18
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1072769245988361079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032543677756863898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9027723787637461425}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4415024395713574492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032543677756863898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
+--- !u!1 &3620675371349204275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8076110604691728907}
+  - component: {fileID: 348507004188708650}
+  m_Layer: 6
+  m_Name: f_16
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8076110604691728907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3620675371349204275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9027723787637461425}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &348507004188708650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3620675371349204275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
+--- !u!1 &3657356189040056003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6151342990733874672}
+  - component: {fileID: 6946676224197850873}
+  m_Layer: 6
+  m_Name: f_15
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6151342990733874672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657356189040056003}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9027723787637461425}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6946676224197850873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657356189040056003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &4211026949828357999
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +363,69 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
+--- !u!1 &5367707756266257589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7138785046410560122}
+  - component: {fileID: 7357452603974552075}
+  m_Layer: 6
+  m_Name: f_17
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7138785046410560122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367707756266257589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9027723787637461425}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7357452603974552075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367707756266257589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ced6049c87c3a4d98a1df5cc079288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower:
+    knockbackForce: 0
+    knockbackFrame: 0
+    blowUpForce: 0
+    hitStunFrame: 0
+    breakPowerLevel: 0
+    sufferPowerLevel: 0
+    hitStopFrame: 0
+  hasDash: 0
+  dashForce: {x: 0, y: 0}
+  isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &6268206071339186810
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +481,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &6807736067887138980
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +537,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &7581035087029612772
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +593,13 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &8342617707635361200
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +655,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &8460444135013937926
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,6 +854,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &9027723787445068215
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +913,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &9027723787553711265
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +969,13 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &9027723787555967058
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +1031,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &9027723787637461424
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +1043,7 @@ GameObject:
   - component: {fileID: 9027723787637461425}
   - component: {fileID: 9027723787637461426}
   m_Layer: 6
-  m_Name: editor_skillor
+  m_Name: editor_skillor_melee_1000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -793,6 +1076,10 @@ Transform:
   - {fileID: 9027723788032121843}
   - {fileID: 8031413305460731426}
   - {fileID: 519224172211106640}
+  - {fileID: 6151342990733874672}
+  - {fileID: 8076110604691728907}
+  - {fileID: 7138785046410560122}
+  - {fileID: 1072769245988361079}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -810,8 +1097,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: b8ff395c5a8a50c469b584bd08c1d1b0, type: 2}
   typeID: 1000
-  skillorName: "\u957F\u67AA\u666E\u653B"
+  skillorName: "\u957F\u67AA\u666E\u653B1"
   skillorType: 1
+  originalSkillorTypeID: 0
   weaponAnim: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &9027723787940374636
 GameObject:
@@ -868,6 +1156,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &9027723788032121842
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +1212,13 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1010
+    nextStartFrame: 0
+    isCombo: 1
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &9027723788109805825
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +1275,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &9027723788192703945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,3 +1402,4 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []

@@ -1,7 +1,7 @@
 namespace TiedanSouls {
 
     public enum SkillorType {
-        Normal,
+        None,
         Melee,      // 普通攻击
         HoldMelee,  // 蓄力攻击
         SpecMelee,  // 特殊攻击
