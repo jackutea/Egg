@@ -55,6 +55,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &2307604066942487670
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,6 +111,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &2421610329459583899
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +171,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &4620411402244355413
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +227,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5094020018057233379
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,6 +355,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5661301662998518320
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +496,7 @@ MonoBehaviour:
   typeID: 1020
   skillorName: "\u957F\u67AA\u666E\u653B3"
   skillorType: 0
+  originalSkillorTypeID: 1000
   weaponAnim: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
 --- !u!1 &5661301663370891602
 GameObject:
@@ -544,6 +553,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5661301663396470967
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +609,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5661301663411377220
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +665,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &5661301663611794157
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,6 +724,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5661301663750539748
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +781,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5661301663833314604
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +908,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &5661301664050223241
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +967,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &6551943700533018625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,6 +1023,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &7288289967410989727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1082,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &7899875358907447361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,6 +1138,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &8080703768501160877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1265,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &8080703769348907304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,6 +1324,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &8080703769468654842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,6 +1380,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1
+    nextStartFrame: 0
+    isCombo: 0
 --- !u!1 &8080703769526550378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,6 +1440,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &8080703769602783786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,6 +1496,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &8080703769655241372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,3 +1552,4 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []

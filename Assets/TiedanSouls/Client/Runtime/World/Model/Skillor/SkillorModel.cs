@@ -5,6 +5,7 @@ namespace TiedanSouls.World.Entities {
 
     public class SkillorModel {
 
+        // - Identity
         object owner;
         public RoleEntity Owner => owner as RoleEntity;
 
@@ -19,11 +20,18 @@ namespace TiedanSouls.World.Entities {
         SkillorType skillorType;
         public SkillorType SkillorType => skillorType;
 
+        // - Combo
+        int originalSkillorTypeID;
+        public int OriginalSkillorTypeID => originalSkillorTypeID;
+
+        // - Frames
         SkillorFrameElement[] frames;
         int frameIndex;
 
+        // - Renderer
         public string weaponAnimName;
 
+        // - Event
         public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
 
         public SkillorModel(int id, RoleEntity owner) {

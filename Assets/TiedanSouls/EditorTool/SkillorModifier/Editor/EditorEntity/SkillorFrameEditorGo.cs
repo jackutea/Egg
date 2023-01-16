@@ -11,6 +11,8 @@ namespace TiedanSouls.SkillorModifier.Editor {
         [SerializeField] Vector2 dashForce;
         [SerializeField] bool isDashEnd;
 
+        [SerializeField] SkillorCancelTM[] cancels;
+
         public void Rename(int index) {
             gameObject.name = "f_" + index;
         }
@@ -18,12 +20,19 @@ namespace TiedanSouls.SkillorModifier.Editor {
         public SkillorFrameTM ToTM() {
 
             var tm = new SkillorFrameTM();
+
+            // - Hit
             tm.hitPower = hitPower;
             
+            // - Dash
             tm.hasDash = hasDash;
             tm.dashForce = dashForce;
             tm.isDashEnd = isDashEnd;
 
+            // - Cancel
+            tm.cancels = cancels;
+
+            // - Box
             var boxEditors = GetComponentsInChildren<SkillorBoxEditorGo>();
             if (boxEditors.Length == 0) {
                 return tm;

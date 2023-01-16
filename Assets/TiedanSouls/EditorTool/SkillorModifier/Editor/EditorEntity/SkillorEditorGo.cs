@@ -8,10 +8,17 @@ namespace TiedanSouls.SkillorModifier.Editor {
 
         [SerializeField] SkillorSo so;
 
+        // - Identity
         [SerializeField] int typeID;
         [SerializeField] string skillorName;
         [SerializeField] SkillorType skillorType;
 
+        // - Combo
+        [SerializeField] int originalSkillorTypeID;
+
+        // - Frames (By GetComponentsInChildren<SkillorFrameEditorGo>)
+
+        // - Renderer
         [SerializeField] AnimationClip weaponAnim;
 
         [ContextMenu("Save")]

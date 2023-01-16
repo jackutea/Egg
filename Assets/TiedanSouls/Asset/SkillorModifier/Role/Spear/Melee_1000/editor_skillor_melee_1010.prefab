@@ -55,6 +55,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &2751762365838299412
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +112,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &2858995374668183289
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +168,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
 --- !u!1 &4691317868540311916
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +298,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964594739634694
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +354,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964594923655576
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +410,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
 --- !u!1 &5276964595025751971
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +541,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964595182258274
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,6 +597,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964595384774347
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +653,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
 --- !u!1 &5276964595395549752
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +712,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964595486075869
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +768,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &5276964595569449946
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,6 +832,7 @@ MonoBehaviour:
   typeID: 1010
   skillorName: "\u957F\u67AA\u666E\u653B2"
   skillorType: 0
+  originalSkillorTypeID: 1000
   weaponAnim: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
 --- !u!1 &5276964595793436863
 GameObject:
@@ -940,6 +961,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &6721163524572150414
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +1017,10 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels:
+  - nextSkillorTypeID: 1020
+    nextStartFrame: 0
+    isCombo: 1
 --- !u!1 &7101690169775697936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,6 +1076,7 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []
 --- !u!1 &7641076131441165006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,3 +1132,4 @@ MonoBehaviour:
   hasDash: 0
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
+  cancels: []

@@ -16,6 +16,9 @@ namespace TiedanSouls.World.Entities {
         public Vector2 dashForce;
         public bool isDashEnd;
 
+        // - Cancel
+        public SkillorCancelModel[] cancels;
+
         SkillorBoxElement[] boxes;
 
         public SkillorFrameElement(SkillorModel parent) {
@@ -35,15 +38,29 @@ namespace TiedanSouls.World.Entities {
             this.dashForce = tm.dashForce;
             this.isDashEnd = tm.isDashEnd;
 
-            if (tm.boxes != null) {
-                var boxes = new SkillorBoxElement[tm.boxes.Length];
+            // - Cancel
+            var cancelTMArray = tm.cancels;
+            if (cancelTMArray != null) {
+                var cancels = new SkillorCancelModel[cancelTMArray.Length];
+                for (int i = 0; i < cancels.Length; i += 1) {
+                    cancels[i] = new SkillorCancelModel();
+                    cancels[i].FromTM(cancelTMArray[i]);
+                }
+                this.cancels = cancels;
+            }
+
+            // - Box
+            var boxTMArray = tm.boxes;
+            if (boxTMArray != null) {
+                var boxes = new SkillorBoxElement[boxTMArray.Length];
                 for (int i = 0; i < boxes.Length; i += 1) {
                     boxes[i] = new GameObject("skillor_box").AddComponent<SkillorBoxElement>();
-                    boxes[i].FromTM(tm.boxes[i]);
+                    boxes[i].FromTM(boxTMArray[i]);
                     boxes[i].OnTriggerEnterHandle += Parent.OnEnterOther;
                 }
                 this.boxes = boxes;
             }
+
         }
 
         public void Deactive() {

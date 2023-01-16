@@ -14,6 +14,9 @@ namespace TiedanSouls.Template {
         public Vector2 dashForce;
         public bool isDashEnd;
 
+        // - Cancel
+        public SkillorCancelTM[] cancels;
+
         public SkillorBoxTM[] boxes;
 
         public SkillorFrameTM() { }
