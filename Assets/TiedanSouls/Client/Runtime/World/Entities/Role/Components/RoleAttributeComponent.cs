@@ -64,6 +64,7 @@ namespace TiedanSouls.World.Entities {
                 hp = 0;
             }
         }
+
     }
 
 }

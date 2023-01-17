@@ -69,6 +69,12 @@ namespace TiedanSouls.World.Domain {
                     role.AIStrategy.Tick(dt);
                 }
 
+
+                if (role.HudSlotCom.HpBarHUD!=null){
+                    role.HudSlotCom.HpBarHUD.Tick(dt);
+                }
+
+
                 // Process Logic
                 roleFSMDomain.Tick(role, dt);
 
