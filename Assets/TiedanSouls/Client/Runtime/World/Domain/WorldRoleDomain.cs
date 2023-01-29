@@ -112,24 +112,43 @@ namespace TiedanSouls.World.Domain {
 
             // - Melee && HoldMelee
             bool isMelee = inputGetter.GetDown(InputKeyCollection.MELEE);
-            inputRecordCom.SetMelee(isMelee);
+            if (!inputRecordCom.IsMelee) {
+                inputRecordCom.SetMelee(isMelee);
+            }
 
             // - SpecMelee
             bool isSpecMelee = inputGetter.GetDown(InputKeyCollection.SPEC_MELEE);
-            inputRecordCom.SetSpecMelee(isSpecMelee);
+            if (!inputRecordCom.IsSpecMelee) {
+                inputRecordCom.SetSpecMelee(isSpecMelee);
+            }
 
             // - BoomMelee
             bool isBoomMelee = inputGetter.GetDown(InputKeyCollection.BOOM_MELEE);
-            inputRecordCom.SetBoomMelee(isBoomMelee);
+            if (!inputRecordCom.IsBoomMelee) {
+                inputRecordCom.SetBoomMelee(isBoomMelee);
+            }
 
             // - Infinity
             bool isInfinity = inputGetter.GetDown(InputKeyCollection.INFINITY);
-            inputRecordCom.SetInfinity(isInfinity);
+            if (!inputRecordCom.IsInfinity) {
+                inputRecordCom.SetInfinity(isInfinity);
+            }
 
             // - Dash
             bool isDash = inputGetter.GetDown(InputKeyCollection.DASH);
-            inputRecordCom.SetDash(isDash);
+            if (!inputRecordCom.IsDash) {
+                inputRecordCom.SetDash(isDash);
+            }
 
+        }
+
+        public void CleanOwnerInput(RoleEntity ownerRole) {
+            var inputRecordCom = ownerRole.InputRecordCom;
+            inputRecordCom.SetMelee(false);
+            inputRecordCom.SetSpecMelee(false);
+            inputRecordCom.SetBoomMelee(false);
+            inputRecordCom.SetInfinity(false);
+            inputRecordCom.SetDash(false);
         }
 
         // ==== Locomotion ====
