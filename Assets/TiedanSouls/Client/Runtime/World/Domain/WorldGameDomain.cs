@@ -74,7 +74,10 @@ namespace TiedanSouls.World.Domain {
                     role.HudSlotCom.HpBarHUD.Tick(dt);
                 }
 
-
+                if (role.gameObject.transform.position.y<0)
+                {
+                    role.DropBeHurt(50,new Vector2(3,3));
+                }
                 // Process Logic
                 roleFSMDomain.Tick(role, dt);
 
