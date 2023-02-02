@@ -62,6 +62,10 @@ namespace TiedanSouls.World.Domain {
                 stateModel.isEntering = false;
                 role.MoveCom.StopHorizontal();
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
+
+                // Clean Input
+                roleDomain.CleanOwnerInput(role);
+                
                 return;
             }
 
@@ -99,6 +103,9 @@ namespace TiedanSouls.World.Domain {
                     // next frame
                     castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
                 }
+
+                // Clean Input
+                roleDomain.CleanOwnerInput(role);
 
             }
 
