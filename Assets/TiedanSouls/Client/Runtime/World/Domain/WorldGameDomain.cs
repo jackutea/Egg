@@ -77,14 +77,15 @@ namespace TiedanSouls.World.Domain {
 
             // Process Logic
             phxDomain.Tick(dt);
-            
+
             foreach (var role in allRole) {
 
                 if (role.gameObject.transform.position.y < 0) {
                     role.DropBeHurt(50, new Vector2(3, 3));
                 }
-                
+
             }
+            
             CleanupRole();
 
             // Process Render
