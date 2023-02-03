@@ -13,7 +13,7 @@ namespace TiedanSouls.World.Entities {
         public Image HpBarCurrent => hpBarCurrent;
 
         float percent;
-        float moveSpeed = 0.03f;
+        float moveSpeed;
 
 
         public void Ctor() {
@@ -27,8 +27,9 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Tick(float dt) {
-            if (hpBarMove.fillAmount!=HpBarCurrent.fillAmount) { 
-                if(hpBarMove.fillAmount>HpBarCurrent.fillAmount){
+            if (hpBarMove.fillAmount!=hpBarCurrent.fillAmount) { 
+                moveSpeed = 2*Mathf.Abs(hpBarMove.fillAmount-hpBarCurrent.fillAmount);
+                if(hpBarMove.fillAmount>hpBarCurrent.fillAmount){
                     hpBarMove.fillAmount -= moveSpeed*dt;
                 }
                 else{
