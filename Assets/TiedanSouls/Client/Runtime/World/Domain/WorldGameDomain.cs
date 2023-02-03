@@ -80,15 +80,17 @@ namespace TiedanSouls.World.Domain {
 
             foreach (var role in allRole) {
 
+                // Process Logic
                 if (role.gameObject.transform.position.y < 0) {
                     role.DropBeHurt(50, new Vector2(3, 3));
                 }
 
+                // Process Render
+                worldDomain.RoleDomain.TickHUD(role, dt);
+                
             }
-            
-            CleanupRole();
 
-            // Process Render
+            CleanupRole();
 
         }
 
