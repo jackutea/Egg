@@ -364,17 +364,12 @@ namespace TiedanSouls.World.Domain {
             fsm.EnterDead();
         }
 
-        public void TickHUD(float dt) {
-            var roleRepo = worldContext.RoleRepo;
-            var allRole = roleRepo.GetAll();
-
-            foreach (var role in allRole) {
-
-                if (role.HudSlotCom.HpBarHUD != null) {
-                    role.HudSlotCom.HpBarHUD.Tick(dt);
-                }
+        public void TickHUD(RoleEntity role, float dt) {
+            if (role.HudSlotCom.HpBarHUD != null) {
+                role.HudSlotCom.HpBarHUD.Tick(dt);
             }
-
         }
+
     }
+
 }

@@ -41,7 +41,6 @@ namespace TiedanSouls.World.Controller {
 
         public void Tick(float dt) {
             worldDomain.GameDomain.TickGameLoop(dt);
-            worldDomain.RoleDomain.TickHUD(dt);
         }
 
     }
