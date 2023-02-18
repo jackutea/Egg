@@ -41,7 +41,7 @@ namespace TiedanSouls.World {
             entity.Ctor();
 
             entity.SetChapterAndLevel(fieldTM.chapter, fieldTM.level);
-            entity.spawnModelArray = fieldTM.spawnModelArray?.Clone() as SpawnModel[];
+            entity.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as SpawnModel[]);
             entity.SetFieldType(fieldTM.fieldType);
 
             return entity;

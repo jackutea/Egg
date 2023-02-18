@@ -37,7 +37,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Check
-            var spawnModelArray = field.spawnModelArray;
+            var spawnModelArray = field.SpawnModelArray;
             var arryLen = spawnModelArray?.Length;
             if (arryLen == 0) {
                 TDLog.Error($"EnterState_Hall Error: SpawnModelArray Cant Be Empty!");

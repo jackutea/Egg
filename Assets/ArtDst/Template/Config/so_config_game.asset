@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: so_config_game
   m_EditorClassIdentifier: 
   tm:
-    hallFieldTypeID: 1000
+    hallFieldTypeID: 1

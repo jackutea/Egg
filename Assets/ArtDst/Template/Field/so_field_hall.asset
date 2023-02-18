@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 240f2a15931ed4f41986e1cafecf887a, type: 3}
-  m_Name: so_field_1000
+  m_Name: so_field_hall
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1000
-    fieldType: 2
+    typeID: 1
+    fieldType: 1
     chapter: 0
     level: 0
     spawnModelArray:
     - entityType: 1
       roleControlType: 0
       pos: {x: 5, y: 5}
-    fieldAssetName: mod_field_1000
+    fieldAssetName: mod_field_hall

@@ -13,7 +13,9 @@ namespace TiedanSouls.World.Entities {
         BoxCollider2D confiner;
         public Vector2 ConfinerSize => confiner.size;
 
-        public SpawnModel[] spawnModelArray;
+        SpawnModel[] spawnModelArray;
+        public SpawnModel[] SpawnModelArray => spawnModelArray;
+        public void SetSpawnModelArray(SpawnModel[] v) => spawnModelArray = v;
 
         public FieldType fieldType;
         public FieldType FieldType => fieldType;
