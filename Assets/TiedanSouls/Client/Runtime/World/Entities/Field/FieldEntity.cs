@@ -17,7 +17,11 @@ namespace TiedanSouls.World.Entities {
         public SpawnModel[] SpawnModelArray => spawnModelArray;
         public void SetSpawnModelArray(SpawnModel[] v) => spawnModelArray = v;
 
-        public FieldType fieldType;
+        Vector2[] itemSpawnPosArray;
+        public Vector2[] ItemSpawnPosArray => itemSpawnPosArray;
+        public void SetItemSpawnPosArray(Vector2[] v) => itemSpawnPosArray = v;
+
+        FieldType fieldType;
         public FieldType FieldType => fieldType;
         public void SetFieldType(FieldType v) => fieldType = v;
 

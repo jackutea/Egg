@@ -22,6 +22,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Container
+  - m_GUID: 6e0a40e47fdce9744a91067c064c2eb9
+    m_Address: mod_container_field
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod_Container
+  - m_GUID: 5948a9cfc67cdd348836ddfbd1457a80
+    m_Address: mod_container_item
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod_Container
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

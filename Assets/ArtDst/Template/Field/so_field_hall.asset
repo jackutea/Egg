@@ -23,4 +23,9 @@ MonoBehaviour:
       allyType: 3
       typeID: 1
       pos: {x: 15, y: 15}
+    itemSpawnPosArray:
+    - {x: 20, y: 2}
+    - {x: 25, y: 2}
+    - {x: 30, y: 2}
+    - {x: 35, y: 2}
     fieldAssetName: mod_field_hall

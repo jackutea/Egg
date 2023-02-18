@@ -42,6 +42,7 @@ namespace TiedanSouls.World {
 
             entity.SetChapterAndLevel(fieldTM.chapter, fieldTM.level);
             entity.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as SpawnModel[]);
+            entity.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             entity.SetFieldType(fieldTM.fieldType);
 
             return entity;
@@ -56,7 +57,7 @@ namespace TiedanSouls.World {
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
 
-            // Entity
+            // Container
             var containerModAssets = assetCore.ContainerModAssets;
             var contanerAssetName = "mod_container_role";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
@@ -223,8 +224,8 @@ namespace TiedanSouls.World {
                 return null;
             }
 
-            weapon.weaponType = weaponTM.weaponType;
-            weapon.typeID = weaponTM.typeID;
+            weapon.SetWeaponType(weaponTM.weaponType);
+            weapon.SetTypeID(weaponTM.typeID);
             weapon.atk = weaponTM.atk;
             weapon.def = weaponTM.def;
             weapon.crit = weaponTM.crit;
@@ -240,6 +241,68 @@ namespace TiedanSouls.World {
 
         #endregion
 
+        #region [Item]
+
+        public ItemEntity SpawnItemEntity(int typeID, Vector2 pos) {
+            ItemEntity itemEntity = null;
+
+            var templateCore = infraContext.TemplateCore;
+
+            // Template
+            if (!templateCore.ItemTemplate.TryGet(typeID, out ItemTM itemTM)) {
+                TDLog.Error("Failed to get Item template: " + typeID);
+                return null;
+            }
+
+            // Check
+            var itemType = itemTM.itemType;
+            if (itemType == ItemType.None) {
+                TDLog.Error("ItemType is None");
+                return null;
+            }
+
+            // Container
+            var assetCore = infraContext.AssetCore;
+            var containerModAssets = assetCore.ContainerModAssets;
+            var contanerAssetName = "mod_container_item";
+            if (!containerModAssets.TryGet(contanerAssetName, out GameObject itemPrefab)) {
+                TDLog.Error($"Failed to get Container: {contanerAssetName}");
+                return null;
+            }
+
+            // ItemEntity
+            var itemGo = GameObject.Instantiate(itemPrefab);
+            var idService = worldContext.IDService;
+            var itemID = idService.PickItemID();
+            itemEntity = itemGo.GetComponent<ItemEntity>();
+            itemEntity.Ctor();
+            itemEntity.SetID(itemID);
+            itemEntity.SetTypeID(typeID);
+            itemEntity.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
+            itemEntity.SetItemType(itemType);
+            itemEntity.SetPos(pos);
+
+            // Asset
+            var itemAssetName = itemTM.itemAssetName;
+            var itemModAssets = assetCore.ItemModAsset;
+            if (!itemModAssets.TryGet(itemAssetName, out GameObject modPrefab)) {
+                TDLog.Error($"Failed to get ModAsset: {itemAssetName}");
+                return null;
+            }
+
+            // Set Mod
+            var mod = GameObject.Instantiate(modPrefab);
+            itemEntity.SetMod(mod);
+
+            // Repo
+            var itemRepo = worldContext.ItemRepo;
+            itemRepo.Add(itemEntity);
+
+            return itemEntity;
+        }
+
+
+        #endregion
 
     }
 

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace TiedanSouls.Template {
 
@@ -13,6 +14,7 @@ namespace TiedanSouls.Template {
 
         // Spawn Info
         public SpawnModel[] spawnModelArray;
+        public Vector2[] itemSpawnPosArray;
 
         public string fieldAssetName;
 

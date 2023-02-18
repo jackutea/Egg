@@ -3,12 +3,12 @@ using TiedanSouls.World.Entities;
 
 namespace TiedanSouls.World {
 
-    public class RoleRepository {
+    public class RoleRepo {
 
         Dictionary<int, RoleEntity> all;
         public int Count => all.Count;
 
-        public RoleRepository() {
+        public RoleRepo() {
             all = new Dictionary<int, RoleEntity>();
         }
 

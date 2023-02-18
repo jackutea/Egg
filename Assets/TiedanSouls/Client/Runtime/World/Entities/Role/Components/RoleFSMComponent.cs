@@ -30,6 +30,7 @@ namespace TiedanSouls.World.Entities {
         public void EnterIdle() {
             status = RoleFSMStatus.Idle;
             idleState.isEnter = true;
+            TDLog.Log("RoleFSM: EnterIdle");
         }
 
         public void EnterCasting(SkillorModel skillorModel) {
@@ -37,6 +38,7 @@ namespace TiedanSouls.World.Entities {
             var stateModel = castingState;
             stateModel.castingSkillor = skillorModel;
             stateModel.isEntering = true;
+            TDLog.Log("RoleFSM: EnterCasting");
         }
 
         public void EnterBeHurt(Vector2 fromPos, HitPowerModel hitPowerModel) {
@@ -48,10 +50,12 @@ namespace TiedanSouls.World.Entities {
             stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
             stateModel.curFrame = 0;
             stateModel.isEnter = true;
+            TDLog.Log("RoleFSM: EnterBeHurt");
         }
 
         public void EnterDead() {
             status = RoleFSMStatus.Dead;
+            TDLog.Log("RoleFSM: EnterDead");
         }
 
     }

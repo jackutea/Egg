@@ -22,14 +22,16 @@ namespace TiedanSouls.World.Facades {
         public DamageArbitService DamageArbitService => damageArbitService;
 
         // ==== Repository ====
-        RoleRepository roleRepo;
-        public RoleRepository RoleRepo => roleRepo;
+        RoleRepo roleRepo;
+        public RoleRepo RoleRepo => roleRepo;
 
-        FieldRepository fieldRepo;
-        public FieldRepository FieldRepo => fieldRepo;
+        FieldRepo fieldRepo;
+        public FieldRepo FieldRepo => fieldRepo;
+
+        ItemRepo itemRepo;
+        public ItemRepo ItemRepo => itemRepo;
 
         public WorldContext() {
-            
             stateEntity = new WorldStateEntity();
             
             worldFactory = new WorldFactory();
@@ -37,9 +39,9 @@ namespace TiedanSouls.World.Facades {
             idService = new IDService();
             damageArbitService = new DamageArbitService();
             
-            roleRepo = new RoleRepository();
-            fieldRepo = new FieldRepository();
-
+            roleRepo = new RoleRepo();
+            fieldRepo = new FieldRepo();
+            itemRepo = new ItemRepo();
         }
 
     }

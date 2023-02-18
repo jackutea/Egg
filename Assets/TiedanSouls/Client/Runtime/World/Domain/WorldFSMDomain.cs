@@ -23,22 +23,21 @@ namespace TiedanSouls.World.Domain {
         public void EnterHall() {
             // Config
             var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
-            var firstFieldTypeID = gameConfigTM.hallFieldTypeID;
-            var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
-            var hallWeaponTypeIDs = gameConfigTM.hallWeaponTypeIDs;
 
+            // Spawn Field
+            var firstFieldTypeID = gameConfigTM.hallFieldTypeID;
             var fieldDomain = worldDomain.FieldDomain;
             var field = fieldDomain.SpawnField(firstFieldTypeID);
 
             // Check
-            var fieldType = field.fieldType;
+            var fieldType = field.FieldType;
             if (fieldType != FieldType.Hall) {
                 TDLog.Error("进入大厅失败! FieldType: {fieldType}");
                 return;
             }
 
             // Hall Character
-            TDLog.Log($"大厅人物生成 firstFieldTypeID {firstFieldTypeID}-------------------------------------------- ");
+            TDLog.Log($"大厅人物生成开始 -------------------------------------------- ");
             var spawnModelArray = field.SpawnModelArray;
             var spawnCount = spawnModelArray?.Length;
             var roleDomain = worldDomain.RoleDomain;
@@ -51,22 +50,33 @@ namespace TiedanSouls.World.Domain {
                 var ownerRoleSpawnPos = spawnModel.pos;
                 if (entityType == EntityType.Role) {
                     var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
-                    TDLog.Log($"AllyType: {allyType} / ControlType:{role.ControlType} / TypeID: {typeID} / RoleName: {role.RoleName}");
+                    TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.RoleName}");
                 } else {
                     TDLog.Error("Not Handle Yet!");
                 }
             }
+            TDLog.Log($"大厅人物生成结束 -------------------------------------------- ");
+
+            TDLog.Log($"大厅物件生成开始 -------------------------------------------- ");
+            var hallItemTypeIDs = gameConfigTM.hallItemTypeIDs;
+            var itemCount = hallItemTypeIDs?.Length;
+            var itemSpawnPosArray = field.ItemSpawnPosArray;
+            for (int i = 0; i < itemCount; i++) {
+                if (i >= itemSpawnPosArray.Length) {
+                    TDLog.Error("物件生成位置不足!");
+                    break;
+                }
+
+                var typeID = hallItemTypeIDs[i];
+                var itemSpawnPos = itemSpawnPosArray[i];
+                var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos);
+                TDLog.Log($"物件: EntityID: {itemEntity.ID} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
+            }
+            TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
 
             // Spawn TieDan 
+            var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
             var owner = roleDomain.SpawnRole(RoleControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
-
-            // TODO: Spawn Weapon For TieDan To Choose 
-            var weaponCount = hallWeaponTypeIDs.Length;
-            for (int i = 0; i < weaponCount; i++) {
-                var id = hallWeaponTypeIDs[i];
-                var model = worldContext.WorldFactory.SpawnWeaponModel(id);
-
-            }
 
             // Set Camera 
             var cameraSetter = infraContext.CameraCore.SetterAPI;

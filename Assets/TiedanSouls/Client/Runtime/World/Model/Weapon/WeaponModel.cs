@@ -4,8 +4,13 @@ namespace TiedanSouls.World.Entities {
 
     public class WeaponModel {
 
-        public WeaponType weaponType;
-        public int typeID;
+        WeaponType weaponType;
+        public WeaponType WeaponType => weaponType;
+        public void SetWeaponType(WeaponType weaponType) => this.weaponType = weaponType;
+
+        int typeID;
+        public int TypeID => typeID;
+        public void SetTypeID(int typeID) => this.typeID = typeID;
 
         public int atk;
         public int def;
@@ -21,11 +26,11 @@ namespace TiedanSouls.World.Entities {
 
         Animator animator;
 
-        public WeaponModel() {}
+        public WeaponModel() { }
 
         // ==== Renderer ====
         public void SetMod(GameObject mod) {
-            this.mod = mod.gameObject;
+            this.mod = mod;
             animator = mod.GetComponent<Animator>();
         }
 

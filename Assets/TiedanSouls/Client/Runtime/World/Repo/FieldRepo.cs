@@ -3,11 +3,11 @@ using TiedanSouls.World.Entities;
 
 namespace TiedanSouls.World {
 
-    public class FieldRepository {
+    public class FieldRepo {
 
         Dictionary<uint, FieldEntity> all;
 
-        public FieldRepository() {
+        public FieldRepo() {
             all = new Dictionary<uint, FieldEntity>();
         }
 

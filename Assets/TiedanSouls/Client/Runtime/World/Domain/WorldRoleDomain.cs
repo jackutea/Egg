@@ -197,7 +197,7 @@ namespace TiedanSouls.World.Domain {
             var skillorSlotCom = role.SkillorSlotCom;
             bool has = skillorSlotCom.TryGetByType(inputSkillorType, out var skillor);
             if (!has) {
-                TDLog.Error("Failed to get skillor: " + inputSkillorType);
+                TDLog.Warning("Failed to get SkillorType: " + inputSkillorType);
                 return false;
             }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
-    name: "\u94C1\u86CB"
+    roleName: 
     hpMax: 100
     gpMax: 10
     epMax: 100
@@ -22,5 +22,5 @@ MonoBehaviour:
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
-    skillorTypeIDArray: e8030000f2030000fc030000
+    skillorTypeIDArray: e8030000f2030000fc030000d0070000
     modName: mod_role_tiedan_1000
