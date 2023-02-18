@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000000
-    name: "\u5C0F\u602A"
+    name: "\u5C0F\u5175"
     hpMax: 100
-    gpMax: 100
+    gpMax: 10
     epMax: 100
-    moveSpeed: 5
+    moveSpeed: 4
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
