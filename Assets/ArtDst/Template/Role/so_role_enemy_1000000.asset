@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000000
-    name: "\u5C0F\u602A"
+    name: "\u5C0F\u5175"
     hpMax: 100
     gpMax: 100
     epMax: 100
