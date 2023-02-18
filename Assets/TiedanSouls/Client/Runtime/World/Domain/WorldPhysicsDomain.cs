@@ -22,10 +22,6 @@ namespace TiedanSouls.World.Domain {
         public void Tick(float dt) {
 
             var stateEntity = worldContext.StateEntity;
-            if (!stateEntity.isRunning) {
-                return;
-            }
-
             short exeTimes = 0;
             float restTime = stateEntity.phxRestTime;
 

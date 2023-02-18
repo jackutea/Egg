@@ -31,7 +31,7 @@ namespace TiedanSouls.World.Controller {
 
         public void Init() {
             infraContext.EventCenter.OnStartGameHandle += () => {
-                worldDomain.GameDomain.EnterState_Hall();
+                worldDomain.GameDomain.EnterHall();
             };
         }
 

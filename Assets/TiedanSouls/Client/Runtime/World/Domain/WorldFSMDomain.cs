@@ -6,13 +6,13 @@ using TiedanSouls.World.Facades;
 
 namespace TiedanSouls.World.Domain {
 
-    public class WorldStateDomain {
+    public class WorldFSMDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldDomain worldDomain;
 
-        public WorldStateDomain() { }
+        public WorldFSMDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldDomain worldDomain) {
             this.infraContext = infraContext;
@@ -20,7 +20,7 @@ namespace TiedanSouls.World.Domain {
             this.worldDomain = worldDomain;
         }
 
-        public void EnterState_Hall() {
+        public void EnterHall() {
             // Physics
             Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE, true);
 
@@ -55,60 +55,64 @@ namespace TiedanSouls.World.Domain {
             cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
             cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
 
-            // TODO: Create a FSM to control the game loop.
+            // World State
             var stateEntity = worldContext.StateEntity;
-            stateEntity.ownerRoleID = owner.ID;
-            stateEntity.isRunning = true;
+            stateEntity.EnterState_Hall(owner.ID);
         }
 
         public void ApplyWorldState(float dt) {
-
             var stateEntity = worldContext.StateEntity;
-            if (!stateEntity.isRunning) {
-                return;
+            var worldStatus = stateEntity.Status;
+            if (worldStatus == WorldFSMStatus.Hall) {
+                ApplyWorldState_Hall(dt);
+            } else if (worldStatus == WorldFSMStatus.BattleField) {
+                ApplyWorldState_Battle(dt);
             }
+        }
 
-            var roleDomain = worldDomain.RoleDomain;
-            var roleFSMDomain = worldDomain.RoleFSMDomain;
-            var phxDomain = worldDomain.WorldPhysicsDomain;
+        public void ApplyWorldState_Hall(float dt) {
+            ApplyBasicLogic(dt);
+        }
+
+        public void ApplyWorldState_Battle(float dt) {
+            ApplyBasicLogic(dt);
 
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
-
             foreach (var role in allRole) {
+                if (role.gameObject.transform.position.y < 0) {
+                    role.DropBeHurt(50, new Vector2(3, 3));
+                }
+                worldDomain.RoleDomain.TickHUD(role, dt);
+            }
 
-                // Process Input
-                if (role.ID == stateEntity.ownerRoleID) {
+            CleanupRole();
+        }
+
+        void ApplyBasicLogic(float dt) {
+            var roleDomain = worldDomain.RoleDomain;
+            var roleFSMDomain = worldDomain.RoleFSMDomain;
+            var stateEntity = worldContext.StateEntity;
+            var roleRepo = worldContext.RoleRepo;
+            var allRole = roleRepo.GetAll();
+            foreach (var role in allRole) {
+                // Input
+                if (role.ID == stateEntity.OwnerRoleID) {
                     roleDomain.RecordOwnerInput(role);
                 }
 
+                // AI
                 if (role.ControlType == RoleControlType.AI) {
                     role.AIStrategy.Tick(dt);
                 }
 
-
-                // Process Logic
+                // Role FSM
                 roleFSMDomain.Tick(role, dt);
-
             }
 
-            // Process Logic
+            // Physics
+            var phxDomain = worldDomain.WorldPhysicsDomain;
             phxDomain.Tick(dt);
-
-            foreach (var role in allRole) {
-
-                // Process Logic
-                if (role.gameObject.transform.position.y < 0) {
-                    role.DropBeHurt(50, new Vector2(3, 3));
-                }
-
-                // Process Render
-                worldDomain.RoleDomain.TickHUD(role, dt);
-
-            }
-
-            CleanupRole();
-
         }
 
         void CleanupRole() {
