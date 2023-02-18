@@ -12,9 +12,13 @@ namespace TiedanSouls.World.Entities {
         public int ID => id;
         public void SetID(int value) => this.id = value;
 
-        sbyte ally;
-        public sbyte Ally => ally;
-        public void SetAlly(sbyte value) => this.ally = value;
+        string roleName;
+        public string RoleName => roleName;
+        public void SetRoleName(string roleName) => this.roleName = roleName;
+
+        AllyType allyType;
+        public AllyType AllyType => allyType;
+        public void SetAlly(AllyType value) => this.allyType = value;
 
         // ==== Root ====
         Transform body;
@@ -39,7 +43,7 @@ namespace TiedanSouls.World.Entities {
 
         sbyte faceXDir;
         public sbyte FaceXDir => faceXDir;
-        
+
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
@@ -67,7 +71,7 @@ namespace TiedanSouls.World.Entities {
         public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
         public event Action<RoleEntity, Collision2D> OnFootCollisionExitHandle;
         public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
-        
+
         public void Ctor() {
 
             faceXDir = 1;
@@ -196,13 +200,13 @@ namespace TiedanSouls.World.Entities {
         // ==== Hit ====
         public void HitBeHurt(int atk) {
             attrCom.HitBeHurt(atk);
-            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP,attrCom.HPMax);
+            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
 
         // ==== Drop ====
-        public void DropBeHurt(int damage,Vector2 rebornPos){
+        public void DropBeHurt(int damage, Vector2 rebornPos) {
             attrCom.HitBeHurt(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP,attrCom.HPMax);
+            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetPos(rebornPos);
         }
 

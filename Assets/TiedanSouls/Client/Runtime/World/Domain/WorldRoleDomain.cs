@@ -18,10 +18,10 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public RoleEntity SpawnRole(RoleControlType controlType, int typeID, sbyte ally, Vector2 pos) {
+        public RoleEntity SpawnRole(RoleControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
 
             var factory = worldContext.WorldFactory;
-            var role = factory.CreateRoleEntity(controlType, typeID, ally, pos);
+            var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
 
             // ==== Init ====
             // - Skillor 
@@ -301,7 +301,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Ally Check
-            if (caster.Ally == other.Ally) {
+            if (caster.AllyType == other.AllyType) {
                 return;
             }
 

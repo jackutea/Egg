@@ -19,6 +19,8 @@ MonoBehaviour:
     level: 0
     spawnModelArray:
     - entityType: 1
-      roleControlType: 0
-      pos: {x: 5, y: 5}
+      roleControlType: 1
+      allyType: 3
+      typeID: 1
+      pos: {x: 15, y: 15}
     fieldAssetName: mod_field_hall

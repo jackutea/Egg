@@ -17,10 +17,10 @@ namespace TiedanSouls.World.Domain {
         }
 
         public FieldEntity SpawnField(int typeID) {
-            var field = worldContext.WorldFactory.CreateFieldEntity(typeID);
+            // Field
+            var field = worldContext.WorldFactory.SpawnFieldEntity(typeID);
             var fieldRepo = worldContext.FieldRepo;
             fieldRepo.Add(field);
-
             return field;
         }
 

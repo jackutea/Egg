@@ -17,8 +17,5 @@ MonoBehaviour:
     fieldType: 2
     chapter: 0
     level: 0
-    spawnModelArray:
-    - entityType: 1
-      roleControlType: 0
-      pos: {x: 5, y: 5}
+    spawnModelArray: []
     fieldAssetName: mod_field_1000

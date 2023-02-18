@@ -1,10 +1,8 @@
 using UnityEngine;
 using GameArki.BTTreeNS;
-using TiedanSouls.Asset;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Entities;
 using TiedanSouls.World.Facades;
-using TiedanSouls.World.Service;
 using TiedanSouls.Template;
 
 namespace TiedanSouls.World {
@@ -21,7 +19,9 @@ namespace TiedanSouls.World {
             this.worldContext = worldContext;
         }
 
-        public FieldEntity CreateFieldEntity(int typeID) {
+        #region [Field]
+
+        public FieldEntity SpawnFieldEntity(int typeID) {
             var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
             if (!fieldTemplate.TryGet(typeID, out FieldTM fieldTM)) {
                 TDLog.Error($"Failed to get field template: {typeID}");
@@ -47,12 +47,16 @@ namespace TiedanSouls.World {
             return entity;
         }
 
-        public RoleEntity CreateRoleEntity(RoleControlType controlType, int typeID, sbyte ally, Vector2 pos) {
+        #endregion
+
+        #region [Role]
+
+        public RoleEntity SpawnRoleEntity(RoleControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
 
-            // - Entity
+            // Entity
             var containerModAssets = assetCore.ContainerModAssets;
             var contanerAssetName = "mod_container_role";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
@@ -64,18 +68,21 @@ namespace TiedanSouls.World {
             var role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
             role.Ctor();
 
-            // - ID
+            // ID
             int id = idService.PickRoleID();
             role.SetID(id);
 
-            // - TM
+            // TM
             has = templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM);
             if (!has) {
                 TDLog.Error("Failed to get role template: " + typeID);
                 return null;
             }
 
-            // - Mod
+            // Role Name
+            role.SetRoleName(roleTM.roleName);
+
+            // Mod
             var roleModAssets = assetCore.RoleModAssets;
             has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
             if (!has) {
@@ -85,50 +92,49 @@ namespace TiedanSouls.World {
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.Body);
             role.SetMod(roleMod);
 
-            // - Attr
+            // Attr
             var attrCom = role.AttrCom;
             attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
-            // - Pos
+            // Pos
             role.SetPos(pos);
 
-            // - Ally
-            role.SetAlly(ally);
+            // Ally
+            role.SetAlly(allyType);
 
-            // - ControlType
+            // ControlType
             role.SetControlType(controlType);
 
-            // ==== AI ====
             if (controlType == RoleControlType.AI) {
                 var ai = CreateAIStrategy(role, typeID);
                 role.SetAIStrategy(ai);
             }
 
-            // ==== Skillor ====
+            // Skillor
             // Dash / BoomMelee / Infinity
-            if (roleTM.skillorTypeIDArray != null) {
-                foreach (var skillorTypeID in roleTM.skillorTypeIDArray) {
-                    CreateSkillor(role, skillorTypeID);
-                }
+            var skillorTypeIDArray = roleTM.skillorTypeIDArray;
+            if (skillorTypeIDArray != null) {
+                InitRoleSkillorSlotCom(role, skillorTypeIDArray);
             }
 
-            // ==== HUD ====
+            // HUD
             // HpBar
             var hpBar = CreateHpBarHUD(role.HudSlotCom.HudRoot);
             role.HudSlotCom.SetHpBarHUD(hpBar);
 
-            // ==== Weapon ====
+            // Weapon
             // (Weapon Skillor: Melee / HoldMelee / SpecMelee)
-            CreateWeapon(role, 100);
+            // TODO: weaponTypeID Read From Player's Choice
+            int weaponTypeID = 100;
+            InitRoleWeaponSlotCom(role, weaponTypeID);
 
             return role;
         }
 
-        // ==== AI ====
         RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
 
-            // - Nodes
+            // Nodes
             var patrolAIAction = new RolePatrolAIAction();
             patrolAIAction.Inject(role, worldContext);
             BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction);
@@ -136,11 +142,11 @@ namespace TiedanSouls.World {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
             root.AddChild(patrolNode);
 
-            // - Tree
+            // Tree
             BTTree bt = new BTTree();
             bt.Initialize(root);
 
-            // - Strategy
+            // Strategy
             RoleAIStrategy ai = new RoleAIStrategy();
             ai.Inject(bt);
 
@@ -148,56 +154,7 @@ namespace TiedanSouls.World {
 
         }
 
-        // ==== Skillor ====
-        void CreateSkillor(RoleEntity role, int typeID) {
-            var idService = worldContext.IDService;
-            var templateCore = infraContext.TemplateCore;
-            int skillorID = idService.PickSkillorID();
-            var skillor = new SkillorModel(skillorID, role);
-            bool has = templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM);
-            if (!has) {
-                TDLog.Error("Failed to get skillor template: " + typeID);
-                return;
-            }
-            skillor.FromTM(skillorTM);
-            role.SkillorSlotCom.Add(skillor);
-        }
-
-        // ==== Weapon ====
-        void CreateWeapon(RoleEntity role, int typeID) {
-            var assetCore = infraContext.AssetCore;
-            var templateCore = infraContext.TemplateCore;
-
-            // Weapon TM
-            bool has = templateCore.WeaponTemplate.TryGet(typeID, out WeaponTM weaponTM);
-            if (!has) {
-                TDLog.Error("Failed to get weapon template: " + typeID);
-                return;
-            }
-
-            // Weapon Mod
-            has = assetCore.WeaponModAssets.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
-            if (!has) {
-                TDLog.Error("Failed to get weapon mod: " + weaponTM.meshName);
-                return;
-            }
-
-            var weapon = new WeaponModel();
-            weapon.weaponType = weaponTM.weaponType;
-            weapon.typeID = weaponTM.typeID;
-            weapon.atk = weaponTM.atk;
-            weapon.def = weaponTM.def;
-            weapon.crit = weaponTM.crit;
-            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
-            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
-            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
-            var weaponMod = GameObject.Instantiate(weaponModPrefab, role.WeaponSlotCom.WeaponRoot);
-            weapon.SetMod(weaponMod);
-            role.WeaponSlotCom.SetWeapon(weapon);
-        }
-
-        // ==== HUD ====
-        // - HpBar
+        // HUD
         public HpBarHUD CreateHpBarHUD(Transform parent) {
             var assetCore = infraContext.AssetCore;
             var hudAssets = assetCore.HUDAssets;
@@ -210,6 +167,79 @@ namespace TiedanSouls.World {
             hud.Ctor();
             return hud;
         }
+
+        // Skillor
+        void InitRoleSkillorSlotCom(RoleEntity role, int[] typeIDArray) {
+            var idService = worldContext.IDService;
+            var templateCore = infraContext.TemplateCore;
+
+            var len = typeIDArray.Length;
+            for (int i = 0; i < len; i++) {
+                int skillorID = idService.PickSkillorID();
+                var skillor = new SkillorModel(skillorID, role);
+                var typeID = typeIDArray[i];
+                bool has = templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM);
+                if (!has) {
+                    TDLog.Error($"Failed to get skillor template: typeID {typeID}");
+                    return;
+                }
+
+                skillor.FromTM(skillorTM);
+                role.SkillorSlotCom.Add(skillor);
+            }
+        }
+
+        // Weapon
+        void InitRoleWeaponSlotCom(RoleEntity role, int typeID) {
+
+            var weapon = SpawnWeaponModel(typeID);
+            if (weapon == null) {
+                TDLog.Error("Failed to spawn weapon: " + typeID);
+                return;
+            }
+
+            var mod = weapon.Mod;
+            mod.transform.SetParent(role.WeaponSlotCom.WeaponRoot, false);
+            role.WeaponSlotCom.SetWeapon(weapon);
+        }
+
+        public WeaponModel SpawnWeaponModel(int typeID) {
+            WeaponModel weapon = new WeaponModel();
+
+            var assetCore = infraContext.AssetCore;
+            var templateCore = infraContext.TemplateCore;
+
+            // Weapon TM
+            bool has = templateCore.WeaponTemplate.TryGet(typeID, out WeaponTM weaponTM);
+            if (!has) {
+                TDLog.Error("Failed to get weapon template: " + typeID);
+                return null;
+            }
+
+            // Weapon Mod
+            has = assetCore.WeaponModAssets.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
+            if (!has) {
+                TDLog.Error("Failed to get weapon mod: " + weaponTM.meshName);
+                return null;
+            }
+
+            weapon.weaponType = weaponTM.weaponType;
+            weapon.typeID = weaponTM.typeID;
+            weapon.atk = weaponTM.atk;
+            weapon.def = weaponTM.def;
+            weapon.crit = weaponTM.crit;
+            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
+            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
+            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
+
+            var go = GameObject.Instantiate(weaponModPrefab);
+            weapon.SetMod(go);
+
+            return weapon;
+        }
+
+        #endregion
+
 
     }
 

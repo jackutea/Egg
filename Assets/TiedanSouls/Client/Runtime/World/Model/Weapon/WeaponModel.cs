@@ -16,15 +16,16 @@ namespace TiedanSouls.World.Entities {
         public int skillorSpecMeleeTypeID;
 
         // ==== Renderer ====
-        GameObject go;
-        public GameObject Go => go;
+        GameObject mod;
+        public GameObject Mod => mod;
+
         Animator animator;
 
         public WeaponModel() {}
 
         // ==== Renderer ====
         public void SetMod(GameObject mod) {
-            go = mod.gameObject;
+            this.mod = mod.gameObject;
             animator = mod.GetComponent<Animator>();
         }
 

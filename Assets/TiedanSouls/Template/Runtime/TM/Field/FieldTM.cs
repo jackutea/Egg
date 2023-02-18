@@ -11,7 +11,9 @@ namespace TiedanSouls.Template {
         public ushort chapter;
         public ushort level;
 
+        // Spawn Info
         public SpawnModel[] spawnModelArray;
+
         public string fieldAssetName;
 
     }

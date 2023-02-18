@@ -7,7 +7,7 @@ namespace TiedanSouls.Template {
 
         // - Identity
         public int typeID;
-        public string name;
+        public string roleName;
 
         // - Health
         public int hpMax;

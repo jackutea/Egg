@@ -21,39 +21,60 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void EnterHall() {
-            // Physics
-            Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE, true);
-
+            // Config
             var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
             var firstFieldTypeID = gameConfigTM.hallFieldTypeID;
+            var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
+            var hallWeaponTypeIDs = gameConfigTM.hallWeaponTypeIDs;
+
             var fieldDomain = worldDomain.FieldDomain;
             var field = fieldDomain.SpawnField(firstFieldTypeID);
 
             // Check
             var fieldType = field.fieldType;
             if (fieldType != FieldType.Hall) {
-                TDLog.Error($"EnterState_Hall Error: {fieldType}");
+                TDLog.Error("进入大厅失败! FieldType: {fieldType}");
                 return;
             }
 
-            // Check
+            // Hall Character
+            TDLog.Log($"大厅人物生成 firstFieldTypeID {firstFieldTypeID}-------------------------------------------- ");
             var spawnModelArray = field.SpawnModelArray;
-            var arryLen = spawnModelArray?.Length;
-            if (arryLen == 0) {
-                TDLog.Error($"EnterState_Hall Error: SpawnModelArray Cant Be Empty!");
-                return;
+            var spawnCount = spawnModelArray?.Length;
+            var roleDomain = worldDomain.RoleDomain;
+            for (int i = 0; i < spawnCount; i++) {
+                var spawnModel = spawnModelArray[i];
+                var entityType = spawnModel.entityType;
+                var typeID = spawnModel.typeID;
+                var roleControlType = spawnModel.roleControlType;
+                var allyType = spawnModel.allyType;
+                var ownerRoleSpawnPos = spawnModel.pos;
+                if (entityType == EntityType.Role) {
+                    var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
+                    TDLog.Log($"AllyType: {allyType} / ControlType:{role.ControlType} / TypeID: {typeID} / RoleName: {role.RoleName}");
+                } else {
+                    TDLog.Error("Not Handle Yet!");
+                }
             }
 
-            // Spawn Owner Role According To Field Template
-            var spawnModel = spawnModelArray[0];
-            var ownerRoleSpawnPos = spawnModel.pos;
-            var roleDomain = worldDomain.RoleDomain;
-            var owner = roleDomain.SpawnRole(RoleControlType.Player, 1000, AllyCollection.PLAYER, ownerRoleSpawnPos);
+            // Spawn TieDan 
+            var owner = roleDomain.SpawnRole(RoleControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
+
+            // TODO: Spawn Weapon For TieDan To Choose 
+            var weaponCount = hallWeaponTypeIDs.Length;
+            for (int i = 0; i < weaponCount; i++) {
+                var id = hallWeaponTypeIDs[i];
+                var model = worldContext.WorldFactory.SpawnWeaponModel(id);
+
+            }
 
             // Set Camera 
             var cameraSetter = infraContext.CameraCore.SetterAPI;
             cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
             cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
+
+            // Physics
+            Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE, true);
 
             // World State
             var stateEntity = worldContext.StateEntity;

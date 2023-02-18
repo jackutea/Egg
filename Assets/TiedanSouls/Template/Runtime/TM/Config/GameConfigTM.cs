@@ -7,6 +7,8 @@ namespace TiedanSouls.Template {
     public class GameConfigTM {
 
         public int hallFieldTypeID;
+        public int[] hallWeaponTypeIDs;
+        public int tiedanRoleTypeID;
 
     }
 
