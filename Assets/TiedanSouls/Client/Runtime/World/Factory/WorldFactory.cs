@@ -21,29 +21,43 @@ namespace TiedanSouls.World {
             this.worldContext = worldContext;
         }
 
-        public FieldEntity CreateFieldEntity() {
-            var worldAssets = infraContext.AssetCore.WorldAssets;
-            bool has = worldAssets.TryGet("entity_field", out GameObject go);
-            if (!has) {
-                TDLog.Error("Failed to get asset: entity_field");
+        public FieldEntity CreateFieldEntity(int typeID) {
+            var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
+            if (!fieldTemplate.TryGet(typeID, out FieldTM fieldTM)) {
+                TDLog.Error($"Failed to get field template: {typeID}");
                 return null;
             }
+
+            var fieldModAssetName = fieldTM.fieldAssetName;
+
+            var fieldModAssets = infraContext.AssetCore.FieldModAssets;
+            bool has = fieldModAssets.TryGet(fieldModAssetName, out GameObject go);
+            if (!has) {
+                TDLog.Error($"Failed to get asset: {fieldModAssetName}");
+                return null;
+            }
+
             var entity = GameObject.Instantiate(go).GetComponent<FieldEntity>();
             entity.Ctor();
+
+            entity.SetChapterAndLevel(fieldTM.chapter, fieldTM.level);
+            entity.spawnModelArray = fieldTM.spawnModelArray?.Clone() as SpawnModel[];
+            entity.SetFieldType(fieldTM.fieldType);
+
             return entity;
         }
 
         public RoleEntity CreateRoleEntity(RoleControlType controlType, int typeID, sbyte ally, Vector2 pos) {
-
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
 
             // - Entity
-            var worldAssets = assetCore.WorldAssets;
-            bool has = worldAssets.TryGet("entity_role", out GameObject go);
+            var containerModAssets = assetCore.ContainerModAssets;
+            var contanerAssetName = "mod_container_role";
+            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
             if (!has) {
-                TDLog.Error("Failed to get asset: entity_role");
+                TDLog.Error($"Failed to get asset: {contanerAssetName}");
                 return null;
             }
 
@@ -109,7 +123,6 @@ namespace TiedanSouls.World {
             CreateWeapon(role, 100);
 
             return role;
-
         }
 
         // ==== AI ====

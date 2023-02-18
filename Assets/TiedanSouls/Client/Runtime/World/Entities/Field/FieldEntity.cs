@@ -13,6 +13,12 @@ namespace TiedanSouls.World.Entities {
         BoxCollider2D confiner;
         public Vector2 ConfinerSize => confiner.size;
 
+        public SpawnModel[] spawnModelArray;
+
+        public FieldType fieldType;
+        public FieldType FieldType => fieldType;
+        public void SetFieldType(FieldType v) => fieldType = v;
+
         public void Ctor() {
             confiner = transform.Find("confiner").GetComponent<BoxCollider2D>();
             TDLog.Assert(confiner != null);

@@ -15,8 +15,8 @@ namespace TiedanSouls.Template {
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.TM_WEAPON;
-            var list = await Addressables.LoadAssetsAsync<WeaponSo>(label, null).Task;
+            label.labelString = AssetsLabelCollection.SO_WEAPON;
+            var list = await Addressables.LoadAssetsAsync<WeaponSO>(label, null).Task;
             foreach (var so in list) {
                 var tm = so.weaponTM;
                 all.Add(tm.typeID, tm);

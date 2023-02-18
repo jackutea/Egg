@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: c2c12c7889a665d409262b6ff03240b5
   m_SerializeEntries:
   - m_GUID: 5bebb32149a6ead4f80ec2a69a178930
-    m_Address: mod_spear
+    m_Address: mod_weapon_spear
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Weapon

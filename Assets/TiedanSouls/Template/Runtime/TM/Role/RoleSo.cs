@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace TiedanSouls.Template {
 
-    [CreateAssetMenu(fileName = "RoleTM", menuName = "TiedanSouls/Template/RoleTM", order = 0)]
-    public class RoleSo : ScriptableObject {
+    [CreateAssetMenu(fileName = "RoleSo", menuName = "TiedanSouls/Template/RoleSo", order = 0)]
+    public class RoleSO : ScriptableObject {
 
         public RoleTM tm;
 

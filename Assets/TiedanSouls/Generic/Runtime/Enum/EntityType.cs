@@ -5,6 +5,7 @@ namespace TiedanSouls {
         Role,
         Skillor,
         Projectile,
+        Field,
     }
 
 }

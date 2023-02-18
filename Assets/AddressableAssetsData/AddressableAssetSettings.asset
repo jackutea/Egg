@@ -44,14 +44,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6e0dfad4ae935345b052b303577704b, type: 2}
   - {fileID: 11400000, guid: ce6d70a8e06115d46a032e6efb66a2fe, type: 2}
   - {fileID: 11400000, guid: 680670728a9021c49bbef7404ebec28d, type: 2}
-  - {fileID: 11400000, guid: e972f621a8d537240ae627cee7e83ed4, type: 2}
   - {fileID: 11400000, guid: 65dc96b3d14e1ce458f6cf001e42f45c, type: 2}
+  - {fileID: 11400000, guid: ff6bc0f1756e5d04ebd431e1eecbd369, type: 2}
   - {fileID: 11400000, guid: 816f74cf7f72f744f804c69052ed067c, type: 2}
   - {fileID: 11400000, guid: 7bb8b3a82cdcff84f99d65f9b58597a4, type: 2}
   - {fileID: 11400000, guid: 50a5fc3a6e916df44870485004c686d4, type: 2}
+  - {fileID: 11400000, guid: 7a8ec60be818ae14b999969908c65d52, type: 2}
+  - {fileID: 11400000, guid: e972f621a8d537240ae627cee7e83ed4, type: 2}
   - {fileID: 11400000, guid: 7503bb2ab6c74154b88e0d3d0efb7803, type: 2}
-  - {fileID: 11400000, guid: ff6bc0f1756e5d04ebd431e1eecbd369, type: 2}
   - {fileID: 11400000, guid: 655dd8d51bd70b24e90ea3b3a9ef7d68, type: 2}
+  - {fileID: 11400000, guid: ccd2d47f42711ac4b8860d45d4de1f46, type: 2}
+  - {fileID: 11400000, guid: 8bd750cdd60d8ff499dc3e4df3697b8c, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -92,15 +95,18 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - UILayout
-    - World
-    - Sprite
-    - TM_Skillor
-    - TM_Role
-    - TM_Weapon
+    - SO_Role
+    - SO_Field
+    - SO_Skillor
+    - SO_Weapon
+    - SO_Config
     - Mod_Weapon
-    - HUD
     - Mod_Role
+    - Mod_Container
+    - Mod_Field
+    - HUD
+    - UILayout
+    - Sprite
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f420fc4a494c7174e922ab8136332be4, type: 2}

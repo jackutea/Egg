@@ -4,8 +4,8 @@ namespace TiedanSouls.World.Facades {
 
     public class WorldDomain {
 
-        WorldGameDomain gameDomain;
-        public WorldGameDomain GameDomain => gameDomain;
+        WorldStateDomain gameDomain;
+        public WorldStateDomain GameDomain => gameDomain;
 
         WorldFieldDomain fieldDomain;
         public WorldFieldDomain FieldDomain => fieldDomain;
@@ -20,7 +20,7 @@ namespace TiedanSouls.World.Facades {
         public WorldPhysicsDomain WorldPhysicsDomain => phxDomain;
 
         public WorldDomain() {
-            gameDomain = new WorldGameDomain();
+            gameDomain = new WorldStateDomain();
             fieldDomain = new WorldFieldDomain();
             roleDomain = new WorldRoleDomain();
             roleFSMDomain = new WorldRoleFSMDomain();

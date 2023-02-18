@@ -16,8 +16,8 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public FieldEntity SpawnField() {
-            var field = worldContext.WorldFactory.CreateFieldEntity();
+        public FieldEntity SpawnField(int typeID) {
+            var field = worldContext.WorldFactory.CreateFieldEntity(typeID);
             var fieldRepo = worldContext.FieldRepo;
             fieldRepo.Add(field);
 

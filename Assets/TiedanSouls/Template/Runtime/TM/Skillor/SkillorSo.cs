@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace TiedanSouls.Template {
 
-    [CreateAssetMenu(fileName = "SkillorTM", menuName = "TiedanSouls/Template/SkillorTM", order = 0)]
-    public class SkillorSo : ScriptableObject {
+    [CreateAssetMenu(fileName = "SkillorSo", menuName = "TiedanSouls/Template/SkillorSo", order = 0)]
+    public class SkillorSO : ScriptableObject {
 
         public SkillorTM tm;
 
