@@ -57,8 +57,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &1431670268792126611
 GameObject:
@@ -116,11 +116,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &2032543677756863898
 GameObject:
@@ -178,11 +178,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &3620675371349204275
 GameObject:
@@ -240,11 +240,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &3657356189040056003
 GameObject:
@@ -302,11 +302,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &4211026949828357999
 GameObject:
@@ -420,11 +420,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &6268206071339186810
 GameObject:
@@ -594,11 +594,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &8342617707635361200
 GameObject:
@@ -855,8 +855,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &9027723787445068215
 GameObject:
@@ -970,11 +970,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &9027723787555967058
 GameObject:
@@ -1213,11 +1213,11 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1010
-    nextStartFrame: 0
+  - skillorTypeID: 1010
+    startFrame: 0
     isCombo: 1
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 1
+    startFrame: 0
     isCombo: 0
 --- !u!1 &9027723788109805825
 GameObject:

@@ -6,13 +6,16 @@ namespace TiedanSouls.World.Entities {
     public class SkillorModel {
 
         // - Identity
+        // TODO: REFACTOR OWNER
         object owner;
         public RoleEntity Owner => owner as RoleEntity;
+        public void SetOwner(object v) => owner = v;
 
         public EntityType EntityType => EntityType.Skillor;
 
         int id;
         public int ID => id;
+        public void SetID(int v) => id = v;
 
         int typeID;
         public int TypeID => typeID;
@@ -35,9 +38,7 @@ namespace TiedanSouls.World.Entities {
         // - Event
         public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
 
-        public SkillorModel(int id, RoleEntity owner) {
-            this.id = id;
-            this.owner = owner;
+        public SkillorModel() {
         }
 
         public void FromTM(Template.SkillorTM tm) {

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    [Serializable]
     public class MoveComponent {
 
         Rigidbody2D rb;

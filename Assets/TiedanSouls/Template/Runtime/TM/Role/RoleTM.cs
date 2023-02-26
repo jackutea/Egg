@@ -20,9 +20,6 @@ namespace TiedanSouls.Template {
         public float fallingAcceleration;
         public float fallingSpeedMax;
 
-        // - Skillor
-        public int[] skillorTypeIDArray;
-
         // - Renderer
         public string modName;
 

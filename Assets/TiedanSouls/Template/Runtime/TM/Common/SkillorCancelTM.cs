@@ -5,8 +5,8 @@ namespace TiedanSouls.Template {
     [Serializable]
     public struct SkillorCancelTM {
 
-        public int nextSkillorTypeID;
-        public int nextStartFrame;
+        public int skillorTypeID;
+        public int startFrame;
         public bool isCombo;
 
     }

@@ -30,7 +30,7 @@ namespace TiedanSouls.SkillorModifier.Editor {
             tm.isDashEnd = isDashEnd;
 
             // - Cancel
-            tm.cancels = cancels;
+            tm.cancelTMs = cancels;
 
             // - Box
             var boxEditors = GetComponentsInChildren<SkillorBoxEditorGo>();

@@ -194,29 +194,32 @@ namespace TiedanSouls.World.Domain {
                 return false;
             }
 
-            var skillorSlotCom = role.SkillorSlotCom;
-            bool has = skillorSlotCom.TryGetByType(inputSkillorType, out var skillor);
-            if (!has) {
-                TDLog.Warning("Failed to get SkillorType: " + inputSkillorType);
+            if (!role.SkillorSlotCom.TryGetOriginalSkillorByType(inputSkillorType, out var skillor)) {
+                TDLog.Error($"释放技能失败 - 不存在原始技能类型 {inputSkillorType}");
                 return false;
             }
 
-            int inputTypeID = skillor.TypeID;
+            int inputSkillorTypeID = skillor.TypeID;
 
             // - Judge Allow Cast
-            bool allowCast = AllowCast(role, ref inputTypeID);
+            bool allowCast = AllowCast(role, ref inputSkillorTypeID, out var isCombo);
             if (!allowCast) {
                 return false;
             }
 
             // - Cast
-            Cast(role, inputTypeID);
+            if (isCombo) {
+                CastComboSkillor(role, inputSkillorTypeID);
+            } else {
+                CastOriginalSkillor(role, inputSkillorTypeID);
+            }
 
             return true;
 
         }
 
-        bool AllowCast(RoleEntity role, ref int inputSkillorTypeID) {
+        bool AllowCast(RoleEntity role, ref int inputSkillorTypeID, out bool isCombo) {
+            isCombo = false;
 
             var fsm = role.FSMCom;
 
@@ -224,20 +227,15 @@ namespace TiedanSouls.World.Domain {
                 return true;
             }
 
-            // Cancel To
+            // - Skillor Cancel
             if (fsm.Status == RoleFSMStatus.Casting) {
 
                 var castingSkillor = fsm.CastingState.castingSkillor;
-
-                bool hasFrame = castingSkillor.TryGetCurrentFrame(out var frame);
-
-                // - No Frame
-                if (!hasFrame) {
-                    TDLog.Error("No Frame: " + castingSkillor.OriginalSkillorTypeID);
+                if (!castingSkillor.TryGetCurrentFrame(out var frame)) {
+                    TDLog.Error($"技能未配置帧 - {castingSkillor.TypeID} ");
                     return false;
                 }
 
-                // No Cancel
                 var cancels = frame.cancels;
                 if (cancels == null || cancels.Length == 0) {
                     return false;
@@ -246,31 +244,30 @@ namespace TiedanSouls.World.Domain {
                 var skillorSlotCom = role.SkillorSlotCom;
                 for (int i = 0; i < cancels.Length; i += 1) {
                     SkillorCancelModel cancel = cancels[i];
-                    int nextSkillorTypeID = cancel.nextSkillorTypeID;
+                    int cancelSkillorTypeID = cancel.skillorTypeID;
+
                     if (cancel.isCombo) {
                         // - Combo Cancel
-                        if (castingSkillor.OriginalSkillorTypeID == inputSkillorTypeID || castingSkillor.TypeID == inputSkillorTypeID) {
-                            if (skillorSlotCom.TryGet(nextSkillorTypeID, out var nextSkillor)) {
-                                inputSkillorTypeID = nextSkillor.TypeID;
-                                TDLog.Log("Combo Cancel: " + castingSkillor.TypeID + " -> " + nextSkillor.TypeID);
-                                return true;
-                            } else {
-                                TDLog.Error("Failed to get skillor: " + nextSkillorTypeID);
-                                return false;
-                            }
+                        isCombo = true;
+                        if (!skillorSlotCom.TryGetComboSkillor(cancelSkillorTypeID, out var comboSkillor)
+                        || inputSkillorTypeID != comboSkillor.OriginalSkillorTypeID) {
+                            return false;
                         }
+
+                        inputSkillorTypeID = comboSkillor.TypeID;
+                        return true;
                     } else {
                         // - Normal Cancel
-                        if (nextSkillorTypeID == inputSkillorTypeID) {
-                            if (skillorSlotCom.TryGet(nextSkillorTypeID, out var nextSkillor)) {
-                                TDLog.Log("Normal Cancel: " + castingSkillor.TypeID + " -> " + nextSkillor.TypeID);
+                        if (cancelSkillorTypeID == inputSkillorTypeID) {
+                            if (skillorSlotCom.TryGetOriginalSkillor(cancelSkillorTypeID, out var nextSkillor)) {
                                 return true;
                             } else {
-                                TDLog.Error("Failed to get skillor: " + nextSkillorTypeID);
+                                TDLog.Error($"技能配置错误 - 强制取消技能 ID {cancelSkillorTypeID}");
                                 return false;
                             }
                         }
                     }
+
                 }
 
             }
@@ -279,15 +276,24 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        void Cast(RoleEntity role, int typeID) {
+        void CastOriginalSkillor(RoleEntity role, int typeID) {
             var skillorSlotCom = role.SkillorSlotCom;
-            bool has = skillorSlotCom.TryGet(typeID, out var skillor);
-            if (!has) {
-                TDLog.Error("Failed to get skillor: " + typeID);
+            if (!skillorSlotCom.TryGetOriginalSkillor(typeID, out var skillor)) {
+                TDLog.Error($"释放原始技能失败:{typeID} ");
                 return;
             }
             var fsm = role.FSMCom;
-            fsm.EnterCasting(skillor);
+            fsm.EnterCasting(skillor, false);
+        }
+
+        void CastComboSkillor(RoleEntity role, int typeID) {
+            var skillorSlotCom = role.SkillorSlotCom;
+            if (!skillorSlotCom.TryGetComboSkillor(typeID, out var skillor)) {
+                TDLog.Error($"释放连击技能失败:{typeID} ");
+                return;
+            }
+            var fsm = role.FSMCom;
+            fsm.EnterCasting(skillor, true);
         }
 
         // ==== Hit ====

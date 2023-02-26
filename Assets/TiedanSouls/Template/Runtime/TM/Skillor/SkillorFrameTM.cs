@@ -15,7 +15,7 @@ namespace TiedanSouls.Template {
         public bool isDashEnd;
 
         // - Cancel
-        public SkillorCancelTM[] cancels;
+        public SkillorCancelTM[] cancelTMs;
 
         public SkillorBoxTM[] boxes;
 

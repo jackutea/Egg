@@ -39,7 +39,7 @@ namespace TiedanSouls.World.Entities {
             this.isDashEnd = tm.isDashEnd;
 
             // - Cancel
-            var cancelTMArray = tm.cancels;
+            var cancelTMArray = tm.cancelTMs;
             if (cancelTMArray != null) {
                 var cancels = new SkillorCancelModel[cancelTMArray.Length];
                 for (int i = 0; i < cancels.Length; i += 1) {

@@ -27,6 +27,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sprite
+  - m_GUID: c6e85463a8e6f2940979db6b1e2aaf5d
+    m_Address: spr_weapon_spear_100
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sprite
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

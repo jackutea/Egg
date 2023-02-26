@@ -23,7 +23,12 @@ namespace TiedanSouls.Template {
         }
 
         public bool TryGet(int typeID, out SkillorTM tm) {
-            return all.TryGetValue(typeID, out tm);
+            if (!all.TryGetValue(typeID, out tm)) {
+                TDLog.Warning($"{nameof(SkillorTemplate)}: {typeID} not found!");
+                return false;
+            }
+
+            return true;
         }
 
     }

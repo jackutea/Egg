@@ -30,15 +30,15 @@ namespace TiedanSouls.World.Entities {
         public void EnterIdle() {
             status = RoleFSMStatus.Idle;
             idleState.isEnter = true;
-            TDLog.Log("RoleFSM: EnterIdle");
+            TDLog.Log("人物状态机切换 - 待机 ");
         }
 
-        public void EnterCasting(SkillorModel skillorModel) {
+        public void EnterCasting(SkillorModel skillorModel, bool isCombo) {
             status = RoleFSMStatus.Casting;
             var stateModel = castingState;
             stateModel.castingSkillor = skillorModel;
             stateModel.isEntering = true;
-            TDLog.Log("RoleFSM: EnterCasting");
+            TDLog.Log($"人物状态机切换 - 释放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
         }
 
         public void EnterBeHurt(Vector2 fromPos, HitPowerModel hitPowerModel) {
@@ -50,12 +50,12 @@ namespace TiedanSouls.World.Entities {
             stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
             stateModel.curFrame = 0;
             stateModel.isEnter = true;
-            TDLog.Log("RoleFSM: EnterBeHurt");
+            TDLog.Log("人物状态机切换 - 受伤 ");
         }
 
         public void EnterDead() {
             status = RoleFSMStatus.Dead;
-            TDLog.Log("RoleFSM: EnterDead");
+            TDLog.Log("人物状态机切换 - 死亡 ");
         }
 
     }

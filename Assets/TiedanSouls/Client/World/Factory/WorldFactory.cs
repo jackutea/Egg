@@ -4,6 +4,7 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Entities;
 using TiedanSouls.World.Facades;
 using TiedanSouls.Template;
+using System.Collections.Generic;
 
 namespace TiedanSouls.World {
 
@@ -112,23 +113,22 @@ namespace TiedanSouls.World {
                 role.SetAIStrategy(ai);
             }
 
-            // Skillor
-            // Dash / BoomMelee / Infinity
-            var skillorTypeIDArray = roleTM.skillorTypeIDArray;
-            if (skillorTypeIDArray != null) {
-                InitRoleSkillorSlotCom(role, skillorTypeIDArray);
-            }
-
             // HUD
-            // HpBar
             var hpBar = CreateHpBarHUD(role.HudSlotCom.HudRoot);
             role.HudSlotCom.SetHpBarHUD(hpBar);
 
             // Weapon
             // (Weapon Skillor: Melee / HoldMelee / SpecMelee)
-            // TODO: weaponTypeID Read From Player's Choice
-            int weaponTypeID = 100;
+            int weaponTypeID = 100; // TODO: weaponTypeID Read From Player's Choice
             InitRoleWeaponSlotCom(role, weaponTypeID);
+            var curWeapon = role.WeaponSlotCom.Weapon;
+
+            // Skillor
+            // Dash / BoomMelee / Infinity
+            var skillorTypeIDArray = new int[] { curWeapon.skillorMeleeTypeID, curWeapon.skillorHoldMeleeTypeID, curWeapon.skillorSpecMeleeTypeID };
+            if (skillorTypeIDArray != null) {
+                InitRoleSkillorSlotCom(role, skillorTypeIDArray);
+            }
 
             return role;
         }
@@ -171,37 +171,78 @@ namespace TiedanSouls.World {
 
         // Skillor
         void InitRoleSkillorSlotCom(RoleEntity role, int[] typeIDArray) {
-            var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
+            var idService = worldContext.IDService;
+            var skillorSlotCom = role.SkillorSlotCom;
 
             var len = typeIDArray.Length;
             for (int i = 0; i < len; i++) {
-                int skillorID = idService.PickSkillorID();
-                var skillor = new SkillorModel(skillorID, role);
                 var typeID = typeIDArray[i];
-                bool has = templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM);
-                if (!has) {
-                    TDLog.Error($"Failed to get skillor template: typeID {typeID}");
-                    return;
+                if (!templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM)) {
+                    continue;
                 }
 
-                skillor.FromTM(skillorTM);
-                role.SkillorSlotCom.Add(skillor);
+                var skillorModel = new SkillorModel();
+                skillorModel.FromTM(skillorTM);
+                skillorModel.SetID(idService.PickSkillorID());
+                skillorModel.SetOwner(role);
+                skillorSlotCom.AddOriginalSkillor(skillorModel);
+
+                var frames = skillorTM.frames;
+                var frameCout = frames.Length;
+                for (int j = 0; j < frameCout; j++) {
+                    InitAllComboSkillor(role, skillorSlotCom, frames[j]);
+                }
+            }
+        }
+
+        void InitAllComboSkillor(object owner, SkillorSlotComponent skillorSlotCom, SkillorFrameTM frameTM) {
+            var templateCore = infraContext.TemplateCore;
+            var idService = worldContext.IDService;
+
+            var cancelTMs = frameTM.cancelTMs;
+            var cancelCount = cancelTMs?.Length;
+            for (int i = 0; i < cancelCount; i++) {
+                var cancelTM = cancelTMs[i];
+                if (!cancelTM.isCombo) {
+                    continue;
+                }
+
+                var comboSkillorTypeID = cancelTM.skillorTypeID;
+                if (skillorSlotCom.HasComboSkillor(comboSkillorTypeID)) {
+                    continue;
+                }
+
+                if (!templateCore.SkillorTemplate.TryGet(comboSkillorTypeID, out SkillorTM comboSkillorTM)) {
+                    continue;
+                }
+
+                var comboSkillorModel = new SkillorModel();
+                comboSkillorModel.FromTM(comboSkillorTM);
+                comboSkillorModel.SetID(idService.PickSkillorID());
+                comboSkillorModel.SetOwner(owner);
+                skillorSlotCom.AddComboSkillor(comboSkillorModel);
+
+                var nextFrames = comboSkillorTM.frames;
+                var frameCount = nextFrames.Length;
+                for (int j = 0; j < frameCount; j++) {
+                    InitAllComboSkillor(owner, skillorSlotCom, nextFrames[j]);
+                }
             }
         }
 
         // Weapon
         void InitRoleWeaponSlotCom(RoleEntity role, int typeID) {
 
-            var weapon = SpawnWeaponModel(typeID);
-            if (weapon == null) {
+            var weaponModel = SpawnWeaponModel(typeID);
+            if (weaponModel == null) {
                 TDLog.Error("Failed to spawn weapon: " + typeID);
                 return;
             }
 
-            var mod = weapon.Mod;
+            var mod = weaponModel.Mod;
             mod.transform.SetParent(role.WeaponSlotCom.WeaponRoot, false);
-            role.WeaponSlotCom.SetWeapon(weapon);
+            role.WeaponSlotCom.SetWeapon(weaponModel);
         }
 
         public WeaponModel SpawnWeaponModel(int typeID) {

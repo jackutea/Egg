@@ -44,7 +44,7 @@ namespace TiedanSouls.World.Entities {
         sbyte faceXDir;
         public sbyte FaceXDir => faceXDir;
 
-        [SerializeField] MoveComponent moveCom;
+        MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
         RoleAttributeComponent attrCom;

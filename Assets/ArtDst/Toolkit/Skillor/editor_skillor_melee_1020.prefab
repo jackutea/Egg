@@ -112,8 +112,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &2421610329459583899
 GameObject:
@@ -495,7 +495,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 8994e734922b09049867a9f2643a9188, type: 2}
   typeID: 1020
   skillorName: "\u957F\u67AA\u666E\u653B3"
-  skillorType: 0
+  skillorType: 1
   originalSkillorTypeID: 1000
   weaponAnim: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
 --- !u!1 &5661301663370891602
@@ -666,8 +666,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &5661301663611794157
 GameObject:
@@ -909,8 +909,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &5661301664050223241
 GameObject:
@@ -1024,8 +1024,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &7288289967410989727
 GameObject:
@@ -1266,8 +1266,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &8080703769348907304
 GameObject:
@@ -1381,8 +1381,8 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - nextSkillorTypeID: 1
-    nextStartFrame: 0
+  - skillorTypeID: 0
+    startFrame: 0
     isCombo: 0
 --- !u!1 &8080703769526550378
 GameObject:

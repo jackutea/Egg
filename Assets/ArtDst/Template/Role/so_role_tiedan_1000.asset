@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
-    roleName: 
+    roleName: "\u65E0\u654C\u94C1\u86CB"
     hpMax: 100
     gpMax: 10
     epMax: 100
