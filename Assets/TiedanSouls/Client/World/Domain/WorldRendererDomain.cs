@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
@@ -5,14 +6,13 @@ using TiedanSouls.World.Facades;
 
 namespace TiedanSouls.World.Domain {
 
-    public class WorldPhysicsDomain {
+    public class WorldRendererDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldDomain worldDomain;
 
-        public WorldPhysicsDomain() { 
-        }
+        public WorldRendererDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldDomain worldDomain) {
             this.infraContext = infraContext;
@@ -21,11 +21,11 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void Tick(float dt) {
-
-            Physics2D.Simulate(dt);
-
+            var repo = worldContext.RoleRepo;
+            repo.ForeachAll((role) => {
+                role.LerpRendererPos(dt);
+            });
         }
 
     }
-
 }

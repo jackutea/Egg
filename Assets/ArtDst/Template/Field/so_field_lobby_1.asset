@@ -17,12 +17,7 @@ MonoBehaviour:
     fieldType: 1
     chapter: 0
     level: 0
-    spawnModelArray:
-    - entityType: 1
-      roleControlType: 1
-      allyType: 3
-      typeID: 1
-      pos: {x: 15, y: 15}
+    spawnModelArray: []
     itemSpawnPosArray:
     - {x: 20, y: 2}
     - {x: 25, y: 2}

@@ -3,6 +3,7 @@ using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
+using System.Collections.Generic;
 
 namespace TiedanSouls.World.Domain {
 
@@ -83,9 +84,6 @@ namespace TiedanSouls.World.Domain {
             cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
             cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
 
-            // Physics
-            Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE, true);
-
             // World State
             var stateEntity = worldContext.StateEntity;
             stateEntity.EnterState_Lobby(owner.ID);
@@ -109,13 +107,12 @@ namespace TiedanSouls.World.Domain {
             ApplyBasicLogic(dt);
 
             var roleRepo = worldContext.RoleRepo;
-            var allRole = roleRepo.GetAll();
-            foreach (var role in allRole) {
+            roleRepo.ForeachAll((role) => {
                 if (role.gameObject.transform.position.y < 0) {
                     role.DropBeHurt(50, new Vector2(3, 3));
                 }
                 worldDomain.RoleDomain.TickHUD(role, dt);
-            }
+            });
 
             CleanupRole();
         }
@@ -125,8 +122,7 @@ namespace TiedanSouls.World.Domain {
             var roleFSMDomain = worldDomain.RoleFSMDomain;
             var stateEntity = worldContext.StateEntity;
             var roleRepo = worldContext.RoleRepo;
-            var allRole = roleRepo.GetAll();
-            foreach (var role in allRole) {
+            roleRepo.ForeachAll((role) => {
                 // AI
                 if (role.ControlType == RoleControlType.AI) {
                     role.AIStrategy.Tick(dt);
@@ -134,33 +130,29 @@ namespace TiedanSouls.World.Domain {
 
                 // Role FSM
                 roleFSMDomain.Tick(role, dt);
-            }
+            });
 
             // Physics
             var phxDomain = worldDomain.WorldPhysicsDomain;
             phxDomain.Tick(dt);
+
         }
-        
+
         void CleanupRole() {
-
             var roleRepo = worldContext.RoleRepo;
-            var allRole = roleRepo.GetAll();
 
-            Span<int> waitRemove = stackalloc int[roleRepo.Count];
-            int count = 0;
-
-            foreach (var role in allRole) {
+            List<int> removeList = new List<int>(roleRepo.Count);
+            roleRepo.ForeachAll((role) => {
                 if (role.FSMCom.Status == RoleFSMStatus.Dead) {
                     role.TearDown();
-                    waitRemove[count] = role.ID;
-                    count += 1;
+                    removeList.Add(role.ID);
                 }
-            }
+            });
 
+            var count = removeList.Count;
             for (int i = 0; i < count; i += 1) {
-                roleRepo.RemoveByID(waitRemove[i]);
+                roleRepo.RemoveByID(removeList[i]);
             }
-
         }
 
     }

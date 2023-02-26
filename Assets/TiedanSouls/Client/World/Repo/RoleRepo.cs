@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TiedanSouls.World.Entities;
 
@@ -30,8 +31,11 @@ namespace TiedanSouls.World {
             all.Remove(id);
         }
 
-        public IEnumerable<RoleEntity> GetAll() {
-            return all.Values;
+        public void ForeachAll(Action<RoleEntity> action) {
+            var e = all.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                action.Invoke(e.Current);
+            }
         }
 
     }

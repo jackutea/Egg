@@ -87,7 +87,7 @@ namespace TiedanSouls.World.Domain {
             var roleDomain = worldDomain.RoleDomain;
 
             roleDomain.Falling(role, dt);   // TODO: 离地才下落
-            
+
             if (curFrame.hasDash) {
                 roleDomain.Dash(role, Vector2.right * role.FaceXDir, curFrame.dashForce);
             }
@@ -96,7 +96,7 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
+            castingSkillor.ActiveNextFrame(role.GetRBPos(), role.GetRBAngle(), role.FaceXDir);
         }
 
         void ApplyBeHurt(RoleEntity role, float dt) {
@@ -113,7 +113,7 @@ namespace TiedanSouls.World.Domain {
             if (stateModel.isEnter) {
                 stateModel.isEnter = false;
 
-                Vector2 dir = role.GetPos() - stateModel.fromPos;
+                Vector2 dir = role.GetRBPos() - stateModel.fromPos;
                 role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
 
                 role.ModCom.Anim_PlayBeHurt();

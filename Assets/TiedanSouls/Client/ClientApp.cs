@@ -46,9 +46,9 @@ namespace TiedanSouls.Main.Entry {
                 mainController.Init();
 
                 isClientReady = true;
+
             };
             action.Invoke();
-
         }
 
         void Update() {

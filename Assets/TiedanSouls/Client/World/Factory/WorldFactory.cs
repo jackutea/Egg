@@ -91,7 +91,7 @@ namespace TiedanSouls.World {
                 TDLog.Error("Failed to get sprite: " + roleTM.modName);
                 return null;
             }
-            GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.Body);
+            GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
             role.SetMod(roleMod);
 
             // Attr
@@ -100,7 +100,8 @@ namespace TiedanSouls.World {
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
             // Pos
-            role.SetPos(pos);
+            role.SetRBPos(pos);
+            role.UpdateRendererPos();
 
             // Ally
             role.SetAlly(allyType);

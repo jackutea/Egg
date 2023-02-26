@@ -8,8 +8,6 @@ namespace TiedanSouls.World.Entities {
         int ownerRoleID;
         public int OwnerRoleID => ownerRoleID;
 
-        public float phxRestTime;
-
         public WorldStateEntity() { }
 
         public void EnterState_Lobby(int ownerRoleID) {

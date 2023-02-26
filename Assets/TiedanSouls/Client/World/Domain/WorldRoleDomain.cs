@@ -162,6 +162,10 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void Falling(RoleEntity role, float dt) {
+            if(role.MoveCom.IsGrounded){
+                return;
+            }
+            
             role.Falling(dt);
         }
 
@@ -342,7 +346,7 @@ namespace TiedanSouls.World.Domain {
                     return;
                 }
 
-                otherFSM.EnterBeHurt(caster.GetPos(), hitPower);
+                otherFSM.EnterBeHurt(caster.GetRBPos(), hitPower);
 
             }
 
@@ -363,7 +367,7 @@ namespace TiedanSouls.World.Domain {
 
         public bool TryPickUpSomething(RoleEntity role) {
             var repo = worldContext.ItemRepo;
-            if (!repo.TryGetOneItem(role.GetPos(), 1, out var item)) {
+            if (!repo.TryGetOneItem(role.GetRBPos(), 1, out var item)) {
                 return false;
             }
 

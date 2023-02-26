@@ -15,6 +15,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         void OnCollisionEnter2D(Collision2D other) {
+            TDLog.Log($"OnCollisionEnter2D: {other.gameObject.name}");
             OnCollisionEnterHandle.Invoke(other);
         }
 

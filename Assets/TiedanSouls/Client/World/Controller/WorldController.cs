@@ -1,4 +1,3 @@
-using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
 
@@ -9,9 +8,6 @@ namespace TiedanSouls.World.Controller {
         InfraContext infraContext;
         WorldContext worldContext;
         WorldDomain worldDomain;
-
-        float resTime;
-        const float LOGIC_INTERVAL_TIME = 0.033f;
 
         public WorldController() {
             worldContext = new WorldContext();
@@ -24,11 +20,7 @@ namespace TiedanSouls.World.Controller {
 
             worldContext.WorldFactory.Inject(infraContext, worldContext);
 
-            worldDomain.GameDomain.Inject(infraContext, worldContext, worldDomain);
-            worldDomain.FieldDomain.Inject(infraContext, worldContext);
-            worldDomain.RoleDomain.Inject(infraContext, worldContext);
-            worldDomain.RoleFSMDomain.Inject(infraContext, worldContext, worldDomain);
-            worldDomain.WorldPhysicsDomain.Inject(infraContext, worldContext, worldDomain);
+            worldDomain.Inject(infraContext, worldContext);
 
         }
 
@@ -38,16 +30,19 @@ namespace TiedanSouls.World.Controller {
             };
         }
 
+        float resTime;
         public void Tick(float dt) {
             worldDomain.RoleDomain.BackPlayerRInput();
 
-            // Fixed Tick
             resTime += dt;
-            while (resTime >= LOGIC_INTERVAL_TIME) {
-                resTime -= LOGIC_INTERVAL_TIME;
-                worldDomain.GameDomain.ApplyWorldState(LOGIC_INTERVAL_TIME);
+            var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
+            while (resTime >= logicIntervalTime) {
+                worldDomain.GameDomain.ApplyWorldState(logicIntervalTime);
+                resTime -= logicIntervalTime;
+                resTime = resTime < 0 ? 0 : resTime;
             }
 
+            worldDomain.WorldRendererDomain.Tick(dt);
         }
 
     }

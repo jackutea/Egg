@@ -21,8 +21,11 @@ namespace TiedanSouls.World.Entities {
         public void SetAlly(AllyType value) => this.allyType = value;
 
         // ==== Root ====
-        Transform body;
-        public Transform Body => body;
+        Transform logicRoot;
+        public Transform LogicRoot => logicRoot;
+
+        Transform rendererRoot;
+        public Transform RendererRoot => rendererRoot;
 
         // ==== Input ====
         RoleControlType controlType;
@@ -76,7 +79,43 @@ namespace TiedanSouls.World.Entities {
 
             faceXDir = 1;
 
-            body = transform.Find("body");
+            logicRoot = transform.Find("logic_root");
+            rendererRoot = transform.Find("renderer_root");
+
+            // - Movement
+            rb = logicRoot.GetComponent<Rigidbody2D>();
+            TDLog.Assert(rb != null);
+            moveCom = new MoveComponent();
+            moveCom.Inject(rb);
+
+            // - Foot
+            footCom = logicRoot.Find("foot").GetComponent<FootComponent>();
+            footCom.Ctor();
+
+            // - Body
+            bodyCollCom = logicRoot.Find("body").GetComponent<RoleBodyCollComponent>();
+            bodyCollCom.Ctor();
+
+            // - Weapon
+            var weaponRoot = logicRoot.Find("weapon_root");
+            weaponSlotCom = new WeaponSlotComponent();
+            weaponSlotCom.Inject(weaponRoot);
+
+            // - HUD
+            var hudRoot = transform.Find("hud_root");
+            hudSlotCom = new HUDSlotComponent();
+            hudSlotCom.Inject(hudRoot);
+
+            // - Attribute
+            attrCom = new RoleAttributeComponent();
+
+            // ==== Bind Event ====
+            footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
+            footCom.OnCollisionExitHandle += OnFootCollisionExit;
+            bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
+
+            // - Mod
+            modCom = new RoleModComponent();
 
             // - FSM
             fsmCom = new RoleFSMComponent();
@@ -86,44 +125,6 @@ namespace TiedanSouls.World.Entities {
 
             // - Skillor
             skillorSlotCom = new SkillorSlotComponent();
-
-            // - Weapon
-            var weaponRoot = body.Find("weapon_root");
-            weaponSlotCom = new WeaponSlotComponent();
-            weaponSlotCom.Inject(weaponRoot);
-
-            // - HUD
-            var hudRoot = transform.Find("hud_root");
-            hudSlotCom = new HUDSlotComponent();
-            hudSlotCom.Inject(hudRoot);
-
-
-            // - Attribute
-            attrCom = new RoleAttributeComponent();
-
-            // - Collider
-            footCom = body.Find("coll_foot").GetComponent<FootComponent>();
-            footCom.Ctor();
-
-            bodyCollCom = body.Find("coll_body").GetComponent<RoleBodyCollComponent>();
-            bodyCollCom.Ctor();
-
-            // - Movement
-            rb = GetComponent<Rigidbody2D>();
-            moveCom = new MoveComponent();
-            moveCom.Inject(rb);
-
-            TDLog.Assert(rb != null);
-            TDLog.Assert(footCom != null);
-
-            // - Mod
-            modCom = new RoleModComponent();
-
-            // ==== Bind Event ====
-            footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
-            footCom.OnCollisionExitHandle += OnFootCollisionExit;
-            bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
-
         }
 
         public void TearDown() {
@@ -138,12 +139,16 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Locomotion ====
-        public void SetPos(Vector2 pos) {
-            transform.position = pos;
+        public void SetRBPos(Vector2 pos) {
+            rb.position = pos;
         }
 
-        public Vector2 GetPos() {
-            return transform.position;
+        public Vector2 GetRBPos() {
+            return rb.position;
+        }
+
+        public float GetRBAngle() {
+            return rb.rotation;
         }
 
         public void Move() {
@@ -152,10 +157,10 @@ namespace TiedanSouls.World.Entities {
             // Renderer
             if (moveAxis.x > 0) {
                 faceXDir = 1;
-                body.localScale = new Vector3(faceXDir, 1, 1);
+                logicRoot.localScale = new Vector3(faceXDir, 1, 1);
             } else if (moveAxis.x < 0) {
                 faceXDir = -1;
-                body.localScale = new Vector3(faceXDir, 1, 1);
+                logicRoot.localScale = new Vector3(faceXDir, 1, 1);
             }
 
             // Logic
@@ -207,7 +212,8 @@ namespace TiedanSouls.World.Entities {
         public void DropBeHurt(int damage, Vector2 rebornPos) {
             attrCom.HitBeHurt(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
-            SetPos(rebornPos);
+            SetRBPos(rebornPos);
+            UpdateRendererPos();
         }
 
         // ==== Phx ====
@@ -226,6 +232,14 @@ namespace TiedanSouls.World.Entities {
 
         void OnBodyTriggerExit(Collider2D other) {
             OnBodyTriggerExitHandle.Invoke(this, other);
+        }
+
+        // ==== Renderer ====
+        public void UpdateRendererPos() {
+        }
+
+        public void LerpRendererPos(float dt) {
+            transform.position = Vector3.Lerp(transform.position, rb.position, dt * 15f);
         }
 
     }

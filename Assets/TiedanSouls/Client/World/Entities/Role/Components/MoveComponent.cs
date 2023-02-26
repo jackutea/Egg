@@ -6,17 +6,21 @@ namespace TiedanSouls.World.Entities {
     public class MoveComponent {
 
         Rigidbody2D rb;
+        public Vector2 Velocity => rb.velocity;
+        public void SetVelocity(Vector2 velo) {
+            rb.velocity = velo;
+        }
 
         bool isJumping;
-        bool isGround;
-        public bool IsGround => isGround;
+        bool isGrounded;
+        public bool IsGrounded => isGrounded;
 
         bool isStandCrossPlatform;
         public bool IsStandCrossPlatform => isStandCrossPlatform;
 
         public MoveComponent() {
             isJumping = false;
-            isGround = false;
+            isGrounded = false;
         }
 
         public void Inject(Rigidbody2D rb) {
@@ -26,57 +30,58 @@ namespace TiedanSouls.World.Entities {
         public void Move(Vector2 moveAxis, float moveSpeed) {
             var velo = rb.velocity;
             velo.x = moveAxis.x * moveSpeed;
-            rb.velocity = velo;
+            SetVelocity(velo);
         }
 
         public void Dash(Vector2 dir, Vector2 force) {
             var velo = rb.velocity;
             velo.x = dir.x * force.x;
             velo.y = dir.y * force.y;
-            rb.velocity = velo;
+            SetVelocity(velo);
         }
 
         public void KnockBack(float dir, float force) {
             var velo = rb.velocity;
             velo.x = force * dir;
-            rb.velocity = velo;
+            SetVelocity(velo);
         }
 
         public void StopHorizontal() {
             var velo = rb.velocity;
             velo.x = 0;
-            rb.velocity = velo;
+            SetVelocity(velo);
         }
 
         public void Jump(bool isJumpPress, float jumpSpeed) {
-            if (isJumpPress && !isJumping && isGround) {
+            if (isJumpPress && !isJumping && isGrounded) {
 
                 isJumping = true;
-                isGround = false;
+                isGrounded = false;
 
                 var velo = rb.velocity;
                 velo.y = jumpSpeed;
-                rb.velocity = velo;
+                SetVelocity(velo);
 
             }
         }
 
         public void Falling(float dt, float fallingAcceleration, float fallingSpeedMax) {
             var velo = rb.velocity;
-            velo.y -= fallingAcceleration * dt;
+            var offset = fallingAcceleration * dt;
+            velo.y -= offset;
             if (velo.y < -fallingSpeedMax) {
                 velo.y = -fallingSpeedMax;
             }
-            rb.velocity = velo;
+            SetVelocity(velo);
         }
 
         public void EnterGround() {
-            isGround = true;
+            isGrounded = true;
             isJumping = false;
         }
 
         public void LeaveGround() {
-            isGround = false;
+            isGrounded = false;
             isStandCrossPlatform = false;
         }
 
