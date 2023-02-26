@@ -129,7 +129,7 @@ namespace TiedanSouls.World.Domain {
             foreach (var role in allRole) {
                 // Input
                 if (role.ID == stateEntity.OwnerRoleID) {
-                    roleDomain.RecordOwnerInput(role);
+                    roleDomain.BackOwnerInput(role);
                 }
 
                 // AI

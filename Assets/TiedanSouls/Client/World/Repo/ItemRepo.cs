@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TiedanSouls.World.Entities;
+using UnityEngine;
 
 namespace TiedanSouls.World {
 
@@ -23,9 +24,22 @@ namespace TiedanSouls.World {
             all.Remove(item.ID);
         }
 
-        public IEnumerable<ItemEntity> GetAll() {
-            return all.Values;
+        public bool TryGetOneItem(Vector2 pos, float disRange, out ItemEntity item) {
+            item = null;
+            var e = all.Values.GetEnumerator();
+            float minDis = disRange;
+            while (e.MoveNext()) {
+                var curItem = e.Current;
+                var dis = Vector2.Distance(pos, curItem.transform.position);
+                if (dis < minDis) {
+                    item = curItem;
+                    minDis = dis;
+                }
+            }
+
+            return item != null;
         }
+
 
     }
 }

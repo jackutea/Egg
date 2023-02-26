@@ -21,8 +21,9 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void Tick(RoleEntity role, float dt) {
-            ApplyIdle(role, dt);
+            // TODO: if else 
             ApplyCasting(role, dt);
+            ApplyIdle(role, dt);
             ApplyBeHurt(role, dt);
         }
 
@@ -43,7 +44,13 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Jump(role);
             roleDomain.CrossDown(role);
             roleDomain.Falling(role, dt);
-            _ = roleDomain.CastByInput(role);
+            _ = roleDomain.TryCastByInput(role);
+
+            // - Idle状态下可拾取武器
+            var inputCom = role.InputCom;
+            if (inputCom.HasInput_Basic_Pick) {
+                roleDomain.TryPickUpSomething(role);
+            }
         }
 
         void ApplyCasting(RoleEntity role, float dt) {
@@ -63,9 +70,6 @@ namespace TiedanSouls.World.Domain {
                 role.MoveCom.StopHorizontal();
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
 
-                // Clean Input
-                roleDomain.CleanOwnerInput(role);
-                
                 return;
             }
 
@@ -98,14 +102,10 @@ namespace TiedanSouls.World.Domain {
 
                 roleDomain.Falling(role, dt);
 
-                bool hasCast = roleDomain.CastByInput(role);
-                if (!hasCast) {
+                if (!roleDomain.TryCastByInput(role)) {
                     // next frame
                     castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
                 }
-
-                // Clean Input
-                roleDomain.CleanOwnerInput(role);
 
             }
 

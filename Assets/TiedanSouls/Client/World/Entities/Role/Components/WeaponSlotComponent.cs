@@ -12,12 +12,19 @@ namespace TiedanSouls.World.Entities {
 
         public WeaponSlotComponent() { }
 
+        bool isActive;
+        public bool IsActive => isActive;
+        public void SetActive(bool active) {
+            this.isActive = active;
+        }
+
         public void Inject(Transform weaponRoot) {
             this.weaponRoot = weaponRoot;
         }
 
         public void SetWeapon(WeaponModel weapon) {
             this.weapon = weapon;
+            this.isActive = true;
         }
 
     }

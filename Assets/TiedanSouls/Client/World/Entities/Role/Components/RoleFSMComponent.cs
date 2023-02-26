@@ -38,7 +38,7 @@ namespace TiedanSouls.World.Entities {
             var stateModel = castingState;
             stateModel.castingSkillor = skillorModel;
             stateModel.isEntering = true;
-            TDLog.Log($"人物状态机切换 - 释放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
+            TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
         }
 
         public void EnterBeHurt(Vector2 fromPos, HitPowerModel hitPowerModel) {

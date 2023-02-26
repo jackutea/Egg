@@ -57,6 +57,8 @@ namespace TiedanSouls.Infra.Controller {
             inputSetter.Bind(InputKeyCollection.DASH, KeyCode.LeftShift);
             inputSetter.Bind(InputKeyCollection.DASH, KeyCode.L);
 
+            inputSetter.Bind(InputKeyCollection.PICK, KeyCode.E);
+
         }
 
         public void Tick(float dt) {

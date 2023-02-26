@@ -29,8 +29,8 @@ namespace TiedanSouls.World.Entities {
         public RoleControlType ControlType => controlType;
         public void SetControlType(RoleControlType value) => this.controlType = value;
 
-        RoleInputRecordComponent inputRecordCom;
-        public RoleInputRecordComponent InputRecordCom => inputRecordCom;
+        RoleInputComponent inputCom;
+        public RoleInputComponent InputCom => inputCom;
 
         object aiStrategy;
         public RoleAIStrategy AIStrategy => aiStrategy as RoleAIStrategy;
@@ -82,7 +82,7 @@ namespace TiedanSouls.World.Entities {
             fsmCom = new RoleFSMComponent();
 
             // - Input
-            inputRecordCom = new RoleInputRecordComponent();
+            inputCom = new RoleInputComponent();
 
             // - Skillor
             skillorSlotCom = new SkillorSlotComponent();
@@ -147,7 +147,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Move() {
-            Vector2 moveAxis = inputRecordCom.MoveAxis;
+            Vector2 moveAxis = inputCom.MoveAxis;
 
             // Renderer
             if (moveAxis.x > 0) {
@@ -167,11 +167,11 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Jump() {
-            moveCom.Jump(inputRecordCom.IsJump, attrCom.JumpSpeed);
+            moveCom.Jump(inputCom.HasInput_JumpDown, attrCom.JumpSpeed);
         }
 
         public void CrossDown() {
-            if (inputRecordCom.MoveAxis.y < 0 && moveCom.IsStandCrossPlatform) {
+            if (inputCom.MoveAxis.y < 0 && moveCom.IsStandCrossPlatform) {
                 SetFootTrigger(true);
             }
         }

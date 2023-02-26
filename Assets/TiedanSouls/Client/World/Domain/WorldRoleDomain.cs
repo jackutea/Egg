@@ -23,13 +23,6 @@ namespace TiedanSouls.World.Domain {
             var factory = worldContext.WorldFactory;
             var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
 
-            // ==== Init ====
-            // - Skillor 
-            var allSkillor = role.SkillorSlotCom.GetAll();
-            foreach (var skillor in allSkillor) {
-                skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
-            }
-
             // - Physics
             role.OnFootCollisionEnterHandle += OnRoleFootCollisionEnter;
             role.OnFootCollisionExitHandle += OnRoleFootCollisionExit;
@@ -82,10 +75,10 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Input ====
-        public void RecordOwnerInput(RoleEntity ownerRole) {
-
+        public void BackOwnerInput(RoleEntity ownerRole) {
             var inputGetter = infraContext.InputCore.Getter;
-            var inputRecordCom = ownerRole.InputRecordCom;
+            var inputCom = ownerRole.InputCom;
+            inputCom.Reset();
 
             // - Move
             Vector2 moveAxis = Vector2.zero;
@@ -104,51 +97,48 @@ namespace TiedanSouls.World.Domain {
             } else {
                 moveAxis.y = 0;
             }
-            inputRecordCom.SetMoveAxis(moveAxis);
+            inputCom.SetInput_Locomotion_Move(moveAxis);
 
             // - Jump
             bool isJump = inputGetter.GetDown(InputKeyCollection.JUMP);
-            inputRecordCom.SetJumping(isJump);
+            inputCom.SetInput_Locomotion_Jump(isJump);
 
             // - Melee && HoldMelee
             bool isMelee = inputGetter.GetDown(InputKeyCollection.MELEE);
-            if (!inputRecordCom.IsMelee) {
-                inputRecordCom.SetMelee(isMelee);
+            if (!inputCom.HasInput_Melee) {
+                inputCom.SetInput_Skillor__Melee(isMelee);
             }
 
             // - SpecMelee
             bool isSpecMelee = inputGetter.GetDown(InputKeyCollection.SPEC_MELEE);
-            if (!inputRecordCom.IsSpecMelee) {
-                inputRecordCom.SetSpecMelee(isSpecMelee);
+            if (!inputCom.HasInput_SpecMelee) {
+                inputCom.SetInput_Skillor_SpecMelee(isSpecMelee);
             }
 
             // - BoomMelee
             bool isBoomMelee = inputGetter.GetDown(InputKeyCollection.BOOM_MELEE);
-            if (!inputRecordCom.IsBoomMelee) {
-                inputRecordCom.SetBoomMelee(isBoomMelee);
+            if (!inputCom.HasInpout_BoomMelee) {
+                inputCom.SetInput_Skillor_BoomMelee(isBoomMelee);
             }
 
             // - Infinity
             bool isInfinity = inputGetter.GetDown(InputKeyCollection.INFINITY);
-            if (!inputRecordCom.IsInfinity) {
-                inputRecordCom.SetInfinity(isInfinity);
+            if (!inputCom.HasInput_Infinity) {
+                inputCom.SetInput_Skillor_Infinity(isInfinity);
             }
 
             // - Dash
             bool isDash = inputGetter.GetDown(InputKeyCollection.DASH);
-            if (!inputRecordCom.IsDash) {
-                inputRecordCom.SetDash(isDash);
+            if (!inputCom.HasInput_Dash) {
+                inputCom.SetInput_Skillor_Dash(isDash);
             }
 
-        }
+            // - Pick
+            bool isPick = inputGetter.GetDown(InputKeyCollection.PICK);
+            if (!inputCom.HasInput_Basic_Pick) {
+                inputCom.SetInput_Basic_Pick(isPick);
+            }
 
-        public void CleanOwnerInput(RoleEntity ownerRole) {
-            var inputRecordCom = ownerRole.InputRecordCom;
-            inputRecordCom.SetMelee(false);
-            inputRecordCom.SetSpecMelee(false);
-            inputRecordCom.SetBoomMelee(false);
-            inputRecordCom.SetInfinity(false);
-            inputRecordCom.SetDash(false);
         }
 
         // ==== Locomotion ====
@@ -173,41 +163,30 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Cast ====
-        public bool CastByInput(RoleEntity role) {
-
-            // - Get Input TypeID
-            var inputRecordCom = role.InputRecordCom;
-            SkillorType inputSkillorType = SkillorType.None;
-            if (inputRecordCom.IsSpecMelee) {
-                inputSkillorType = SkillorType.SpecMelee;
-            } else if (inputRecordCom.IsBoomMelee) {
-                inputSkillorType = SkillorType.BoomMelee;
-            } else if (inputRecordCom.IsInfinity) {
-                inputSkillorType = SkillorType.Infinity;
-            } else if (inputRecordCom.IsDash) {
-                inputSkillorType = SkillorType.Dash;
-            } else if (inputRecordCom.IsMelee) {
-                inputSkillorType = SkillorType.Melee;
-            }
-
+        public bool TryCastByInput(RoleEntity role) {
+            var inputCom = role.InputCom;
+            SkillorType inputSkillorType = inputCom.GetSkillorType();
             if (inputSkillorType == SkillorType.None) {
                 return false;
             }
 
+            var weaponSlotCom = role.WeaponSlotCom;
+            if (!weaponSlotCom.IsActive) {
+                TDLog.Warning($"无法施放技能 - 武器未激活");
+                return false;
+            }
+
             if (!role.SkillorSlotCom.TryGetOriginalSkillorByType(inputSkillorType, out var skillor)) {
-                TDLog.Error($"释放技能失败 - 不存在原始技能类型 {inputSkillorType}");
+                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillorType}");
                 return false;
             }
 
             int inputSkillorTypeID = skillor.TypeID;
 
-            // - Judge Allow Cast
-            bool allowCast = AllowCast(role, ref inputSkillorTypeID, out var isCombo);
-            if (!allowCast) {
+            if (!CanCast(role, ref inputSkillorTypeID, out var isCombo)) {
                 return false;
             }
 
-            // - Cast
             if (isCombo) {
                 CastComboSkillor(role, inputSkillorTypeID);
             } else {
@@ -218,7 +197,7 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        bool AllowCast(RoleEntity role, ref int inputSkillorTypeID, out bool isCombo) {
+        bool CanCast(RoleEntity role, ref int inputSkillorTypeID, out bool isCombo) {
             isCombo = false;
 
             var fsm = role.FSMCom;
@@ -251,6 +230,7 @@ namespace TiedanSouls.World.Domain {
                         isCombo = true;
                         if (!skillorSlotCom.TryGetComboSkillor(cancelSkillorTypeID, out var comboSkillor)
                         || inputSkillorTypeID != comboSkillor.OriginalSkillorTypeID) {
+                            TDLog.Error($"强制取消技能失败 - 连击技能 {cancelSkillorTypeID} 不存在 或 非对应原始技能 {inputSkillorTypeID}");
                             return false;
                         }
 
@@ -262,7 +242,7 @@ namespace TiedanSouls.World.Domain {
                             if (skillorSlotCom.TryGetOriginalSkillor(cancelSkillorTypeID, out var nextSkillor)) {
                                 return true;
                             } else {
-                                TDLog.Error($"技能配置错误 - 强制取消技能 ID {cancelSkillorTypeID}");
+                                TDLog.Error($"强制取消技能失败 - NormalCancel技能 {cancelSkillorTypeID} 未配置为原始技能");
                                 return false;
                             }
                         }
@@ -279,7 +259,7 @@ namespace TiedanSouls.World.Domain {
         void CastOriginalSkillor(RoleEntity role, int typeID) {
             var skillorSlotCom = role.SkillorSlotCom;
             if (!skillorSlotCom.TryGetOriginalSkillor(typeID, out var skillor)) {
-                TDLog.Error($"释放原始技能失败:{typeID} ");
+                TDLog.Error($"施放原始技能失败:{typeID} ");
                 return;
             }
             var fsm = role.FSMCom;
@@ -289,7 +269,7 @@ namespace TiedanSouls.World.Domain {
         void CastComboSkillor(RoleEntity role, int typeID) {
             var skillorSlotCom = role.SkillorSlotCom;
             if (!skillorSlotCom.TryGetComboSkillor(typeID, out var skillor)) {
-                TDLog.Error($"释放连击技能失败:{typeID} ");
+                TDLog.Error($"施放连击技能失败:{typeID} ");
                 return;
             }
             var fsm = role.FSMCom;
@@ -375,6 +355,156 @@ namespace TiedanSouls.World.Domain {
                 role.HudSlotCom.HpBarHUD.Tick(dt);
             }
         }
+
+        #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]
+
+        public bool TryPickUpSomething(RoleEntity role) {
+            var repo = worldContext.ItemRepo;
+            if (!repo.TryGetOneItem(role.GetPos(), 1, out var item)) {
+                return false;
+            }
+
+            if (item.ItemType == ItemType.Weapon) {
+                if (!role.WeaponSlotCom.IsActive) {
+                    PickUpWeapon(role, item.TypeIDForPickUp);
+                    return true;
+                }
+
+                // TODO: 拾取武器时，如果已经有武器，需要判断是否替换武器
+                return false;
+            }
+
+            TDLog.Error($"未知的拾取物品类型 - {item.ItemType}");
+            return false;
+        }
+
+        public void PickUpWeapon(RoleEntity role, int weaponTypeID) {
+            // Weapon
+            SetWeaponSlotComponent(role, weaponTypeID);
+
+            // Skillor
+            var curWeapon = role.WeaponSlotCom.Weapon;
+            var skillorTypeIDArray = new int[] { curWeapon.skillorMeleeTypeID, curWeapon.skillorHoldMeleeTypeID, curWeapon.skillorSpecMeleeTypeID };
+            if (skillorTypeIDArray != null) {
+                InitRoleSkillorSlotCom(role, skillorTypeIDArray);
+            }
+
+            var allSkillor = role.SkillorSlotCom.GetAll();
+            foreach (var skillor in allSkillor) {
+                skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
+            }
+        }
+
+        void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
+            var weaponModel = SpawnWeaponModel(weaponTypeID);
+            if (weaponModel == null) {
+                TDLog.Error($"武器生成失败 - {weaponTypeID}");
+                return;
+            }
+
+            var mod = weaponModel.Mod;
+            mod.transform.SetParent(role.WeaponSlotCom.WeaponRoot, false);
+            role.WeaponSlotCom.SetWeapon(weaponModel);
+        }
+
+        WeaponModel SpawnWeaponModel(int typeID) {
+            WeaponModel weapon = new WeaponModel();
+
+            var assetCore = infraContext.AssetCore;
+            var templateCore = infraContext.TemplateCore;
+
+            // Weapon TM
+            bool has = templateCore.WeaponTemplate.TryGet(typeID, out WeaponTM weaponTM);
+            if (!has) {
+                TDLog.Error("Failed to get weapon template: " + typeID);
+                return null;
+            }
+
+            // Weapon Mod
+            has = assetCore.WeaponModAssets.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
+            if (!has) {
+                TDLog.Error("Failed to get weapon mod: " + weaponTM.meshName);
+                return null;
+            }
+
+            weapon.SetWeaponType(weaponTM.weaponType);
+            weapon.SetTypeID(weaponTM.typeID);
+            weapon.atk = weaponTM.atk;
+            weapon.def = weaponTM.def;
+            weapon.crit = weaponTM.crit;
+            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
+            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
+            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
+
+            var go = GameObject.Instantiate(weaponModPrefab);
+            weapon.SetMod(go);
+
+            return weapon;
+        }
+
+        void InitRoleSkillorSlotCom(RoleEntity role, int[] typeIDArray) {
+            var templateCore = infraContext.TemplateCore;
+            var idService = worldContext.IDService;
+            var skillorSlotCom = role.SkillorSlotCom;
+
+            var len = typeIDArray.Length;
+            for (int i = 0; i < len; i++) {
+                var typeID = typeIDArray[i];
+                if (!templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM)) {
+                    continue;
+                }
+
+                var skillorModel = new SkillorModel();
+                skillorModel.FromTM(skillorTM);
+                skillorModel.SetID(idService.PickSkillorID());
+                skillorModel.SetOwner(role);
+                skillorSlotCom.AddOriginalSkillor(skillorModel);
+
+                var frames = skillorTM.frames;
+                var frameCout = frames.Length;
+                for (int j = 0; j < frameCout; j++) {
+                    InitAllComboSkillor(role, skillorSlotCom, frames[j]);
+                }
+            }
+        }
+
+        void InitAllComboSkillor(object owner, SkillorSlotComponent skillorSlotCom, SkillorFrameTM frameTM) {
+            var templateCore = infraContext.TemplateCore;
+            var idService = worldContext.IDService;
+
+            var cancelTMs = frameTM.cancelTMs;
+            var cancelCount = cancelTMs?.Length;
+            for (int i = 0; i < cancelCount; i++) {
+                var cancelTM = cancelTMs[i];
+                if (!cancelTM.isCombo) {
+                    continue;
+                }
+
+                var comboSkillorTypeID = cancelTM.skillorTypeID;
+                if (skillorSlotCom.HasComboSkillor(comboSkillorTypeID)) {
+                    continue;
+                }
+
+                if (!templateCore.SkillorTemplate.TryGet(comboSkillorTypeID, out SkillorTM comboSkillorTM)) {
+                    TDLog.Error($"加载连击技能失败 - TypeID {comboSkillorTypeID} 不存在 ");
+                    continue;
+                }
+
+                var comboSkillorModel = new SkillorModel();
+                comboSkillorModel.FromTM(comboSkillorTM);
+                comboSkillorModel.SetID(idService.PickSkillorID());
+                comboSkillorModel.SetOwner(owner);
+                skillorSlotCom.AddComboSkillor(comboSkillorModel);
+
+                var nextFrames = comboSkillorTM.frames;
+                var frameCount = nextFrames.Length;
+                for (int j = 0; j < frameCount; j++) {
+                    InitAllComboSkillor(owner, skillorSlotCom, nextFrames[j]);
+                }
+            }
+        }
+
+        #endregion
 
     }
 

@@ -185,7 +185,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -201,7 +201,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -217,7 +217,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -233,7 +233,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -249,7 +249,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -265,7 +265,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -281,7 +281,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -297,7 +297,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 0
+      - skillorTypeID: 1020
         startFrame: 0
         isCombo: 1
       boxes: []
