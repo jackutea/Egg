@@ -111,7 +111,6 @@ namespace TiedanSouls.World.Domain {
                 if (role.gameObject.transform.position.y < 0) {
                     role.DropBeHurt(50, new Vector2(3, 3));
                 }
-                worldDomain.RoleDomain.TickHUD(role, dt);
             });
 
             CleanupRole();

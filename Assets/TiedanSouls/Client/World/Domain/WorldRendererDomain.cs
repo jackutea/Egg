@@ -3,6 +3,7 @@ using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
+using TiedanSouls.World.Entities;
 
 namespace TiedanSouls.World.Domain {
 
@@ -23,7 +24,8 @@ namespace TiedanSouls.World.Domain {
         public void Tick(float dt) {
             var repo = worldContext.RoleRepo;
             repo.ForeachAll((role) => {
-                role.LerpRendererPos(dt);
+                role.SyncRenderer(dt);
+                role.HudSlotCom.HpBarHUD.Tick(dt);
             });
         }
 

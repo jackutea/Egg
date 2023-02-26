@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace TiedanSouls.World.Entities {
@@ -70,8 +71,18 @@ namespace TiedanSouls.World.Entities {
             return comboSkillors.ContainsKey(typeID);
         }
 
-        public IEnumerable<SkillorModel> GetAll() {
-            return originalSkillors.Values;
+        public void ForeachAllOriginalSkillor(Action<SkillorModel> action) {
+            var e = originalSkillors.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                action(e.Current);
+            }
+        }
+
+        public void ForeachAllComboSkillor(Action<SkillorModel> action) {
+            var e = comboSkillors.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                action(e.Current);
+            }
         }
 
     }

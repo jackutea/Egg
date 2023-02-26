@@ -24,9 +24,9 @@ namespace TiedanSouls.World.Domain {
             var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
 
             // - Physics
-            role.OnFootCollisionEnterHandle += OnRoleFootCollisionEnter;
-            role.OnFootCollisionExitHandle += OnRoleFootCollisionExit;
-            role.OnBodyTriggerExitHandle += OnRoleFootTriggerExit;
+            role.FootTriggerEnterAction += OnFootTriggerEnter;
+            role.FootTriggerExit += OnFootTriggerExit;
+            role.BodyTriggerExitAction += OnRoleFootTriggerExit;
 
             // - FSM
             role.FSMCom.EnterIdle();
@@ -47,8 +47,9 @@ namespace TiedanSouls.World.Domain {
             return role;
         }
 
-        // ==== Physics Event ====
-        void OnRoleFootCollisionEnter(RoleEntity role, Collision2D other) {
+        #region [Physics Event]
+
+        void OnFootTriggerEnter(RoleEntity role, Collider2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.EnterGround();
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
@@ -56,7 +57,7 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void OnRoleFootCollisionExit(RoleEntity role, Collision2D other) {
+        void OnFootTriggerExit(RoleEntity role, Collider2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.LeaveGround();
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
@@ -70,13 +71,15 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void OnSkillorTriggerEnter(SkillorModel skillor, Collider2D other) {
+        void OnTriggerEnter_Skillor(SkillorModel skillor, Collider2D other) {
             var go = other.gameObject;
-            var otherRole = go.GetComponent<RoleEntity>();
+            var otherRole = go.GetComponentInParent<RoleEntity>();
             if (otherRole != null) {
-                RoleHitRole(skillor, otherRole);
+                SkillorHitRole(skillor, otherRole);
             }
         }
+
+        #endregion
 
         // ==== Input ====
         public void BackPlayerRInput() {
@@ -144,7 +147,8 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        // ==== Locomotion ====
+        #region [Locomotion]
+
         public void Move(RoleEntity role) {
             role.Move();
         }
@@ -162,14 +166,17 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void Falling(RoleEntity role, float dt) {
-            if(role.MoveCom.IsGrounded){
+            if (role.MoveCom.IsGrounded) {
                 return;
             }
-            
+
             role.Falling(dt);
         }
 
-        // ==== Cast ====
+        #endregion
+
+        #region [Cast]
+
         public bool TryCancelSkillor(RoleEntity role) {
             var inputCom = role.InputCom;
             SkillorType inputSkillorType = inputCom.GetSkillorType();
@@ -283,8 +290,11 @@ namespace TiedanSouls.World.Domain {
             fsm.EnterCasting(skillor, true);
         }
 
-        // ==== Hit ====
-        void RoleHitRole(SkillorModel skillor, RoleEntity other) {
+        #endregion  
+
+        #region [Hit]
+
+        void SkillorHitRole(SkillorModel skillor, RoleEntity other) {
 
             var caster = skillor.Owner;
 
@@ -305,7 +315,7 @@ namespace TiedanSouls.World.Domain {
             }
             damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
 
-            RoleHitRole_Damage(caster, skillor, other);
+            SkillorHitRole_Damage(caster, skillor, other);
             if (other.AttrCom.HP <= 0) {
                 RoleDie(other);
             } else {
@@ -314,7 +324,7 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        void RoleHitRole_Damage(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
+        void SkillorHitRole_Damage(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
 
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
@@ -352,15 +362,11 @@ namespace TiedanSouls.World.Domain {
 
         }
 
+        #endregion
+
         void RoleDie(RoleEntity role) {
             var fsm = role.FSMCom;
             fsm.EnterDead();
-        }
-
-        public void TickHUD(RoleEntity role, float dt) {
-            if (role.HudSlotCom.HpBarHUD != null) {
-                role.HudSlotCom.HpBarHUD.Tick(dt);
-            }
         }
 
         #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -396,10 +402,15 @@ namespace TiedanSouls.World.Domain {
                 InitRoleSkillorSlotCom(role, skillorTypeIDArray);
             }
 
-            var allSkillor = role.SkillorSlotCom.GetAll();
-            foreach (var skillor in allSkillor) {
-                skillor.OnTriggerEnterHandle += OnSkillorTriggerEnter;
-            }
+            role.SkillorSlotCom.ForeachAllOriginalSkillor((skillor) => {
+                TDLog.Log($"添加技能触发器 - {skillor.TypeID}");
+                skillor.OnTriggerEnterHandle += OnTriggerEnter_Skillor;
+            });
+
+            role.SkillorSlotCom.ForeachAllComboSkillor((skillor) => {
+                TDLog.Log($"添加技能触发器 - {skillor.TypeID}");
+                skillor.OnTriggerEnterHandle += OnTriggerEnter_Skillor;
+            });
         }
 
         void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {

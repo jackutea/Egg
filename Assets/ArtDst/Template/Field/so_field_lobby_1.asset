@@ -17,10 +17,15 @@ MonoBehaviour:
     fieldType: 1
     chapter: 0
     level: 0
-    spawnModelArray: []
+    spawnModelArray:
+    - entityType: 1
+      roleControlType: 1
+      allyType: 3
+      typeID: 1000
+      pos: {x: 30, y: 5}
     itemSpawnPosArray:
-    - {x: 20, y: 2}
-    - {x: 25, y: 2}
-    - {x: 30, y: 2}
-    - {x: 35, y: 2}
+    - {x: 3, y: 2}
+    - {x: 5, y: 2}
+    - {x: 7, y: 2}
+    - {x: 9, y: 2}
     fieldAssetName: mod_field_hall

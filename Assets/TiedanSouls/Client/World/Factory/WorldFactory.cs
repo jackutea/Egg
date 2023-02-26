@@ -101,7 +101,7 @@ namespace TiedanSouls.World {
 
             // Pos
             role.SetRBPos(pos);
-            role.UpdateRendererPos();
+            role.SyncRenderer();
 
             // Ally
             role.SetAlly(allyType);
@@ -115,7 +115,7 @@ namespace TiedanSouls.World {
             }
 
             // HUD
-            var hpBar = CreateHpBarHUD(role.HudSlotCom.HudRoot);
+            var hpBar = CreateHpBarHUD();
             role.HudSlotCom.SetHpBarHUD(hpBar);
 
             return role;
@@ -143,7 +143,7 @@ namespace TiedanSouls.World {
 
         }
 
-        public HpBarHUD CreateHpBarHUD(Transform parent) {
+        public HpBarHUD CreateHpBarHUD() {
             var assetCore = infraContext.AssetCore;
             var hudAssets = assetCore.HUDAssets;
             bool has = hudAssets.TryGet("hud_hp_bar", out GameObject go);
@@ -151,7 +151,7 @@ namespace TiedanSouls.World {
                 TDLog.Error("Failed to get asset: hud_hp_bar");
                 return null;
             }
-            var hud = GameObject.Instantiate(go, parent).GetComponent<HpBarHUD>();
+            var hud = GameObject.Instantiate(go).GetComponent<HpBarHUD>();
             hud.Ctor();
             return hud;
         }

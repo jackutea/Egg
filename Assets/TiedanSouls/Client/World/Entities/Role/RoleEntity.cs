@@ -71,9 +71,9 @@ namespace TiedanSouls.World.Entities {
         HUDSlotComponent hudSlotCom;
         public HUDSlotComponent HudSlotCom => hudSlotCom;
 
-        public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
-        public event Action<RoleEntity, Collision2D> OnFootCollisionExitHandle;
-        public event Action<RoleEntity, Collider2D> OnBodyTriggerExitHandle;
+        public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
+        public event Action<RoleEntity, Collider2D> FootTriggerExit;
+        public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
 
         public void Ctor() {
 
@@ -102,7 +102,9 @@ namespace TiedanSouls.World.Entities {
             weaponSlotCom.Inject(weaponRoot);
 
             // - HUD
-            var hudRoot = transform.Find("hud_root");
+            var hudRoot = rendererRoot.Find("hud_root");
+            TDLog.Assert(hudRoot != null);
+
             hudSlotCom = new HUDSlotComponent();
             hudSlotCom.Inject(hudRoot);
 
@@ -110,8 +112,8 @@ namespace TiedanSouls.World.Entities {
             attrCom = new RoleAttributeComponent();
 
             // ==== Bind Event ====
-            footCom.OnCollisionEnterHandle += OnFootCollisionEnter;
-            footCom.OnCollisionExitHandle += OnFootCollisionExit;
+            footCom.FootTriggerEnter += OnFootTriggerEnter;
+            footCom.FootTriggerExit += OnFootCollisionExit;
             bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
 
             // - Mod
@@ -128,8 +130,8 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void TearDown() {
-            footCom.OnCollisionEnterHandle -= OnFootCollisionEnter;
-            footCom.OnCollisionExitHandle -= OnFootCollisionExit;
+            footCom.FootTriggerEnter -= OnFootTriggerEnter;
+            footCom.FootTriggerExit -= OnFootCollisionExit;
             GameObject.Destroy(gameObject);
         }
 
@@ -204,6 +206,7 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Hit ====
         public void HitBeHurt(int atk) {
+            TDLog.Log($"{id} 收到伤害 - {atk}");
             attrCom.HitBeHurt(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
@@ -213,7 +216,7 @@ namespace TiedanSouls.World.Entities {
             attrCom.HitBeHurt(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetRBPos(rebornPos);
-            UpdateRendererPos();
+            SyncRenderer();
         }
 
         // ==== Phx ====
@@ -222,24 +225,25 @@ namespace TiedanSouls.World.Entities {
             bodyCollCom.SetTrigger(isTrigger);
         }
 
-        void OnFootCollisionEnter(Collision2D other) {
-            OnFootCollisionEnterHandle.Invoke(this, other);
+        void OnFootTriggerEnter(Collider2D other) {
+            FootTriggerEnterAction.Invoke(this, other);
         }
 
-        void OnFootCollisionExit(Collision2D other) {
-            OnFootCollisionExitHandle.Invoke(this, other);
+        void OnFootCollisionExit(Collider2D other) {
+            FootTriggerExit.Invoke(this, other);
         }
 
         void OnBodyTriggerExit(Collider2D other) {
-            OnBodyTriggerExitHandle.Invoke(this, other);
+            BodyTriggerExitAction.Invoke(this, other);
         }
 
         // ==== Renderer ====
-        public void UpdateRendererPos() {
+        public void SyncRenderer() {
+            rendererRoot.position = logicRoot.position;
         }
 
-        public void LerpRendererPos(float dt) {
-            transform.position = Vector3.Lerp(transform.position, rb.position, dt * 15f);
+        public void SyncRenderer(float dt) {
+            rendererRoot.position = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
         }
 
     }

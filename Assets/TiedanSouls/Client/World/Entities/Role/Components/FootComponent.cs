@@ -7,20 +7,20 @@ namespace TiedanSouls.World.Entities {
 
         Collider2D footColl;
 
-        public event Action<Collision2D> OnCollisionEnterHandle;
-        public event Action<Collision2D> OnCollisionExitHandle;
+        public event Action<Collider2D> FootTriggerEnter;
+        public event Action<Collider2D> FootTriggerExit;
 
         public void Ctor() {
             footColl = GetComponent<Collider2D>();
         }
 
-        void OnCollisionEnter2D(Collision2D other) {
-            TDLog.Log($"OnCollisionEnter2D: {other.gameObject.name}");
-            OnCollisionEnterHandle.Invoke(other);
+        void OnTriggerEnter2D(Collider2D other) {
+            TDLog.Log("FootComponent OnTriggerEnter2D");
+            FootTriggerEnter.Invoke(other);
         }
-
-        void OnCollisionExit2D(Collision2D other) {
-            OnCollisionExitHandle.Invoke(other);
+        void OnTriggerExit2D(Collider2D other) {
+            TDLog.Log("FootComponent OnTriggerExit2D");
+            FootTriggerExit.Invoke(other);
         }
 
         public void SetTrigger(bool isTrigger) {

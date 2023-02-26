@@ -24,6 +24,8 @@ namespace TiedanSouls.Main.Entry {
             GameObject.DontDestroyOnLoad(gameObject);
 
             Application.targetFrameRate = 120;
+            Physics2D.simulationMode = SimulationMode2D.Script;
+            Physics2D.IgnoreLayerCollision(LayerCollection.ROLE, LayerCollection.ROLE);
 
             // ==== Instantiate ====
             InfraContext infraContext = new InfraContext();
