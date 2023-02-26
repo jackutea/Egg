@@ -8,6 +8,8 @@ namespace TiedanSouls.World {
         Dictionary<int, RoleEntity> all;
         public int Count => all.Count;
 
+        public RoleEntity playerRole;
+
         public RoleRepo() {
             all = new Dictionary<int, RoleEntity>();
         }

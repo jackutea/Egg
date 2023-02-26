@@ -20,23 +20,23 @@ namespace TiedanSouls.World.Domain {
             this.worldDomain = worldDomain;
         }
 
-        public void EnterHall() {
+        public void EnterLobby() {
             // Config
             var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
 
             // Spawn Field
-            var firstFieldTypeID = gameConfigTM.hallFieldTypeID;
+            var firstFieldTypeID = gameConfigTM.lobbyFieldTypeID;
             var fieldDomain = worldDomain.FieldDomain;
             var field = fieldDomain.SpawnField(firstFieldTypeID);
 
             // Check
             var fieldType = field.FieldType;
-            if (fieldType != FieldType.Hall) {
+            if (fieldType != FieldType.Lobby) {
                 TDLog.Error("进入大厅失败! FieldType: {fieldType}");
                 return;
             }
 
-            // Hall Character
+            // Lobby Character
             TDLog.Log($"大厅人物生成开始 -------------------------------------------- ");
             var spawnModelArray = field.SpawnModelArray;
             var spawnCount = spawnModelArray?.Length;
@@ -58,8 +58,8 @@ namespace TiedanSouls.World.Domain {
             TDLog.Log($"大厅人物生成结束 -------------------------------------------- ");
 
             TDLog.Log($"大厅物件生成开始 -------------------------------------------- ");
-            var hallItemTypeIDs = gameConfigTM.hallItemTypeIDs;
-            var itemCount = hallItemTypeIDs?.Length;
+            var lobbyItemTypeIDs = gameConfigTM.lobbyItemTypeIDs;
+            var itemCount = lobbyItemTypeIDs?.Length;
             var itemSpawnPosArray = field.ItemSpawnPosArray;
             for (int i = 0; i < itemCount; i++) {
                 if (i >= itemSpawnPosArray.Length) {
@@ -67,7 +67,7 @@ namespace TiedanSouls.World.Domain {
                     break;
                 }
 
-                var typeID = hallItemTypeIDs[i];
+                var typeID = lobbyItemTypeIDs[i];
                 var itemSpawnPos = itemSpawnPosArray[i];
                 var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos);
                 TDLog.Log($"物件: EntityID: {itemEntity.ID} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
@@ -88,20 +88,20 @@ namespace TiedanSouls.World.Domain {
 
             // World State
             var stateEntity = worldContext.StateEntity;
-            stateEntity.EnterState_Hall(owner.ID);
+            stateEntity.EnterState_Lobby(owner.ID);
         }
 
         public void ApplyWorldState(float dt) {
             var stateEntity = worldContext.StateEntity;
             var worldStatus = stateEntity.Status;
-            if (worldStatus == WorldFSMStatus.Hall) {
-                ApplyWorldState_Hall(dt);
+            if (worldStatus == WorldFSMStatus.Lobby) {
+                ApplyWorldState_Lobby(dt);
             } else if (worldStatus == WorldFSMStatus.BattleField) {
                 ApplyWorldState_Battle(dt);
             }
         }
 
-        public void ApplyWorldState_Hall(float dt) {
+        public void ApplyWorldState_Lobby(float dt) {
             ApplyBasicLogic(dt);
         }
 
@@ -127,11 +127,6 @@ namespace TiedanSouls.World.Domain {
             var roleRepo = worldContext.RoleRepo;
             var allRole = roleRepo.GetAll();
             foreach (var role in allRole) {
-                // Input
-                if (role.ID == stateEntity.OwnerRoleID) {
-                    roleDomain.BackOwnerInput(role);
-                }
-
                 // AI
                 if (role.ControlType == RoleControlType.AI) {
                     role.AIStrategy.Tick(dt);
@@ -145,7 +140,7 @@ namespace TiedanSouls.World.Domain {
             var phxDomain = worldDomain.WorldPhysicsDomain;
             phxDomain.Tick(dt);
         }
-
+        
         void CleanupRole() {
 
             var roleRepo = worldContext.RoleRepo;

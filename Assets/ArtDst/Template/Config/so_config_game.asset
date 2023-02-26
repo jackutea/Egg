@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: so_config_game
   m_EditorClassIdentifier: 
   tm:
-    hallFieldTypeID: 1
-    hallItemTypeIDs: 64000000640000006400000064000000
+    lobbyFieldTypeID: 1
+    lobbyItemTypeIDs: 64000000640000006400000064000000
     tiedanRoleTypeID: 1000

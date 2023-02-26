@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - SO_Field
   - m_GUID: 6f6717e3624c9ae46b6d6b21bf35ea29
-    m_Address: so_field_hall_1
+    m_Address: so_field_lobby_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Field

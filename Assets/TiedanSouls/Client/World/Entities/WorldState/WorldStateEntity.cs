@@ -12,8 +12,8 @@ namespace TiedanSouls.World.Entities {
 
         public WorldStateEntity() { }
 
-        public void EnterState_Hall(int ownerRoleID) {
-            this.status = WorldFSMStatus.Hall;
+        public void EnterState_Lobby(int ownerRoleID) {
+            this.status = WorldFSMStatus.Lobby;
             this.ownerRoleID = ownerRoleID;
             TDLog.Log($"进入大厅状态, OwnerRoleID: {ownerRoleID}");
         }

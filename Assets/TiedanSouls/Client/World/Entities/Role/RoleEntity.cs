@@ -167,7 +167,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Jump() {
-            moveCom.Jump(inputCom.HasInput_JumpDown, attrCom.JumpSpeed);
+            moveCom.Jump(inputCom.HasInput_Locomotion_JumpDown, attrCom.JumpSpeed);
         }
 
         public void CrossDown() {

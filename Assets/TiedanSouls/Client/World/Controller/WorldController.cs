@@ -10,6 +10,9 @@ namespace TiedanSouls.World.Controller {
         WorldContext worldContext;
         WorldDomain worldDomain;
 
+        float resTime;
+        const float LOGIC_INTERVAL_TIME = 0.033f;
+
         public WorldController() {
             worldContext = new WorldContext();
             worldDomain = new WorldDomain();
@@ -31,16 +34,20 @@ namespace TiedanSouls.World.Controller {
 
         public void Init() {
             infraContext.EventCenter.OnStartGameHandle += () => {
-                worldDomain.GameDomain.EnterHall();
+                worldDomain.GameDomain.EnterLobby();
             };
         }
 
-        public void FixedTick() {
-
-        }
-
         public void Tick(float dt) {
-            worldDomain.GameDomain.ApplyWorldState(dt);
+            worldDomain.RoleDomain.BackPlayerRInput();
+
+            // Fixed Tick
+            resTime += dt;
+            while (resTime >= LOGIC_INTERVAL_TIME) {
+                resTime -= LOGIC_INTERVAL_TIME;
+                worldDomain.GameDomain.ApplyWorldState(LOGIC_INTERVAL_TIME);
+            }
+
         }
 
     }

@@ -2,7 +2,7 @@ namespace TiedanSouls {
 
     public enum FieldType {
         None,
-        Hall,
+        Lobby,
         BattleField
     }
 

@@ -40,6 +40,10 @@ namespace TiedanSouls.World.Domain {
             var repo = worldContext.RoleRepo;
             repo.Add(role);
 
+            if (role.ControlType == RoleControlType.Player) {
+                repo.playerRole = role;
+            }
+
             return role;
         }
 
@@ -75,10 +79,14 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Input ====
-        public void BackOwnerInput(RoleEntity ownerRole) {
+        public void BackPlayerRInput() {
+            RoleEntity playerRole = worldContext.RoleRepo.playerRole;
+            if (playerRole == null) {
+                return;
+            }
+
+            var inputCom = playerRole.InputCom;
             var inputGetter = infraContext.InputCore.Getter;
-            var inputCom = ownerRole.InputCom;
-            inputCom.Reset();
 
             // - Move
             Vector2 moveAxis = Vector2.zero;
@@ -100,43 +108,38 @@ namespace TiedanSouls.World.Domain {
             inputCom.SetInput_Locomotion_Move(moveAxis);
 
             // - Jump
-            bool isJump = inputGetter.GetDown(InputKeyCollection.JUMP);
-            inputCom.SetInput_Locomotion_Jump(isJump);
-
-            // - Melee && HoldMelee
-            bool isMelee = inputGetter.GetDown(InputKeyCollection.MELEE);
-            if (!inputCom.HasInput_Melee) {
-                inputCom.SetInput_Skillor__Melee(isMelee);
-            }
-
-            // - SpecMelee
-            bool isSpecMelee = inputGetter.GetDown(InputKeyCollection.SPEC_MELEE);
-            if (!inputCom.HasInput_SpecMelee) {
-                inputCom.SetInput_Skillor_SpecMelee(isSpecMelee);
-            }
-
-            // - BoomMelee
-            bool isBoomMelee = inputGetter.GetDown(InputKeyCollection.BOOM_MELEE);
-            if (!inputCom.HasInpout_BoomMelee) {
-                inputCom.SetInput_Skillor_BoomMelee(isBoomMelee);
-            }
-
-            // - Infinity
-            bool isInfinity = inputGetter.GetDown(InputKeyCollection.INFINITY);
-            if (!inputCom.HasInput_Infinity) {
-                inputCom.SetInput_Skillor_Infinity(isInfinity);
-            }
-
-            // - Dash
-            bool isDash = inputGetter.GetDown(InputKeyCollection.DASH);
-            if (!inputCom.HasInput_Dash) {
-                inputCom.SetInput_Skillor_Dash(isDash);
+            if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
+                inputCom.SetInput_Locomotion_Jump(true);
             }
 
             // - Pick
-            bool isPick = inputGetter.GetDown(InputKeyCollection.PICK);
-            if (!inputCom.HasInput_Basic_Pick) {
-                inputCom.SetInput_Basic_Pick(isPick);
+            if (inputGetter.GetDown(InputKeyCollection.PICK)) {
+                inputCom.SetInput_Basic_Pick(true);
+            }
+
+            // - Skillor Melee && HoldMelee
+            if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
+                inputCom.SetInput_Skillor__Melee(true);
+            }
+
+            // - Skillor SpecMelee
+            if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
+                inputCom.SetInput_Skillor_SpecMelee(true);
+            }
+
+            // - Skillor BoomMelee
+            if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
+                inputCom.SetInput_Skillor_BoomMelee(true);
+            }
+
+            // - Skillor Infinity
+            if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
+                inputCom.SetInput_Skillor_Infinity(true);
+            }
+
+            // - Skillor Dash
+            if (inputGetter.GetDown(InputKeyCollection.DASH)) {
+                inputCom.SetInput_Skillor_Dash(true);
             }
 
         }
@@ -163,7 +166,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         // ==== Cast ====
-        public bool TryCastByInput(RoleEntity role) {
+        public bool TryCancelSkillor(RoleEntity role) {
             var inputCom = role.InputCom;
             SkillorType inputSkillorType = inputCom.GetSkillorType();
             if (inputSkillorType == SkillorType.None) {

@@ -17,7 +17,7 @@ namespace TiedanSouls.Main.Entry {
 
         WorldController worldController;
 
-        bool isInit;
+        bool isClientReady;
 
         void Awake() {
 
@@ -45,43 +45,29 @@ namespace TiedanSouls.Main.Entry {
                 worldController.Init();
                 mainController.Init();
 
-                isInit = true;
+                isClientReady = true;
             };
             action.Invoke();
 
         }
 
-        void FixedUpdate() {
-
-            if (!isInit) {
-                return;
-            }
-
-            worldController.FixedTick();
-
-        }
-
         void Update() {
-
-            if (!isInit) {
+            if (!isClientReady) {
                 return;
             }
 
-            float dt = Time.deltaTime;
+            var dt = Time.deltaTime;
             infraController.Tick(dt);
             worldController.Tick(dt);
-
         }
 
         void LateUpdate() {
-
-            if (!isInit) {
+            if (!isClientReady) {
                 return;
             }
 
             float dt = Time.deltaTime;
             infraController.LateTick(dt);
-
         }
 
     }

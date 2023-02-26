@@ -25,6 +25,8 @@ namespace TiedanSouls.World.Domain {
             ApplyCasting(role, dt);
             ApplyIdle(role, dt);
             ApplyBeHurt(role, dt);
+
+            role.InputCom.Reset();
         }
 
         void ApplyIdle(RoleEntity role, float dt) {
@@ -44,7 +46,7 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Jump(role);
             roleDomain.CrossDown(role);
             roleDomain.Falling(role, dt);
-            _ = roleDomain.TryCastByInput(role);
+            _ = roleDomain.TryCancelSkillor(role);
 
             // - Idle状态下可拾取武器
             var inputCom = role.InputCom;
@@ -54,13 +56,10 @@ namespace TiedanSouls.World.Domain {
         }
 
         void ApplyCasting(RoleEntity role, float dt) {
-
             var fsm = role.FSMCom;
             if (fsm.Status != RoleFSMStatus.Casting) {
                 return;
             }
-
-            var roleDomain = worldDomain.RoleDomain;
 
             var stateModel = fsm.CastingState;
             var castingSkillor = stateModel.castingSkillor;
@@ -73,44 +72,31 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            float restTime = stateModel.restTime;
-            restTime += dt;
+            if (!castingSkillor.TryGetCurrentFrame(out SkillorFrameElement curFrame)) {
 
-            while (restTime >= stateModel.targetRate) {
+                var damageArbitService = worldContext.DamageArbitService;
+                damageArbitService.Remove(castingSkillor.EntityType, castingSkillor.ID);
 
-                restTime -= stateModel.targetRate;
+                castingSkillor.Reset();
 
-                SkillorFrameElement frame;
-                if (!castingSkillor.TryGetCurrentFrame(out frame)) {
+                fsm.EnterIdle();
 
-                    // remove damage arbit
-                    var damageArbitService = worldContext.DamageArbitService;
-                    damageArbitService.Remove(castingSkillor.EntityType, castingSkillor.ID);
-
-                    castingSkillor.Reset();
-
-                    fsm.EnterIdle();
-
-                    // TDLog.Log("END Casting");
-                    return;
-                }
-
-                // current frame logic
-                if (frame.hasDash) {
-                    roleDomain.Dash(role, Vector2.right * role.FaceXDir, frame.dashForce);
-                }
-
-                roleDomain.Falling(role, dt);
-
-                if (!roleDomain.TryCastByInput(role)) {
-                    // next frame
-                    castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
-                }
-
+                return;
             }
 
-            stateModel.restTime = restTime;
+            var roleDomain = worldDomain.RoleDomain;
 
+            roleDomain.Falling(role, dt);   // TODO: 离地才下落
+            
+            if (curFrame.hasDash) {
+                roleDomain.Dash(role, Vector2.right * role.FaceXDir, curFrame.dashForce);
+            }
+
+            if (roleDomain.TryCancelSkillor(role)) {
+                return;
+            }
+
+            castingSkillor.ActiveNextFrame(role.transform.position, role.transform.rotation.eulerAngles.z, role.FaceXDir);
         }
 
         void ApplyBeHurt(RoleEntity role, float dt) {

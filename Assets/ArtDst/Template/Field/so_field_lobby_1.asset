@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 240f2a15931ed4f41986e1cafecf887a, type: 3}
-  m_Name: so_field_hall_1
+  m_Name: so_field_lobby_1
   m_EditorClassIdentifier: 
   tm:
     typeID: 1
