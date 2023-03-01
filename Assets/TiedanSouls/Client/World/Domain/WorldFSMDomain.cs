@@ -92,28 +92,42 @@ namespace TiedanSouls.World.Domain {
         public void ApplyWorldState(float dt) {
             var stateEntity = worldContext.StateEntity;
             var worldStatus = stateEntity.Status;
-            if (worldStatus == WorldFSMStatus.Lobby) {
+            if (worldStatus == WorldFSMState.Lobby) {
                 ApplyWorldState_Lobby(dt);
-            } else if (worldStatus == WorldFSMStatus.BattleField) {
+            } else if (worldStatus == WorldFSMState.BattleField) {
                 ApplyWorldState_Battle(dt);
+            } else if (worldStatus == WorldFSMState.Store) {
+                ApplyWorldState_Store(dt);
             }
         }
 
         public void ApplyWorldState_Lobby(float dt) {
             ApplyBasicLogic(dt);
+
+            var stateEntity = worldContext.StateEntity;
+            var lobbyStateModel = stateEntity.LobbyStateModel;
+            if (lobbyStateModel.IsEntering) {
+                lobbyStateModel.SetIsEntering(false);
+            }
+
+            // 检查玩家InputComponent是否输入了进入战场的指令
+
         }
 
         public void ApplyWorldState_Battle(float dt) {
             ApplyBasicLogic(dt);
 
-            var roleRepo = worldContext.RoleRepo;
-            roleRepo.ForeachAll((role) => {
-                if (role.gameObject.transform.position.y < 0) {
-                    role.DropBeHurt(50, new Vector2(3, 3));
-                }
-            });
+            var stateEntity = worldContext.StateEntity;
+            var battleFieldStateModel = stateEntity.BattleFieldStateModel;
+            if (battleFieldStateModel.IsEntering) {
+                battleFieldStateModel.SetIsEntering(false);
+                // 加载战场对应的Field
+            }
 
-            CleanupRole();
+        }
+
+        void ApplyWorldState_Store(float dt) {
+            ApplyBasicLogic(dt);
         }
 
         void ApplyBasicLogic(float dt) {

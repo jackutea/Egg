@@ -13,6 +13,8 @@ namespace TiedanSouls {
         public int typeID;
         public Vector2 pos;
 
+        public int spawnFrame;  // 从进入关卡到出生的帧数
+
     }
 
 }

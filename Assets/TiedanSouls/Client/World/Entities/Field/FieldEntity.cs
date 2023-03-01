@@ -25,9 +25,15 @@ namespace TiedanSouls.World.Entities {
         public FieldType FieldType => fieldType;
         public void SetFieldType(FieldType v) => fieldType = v;
 
+        // ====== Component
+        FieldFSMComponent fsmComponent;
+        public FieldFSMComponent FSMComponent => fsmComponent;
+
         public void Ctor() {
             confiner = transform.Find("confiner").GetComponent<BoxCollider2D>();
             TDLog.Assert(confiner != null);
+
+            fsmComponent = new FieldFSMComponent();
         }
 
         public void SetChapterAndLevel(ushort chapter, ushort level) {

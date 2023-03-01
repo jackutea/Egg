@@ -6,17 +6,22 @@ namespace TiedanSouls.Template {
     [Serializable]
     public class FieldTM {
 
+        public string fieldAssetName;
+
         public int typeID;
         public FieldType fieldType;
 
         public ushort chapter;
         public ushort level;
 
-        // Spawn Info
+        // Spawn
         public SpawnModel[] spawnModelArray;
         public Vector2[] itemSpawnPosArray;
 
-        public string fieldAssetName;
+        // Field Switch
+        public Vector2 entryPos;
+        public Vector2 exitPos;
+
 
     }
 
