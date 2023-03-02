@@ -16,12 +16,28 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public FieldEntity SpawnField(int typeID) {
-            var field = worldContext.WorldFactory.SpawnFieldEntity(typeID);
+        public bool TryGetOrSpawnField(int typeID, out FieldEntity field) {
             var fieldRepo = worldContext.FieldRepo;
-            fieldRepo.Add(field);
-            TDLog.Log($"生成关卡: {field.Chapter}-{field.Level}");
-            return field;
+            if (!fieldRepo.TryGet(typeID, out field)) {
+                var factory = worldContext.WorldFactory;
+                if (!factory.TrySpawnFieldEntity(typeID, out field)) {
+                    return false;
+                }
+
+                fieldRepo.Add(field);
+            }
+
+            field.Show();
+            return true;
+        }
+
+        public void HideField(int typeID) {
+            var fieldRepo = worldContext.FieldRepo;
+            if (!fieldRepo.TryGet(typeID, out FieldEntity field)) {
+                return;
+            }
+
+            field.Hide();
         }
 
     }

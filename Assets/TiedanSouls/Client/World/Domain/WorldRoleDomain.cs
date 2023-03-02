@@ -41,7 +41,7 @@ namespace TiedanSouls.World.Domain {
             repo.Add(role);
 
             if (role.ControlType == RoleControlType.Player) {
-                repo.playerRole = role;
+                repo.SetPlayerRole(role);
             }
 
             return role;
@@ -83,7 +83,7 @@ namespace TiedanSouls.World.Domain {
 
         // ==== Input ====
         public void BackPlayerRInput() {
-            RoleEntity playerRole = worldContext.RoleRepo.playerRole;
+            RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole == null) {
                 return;
             }

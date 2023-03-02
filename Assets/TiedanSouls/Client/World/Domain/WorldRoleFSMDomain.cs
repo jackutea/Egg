@@ -25,8 +25,6 @@ namespace TiedanSouls.World.Domain {
             ApplyCasting(role, dt);
             ApplyIdle(role, dt);
             ApplyBeHurt(role, dt);
-
-            role.InputCom.Reset();
         }
 
         void ApplyIdle(RoleEntity role, float dt) {

@@ -5,25 +5,22 @@ namespace TiedanSouls.World {
 
     public class FieldRepo {
 
-        Dictionary<uint, FieldEntity> all;
+        Dictionary<int, FieldEntity> all;
 
         public FieldRepo() {
-            all = new Dictionary<uint, FieldEntity>();
+            all = new Dictionary<int, FieldEntity>();
         }
 
-        public bool TryGet(ushort chapter, ushort level, out FieldEntity field) {
-            uint id = FieldEntity.GetID(chapter, level);
-            return all.TryGetValue(id, out field);
+        public bool TryGet(int typeID, out FieldEntity field) {
+            return all.TryGetValue(typeID, out field);
         }
 
         public void Add(FieldEntity field) {
-            uint id = FieldEntity.GetID(field.Chapter, field.Level);
-            all.Add(id, field);
+            all.Add(field.TypeID, field);
         }
 
         public void Remove(FieldEntity field) {
-            uint id = FieldEntity.GetID(field.Chapter, field.Level);
-            all.Remove(id);
+            all.Remove(field.TypeID);
         }
 
         public IEnumerable<FieldEntity> GetAll() {

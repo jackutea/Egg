@@ -4,6 +4,10 @@ namespace TiedanSouls.World.Entities {
 
     public class FieldEntity : MonoBehaviour {
 
+        int typeID;
+        public int TypeID => typeID;
+        public void SetTypeID(int v) => typeID = v;
+
         ushort chapter;
         public ushort Chapter => chapter;
 
@@ -25,6 +29,11 @@ namespace TiedanSouls.World.Entities {
         public FieldType FieldType => fieldType;
         public void SetFieldType(FieldType v) => fieldType = v;
 
+        // Field Door
+        FieldDoorModel[] fieldDoorArray;
+        public FieldDoorModel[] FieldDoorArray => fieldDoorArray;
+        public void SetFieldDoorArray(FieldDoorModel[] v) => fieldDoorArray = v;
+
         // ====== Component
         FieldFSMComponent fsmComponent;
         public FieldFSMComponent FSMComponent => fsmComponent;
@@ -36,15 +45,15 @@ namespace TiedanSouls.World.Entities {
             fsmComponent = new FieldFSMComponent();
         }
 
-        public void SetChapterAndLevel(ushort chapter, ushort level) {
-            this.chapter = chapter;
-            this.level = level;
+        public void Hide() {
+            TDLog.Log($"隐藏场景 TypeID: {typeID}");
+            gameObject.SetActive(false);
         }
 
-        public static uint GetID(ushort chapter, ushort level) {
-            return (uint)(chapter << 16 | level);
+        public void Show() {
+            TDLog.Log($"显示场景 TypeID: {typeID}");
+            gameObject.SetActive(true);
         }
 
     }
-
 }

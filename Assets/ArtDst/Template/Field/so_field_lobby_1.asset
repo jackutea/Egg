@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: so_field_lobby_1
   m_EditorClassIdentifier: 
   tm:
+    fieldAssetName: mod_field_hall
     typeID: 1
     fieldType: 1
     chapter: 0
@@ -23,9 +24,12 @@ MonoBehaviour:
       allyType: 3
       typeID: 1000
       pos: {x: 30, y: 5}
+      spawnFrame: 0
     itemSpawnPosArray:
     - {x: 3, y: 2}
     - {x: 5, y: 2}
     - {x: 7, y: 2}
     - {x: 9, y: 2}
-    fieldAssetName: mod_field_hall
+    fieldDoorArray:
+    - pos: {x: 30, y: 2}
+      fieldTypeID: 1000

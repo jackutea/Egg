@@ -12,26 +12,56 @@ namespace TiedanSouls.World.Entities {
         WorldFSMModel_LobbyState lobbyStateModel;
         public WorldFSMModel_LobbyState LobbyStateModel => lobbyStateModel;
 
-        WorldFSMModel_BattleFieldState battleFieldStateModel;
-        public WorldFSMModel_BattleFieldState BattleFieldStateModel => battleFieldStateModel;
+        WorldFSMModel_BattleState battleStateModel;
+        public WorldFSMModel_BattleState BattleStateModel => battleStateModel;
+
+        WorldFSMModel_LoadingState loadingStateModel;
+        public WorldFSMModel_LoadingState LoadingStateModel => loadingStateModel;
+
+        int curFieldTypeID;
+        public int CurFieldTypeID => curFieldTypeID;
 
         public WorldStateEntity() {
             this.lobbyStateModel = new WorldFSMModel_LobbyState();
-            this.battleFieldStateModel = new WorldFSMModel_BattleFieldState();
+            this.battleStateModel = new WorldFSMModel_BattleState();
+            this.loadingStateModel = new WorldFSMModel_LoadingState();
         }
 
-        public void EnterState_Lobby(int ownerRoleID) {
+        public void EnterState_Loading(int fromFieldTypeID, int nextFieldTypeID, int doorIndex) {
+            this.status = WorldFSMState.Loading;
+
+            loadingStateModel.SetIsEntering(true);
+            loadingStateModel.SetIsLoadingComplete(false);
+            loadingStateModel.SetFromFieldTypeID(fromFieldTypeID);
+            loadingStateModel.SetNextFieldTypeID(nextFieldTypeID);
+            loadingStateModel.SetDoorIndex(doorIndex);
+
+            TDLog.Log($"------> 世界状态: '{status}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex}");
+        }
+
+        public void EnterState_Lobby(int ownerRoleID, int fieldTypeID) {
             this.status = WorldFSMState.Lobby;
             this.ownerRoleID = ownerRoleID;
+            this.curFieldTypeID = fieldTypeID;
+
             lobbyStateModel.SetIsEntering(true);
-            TDLog.Log($"进入大厅状态, OwnerRoleID: {ownerRoleID}");
+
+            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
         }
 
-        public void EnterState_BattleField(int ownerRoleID) {
+        public void EnterState_Battle(int fieldTypeID) {
             this.status = WorldFSMState.BattleField;
-            this.ownerRoleID = ownerRoleID;
-            battleFieldStateModel.SetIsEntering(true);
-            TDLog.Log($"进入战场状态, OwnerRoleID: {ownerRoleID}");
+
+            battleStateModel.SetIsEntering(true);
+            battleStateModel.SetFieldTypeID(fieldTypeID);
+
+            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
+        }
+
+        public void EnterState_Store(int fieldTypeID) {
+            this.status = WorldFSMState.Store;
+
+            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
         }
 
     }

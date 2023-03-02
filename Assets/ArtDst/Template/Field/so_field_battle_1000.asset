@@ -13,9 +13,21 @@ MonoBehaviour:
   m_Name: so_field_battle_1000
   m_EditorClassIdentifier: 
   tm:
+    fieldAssetName: mod_field_1000
     typeID: 1000
     fieldType: 2
-    chapter: 0
-    level: 0
-    spawnModelArray: []
-    fieldAssetName: mod_field_1000
+    chapter: 1
+    level: 1
+    spawnModelArray:
+    - entityType: 1
+      roleControlType: 1
+      allyType: 2
+      typeID: 1000000
+      pos: {x: 0, y: 0}
+      spawnFrame: 90
+    itemSpawnPosArray: []
+    fieldDoorArray:
+    - pos: {x: 0, y: 2}
+      fieldTypeID: 1
+    - pos: {x: 30, y: 2}
+      fieldTypeID: 2000

@@ -22,11 +22,13 @@ namespace TiedanSouls.World {
 
         #region [Field]
 
-        public FieldEntity SpawnFieldEntity(int typeID) {
+        public bool TrySpawnFieldEntity(int typeID, out FieldEntity field) {
+            field = null;
+
             var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
             if (!fieldTemplate.TryGet(typeID, out FieldTM fieldTM)) {
                 TDLog.Error($"Failed to get field template: {typeID}");
-                return null;
+                return false;
             }
 
             var fieldModAssetName = fieldTM.fieldAssetName;
@@ -35,18 +37,19 @@ namespace TiedanSouls.World {
             bool has = fieldModAssets.TryGet(fieldModAssetName, out GameObject go);
             if (!has) {
                 TDLog.Error($"Failed to get asset: {fieldModAssetName}");
-                return null;
+                return false;
             }
 
-            var entity = GameObject.Instantiate(go).GetComponent<FieldEntity>();
-            entity.Ctor();
+            field = GameObject.Instantiate(go).GetComponent<FieldEntity>();
+            field.Ctor();
 
-            entity.SetChapterAndLevel(fieldTM.chapter, fieldTM.level);
-            entity.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as SpawnModel[]);
-            entity.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
-            entity.SetFieldType(fieldTM.fieldType);
+            field.SetTypeID(typeID);
+            field.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as SpawnModel[]);
+            field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
+            field.SetFieldType(fieldTM.fieldType);
+            field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
 
-            return entity;
+            return field;
         }
 
         #endregion

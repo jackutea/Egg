@@ -23,9 +23,11 @@ namespace TiedanSouls.World.Entities {
         // ==== Root ====
         Transform logicRoot;
         public Transform LogicRoot => logicRoot;
+        public Vector2 GetPos_LogicRoot() => logicRoot.position;
 
         Transform rendererRoot;
         public Transform RendererRoot => rendererRoot;
+        public Vector2 GetPos_RendererRoot() => rendererRoot.position;
 
         // ==== Input ====
         RoleControlType controlType;

@@ -18,10 +18,8 @@ namespace TiedanSouls.Template {
         public SpawnModel[] spawnModelArray;
         public Vector2[] itemSpawnPosArray;
 
-        // Field Switch
-        public Vector2 entryPos;
-        public Vector2 exitPos;
-
+        // Field Link
+        public FieldDoorModel[] fieldDoorArray;
 
     }
 
