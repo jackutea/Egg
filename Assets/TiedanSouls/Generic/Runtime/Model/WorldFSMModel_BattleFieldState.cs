@@ -6,10 +6,6 @@ namespace TiedanSouls {
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
-        int fieldTypeID;
-        public int FieldTypeID => fieldTypeID;
-        public void SetFieldTypeID(int value) => fieldTypeID = value;
-
     }
 
 }

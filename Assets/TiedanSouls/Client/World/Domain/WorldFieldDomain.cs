@@ -40,5 +40,15 @@ namespace TiedanSouls.World.Domain {
             field.Hide();
         }
 
+        // ====== FSM
+        public void TickFSM(int typeID, float dt) {
+            var fieldRepo = worldContext.FieldRepo;
+            if (!fieldRepo.TryGet(typeID, out var field)) {
+                TDLog.Log($"场景不存在! FieldTypeID: {typeID}");
+            }
+
+            // TODO: FSM
+        }
+
     }
 }

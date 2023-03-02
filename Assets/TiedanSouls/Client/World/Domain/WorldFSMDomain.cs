@@ -115,7 +115,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void ApplyWorldState_Lobby(float dt) {
-            ApplyBasicLogic(dt);
+            DoBasicLogic(dt);
 
             var stateEntity = worldContext.StateEntity;
             var lobbyStateModel = stateEntity.LobbyStateModel;
@@ -164,20 +164,27 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void ApplyWorldState_Battle(float dt) {
-            ApplyBasicLogic(dt);
+            DoBasicLogic(dt);
 
             var stateEntity = worldContext.StateEntity;
             var battleFieldStateModel = stateEntity.BattleStateModel;
             if (battleFieldStateModel.IsEntering) {
                 battleFieldStateModel.SetIsEntering(false);
             }
+
+            // FieldFSM状态机刷新逻辑
+            var fieldDomain = worldDomain.FieldDomain;
+            fieldDomain.TickFSM(stateEntity.CurFieldTypeID, dt);
+
+            // TODO: 检查玩家是否满足离开条件: 拾取奖励、走到出口并按下离开键
+
         }
 
         void ApplyWorldState_Store(float dt) {
-            ApplyBasicLogic(dt);
+            DoBasicLogic(dt);
         }
 
-        void ApplyBasicLogic(float dt) {
+        void DoBasicLogic(float dt) {
             var roleDomain = worldDomain.RoleDomain;
             var roleFSMDomain = worldDomain.RoleFSMDomain;
             var stateEntity = worldContext.StateEntity;

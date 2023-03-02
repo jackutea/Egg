@@ -53,7 +53,6 @@ namespace TiedanSouls.World.Entities {
             this.status = WorldFSMState.BattleField;
 
             battleStateModel.SetIsEntering(true);
-            battleStateModel.SetFieldTypeID(fieldTypeID);
 
             TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
         }
