@@ -56,7 +56,7 @@ namespace TiedanSouls.World {
 
         #region [Role]
 
-        public RoleEntity SpawnRoleEntity(RoleControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
+        public RoleEntity SpawnRoleEntity(ControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
@@ -75,7 +75,8 @@ namespace TiedanSouls.World {
 
             // ID
             int id = idService.PickRoleID();
-            role.SetID(id);
+            role.SetEntityD(id);
+            role.SetTypeID(typeID);
 
             // TM
             has = templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM);
@@ -112,7 +113,7 @@ namespace TiedanSouls.World {
             // ControlType
             role.SetControlType(controlType);
 
-            if (controlType == RoleControlType.AI) {
+            if (controlType == ControlType.AI) {
                 var ai = CreateAIStrategy(role, typeID);
                 role.SetAIStrategy(ai);
             }
@@ -163,14 +164,14 @@ namespace TiedanSouls.World {
 
         #region [Item]
 
-        public ItemEntity SpawnItemEntity(int typeID, Vector2 pos) {
+        public ItemEntity SpawnItemEntity(int itemTypeID, Vector2 pos, int fromFieldTypeID) {
             ItemEntity itemEntity = null;
 
             var templateCore = infraContext.TemplateCore;
 
             // Template
-            if (!templateCore.ItemTemplate.TryGet(typeID, out ItemTM itemTM)) {
-                TDLog.Error("Failed to get Item template: " + typeID);
+            if (!templateCore.ItemTemplate.TryGet(itemTypeID, out ItemTM itemTM)) {
+                TDLog.Error("Failed to get Item template: " + itemTypeID);
                 return null;
             }
 
@@ -196,8 +197,8 @@ namespace TiedanSouls.World {
             var itemID = idService.PickItemID();
             itemEntity = itemGo.GetComponent<ItemEntity>();
             itemEntity.Ctor();
-            itemEntity.SetID(itemID);
-            itemEntity.SetTypeID(typeID);
+            itemEntity.SetEntityD(itemID);
+            itemEntity.SetTypeID(itemTypeID);
             itemEntity.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
             itemEntity.SetItemType(itemType);
             itemEntity.SetPos(pos);
@@ -216,7 +217,7 @@ namespace TiedanSouls.World {
 
             // Repo
             var itemRepo = worldContext.ItemRepo;
-            itemRepo.Add(itemEntity);
+            itemRepo.Add(itemEntity, fromFieldTypeID);
 
             return itemEntity;
         }

@@ -40,6 +40,10 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
+            // World FSM
+            var stateEntity = worldContext.StateEntity;
+            stateEntity.EnterState_Lobby(field.TypeID);
+
             // Lobby Character
             TDLog.Log($"大厅人物生成开始 -------------------------------------------- ");
             var spawnModelArray = field.SpawnModelArray;
@@ -49,7 +53,7 @@ namespace TiedanSouls.World.Domain {
                 var spawnModel = spawnModelArray[i];
                 var entityType = spawnModel.entityType;
                 var typeID = spawnModel.typeID;
-                var roleControlType = spawnModel.roleControlType;
+                var roleControlType = spawnModel.controlType;
                 var allyType = spawnModel.allyType;
                 var ownerRoleSpawnPos = spawnModel.pos;
                 if (entityType == EntityType.Role) {
@@ -73,23 +77,20 @@ namespace TiedanSouls.World.Domain {
 
                 var typeID = lobbyItemTypeIDs[i];
                 var itemSpawnPos = itemSpawnPosArray[i];
-                var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos);
-                TDLog.Log($"物件: EntityID: {itemEntity.ID} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
+                var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos, firstFieldTypeID);
+                TDLog.Log($"物件: EntityID: {itemEntity.EntityD} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
             }
             TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
 
             // Spawn TieDan 
             var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
-            var owner = roleDomain.SpawnRole(RoleControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
+            var owner = roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
 
             // Set Camera 
             var cameraSetter = infraContext.CameraCore.SetterAPI;
             cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
             cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
 
-            // World State
-            var stateEntity = worldContext.StateEntity;
-            stateEntity.EnterState_Lobby(owner.ID, field.TypeID);
         }
 
         public void ApplyWorldState(float dt) {
@@ -130,7 +131,7 @@ namespace TiedanSouls.World.Domain {
             if (inputCom.HasInput_Basic_Pick) {
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 if (!fieldRepo.TryGet(curFieldTypeID, out var curField)) {
-                    TDLog.Error($"当前场景不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
+                    TDLog.Error($"请检查配置! 当前场景不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
                     return;
                 }
 
@@ -147,7 +148,7 @@ namespace TiedanSouls.World.Domain {
                     var nextFieldTypeID = door.fieldTypeID;
                     var fieldDomain = worldDomain.FieldDomain;
                     if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
-                        TDLog.Error($"场景不存在! FieldTypeID: {nextFieldTypeID}");
+                        TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
                         return;
                     }
 
@@ -158,7 +159,7 @@ namespace TiedanSouls.World.Domain {
                     }
                 }
 
-                TDLog.Warning("没有找到合适的门离开!");
+                TDLog.Warning("请检查配置! 没有找到合适的门离开!");
             }
 
         }
@@ -176,7 +177,7 @@ namespace TiedanSouls.World.Domain {
             var fieldDomain = worldDomain.FieldDomain;
             fieldDomain.TickFSM(stateEntity.CurFieldTypeID, dt);
 
-            // TODO: 检查玩家是否满足离开条件: 拾取奖励、走到出口并按下离开键
+            // TODO: 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
 
         }
 
@@ -191,7 +192,7 @@ namespace TiedanSouls.World.Domain {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.ForeachAll((role) => {
                 // AI
-                if (role.ControlType == RoleControlType.AI) {
+                if (role.ControlType == ControlType.AI) {
                     role.AIStrategy.Tick(dt);
                 }
 
@@ -208,15 +209,22 @@ namespace TiedanSouls.World.Domain {
             var stateEntity = worldContext.StateEntity;
             var loadingStateModel = stateEntity.LoadingStateModel;
             var loadingFieldTypeID = loadingStateModel.NextFieldTypeID;
+            var fieldDomain = worldDomain.FieldDomain;
 
             if (loadingStateModel.IsEntering) {
                 loadingStateModel.SetIsEntering(false);
 
-                var fieldDomain = worldDomain.FieldDomain;
-
                 // 隐藏当前场景
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 fieldDomain.HideField(curFieldTypeID);
+
+                // 隐藏当前场景内物件
+                var itemRepo = worldContext.ItemRepo;
+                itemRepo.HideAllItemsInField(curFieldTypeID);
+
+                // 隐藏当前场景内AI角色
+                var roleRepo = worldContext.RoleRepo;
+                roleRepo.HideAllAIRolesInField(curFieldTypeID);
 
                 // 显示下一个场景
                 if (!fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out var field)) {
@@ -224,13 +232,35 @@ namespace TiedanSouls.World.Domain {
                     return;
                 }
 
+                field.FSMComponent.Enter_Spawning();
                 loadingStateModel.SetIsLoadingComplete(true);
+
+                // 显示下一个场景内所有实体
+                var spawnModelArray = field.SpawnModelArray;
+                var len = spawnModelArray.Length;
+                for (int i = 0; i < len; i++) {
+                    var spawnModel = spawnModelArray[i];
+                    var entityType = spawnModel.entityType;
+                    var typeID = spawnModel.typeID;
+                    var controlType = spawnModel.controlType;
+                    var allyType = spawnModel.allyType;
+                    var spawnPos = spawnModel.pos;
+
+                    if (entityType == EntityType.Role) {
+                        var roleDomain = worldDomain.RoleDomain;
+                        var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                    } else {
+                        TDLog.Error($"未处理 EntityType: {entityType}");
+                    }
+                }
+
             }
 
             if (loadingStateModel.IsLoadingComplete) {
                 stateEntity.EnterState_Battle(loadingFieldTypeID);
+                _ = fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out var field);
+                field.FSMComponent.Enter_Ready();
             }
-
         }
 
 

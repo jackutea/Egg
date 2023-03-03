@@ -5,9 +5,6 @@ namespace TiedanSouls.World.Entities {
         WorldFSMState status;
         public WorldFSMState Status => status;
 
-        int ownerRoleID;
-        public int OwnerRoleID => ownerRoleID;
-
         // ====== FSM Model ======
         WorldFSMModel_LobbyState lobbyStateModel;
         public WorldFSMModel_LobbyState LobbyStateModel => lobbyStateModel;
@@ -39,9 +36,8 @@ namespace TiedanSouls.World.Entities {
             TDLog.Log($"------> 世界状态: '{status}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex}");
         }
 
-        public void EnterState_Lobby(int ownerRoleID, int fieldTypeID) {
+        public void EnterState_Lobby(int fieldTypeID) {
             this.status = WorldFSMState.Lobby;
-            this.ownerRoleID = ownerRoleID;
             this.curFieldTypeID = fieldTypeID;
 
             lobbyStateModel.SetIsEntering(true);
@@ -51,6 +47,7 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterState_Battle(int fieldTypeID) {
             this.status = WorldFSMState.BattleField;
+            this.curFieldTypeID = fieldTypeID;
 
             battleStateModel.SetIsEntering(true);
 

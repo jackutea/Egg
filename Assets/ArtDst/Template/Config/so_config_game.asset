@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     lobbyFieldTypeID: 1
-    lobbyItemTypeIDs: 64000000640000006400000064000000
+    lobbyItemTypeIDs: 64000000
     tiedanRoleTypeID: 1000

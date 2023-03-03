@@ -16,7 +16,7 @@ MonoBehaviour:
     typeID: 1010
     name: "\u957F\u67AA\u666E\u653B2"
     skillorType: 1
-    originalSkillorTypeID: 1000
+    originalSkillorTypeID: 0
     frames:
     - hitPower:
         knockbackForce: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -201,7 +201,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -217,7 +217,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -233,7 +233,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -249,7 +249,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -265,7 +265,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -281,7 +281,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []
@@ -297,7 +297,7 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillorTypeID: 0
         startFrame: 0
         isCombo: 1
       boxes: []

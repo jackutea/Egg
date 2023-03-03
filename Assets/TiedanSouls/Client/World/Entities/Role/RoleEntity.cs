@@ -8,9 +8,13 @@ namespace TiedanSouls.World.Entities {
         // ==== ID ====
         public EntityType EntityType => EntityType.Role;
 
-        int id;
-        public int ID => id;
-        public void SetID(int value) => this.id = value;
+        int entityID;
+        public int EntityD => entityID;
+        public void SetEntityD(int value) => this.entityID = value;
+
+        int typeID;
+        public int TypeID => typeID;
+        public void SetTypeID(int value) => this.typeID = value;
 
         string roleName;
         public string RoleName => roleName;
@@ -30,9 +34,9 @@ namespace TiedanSouls.World.Entities {
         public Vector2 GetPos_RendererRoot() => rendererRoot.position;
 
         // ==== Input ====
-        RoleControlType controlType;
-        public RoleControlType ControlType => controlType;
-        public void SetControlType(RoleControlType value) => this.controlType = value;
+        ControlType controlType;
+        public ControlType ControlType => controlType;
+        public void SetControlType(ControlType value) => this.controlType = value;
 
         RoleInputComponent inputCom;
         public RoleInputComponent InputCom => inputCom;
@@ -137,6 +141,18 @@ namespace TiedanSouls.World.Entities {
             GameObject.Destroy(gameObject);
         }
 
+        public void Hide() {
+            logicRoot.gameObject.SetActive(false);
+            rendererRoot.gameObject.SetActive(false);
+            TDLog.Log($"隐藏角色: {roleName} ");
+        }
+
+        public void Show() {
+            logicRoot.gameObject.SetActive(true);
+            rendererRoot.gameObject.SetActive(true);
+            TDLog.Log($"显示角色: {roleName} ");
+        }
+
         // ==== Mod ====
         public void SetMod(GameObject mod) {
             modCom.SetMod(mod);
@@ -208,7 +224,7 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Hit ====
         public void HitBeHurt(int atk) {
-            TDLog.Log($"{id} 收到伤害 - {atk}");
+            TDLog.Log($"{entityID} 收到伤害 - {atk}");
             attrCom.HitBeHurt(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }

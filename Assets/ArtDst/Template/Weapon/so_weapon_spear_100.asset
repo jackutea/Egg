@@ -19,6 +19,6 @@ MonoBehaviour:
     def: 0
     crit: 0
     skillorMeleeTypeID: 1000
-    skillorHoldMeleeTypeID: 2000
-    skillorSpecMeleeTypeID: 1
+    skillorHoldMeleeTypeID: 1
+    skillorSpecMeleeTypeID: 2000
     meshName: mod_weapon_spear

@@ -16,36 +16,110 @@ MonoBehaviour:
     typeID: 1
     name: "\u51B2\u523A"
     skillorType: 6
+    originalSkillorTypeID: 0
     frames:
-    - hasDash: 1
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 1
       dashForce: {x: 20, y: 0}
       isDashEnd: 0
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
-    - hasDash: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 1
+      cancelTMs: []
       boxes: []
+    weaponAnimName: 

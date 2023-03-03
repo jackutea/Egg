@@ -20,7 +20,6 @@ namespace TiedanSouls.World.Entities {
         public void SetHpBarHUD(HpBarHUD hpBarHUD) {
             this.hpBarHUD = hpBarHUD;
             hpBarHUD.transform.SetParent(hudRoot, false);
-            TDLog.Log($"设置血条: hpBarHUD {hpBarHUD}    --- hudRoot{hudRoot}");
         }
 
     }

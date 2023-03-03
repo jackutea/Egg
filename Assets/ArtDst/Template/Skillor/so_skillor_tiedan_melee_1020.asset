@@ -16,7 +16,7 @@ MonoBehaviour:
     typeID: 1020
     name: "\u957F\u67AA\u666E\u653B3"
     skillorType: 1
-    originalSkillorTypeID: 1000
+    originalSkillorTypeID: 0
     frames:
     - hitPower:
         knockbackForce: 0

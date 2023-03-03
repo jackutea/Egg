@@ -29,7 +29,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes:
       - shapeType: 0
         center: {x: 1, y: 0.8}
@@ -189,7 +189,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes:
       - shapeType: 0
         center: {x: 1.25, y: 0.8}
@@ -206,7 +206,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes:
       - shapeType: 0
         center: {x: 1.5, y: 0.8}
@@ -223,7 +223,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels: []
+      cancelTMs: []
       boxes:
       - shapeType: 0
         center: {x: 1.5, y: 0.8}
@@ -240,10 +240,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -256,10 +253,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -272,10 +266,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -288,10 +279,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -304,10 +292,7 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -320,9 +305,6 @@ MonoBehaviour:
       hasDash: 0
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
-      cancels:
-      - nextSkillorTypeID: 1
-        nextStartFrame: 0
-        isCombo: 0
+      cancelTMs: []
       boxes: []
     weaponAnimName: anim_spear_melee_1020

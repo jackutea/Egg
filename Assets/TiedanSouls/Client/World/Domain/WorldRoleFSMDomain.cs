@@ -49,7 +49,7 @@ namespace TiedanSouls.World.Domain {
             // - Idle状态下可拾取武器
             var inputCom = role.InputCom;
             if (inputCom.HasInput_Basic_Pick) {
-                roleDomain.TryPickUpSomething(role);
+                roleDomain.TryPickUpSomethingFromField(role);
             }
         }
 

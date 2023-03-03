@@ -20,9 +20,9 @@ MonoBehaviour:
     level: 0
     spawnModelArray:
     - entityType: 1
-      roleControlType: 1
+      typeID: 1
+      controlType: 1
       allyType: 3
-      typeID: 1000
       pos: {x: 30, y: 5}
       spawnFrame: 0
     itemSpawnPosArray:
@@ -31,5 +31,6 @@ MonoBehaviour:
     - {x: 7, y: 2}
     - {x: 9, y: 2}
     fieldDoorArray:
-    - pos: {x: 30, y: 2}
-      fieldTypeID: 1000
+    - fieldTypeID: 1000
+      pos: {x: 30, y: 2}
+      doorIndex: 0

@@ -18,7 +18,7 @@ namespace TiedanSouls.World.Domain {
             this.worldContext = worldContext;
         }
 
-        public RoleEntity SpawnRole(RoleControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
+        public RoleEntity SpawnRole(ControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
 
             var factory = worldContext.WorldFactory;
             var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
@@ -31,17 +31,14 @@ namespace TiedanSouls.World.Domain {
             // - FSM
             role.FSMCom.EnterIdle();
 
-            // - AI
-            if (controlType == RoleControlType.AI) {
+            var repo = worldContext.RoleRepo;
+            if (role.ControlType == ControlType.Player) {
+                repo.SetPlayerRole(role);
+            } else if (role.ControlType == ControlType.AI) {
                 var ai = role.AIStrategy;
                 ai.Activate();
-            }
-
-            var repo = worldContext.RoleRepo;
-            repo.Add(role);
-
-            if (role.ControlType == RoleControlType.Player) {
-                repo.SetPlayerRole(role);
+                var fromFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+                repo.AddAIRole(role, fromFieldTypeID);
             }
 
             return role;
@@ -310,10 +307,10 @@ namespace TiedanSouls.World.Domain {
 
             // Damage Arbit: Prevent Multi Hit
             var damageArbitService = worldContext.DamageArbitService;
-            if (damageArbitService.IsInArbit(skillor.EntityType, skillor.ID, other.EntityType, other.ID)) {
+            if (damageArbitService.IsInArbit(skillor.EntityType, skillor.ID, other.EntityType, other.EntityD)) {
                 return;
             }
-            damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.ID);
+            damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.EntityD);
 
             SkillorHitRole_Damage(caster, skillor, other);
             if (other.AttrCom.HP <= 0) {
@@ -371,9 +368,10 @@ namespace TiedanSouls.World.Domain {
 
         #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]
 
-        public bool TryPickUpSomething(RoleEntity role) {
+        public bool TryPickUpSomethingFromField(RoleEntity role) {
             var repo = worldContext.ItemRepo;
-            if (!repo.TryGetOneItem(role.GetRBPos(), 1, out var item)) {
+            var fieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+            if (!repo.TryGetOneItemFromField(fieldTypeID, role.GetRBPos(), 1, out var item)) {
                 return false;
             }
 

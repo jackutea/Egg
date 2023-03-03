@@ -1,6 +1,6 @@
 namespace TiedanSouls {
 
-    public enum RoleControlType {
+    public enum ControlType {
         Player,
         AI,
     }

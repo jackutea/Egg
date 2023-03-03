@@ -8,9 +8,11 @@ namespace TiedanSouls {
     public struct SpawnModel {
 
         public EntityType entityType;
-        public RoleControlType roleControlType;
-        public AllyType allyType;
         public int typeID;
+
+        public ControlType controlType;
+        public AllyType allyType;
+
         public Vector2 pos;
 
         public int spawnFrame;  // 从进入关卡到出生的帧数

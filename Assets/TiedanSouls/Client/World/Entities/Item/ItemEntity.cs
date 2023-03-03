@@ -4,9 +4,9 @@ namespace TiedanSouls.World.Entities {
 
     public class ItemEntity : MonoBehaviour {
 
-        int id;
-        public int ID => id;
-        public void SetID(int v) => id = v;
+        int entityID;
+        public int EntityD => entityID;
+        public void SetEntityD(int v) => entityID = v;
 
         int typeID;
         public int TypeID => typeID;
@@ -33,6 +33,16 @@ namespace TiedanSouls.World.Entities {
 
         public void SetPos(Vector3 pos) {
             transform.position = pos;
+        }
+
+        public void Hide() {
+            gameObject.SetActive(false);
+            TDLog.Log($"隐藏物品 类型: {ItemType}");
+        }
+
+        public void Show() {
+            gameObject.SetActive(true);
+            TDLog.Log($"显示物品 类型: {ItemType}");
         }
 
     }
