@@ -33,6 +33,10 @@ namespace TiedanSouls.World.Entities {
         public Transform RendererRoot => rendererRoot;
         public Vector2 GetPos_RendererRoot() => rendererRoot.position;
 
+        Transform weaponRoot;
+        public Transform WeaponRoot => weaponRoot;
+        public Vector2 GetPos_WeaponRoot() => weaponRoot.position;
+
         // ==== Input ====
         ControlType controlType;
         public ControlType ControlType => controlType;
@@ -103,7 +107,7 @@ namespace TiedanSouls.World.Entities {
             bodyCollCom.Ctor();
 
             // - Weapon
-            var weaponRoot = logicRoot.Find("weapon_root");
+            weaponRoot = logicRoot.Find("weapon_root");
             weaponSlotCom = new WeaponSlotComponent();
             weaponSlotCom.Inject(weaponRoot);
 
@@ -257,11 +261,15 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Renderer ====
         public void SyncRenderer() {
-            rendererRoot.position = logicRoot.position;
+            var logicPos = logicRoot.position;
+            rendererRoot.position = logicPos;
+            weaponRoot.position = logicPos;
         }
 
         public void SyncRenderer(float dt) {
-            rendererRoot.position = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
+            var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
+            rendererRoot.position = lerpPos;
+            weaponRoot.position = lerpPos;
         }
 
     }
