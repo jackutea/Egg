@@ -129,12 +129,28 @@ namespace TiedanSouls.World {
         RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
 
             // Nodes
+            var patrolAIPrecondition = new RolePatrolAIPrecondition();
+            var followAIPrecondition = new RoleFollowAIPrecondition();
+            var followAIAction = new RoleFollowAIAction();
             var patrolAIAction = new RolePatrolAIAction();
-            patrolAIAction.Inject(role, worldContext);
-            BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction);
+            var attackAIAction = new RoleAttackAIAction();
 
+            patrolAIPrecondition.Inject(role, worldContext);
+            followAIPrecondition.Inject(role, worldContext);
+            followAIAction.Inject(role, worldContext);
+            patrolAIAction.Inject(role, worldContext);
+            attackAIAction.Inject(role, worldContext);
+            
+            BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction,patrolAIPrecondition);
+            BTTreeNode followNode = BTTreeFactory.CreateActionNode(followAIAction,followAIPrecondition);
+            BTTreeNode attackNode = BTTreeFactory.CreateActionNode(attackAIAction);
+            BTTreeNode followRoot = BTTreeFactory.CreateSelectorNode();
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
+
+            followRoot.AddChild(followNode);
+            followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
+            root.AddChild(followRoot);
 
             // Tree
             BTTree bt = new BTTree();

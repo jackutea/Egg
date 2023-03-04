@@ -1,5 +1,6 @@
 using GameArki.BTTreeNS;
 using TiedanSouls.World.Facades;
+using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
@@ -7,8 +8,22 @@ namespace TiedanSouls.World.Entities {
 
         RoleEntity role;
         WorldContext worldContext;
+        Vector2 bfPos;
+        Vector2 patrolPos1;
+        Vector2 patrolPos2;
+        Vector2 targetPos;
+        float time;
+        bool isCD;
+        Vector2 dir;
+        float sight;
 
-        public RolePatrolAIAction() { }
+        public RolePatrolAIAction() : this(10) {
+        }
+
+        public RolePatrolAIAction(float sight) {
+            this.sight = sight;
+            isCD = true;
+        }
 
         public void Inject(RoleEntity role, WorldContext worldContext) {
             this.role = role;
@@ -16,14 +31,71 @@ namespace TiedanSouls.World.Entities {
         }
 
         void IBTTreeAction.Enter() {
+            isCD = true;
+            time = 0;
+            targetPos = Vector2.zero;
             TDLog.Log("RolePatrolAIAction Enter");
         }
 
         bool IBTTreeAction.Execute() {
+            //OnDeath
+            if (role.AttrCom.HP <=0) {
+                return false;
+            }
+
+            //Check State
+            Vector2 pos_role = role.GetPos_RendererRoot();
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.GetPos_RendererRoot();
+            if (Vector2.Distance(pos_role, pos_target) < sight) {
+                return false;
+            }
+
+            //Patrol CD
+            if (isCD) {
+                time += Time.deltaTime;
+                if (time > 0.5f) {
+                    isCD = false;
+                    time = 0;
+                }
+                //TDLog.Log($"cd time:{time}");
+                return true;
+            }
+
+            //Get Original Pos
+            if (bfPos == Vector2.zero) {
+                bfPos = role.GetPos_RendererRoot();
+            }
+
+            //Set Patrol Pos
+            if (targetPos == Vector2.zero) {
+                if (patrolPos1 == Vector2.zero || patrolPos2 == Vector2.zero) {
+                    dir = new Vector2(UnityEngine.Random.Range(-1.0f, 1.0f), 0);
+                    patrolPos1 = bfPos + dir;
+                    patrolPos2 = bfPos - dir;
+                }
+                bool patrol = Vector2.Distance(role.GetPos_RendererRoot(), patrolPos1) >= Vector2.Distance(role.GetPos_RendererRoot(), patrolPos2);
+                targetPos = patrol ? patrolPos1 : patrolPos2;             
+                //TDLog.Log($"dir:{dir},targetPos1:{patrolPos1},targetPos2:{patrolPos2}");
+            }
+
+            //Patrol
+            var distance = Vector2.Distance(role.GetPos_RendererRoot(), targetPos);
+            if (distance <= 0.1f) {
+                isCD = true;
+                targetPos = Vector2.zero;
+                return true;
+            }
+            var input = role.InputCom;
+            dir = (targetPos - pos_role).normalized;
+            input.SetInput_Locomotion_Move(dir);
+
             return true;
         }
 
         void IBTTreeAction.Exit() {
+            isCD = true;
+            time = 0;
+            targetPos = Vector2.zero;
             TDLog.Log("RolePatrolAIAction exit");
         }
 

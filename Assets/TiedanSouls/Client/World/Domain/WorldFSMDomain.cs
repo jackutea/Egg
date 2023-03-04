@@ -153,7 +153,7 @@ namespace TiedanSouls.World.Domain {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.ForeachAll((role) => {
                 // AI
-                if (role.ControlType == ControlType.AI) {
+                if (role.ControlType == ControlType.AI && role.FSMCom.State !=RoleFSMState.Dying) {
                     role.AIStrategy.Tick(dt);
                 }
 
