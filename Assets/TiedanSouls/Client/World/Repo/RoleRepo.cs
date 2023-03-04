@@ -78,7 +78,7 @@ namespace TiedanSouls.World {
             }
         }
 
-        public void ResetAllAIRolesInField(int fieldTypeID) {
+        public void ResetAllAIRolesInField(int fieldTypeID, bool isShow) {
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
                 return;
             }
@@ -86,9 +86,11 @@ namespace TiedanSouls.World {
             var len = list.Count;
             for (int i = 0; i < len; i++) {
                 var role = list[i];
-                role.Show();
                 role.Reset();
                 role.SetPos_Logic(role.BornPos);
+                if (isShow) {
+                    role.Show();
+                }
             }
         }
 

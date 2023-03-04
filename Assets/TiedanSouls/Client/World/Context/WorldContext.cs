@@ -31,17 +31,23 @@ namespace TiedanSouls.World.Facades {
         ItemRepo itemRepo;
         public ItemRepo ItemRepo => itemRepo;
 
+        public WorldDomain WorldDomain { get; private set; }
+
         public WorldContext() {
             stateEntity = new WorldStateEntity();
-            
+
             worldFactory = new WorldFactory();
-            
+
             idService = new IDService();
             damageArbitService = new DamageArbitService();
-            
+
             roleRepo = new RoleRepo();
             fieldRepo = new FieldRepo();
             itemRepo = new ItemRepo();
+        }
+
+        public void Inject(WorldDomain worldDomain) {
+            this.WorldDomain = worldDomain;
         }
 
     }

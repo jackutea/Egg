@@ -1,3 +1,4 @@
+using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Domain;
 
@@ -41,6 +42,8 @@ namespace TiedanSouls.World.Facades {
         }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
+            worldContext.Inject(this);
+
             GameDomain.Inject(infraContext, worldContext, this);
 
             RoleFSMDomain.Inject(infraContext, worldContext, this);
@@ -52,6 +55,27 @@ namespace TiedanSouls.World.Facades {
             WorldPhysicsDomain.Inject(infraContext, worldContext, this);
 
             WorldRendererDomain.Inject(infraContext, worldContext, this);
+        }
+
+        public void SpawnByModelArray(SpawnModel[] spawnModelArray) {
+            var spawnCount = spawnModelArray?.Length;
+            for (int i = 0; i < spawnCount; i++) {
+                SpawnByModel(spawnModelArray[i]);
+            }
+        }
+
+        public void SpawnByModel(SpawnModel spawnModel) {
+            var entityType = spawnModel.entityType;
+            var typeID = spawnModel.typeID;
+            var roleControlType = spawnModel.controlType;
+            var allyType = spawnModel.allyType;
+            var ownerRoleSpawnPos = spawnModel.pos;
+            if (entityType == EntityType.Role) {
+                var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
+                TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.RoleName}");
+            } else {
+                TDLog.Error("Not Handle Yet!");
+            }
         }
 
     }

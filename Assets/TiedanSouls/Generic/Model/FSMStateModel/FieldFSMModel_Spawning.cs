@@ -6,6 +6,8 @@ namespace TiedanSouls.Generic {
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
+        public bool isRespawning;
+
         public int curFrame;
 
         public FieldFSMModel_Spawning() { }

@@ -27,7 +27,7 @@ namespace TiedanSouls.World.Domain {
             if (state == FieldFSMState.Ready) {
                 ApplyFSMState_Ready(fsm, dt);
             } else if (state == FieldFSMState.Spawning) {
-                ApplyFSMState_Spawning(fsm, dt);
+                ApplyFSMState_Spawning(field, dt);
             } else if (state == FieldFSMState.Finished) {
                 ApplyFSMState_Finished(fsm, dt);
             }
@@ -38,8 +38,40 @@ namespace TiedanSouls.World.Domain {
             fsm.Enter_Spawning();
         }
 
-        void ApplyFSMState_Spawning(FieldFSMComponent fsm, float dt) {
-            
+        void ApplyFSMState_Spawning(FieldEntity field, float dt) {
+            var fsm = field.FSMComponent;
+            var spawningModel = fsm.SpawningModel;
+            if (spawningModel.IsEntering) {
+                spawningModel.SetIsEntering(false);
+
+                // 判断是否是重复加载场景
+                var roleRepo = worldContext.RoleRepo;
+                var fieldTypeID = field.TypeID;
+                if (roleRepo.HasFieldRole(fieldTypeID)) {
+                    roleRepo.ResetAllAIRolesInField(fieldTypeID, false);
+                    spawningModel.isRespawning = true;
+                }
+            }
+
+            var curFrame = spawningModel.curFrame;
+
+            if (!spawningModel.isRespawning) {
+                // 第一次生成
+                var spawnArray = field.SpawnModelArray;
+                var len = spawnArray.Length;
+                for (int i = 0; i < len; i++) {
+                    var spawnModel = spawnArray[i];
+                    if (spawnModel.spawnFrame == curFrame) {
+
+                        var worldDomain = worldContext.WorldDomain;
+                        worldDomain.SpawnByModel(spawnModel);
+                    }
+                }
+            } else {
+                TDLog.Warning($"TODO: 如果有场景来回切换重复加载的情况,就需要在这里处理场景逻辑重复加载");
+            }
+
+            spawningModel.curFrame++;
         }
 
         void ApplyFSMState_Finished(FieldFSMComponent fsm, float dt) {

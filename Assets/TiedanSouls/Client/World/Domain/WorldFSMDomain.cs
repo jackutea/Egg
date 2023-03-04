@@ -27,7 +27,7 @@ namespace TiedanSouls.World.Domain {
 
             // Spawn Field
             var firstFieldTypeID = gameConfigTM.lobbyFieldTypeID;
-            var fieldDomain = worldDomain.FieldDomain;
+            var fieldDomain = this.worldDomain.FieldDomain;
             if (!fieldDomain.TryGetOrSpawnField(firstFieldTypeID, out var field)) {
                 TDLog.Error($"进入大厅失败! 无法生成大厅场景! TypeID {firstFieldTypeID}");
                 return;
@@ -46,23 +46,8 @@ namespace TiedanSouls.World.Domain {
 
             // Lobby Character
             TDLog.Log($"大厅人物生成开始 -------------------------------------------- ");
-            var spawnModelArray = field.SpawnModelArray;
-            var spawnCount = spawnModelArray?.Length;
-            var roleDomain = worldDomain.RoleDomain;
-            for (int i = 0; i < spawnCount; i++) {
-                var spawnModel = spawnModelArray[i];
-                var entityType = spawnModel.entityType;
-                var typeID = spawnModel.typeID;
-                var roleControlType = spawnModel.controlType;
-                var allyType = spawnModel.allyType;
-                var ownerRoleSpawnPos = spawnModel.pos;
-                if (entityType == EntityType.Role) {
-                    var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
-                    TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.RoleName}");
-                } else {
-                    TDLog.Error("Not Handle Yet!");
-                }
-            }
+            var worldDomain = worldContext.WorldDomain;
+            worldDomain.SpawnByModelArray(field.SpawnModelArray);
             TDLog.Log($"大厅人物生成结束 -------------------------------------------- ");
 
             TDLog.Log($"大厅物件生成开始 -------------------------------------------- ");
@@ -83,6 +68,7 @@ namespace TiedanSouls.World.Domain {
             TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
 
             // Spawn TieDan 
+            var roleDomain = this.worldDomain.RoleDomain;
             var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
             var owner = roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
             owner.WeaponSlotCom.SetWeaponActive(false);
@@ -258,30 +244,6 @@ namespace TiedanSouls.World.Domain {
                     stateEntity.EnterState_Lobby(loadingFieldTypeID);
                 } else {
                     TDLog.Warning($"未处理的场景类型: {field.FieldType}");
-                }
-
-                // 判断场景角色是加载还是重新刷新
-                var roleRepo = worldContext.RoleRepo;
-                if (roleRepo.HasFieldRole(loadingFieldTypeID)) {
-                    roleRepo.ResetAllAIRolesInField(loadingFieldTypeID);
-                } else {
-                    var spawnModelArray = field.SpawnModelArray;
-                    var len = spawnModelArray.Length;
-                    for (int i = 0; i < len; i++) {
-                        var spawnModel = spawnModelArray[i];
-                        var entityType = spawnModel.entityType;
-                        var typeID = spawnModel.typeID;
-                        var controlType = spawnModel.controlType;
-                        var allyType = spawnModel.allyType;
-                        var spawnPos = spawnModel.pos;
-
-                        if (entityType == EntityType.Role) {
-                            var roleDomain = worldDomain.RoleDomain;
-                            var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
-                        } else {
-                            TDLog.Error($"未处理 EntityType: {entityType}");
-                        }
-                    }
                 }
 
                 // 设置铁蛋初始场景位置
