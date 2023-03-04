@@ -14,9 +14,6 @@ namespace TiedanSouls.World.Entities {
 
         bool isActive;
         public bool IsActive => isActive;
-        public void SetActive(bool active) {
-            this.isActive = active;
-        }
 
         public void Inject(Transform weaponRoot) {
             this.weaponRoot = weaponRoot;
@@ -24,7 +21,15 @@ namespace TiedanSouls.World.Entities {
 
         public void SetWeapon(WeaponModel weapon) {
             this.weapon = weapon;
-            this.isActive = true;
+        }
+
+        public bool HasWeapon() {
+            return weapon != null;
+        }
+
+        public void SetWeaponActive(bool active) {
+            TDLog.Log($"设置武器槽激活状态: {active}");
+            this.isActive = active;
         }
 
     }

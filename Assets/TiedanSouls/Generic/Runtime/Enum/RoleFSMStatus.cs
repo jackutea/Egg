@@ -3,7 +3,7 @@ namespace TiedanSouls {
     public enum RoleFSMStatus {
         Idle,
         Casting,
-        BeHurt,
+        BeHit,
         Dead,
         ReStanding,
         Dash,

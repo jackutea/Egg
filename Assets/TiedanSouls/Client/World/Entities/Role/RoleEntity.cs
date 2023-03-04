@@ -5,7 +5,7 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
-        // ==== ID ====
+        // ==== Identity ====
         public EntityType EntityType => EntityType.Role;
 
         int entityID;
@@ -45,18 +45,20 @@ namespace TiedanSouls.World.Entities {
         RoleInputComponent inputCom;
         public RoleInputComponent InputCom => inputCom;
 
+        // ==== AI ====
         object aiStrategy;
         public RoleAIStrategy AIStrategy => aiStrategy as RoleAIStrategy;
         public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
 
-        // ==== Locomotion ====
-        Rigidbody2D rb;
+        // ==== Body Part ====
+        Rigidbody2D rb_logicRoot;
         FootComponent footCom;
         RoleBodyCollComponent bodyCollCom;
 
-        sbyte faceXDir;
-        public sbyte FaceXDir => faceXDir;
+        sbyte faceDirX;
+        public sbyte FaceDirX => faceDirX;
 
+        // ==== Component ====
         MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
@@ -81,22 +83,23 @@ namespace TiedanSouls.World.Entities {
         HUDSlotComponent hudSlotCom;
         public HUDSlotComponent HudSlotCom => hudSlotCom;
 
+        // ==== Event ====
         public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
         public event Action<RoleEntity, Collider2D> FootTriggerExit;
         public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
 
         public void Ctor() {
 
-            faceXDir = 1;
+            faceDirX = 1;
 
             logicRoot = transform.Find("logic_root");
             rendererRoot = transform.Find("renderer_root");
 
             // - Movement
-            rb = logicRoot.GetComponent<Rigidbody2D>();
-            TDLog.Assert(rb != null);
+            rb_logicRoot = logicRoot.GetComponent<Rigidbody2D>();
+            TDLog.Assert(rb_logicRoot != null);
             moveCom = new MoveComponent();
-            moveCom.Inject(rb);
+            moveCom.Inject(rb_logicRoot);
 
             // - Foot
             footCom = logicRoot.Find("foot").GetComponent<FootComponent>();
@@ -164,31 +167,31 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Locomotion ====
         public void SetRBPos(Vector2 pos) {
-            rb.position = pos;
+            rb_logicRoot.position = pos;
         }
 
-        public Vector2 GetRBPos() {
-            return rb.position;
+        public Vector2 GetPos_RB() {
+            return rb_logicRoot.position;
         }
 
-        public float GetRBAngle() {
-            return rb.rotation;
+        public float GetRot_RB() {
+            return rb_logicRoot.rotation;
         }
 
         public void Move() {
             Vector2 moveAxis = inputCom.MoveAxis;
+            moveCom.Move(moveAxis, attrCom.MoveSpeed);
+        }
 
-            // Renderer
-            if (moveAxis.x > 0) {
-                faceXDir = 1;
-                logicRoot.localScale = new Vector3(faceXDir, 1, 1);
-            } else if (moveAxis.x < 0) {
-                faceXDir = -1;
-                logicRoot.localScale = new Vector3(faceXDir, 1, 1);
+        public void SetFaceDirX(sbyte dirX) {
+            if (dirX == 0) {
+                return;
             }
 
-            // Logic
-            moveCom.Move(moveAxis, attrCom.MoveSpeed);
+            this.faceDirX = dirX;
+            var scale = new Vector3(faceDirX, 1, 1);
+            logicRoot.localScale = scale;
+            rendererRoot.localScale = scale;
         }
 
         public void Dash(Vector2 dir, Vector2 force) {
@@ -227,15 +230,15 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Hit ====
-        public void HitBeHurt(int atk) {
+        public void HitBeHit(int atk) {
             TDLog.Log($"{entityID} 收到伤害 - {atk}");
-            attrCom.HitBeHurt(atk);
+            attrCom.HitBeHit(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
 
         // ==== Drop ====
-        public void DropBeHurt(int damage, Vector2 rebornPos) {
-            attrCom.HitBeHurt(damage);
+        public void DropBeHit(int damage, Vector2 rebornPos) {
+            attrCom.HitBeHit(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetRBPos(rebornPos);
             SyncRenderer();

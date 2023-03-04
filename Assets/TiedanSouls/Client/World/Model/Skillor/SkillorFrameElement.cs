@@ -17,7 +17,7 @@ namespace TiedanSouls.World.Entities {
         public bool isDashEnd;
 
         // - Cancel
-        public SkillorCancelModel[] cancels;
+        public SkillorCancelModel[] allCancelModels;
 
         SkillorBoxElement[] boxes;
 
@@ -46,7 +46,7 @@ namespace TiedanSouls.World.Entities {
                     cancels[i] = new SkillorCancelModel();
                     cancels[i].FromTM(cancelTMArray[i]);
                 }
-                this.cancels = cancels;
+                this.allCancelModels = cancels;
             }
 
             // - Box

@@ -14,6 +14,7 @@ namespace TiedanSouls {
         public const ushort INFINITY = 9;
         public const ushort DASH = 10;
         public const ushort PICK = 11;
+        public const ushort CHOOSE_POINT = 12;
 
     }
 

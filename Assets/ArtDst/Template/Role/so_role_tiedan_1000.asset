@@ -18,7 +18,7 @@ MonoBehaviour:
     hpMax: 100
     gpMax: 10
     epMax: 100
-    moveSpeed: 4
+    moveSpeed: 10
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50

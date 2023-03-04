@@ -13,8 +13,8 @@ namespace TiedanSouls.World.Entities {
         RoleCastingStateModel castingState;
         public RoleCastingStateModel CastingState => castingState;
 
-        RoleBeHurtStateModel beHurtState;
-        public RoleBeHurtStateModel BeHurtState => beHurtState;
+        RoleBeHitStateModel beHurtState;
+        public RoleBeHitStateModel BeHitState => beHurtState;
 
         RoleDeadStateModel deadState;
         public RoleDeadStateModel DeadState => deadState;
@@ -23,7 +23,7 @@ namespace TiedanSouls.World.Entities {
             status = RoleFSMStatus.Idle;
             idleState = new RoleIdleStateModel();
             castingState = new RoleCastingStateModel();
-            beHurtState = new RoleBeHurtStateModel();
+            beHurtState = new RoleBeHitStateModel();
             deadState = new RoleDeadStateModel();
         }
 
@@ -37,12 +37,12 @@ namespace TiedanSouls.World.Entities {
             status = RoleFSMStatus.Casting;
             var stateModel = castingState;
             stateModel.castingSkillor = skillorModel;
-            stateModel.isEntering = true;
+            stateModel.SetIsEntering(true);
             TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
         }
 
-        public void EnterBeHurt(Vector2 fromPos, HitPowerModel hitPowerModel) {
-            status = RoleFSMStatus.BeHurt;
+        public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {
+            status = RoleFSMStatus.BeHit;
             var stateModel = beHurtState;
             stateModel.fromPos = fromPos;
             stateModel.knockbackForce = hitPowerModel.knockbackForce;

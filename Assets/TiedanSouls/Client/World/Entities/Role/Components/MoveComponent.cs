@@ -53,19 +53,21 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Jump(bool isJumpPress, float jumpSpeed) {
-            if (isJumpPress && !isJumping && isGrounded) {
+            if (!isJumpPress) return;
+            if (isJumping) return;
+            if (!isGrounded) return;
 
-                isJumping = true;
-                isGrounded = false;
+            this.isJumping = true;
+            this.isGrounded = false;
 
-                var velo = rb.velocity;
-                velo.y = jumpSpeed;
-                SetVelocity(velo);
-
-            }
+            var velo = rb.velocity;
+            velo.y = jumpSpeed;
+            SetVelocity(velo);
         }
 
         public void Falling(float dt, float fallingAcceleration, float fallingSpeedMax) {
+            if (isGrounded) return;
+
             var velo = rb.velocity;
             var offset = fallingAcceleration * dt;
             velo.y -= offset;

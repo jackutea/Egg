@@ -2,7 +2,6 @@ using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
 using TiedanSouls.World.Entities;
-using TiedanSouls.Template;
 
 namespace TiedanSouls.World.Domain {
 
@@ -24,7 +23,7 @@ namespace TiedanSouls.World.Domain {
             // TODO: if else 
             ApplyCasting(role, dt);
             ApplyIdle(role, dt);
-            ApplyBeHurt(role, dt);
+            ApplyBeHit(role, dt);
         }
 
         void ApplyIdle(RoleEntity role, float dt) {
@@ -40,16 +39,32 @@ namespace TiedanSouls.World.Domain {
             }
 
             var roleDomain = worldDomain.RoleDomain;
+
             roleDomain.Move(role);
             roleDomain.Jump(role);
-            roleDomain.CrossDown(role);
             roleDomain.Falling(role, dt);
-            _ = roleDomain.TryCancelSkillor(role);
+            roleDomain.CrossDown(role);
 
-            // - Idle状态下可拾取武器
+
+            // Idle状态下 拾取武器
             var inputCom = role.InputCom;
             if (inputCom.HasInput_Basic_Pick) {
                 roleDomain.TryPickUpSomethingFromField(role);
+            }
+
+            // Idle状态下 释放技能
+            if (!roleDomain.TryCastSkillorByInput(role)) {
+                var x = inputCom.MoveAxis.x;
+                var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
+                roleDomain.SetRoleFaceDirX(role, dirX);
+            } else {
+                var choosePoint = inputCom.ChoosePoint;
+                if (choosePoint != Vector2.zero) {
+                    var rolePos = role.GetPos_LogicRoot();
+                    var xDiff = choosePoint.x - rolePos.x;
+                    var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
+                    roleDomain.SetRoleFaceDirX(role, dirX);
+                }
             }
         }
 
@@ -62,12 +77,9 @@ namespace TiedanSouls.World.Domain {
             var stateModel = fsm.CastingState;
             var castingSkillor = stateModel.castingSkillor;
 
-            if (stateModel.isEntering) {
-                stateModel.isEntering = false;
-                role.MoveCom.StopHorizontal();
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
-
-                return;
             }
 
             if (!castingSkillor.TryGetCurrentFrame(out SkillorFrameElement curFrame)) {
@@ -83,38 +95,47 @@ namespace TiedanSouls.World.Domain {
             }
 
             var roleDomain = worldDomain.RoleDomain;
-
-            roleDomain.Falling(role, dt);   // TODO: 离地才下落
-
-            if (curFrame.hasDash) {
-                roleDomain.Dash(role, Vector2.right * role.FaceXDir, curFrame.dashForce);
-            }
-
-            if (roleDomain.TryCancelSkillor(role)) {
+            if (roleDomain.TryCastSkillorByInput(role)) {
                 return;
             }
 
-            castingSkillor.ActiveNextFrame(role.GetRBPos(), role.GetRBAngle(), role.FaceXDir);
+            roleDomain.Move(role);
+            roleDomain.Jump(role);
+            roleDomain.Falling(role, dt);
+
+            var choosePoint = role.InputCom.ChoosePoint;
+            if (choosePoint != Vector2.zero) {
+                var rolePos = role.GetPos_LogicRoot();
+                var xDiff = choosePoint.x - rolePos.x;
+                var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
+                roleDomain.SetRoleFaceDirX(role, dirX);
+            }
+
+            if (curFrame.hasDash) {
+                roleDomain.Dash(role, Vector2.right * role.FaceDirX, curFrame.dashForce);
+            }
+
+            castingSkillor.ActiveNextFrame(role.GetPos_RB(), role.GetRot_RB(), role.FaceDirX);
         }
 
-        void ApplyBeHurt(RoleEntity role, float dt) {
+        void ApplyBeHit(RoleEntity role, float dt) {
 
             var fsm = role.FSMCom;
-            if (fsm.Status != RoleFSMStatus.BeHurt) {
+            if (fsm.Status != RoleFSMStatus.BeHit) {
                 return;
             }
 
             var roleDomain = worldDomain.RoleDomain;
 
-            var stateModel = fsm.BeHurtState;
+            var stateModel = fsm.BeHitState;
 
             if (stateModel.isEnter) {
                 stateModel.isEnter = false;
 
-                Vector2 dir = role.GetRBPos() - stateModel.fromPos;
+                Vector2 dir = role.GetPos_RB() - stateModel.fromPos;
                 role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
 
-                role.ModCom.Anim_PlayBeHurt();
+                role.ModCom.Anim_PlayBeHit();
                 return;
             }
 
@@ -124,7 +145,6 @@ namespace TiedanSouls.World.Domain {
             }
 
             stateModel.curFrame += 1;
-
         }
 
     }

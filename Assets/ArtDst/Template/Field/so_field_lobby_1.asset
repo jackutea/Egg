@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: so_field_lobby_1
   m_EditorClassIdentifier: 
   tm:
-    fieldAssetName: mod_field_hall
+    fieldAssetName: mod_field_lobby
     typeID: 1
     fieldType: 1
     chapter: 0
@@ -32,5 +32,5 @@ MonoBehaviour:
     - {x: 9, y: 2}
     fieldDoorArray:
     - fieldTypeID: 1000
-      pos: {x: 30, y: 2}
+      pos: {x: 35, y: 2.5}
       doorIndex: 0

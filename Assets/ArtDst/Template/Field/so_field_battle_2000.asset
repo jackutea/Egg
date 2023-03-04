@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 240f2a15931ed4f41986e1cafecf887a, type: 3}
-  m_Name: so_field_battle_1000
+  m_Name: so_field_battle_2000
   m_EditorClassIdentifier: 
   tm:
-    fieldAssetName: mod_field_1000
-    typeID: 1000
+    fieldAssetName: mod_field_2000
+    typeID: 2000
     fieldType: 2
-    chapter: 1
+    chapter: 2
     level: 1
     spawnModelArray:
     - entityType: 1
@@ -31,11 +31,14 @@ MonoBehaviour:
       allyType: 2
       pos: {x: 25, y: 5}
       spawnFrame: 180
+    - entityType: 1
+      typeID: 1000
+      controlType: 1
+      allyType: 2
+      pos: {x: 30, y: 5}
+      spawnFrame: 270
     itemSpawnPosArray: []
     fieldDoorArray:
-    - fieldTypeID: 1
-      pos: {x: 2, y: 2.5}
-      doorIndex: 0
-    - fieldTypeID: 2000
-      pos: {x: 35, y: 2.5}
-      doorIndex: 0
+    - fieldTypeID: 1000
+      pos: {x: 5, y: 2.5}
+      doorIndex: 1

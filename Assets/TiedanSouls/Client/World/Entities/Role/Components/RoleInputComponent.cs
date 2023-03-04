@@ -36,6 +36,10 @@ namespace TiedanSouls.World.Entities {
         public bool HasInput_Basic_Pick => hasInput_Basic_Pick;
         public void SetInput_Basic_Pick(bool value) => this.hasInput_Basic_Pick = value;
 
+        Vector2 chosePoint;
+        public Vector2 ChoosePoint => chosePoint;
+        public void SetInput_Basic_ChoosePoint(Vector2 value) => this.chosePoint = value;
+
         public RoleInputComponent() { }
 
         public void Reset() {
@@ -47,6 +51,7 @@ namespace TiedanSouls.World.Entities {
             hasInput_Skillor_Infinity = false;
             hasInput_Skillor_Dash = false;
             hasInput_Basic_Pick = false;
+            chosePoint = Vector2.zero;
         }
 
         public SkillorType GetSkillorType() {

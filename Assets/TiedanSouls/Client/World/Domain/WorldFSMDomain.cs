@@ -85,6 +85,7 @@ namespace TiedanSouls.World.Domain {
             // Spawn TieDan 
             var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
             var owner = roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
+            owner.WeaponSlotCom.SetWeaponActive(false);
 
             // Set Camera 
             var cameraSetter = infraContext.CameraCore.SetterAPI;
@@ -124,60 +125,72 @@ namespace TiedanSouls.World.Domain {
                 lobbyStateModel.SetIsEntering(false);
             }
 
-            // 检查玩家InputComponent是否输入了进入战场的指令
-            var fieldRepo = worldContext.FieldRepo;
-            var playerRole = worldContext.RoleRepo.PlayerRole;
-            var inputCom = playerRole.InputCom;
-            if (inputCom.HasInput_Basic_Pick) {
-                var curFieldTypeID = stateEntity.CurFieldTypeID;
-                if (!fieldRepo.TryGet(curFieldTypeID, out var curField)) {
-                    TDLog.Error($"请检查配置! 当前场景不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
-                    return;
-                }
-
-                var doors = curField.FieldDoorArray;
-                var doorCount = doors?.Length;
-                for (int i = 0; i < doorCount; i++) {
-                    var door = doors[i];
-                    var pos = door.pos;
-                    var rolePos = playerRole.GetPos_LogicRoot();
-                    if (Vector2.SqrMagnitude(pos - rolePos) > 1f) {
-                        continue;
-                    }
-
-                    var nextFieldTypeID = door.fieldTypeID;
-                    var fieldDomain = worldDomain.FieldDomain;
-                    if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
-                        TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
-                        return;
-                    }
-
-                    if (nextField.FieldType == FieldType.BattleField) {
-                        var doorIndex = door.doorIndex;
-                        stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
-                        return;
-                    }
-                }
-
-                TDLog.Warning("请检查配置! 没有找到合适的门离开!");
+            // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
+            if (!IsTieDanWantToLeave(out var door)) {
+                return;
             }
 
+            var playerRole = worldContext.RoleRepo.PlayerRole;
+            if (!playerRole.WeaponSlotCom.HasWeapon()) {
+                TDLog.Warning("没有武器你就是个'卤蛋'!!!");
+                return;
+            }
+
+            var nextFieldTypeID = door.fieldTypeID;
+            var fieldDomain = worldDomain.FieldDomain;
+            if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
+                TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
+                return;
+            }
+
+            if (nextField.FieldType == FieldType.BattleField) {
+                var doorIndex = door.doorIndex;
+                var curFieldTypeID = stateEntity.CurFieldTypeID;
+                stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
+                return;
+            }
         }
 
         public void ApplyWorldState_Battle(float dt) {
             DoBasicLogic(dt);
 
+            var playerRole = worldContext.RoleRepo.PlayerRole;
             var stateEntity = worldContext.StateEntity;
             var battleFieldStateModel = stateEntity.BattleStateModel;
             if (battleFieldStateModel.IsEntering) {
                 battleFieldStateModel.SetIsEntering(false);
+                playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
 
-            // FieldFSM状态机刷新逻辑
+            // FieldFSM
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
             var fieldDomain = worldDomain.FieldDomain;
-            fieldDomain.TickFSM(stateEntity.CurFieldTypeID, dt);
+            fieldDomain.TickFSM(curFieldTypeID, dt);
 
-            // TODO: 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
+            // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
+            if (!IsTieDanWantToLeave(out var door)) {
+                return;
+            }
+
+            // TODO: 检查是否有奖励未拾取
+            // TODO: 检查是否有敌人未消灭
+
+            var nextFieldTypeID = door.fieldTypeID;
+            if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
+                TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
+                return;
+            }
+
+            if (nextField.FieldType == FieldType.BattleField) {
+                var doorIndex = door.doorIndex;
+                stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
+                return;
+            }
+
+            if (nextField.FieldType == FieldType.Store) {
+                stateEntity.EnterState_Store(nextFieldTypeID);
+                return;
+            }
 
         }
 
@@ -263,6 +276,38 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
+        bool IsTieDanWantToLeave(out FieldDoorModel door) {
+            door = default;
+            var stateEntity = worldContext.StateEntity;
+            // 检查玩家InputComponent是否输入了进入战场的指令
+            var fieldRepo = worldContext.FieldRepo;
+            var playerRole = worldContext.RoleRepo.PlayerRole;
+            var inputCom = playerRole.InputCom;
+            if (inputCom.HasInput_Basic_Pick) {
+                var curFieldTypeID = stateEntity.CurFieldTypeID;
+                if (!fieldRepo.TryGet(curFieldTypeID, out var curField)) {
+                    TDLog.Error($"请检查配置! 当前场景不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
+                    return false;
+                }
+
+                // 检查玩家是否在场景的门口
+                var allDoors = curField.FieldDoorArray;
+                var count = allDoors?.Length;
+                for (int i = 0; i < count; i++) {
+                    var d = allDoors[i];
+                    var pos = d.pos;
+                    var rolePos = playerRole.GetPos_LogicRoot();
+                    if (Vector2.SqrMagnitude(pos - rolePos) > 1f) {
+                        continue;
+                    }
+
+                    door = d;
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
     }
 }

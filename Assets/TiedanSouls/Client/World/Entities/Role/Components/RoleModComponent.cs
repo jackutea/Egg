@@ -20,7 +20,7 @@ namespace TiedanSouls.World.Entities {
             anim.Play("idle");
         }
 
-        public void Anim_PlayBeHurt() {
+        public void Anim_PlayBeHit() {
             anim.Play("be_hurt");
         }
 

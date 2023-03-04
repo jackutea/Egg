@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class RoleBeHurtStateModel {
+    public class RoleBeHitStateModel {
 
         public Vector2 fromPos;
 
@@ -15,7 +15,7 @@ namespace TiedanSouls.World.Entities {
 
         public bool isEnter;
 
-        public RoleBeHurtStateModel() {}
+        public RoleBeHitStateModel() {}
 
     }
 
