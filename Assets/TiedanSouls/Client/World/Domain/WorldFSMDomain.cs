@@ -231,14 +231,18 @@ namespace TiedanSouls.World.Domain {
                 var roleRepo = worldContext.RoleRepo;
                 roleRepo.HideAllAIRolesInField(curFieldTypeID);
 
-                // 加载下一个场景
-                if (!fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out var field)) {
+                // 判断是否场景是否已经生成过
+                var fieldRepo = worldContext.FieldRepo;
+                if (!fieldRepo.TryGet(loadingFieldTypeID, out var field)) {
+                    fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out field);
+                }
+
+                if (field == null) {
                     TDLog.Error($"场景不存在! FieldTypeID: {loadingFieldTypeID}");
                     return;
                 }
 
                 loadingStateModel.SetIsLoadingComplete(true);
-
             }
 
             if (loadingStateModel.IsLoadingComplete) {
@@ -255,22 +259,27 @@ namespace TiedanSouls.World.Domain {
                     TDLog.Warning($"未处理的场景类型: {field.FieldType}");
                 }
 
-                // 显示场景内所有实体
-                var spawnModelArray = field.SpawnModelArray;
-                var len = spawnModelArray.Length;
-                for (int i = 0; i < len; i++) {
-                    var spawnModel = spawnModelArray[i];
-                    var entityType = spawnModel.entityType;
-                    var typeID = spawnModel.typeID;
-                    var controlType = spawnModel.controlType;
-                    var allyType = spawnModel.allyType;
-                    var spawnPos = spawnModel.pos;
+                // 判断场景角色是加载还是重新刷新
+                var roleRepo = worldContext.RoleRepo;
+                if (roleRepo.HasFieldRole(loadingFieldTypeID)) {
+                    roleRepo.ResetAllAIRolesInField(loadingFieldTypeID);
+                } else {
+                    var spawnModelArray = field.SpawnModelArray;
+                    var len = spawnModelArray.Length;
+                    for (int i = 0; i < len; i++) {
+                        var spawnModel = spawnModelArray[i];
+                        var entityType = spawnModel.entityType;
+                        var typeID = spawnModel.typeID;
+                        var controlType = spawnModel.controlType;
+                        var allyType = spawnModel.allyType;
+                        var spawnPos = spawnModel.pos;
 
-                    if (entityType == EntityType.Role) {
-                        var roleDomain = worldDomain.RoleDomain;
-                        var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
-                    } else {
-                        TDLog.Error($"未处理 EntityType: {entityType}");
+                        if (entityType == EntityType.Role) {
+                            var roleDomain = worldDomain.RoleDomain;
+                            var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                        } else {
+                            TDLog.Error($"未处理 EntityType: {entityType}");
+                        }
                     }
                 }
 

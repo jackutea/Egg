@@ -40,5 +40,5 @@ MonoBehaviour:
     itemSpawnPosArray: []
     fieldDoorArray:
     - fieldTypeID: 1000
-      pos: {x: 5, y: 2.5}
+      pos: {x: 2, y: 2.5}
       doorIndex: 1

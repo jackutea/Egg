@@ -9,12 +9,19 @@ namespace TiedanSouls.World.Entities {
 
         Dictionary<int, SkillorModel> comboSkillors;
 
-        Dictionary<SkillorType, SkillorModel> allByType;
+        Dictionary<SkillorType, SkillorModel> all_sortedByType;
 
         public SkillorSlotComponent() {
             originalSkillors = new Dictionary<int, SkillorModel>();
             comboSkillors = new Dictionary<int, SkillorModel>();
-            allByType = new Dictionary<SkillorType, SkillorModel>();
+            all_sortedByType = new Dictionary<SkillorType, SkillorModel>();
+        }
+
+        public void Reset() {
+            var e = originalSkillors.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                e.Current.Reset();
+            }
         }
 
         public void AddOriginalSkillor(SkillorModel model) {
@@ -24,7 +31,7 @@ namespace TiedanSouls.World.Entities {
             }
 
             originalSkillors.Add(model.TypeID, model);
-            allByType.TryAdd(model.SkillorType, model);
+            all_sortedByType.TryAdd(model.SkillorType, model);
             TDLog.Log($"加载原始技能: {model.TypeID}");
         }
 
@@ -44,7 +51,7 @@ namespace TiedanSouls.World.Entities {
             }
 
             originalSkillors.Remove(typeID);
-            allByType.Remove(model.SkillorType);
+            all_sortedByType.Remove(model.SkillorType);
         }
 
         public bool TryGetOriginalSkillor(int typeID, out SkillorModel model) {
@@ -52,7 +59,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public bool TryGetOriginalSkillorByType(SkillorType type, out SkillorModel model) {
-            return allByType.TryGetValue(type, out model);
+            return all_sortedByType.TryGetValue(type, out model);
         }
 
         public bool TryGetComboSkillor(int typeID, out SkillorModel model) {
@@ -60,7 +67,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public bool TryGetComboSkillorByType(SkillorType type, out SkillorModel model) {
-            return allByType.TryGetValue(type, out model);
+            return all_sortedByType.TryGetValue(type, out model);
         }
 
         public bool HasOriginalSkillor(int typeID) {

@@ -56,7 +56,7 @@ namespace TiedanSouls.World {
 
         #region [Role]
 
-        public RoleEntity SpawnRoleEntity(ControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
+        public RoleEntity SpawnRoleEntity(ControlType controlType, int typeID, AllyType allyType, Vector2 bornPos) {
             var idService = worldContext.IDService;
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
@@ -72,6 +72,7 @@ namespace TiedanSouls.World {
 
             var role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
             role.Ctor();
+            role.SetBornPos(bornPos);
 
             // ID
             int id = idService.PickRoleID();
@@ -104,7 +105,7 @@ namespace TiedanSouls.World {
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
             // Pos
-            role.SetPos_Logic(pos);
+            role.SetPos_Logic(bornPos);
             role.SyncRenderer();
 
             // Ally

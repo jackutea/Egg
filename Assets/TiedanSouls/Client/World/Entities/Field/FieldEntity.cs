@@ -57,14 +57,12 @@ namespace TiedanSouls.World.Entities {
 
         public bool TryFindDoorByIndex(int doorIndex, out FieldDoorModel door) {
             door = default;
-            var len = fieldDoorArray.Length;
-            for (int i = 0; i < len; i++) {
-                if (fieldDoorArray[i].doorIndex == doorIndex) {
-                    door = fieldDoorArray[i];
-                    return true;
-                }
+            if (doorIndex < 0 || doorIndex >= fieldDoorArray.Length) {
+                return false;
             }
-            return false;
+
+            door = fieldDoorArray[doorIndex];
+            return true;
         }
 
     }

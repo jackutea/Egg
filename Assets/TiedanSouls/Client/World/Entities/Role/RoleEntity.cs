@@ -85,6 +85,11 @@ namespace TiedanSouls.World.Entities {
         HUDSlotComponent hudSlotCom;
         public HUDSlotComponent HudSlotCom => hudSlotCom;
 
+        // - Record
+        Vector2 bornPos;
+        public Vector2 BornPos => bornPos;
+        public void SetBornPos(Vector2 value) => this.bornPos = value;
+
         // ==== Event ====
         public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
         public event Action<RoleEntity, Collider2D> FootTriggerExit;
@@ -150,6 +155,35 @@ namespace TiedanSouls.World.Entities {
             footCom.FootTriggerEnter -= OnFootTriggerEnter;
             footCom.FootTriggerExit -= OnFootCollisionExit;
             GameObject.Destroy(gameObject);
+        }
+
+        public void Reset() {
+            // - Foot
+            footCom.Reset();
+
+            // - Body
+            bodyCollCom.Reset();
+
+            // - Weapon
+            weaponSlotCom.Reset();
+
+            // - HUD
+            hudSlotCom.Reset();
+
+            // - Attribute
+            attrCom.Reset();
+
+            // - FSM
+            fsmCom.Reset();
+
+            // - Input
+            inputCom.Reset();
+
+            // - Skillor
+            skillorSlotCom.Reset();
+
+            // - Movement
+            moveCom.LeaveGround();
         }
 
         public void Hide() {
@@ -219,35 +253,35 @@ namespace TiedanSouls.World.Entities {
         public void EnterGround() {
             moveCom.EnterGround();
             coll_logicRoot.isTrigger = false;
-            TDLog.Log($"--- 进入地面 {entityID} ");
+            // TDLog.Log($"--- 进入地面 {entityID} ");
         }
 
         public void LeaveGround() {
             moveCom.LeaveGround();
-            TDLog.Log($"--- 离开地面 {entityID} ");
+            // TDLog.Log($"--- 离开地面 {entityID} ");
         }
 
         public void EnterCrossPlatform() {
             moveCom.EnterCrossPlatform();
-            TDLog.Log($"--- 进入横跨平台 {entityID} ");
+            // TDLog.Log($"--- 进入横跨平台 {entityID} ");
         }
 
         public void LeaveCrossPlatform() {
             moveCom.LeaveGround();
             coll_logicRoot.isTrigger = true;
-            TDLog.Log($"--- 离开横跨平台 {entityID} ");
+            // TDLog.Log($"--- 离开横跨平台 {entityID} ");
         }
 
         // ==== Hit ====
         public void HitBeHit(int atk) {
-            TDLog.Log($"{entityID} 收到伤害 - {atk}");
-            attrCom.HitBeHit(atk);
+            TDLog.Log($"{entityID} 受到伤害 - {atk}");
+            attrCom.HurtByAtk(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
 
         // ==== Drop ====
         public void DropBeHit(int damage, Vector2 rebornPos) {
-            attrCom.HitBeHit(damage);
+            attrCom.HurtByAtk(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetPos_Logic(rebornPos);
             SyncRenderer();

@@ -27,6 +27,10 @@ namespace TiedanSouls.World.Entities {
             deadState = new RoleDeadStateModel();
         }
 
+        public void Reset(){
+            EnterIdle();
+        }
+
         public void EnterIdle() {
             status = RoleFSMStatus.Idle;
             idleState.isEnter = true;

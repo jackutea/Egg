@@ -32,6 +32,8 @@ namespace TiedanSouls.World.Entities {
             this.isActive = active;
         }
 
+        public void Reset(){}
+
     }
 
 }

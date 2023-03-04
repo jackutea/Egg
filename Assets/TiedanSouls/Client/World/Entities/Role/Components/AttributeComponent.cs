@@ -58,11 +58,17 @@ namespace TiedanSouls.World.Entities {
             this.fallingSpeedMax = fallingSpeedMax;
         }
 
-        internal void HitBeHit(int atk) {
+        internal void HurtByAtk(int atk) {
             hp -= atk;
             if (hp < 0) {
                 hp = 0;
             }
+        }
+
+        public void Reset(){
+            hp = hpMax;
+            ep = epMax;
+            gp = gpMax;
         }
 
     }

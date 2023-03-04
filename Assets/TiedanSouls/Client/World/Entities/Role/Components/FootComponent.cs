@@ -25,6 +25,8 @@ namespace TiedanSouls.World.Entities {
             footColl.isTrigger = isTrigger;
         }
 
+        public void Reset(){}
+
     }
 
 }

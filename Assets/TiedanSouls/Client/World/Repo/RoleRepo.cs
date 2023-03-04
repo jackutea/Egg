@@ -17,6 +17,14 @@ namespace TiedanSouls.World {
             allAIRoles = new List<RoleEntity>();
         }
 
+        public void SetPlayerRole(RoleEntity role) {
+            if (playerRole != null) {
+                TDLog.Error("玩家角色已经被设置过了!");
+                return;
+            }
+            playerRole = role;
+        }
+
         public void AddAIRole(RoleEntity role, int fromFieldTypeID) {
             if (!allAIRoles_sortedByField.TryGetValue(fromFieldTypeID, out var list)) {
                 list = new List<RoleEntity>();
@@ -70,7 +78,7 @@ namespace TiedanSouls.World {
             }
         }
 
-        public void ShowAllAIRolesInField(int fieldTypeID) {
+        public void ResetAllAIRolesInField(int fieldTypeID) {
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
                 return;
             }
@@ -79,15 +87,14 @@ namespace TiedanSouls.World {
             for (int i = 0; i < len; i++) {
                 var role = list[i];
                 role.Show();
+                role.Reset();
+                role.SetPos_Logic(role.BornPos);
             }
         }
 
-        public void SetPlayerRole(RoleEntity role) {
-            if (playerRole != null) {
-                TDLog.Error("玩家角色已经被设置过了!");
-                return;
-            }
-            playerRole = role;
+        public bool HasFieldRole(int fieldTypeID) {
+            return allAIRoles_sortedByField.ContainsKey(fieldTypeID);
         }
+
     }
 }
