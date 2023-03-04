@@ -345,7 +345,7 @@ namespace TiedanSouls.World.Domain {
                     return;
                 }
 
-                otherFSM.EnterBeHit(caster.GetPos_RB(), hitPower);
+                otherFSM.EnterBeHit(caster.GetPos_Logic(), hitPower);
 
             }
 
@@ -363,7 +363,7 @@ namespace TiedanSouls.World.Domain {
         public bool TryPickUpSomethingFromField(RoleEntity role) {
             var repo = worldContext.ItemRepo;
             var fieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-            if (!repo.TryGetOneItemFromField(fieldTypeID, role.GetPos_RB(), 1, out var item)) {
+            if (!repo.TryGetOneItemFromField(fieldTypeID, role.GetPos_Logic(), 1, out var item)) {
                 return false;
             }
 

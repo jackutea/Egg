@@ -46,7 +46,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void EnterState_Battle(int fieldTypeID) {
-            this.status = WorldFSMState.BattleField;
+            this.status = WorldFSMState.Battle;
             this.curFieldTypeID = fieldTypeID;
 
             battleStateModel.SetIsEntering(true);

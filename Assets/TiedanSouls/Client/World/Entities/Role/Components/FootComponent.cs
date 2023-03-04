@@ -15,11 +15,9 @@ namespace TiedanSouls.World.Entities {
         }
 
         void OnTriggerEnter2D(Collider2D other) {
-            TDLog.Log("FootComponent OnTriggerEnter2D");
             FootTriggerEnter.Invoke(other);
         }
         void OnTriggerExit2D(Collider2D other) {
-            TDLog.Log("FootComponent OnTriggerExit2D");
             FootTriggerExit.Invoke(other);
         }
 

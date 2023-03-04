@@ -55,5 +55,17 @@ namespace TiedanSouls.World.Entities {
             gameObject.SetActive(true);
         }
 
+        public bool TryFindDoorByIndex(int doorIndex, out FieldDoorModel door) {
+            door = default;
+            var len = fieldDoorArray.Length;
+            for (int i = 0; i < len; i++) {
+                if (fieldDoorArray[i].doorIndex == doorIndex) {
+                    door = fieldDoorArray[i];
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

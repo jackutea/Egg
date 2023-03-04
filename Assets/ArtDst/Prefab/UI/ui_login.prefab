@@ -201,7 +201,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Enter Hall
+  m_Text: "\u8FDB\u5165\u5927\u5385"
 --- !u!1 &86145777704076019
 GameObject:
   m_ObjectHideFlags: 0

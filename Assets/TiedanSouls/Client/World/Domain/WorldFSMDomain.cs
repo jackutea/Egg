@@ -99,7 +99,7 @@ namespace TiedanSouls.World.Domain {
             var worldStatus = stateEntity.Status;
             if (worldStatus == WorldFSMState.Lobby) {
                 ApplyWorldState_Lobby(dt);
-            } else if (worldStatus == WorldFSMState.BattleField) {
+            } else if (worldStatus == WorldFSMState.Battle) {
                 ApplyWorldState_Battle(dt);
             } else if (worldStatus == WorldFSMState.Store) {
                 ApplyWorldState_Store(dt);
@@ -181,16 +181,8 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            if (nextField.FieldType == FieldType.BattleField) {
-                var doorIndex = door.doorIndex;
-                stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
-                return;
-            }
-
-            if (nextField.FieldType == FieldType.Store) {
-                stateEntity.EnterState_Store(nextFieldTypeID);
-                return;
-            }
+            var doorIndex = door.doorIndex;
+            stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
 
         }
 
@@ -239,16 +231,31 @@ namespace TiedanSouls.World.Domain {
                 var roleRepo = worldContext.RoleRepo;
                 roleRepo.HideAllAIRolesInField(curFieldTypeID);
 
-                // 显示下一个场景
+                // 加载下一个场景
                 if (!fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out var field)) {
                     TDLog.Error($"场景不存在! FieldTypeID: {loadingFieldTypeID}");
                     return;
                 }
 
-                field.FSMComponent.Enter_Spawning();
                 loadingStateModel.SetIsLoadingComplete(true);
 
-                // 显示下一个场景内所有实体
+            }
+
+            if (loadingStateModel.IsLoadingComplete) {
+                _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);
+
+                // 根据场景类型进入不同的世界状态
+                if (field.FieldType == FieldType.BattleField) {
+                    stateEntity.EnterState_Battle(loadingFieldTypeID);
+                } else if (field.FieldType == FieldType.Store) {
+                    stateEntity.EnterState_Store(loadingFieldTypeID);
+                } else if (field.FieldType == FieldType.Lobby) {
+                    stateEntity.EnterState_Lobby(loadingFieldTypeID);
+                } else {
+                    TDLog.Warning($"未处理的场景类型: {field.FieldType}");
+                }
+
+                // 显示场景内所有实体
                 var spawnModelArray = field.SpawnModelArray;
                 var len = spawnModelArray.Length;
                 for (int i = 0; i < len; i++) {
@@ -267,11 +274,15 @@ namespace TiedanSouls.World.Domain {
                     }
                 }
 
-            }
+                // 设置铁蛋初始场景位置
+                var playerRole = worldContext.RoleRepo.PlayerRole;
+                var doorIndex = loadingStateModel.DoorIndex;
+                _ = field.TryFindDoorByIndex(doorIndex, out var door);
+                var doorPos = door.pos;
+                doorPos.y = playerRole.GetPos_Logic().y;
+                playerRole.SetPos_Logic(doorPos);
+                playerRole.SyncRenderer();
 
-            if (loadingStateModel.IsLoadingComplete) {
-                stateEntity.EnterState_Battle(loadingFieldTypeID);
-                _ = fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out var field);
                 field.FSMComponent.Enter_Ready();
             }
         }

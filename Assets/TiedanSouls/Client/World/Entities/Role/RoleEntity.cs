@@ -170,16 +170,16 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Locomotion ====
-        public void SetRBPos(Vector2 pos) {
-            rb_logicRoot.position = pos;
+        public void SetPos_Logic(Vector2 pos) {
+            logicRoot.position = pos;
         }
 
-        public Vector2 GetPos_RB() {
-            return rb_logicRoot.position;
+        public Vector2 GetPos_Logic() {
+            return logicRoot.position;
         }
 
-        public float GetRot_RB() {
-            return rb_logicRoot.rotation;
+        public float GetRot_Logic() {
+            return logicRoot.rotation.z;
         }
 
         public void Move() {
@@ -249,7 +249,7 @@ namespace TiedanSouls.World.Entities {
         public void DropBeHit(int damage, Vector2 rebornPos) {
             attrCom.HitBeHit(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
-            SetRBPos(rebornPos);
+            SetPos_Logic(rebornPos);
             SyncRenderer();
         }
 

@@ -115,7 +115,7 @@ namespace TiedanSouls.World.Domain {
                 roleDomain.Dash(role, Vector2.right * role.FaceDirX, curFrame.dashForce);
             }
 
-            castingSkillor.ActiveNextFrame(role.GetPos_RB(), role.GetRot_RB(), role.FaceDirX);
+            castingSkillor.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
         }
 
         void ApplyBeHit(RoleEntity role, float dt) {
@@ -132,7 +132,7 @@ namespace TiedanSouls.World.Domain {
             if (stateModel.isEnter) {
                 stateModel.isEnter = false;
 
-                Vector2 dir = role.GetPos_RB() - stateModel.fromPos;
+                Vector2 dir = role.GetPos_Logic() - stateModel.fromPos;
                 role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
 
                 role.ModCom.Anim_PlayBeHit();

@@ -104,7 +104,7 @@ namespace TiedanSouls.World {
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
             // Pos
-            role.SetRBPos(pos);
+            role.SetPos_Logic(pos);
             role.SyncRenderer();
 
             // Ally
