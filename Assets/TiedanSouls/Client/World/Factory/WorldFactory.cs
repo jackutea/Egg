@@ -4,7 +4,7 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Entities;
 using TiedanSouls.World.Facades;
 using TiedanSouls.Template;
-using System.Collections.Generic;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.World {
 
@@ -93,7 +93,7 @@ namespace TiedanSouls.World {
             var roleModAssets = assetCore.RoleModAssets;
             has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
             if (!has) {
-                TDLog.Error("Failed to get sprite: " + roleTM.modName);
+                TDLog.Error($"请检查配置! 角色模型资源不存在! {roleTM.modName}");
                 return null;
             }
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);

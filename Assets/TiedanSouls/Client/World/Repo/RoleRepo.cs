@@ -33,7 +33,7 @@ namespace TiedanSouls.World {
 
             list.Add(role);
             allAIRoles.Add(role);
-            TDLog.Log($"添加角色: EntityD={role.EntityD}, fromFieldTypeID={fromFieldTypeID} ");
+            TDLog.Log($"添加角色: {role.RoleName} ");
         }
 
         public void RemoveAIRole(RoleEntity role) {

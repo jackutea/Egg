@@ -75,7 +75,14 @@ namespace TiedanSouls.World.Domain {
             }
 
             var stateModel = fsm.CastingState;
-            var castingSkillor = stateModel.castingSkillor;
+            var skillorTypeID = stateModel.skillorTypeID;
+            var isCombo = stateModel.isCombo;
+            SkillorModel castingSkillor;
+            if (isCombo) {
+                role.SkillorSlotCom.TryGetComboSkillor(skillorTypeID, out castingSkillor);
+            } else {
+                role.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillorTypeID, out castingSkillor);
+            }
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);

@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Role
+  - m_GUID: d0f93188be6e46741b97e1d68f7b0d76
+    m_Address: so_role_enemy_1000001
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Role
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

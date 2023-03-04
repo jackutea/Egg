@@ -40,34 +40,5 @@ namespace TiedanSouls.World.Domain {
             field.Hide();
         }
 
-        // ====== FSM Domain ======
-        public void TickFSM(int typeID, float dt) {
-            var fieldRepo = worldContext.FieldRepo;
-            if (!fieldRepo.TryGet(typeID, out var field)) {
-                TDLog.Log($"场景不存在! FieldTypeID: {typeID}");
-            }
-
-            var fsm = field.FSMComponent;
-            var state = fsm.State;
-            if (state == FieldFSMState.Ready) {
-                ApplyFSMState_Ready(fsm, dt);
-            } else if (state == FieldFSMState.Spawning) {
-                ApplyFSMState_Spawning(fsm, dt);
-            } else if (state == FieldFSMState.Finished) {
-                ApplyFSMState_Finished(fsm, dt);
-            }
-        }
-
-        void ApplyFSMState_Ready(FieldFSMComponent fsm, float dt) {
-        }
-
-        void ApplyFSMState_Spawning(FieldFSMComponent fsm, float dt) {
-
-        }
-
-        void ApplyFSMState_Finished(FieldFSMComponent fsm, float dt) {
-
-        }
-
     }
 }

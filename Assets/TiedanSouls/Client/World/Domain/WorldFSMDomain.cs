@@ -3,7 +3,7 @@ using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
-using System.Collections.Generic;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.World.Domain {
 
@@ -164,8 +164,8 @@ namespace TiedanSouls.World.Domain {
 
             // FieldFSM
             var curFieldTypeID = stateEntity.CurFieldTypeID;
-            var fieldDomain = worldDomain.FieldDomain;
-            fieldDomain.TickFSM(curFieldTypeID, dt);
+            var fieldFSMDomain = worldDomain.FieldFSMDomain;
+            fieldFSMDomain.TickFSM(curFieldTypeID, dt);
 
             // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
             if (!IsTieDanWantToLeave(out var door)) {
@@ -176,6 +176,7 @@ namespace TiedanSouls.World.Domain {
             // TODO: 检查是否有敌人未消灭
 
             var nextFieldTypeID = door.fieldTypeID;
+            var fieldDomain = worldDomain.FieldDomain;
             if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
                 TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
                 return;

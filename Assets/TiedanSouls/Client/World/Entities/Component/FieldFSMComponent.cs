@@ -1,5 +1,4 @@
-using UnityEngine;
-
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.World.Entities {
 
@@ -8,8 +7,13 @@ namespace TiedanSouls.World.Entities {
         FieldFSMState state;
         public FieldFSMState State => state;
 
+        // ====== FSM Model ======
+        FieldFSMModel_Spawning spawningModel;
+        public FieldFSMModel_Spawning SpawningModel => spawningModel;
+
         public FieldFSMComponent() {
             state = FieldFSMState.None;
+            spawningModel = new FieldFSMModel_Spawning();
         }
 
         public void Enter_Ready() {
@@ -19,6 +23,7 @@ namespace TiedanSouls.World.Entities {
 
         public void Enter_Spawning() {
             state = FieldFSMState.Spawning;
+            spawningModel.SetIsEntering(true);
             TDLog.Log($"场景状态: '{state}'");
         }
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 

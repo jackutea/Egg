@@ -28,7 +28,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SO_Field
   - m_GUID: 04013d10ac8b5a446b5aad4b9bc3f95a
-    m_Address: so_field_battle_2000
+    m_Address: mod_field_1001
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Field
+  - m_GUID: 3543a723b71b27741afaa9799d38ffd8
+    m_Address: so_field_battle_1002
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Field

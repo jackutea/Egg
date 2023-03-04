@@ -11,6 +11,9 @@ namespace TiedanSouls.World.Facades {
         WorldFieldDomain fieldDomain;
         public WorldFieldDomain FieldDomain => fieldDomain;
 
+        WorldFieldFSMDomain fieldFSMDomain;
+        public WorldFieldFSMDomain FieldFSMDomain => fieldFSMDomain;
+
         WorldRoleDomain roleDomain;
         public WorldRoleDomain RoleDomain => roleDomain;
 
@@ -25,19 +28,29 @@ namespace TiedanSouls.World.Facades {
 
         public WorldDomain() {
             gameDomain = new WorldFSMDomain();
+
             fieldDomain = new WorldFieldDomain();
+            fieldFSMDomain = new WorldFieldFSMDomain();
+
             roleDomain = new WorldRoleDomain();
             roleFSMDomain = new WorldRoleFSMDomain();
+
             phxDomain = new WorldPhysicsDomain();
+
             worldRendererDomain = new WorldRendererDomain();
         }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
             GameDomain.Inject(infraContext, worldContext, this);
+
             RoleFSMDomain.Inject(infraContext, worldContext, this);
-            WorldPhysicsDomain.Inject(infraContext, worldContext, this);
-            FieldDomain.Inject(infraContext, worldContext);
             RoleDomain.Inject(infraContext, worldContext);
+
+            FieldDomain.Inject(infraContext, worldContext);
+            FieldFSMDomain.Inject(infraContext, worldContext);
+
+            WorldPhysicsDomain.Inject(infraContext, worldContext, this);
+
             WorldRendererDomain.Inject(infraContext, worldContext, this);
         }
 

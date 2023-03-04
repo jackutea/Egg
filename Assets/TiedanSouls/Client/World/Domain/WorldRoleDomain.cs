@@ -3,6 +3,7 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.World.Facades;
 using TiedanSouls.World.Entities;
 using TiedanSouls.Template;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.World.Domain {
 
@@ -219,7 +220,16 @@ namespace TiedanSouls.World.Domain {
             // - Skillor Cancel
             var fsm = role.FSMCom;
             if (fsm.Status == RoleFSMStatus.Casting) {
-                var castingSkillor = fsm.CastingState.castingSkillor;
+
+                var stateModel = fsm.CastingState;
+                var skillID = stateModel.skillorTypeID;
+                SkillorModel castingSkillor;
+                if (stateModel.isCombo) {
+                    role.SkillorSlotCom.TryGetComboSkillor(skillID, out castingSkillor);
+                } else {
+                    role.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillID, out castingSkillor);
+                }
+
                 if (!castingSkillor.TryGetCurrentFrame(out var frame)) {
                     TDLog.Error($"技能未配置帧 - {castingSkillor.TypeID} ");
                     return false;
@@ -246,7 +256,7 @@ namespace TiedanSouls.World.Domain {
                         }
                     } else {
                         // - Normal Cancel
-                        bool hasOriginal = skillorSlotCom.TryGetOriginalSkillor(cancelSkillorTypeID, out var originalSkillor);
+                        bool hasOriginal = skillorSlotCom.TryGetOriginalSkillorByTypeID(cancelSkillorTypeID, out var originalSkillor);
                         bool isOriginalInput = inputSkillorTypeID == cancelSkillorTypeID;
                         if (hasOriginal && isOriginalInput) {
                             isCombo = false;
@@ -261,7 +271,7 @@ namespace TiedanSouls.World.Domain {
 
         void CastOriginalSkillor(RoleEntity role, int typeID) {
             var skillorSlotCom = role.SkillorSlotCom;
-            if (!skillorSlotCom.TryGetOriginalSkillor(typeID, out var skillor)) {
+            if (!skillorSlotCom.TryGetOriginalSkillorByTypeID(typeID, out var skillor)) {
                 TDLog.Error($"施放原始技能失败:{typeID} ");
                 return;
             }
@@ -333,7 +343,15 @@ namespace TiedanSouls.World.Domain {
             SkillorFrameElement otherFrame = null;
             var otherFSM = other.FSMCom;
             if (otherFSM.Status == RoleFSMStatus.Casting) {
-                var otherSkillor = otherFSM.CastingState.castingSkillor;
+                var stateModel = otherFSM.CastingState;
+                var skillID = stateModel.skillorTypeID;
+                var isCombo = stateModel.isCombo;
+                SkillorModel otherSkillor;
+                if (isCombo) {
+                    other.SkillorSlotCom.TryGetComboSkillor(skillID, out otherSkillor);
+                } else {
+                    other.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillID, out otherSkillor);
+                }
                 otherSkillor.TryGetCurrentFrame(out otherFrame);
             }
 
@@ -415,8 +433,8 @@ namespace TiedanSouls.World.Domain {
             role.WeaponSlotCom.SetWeapon(weaponModel);
         }
 
-        WeaponModel SpawnWeaponModel(int typeID) {
-            WeaponModel weapon = new WeaponModel();
+        WeaponEntity SpawnWeaponModel(int typeID) {
+            WeaponEntity weapon = new WeaponEntity();
 
             var assetCore = infraContext.AssetCore;
             var templateCore = infraContext.TemplateCore;
