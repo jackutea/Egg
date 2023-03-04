@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
+    [Serializable]
     public class MoveComponent {
 
         Rigidbody2D rb;
@@ -12,7 +13,8 @@ namespace TiedanSouls.World.Entities {
         }
 
         bool isJumping;
-        bool isGrounded;
+
+        [SerializeField] bool isGrounded;
         public bool IsGrounded => isGrounded;
 
         bool isStandCrossPlatform;
@@ -80,6 +82,9 @@ namespace TiedanSouls.World.Entities {
         public void EnterGround() {
             isGrounded = true;
             isJumping = false;
+            var velo = rb.velocity;
+            velo.y = 0;
+            SetVelocity(velo);
         }
 
         public void LeaveGround() {

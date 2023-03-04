@@ -26,7 +26,6 @@ namespace TiedanSouls.World.Domain {
             // - Physics
             role.FootTriggerEnterAction += OnFootTriggerEnter;
             role.FootTriggerExit += OnFootTriggerExit;
-            role.BodyTriggerExitAction += OnRoleFootTriggerExit;
 
             // - FSM
             role.FSMCom.EnterIdle();
@@ -58,12 +57,6 @@ namespace TiedanSouls.World.Domain {
             if (other.gameObject.layer == LayerCollection.GROUND) {
                 role.LeaveGround();
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
-                role.LeaveCrossPlatform();
-            }
-        }
-
-        void OnRoleFootTriggerExit(RoleEntity role, Collider2D other) {
-            if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
                 role.LeaveCrossPlatform();
             }
         }
@@ -167,7 +160,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void CrossDown(RoleEntity role) {
-            role.CrossDown();
+            role.TryCrossDown();
         }
 
         public void Falling(RoleEntity role, float dt) {

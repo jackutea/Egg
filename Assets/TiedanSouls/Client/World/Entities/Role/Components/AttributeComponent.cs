@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class RoleAttributeComponent {
+    public class AttributeComponent {
 
         int hp;
         public int HP => hp;
@@ -35,7 +35,7 @@ namespace TiedanSouls.World.Entities {
         [SerializeField] float fallingSpeedMax;
         public float FallingSpeedMax => fallingSpeedMax;
 
-        public RoleAttributeComponent() {
+        public AttributeComponent() {
             moveSpeed = 4f;
             jumpSpeed = 15f;
             fallingAcceleration = 30f;

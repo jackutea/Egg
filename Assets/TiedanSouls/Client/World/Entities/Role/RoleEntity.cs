@@ -42,8 +42,8 @@ namespace TiedanSouls.World.Entities {
         public ControlType ControlType => controlType;
         public void SetControlType(ControlType value) => this.controlType = value;
 
-        RoleInputComponent inputCom;
-        public RoleInputComponent InputCom => inputCom;
+        InputComponent inputCom;
+        public InputComponent InputCom => inputCom;
 
         // ==== AI ====
         object aiStrategy;
@@ -52,18 +52,20 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Body Part ====
         Rigidbody2D rb_logicRoot;
+        CapsuleCollider2D coll_logicRoot;
         FootComponent footCom;
-        RoleBodyCollComponent bodyCollCom;
+        BodyCollComponent bodyCollCom;
 
         sbyte faceDirX;
         public sbyte FaceDirX => faceDirX;
 
         // ==== Component ====
+        [SerializeField]
         MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
-        RoleAttributeComponent attrCom;
-        public RoleAttributeComponent AttrCom => attrCom;
+        AttributeComponent attrCom;
+        public AttributeComponent AttrCom => attrCom;
 
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
@@ -92,21 +94,24 @@ namespace TiedanSouls.World.Entities {
 
             faceDirX = 1;
 
+            // - Root
             logicRoot = transform.Find("logic_root");
             rendererRoot = transform.Find("renderer_root");
 
-            // - Movement
             rb_logicRoot = logicRoot.GetComponent<Rigidbody2D>();
             TDLog.Assert(rb_logicRoot != null);
             moveCom = new MoveComponent();
             moveCom.Inject(rb_logicRoot);
+
+            coll_logicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
+            TDLog.Assert(coll_logicRoot != null);
 
             // - Foot
             footCom = logicRoot.Find("foot").GetComponent<FootComponent>();
             footCom.Ctor();
 
             // - Body
-            bodyCollCom = logicRoot.Find("body").GetComponent<RoleBodyCollComponent>();
+            bodyCollCom = logicRoot.Find("body").GetComponent<BodyCollComponent>();
             bodyCollCom.Ctor();
 
             // - Weapon
@@ -122,12 +127,11 @@ namespace TiedanSouls.World.Entities {
             hudSlotCom.Inject(hudRoot);
 
             // - Attribute
-            attrCom = new RoleAttributeComponent();
+            attrCom = new AttributeComponent();
 
             // ==== Bind Event ====
             footCom.FootTriggerEnter += OnFootTriggerEnter;
             footCom.FootTriggerExit += OnFootCollisionExit;
-            bodyCollCom.OnBodyTriggerExitHandle += OnBodyTriggerExit;
 
             // - Mod
             modCom = new RoleModComponent();
@@ -136,7 +140,7 @@ namespace TiedanSouls.World.Entities {
             fsmCom = new RoleFSMComponent();
 
             // - Input
-            inputCom = new RoleInputComponent();
+            inputCom = new InputComponent();
 
             // - Skillor
             skillorSlotCom = new SkillorSlotComponent();
@@ -202,9 +206,9 @@ namespace TiedanSouls.World.Entities {
             moveCom.Jump(inputCom.HasInput_Locomotion_JumpDown, attrCom.JumpSpeed);
         }
 
-        public void CrossDown() {
+        public void TryCrossDown() {
             if (inputCom.MoveAxis.y < 0 && moveCom.IsStandCrossPlatform) {
-                SetFootTrigger(true);
+                LeaveCrossPlatform();
             }
         }
 
@@ -214,19 +218,24 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterGround() {
             moveCom.EnterGround();
+            coll_logicRoot.isTrigger = false;
+            TDLog.Log($"--- 进入地面 {entityID} ");
         }
 
         public void LeaveGround() {
             moveCom.LeaveGround();
+            TDLog.Log($"--- 离开地面 {entityID} ");
         }
 
         public void EnterCrossPlatform() {
             moveCom.EnterCrossPlatform();
+            TDLog.Log($"--- 进入横跨平台 {entityID} ");
         }
 
         public void LeaveCrossPlatform() {
             moveCom.LeaveGround();
-            SetFootTrigger(false);
+            coll_logicRoot.isTrigger = true;
+            TDLog.Log($"--- 离开横跨平台 {entityID} ");
         }
 
         // ==== Hit ====

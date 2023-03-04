@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class RoleInputComponent {
+    public class InputComponent {
 
         Vector2 moveAxis;
         public Vector2 MoveAxis => moveAxis;
@@ -40,7 +40,7 @@ namespace TiedanSouls.World.Entities {
         public Vector2 ChoosePoint => chosePoint;
         public void SetInput_Basic_ChoosePoint(Vector2 value) => this.chosePoint = value;
 
-        public RoleInputComponent() { }
+        public InputComponent() { }
 
         public void Reset() {
             moveAxis = Vector2.zero;

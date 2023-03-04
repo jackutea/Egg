@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class RoleBodyCollComponent : MonoBehaviour{
+    public class BodyCollComponent : MonoBehaviour{
 
         Collider2D coll;
 
@@ -18,7 +18,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         void OnTriggerExit2D(Collider2D other) {
-            OnBodyTriggerExitHandle.Invoke(other);
+            OnBodyTriggerExitHandle?.Invoke(other);
         }
 
     }
