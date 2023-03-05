@@ -17,11 +17,15 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Anim_PlayIdle() {
-            anim.Play("idle");
+            anim.Play("Idle");
         }
 
-        public void Anim_PlayBeHit() {
-            anim.Play("be_hurt");
+        public void Anim_Play_BeHit() {
+            anim.Play("BeHit");
+        }
+
+        public void Anim_Play_Dying() {
+            anim.Play("Dying");
         }
 
     }

@@ -19,22 +19,28 @@ namespace TiedanSouls.World.Domain {
             this.worldDomain = worldDomain;
         }
 
-        public void Tick(RoleEntity role, float dt) {
-            // TODO: if else 
-            ApplyCasting(role, dt);
-            ApplyIdle(role, dt);
-            ApplyBeHit(role, dt);
-        }
-
-        void ApplyIdle(RoleEntity role, float dt) {
+        public void TickFSM(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
-            if (fsm.Status != RoleFSMStatus.Idle) {
+            if (fsm.IsExiting) {
                 return;
             }
 
-            var stateModel = fsm.IdleState;
-            if (stateModel.isEnter) {
-                stateModel.isEnter = false;
+            if (fsm.State == RoleFSMState.Idle) {
+                Apply_Idle(role, dt);
+            } else if (fsm.State == RoleFSMState.Casting) {
+                Apply_Casting(role, dt);
+            } else if (fsm.State == RoleFSMState.BeHit) {
+                Apply_BeHit(role, dt);
+            } else if (fsm.State == RoleFSMState.Dying) {
+                Apply_Dead(role, dt);
+            }
+        }
+
+        void Apply_Idle(RoleEntity role, float dt) {
+            var fsm = role.FSMCom;
+            var stateModel = fsm.IdleModel;
+            if (stateModel.isEntering) {
+                stateModel.isEntering = false;
                 role.ModCom.Anim_PlayIdle();
             }
 
@@ -44,7 +50,6 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
             roleDomain.CrossDown(role);
-
 
             // Idle状态下 拾取武器
             var inputCom = role.InputCom;
@@ -68,13 +73,13 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void ApplyCasting(RoleEntity role, float dt) {
+        void Apply_Casting(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
-            if (fsm.Status != RoleFSMStatus.Casting) {
+            if (fsm.State != RoleFSMState.Casting) {
                 return;
             }
 
-            var stateModel = fsm.CastingState;
+            var stateModel = fsm.CastingModel;
             var skillorTypeID = stateModel.skillorTypeID;
             var isCombo = stateModel.isCombo;
             SkillorModel castingSkillor;
@@ -125,24 +130,17 @@ namespace TiedanSouls.World.Domain {
             castingSkillor.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
         }
 
-        void ApplyBeHit(RoleEntity role, float dt) {
-
+        void Apply_BeHit(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
-            if (fsm.Status != RoleFSMStatus.BeHit) {
-                return;
-            }
+            var stateModel = fsm.BeHitModel;
 
-            var roleDomain = worldDomain.RoleDomain;
-
-            var stateModel = fsm.BeHitState;
-
-            if (stateModel.isEnter) {
-                stateModel.isEnter = false;
+            if (stateModel.isEntering) {
+                stateModel.isEntering = false;
 
                 Vector2 dir = role.GetPos_Logic() - stateModel.fromPos;
                 role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
 
-                role.ModCom.Anim_PlayBeHit();
+                role.ModCom.Anim_Play_BeHit();
                 return;
             }
 
@@ -152,6 +150,26 @@ namespace TiedanSouls.World.Domain {
             }
 
             stateModel.curFrame += 1;
+        }
+
+        void Apply_Dead(RoleEntity role, float dt) {
+            var fsm = role.FSMCom;
+            var stateModel = fsm.DyingModel;
+
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
+
+                role.HudSlotCom.HideHUD();
+                role.ModCom.Anim_Play_Dying();
+            }
+
+            if (stateModel.maintainFrame <= 0) {
+                var roleDomain = worldContext.WorldDomain.RoleDomain;
+                roleDomain.RoleDead(role);
+                fsm.SetIsExiting(true);
+            }
+
+            stateModel.maintainFrame--;
         }
 
     }

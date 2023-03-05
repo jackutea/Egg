@@ -197,7 +197,7 @@ namespace TiedanSouls.World.Domain {
             int inputSkillorTypeID = skillor.TypeID;
 
             var fsm = role.FSMCom;
-            if (fsm.Status == RoleFSMStatus.Idle) {
+            if (fsm.State == RoleFSMState.Idle) {
                 CastOriginalSkillor(role, inputSkillorTypeID);
                 return true;
             }
@@ -219,9 +219,9 @@ namespace TiedanSouls.World.Domain {
 
             // - Skillor Cancel
             var fsm = role.FSMCom;
-            if (fsm.Status == RoleFSMStatus.Casting) {
+            if (fsm.State == RoleFSMState.Casting) {
 
-                var stateModel = fsm.CastingState;
+                var stateModel = fsm.CastingModel;
                 var skillID = stateModel.skillorTypeID;
                 SkillorModel castingSkillor;
                 if (stateModel.isCombo) {
@@ -316,7 +316,7 @@ namespace TiedanSouls.World.Domain {
 
             SkillorHitRole_Damage(caster, skillor, other);
             if (other.AttrCom.HP <= 0) {
-                RoleDie(other);
+                RoleBeginDying(other);
             } else {
                 RoleHitRole_FrameEffector(caster, skillor, other);
             }
@@ -342,8 +342,8 @@ namespace TiedanSouls.World.Domain {
 
             SkillorFrameElement otherFrame = null;
             var otherFSM = other.FSMCom;
-            if (otherFSM.Status == RoleFSMStatus.Casting) {
-                var stateModel = otherFSM.CastingState;
+            if (otherFSM.State == RoleFSMState.Casting) {
+                var stateModel = otherFSM.CastingModel;
                 var skillID = stateModel.skillorTypeID;
                 var isCombo = stateModel.isCombo;
                 SkillorModel otherSkillor;
@@ -371,9 +371,13 @@ namespace TiedanSouls.World.Domain {
 
         #endregion
 
-        void RoleDie(RoleEntity role) {
+        public void RoleBeginDying(RoleEntity role) {
             var fsm = role.FSMCom;
-            fsm.EnterDead();
+            fsm.EnterDead(30);  // TODO: 死亡时间
+        }
+
+        public void RoleDead(RoleEntity role) {
+            role.Hide();
         }
 
         #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]

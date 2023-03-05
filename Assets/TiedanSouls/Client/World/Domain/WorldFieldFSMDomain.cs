@@ -101,9 +101,9 @@ namespace TiedanSouls.World.Domain {
                     }
                 });
                 if (aliveEnemyCount > 0) {
-                    TDLog.Warning($"关卡敌人数量 {aliveEnemyCount}");
                     return;
                 }
+                spawningModel.SetIsSpawningPaused(false);
                 TDLog.Warning($"关卡敌人生成继续,当前敌人数量");
             }
 
@@ -129,7 +129,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             spawningModel.curFrame++;
-            
+
             if (hasBreakPoint) {
                 spawningModel.SetIsSpawningPaused(true);
                 TDLog.Warning($"关卡敌人生成暂停,请杀死当前所有敌人以推进关卡进度 {spawningModel.IsSpawningPaused}");

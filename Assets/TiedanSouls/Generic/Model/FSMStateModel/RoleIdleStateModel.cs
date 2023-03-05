@@ -1,10 +1,10 @@
 namespace TiedanSouls.Generic {
 
-    public class RoleIdleStateModel {
+    public class RoleFSMModel_Idle {
 
-        public bool isEnter;
+        public bool isEntering;
 
-        public RoleIdleStateModel() { }
+        public RoleFSMModel_Idle() { }
 
     }
 }

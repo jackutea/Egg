@@ -4,8 +4,8 @@ namespace TiedanSouls.World.Entities {
 
     public class WorldStateEntity {
 
-        WorldFSMState status;
-        public WorldFSMState Status => status;
+        WorldFSMState state;
+        public WorldFSMState State => state;
 
         // ====== FSM Model ======
         WorldFSMModel_LobbyState lobbyStateModel;
@@ -27,7 +27,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void EnterState_Loading(int fromFieldTypeID, int nextFieldTypeID, int doorIndex) {
-            this.status = WorldFSMState.Loading;
+            this.state = WorldFSMState.Loading;
 
             loadingStateModel.SetIsEntering(true);
             loadingStateModel.SetIsLoadingComplete(false);
@@ -35,31 +35,31 @@ namespace TiedanSouls.World.Entities {
             loadingStateModel.SetNextFieldTypeID(nextFieldTypeID);
             loadingStateModel.SetDoorIndex(doorIndex);
 
-            TDLog.Log($"------> 世界状态: '{status}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex}");
+            TDLog.Log($"------> 世界状态: '{state}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex}");
         }
 
         public void EnterState_Lobby(int fieldTypeID) {
-            this.status = WorldFSMState.Lobby;
+            this.state = WorldFSMState.Lobby;
             this.curFieldTypeID = fieldTypeID;
 
             lobbyStateModel.SetIsEntering(true);
 
-            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
+            TDLog.Log($"------> 世界状态: '{state}' FieldTypeID: {fieldTypeID}");
         }
 
         public void EnterState_Battle(int fieldTypeID) {
-            this.status = WorldFSMState.Battle;
+            this.state = WorldFSMState.Battle;
             this.curFieldTypeID = fieldTypeID;
 
             battleStateModel.SetIsEntering(true);
 
-            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
+            TDLog.Log($"------> 世界状态: '{state}' FieldTypeID: {fieldTypeID}");
         }
 
         public void EnterState_Store(int fieldTypeID) {
-            this.status = WorldFSMState.Store;
+            this.state = WorldFSMState.Store;
 
-            TDLog.Log($"------> 世界状态: '{status}' FieldTypeID: {fieldTypeID}");
+            TDLog.Log($"------> 世界状态: '{state}' FieldTypeID: {fieldTypeID}");
         }
 
     }

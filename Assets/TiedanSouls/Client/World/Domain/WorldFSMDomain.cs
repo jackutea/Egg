@@ -31,17 +31,17 @@ namespace TiedanSouls.World.Domain {
 
         public void ApplyWorldState(float dt) {
             var stateEntity = worldContext.StateEntity;
-            var worldStatus = stateEntity.Status;
-            if (worldStatus == WorldFSMState.Lobby) {
+            var worldState = stateEntity.State;
+            if (worldState == WorldFSMState.Lobby) {
                 ApplyWorldState_Lobby(dt);
-            } else if (worldStatus == WorldFSMState.Battle) {
+            } else if (worldState == WorldFSMState.Battle) {
                 ApplyWorldState_Battle(dt);
-            } else if (worldStatus == WorldFSMState.Store) {
+            } else if (worldState == WorldFSMState.Store) {
                 ApplyWorldState_Store(dt);
-            } else if (worldStatus == WorldFSMState.Loading) {
+            } else if (worldState == WorldFSMState.Loading) {
                 ApplyWorldState_Loading(dt);
             } else {
-                TDLog.Error($"未知的World状态! Status: {worldStatus}");
+                TDLog.Error($"未知的World状态! State: {worldState}");
             }
 
             // Clear Input
@@ -158,7 +158,7 @@ namespace TiedanSouls.World.Domain {
                 }
 
                 // Role FSM
-                roleFSMDomain.Tick(role, dt);
+                roleFSMDomain.TickFSM(role, dt);
             });
 
             // Physics

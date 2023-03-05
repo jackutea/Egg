@@ -25,11 +25,12 @@ MonoBehaviour:
       allyType: 3
       pos: {x: 30, y: 5}
       spawnFrame: 0
+      isBreakPoint: 0
     itemSpawnPosArray:
-    - {x: 3, y: 2}
     - {x: 5, y: 2}
     - {x: 7, y: 2}
     - {x: 9, y: 2}
+    - {x: 11, y: 2}
     fieldDoorArray:
     - fieldTypeID: -1
       pos: {x: 2, y: 2.5}

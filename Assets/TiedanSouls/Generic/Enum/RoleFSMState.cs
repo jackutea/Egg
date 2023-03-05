@@ -1,10 +1,10 @@
 namespace TiedanSouls {
 
-    public enum RoleFSMStatus {
+    public enum RoleFSMState {
         Idle,
         Casting,
         BeHit,
-        Dead,
+        Dying,
         ReStanding,
         Dash,
     }

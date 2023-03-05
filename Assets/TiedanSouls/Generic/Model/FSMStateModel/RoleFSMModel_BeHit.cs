@@ -13,7 +13,7 @@ namespace TiedanSouls.Generic {
 
         public int curFrame;
 
-        public bool isEnter;
+        public bool isEntering;
 
         public RoleFSMModel_BeHit() {}
 

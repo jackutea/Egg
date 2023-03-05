@@ -5,42 +5,47 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleFSMComponent {
 
-        RoleFSMStatus status;
-        public RoleFSMStatus Status => status;
+        RoleFSMState state;
+        public RoleFSMState State => state;
 
-        RoleIdleStateModel idleState;
-        public RoleIdleStateModel IdleState => idleState;
+        RoleFSMModel_Idle idleModel;
+        public RoleFSMModel_Idle IdleModel => idleModel;
 
-        RoleFSMModel_Casting castingState;
-        public RoleFSMModel_Casting CastingState => castingState;
+        RoleFSMModel_Casting castingModel;
+        public RoleFSMModel_Casting CastingModel => castingModel;
 
-        RoleFSMModel_BeHit beHurtState;
-        public RoleFSMModel_BeHit BeHitState => beHurtState;
+        RoleFSMModel_BeHit beHitModel;
+        public RoleFSMModel_BeHit BeHitModel => beHitModel;
 
-        RoleFSMModel_Dead deadState;
-        public RoleFSMModel_Dead DeadState => deadState;
+        RoleFSMModel_Dying dyingModel;
+        public RoleFSMModel_Dying DyingModel => dyingModel;
+
+        bool isExiting;
+        public bool IsExiting => isExiting;
+        public void SetIsExiting(bool value) => isExiting = value;
 
         public RoleFSMComponent() {
-            status = RoleFSMStatus.Idle;
-            idleState = new RoleIdleStateModel();
-            castingState = new RoleFSMModel_Casting();
-            beHurtState = new RoleFSMModel_BeHit();
-            deadState = new RoleFSMModel_Dead();
+            state = RoleFSMState.Idle;
+            idleModel = new RoleFSMModel_Idle();
+            castingModel = new RoleFSMModel_Casting();
+            beHitModel = new RoleFSMModel_BeHit();
+            dyingModel = new RoleFSMModel_Dying();
         }
 
         public void Reset() {
+            isExiting = false;
             EnterIdle();
         }
 
         public void EnterIdle() {
-            status = RoleFSMStatus.Idle;
-            idleState.isEnter = true;
+            state = RoleFSMState.Idle;
+            idleModel.isEntering = true;
             TDLog.Log("人物状态机切换 - 待机 ");
         }
 
         public void EnterCasting(SkillorModel skillorModel, bool isCombo) {
-            status = RoleFSMStatus.Casting;
-            var stateModel = castingState;
+            state = RoleFSMState.Casting;
+            var stateModel = castingModel;
             stateModel.skillorTypeID = skillorModel.TypeID;
             stateModel.isCombo = isCombo;
             stateModel.SetIsEntering(true);
@@ -48,20 +53,22 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {
-            status = RoleFSMStatus.BeHit;
-            var stateModel = beHurtState;
+            state = RoleFSMState.BeHit;
+            var stateModel = beHitModel;
             stateModel.fromPos = fromPos;
             stateModel.knockbackForce = hitPowerModel.knockbackForce;
             stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
             stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
             stateModel.curFrame = 0;
-            stateModel.isEnter = true;
+            stateModel.isEntering = true;
             TDLog.Log("人物状态机切换 - 受伤 ");
         }
 
-        public void EnterDead() {
-            status = RoleFSMStatus.Dead;
-            TDLog.Log("人物状态机切换 - 死亡 ");
+        public void EnterDead(int maintainFrame) {
+            state = RoleFSMState.Dying;
+            dyingModel.SetIsEntering(true);
+            dyingModel.maintainFrame = maintainFrame;
+            TDLog.Log("人物状态机切换 - 死亡中 ");
         }
 
     }
