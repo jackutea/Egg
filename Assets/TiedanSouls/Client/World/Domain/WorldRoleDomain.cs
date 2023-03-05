@@ -372,6 +372,7 @@ namespace TiedanSouls.World.Domain {
 
         public void RoleBeginDying(RoleEntity role) {
             var fsm = role.FSMCom;
+            role.SetAIStrategy(null);   //AI 关闭
             fsm.EnterDead(30);  // TODO: 死亡时间
         }
 
