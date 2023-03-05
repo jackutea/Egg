@@ -189,12 +189,13 @@ namespace TiedanSouls.World.Domain {
                 return false;
             }
 
-            if (!role.SkillorSlotCom.TryGetOriginalSkillorByType(inputSkillorType, out var skillor)) {
+            var skillorSlotCom = role.SkillorSlotCom;
+            if (!skillorSlotCom.TryGetOriginalSkillorByType(inputSkillorType, out var originalSkillor)) {
                 TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillorType}");
                 return false;
             }
 
-            int inputSkillorTypeID = skillor.TypeID;
+            int inputSkillorTypeID = originalSkillor.TypeID;
 
             var fsm = role.FSMCom;
             if (fsm.State == RoleFSMState.Idle) {
@@ -202,70 +203,68 @@ namespace TiedanSouls.World.Domain {
                 return true;
             }
 
-            if (CanCancelSkillor(role, inputSkillorTypeID, out var realSkillorTypeID, out var isCombo)) {
-                if (isCombo) {
-                    CastComboSkillor(role, realSkillorTypeID);
+            // 技能连招逻辑
+            bool isCasting = fsm.State == RoleFSMState.Casting;
+            if (isCasting) {
+                var stateModel = fsm.CastingModel;
+                var castingSkillTypeID = stateModel.castingSkillorTypeID;
+                SkillorModel castingSkillor;
+                if (stateModel.IsCombo) {
+                    skillorSlotCom.TryGetComboSkillor(castingSkillTypeID, out castingSkillor);
                 } else {
-                    CastOriginalSkillor(role, realSkillorTypeID);
+                    skillorSlotCom.TryGetOriginalSkillorByTypeID(castingSkillTypeID, out castingSkillor);
+                }
+
+                if (CanCancelSkillor(skillorSlotCom, castingSkillor, inputSkillorTypeID, out var realSkillorTypeID, out var isCombo)) {
+                    castingSkillor.Reset();
+                    if (isCombo) {
+                        CastComboSkillor(role, realSkillorTypeID);
+                    } else {
+                        CastOriginalSkillor(role, realSkillorTypeID);
+                    }
                 }
             }
 
             return true;
         }
 
-        bool CanCancelSkillor(RoleEntity role, int inputSkillorTypeID, out int realSkillorTypeID, out bool isCombo) {
+        bool CanCancelSkillor(SkillorSlotComponent skillorSlotCom, SkillorModel castingSkillor, int inputSkillorTypeID, out int realSkillorTypeID, out bool isCombo) {
             realSkillorTypeID = inputSkillorTypeID;
             isCombo = false;
 
-            // - Skillor Cancel
-            var fsm = role.FSMCom;
-            if (fsm.State == RoleFSMState.Casting) {
+            if (!castingSkillor.TryGetCurrentFrame(out var frame)) {
+                TDLog.Error($"技能未配置帧 - {castingSkillor.TypeID} ");
+                return false;
+            }
 
-                var stateModel = fsm.CastingModel;
-                var skillID = stateModel.skillorTypeID;
-                SkillorModel castingSkillor;
-                if (stateModel.isCombo) {
-                    role.SkillorSlotCom.TryGetComboSkillor(skillID, out castingSkillor);
+            var allCancelModels = frame.allCancelModels;
+            if (allCancelModels == null || allCancelModels.Length == 0) {
+                return false;
+            }
+
+            for (int i = 0; i < allCancelModels.Length; i++) {
+                SkillorCancelModel cancel = allCancelModels[i];
+                int cancelSkillorTypeID = cancel.skillorTypeID;
+
+                if (cancel.isCombo) {
+                    // - Combo Cancel
+                    bool hasCombo = skillorSlotCom.TryGetComboSkillor(cancelSkillorTypeID, out var comboSkillor);
+                    bool isComboInput = inputSkillorTypeID == comboSkillor.OriginalSkillorTypeID;
+                    if (hasCombo && isComboInput) {
+                        realSkillorTypeID = cancelSkillorTypeID;    // 改变技能类型ID
+                        isCombo = true;
+                        return true;
+                    }
                 } else {
-                    role.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillID, out castingSkillor);
-                }
-
-                if (!castingSkillor.TryGetCurrentFrame(out var frame)) {
-                    TDLog.Error($"技能未配置帧 - {castingSkillor.TypeID} ");
-                    return false;
-                }
-
-                var allCancelModels = frame.allCancelModels;
-                if (allCancelModels == null || allCancelModels.Length == 0) {
-                    return false;
-                }
-
-                var skillorSlotCom = role.SkillorSlotCom;
-                for (int i = 0; i < allCancelModels.Length; i++) {
-                    SkillorCancelModel cancel = allCancelModels[i];
-                    int cancelSkillorTypeID = cancel.skillorTypeID;
-
-                    if (cancel.isCombo) {
-                        // - Combo Cancel
-                        bool hasCombo = skillorSlotCom.TryGetComboSkillor(cancelSkillorTypeID, out var comboSkillor);
-                        bool isComboInput = inputSkillorTypeID == comboSkillor.OriginalSkillorTypeID;
-                        if (hasCombo && isComboInput) {
-                            realSkillorTypeID = cancelSkillorTypeID;    // 改变技能类型ID
-                            isCombo = true;
-                            return true;
-                        }
-                    } else {
-                        // - Normal Cancel
-                        bool hasOriginal = skillorSlotCom.TryGetOriginalSkillorByTypeID(cancelSkillorTypeID, out var originalSkillor);
-                        bool isOriginalInput = inputSkillorTypeID == cancelSkillorTypeID;
-                        if (hasOriginal && isOriginalInput) {
-                            isCombo = false;
-                            return true;
-                        }
+                    // - Normal Cancel
+                    bool hasOriginal = skillorSlotCom.TryGetOriginalSkillorByTypeID(cancelSkillorTypeID, out var originalSkillor);
+                    bool isOriginalInput = inputSkillorTypeID == cancelSkillorTypeID;
+                    if (hasOriginal && isOriginalInput) {
+                        isCombo = false;
+                        return true;
                     }
                 }
             }
-
             return false;
         }
 
@@ -289,7 +288,7 @@ namespace TiedanSouls.World.Domain {
             fsm.EnterCasting(skillor, true);
         }
 
-        #endregion  
+        #endregion
 
         #region [Hit]
 
@@ -344,8 +343,8 @@ namespace TiedanSouls.World.Domain {
             var otherFSM = other.FSMCom;
             if (otherFSM.State == RoleFSMState.Casting) {
                 var stateModel = otherFSM.CastingModel;
-                var skillID = stateModel.skillorTypeID;
-                var isCombo = stateModel.isCombo;
+                var skillID = stateModel.castingSkillorTypeID;
+                var isCombo = stateModel.IsCombo;
                 SkillorModel otherSkillor;
                 if (isCombo) {
                     other.SkillorSlotCom.TryGetComboSkillor(skillID, out otherSkillor);
@@ -390,12 +389,12 @@ namespace TiedanSouls.World.Domain {
             }
 
             if (item.ItemType == ItemType.Weapon) {
-                if (!role.WeaponSlotCom.IsActive) {
+                // TODO: 拾取武器时，如果已经有武器，需要判断是否替换武器
+                if (!role.WeaponSlotCom.HasWeapon()) {
                     PickUpWeapon(role, item.TypeIDForPickUp);
                     return true;
                 }
 
-                // TODO: 拾取武器时，如果已经有武器，需要判断是否替换武器
                 return false;
             }
 

@@ -39,6 +39,9 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterIdle() {
             state = RoleFSMState.Idle;
+            var stateModel = idleModel;
+
+            stateModel.Reset();
             idleModel.isEntering = true;
             TDLog.Log("人物状态机切换 - 待机 ");
         }
@@ -46,8 +49,10 @@ namespace TiedanSouls.World.Entities {
         public void EnterCasting(SkillorModel skillorModel, bool isCombo) {
             state = RoleFSMState.Casting;
             var stateModel = castingModel;
-            stateModel.skillorTypeID = skillorModel.TypeID;
-            stateModel.isCombo = isCombo;
+
+            stateModel.Reset();
+            stateModel.castingSkillorTypeID = skillorModel.TypeID;
+            stateModel.SetIsCombo(isCombo);
             stateModel.SetIsEntering(true);
             TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
         }
@@ -55,6 +60,8 @@ namespace TiedanSouls.World.Entities {
         public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {
             state = RoleFSMState.BeHit;
             var stateModel = beHitModel;
+
+            stateModel.Reset();
             stateModel.fromPos = fromPos;
             stateModel.knockbackForce = hitPowerModel.knockbackForce;
             stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
@@ -66,6 +73,9 @@ namespace TiedanSouls.World.Entities {
 
         public void EnterDead(int maintainFrame) {
             state = RoleFSMState.Dying;
+            var stateModel = dyingModel;
+
+            stateModel.Reset();
             dyingModel.SetIsEntering(true);
             dyingModel.maintainFrame = maintainFrame;
             TDLog.Log("人物状态机切换 - 死亡中 ");

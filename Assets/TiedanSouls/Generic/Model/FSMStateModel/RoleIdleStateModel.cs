@@ -6,5 +6,9 @@ namespace TiedanSouls.Generic {
 
         public RoleFSMModel_Idle() { }
 
+        public void Reset() {
+            isEntering = false;
+        }
+
     }
 }

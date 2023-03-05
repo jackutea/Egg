@@ -17,7 +17,7 @@ namespace TiedanSouls {
             model.hitStopFrame = tm.hitStopFrame;
         }
 
-        public static void SetSkilloCancelModel(SkillorCancelModel model,SkillorCancelTM tm){
+        public static void SetSkilloCancelModel(ref SkillorCancelModel model, SkillorCancelTM tm) {
             model.skillorTypeID = tm.skillorTypeID;
             model.startFrame = tm.startFrame;
             model.isCombo = tm.isCombo;

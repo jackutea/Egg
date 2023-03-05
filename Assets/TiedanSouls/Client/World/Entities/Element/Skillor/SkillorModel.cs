@@ -28,9 +28,9 @@ namespace TiedanSouls.World.Entities {
         public int OriginalSkillorTypeID => originalSkillorTypeID;
 
         // - Frames
-        SkillorFrameElement[] frames;
-        int frameIndex;
-        public int FrameIndex => frameIndex;
+        SkillorFrameElement[] allFrames;
+        int curFrameIndex;
+        public int CurFrameIndex => curFrameIndex;
 
         // - Renderer
         public string weaponAnimName;
@@ -57,7 +57,7 @@ namespace TiedanSouls.World.Entities {
                     frames[i] = new SkillorFrameElement(this);
                     frames[i].FromTM(tm.frames[i]);
                 }
-                this.frames = frames;
+                this.allFrames = frames;
             }
 
             // - Renderer
@@ -66,8 +66,8 @@ namespace TiedanSouls.World.Entities {
         }
 
         public bool TryGetCurrentFrame(out SkillorFrameElement frame) {
-            if (frames != null && frameIndex < frames.Length) {
-                frame = frames[frameIndex];
+            if (allFrames != null && curFrameIndex < allFrames.Length) {
+                frame = allFrames[curFrameIndex];
                 return true;
             }
             frame = null;
@@ -75,25 +75,29 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void ActiveNextFrame(Vector2 parentPos, float parentZAngle, sbyte faceXDir) {
-            DeactiveCurrent();
-            // activate next frame
-            frameIndex += 1;
-            if (frames != null && frameIndex < frames.Length) {
-                frames[frameIndex].Active(parentPos, parentZAngle, faceXDir);
+            ResetFrame(curFrameIndex);
+            curFrameIndex++;
+            if (allFrames != null && curFrameIndex < allFrames.Length) {
+                allFrames[curFrameIndex].Active(parentPos, parentZAngle, faceXDir);
             }
         }
 
-        void DeactiveCurrent() {
-            // deactivate current frame
-            var frames = this.frames;
-            if (frames != null && frameIndex < frames.Length) {
-                frames[frameIndex].Deactive();
+        void ResetAllFrames() {
+            var len = allFrames.Length;
+            for (int i = 0; i < len; i += 1) {
+                allFrames[i].DeactiveFrameBoxes();
+            }
+        }
+
+        void ResetFrame(int frameIndex) {
+            if (allFrames != null && frameIndex < allFrames.Length) {
+                allFrames[frameIndex].DeactiveFrameBoxes();
             }
         }
 
         public void Reset() {
-            DeactiveCurrent();
-            frameIndex = 0;
+            ResetAllFrames();
+            curFrameIndex = 0;
         }
 
         public void OnEnterOther(Collider2D other) {

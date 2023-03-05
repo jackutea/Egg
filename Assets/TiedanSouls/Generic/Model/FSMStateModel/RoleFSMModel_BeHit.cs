@@ -15,7 +15,16 @@ namespace TiedanSouls.Generic {
 
         public bool isEntering;
 
-        public RoleFSMModel_BeHit() {}
+        public RoleFSMModel_BeHit() { }
+
+        public void Reset() {
+            fromPos = Vector2.zero;
+            knockbackForce = 0;
+            knockbackFrame = 0;
+            hitStunFrame = 0;
+            curFrame = 0;
+            isEntering = false;
+        }
 
     }
 

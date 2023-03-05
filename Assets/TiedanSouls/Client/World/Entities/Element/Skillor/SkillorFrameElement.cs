@@ -41,13 +41,13 @@ namespace TiedanSouls.World.Entities {
             // - Cancel
             var cancelTMArray = tm.cancelTMs;
             if (cancelTMArray != null) {
-                var cancels = new SkillorCancelModel[cancelTMArray.Length];
-                for (int i = 0; i < cancels.Length; i += 1) {
+                var cancelModels = new SkillorCancelModel[cancelTMArray.Length];
+                for (int i = 0; i < cancelModels.Length; i += 1) {
                     var cancelModel = new SkillorCancelModel();
-                    TM2ModelUtil.SetSkilloCancelModel(cancelModel, cancelTMArray[i]);
-                    cancels[i] = cancelModel;
+                    TM2ModelUtil.SetSkilloCancelModel(ref cancelModel, cancelTMArray[i]);
+                    cancelModels[i] = cancelModel;
                 }
-                this.allCancelModels = cancels;
+                this.allCancelModels = cancelModels;
             }
 
             // - Box
@@ -64,7 +64,7 @@ namespace TiedanSouls.World.Entities {
 
         }
 
-        public void Deactive() {
+        public void DeactiveFrameBoxes() {
             if (boxes != null) {
                 for (int i = 0; i < boxes.Length; i += 1) {
                     boxes[i].Deactive();

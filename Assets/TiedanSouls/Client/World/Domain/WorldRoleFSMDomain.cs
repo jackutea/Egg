@@ -80,8 +80,8 @@ namespace TiedanSouls.World.Domain {
             }
 
             var stateModel = fsm.CastingModel;
-            var skillorTypeID = stateModel.skillorTypeID;
-            var isCombo = stateModel.isCombo;
+            var skillorTypeID = stateModel.castingSkillorTypeID;
+            var isCombo = stateModel.IsCombo;
             SkillorModel castingSkillor;
             if (isCombo) {
                 role.SkillorSlotCom.TryGetComboSkillor(skillorTypeID, out castingSkillor);
@@ -91,6 +91,8 @@ namespace TiedanSouls.World.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
+
+
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
             }
 
@@ -107,14 +109,8 @@ namespace TiedanSouls.World.Domain {
             }
 
             var roleDomain = worldDomain.RoleDomain;
-            if (roleDomain.TryCastSkillorByInput(role)) {
-                return;
-            }
 
-            roleDomain.Move(role);
-            roleDomain.Jump(role);
-            roleDomain.Falling(role, dt);
-
+            // 根据鼠标点击改变朝向
             var choosePoint = role.InputCom.ChoosePoint;
             if (choosePoint != Vector2.zero) {
                 var rolePos = role.GetPos_LogicRoot();
@@ -123,10 +119,22 @@ namespace TiedanSouls.World.Domain {
                 roleDomain.SetRoleFaceDirX(role, dirX);
             }
 
+            // 技能接技能
+            if (roleDomain.TryCastSkillorByInput(role)) {
+                return;
+            }
+
+            // 角色Locomotion
+            roleDomain.Move(role);
+            roleDomain.Jump(role);
+            roleDomain.Falling(role, dt);
+
+            // Dash
             if (curFrame.hasDash) {
                 roleDomain.Dash(role, Vector2.right * role.FaceDirX, curFrame.dashForce);
             }
 
+            // Next Frame
             castingSkillor.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
         }
 
