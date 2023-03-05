@@ -106,7 +106,7 @@ namespace TiedanSouls.World {
 
             // Pos
             role.SetPos_Logic(bornPos);
-            role.SyncRenderer();
+            role.SyncRendererr();
 
             // Ally
             role.SetAlly(allyType);

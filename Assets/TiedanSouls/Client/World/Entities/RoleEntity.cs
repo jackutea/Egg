@@ -227,9 +227,10 @@ namespace TiedanSouls.World.Entities {
             }
 
             this.faceDirX = dirX;
-            var scale = new Vector3(faceDirX, 1, 1);
+            var scale = new Vector3(dirX, 1, 1);
             logicRoot.localScale = scale;
-            rendererRoot.localScale = scale;
+
+            modCom.SetLocalScale(scale);
         }
 
         public void Dash(Vector2 dir, Vector2 force) {
@@ -284,7 +285,7 @@ namespace TiedanSouls.World.Entities {
             attrCom.HurtByAtk(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetPos_Logic(rebornPos);
-            SyncRenderer();
+            SyncRendererr();
         }
 
         // ==== Phx ====
@@ -306,7 +307,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Renderer ====
-        public void SyncRenderer() {
+        public void SyncRendererr() {
             var logicPos = logicRoot.position;
             rendererRoot.position = logicPos;
             weaponRoot.position = logicPos;

@@ -22,4 +22,4 @@ MonoBehaviour:
     jumpSpeed: 15
     fallingAcceleration: 30
     fallingSpeedMax: 50
-    modName: mod_role_tiedan_1000
+    modName: mod_role_neutral_1

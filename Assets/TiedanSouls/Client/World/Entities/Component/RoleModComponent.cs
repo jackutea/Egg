@@ -12,8 +12,12 @@ namespace TiedanSouls.World.Entities {
 
         public void SetMod(GameObject mod) {
             this.mod = mod;
-            sr = mod.GetComponent<SpriteRenderer>();
+            sr = mod.GetComponentInChildren<SpriteRenderer>();
             anim = mod.GetComponent<Animator>();
+        }
+
+        public void SetLocalScale(Vector3 localScale) {
+            mod.transform.localScale = localScale;
         }
 
         public void Anim_PlayIdle() {
