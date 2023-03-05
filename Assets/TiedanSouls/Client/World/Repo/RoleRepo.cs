@@ -89,6 +89,18 @@ namespace TiedanSouls.World {
             }
         }
 
+        public void ForeachAllAIRoles_InField(int fieldTypeID, Action<RoleEntity> action) {
+            if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
+                return;
+            }
+
+            var len = list.Count;
+            for (int i = 0; i < len; i++) {
+                var role = list[i];
+                action.Invoke(role);
+            }
+        }
+
         public void HideAllAIRolesInField(int fieldTypeID) {
             TDLog.Log($"隐藏关卡中的角色: fieldTypeID={fieldTypeID}");
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {

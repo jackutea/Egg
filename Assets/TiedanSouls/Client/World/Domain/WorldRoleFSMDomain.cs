@@ -20,11 +20,11 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void TickFSM(RoleEntity role, float dt) {
-            var fsm = role.FSMCom;
-            if (fsm.IsExiting) {
+            if (role == null) {
                 return;
             }
-
+            
+            var fsm = role.FSMCom;
             if (fsm.State == RoleFSMState.Idle) {
                 Apply_Idle(role, dt);
             } else if (fsm.State == RoleFSMState.Casting) {
@@ -169,6 +169,7 @@ namespace TiedanSouls.World.Domain {
 
                 role.HudSlotCom.HideHUD();
                 role.ModCom.Anim_Play_Dying();
+                role.MoveCom.StopHorizontal();
             }
 
             if (stateModel.maintainFrame <= 0) {

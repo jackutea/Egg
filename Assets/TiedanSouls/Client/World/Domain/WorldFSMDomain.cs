@@ -159,15 +159,26 @@ namespace TiedanSouls.World.Domain {
             var roleFSMDomain = worldDomain.RoleFSMDomain;
             var stateEntity = worldContext.StateEntity;
             var roleRepo = worldContext.RoleRepo;
-            roleRepo.ForeachAll((role) => {
-                // AI
-                if (role.ControlType == ControlType.AI && role.FSMCom.State !=RoleFSMState.Dying) {
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
+
+            // AI
+            roleRepo.ForeachAllAIRoles_InField(curFieldTypeID, (role) => {
+                var fsm = role.FSMCom;
+                if (fsm.IsExiting) {
+                    return;
+                }
+                // Strategy
+                if (role.FSMCom.State != RoleFSMState.Dying) {
                     role.AIStrategy.Tick(dt);
                 }
 
                 // Role FSM
                 roleFSMDomain.TickFSM(role, dt);
             });
+
+            // Player
+            var playerRole = roleRepo.PlayerRole;
+            roleFSMDomain.TickFSM(playerRole, dt);
 
             // Physics
             var phxDomain = worldDomain.WorldPhysicsDomain;
