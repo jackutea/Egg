@@ -93,28 +93,31 @@ namespace TiedanSouls.World.Domain {
 
             }
 
-            // --- 关卡进度控制逻辑, 杀死当前所有敌人才能推进关卡进度
+            // 刷新当前存活敌人数量
+            int aliveEnemyCount = 0;
+            roleRepo.ForeachAll_EnemyOfPlayer((enemy) => {
+                if (!enemy.AttrCom.IsDead()) {
+                    aliveEnemyCount++;
+                }
+            });
+            stateModel.aliveEnemyCount = aliveEnemyCount;
+
+            // 杀死当前所有敌人才能推进关卡进度
             if (stateModel.IsSpawningPaused) {
-                int aliveEnemyCount = 0;
-                roleRepo.ForeachAll_EnemyOfPlayer((enemy) => {
-                    if (!enemy.AttrCom.IsDead()) {
-                        aliveEnemyCount++;
-                    }
-                });
                 if (aliveEnemyCount > 0) {
                     return;
+                } else {
+                    stateModel.SetIsSpawningPaused(false);
+                    TDLog.Warning($"关卡敌人生成继续,剩余敌人数量: {stateModel.totalSpawnCount - stateModel.curSpawnedCount}");
                 }
-                stateModel.aliveEnemyCount = aliveEnemyCount;
-                stateModel.SetIsSpawningPaused(false);
-                TDLog.Warning($"关卡敌人生成继续,剩余敌人数量: {aliveEnemyCount}");
             }
 
+            // 关卡实体生成
             var curFrame = stateModel.curFrame;
             bool hasBreakPoint = false;
             if (stateModel.IsRespawning) {
                 TDLog.Warning($"TODO: 如果有关卡来回切换重复加载的情况,就需要在这里处理关卡逻辑重复加载");
             } else {
-                // 实体生成
                 var spawnArray = field.SpawnModelArray;
                 var len = spawnArray.Length;
                 for (int i = 0; i < len; i++) {
@@ -127,6 +130,7 @@ namespace TiedanSouls.World.Domain {
                         }
 
                         stateModel.curSpawnedCount++;
+                        stateModel.aliveEnemyCount++;
                     }
                 }
             }
@@ -143,7 +147,7 @@ namespace TiedanSouls.World.Domain {
 
             if (hasBreakPoint) {
                 stateModel.SetIsSpawningPaused(true);
-                TDLog.Warning($"关卡敌人生成暂停,请杀死当前所有敌人以推进关卡进度 {stateModel.IsSpawningPaused}");
+                TDLog.Warning($"关卡实体生成暂停,请杀死当前所有敌人以推进关卡进度 {stateModel.IsSpawningPaused}");
             }
         }
 
