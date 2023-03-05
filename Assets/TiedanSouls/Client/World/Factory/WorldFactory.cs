@@ -140,15 +140,15 @@ namespace TiedanSouls.World {
             followAIAction.Inject(role, worldContext);
             patrolAIAction.Inject(role, worldContext);
             attackAIAction.Inject(role, worldContext);
-            
-            BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction,patrolAIPrecondition);
-            BTTreeNode followNode = BTTreeFactory.CreateActionNode(followAIAction,followAIPrecondition);
+
+            BTTreeNode patrolNode = BTTreeFactory.CreateActionNode(patrolAIAction, patrolAIPrecondition);
+            BTTreeNode followNode = BTTreeFactory.CreateActionNode(followAIAction, followAIPrecondition);
             BTTreeNode attackNode = BTTreeFactory.CreateActionNode(attackAIAction);
             BTTreeNode followRoot = BTTreeFactory.CreateSelectorNode();
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            followRoot.AddChild(attackNode);
+            if (role.AllyType == AllyType.Enemy) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 
