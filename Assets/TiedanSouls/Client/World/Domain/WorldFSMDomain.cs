@@ -174,6 +174,13 @@ namespace TiedanSouls.World.Domain {
 
                 // Role FSM
                 roleFSMDomain.TickFSM(role, dt);
+
+                // HUD
+                if (role.AllyType == AllyType.Enemy) {
+                    role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+                } else if (role.AllyType == AllyType.Neutral) {
+                    role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+                }
             });
 
             // Player
