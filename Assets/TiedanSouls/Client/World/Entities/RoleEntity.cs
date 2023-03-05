@@ -38,17 +38,21 @@ namespace TiedanSouls.World.Entities {
         public Vector2 GetPos_WeaponRoot() => weaponRoot.position;
 
         // ==== Input ====
+        InputComponent inputCom;
+        public InputComponent InputCom => inputCom;
+
         ControlType controlType;
         public ControlType ControlType => controlType;
         public void SetControlType(ControlType value) => this.controlType = value;
-
-        InputComponent inputCom;
-        public InputComponent InputCom => inputCom;
 
         // ==== AI ====
         object aiStrategy;
         public RoleAIStrategy AIStrategy => aiStrategy as RoleAIStrategy;
         public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
+
+        bool isBoss;
+        public bool IsBoss => isBoss;
+        public void SetIsBoss(bool value) => this.isBoss = value;
 
         // ==== Body Part ====
         Rigidbody2D rb_logicRoot;

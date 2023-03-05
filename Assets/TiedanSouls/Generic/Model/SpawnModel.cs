@@ -7,6 +7,9 @@ namespace TiedanSouls.Generic {
     [Serializable]
     public struct SpawnModel {
 
+        [Header("是否为Boss")]
+        public bool isBoss;
+
         [Header("实体类型")]
         public EntityType entityType;
 

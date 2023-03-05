@@ -15,7 +15,7 @@ MonoBehaviour:
   tm:
     typeID: 1000001
     roleName: Boss
-    hpMax: 200
+    hpMax: 2000
     gpMax: 10
     epMax: 100
     moveSpeed: 4

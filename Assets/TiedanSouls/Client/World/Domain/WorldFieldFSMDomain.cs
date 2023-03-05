@@ -95,21 +95,24 @@ namespace TiedanSouls.World.Domain {
 
             // 刷新当前存活敌人数量
             int aliveEnemyCount = 0;
+            int aliveBossCount = 0;
             roleRepo.ForeachAll_EnemyOfPlayer((enemy) => {
                 if (!enemy.AttrCom.IsDead()) {
                     aliveEnemyCount++;
+                    if (enemy.IsBoss) aliveBossCount++;
                 }
             });
             stateModel.aliveEnemyCount = aliveEnemyCount;
 
-            // 杀死当前所有敌人才能推进关卡进度
+            // 杀死当前所有敌人(不包括Boss)才能推进关卡继续生成敌人
+            var aliveEnemyCount_excludeBoss = aliveEnemyCount - aliveBossCount;
             if (stateModel.IsSpawningPaused) {
-                if (aliveEnemyCount > 0) {
+                if (aliveEnemyCount_excludeBoss > 0) {
                     return;
-                } else {
-                    stateModel.SetIsSpawningPaused(false);
-                    TDLog.Warning($"关卡敌人生成继续,剩余敌人数量: {stateModel.totalSpawnCount - stateModel.curSpawnedCount}");
                 }
+
+                stateModel.SetIsSpawningPaused(false);
+                TDLog.Warning($"关卡敌人生成继续,剩余敌人数量: {stateModel.totalSpawnCount - stateModel.curSpawnedCount}");
             }
 
             // 关卡实体生成
@@ -139,6 +142,7 @@ namespace TiedanSouls.World.Domain {
             bool hasSpawnedAll = stateModel.curSpawnedCount >= stateModel.totalSpawnCount;
             bool hasAliveEnemy = stateModel.aliveEnemyCount > 0;
             if (hasSpawnedAll && !hasAliveEnemy) {
+                TDLog.Log($"关卡实体生成完毕,总数: {stateModel.totalSpawnCount}");
                 fsm.Enter_Finished();
                 return;
             }

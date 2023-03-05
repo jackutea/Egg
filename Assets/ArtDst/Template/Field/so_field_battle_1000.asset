@@ -19,19 +19,45 @@ MonoBehaviour:
     chapter: 1
     level: 1
     spawnModelArray:
-    - entityType: 1
+    - isBoss: 0
+      entityType: 1
       typeID: 1000000
       controlType: 1
       allyType: 2
       pos: {x: 20, y: 5}
       spawnFrame: 90
       isBreakPoint: 1
-    - entityType: 1
+    - isBoss: 0
+      entityType: 1
       typeID: 1000000
       controlType: 1
       allyType: 2
       pos: {x: 25, y: 5}
       spawnFrame: 180
+      isBreakPoint: 0
+    - isBoss: 0
+      entityType: 1
+      typeID: 1000000
+      controlType: 1
+      allyType: 2
+      pos: {x: 27, y: 5}
+      spawnFrame: 180
+      isBreakPoint: 1
+    - isBoss: 0
+      entityType: 1
+      typeID: 1000000
+      controlType: 1
+      allyType: 2
+      pos: {x: 27, y: 5}
+      spawnFrame: 210
+      isBreakPoint: 0
+    - isBoss: 0
+      entityType: 1
+      typeID: 1000000
+      controlType: 1
+      allyType: 2
+      pos: {x: 27, y: 5}
+      spawnFrame: 210
       isBreakPoint: 0
     itemSpawnPosArray: []
     fieldDoorArray:

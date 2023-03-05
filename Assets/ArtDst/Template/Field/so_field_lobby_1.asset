@@ -19,11 +19,20 @@ MonoBehaviour:
     chapter: 0
     level: 0
     spawnModelArray:
-    - entityType: 1
+    - isBoss: 0
+      entityType: 1
       typeID: 1
       controlType: 1
       allyType: 3
       pos: {x: 30, y: 5}
+      spawnFrame: 0
+      isBreakPoint: 0
+    - isBoss: 0
+      entityType: 1
+      typeID: 1
+      controlType: 1
+      allyType: 3
+      pos: {x: 10, y: 5}
       spawnFrame: 0
       isBreakPoint: 0
     itemSpawnPosArray:
