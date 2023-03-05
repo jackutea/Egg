@@ -94,7 +94,7 @@ namespace TiedanSouls.World.Domain {
             var nextFieldTypeID = door.fieldTypeID;
             var fieldDomain = worldDomain.FieldDomain;
             if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
-                TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
+                TDLog.Error($"请检查配置! 下一关卡不存在! FieldTypeID: {nextFieldTypeID}");
                 return;
             }
 
@@ -126,13 +126,21 @@ namespace TiedanSouls.World.Domain {
                 return;
             }
 
-            // TODO: 检查是否有奖励未拾取
-            // TODO: 检查是否有敌人未消灭
+            var fieldDomain = worldDomain.FieldDomain;
+
+            // -检查是否有敌人未消灭
+            var curField = fieldDomain.GetCurField();
+            var fieldFSM = curField.FSMComponent;
+            if (fieldFSM.State != FieldFSMState.Finished) {
+                TDLog.Warning("臭卤蛋哪里逃!!!");
+                return;
+            }
+
+            // - TODO: 检查是否有奖励未拾取
 
             var nextFieldTypeID = door.fieldTypeID;
-            var fieldDomain = worldDomain.FieldDomain;
-            if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
-                TDLog.Error($"请检查配置! 下一场景不存在! FieldTypeID: {nextFieldTypeID}");
+            if (fieldDomain.HasFieldLoadBefore(nextFieldTypeID)) {
+                TDLog.Warning("这就放弃了? 你是'卤蛋'吗!!!");
                 return;
             }
 
@@ -175,26 +183,26 @@ namespace TiedanSouls.World.Domain {
             if (loadingStateModel.IsEntering) {
                 loadingStateModel.SetIsEntering(false);
 
-                // 隐藏当前场景
+                // 隐藏当前关卡
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 fieldDomain.HideField(curFieldTypeID);
 
-                // 隐藏当前场景内物件
+                // 隐藏当前关卡内物件
                 var itemRepo = worldContext.ItemRepo;
                 itemRepo.HideAllItemsInField(curFieldTypeID);
 
-                // 隐藏当前场景内AI角色
+                // 隐藏当前关卡内AI角色
                 var roleRepo = worldContext.RoleRepo;
                 roleRepo.HideAllAIRolesInField(curFieldTypeID);
 
-                // 判断是否场景是否已经生成过
+                // 判断是否关卡是否已经生成过
                 var fieldRepo = worldContext.FieldRepo;
                 if (!fieldRepo.TryGet(loadingFieldTypeID, out var field)) {
                     fieldDomain.TryGetOrSpawnField(loadingFieldTypeID, out field);
                 }
 
                 if (field == null) {
-                    TDLog.Error($"场景不存在! FieldTypeID: {loadingFieldTypeID}");
+                    TDLog.Error($"关卡不存在! FieldTypeID: {loadingFieldTypeID}");
                     return;
                 }
 
@@ -212,7 +220,7 @@ namespace TiedanSouls.World.Domain {
                 } else if (field.FieldType == FieldType.Lobby) {
                     stateEntity.EnterState_Lobby(loadingFieldTypeID);
                 } else {
-                    TDLog.Warning($"未处理的场景类型: {field.FieldType}");
+                    TDLog.Warning($"未处理的关卡类型: {field.FieldType}");
                 }
 
                 // 关卡状态切换
@@ -232,11 +240,11 @@ namespace TiedanSouls.World.Domain {
             if (inputCom.HasInput_Basic_Pick) {
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 if (!fieldRepo.TryGet(curFieldTypeID, out var curField)) {
-                    TDLog.Error($"请检查配置! 当前场景不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
+                    TDLog.Error($"请检查配置! 当前关卡不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");
                     return false;
                 }
 
-                // 检查玩家是否在场景的门口
+                // 检查玩家是否在关卡的门口
                 var allDoors = curField.FieldDoorArray;
                 var count = allDoors?.Length;
                 for (int i = 0; i < count; i++) {

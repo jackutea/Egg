@@ -47,12 +47,12 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Hide() {
-            TDLog.Log($"隐藏场景: {name}");
+            TDLog.Log($"隐藏关卡: {name}");
             gameObject.SetActive(false);
         }
 
         public void Show() {
-            TDLog.Log($"显示场景: {name}");
+            TDLog.Log($"显示关卡: {name}");
             gameObject.SetActive(true);
         }
 

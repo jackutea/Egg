@@ -16,6 +16,10 @@ namespace TiedanSouls.Generic {
 
         public int curFrame;
 
+        public int curSpawnedCount;
+        public int aliveEnemyCount;
+        public int totalSpawnCount;
+
         public FieldFSMModel_Spawning() { }
 
         public void Reset() {

@@ -90,7 +90,7 @@ namespace TiedanSouls.World {
         }
 
         public void HideAllAIRolesInField(int fieldTypeID) {
-            TDLog.Log($"隐藏场景中的角色: fieldTypeID={fieldTypeID}");
+            TDLog.Log($"隐藏关卡中的角色: fieldTypeID={fieldTypeID}");
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
                 return;
             }
