@@ -25,9 +25,9 @@ namespace TiedanSouls.World.Controller {
         }
 
         public void Init() {
-            infraContext.EventCenter.OnStartGameHandle += () => {
-                worldDomain.GameDomain.EnterLobby();
-            };
+            infraContext.EventCenter.Listen_OnStartGameAct(() => {
+                worldDomain.GameDomain.StartGame();
+            });
         }
 
         float resTime;

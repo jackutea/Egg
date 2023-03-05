@@ -25,24 +25,28 @@ MonoBehaviour:
       allyType: 2
       pos: {x: 33, y: 20}
       spawnFrame: 0
+      isBreakPoint: 0
     - entityType: 1
       typeID: 1000000
       controlType: 1
       allyType: 2
       pos: {x: 25, y: 20}
       spawnFrame: 180
+      isBreakPoint: 1
     - entityType: 1
       typeID: 1000000
       controlType: 1
       allyType: 2
       pos: {x: 23, y: 20}
       spawnFrame: 270
+      isBreakPoint: 1
     - entityType: 1
       typeID: 1000000
       controlType: 1
       allyType: 2
       pos: {x: 21, y: 20}
       spawnFrame: 360
+      isBreakPoint: 0
     itemSpawnPosArray: []
     fieldDoorArray:
     - fieldTypeID: 1001

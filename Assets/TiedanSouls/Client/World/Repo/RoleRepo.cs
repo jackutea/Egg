@@ -65,6 +65,30 @@ namespace TiedanSouls.World {
             }
         }
 
+        public void ForeachAll_AI(Action<RoleEntity> action) {
+            var len = allAIRoles.Count;
+            for (int i = 0; i < len; i++) {
+                var role = allAIRoles[i];
+                action.Invoke(role);
+            }
+        }
+
+        public void ForeachAll_EnemyOfPlayer(Action<RoleEntity> action) {
+            var playerAllyType = playerRole.AllyType;
+            ForeachAll_Enemy(playerAllyType, action);
+        }
+
+        public void ForeachAll_Enemy(AllyType selfAllyType, Action<RoleEntity> action) {
+            var len = allAIRoles.Count;
+            for (int i = 0; i < len; i++) {
+                var role = allAIRoles[i];
+                var roleAllyType = role.AllyType;
+                if (roleAllyType != selfAllyType && roleAllyType != AllyType.Neutral) {
+                    action.Invoke(role);
+                }
+            }
+        }
+
         public void HideAllAIRolesInField(int fieldTypeID) {
             TDLog.Log($"隐藏场景中的角色: fieldTypeID={fieldTypeID}");
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
@@ -93,6 +117,7 @@ namespace TiedanSouls.World {
                 }
             }
         }
+
 
         public bool HasFieldRole(int fieldTypeID) {
             return allAIRoles_sortedByField.ContainsKey(fieldTypeID);

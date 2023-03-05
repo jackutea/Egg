@@ -6,6 +6,7 @@ namespace TiedanSouls {
         Skillor,
         Projectile,
         Field,
+        Item
     }
 
 }

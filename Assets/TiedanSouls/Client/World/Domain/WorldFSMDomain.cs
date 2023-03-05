@@ -21,63 +21,12 @@ namespace TiedanSouls.World.Domain {
             this.worldDomain = worldDomain;
         }
 
-        public void EnterLobby() {
-            // Config
+        public void StartGame() {
             var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
-
-            // Spawn Field
             var firstFieldTypeID = gameConfigTM.lobbyFieldTypeID;
-            var fieldDomain = this.worldDomain.FieldDomain;
-            if (!fieldDomain.TryGetOrSpawnField(firstFieldTypeID, out var field)) {
-                TDLog.Error($"进入大厅失败! 无法生成大厅场景! TypeID {firstFieldTypeID}");
-                return;
-            }
 
-            // Check
-            var fieldType = field.FieldType;
-            if (fieldType != FieldType.Lobby) {
-                TDLog.Error($"进入大厅失败! 场景类型不是大厅! TypeID {firstFieldTypeID} / FieldType {fieldType}");
-                return;
-            }
-
-            // World FSM
             var stateEntity = worldContext.StateEntity;
-            stateEntity.EnterState_Lobby(field.TypeID);
-
-            // Lobby Character
-            TDLog.Log($"大厅人物生成开始 -------------------------------------------- ");
-            var worldDomain = worldContext.WorldDomain;
-            worldDomain.SpawnByModelArray(field.SpawnModelArray);
-            TDLog.Log($"大厅人物生成结束 -------------------------------------------- ");
-
-            TDLog.Log($"大厅物件生成开始 -------------------------------------------- ");
-            var lobbyItemTypeIDs = gameConfigTM.lobbyItemTypeIDs;
-            var itemCount = lobbyItemTypeIDs?.Length;
-            var itemSpawnPosArray = field.ItemSpawnPosArray;
-            for (int i = 0; i < itemCount; i++) {
-                if (i >= itemSpawnPosArray.Length) {
-                    TDLog.Error("物件生成位置不足!");
-                    break;
-                }
-
-                var typeID = lobbyItemTypeIDs[i];
-                var itemSpawnPos = itemSpawnPosArray[i];
-                var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos, firstFieldTypeID);
-                TDLog.Log($"物件: EntityID: {itemEntity.EntityD} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
-            }
-            TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
-
-            // Spawn TieDan 
-            var roleDomain = this.worldDomain.RoleDomain;
-            var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
-            var owner = roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
-            owner.WeaponSlotCom.SetWeaponActive(false);
-
-            // Set Camera 
-            var cameraSetter = infraContext.CameraCore.SetterAPI;
-            cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
-            cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
-
+            stateEntity.EnterState_Loading(-1, firstFieldTypeID, 0);
         }
 
         public void ApplyWorldState(float dt) {
@@ -109,7 +58,27 @@ namespace TiedanSouls.World.Domain {
             var lobbyStateModel = stateEntity.LobbyStateModel;
             if (lobbyStateModel.IsEntering) {
                 lobbyStateModel.SetIsEntering(false);
+
+                // 生成铁蛋 
+                var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
+                var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
+
+                var roleDomain = worldDomain.RoleDomain;
+                var owner = roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
+
+                // 大厅禁用武器
+                owner.WeaponSlotCom.SetWeaponActive(false);
+
+                // 设置相机 
+                _ = worldContext.FieldRepo.TryGet(stateEntity.CurFieldTypeID, out var field);
+                var cameraSetter = infraContext.CameraCore.SetterAPI;
+                cameraSetter.Follow_Current(owner.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
+                cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
             }
+
+            // 刷新关卡状态机
+            var fieldFSMDomain = worldDomain.FieldFSMDomain;
+            fieldFSMDomain.TickFSM_CurrentField(dt);
 
             // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
             if (!IsTieDanWantToLeave(out var door)) {
@@ -148,10 +117,9 @@ namespace TiedanSouls.World.Domain {
                 playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
 
-            // FieldFSM
-            var curFieldTypeID = stateEntity.CurFieldTypeID;
+            // 刷新关卡状态机
             var fieldFSMDomain = worldDomain.FieldFSMDomain;
-            fieldFSMDomain.TickFSM(curFieldTypeID, dt);
+            fieldFSMDomain.TickFSM_CurrentField(dt);
 
             // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
             if (!IsTieDanWantToLeave(out var door)) {
@@ -169,6 +137,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             var doorIndex = door.doorIndex;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
             stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
 
         }
@@ -235,7 +204,7 @@ namespace TiedanSouls.World.Domain {
             if (loadingStateModel.IsLoadingComplete) {
                 _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);
 
-                // 根据场景类型进入不同的世界状态
+                // 世界状态切换
                 if (field.FieldType == FieldType.BattleField) {
                     stateEntity.EnterState_Battle(loadingFieldTypeID);
                 } else if (field.FieldType == FieldType.Store) {
@@ -246,16 +215,10 @@ namespace TiedanSouls.World.Domain {
                     TDLog.Warning($"未处理的场景类型: {field.FieldType}");
                 }
 
-                // 设置铁蛋初始场景位置
-                var playerRole = worldContext.RoleRepo.PlayerRole;
+                // 关卡状态切换
                 var doorIndex = loadingStateModel.DoorIndex;
                 _ = field.TryFindDoorByIndex(doorIndex, out var door);
-                var doorPos = door.pos;
-                doorPos.y = playerRole.GetPos_Logic().y;
-                playerRole.SetPos_Logic(doorPos);
-                playerRole.SyncRenderer();
-
-                field.FSMComponent.Enter_Ready();
+                field.FSMComponent.Enter_Ready(door);
             }
         }
 

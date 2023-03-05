@@ -17,7 +17,7 @@ namespace TiedanSouls.Main.Controller {
             var uiSetter = uiCore.Setter;
             uiSetter.LoginPage_Open();
             uiSetter.LoginPage_Binding_StartGame(() => {
-                infraContext.EventCenter.InvokeStartGame();
+                infraContext.EventCenter.Invoke_OnStartGameAct();
                 uiSetter.LoginPage_Close();
             });
         }

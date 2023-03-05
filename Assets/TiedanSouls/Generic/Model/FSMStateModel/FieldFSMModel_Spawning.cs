@@ -6,7 +6,13 @@ namespace TiedanSouls.Generic {
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
-        public bool isRespawning;
+        bool isRespawning;
+        public bool IsRespawning => isRespawning;
+        public void SetIsRespawning(bool value) => isRespawning = value;
+
+        bool isSpawningPaused;
+        public bool IsSpawningPaused => isSpawningPaused;
+        public void SetIsSpawningPaused(bool value) => isSpawningPaused = value;
 
         public int curFrame;
 
@@ -14,6 +20,7 @@ namespace TiedanSouls.Generic {
 
         public void Reset() {
             isEntering = false;
+            isSpawningPaused = false;
             curFrame = 0;
         }
 

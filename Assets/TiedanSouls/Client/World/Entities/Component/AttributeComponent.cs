@@ -10,7 +10,7 @@ namespace TiedanSouls.World.Entities {
 
         int hpMax;
         public int HPMax => hpMax;
-        
+
         int ep;
         public int EP => ep;
 
@@ -42,6 +42,12 @@ namespace TiedanSouls.World.Entities {
             fallingSpeedMax = 50f;
         }
 
+        public void Reset() {
+            hp = hpMax;
+            ep = epMax;
+            gp = gpMax;
+        }
+
         public void InitializeHealth(int hp, int hpMax, int ep, int epMax, int gp, int gpMax) {
             this.hp = hp;
             this.hpMax = hpMax;
@@ -65,10 +71,8 @@ namespace TiedanSouls.World.Entities {
             }
         }
 
-        public void Reset(){
-            hp = hpMax;
-            ep = epMax;
-            gp = gpMax;
+        public bool IsDead() {
+            return hp <= 0;
         }
 
     }

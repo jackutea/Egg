@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponTM:
     weaponType: 1
     typeID: 100
-    atk: 5
+    atk: 20
     def: 0
     crit: 0
     skillorMeleeTypeID: 1000

@@ -4,8 +4,9 @@ namespace TiedanSouls.Infra {
 
     public class InfraEventCenter {
 
-        public event Action OnStartGameHandle;
-        internal void InvokeStartGame() => OnStartGameHandle.Invoke();
+        event Action OnStartGameAct;
+        public void Listen_OnStartGameAct(Action action) => OnStartGameAct += action;
+        public void Invoke_OnStartGameAct() => OnStartGameAct.Invoke();
 
     }
 
