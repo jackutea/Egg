@@ -31,21 +31,31 @@ namespace TiedanSouls.World.Entities {
         }
 
         public bool Execute() {
-            if (role.FSMCom.State == RoleFSMState.BeHit)return false;
+            if (role.FSMCom.State == RoleFSMState.BeHit) return false;
 
             Vector2 pos_role = role.GetPos_RendererRoot();
             Vector2 pos_target = worldContext.RoleRepo.PlayerRole.GetPos_RendererRoot();
+            time += Time.deltaTime;
+            //Attack CD
+            if (time < attackCD) {
+                if (Vector2.Distance(pos_role, pos_target) < 3 * attackRange) {
+                    var input = role.InputCom;
+                    var dir = (pos_role - pos_target).normalized;
+                    input.SetInput_Locomotion_Move(dir);
+                    return true;
+                }
+            }
+
+            //Attack Judge
             if (Vector2.Distance(pos_role, pos_target) > attackRange) {
                 return false;
             }
 
-            //TODO:攻击方式后续修改，暂时先凑合一下
-            if (time >= attackCD) {
-                worldContext.RoleRepo.PlayerRole.HitBeHit(30);
-                time = 0;
-            }
-            time += Time.deltaTime;
+            //TODO:攻击方式后续修改，暂时先凑合一下        
+            worldContext.RoleRepo.PlayerRole.HitBeHit(30);
+            time = 0;
             return true;
+
         }
 
         public void Exit() {

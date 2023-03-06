@@ -21,6 +21,9 @@ namespace TiedanSouls.Template {
         ItemTemplate itemTemplate;
         public ItemTemplate ItemTemplate => itemTemplate;
 
+        AITemplate aiTemplate;
+        public AITemplate AITemplate => aiTemplate;
+
         GameConfigTM gameConfigTM;
         public GameConfigTM GameConfigTM => gameConfigTM;
 
@@ -30,6 +33,7 @@ namespace TiedanSouls.Template {
             weaponTemplate = new WeaponTemplate();
             fieldTemplate = new FieldTemplate();
             itemTemplate = new ItemTemplate();
+            aiTemplate = new AITemplate();
         }
 
         public async Task Init() {
@@ -38,6 +42,7 @@ namespace TiedanSouls.Template {
             await weaponTemplate.LoadAll();
             await fieldTemplate.LoadAll();
             await itemTemplate.LoadAll();
+            await aiTemplate.LoadAll();
 
             // GameConfig
             AssetLabelReference label = new AssetLabelReference();

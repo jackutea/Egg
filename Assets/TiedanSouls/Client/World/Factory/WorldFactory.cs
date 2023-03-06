@@ -127,13 +127,25 @@ namespace TiedanSouls.World {
         }
 
         RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
+            var templateCore = infraContext.TemplateCore;
+            var assetCore = infraContext.AssetCore;
+
+            // TM
+            var has = templateCore.AITemplate.TryGet(typeID, out AITM aiTM);
+            if (!has) {
+                if (templateCore.AITemplate.TryGet(0, out AITM neutralTM))
+                {
+                    aiTM =neutralTM;
+                }             
+                TDLog.Warning("Failed to get AI template: " + typeID);
+            }
 
             // Nodes
-            var patrolAIPrecondition = new RolePatrolAIPrecondition();
-            var followAIPrecondition = new RoleFollowAIPrecondition();
-            var followAIAction = new RoleFollowAIAction();
-            var patrolAIAction = new RolePatrolAIAction();
-            var attackAIAction = new RoleAttackAIAction();
+            var patrolAIPrecondition = new RolePatrolAIPrecondition(aiTM.sight);
+            var followAIPrecondition = new RoleFollowAIPrecondition(aiTM.atkRange);
+            var followAIAction = new RoleFollowAIAction(aiTM.atkRange,aiTM.sight);
+            var patrolAIAction = new RolePatrolAIAction(aiTM.sight);
+            var attackAIAction = new RoleAttackAIAction(aiTM.atkRange,aiTM.atkCD);
 
             patrolAIPrecondition.Inject(role, worldContext);
             followAIPrecondition.Inject(role, worldContext);
