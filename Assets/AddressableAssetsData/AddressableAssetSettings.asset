@@ -57,6 +57,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 655dd8d51bd70b24e90ea3b3a9ef7d68, type: 2}
   - {fileID: 11400000, guid: ccd2d47f42711ac4b8860d45d4de1f46, type: 2}
   - {fileID: 11400000, guid: a1b74b54ca311c940972944a41054acc, type: 2}
+  - {fileID: 11400000, guid: 2fe108cc47bb11c43985105bc58cf270, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -111,6 +112,7 @@ MonoBehaviour:
     - HUD
     - UILayout
     - Sprite
+    - SO_AI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f420fc4a494c7174e922ab8136332be4, type: 2}

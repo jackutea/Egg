@@ -11,6 +11,7 @@ namespace TiedanSouls.Generic {
         public const string SO_Field = "SO_Field";
         public const string SO_WEAPON = "SO_Weapon";
         public const string SO_ITEM = "SO_Item";
+        public const string SO_AI = "SO_AI";
 
         public const string MOD_CONTAINER = "Mod_Container";
         public const string MOD_WEAPON = "Mod_Weapon";
