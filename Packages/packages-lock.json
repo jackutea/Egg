@@ -42,6 +42,13 @@
       "dependencies": {},
       "hash": "41668898b81800681247a2b960d8f9d8cdc8b415"
     },
+    "com.gamearki.vfxcore": {
+      "version": "ssh://git@github.com/gamearki/vfxcore.git?path=Assets/com.gamearki.vfxcore#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "37aecfa743c11aa6f38145790cb7811d142830cc"
+    },
     "com.unity.2d.animation": {
       "version": "7.0.4",
       "depth": 1,

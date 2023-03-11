@@ -6,6 +6,7 @@
     "com.gamearki.platformercamera": "ssh://git@github.com/gamearki/platformercamera.git?path=Assets/com.gamearki.platformercamera#main",
     "com.gamearki.purebttree": "ssh://git@github.com/gamearki/PureBTTree.git?path=Assets/com.gamearki.purebttree#main",
     "com.gamearki.setup": "ssh://git@github.com/gamearki/GameArkiSetup.git?path=Assets/com.gamearki.setup#main",
+    "com.gamearki.vfxcore": "ssh://git@github.com/gamearki/vfxcore.git?path=Assets/com.gamearki.vfxcore#main",
     "com.unity.addressables": "1.19.19",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.vscode": "1.2.5",
