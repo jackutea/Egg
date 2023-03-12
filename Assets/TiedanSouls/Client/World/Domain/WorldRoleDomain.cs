@@ -68,25 +68,25 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void PickUpWeapon(RoleEntity role, int weaponTypeID) {
-            // Weapon
-            SetWeaponSlotComponent(role, weaponTypeID);
+            // // Weapon
+            // SetWeaponSlotComponent(role, weaponTypeID);
 
-            // Skill
-            var curWeapon = role.WeaponSlotCom.Weapon;
-            var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            if (skillTypeIDArray != null) {
-                InitRoleSkillSlotCom(role, skillTypeIDArray);
-            }
+            // // Skill
+            // var curWeapon = role.WeaponSlotCom.Weapon;
+            // var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
+            // if (skillTypeIDArray != null) {
+            //     InitRoleSkillSlotCom(role, skillTypeIDArray);
+            // }
 
-            role.SkillSlotCom.ForeachAllOriginalSkill((skill) => {
-                TDLog.Log($"添加技能触发器 - {skill.TypeID}");
-                skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
-            });
+            // role.SkillSlotCom.ForeachAllOriginalSkill((skill) => {
+            //     TDLog.Log($"添加技能触发器 - {skill.TypeID}");
+            //     skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
+            // });
 
-            role.SkillSlotCom.ForeachAllComboSkill((skill) => {
-                TDLog.Log($"添加技能触发器 - {skill.TypeID}");
-                skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
-            });
+            // role.SkillSlotCom.ForeachAllComboSkill((skill) => {
+            //     TDLog.Log($"添加技能触发器 - {skill.TypeID}");
+            //     skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
+            // });
         }
 
         void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
@@ -137,55 +137,55 @@ namespace TiedanSouls.World.Domain {
         }
 
         void InitRoleSkillSlotCom(RoleEntity role, int[] typeIDArray) {
-            var templateCore = infraContext.TemplateCore;
-            var idService = worldContext.IDService;
-            var skillSlotCom = role.SkillSlotCom;
+            // var templateCore = infraContext.TemplateCore;
+            // var idService = worldContext.IDService;
+            // var skillSlotCom = role.SkillSlotCom;
 
-            var len = typeIDArray.Length;
-            for (int i = 0; i < len; i++) {
-                var typeID = typeIDArray[i];
-                if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
-                    continue;
-                }
+            // var len = typeIDArray.Length;
+            // for (int i = 0; i < len; i++) {
+            //     var typeID = typeIDArray[i];
+            //     if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
+            //         continue;
+            //     }
 
-                var skillModel = new SkillModel();
-                skillModel.FromTM(skillTM);
-                skillModel.SetID(idService.PickSkillID());
-                skillModel.SetOwner(role);
-                skillSlotCom.AddOriginalSkill(skillModel);
-            }
+            //     var skillModel = new SkillModel();
+            //     skillModel.FromTM(skillTM);
+            //     skillModel.SetID(idService.PickSkillID());
+            //     skillModel.SetOwner(role);
+            //     skillSlotCom.AddOriginalSkill(skillModel);
+            // }
         }
 
-        void InitAllComboSkill(object owner, SkillSlotComponent skillSlotCom, SkillFrameTM frameTM) {
-            var templateCore = infraContext.TemplateCore;
-            var idService = worldContext.IDService;
+        // void InitAllComboSkill(object owner, SkillSlotComponent skillSlotCom, SkillFrameTM frameTM) {
+        //     var templateCore = infraContext.TemplateCore;
+        //     var idService = worldContext.IDService;
 
-            var cancelTMs = frameTM.cancelTMs;
-            var cancelCount = cancelTMs?.Length;
-            for (int i = 0; i < cancelCount; i++) {
-                var cancelTM = cancelTMs[i];
-                if (!cancelTM.isCombo) {
-                    continue;
-                }
+        //     var cancelTMs = frameTM.cancelTMs;
+        //     var cancelCount = cancelTMs?.Length;
+        //     for (int i = 0; i < cancelCount; i++) {
+        //         var cancelTM = cancelTMs[i];
+        //         if (!cancelTM.isCombo) {
+        //             continue;
+        //         }
 
-                var comboSkillTypeID = cancelTM.skillTypeID;
-                if (skillSlotCom.HasComboSkill(comboSkillTypeID)) {
-                    continue;
-                }
+        //         var comboSkillTypeID = cancelTM.skillTypeID;
+        //         if (skillSlotCom.HasComboSkill(comboSkillTypeID)) {
+        //             continue;
+        //         }
 
-                if (!templateCore.SkillTemplate.TryGet(comboSkillTypeID, out SkillTM comboSkillTM)) {
-                    TDLog.Error($"加载连击技能失败 - TypeID {comboSkillTypeID} 不存在 ");
-                    continue;
-                }
+        //         if (!templateCore.SkillTemplate.TryGet(comboSkillTypeID, out SkillTM comboSkillTM)) {
+        //             TDLog.Error($"加载连击技能失败 - TypeID {comboSkillTypeID} 不存在 ");
+        //             continue;
+        //         }
 
-                var comboSkillModel = new SkillModel();
-                comboSkillModel.FromTM(comboSkillTM);
-                comboSkillModel.SetID(idService.PickSkillID());
-                comboSkillModel.SetOwner(owner);
-                skillSlotCom.AddComboSkill(comboSkillModel);
+        //         var comboSkillModel = new SkillModel();
+        //         comboSkillModel.FromTM(comboSkillTM);
+        //         comboSkillModel.SetID(idService.PickSkillID());
+        //         comboSkillModel.SetOwner(owner);
+        //         skillSlotCom.AddComboSkill(comboSkillModel);
 
-            }
-        }
+        //     }
+        // }
 
         #endregion
 
@@ -297,96 +297,96 @@ namespace TiedanSouls.World.Domain {
         #region [Role Casting Skill]
 
         public bool TryCastSkillByInput(RoleEntity role) {
-            var inputCom = role.InputCom;
-            SkillType inputSkillType = inputCom.GetSkillType();
-            if (inputSkillType == SkillType.None) {
-                return false;
-            }
+            // var inputCom = role.InputCom;
+            // SkillType inputSkillType = inputCom.GetSkillType();
+            // if (inputSkillType == SkillType.None) {
+            //     return false;
+            // }
 
-            var weaponSlotCom = role.WeaponSlotCom;
-            if (!weaponSlotCom.IsActive) {
-                TDLog.Warning($"无法施放技能 - 武器未激活");
-                return false;
-            }
+            // var weaponSlotCom = role.WeaponSlotCom;
+            // if (!weaponSlotCom.IsActive) {
+            //     TDLog.Warning($"无法施放技能 - 武器未激活");
+            //     return false;
+            // }
 
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetOriginalSkillByType(inputSkillType, out var originalSkill)) {
-                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
-                return false;
-            }
+            // var skillSlotCom = role.SkillSlotCom;
+            // if (!skillSlotCom.TryGetOriginalSkillByType(inputSkillType, out var originalSkill)) {
+            //     TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
+            //     return false;
+            // }
 
-            int inputSkillTypeID = originalSkill.TypeID;
+            // int inputSkillTypeID = originalSkill.TypeID;
 
-            var fsm = role.FSMCom;
-            if (fsm.State == RoleFSMState.Idle) {
-                CastOriginalSkill(role, inputSkillTypeID);
-                return true;
-            }
+            // var fsm = role.FSMCom;
+            // if (fsm.State == RoleFSMState.Idle) {
+            //     CastOriginalSkill(role, inputSkillTypeID);
+            //     return true;
+            // }
 
-            // 技能连招逻辑
-            bool isCasting = fsm.State == RoleFSMState.Casting;
-            if (isCasting) {
-                var stateModel = fsm.CastingModel;
-                var castingSkillTypeID = stateModel.castingSkillTypeID;
-                SkillModel castingSkill;
-                if (stateModel.IsCombo) {
-                    skillSlotCom.TryGetComboSkill(castingSkillTypeID, out castingSkill);
-                } else {
-                    skillSlotCom.TryGetOriginalSkillByTypeID(castingSkillTypeID, out castingSkill);
-                }
+            // // 技能连招逻辑
+            // bool isCasting = fsm.State == RoleFSMState.Casting;
+            // if (isCasting) {
+            //     var stateModel = fsm.CastingModel;
+            //     var castingSkillTypeID = stateModel.castingSkillTypeID;
+            //     SkillModel castingSkill;
+            //     if (stateModel.IsCombo) {
+            //         skillSlotCom.TryGetComboSkill(castingSkillTypeID, out castingSkill);
+            //     } else {
+            //         skillSlotCom.TryGetOriginalSkillByTypeID(castingSkillTypeID, out castingSkill);
+            //     }
 
-                if (CanCancelSkill(skillSlotCom, castingSkill, inputSkillTypeID, out var realSkillTypeID, out var isCombo)) {
-                    castingSkill.Reset();
-                    if (isCombo) {
-                        CastComboSkill(role, realSkillTypeID);
-                    } else {
-                        CastOriginalSkill(role, realSkillTypeID);
-                    }
-                }
-            }
+            //     if (CanCancelSkill(skillSlotCom, castingSkill, inputSkillTypeID, out var realSkillTypeID, out var isCombo)) {
+            //         castingSkill.Reset();
+            //         if (isCombo) {
+            //             CastComboSkill(role, realSkillTypeID);
+            //         } else {
+            //             CastOriginalSkill(role, realSkillTypeID);
+            //         }
+            //     }
+            // }
 
             return true;
         }
 
-        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillModel castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
-            realSkillTypeID = inputSkillTypeID;
-            isCombo = false;
+        // bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillModel castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
+        //     // realSkillTypeID = inputSkillTypeID;
+        //     // isCombo = false;
 
-            if (!castingSkill.TryGetCurrentFrame(out var frame)) {
-                TDLog.Error($"技能未配置帧 - {castingSkill.TypeID} ");
-                return false;
-            }
+        //     // if (!castingSkill.TryGetCurrentFrame(out var frame)) {
+        //     //     TDLog.Error($"技能未配置帧 - {castingSkill.TypeID} ");
+        //     //     return false;
+        //     // }
 
-            var allCancelModels = frame.allCancelModels;
-            if (allCancelModels == null || allCancelModels.Length == 0) {
-                return false;
-            }
+        //     // var allCancelModels = frame.allCancelModels;
+        //     // if (allCancelModels == null || allCancelModels.Length == 0) {
+        //     //     return false;
+        //     // }
 
-            for (int i = 0; i < allCancelModels.Length; i++) {
-                SkillCancelModel cancel = allCancelModels[i];
-                int cancelSkillTypeID = cancel.skillTypeID;
+        //     // for (int i = 0; i < allCancelModels.Length; i++) {
+        //     //     SkillCancelModel cancel = allCancelModels[i];
+        //     //     int cancelSkillTypeID = cancel.skillTypeID;
 
-                if (cancel.isCombo) {
-                    // - Combo Cancel
-                    bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
-                    bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
-                    if (hasCombo && isComboInput) {
-                        realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
-                        isCombo = true;
-                        return true;
-                    }
-                } else {
-                    // - Normal Cancel
-                    bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
-                    bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
-                    if (hasOriginal && isOriginalInput) {
-                        isCombo = false;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        //     //     if (cancel.isCombo) {
+        //     //         // - Combo Cancel
+        //     //         bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
+        //     //         bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
+        //     //         if (hasCombo && isComboInput) {
+        //     //             realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
+        //     //             isCombo = true;
+        //     //             return true;
+        //     //         }
+        //     //     } else {
+        //     //         // - Normal Cancel
+        //     //         bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
+        //     //         bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
+        //     //         if (hasOriginal && isOriginalInput) {
+        //     //             isCombo = false;
+        //     //             return true;
+        //     //         }
+        //     //     }
+        //     // }
+        //     // return false;
+        // }
 
         void CastOriginalSkill(RoleEntity role, int typeID) {
             var skillSlotCom = role.SkillSlotCom;
@@ -414,33 +414,33 @@ namespace TiedanSouls.World.Domain {
 
         void BeHitBySkill(RoleEntity other, SkillModel skill) {
 
-            var caster = skill.Owner;
+            // var caster = skill.Owner;
 
-            // Me Check
-            if (caster == other) {
-                return;
-            }
+            // // Me Check
+            // if (caster == other) {
+            //     return;
+            // }
 
-            // Ally Check
-            var casterIDCom = caster.IDCom;
-            var otherIDCom = other.IDCom;
-            if (casterIDCom.AllyType == otherIDCom.AllyType) {
-                return;
-            }
+            // // Ally Check
+            // var casterIDCom = caster.IDCom;
+            // var otherIDCom = other.IDCom;
+            // if (casterIDCom.AllyType == otherIDCom.AllyType) {
+            //     return;
+            // }
 
-            // Damage Arbit: Prevent Multi Hit
-            var damageArbitService = worldContext.DamageArbitService;
-            if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
-                return;
-            }
-            damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
+            // // Damage Arbit: Prevent Multi Hit
+            // var damageArbitService = worldContext.DamageArbitService;
+            // if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
+            //     return;
+            // }
+            // damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
 
-            DamagedBySkill(caster, skill, other);
-            if (other.AttrCom.HP <= 0) {
-                BeginDying(other);
-            } else {
-                FrameEffector(caster, skill, other);
-            }
+            // DamagedBySkill(caster, skill, other);
+            // if (other.AttrCom.HP <= 0) {
+            //     BeginDying(other);
+            // } else {
+            //     FrameEffector(caster, skill, other);
+            // }
 
         }
 

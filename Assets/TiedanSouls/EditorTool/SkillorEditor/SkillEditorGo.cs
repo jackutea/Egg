@@ -1,27 +1,29 @@
 using UnityEngine;
-using UnityEditor;
 using TiedanSouls.Template;
 
-namespace TiedanSouls.SkillModifier.Editor {
+namespace TiedanSouls.EditorTool.SkillorEditor {
 
     public class SkillEditorGo : MonoBehaviour {
 
         [SerializeField] SkillSO so;
 
         // - Identity
-        [SerializeField] int typeID;
-        [SerializeField] string skillName;
-        [SerializeField] SkillType skillType;
+        public int typeID;
+        public string skillName;
+        public SkillType skillType;
 
         // - Combo
-        [SerializeField] int originalSkillTypeID;
+        public int originalSkillTypeID;
+
+        public HitPowerEM[] hitPowerEMs;
 
         // - Renderer
-        [SerializeField] AnimationClip weaponAnim;
+        [SerializeField] public AnimationClip weaponAnim;
 
         [ContextMenu("保存配置")]
         void Save() {
-
+            var skillTM = EM2TMUtil.GetTM_Skill(this);
+            so.tm = skillTM;
         }
 
     }

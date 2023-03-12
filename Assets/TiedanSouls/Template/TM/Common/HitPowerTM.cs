@@ -8,11 +8,11 @@ namespace TiedanSouls.Template {
 
         public int startFrame;
         public int endFrame;
-        public float[] damageArray;
         public int[] hitStunFrameArray;
+        public int[] damageArray;
 
-        public Vector2[] knockBackVelocityArray;
-        public Vector2[] knockUpVelocityArray;
+        public int[] knockBackVelocityArray_cm;
+        public int[] knockUpVelocityArray_cm;
 
     }
 

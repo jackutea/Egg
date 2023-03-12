@@ -28,7 +28,7 @@ namespace TiedanSouls.World.Entities {
         public int OriginalSkillTypeID => originalSkillTypeID;
 
         // - Frames
-        SkillFrameElement[] allFrames;
+        // SkillFrameElement[] allFrames;
         int curFrameIndex;
         public int CurFrameIndex => curFrameIndex;
 
@@ -43,37 +43,36 @@ namespace TiedanSouls.World.Entities {
 
         public void FromTM(Template.SkillTM tm) {
 
-
         }
 
-        public bool TryGetCurrentFrame(out SkillFrameElement frame) {
-            if (allFrames != null && curFrameIndex < allFrames.Length) {
-                frame = allFrames[curFrameIndex];
-                return true;
-            }
-            frame = null;
-            return false;
-        }
+        // public bool TryGetCurrentFrame(out SkillFrameElement frame) {
+        //     if (allFrames != null && curFrameIndex < allFrames.Length) {
+        //         frame = allFrames[curFrameIndex];
+        //         return true;
+        //     }
+        //     frame = null;
+        //     return false;
+        // }
 
         public void ActiveNextFrame(Vector2 parentPos, float parentZAngle, sbyte faceXDir) {
-            ResetFrame(curFrameIndex);
-            curFrameIndex++;
-            if (allFrames != null && curFrameIndex < allFrames.Length) {
-                allFrames[curFrameIndex].Active(parentPos, parentZAngle, faceXDir);
-            }
+            // ResetFrame(curFrameIndex);
+            // curFrameIndex++;
+            // if (allFrames != null && curFrameIndex < allFrames.Length) {
+            //     allFrames[curFrameIndex].Active(parentPos, parentZAngle, faceXDir);
+            // }
         }
 
         void ResetAllFrames() {
-            var len = allFrames.Length;
-            for (int i = 0; i < len; i += 1) {
-                allFrames[i].DeactiveFrameBoxes();
-            }
+            // var len = allFrames.Length;
+            // for (int i = 0; i < len; i += 1) {
+            //     allFrames[i].DeactiveFrameBoxes();
+            // }
         }
 
         void ResetFrame(int frameIndex) {
-            if (allFrames != null && frameIndex < allFrames.Length) {
-                allFrames[frameIndex].DeactiveFrameBoxes();
-            }
+            // if (allFrames != null && frameIndex < allFrames.Length) {
+            //     allFrames[frameIndex].DeactiveFrameBoxes();
+            // }
         }
 
         public void Reset() {

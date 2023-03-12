@@ -8,7 +8,7 @@ namespace TiedanSouls.Template {
 
         // - Identity
         public int typeID;
-        public string name;
+        public string skillName;
         public SkillType skillType;
 
         // - Combo
