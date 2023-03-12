@@ -1,6 +1,6 @@
 namespace TiedanSouls {
 
-    public enum SkillorBoxShapeType {
+    public enum SkillBoxShapeType {
         Rect,
         Circle,
     }

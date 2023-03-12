@@ -5,27 +5,27 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Template {
 
-    public class SkillorTemplate {
+    public class SkillTemplate {
 
-        Dictionary<int, SkillorTM> all;
+        Dictionary<int, SkillTM> all;
 
-        public SkillorTemplate() {
-            all = new Dictionary<int, SkillorTM>();
+        public SkillTemplate() {
+            all = new Dictionary<int, SkillTM>();
         }
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.SO_SKILLOR;
-            var list = await Addressables.LoadAssetsAsync<SkillorSO>(label, null).Task;
+            label.labelString = AssetsLabelCollection.SO_SKILL;
+            var list = await Addressables.LoadAssetsAsync<SkillSO>(label, null).Task;
             foreach (var item in list) {
                 var tm = item.tm;
                 all.Add(tm.typeID, tm);
             }
         }
 
-        public bool TryGet(int typeID, out SkillorTM tm) {
+        public bool TryGet(int typeID, out SkillTM tm) {
             if (!all.TryGetValue(typeID, out tm)) {
-                TDLog.Warning($"{nameof(SkillorTemplate)}: {typeID} not found!");
+                TDLog.Warning($"{nameof(SkillTemplate)}: {typeID} not found!");
                 return false;
             }
 

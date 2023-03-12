@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class SkillorModel {
+    public class SkillModel {
 
         // - Identity
         // TODO: REFACTOR OWNER
@@ -11,7 +11,7 @@ namespace TiedanSouls.World.Entities {
         public RoleEntity Owner => owner as RoleEntity;
         public void SetOwner(object v) => owner = v;
 
-        public EntityType EntityType => EntityType.Skillor;
+        public EntityType EntityType => EntityType.Skill;
 
         int id;
         public int ID => id;
@@ -20,15 +20,15 @@ namespace TiedanSouls.World.Entities {
         int typeID;
         public int TypeID => typeID;
 
-        SkillorType skillorType;
-        public SkillorType SkillorType => skillorType;
+        SkillType skillType;
+        public SkillType SkillType => skillType;
 
         // - Combo
-        int originalSkillorTypeID;
-        public int OriginalSkillorTypeID => originalSkillorTypeID;
+        int originalSkillTypeID;
+        public int OriginalSkillTypeID => originalSkillTypeID;
 
         // - Frames
-        SkillorFrameElement[] allFrames;
+        SkillFrameElement[] allFrames;
         int curFrameIndex;
         public int CurFrameIndex => curFrameIndex;
 
@@ -36,25 +36,25 @@ namespace TiedanSouls.World.Entities {
         public string weaponAnimName;
 
         // - Event
-        public event Action<SkillorModel, Collider2D> OnTriggerEnterHandle;
+        public event Action<SkillModel, Collider2D> OnTriggerEnterHandle;
 
-        public SkillorModel() {
+        public SkillModel() {
         }
 
-        public void FromTM(Template.SkillorTM tm) {
+        public void FromTM(Template.SkillTM tm) {
 
             // - Identity
             typeID = tm.typeID;
-            skillorType = tm.skillorType;
+            skillType = tm.skillType;
 
             // - Combo
-            originalSkillorTypeID = tm.originalSkillorTypeID;
+            originalSkillTypeID = tm.originalSkillTypeID;
 
             // - Frames
             if (tm.frames != null) {
-                var frames = new SkillorFrameElement[tm.frames.Length];
+                var frames = new SkillFrameElement[tm.frames.Length];
                 for (int i = 0; i < frames.Length; i += 1) {
-                    frames[i] = new SkillorFrameElement(this);
+                    frames[i] = new SkillFrameElement(this);
                     frames[i].FromTM(tm.frames[i]);
                 }
                 this.allFrames = frames;
@@ -65,7 +65,7 @@ namespace TiedanSouls.World.Entities {
 
         }
 
-        public bool TryGetCurrentFrame(out SkillorFrameElement frame) {
+        public bool TryGetCurrentFrame(out SkillFrameElement frame) {
             if (allFrames != null && curFrameIndex < allFrames.Length) {
                 frame = allFrames[curFrameIndex];
                 return true;

@@ -112,7 +112,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &1447185010851787013
@@ -171,7 +171,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &2751762365838299412
@@ -287,7 +287,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &4691317868540311916
@@ -529,7 +529,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &5276964595025751971
@@ -772,7 +772,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &5276964595395549752
@@ -947,14 +947,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5276964595569449946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfb9f320f6dd28b40ad49ec74cb1c06a, type: 3}
+  m_Script: {fileID: 11500000, guid: f29b2f8ea5836ca44afa028bb1aca7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 66a0b57e05ce1c0479ba63c0ad97c13e, type: 2}
   typeID: 1010
-  skillorName: "\u957F\u67AA\u666E\u653B2"
-  skillorType: 1
-  originalSkillorTypeID: 1000
+  skillName: "\u666E\u653B2\u6BB5"
+  skillType: 1
+  originalSkillTypeID: 1000
   weaponAnim: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
 --- !u!1 &5276964595793436863
 GameObject:
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &7101690169775697936
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1
 --- !u!1 &8808161410358063242
@@ -1370,6 +1370,6 @@ MonoBehaviour:
   dashForce: {x: 0, y: 0}
   isDashEnd: 0
   cancels:
-  - skillorTypeID: 1020
+  - skillTypeID: 1020
     startFrame: 0
     isCombo: 1

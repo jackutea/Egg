@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class BodyCollComponent : MonoBehaviour {
+    public class BodyComponent : MonoBehaviour {
 
         Collider2D coll;
 

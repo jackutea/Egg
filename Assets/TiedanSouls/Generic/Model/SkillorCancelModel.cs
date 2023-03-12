@@ -1,8 +1,8 @@
 namespace TiedanSouls.Generic {
 
-    public struct SkillorCancelModel {
+    public struct SkillCancelModel {
 
-        public int skillorTypeID;
+        public int skillTypeID;
         public int startFrame;
         public bool isCombo;
 

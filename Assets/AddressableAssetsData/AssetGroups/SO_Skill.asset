@@ -10,38 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: SO_Skillor
+  m_Name: SO_Skill
   m_EditorClassIdentifier: 
-  m_GroupName: SO_Skillor
+  m_GroupName: SO_Skill
   m_Data:
     m_SerializedData: []
   m_GUID: a39f86bcc775211469ec91f8a8e8dc3f
   m_SerializeEntries:
   - m_GUID: b8ff395c5a8a50c469b584bd08c1d1b0
-    m_Address: so_skillor_tiedan_melee_1000
+    m_Address: so_skill_tiedan_melee_1000
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SO_Skillor
+    - SO_Skill
   - m_GUID: 171e8902a0710d24cbfa970170ef60c6
-    m_Address: so_skillor_dash_1
+    m_Address: so_skill_dash_1
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SO_Skillor
+    - SO_Skill
   - m_GUID: 66a0b57e05ce1c0479ba63c0ad97c13e
-    m_Address: so_skillor_tiedan_melee_1010
+    m_Address: so_skill_tiedan_melee_1010
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SO_Skillor
+    - SO_Skill
   - m_GUID: 8994e734922b09049867a9f2643a9188
-    m_Address: so_skillor_tiedan_melee_1020
+    m_Address: so_skill_tiedan_melee_1020
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SO_Skillor
-  - m_GUID: 02860f19e8a0b674a94f87647b9057fb
-    m_Address: so_skillor_tiedan_spec_2000
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SO_Skillor
+    - SO_Skill
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

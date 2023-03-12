@@ -4,23 +4,23 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class SkillorTM {
+    public class SkillTM {
 
         // - Identity
         public int typeID;
         public string name;
-        public SkillorType skillorType;
+        public SkillType skillType;
 
         // - Combo
-        public int originalSkillorTypeID;
+        public int originalSkillTypeID;
 
         // - Frame
-        public SkillorFrameTM[] frames;
+        public SkillFrameTM[] frames;
 
         // - Renderer
         public string weaponAnimName;
         
-        public SkillorTM() { }
+         public SkillTM() { }
 
     }
 

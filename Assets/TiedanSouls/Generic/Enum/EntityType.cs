@@ -3,7 +3,7 @@ namespace TiedanSouls {
     public enum EntityType {
         None,
         Role,
-        Skillor,
+        Skill,
         Projectile,
         Field,
         Item

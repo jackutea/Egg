@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
-    public class SkillorBoxElement : MonoBehaviour {
+    public class SkillBoxElement : MonoBehaviour {
 
         Collider2D coll;
         Vector2 originPos;
@@ -11,7 +11,7 @@ namespace TiedanSouls.World.Entities {
 
         public event Action<Collider2D> OnTriggerEnterHandle;
 
-        public void FromTM(Template.SkillorBoxTM tm) {
+        public void FromTM(Template.SkillBoxTM tm) {
             coll = tm.ToCollider2D(gameObject);
             originPos = tm.center;
             originZAngle = tm.zRotation;

@@ -9,15 +9,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61cf4c8cebfa8d94c854999f8f491e1a, type: 3}
-  m_Name: so_skillor_tiedan_melee_1010
+  m_Script: {fileID: 11500000, guid: 10b9a126cf033a54bad92c48b7f14539, type: 3}
+  m_Name: so_skill_tiedan_melee_1020
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1010
-    name: "\u957F\u67AA\u666E\u653B2"
-    skillorType: 1
-    originalSkillorTypeID: 1000
+    typeID: 1020
+    name: "\u666E\u653B2\u6BB5"
+    skillType: 1
+    originalSkillTypeID: 1000
     frames:
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancelTMs: []
+      boxes: []
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancelTMs: []
+      boxes: []
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
+        hitStunFrame: 0
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancelTMs: []
+      boxes: []
     - hitPower:
         knockbackForce: 0
         knockbackFrame: 0
@@ -177,6 +216,23 @@ MonoBehaviour:
         knockbackForce: 0
         knockbackFrame: 0
         blowUpForce: 0
+        hitStunFrame: 20
+        breakPowerLevel: 0
+        sufferPowerLevel: 0
+        hitStopFrame: 0
+      hasDash: 0
+      dashForce: {x: 0, y: 0}
+      isDashEnd: 0
+      cancelTMs: []
+      boxes:
+      - shapeType: 0
+        center: {x: 1.5, y: 0.8}
+        size: {x: 3, y: 0.8}
+        zRotation: 0
+    - hitPower:
+        knockbackForce: 0
+        knockbackFrame: 0
+        blowUpForce: 0
         hitStunFrame: 0
         breakPowerLevel: 0
         sufferPowerLevel: 0
@@ -185,9 +241,9 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -201,9 +257,9 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -217,9 +273,9 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -233,9 +289,9 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -249,9 +305,9 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
     - hitPower:
         knockbackForce: 0
@@ -265,40 +321,8 @@ MonoBehaviour:
       dashForce: {x: 0, y: 0}
       isDashEnd: 0
       cancelTMs:
-      - skillorTypeID: 1020
+      - skillTypeID: 2000
         startFrame: 0
-        isCombo: 1
+        isCombo: 0
       boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillorTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillorTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    weaponAnimName: anim_spear_melee_1010
+    weaponAnimName: anim_spear_melee_1020

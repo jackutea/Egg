@@ -46,15 +46,15 @@ namespace TiedanSouls.World.Entities {
             TDLog.Log("人物状态机切换 - 待机 ");
         }
 
-        public void EnterCasting(SkillorModel skillorModel, bool isCombo) {
+        public void EnterCasting(SkillModel skillModel, bool isCombo) {
             state = RoleFSMState.Casting;
             var stateModel = castingModel;
 
             stateModel.Reset();
-            stateModel.castingSkillorTypeID = skillorModel.TypeID;
+            stateModel.castingSkillTypeID = skillModel.TypeID;
             stateModel.SetIsCombo(isCombo);
             stateModel.SetIsEntering(true);
-            TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillorModel.TypeID} 连击 {isCombo}");
+            TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillModel.TypeID} 连击 {isCombo}");
         }
 
         public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {

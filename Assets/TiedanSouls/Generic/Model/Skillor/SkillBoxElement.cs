@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Generic {
 
-    public class SkillorBoxElement : MonoBehaviour {
+    public class SkillBoxElement : MonoBehaviour {
 
         Collider2D coll;
         Vector2 originPos;

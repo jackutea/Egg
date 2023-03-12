@@ -6,7 +6,7 @@ namespace TiedanSouls.Generic {
         public const string HUD = "HUD";
 
         public const string SO_CONFIG = "SO_Config";
-        public const string SO_SKILLOR = "SO_Skillor";
+        public const string SO_SKILL = "SO_Skill";
         public const string SO_ROLE = "SO_Role";
         public const string SO_Field = "SO_Field";
         public const string SO_WEAPON = "SO_Weapon";

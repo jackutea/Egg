@@ -74,20 +74,19 @@ namespace TiedanSouls.World {
             role.Ctor();
             role.SetBornPos(bornPos);
 
-            // ID
-            int id = idService.PickRoleID();
-            role.SetEntityD(id);
-            role.SetTypeID(typeID);
-
             // TM
-            has = templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM);
-            if (!has) {
+            if (!templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM)) {
                 TDLog.Error("Failed to get role template: " + typeID);
                 return null;
             }
 
-            // Role Name
-            role.SetRoleName(roleTM.roleName);
+            // ID
+            int id = idService.PickRoleID();
+            var idCom = role.IDCom;
+            idCom.SetEntityD(id);
+            idCom.SetTypeID(typeID);
+            idCom.SetAlly(allyType);
+            idCom.SetEntityName(roleTM.roleName);
 
             // Mod
             var roleModAssets = assetCore.RoleModAssets;
@@ -107,9 +106,6 @@ namespace TiedanSouls.World {
             // Pos
             role.SetPos_Logic(bornPos);
             role.SyncRendererr();
-
-            // Ally
-            role.SetAlly(allyType);
 
             // ControlType
             role.SetControlType(controlType);
@@ -160,7 +156,7 @@ namespace TiedanSouls.World {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            if (role.AllyType == AllyType.Enemy) followRoot.AddChild(attackNode);
+            if (role.IDCom.AllyType == AllyType.Enemy) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 

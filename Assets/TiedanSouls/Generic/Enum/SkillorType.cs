@@ -1,6 +1,6 @@
 namespace TiedanSouls {
 
-    public enum SkillorType {
+    public enum SkillType {
         None,
         Melee,      // 普通攻击
         HoldMelee,  // 蓄力攻击

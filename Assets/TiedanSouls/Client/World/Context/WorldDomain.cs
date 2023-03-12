@@ -73,7 +73,7 @@ namespace TiedanSouls.World.Facades {
             if (entityType == EntityType.Role) {
                 var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
                 role.SetIsBoss(spawnModel.isBoss);
-                TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.RoleName} IsBoss {role.IsBoss} Spawned!");
+                TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.IDCom.EntityName} IsBoss {role.IsBoss} Spawned!");
             } else {
                 TDLog.Error("Not Handle Yet!");
             }

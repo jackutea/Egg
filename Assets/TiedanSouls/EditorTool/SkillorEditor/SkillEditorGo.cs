@@ -2,21 +2,21 @@ using UnityEngine;
 using UnityEditor;
 using TiedanSouls.Template;
 
-namespace TiedanSouls.SkillorModifier.Editor {
+namespace TiedanSouls.SkillModifier.Editor {
 
-    public class SkillorEditorGo : MonoBehaviour {
+    public class SkillEditorGo : MonoBehaviour {
 
-        [SerializeField] SkillorSO so;
+        [SerializeField] SkillSO so;
 
         // - Identity
         [SerializeField] int typeID;
-        [SerializeField] string skillorName;
-        [SerializeField] SkillorType skillorType;
+        [SerializeField] string skillName;
+        [SerializeField] SkillType skillType;
 
         // - Combo
-        [SerializeField] int originalSkillorTypeID;
+        [SerializeField] int originalSkillTypeID;
 
-        // - Frames (By GetComponentsInChildren<SkillorFrameEditorGo>)
+        // - Frames (By GetComponentsInChildren<SkillFrameEditorGo>)
 
         // - Renderer
         [SerializeField] AnimationClip weaponAnim;
@@ -24,24 +24,24 @@ namespace TiedanSouls.SkillorModifier.Editor {
         [ContextMenu("Save")]
         void Save() {
 
-            var tm = new SkillorTM();
+            var tm = new SkillTM();
             so.tm = tm;
 
             // - Identity
             tm.typeID = typeID;
-            tm.name = skillorName;
-            tm.skillorType = skillorType;
+            tm.name = skillName;
+            tm.skillType = skillType;
 
             // - Combo
-            tm.originalSkillorTypeID = originalSkillorTypeID;
+            tm.originalSkillTypeID = originalSkillTypeID;
 
             // - Frames
-            var frameEditors = GetComponentsInChildren<SkillorFrameEditorGo>();
+            var frameEditors = GetComponentsInChildren<SkillFrameEditorGo>();
             if (frameEditors.Length == 0) {
                 return;
             }
 
-            tm.frames = new SkillorFrameTM[frameEditors.Length];
+            tm.frames = new SkillFrameTM[frameEditors.Length];
             for (int i = 0; i < frameEditors.Length; i += 1) {
                 var eFrame = frameEditors[i];
                 eFrame.Rename(i);

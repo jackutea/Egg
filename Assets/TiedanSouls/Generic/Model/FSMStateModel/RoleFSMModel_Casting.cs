@@ -10,7 +10,7 @@ namespace TiedanSouls.Generic {
         public bool IsCombo => isCombo;
         public void SetIsCombo(bool value) => isCombo = value;
 
-        public int castingSkillorTypeID;
+        public int castingSkillTypeID;
         public int maintainFrame;
 
         public RoleFSMModel_Casting() { }
@@ -18,7 +18,7 @@ namespace TiedanSouls.Generic {
         public void Reset() {
             isEntering = false;
             isCombo = false;
-            castingSkillorTypeID = -1;
+            castingSkillTypeID = -1;
             maintainFrame = 0;
         }
 

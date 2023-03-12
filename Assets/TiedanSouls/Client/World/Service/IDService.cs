@@ -3,7 +3,7 @@ namespace TiedanSouls.World.Service {
     public class IDService {
 
         int roleIDRecord;
-        int skillorIDRecord;
+        int skillIDRecord;
         int itemIDRecord;
 
         public IDService() { }
@@ -13,9 +13,9 @@ namespace TiedanSouls.World.Service {
             return roleIDRecord;
         }
 
-        public int PickSkillorID() {
-            skillorIDRecord += 1;
-            return skillorIDRecord;
+        public int PickSkillID() {
+            skillIDRecord += 1;
+            return skillIDRecord;
         }
 
         public int PickItemID() {

@@ -3,9 +3,9 @@ using System;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public struct SkillorCancelTM {
+    public struct SkillCancelTM {
 
-        public int skillorTypeID;
+        public int skillTypeID;
         public int startFrame;
         public bool isCombo;
 

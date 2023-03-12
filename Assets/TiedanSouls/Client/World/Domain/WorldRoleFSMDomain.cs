@@ -58,7 +58,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Idle状态下 释放技能
-            if (!roleDomain.TryCastSkillorByInput(role)) {
+            if (!roleDomain.TryCastSkillByInput(role)) {
                 var x = inputCom.MoveAxis.x;
                 var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
                 roleDomain.SetRoleFaceDirX(role, dirX);
@@ -80,28 +80,28 @@ namespace TiedanSouls.World.Domain {
             }
 
             var stateModel = fsm.CastingModel;
-            var skillorTypeID = stateModel.castingSkillorTypeID;
+            var skillTypeID = stateModel.castingSkillTypeID;
             var isCombo = stateModel.IsCombo;
-            SkillorModel castingSkillor;
+            SkillModel castingSkill;
             if (isCombo) {
-                role.SkillorSlotCom.TryGetComboSkillor(skillorTypeID, out castingSkillor);
+                role.SkillSlotCom.TryGetComboSkill(skillTypeID, out castingSkill);
             } else {
-                role.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillorTypeID, out castingSkillor);
+                role.SkillSlotCom.TryGetOriginalSkillByTypeID(skillTypeID, out castingSkill);
             }
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
 
-                role.WeaponSlotCom.Weapon.PlayAnim(castingSkillor.weaponAnimName);
+                role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.weaponAnimName);
             }
 
-            if (!castingSkillor.TryGetCurrentFrame(out SkillorFrameElement curFrame)) {
+            if (!castingSkill.TryGetCurrentFrame(out SkillFrameElement curFrame)) {
 
                 var damageArbitService = worldContext.DamageArbitService;
-                damageArbitService.Remove(castingSkillor.EntityType, castingSkillor.ID);
+                damageArbitService.Remove(castingSkill.EntityType, castingSkill.ID);
 
-                castingSkillor.Reset();
+                castingSkill.Reset();
 
                 fsm.EnterIdle();
 
@@ -120,7 +120,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // 技能接技能
-            if (roleDomain.TryCastSkillorByInput(role)) {
+            if (roleDomain.TryCastSkillByInput(role)) {
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Next Frame
-            castingSkillor.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
+            castingSkill.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
         }
 
         void Apply_BeHit(RoleEntity role, float dt) {

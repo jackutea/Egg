@@ -5,26 +5,50 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
-        // ==== Identity ====
-        public EntityType EntityType => EntityType.Role;
+        IDComponent idCom;
+        public IDComponent IDCom => idCom;
 
-        int entityID;
-        public int EntityD => entityID;
-        public void SetEntityD(int value) => this.entityID = value;
+        ControlType controlType;
+        public ControlType ControlType => controlType;
+        public void SetControlType(ControlType value) => this.controlType = value;
 
-        int typeID;
-        public int TypeID => typeID;
-        public void SetTypeID(int value) => this.typeID = value;
+        RoleAIStrategy aiStrategy;
+        public RoleAIStrategy AIStrategy => aiStrategy;
+        public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
 
-        string roleName;
-        public string RoleName => roleName;
-        public void SetRoleName(string roleName) => this.roleName = roleName;
+        #region [Component]
 
-        AllyType allyType;
-        public AllyType AllyType => allyType;
-        public void SetAlly(AllyType value) => this.allyType = value;
+        InputComponent inputCom;
+        public InputComponent InputCom => inputCom;
 
-        // ==== Root ====
+        AttributeComponent attrCom;
+        public AttributeComponent AttrCom => attrCom;
+
+        RoleFSMComponent fsmCom;
+        public RoleFSMComponent FSMCom => fsmCom;
+
+        [SerializeField] MoveComponent moveCom;
+        public MoveComponent MoveCom => moveCom;
+
+        SkillSlotComponent skillSlotCom;
+        public SkillSlotComponent SkillSlotCom => skillSlotCom;
+
+        WeaponSlotComponent weaponSlotCom;
+        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
+
+        RoleModComponent modCom;
+        public RoleModComponent ModCom => modCom;
+
+        HUDSlotComponent hudSlotCom;
+        public HUDSlotComponent HudSlotCom => hudSlotCom;
+
+        FootComponent footCom;
+        BodyComponent bodyCom;
+
+        #endregion
+
+        #region [Root]
+
         Transform logicRoot;
         public Transform LogicRoot => logicRoot;
         public Vector2 GetPos_LogicRoot() => logicRoot.position;
@@ -37,67 +61,33 @@ namespace TiedanSouls.World.Entities {
         public Transform WeaponRoot => weaponRoot;
         public Vector2 GetPos_WeaponRoot() => weaponRoot.position;
 
-        // ==== Input ====
-        InputComponent inputCom;
-        public InputComponent InputCom => inputCom;
+        Rigidbody2D rb_logicRoot;
+        CapsuleCollider2D coll_logicRoot;
 
-        ControlType controlType;
-        public ControlType ControlType => controlType;
-        public void SetControlType(ControlType value) => this.controlType = value;
+        #endregion
 
-        // ==== AI ====
-        object aiStrategy;
-        public RoleAIStrategy AIStrategy => aiStrategy as RoleAIStrategy;
-        public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
+        #region [Event]
+
+        public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
+        public event Action<RoleEntity, Collider2D> FootTriggerExit;
+        public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
+
+        #endregion
+
+        #region [Misc]
+
+        Vector2 bornPos;
+        public Vector2 BornPos => bornPos;
+        public void SetBornPos(Vector2 value) => this.bornPos = value;
+
+        sbyte faceDirX;
+        public sbyte FaceDirX => faceDirX;
 
         bool isBoss;
         public bool IsBoss => isBoss;
         public void SetIsBoss(bool value) => this.isBoss = value;
 
-        // ==== Body Part ====
-        Rigidbody2D rb_logicRoot;
-        CapsuleCollider2D coll_logicRoot;
-        FootComponent footCom;
-        BodyCollComponent bodyCollCom;
-
-        sbyte faceDirX;
-        public sbyte FaceDirX => faceDirX;
-
-        // ==== Component ====
-        [SerializeField]
-        MoveComponent moveCom;
-        public MoveComponent MoveCom => moveCom;
-
-        AttributeComponent attrCom;
-        public AttributeComponent AttrCom => attrCom;
-
-        RoleFSMComponent fsmCom;
-        public RoleFSMComponent FSMCom => fsmCom;
-
-        SkillorSlotComponent skillorSlotCom;
-        public SkillorSlotComponent SkillorSlotCom => skillorSlotCom;
-
-        WeaponSlotComponent weaponSlotCom;
-        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
-
-        // ==== Renderer ====
-        // - Mod
-        RoleModComponent modCom;
-        public RoleModComponent ModCom => modCom;
-
-        // - HUD
-        HUDSlotComponent hudSlotCom;
-        public HUDSlotComponent HudSlotCom => hudSlotCom;
-
-        // - Record
-        Vector2 bornPos;
-        public Vector2 BornPos => bornPos;
-        public void SetBornPos(Vector2 value) => this.bornPos = value;
-
-        // ==== Event ====
-        public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
-        public event Action<RoleEntity, Collider2D> FootTriggerExit;
-        public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
+        #endregion
 
         public void Ctor() {
 
@@ -120,8 +110,8 @@ namespace TiedanSouls.World.Entities {
             footCom.Ctor();
 
             // - Body
-            bodyCollCom = logicRoot.Find("body").GetComponent<BodyCollComponent>();
-            bodyCollCom.Ctor();
+            bodyCom = logicRoot.Find("body").GetComponent<BodyComponent>();
+            bodyCom.Ctor();
 
             // - Weapon
             weaponRoot = logicRoot.Find("weapon_root");
@@ -142,17 +132,12 @@ namespace TiedanSouls.World.Entities {
             footCom.FootTriggerEnter += OnFootTriggerEnter;
             footCom.FootTriggerExit += OnFootCollisionExit;
 
-            // - Mod
+            // Component
+            idCom = new IDComponent();
             modCom = new RoleModComponent();
-
-            // - FSM
             fsmCom = new RoleFSMComponent();
-
-            // - Input
             inputCom = new InputComponent();
-
-            // - Skillor
-            skillorSlotCom = new SkillorSlotComponent();
+            skillSlotCom = new SkillSlotComponent();
         }
 
         public void TearDown() {
@@ -166,7 +151,7 @@ namespace TiedanSouls.World.Entities {
             footCom.Reset();
 
             // - Body
-            bodyCollCom.Reset();
+            bodyCom.Reset();
 
             // - Weapon
             weaponSlotCom.Reset();
@@ -183,8 +168,8 @@ namespace TiedanSouls.World.Entities {
             // - Input
             inputCom.Reset();
 
-            // - Skillor
-            skillorSlotCom.Reset();
+            // - Skill
+            skillSlotCom.Reset();
 
             // - Movement
             moveCom.LeaveGround();
@@ -193,13 +178,13 @@ namespace TiedanSouls.World.Entities {
         public void Hide() {
             logicRoot.gameObject.SetActive(false);
             rendererRoot.gameObject.SetActive(false);
-            TDLog.Log($"隐藏角色: {roleName} ");
+            TDLog.Log($"隐藏角色: {idCom.EntityName} ");
         }
 
         public void Show() {
             logicRoot.gameObject.SetActive(true);
             rendererRoot.gameObject.SetActive(true);
-            TDLog.Log($"显示角色: {roleName} ");
+            TDLog.Log($"显示角色: {idCom.EntityName} ");
         }
 
         // ==== Mod ====
@@ -279,7 +264,7 @@ namespace TiedanSouls.World.Entities {
 
         // ==== Hit ====
         public void HitBeHit(int atk) {
-            TDLog.Log($"{entityID} 受到伤害 - {atk}");
+            TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
             attrCom.HurtByAtk(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
@@ -295,7 +280,7 @@ namespace TiedanSouls.World.Entities {
         // ==== Phx ====
         public void SetFootTrigger(bool isTrigger) {
             footCom.SetTrigger(isTrigger);
-            bodyCollCom.SetTrigger(isTrigger);
+            bodyCom.SetTrigger(isTrigger);
         }
 
         void OnFootTriggerEnter(Collider2D other) {

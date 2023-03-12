@@ -33,11 +33,11 @@ namespace TiedanSouls.World {
 
             list.Add(role);
             allAIRoles.Add(role);
-            TDLog.Log($"添加角色: {role.RoleName} ");
+            TDLog.Log($"添加角色: {role.IDCom.EntityName} ");
         }
 
         public void RemoveAIRole(RoleEntity role) {
-            allAIRoles_sortedByField.Remove(role.EntityD);
+            allAIRoles_sortedByField.Remove(role.IDCom.EntityID);
             allAIRoles.Remove(role);
         }
 
@@ -46,7 +46,7 @@ namespace TiedanSouls.World {
             var len = allAIRoles.Count;
             for (int i = 0; i < len; i++) {
                 var role = allAIRoles[i];
-                if (role.EntityD == id) {
+                if (role.IDCom.EntityID == id) {
                     allAIRoles.RemoveAt(i);
                     break;
                 }
@@ -74,7 +74,7 @@ namespace TiedanSouls.World {
         }
 
         public void ForeachAll_EnemyOfPlayer(Action<RoleEntity> action) {
-            var playerAllyType = playerRole.AllyType;
+            var playerAllyType = playerRole.IDCom.AllyType;
             ForeachAll_Enemy(playerAllyType, action);
         }
 
@@ -82,7 +82,7 @@ namespace TiedanSouls.World {
             var len = allAIRoles.Count;
             for (int i = 0; i < len; i++) {
                 var role = allAIRoles[i];
-                var roleAllyType = role.AllyType;
+                var roleAllyType = role.IDCom.AllyType;
                 if (roleAllyType != selfAllyType && roleAllyType != AllyType.Neutral) {
                     action.Invoke(role);
                 }
@@ -129,7 +129,6 @@ namespace TiedanSouls.World {
                 }
             }
         }
-
 
         public bool HasFieldRole(int fieldTypeID) {
             return allAIRoles_sortedByField.ContainsKey(fieldTypeID);

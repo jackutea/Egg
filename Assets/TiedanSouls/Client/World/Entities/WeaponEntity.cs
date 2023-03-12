@@ -16,9 +16,9 @@ namespace TiedanSouls.World.Entities {
         public int def;
         public int crit;
 
-        public int skillorMeleeTypeID;
-        public int skillorHoldMeleeTypeID;
-        public int skillorSpecMeleeTypeID;
+        public int skillMeleeTypeID;
+        public int skillHoldMeleeTypeID;
+        public int skillSpecMeleeTypeID;
 
         // ==== Renderer ====
         GameObject mod;

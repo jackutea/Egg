@@ -176,9 +176,9 @@ namespace TiedanSouls.World.Domain {
                 roleFSMDomain.TickFSM(role, dt);
 
                 // HUD
-                if (role.AllyType == AllyType.Enemy) {
+                if (role.IDCom.AllyType == AllyType.Enemy) {
                     role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-                } else if (role.AllyType == AllyType.Neutral) {
+                } else if (role.IDCom.AllyType == AllyType.Neutral) {
                     role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
                 }
             });

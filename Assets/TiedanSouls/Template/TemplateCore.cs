@@ -9,8 +9,8 @@ namespace TiedanSouls.Template {
         RoleTemplate roleTemplate;
         public RoleTemplate RoleTemplate => roleTemplate;
 
-        SkillorTemplate skillorTemplate;
-        public SkillorTemplate SkillorTemplate => skillorTemplate;
+        SkillTemplate skillTemplate;
+        public SkillTemplate SkillTemplate => skillTemplate;
 
         WeaponTemplate weaponTemplate;
         public WeaponTemplate WeaponTemplate => weaponTemplate;
@@ -29,7 +29,7 @@ namespace TiedanSouls.Template {
 
         public TemplateCore() {
             roleTemplate = new RoleTemplate();
-            skillorTemplate = new SkillorTemplate();
+            skillTemplate = new SkillTemplate();
             weaponTemplate = new WeaponTemplate();
             fieldTemplate = new FieldTemplate();
             itemTemplate = new ItemTemplate();
@@ -38,7 +38,7 @@ namespace TiedanSouls.Template {
 
         public async Task Init() {
             await roleTemplate.LoadAll();
-            await skillorTemplate.LoadAll();
+            await skillTemplate.LoadAll();
             await weaponTemplate.LoadAll();
             await fieldTemplate.LoadAll();
             await itemTemplate.LoadAll();

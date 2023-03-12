@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class SkillorFrameTM {
+    public class SkillFrameTM {
 
         // - Hit
         public HitPowerTM hitPower;
@@ -15,11 +15,11 @@ namespace TiedanSouls.Template {
         public bool isDashEnd;
 
         // - Cancel
-        public SkillorCancelTM[] cancelTMs;
+        public SkillCancelTM[] cancelTMs;
 
-        public SkillorBoxTM[] boxes;
+        public SkillBoxTM[] boxes;
 
-        public SkillorFrameTM() { }
+        public SkillFrameTM() { }
 
     }
 

@@ -1,9 +1,9 @@
 using UnityEngine;
 using TiedanSouls.Template;
 
-namespace TiedanSouls.SkillorModifier.Editor {
+namespace TiedanSouls.SkillModifier.Editor {
 
-    public class SkillorFrameEditorGo : MonoBehaviour {
+    public class SkillFrameEditorGo : MonoBehaviour {
 
         [SerializeField] HitPowerTM hitPower;
 
@@ -11,15 +11,15 @@ namespace TiedanSouls.SkillorModifier.Editor {
         [SerializeField] Vector2 dashForce;
         [SerializeField] bool isDashEnd;
 
-        [SerializeField] SkillorCancelTM[] cancels;
+        [SerializeField] SkillCancelTM[] cancels;
 
         public void Rename(int index) {
             gameObject.name = "f_" + index;
         }
 
-        public SkillorFrameTM ToTM() {
+        public SkillFrameTM ToTM() {
 
-            var tm = new SkillorFrameTM();
+            var tm = new SkillFrameTM();
 
             // - Hit
             tm.hitPower = hitPower;
@@ -33,12 +33,12 @@ namespace TiedanSouls.SkillorModifier.Editor {
             tm.cancelTMs = cancels;
 
             // - Box
-            var boxEditors = GetComponentsInChildren<SkillorBoxEditorGo>();
+            var boxEditors = GetComponentsInChildren<SkillBoxEditorGo>();
             if (boxEditors.Length == 0) {
                 return tm;
             }
 
-            tm.boxes = new SkillorBoxTM[boxEditors.Length];
+            tm.boxes = new SkillBoxTM[boxEditors.Length];
             for (int i = 0; i < boxEditors.Length; i += 1) {
                 var eBox = boxEditors[i];
                 eBox.Rename(i);

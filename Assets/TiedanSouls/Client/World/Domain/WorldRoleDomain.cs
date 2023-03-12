@@ -62,11 +62,11 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void OnTriggerEnter_Skillor(SkillorModel skillor, Collider2D other) {
+        void OnTriggerEnter_Skill(SkillModel skill, Collider2D other) {
             var go = other.gameObject;
             var otherRole = go.GetComponentInParent<RoleEntity>();
             if (otherRole != null) {
-                SkillorHitRole(skillor, otherRole);
+                SkillHitRole(skill, otherRole);
             }
         }
 
@@ -106,29 +106,29 @@ namespace TiedanSouls.World.Domain {
                 inputCom.SetInput_Locomotion_Jump(true);
             }
 
-            // - Skillor Melee && HoldMelee
+            // - Skill Melee && HoldMelee
             if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
-                inputCom.SetInput_Skillor__Melee(true);
+                inputCom.SetInput_Skill__Melee(true);
             }
 
-            // - Skillor SpecMelee
+            // - Skill SpecMelee
             if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
-                inputCom.SetInput_Skillor_SpecMelee(true);
+                inputCom.SetInput_Skill_SpecMelee(true);
             }
 
-            // - Skillor BoomMelee
+            // - Skill BoomMelee
             if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
-                inputCom.SetInput_Skillor_BoomMelee(true);
+                inputCom.SetInput_Skill_BoomMelee(true);
             }
 
-            // - Skillor Infinity
+            // - Skill Infinity
             if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
-                inputCom.SetInput_Skillor_Infinity(true);
+                inputCom.SetInput_Skill_Infinity(true);
             }
 
-            // - Skillor Dash
+            // - Skill Dash
             if (inputGetter.GetDown(InputKeyCollection.DASH)) {
-                inputCom.SetInput_Skillor_Dash(true);
+                inputCom.SetInput_Skill_Dash(true);
             }
 
             // - Pick
@@ -176,10 +176,10 @@ namespace TiedanSouls.World.Domain {
 
         #region [Cast]
 
-        public bool TryCastSkillorByInput(RoleEntity role) {
+        public bool TryCastSkillByInput(RoleEntity role) {
             var inputCom = role.InputCom;
-            SkillorType inputSkillorType = inputCom.GetSkillorType();
-            if (inputSkillorType == SkillorType.None) {
+            SkillType inputSkillType = inputCom.GetSkillType();
+            if (inputSkillType == SkillType.None) {
                 return false;
             }
 
@@ -189,17 +189,17 @@ namespace TiedanSouls.World.Domain {
                 return false;
             }
 
-            var skillorSlotCom = role.SkillorSlotCom;
-            if (!skillorSlotCom.TryGetOriginalSkillorByType(inputSkillorType, out var originalSkillor)) {
-                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillorType}");
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetOriginalSkillByType(inputSkillType, out var originalSkill)) {
+                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
                 return false;
             }
 
-            int inputSkillorTypeID = originalSkillor.TypeID;
+            int inputSkillTypeID = originalSkill.TypeID;
 
             var fsm = role.FSMCom;
             if (fsm.State == RoleFSMState.Idle) {
-                CastOriginalSkillor(role, inputSkillorTypeID);
+                CastOriginalSkill(role, inputSkillTypeID);
                 return true;
             }
 
@@ -207,20 +207,20 @@ namespace TiedanSouls.World.Domain {
             bool isCasting = fsm.State == RoleFSMState.Casting;
             if (isCasting) {
                 var stateModel = fsm.CastingModel;
-                var castingSkillTypeID = stateModel.castingSkillorTypeID;
-                SkillorModel castingSkillor;
+                var castingSkillTypeID = stateModel.castingSkillTypeID;
+                SkillModel castingSkill;
                 if (stateModel.IsCombo) {
-                    skillorSlotCom.TryGetComboSkillor(castingSkillTypeID, out castingSkillor);
+                    skillSlotCom.TryGetComboSkill(castingSkillTypeID, out castingSkill);
                 } else {
-                    skillorSlotCom.TryGetOriginalSkillorByTypeID(castingSkillTypeID, out castingSkillor);
+                    skillSlotCom.TryGetOriginalSkillByTypeID(castingSkillTypeID, out castingSkill);
                 }
 
-                if (CanCancelSkillor(skillorSlotCom, castingSkillor, inputSkillorTypeID, out var realSkillorTypeID, out var isCombo)) {
-                    castingSkillor.Reset();
+                if (CanCancelSkill(skillSlotCom, castingSkill, inputSkillTypeID, out var realSkillTypeID, out var isCombo)) {
+                    castingSkill.Reset();
                     if (isCombo) {
-                        CastComboSkillor(role, realSkillorTypeID);
+                        CastComboSkill(role, realSkillTypeID);
                     } else {
-                        CastOriginalSkillor(role, realSkillorTypeID);
+                        CastOriginalSkill(role, realSkillTypeID);
                     }
                 }
             }
@@ -228,12 +228,12 @@ namespace TiedanSouls.World.Domain {
             return true;
         }
 
-        bool CanCancelSkillor(SkillorSlotComponent skillorSlotCom, SkillorModel castingSkillor, int inputSkillorTypeID, out int realSkillorTypeID, out bool isCombo) {
-            realSkillorTypeID = inputSkillorTypeID;
+        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillModel castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
+            realSkillTypeID = inputSkillTypeID;
             isCombo = false;
 
-            if (!castingSkillor.TryGetCurrentFrame(out var frame)) {
-                TDLog.Error($"技能未配置帧 - {castingSkillor.TypeID} ");
+            if (!castingSkill.TryGetCurrentFrame(out var frame)) {
+                TDLog.Error($"技能未配置帧 - {castingSkill.TypeID} ");
                 return false;
             }
 
@@ -243,22 +243,22 @@ namespace TiedanSouls.World.Domain {
             }
 
             for (int i = 0; i < allCancelModels.Length; i++) {
-                SkillorCancelModel cancel = allCancelModels[i];
-                int cancelSkillorTypeID = cancel.skillorTypeID;
+                SkillCancelModel cancel = allCancelModels[i];
+                int cancelSkillTypeID = cancel.skillTypeID;
 
                 if (cancel.isCombo) {
                     // - Combo Cancel
-                    bool hasCombo = skillorSlotCom.TryGetComboSkillor(cancelSkillorTypeID, out var comboSkillor);
-                    bool isComboInput = inputSkillorTypeID == comboSkillor.OriginalSkillorTypeID;
+                    bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
+                    bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
                     if (hasCombo && isComboInput) {
-                        realSkillorTypeID = cancelSkillorTypeID;    // 改变技能类型ID
+                        realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
                         isCombo = true;
                         return true;
                     }
                 } else {
                     // - Normal Cancel
-                    bool hasOriginal = skillorSlotCom.TryGetOriginalSkillorByTypeID(cancelSkillorTypeID, out var originalSkillor);
-                    bool isOriginalInput = inputSkillorTypeID == cancelSkillorTypeID;
+                    bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
+                    bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
                     if (hasOriginal && isOriginalInput) {
                         isCombo = false;
                         return true;
@@ -268,33 +268,33 @@ namespace TiedanSouls.World.Domain {
             return false;
         }
 
-        void CastOriginalSkillor(RoleEntity role, int typeID) {
-            var skillorSlotCom = role.SkillorSlotCom;
-            if (!skillorSlotCom.TryGetOriginalSkillorByTypeID(typeID, out var skillor)) {
+        void CastOriginalSkill(RoleEntity role, int typeID) {
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetOriginalSkillByTypeID(typeID, out var skill)) {
                 TDLog.Error($"施放原始技能失败:{typeID} ");
                 return;
             }
             var fsm = role.FSMCom;
-            fsm.EnterCasting(skillor, false);
+            fsm.EnterCasting(skill, false);
         }
 
-        void CastComboSkillor(RoleEntity role, int typeID) {
-            var skillorSlotCom = role.SkillorSlotCom;
-            if (!skillorSlotCom.TryGetComboSkillor(typeID, out var skillor)) {
+        void CastComboSkill(RoleEntity role, int typeID) {
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetComboSkill(typeID, out var skill)) {
                 TDLog.Error($"施放连击技能失败:{typeID} ");
                 return;
             }
             var fsm = role.FSMCom;
-            fsm.EnterCasting(skillor, true);
+            fsm.EnterCasting(skill, true);
         }
 
         #endregion
 
         #region [Hit]
 
-        void SkillorHitRole(SkillorModel skillor, RoleEntity other) {
+        void SkillHitRole(SkillModel skill, RoleEntity other) {
 
-            var caster = skillor.Owner;
+            var caster = skill.Owner;
 
             // Me Check
             if (caster == other) {
@@ -302,27 +302,29 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Ally Check
-            if (caster.AllyType == other.AllyType) {
+            var casterIDCom = caster.IDCom;
+            var otherIDCom = other.IDCom;
+            if (casterIDCom.AllyType == otherIDCom.AllyType) {
                 return;
             }
 
             // Damage Arbit: Prevent Multi Hit
             var damageArbitService = worldContext.DamageArbitService;
-            if (damageArbitService.IsInArbit(skillor.EntityType, skillor.ID, other.EntityType, other.EntityD)) {
+            if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
                 return;
             }
-            damageArbitService.TryAdd(skillor.EntityType, skillor.ID, other.EntityType, other.EntityD);
+            damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
 
-            SkillorHitRole_Damage(caster, skillor, other);
+            SkillHitRole_Damage(caster, skill, other);
             if (other.AttrCom.HP <= 0) {
                 RoleBeginDying(other);
             } else {
-                RoleHitRole_FrameEffector(caster, skillor, other);
+                RoleHitRole_FrameEffector(caster, skill, other);
             }
 
         }
 
-        void SkillorHitRole_Damage(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
+        void SkillHitRole_Damage(RoleEntity caster, SkillModel skill, RoleEntity other) {
 
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
@@ -330,28 +332,28 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        void RoleHitRole_FrameEffector(RoleEntity caster, SkillorModel skillor, RoleEntity other) {
+        void RoleHitRole_FrameEffector(RoleEntity caster, SkillModel skill, RoleEntity other) {
 
             // Frame Effector
-            bool hasFrame = skillor.TryGetCurrentFrame(out var frame);
+            bool hasFrame = skill.TryGetCurrentFrame(out var frame);
             if (!hasFrame) {
                 TDLog.Error("Failed to get frame");
                 return;
             }
 
-            SkillorFrameElement otherFrame = null;
+            SkillFrameElement otherFrame = null;
             var otherFSM = other.FSMCom;
             if (otherFSM.State == RoleFSMState.Casting) {
                 var stateModel = otherFSM.CastingModel;
-                var skillID = stateModel.castingSkillorTypeID;
+                var skillID = stateModel.castingSkillTypeID;
                 var isCombo = stateModel.IsCombo;
-                SkillorModel otherSkillor;
+                SkillModel otherSkill;
                 if (isCombo) {
-                    other.SkillorSlotCom.TryGetComboSkillor(skillID, out otherSkillor);
+                    other.SkillSlotCom.TryGetComboSkill(skillID, out otherSkill);
                 } else {
-                    other.SkillorSlotCom.TryGetOriginalSkillorByTypeID(skillID, out otherSkillor);
+                    other.SkillSlotCom.TryGetOriginalSkillByTypeID(skillID, out otherSkill);
                 }
-                otherSkillor.TryGetCurrentFrame(out otherFrame);
+                otherSkill.TryGetCurrentFrame(out otherFrame);
             }
 
             var hitPower = frame.hitPower;
@@ -407,21 +409,21 @@ namespace TiedanSouls.World.Domain {
             // Weapon
             SetWeaponSlotComponent(role, weaponTypeID);
 
-            // Skillor
+            // Skill
             var curWeapon = role.WeaponSlotCom.Weapon;
-            var skillorTypeIDArray = new int[] { curWeapon.skillorMeleeTypeID, curWeapon.skillorHoldMeleeTypeID, curWeapon.skillorSpecMeleeTypeID };
-            if (skillorTypeIDArray != null) {
-                InitRoleSkillorSlotCom(role, skillorTypeIDArray);
+            var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
+            if (skillTypeIDArray != null) {
+                InitRoleSkillSlotCom(role, skillTypeIDArray);
             }
 
-            role.SkillorSlotCom.ForeachAllOriginalSkillor((skillor) => {
-                TDLog.Log($"添加技能触发器 - {skillor.TypeID}");
-                skillor.OnTriggerEnterHandle += OnTriggerEnter_Skillor;
+            role.SkillSlotCom.ForeachAllOriginalSkill((skill) => {
+                TDLog.Log($"添加技能触发器 - {skill.TypeID}");
+                skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
             });
 
-            role.SkillorSlotCom.ForeachAllComboSkillor((skillor) => {
-                TDLog.Log($"添加技能触发器 - {skillor.TypeID}");
-                skillor.OnTriggerEnterHandle += OnTriggerEnter_Skillor;
+            role.SkillSlotCom.ForeachAllComboSkill((skill) => {
+                TDLog.Log($"添加技能触发器 - {skill.TypeID}");
+                skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
             });
         }
 
@@ -462,9 +464,9 @@ namespace TiedanSouls.World.Domain {
             weapon.atk = weaponTM.atk;
             weapon.def = weaponTM.def;
             weapon.crit = weaponTM.crit;
-            weapon.skillorMeleeTypeID = weaponTM.skillorMeleeTypeID;
-            weapon.skillorHoldMeleeTypeID = weaponTM.skillorHoldMeleeTypeID;
-            weapon.skillorSpecMeleeTypeID = weaponTM.skillorSpecMeleeTypeID;
+            weapon.skillMeleeTypeID = weaponTM.skillMeleeTypeID;
+            weapon.skillHoldMeleeTypeID = weaponTM.skillHoldMeleeTypeID;
+            weapon.skillSpecMeleeTypeID = weaponTM.skillSpecMeleeTypeID;
 
             var go = GameObject.Instantiate(weaponModPrefab);
             weapon.SetMod(go);
@@ -472,33 +474,33 @@ namespace TiedanSouls.World.Domain {
             return weapon;
         }
 
-        void InitRoleSkillorSlotCom(RoleEntity role, int[] typeIDArray) {
+        void InitRoleSkillSlotCom(RoleEntity role, int[] typeIDArray) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
-            var skillorSlotCom = role.SkillorSlotCom;
+            var skillSlotCom = role.SkillSlotCom;
 
             var len = typeIDArray.Length;
             for (int i = 0; i < len; i++) {
                 var typeID = typeIDArray[i];
-                if (!templateCore.SkillorTemplate.TryGet(typeID, out SkillorTM skillorTM)) {
+                if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
                     continue;
                 }
 
-                var skillorModel = new SkillorModel();
-                skillorModel.FromTM(skillorTM);
-                skillorModel.SetID(idService.PickSkillorID());
-                skillorModel.SetOwner(role);
-                skillorSlotCom.AddOriginalSkillor(skillorModel);
+                var skillModel = new SkillModel();
+                skillModel.FromTM(skillTM);
+                skillModel.SetID(idService.PickSkillID());
+                skillModel.SetOwner(role);
+                skillSlotCom.AddOriginalSkill(skillModel);
 
-                var frames = skillorTM.frames;
+                var frames = skillTM.frames;
                 var frameCout = frames.Length;
                 for (int j = 0; j < frameCout; j++) {
-                    InitAllComboSkillor(role, skillorSlotCom, frames[j]);
+                    InitAllComboSkill(role, skillSlotCom, frames[j]);
                 }
             }
         }
 
-        void InitAllComboSkillor(object owner, SkillorSlotComponent skillorSlotCom, SkillorFrameTM frameTM) {
+        void InitAllComboSkill(object owner, SkillSlotComponent skillSlotCom, SkillFrameTM frameTM) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
 
@@ -510,26 +512,26 @@ namespace TiedanSouls.World.Domain {
                     continue;
                 }
 
-                var comboSkillorTypeID = cancelTM.skillorTypeID;
-                if (skillorSlotCom.HasComboSkillor(comboSkillorTypeID)) {
+                var comboSkillTypeID = cancelTM.skillTypeID;
+                if (skillSlotCom.HasComboSkill(comboSkillTypeID)) {
                     continue;
                 }
 
-                if (!templateCore.SkillorTemplate.TryGet(comboSkillorTypeID, out SkillorTM comboSkillorTM)) {
-                    TDLog.Error($"加载连击技能失败 - TypeID {comboSkillorTypeID} 不存在 ");
+                if (!templateCore.SkillTemplate.TryGet(comboSkillTypeID, out SkillTM comboSkillTM)) {
+                    TDLog.Error($"加载连击技能失败 - TypeID {comboSkillTypeID} 不存在 ");
                     continue;
                 }
 
-                var comboSkillorModel = new SkillorModel();
-                comboSkillorModel.FromTM(comboSkillorTM);
-                comboSkillorModel.SetID(idService.PickSkillorID());
-                comboSkillorModel.SetOwner(owner);
-                skillorSlotCom.AddComboSkillor(comboSkillorModel);
+                var comboSkillModel = new SkillModel();
+                comboSkillModel.FromTM(comboSkillTM);
+                comboSkillModel.SetID(idService.PickSkillID());
+                comboSkillModel.SetOwner(owner);
+                skillSlotCom.AddComboSkill(comboSkillModel);
 
-                var nextFrames = comboSkillorTM.frames;
+                var nextFrames = comboSkillTM.frames;
                 var frameCount = nextFrames.Length;
                 for (int j = 0; j < frameCount; j++) {
-                    InitAllComboSkillor(owner, skillorSlotCom, nextFrames[j]);
+                    InitAllComboSkill(owner, skillSlotCom, nextFrames[j]);
                 }
             }
         }

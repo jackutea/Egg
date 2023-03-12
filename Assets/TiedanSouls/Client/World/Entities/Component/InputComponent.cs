@@ -12,25 +12,25 @@ namespace TiedanSouls.World.Entities {
         public bool HasInput_Locomotion_JumpDown => hasInput_Locomotion_Jump;
         public void SetInput_Locomotion_Jump(bool value) => this.hasInput_Locomotion_Jump = value;
 
-        bool hasInput_Skillor_Melee;
-        public bool HasInput_Skillor_Melee => hasInput_Skillor_Melee;
-        public void SetInput_Skillor__Melee(bool value) => this.hasInput_Skillor_Melee = value;
+        bool hasInput_Skill_Melee;
+        public bool HasInput_Skill_Melee => hasInput_Skill_Melee;
+        public void SetInput_Skill__Melee(bool value) => this.hasInput_Skill_Melee = value;
 
-        bool hasInput_Skillor_SpecMelee;
-        public bool HasInput_Skillor_SpecMelee => hasInput_Skillor_SpecMelee;
-        public void SetInput_Skillor_SpecMelee(bool value) => this.hasInput_Skillor_SpecMelee = value;
+        bool hasInput_Skill_SpecMelee;
+        public bool HasInput_Skill_SpecMelee => hasInput_Skill_SpecMelee;
+        public void SetInput_Skill_SpecMelee(bool value) => this.hasInput_Skill_SpecMelee = value;
 
-        bool hasInpout_Skillor_BoomMelee;
-        public bool HasInpout_BoomMelee => hasInpout_Skillor_BoomMelee;
-        public void SetInput_Skillor_BoomMelee(bool value) => this.hasInpout_Skillor_BoomMelee = value;
+        bool hasInpout_Skill_BoomMelee;
+        public bool HasInpout_BoomMelee => hasInpout_Skill_BoomMelee;
+        public void SetInput_Skill_BoomMelee(bool value) => this.hasInpout_Skill_BoomMelee = value;
 
-        bool hasInput_Skillor_Infinity;
-        public bool HasInput_Skillor_Infinity => hasInput_Skillor_Infinity;
-        public void SetInput_Skillor_Infinity(bool value) => this.hasInput_Skillor_Infinity = value;
+        bool hasInput_Skill_Infinity;
+        public bool HasInput_Skill_Infinity => hasInput_Skill_Infinity;
+        public void SetInput_Skill_Infinity(bool value) => this.hasInput_Skill_Infinity = value;
 
-        bool hasInput_Skillor_Dash;
-        public bool HasInput_Skillor_Dash => hasInput_Skillor_Dash;
-        public void SetInput_Skillor_Dash(bool value) => this.hasInput_Skillor_Dash = value;
+        bool hasInput_Skill_Dash;
+        public bool HasInput_Skill_Dash => hasInput_Skill_Dash;
+        public void SetInput_Skill_Dash(bool value) => this.hasInput_Skill_Dash = value;
 
         bool hasInput_Basic_Pick;
         public bool HasInput_Basic_Pick => hasInput_Basic_Pick;
@@ -45,32 +45,32 @@ namespace TiedanSouls.World.Entities {
         public void Reset() {
             moveAxis = Vector2.zero;
             hasInput_Locomotion_Jump = false;
-            hasInput_Skillor_Melee = false;
-            hasInput_Skillor_SpecMelee = false;
-            hasInpout_Skillor_BoomMelee = false;
-            hasInput_Skillor_Infinity = false;
-            hasInput_Skillor_Dash = false;
+            hasInput_Skill_Melee = false;
+            hasInput_Skill_SpecMelee = false;
+            hasInpout_Skill_BoomMelee = false;
+            hasInput_Skill_Infinity = false;
+            hasInput_Skill_Dash = false;
             hasInput_Basic_Pick = false;
             chosePoint = Vector2.zero;
         }
 
-        public SkillorType GetSkillorType() {
-            if (hasInput_Skillor_Melee) {
-                return SkillorType.Melee;
+        public SkillType GetSkillType() {
+            if (hasInput_Skill_Melee) {
+                return SkillType.Melee;
             }
-            if (hasInput_Skillor_SpecMelee) {
-                return SkillorType.SpecMelee;
+            if (hasInput_Skill_SpecMelee) {
+                return SkillType.SpecMelee;
             }
-            if (hasInpout_Skillor_BoomMelee) {
-                return SkillorType.BoomMelee;
+            if (hasInpout_Skill_BoomMelee) {
+                return SkillType.BoomMelee;
             }
-            if (hasInput_Skillor_Infinity) {
-                return SkillorType.Infinity;
+            if (hasInput_Skill_Infinity) {
+                return SkillType.Infinity;
             }
-            if (hasInput_Skillor_Dash) {
-                return SkillorType.Dash;
+            if (hasInput_Skill_Dash) {
+                return SkillType.Dash;
             }
-            return SkillorType.None;
+            return SkillType.None;
         }
 
     }

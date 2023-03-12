@@ -3,10 +3,10 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.World.Entities {
 
-    public class SkillorFrameElement {
+    public class SkillFrameElement {
 
         object parentPtr;
-        public SkillorModel Parent => parentPtr as SkillorModel;
+        public SkillModel Parent => parentPtr as SkillModel;
 
         // - Hit
         public HitPowerModel hitPower;
@@ -17,15 +17,15 @@ namespace TiedanSouls.World.Entities {
         public bool isDashEnd;
 
         // - Cancel
-        public SkillorCancelModel[] allCancelModels;
+        public SkillCancelModel[] allCancelModels;
 
-        SkillorBoxElement[] boxes;
+        SkillBoxElement[] boxes;
 
-        public SkillorFrameElement(SkillorModel parent) {
+        public SkillFrameElement(SkillModel parent) {
             parentPtr = parent;
         }
 
-        public void FromTM(Template.SkillorFrameTM tm) {
+        public void FromTM(Template.SkillFrameTM tm) {
 
             // - Hit
             if (tm.hitPower != null) {
@@ -41,9 +41,9 @@ namespace TiedanSouls.World.Entities {
             // - Cancel
             var cancelTMArray = tm.cancelTMs;
             if (cancelTMArray != null) {
-                var cancelModels = new SkillorCancelModel[cancelTMArray.Length];
+                var cancelModels = new SkillCancelModel[cancelTMArray.Length];
                 for (int i = 0; i < cancelModels.Length; i += 1) {
-                    var cancelModel = new SkillorCancelModel();
+                    var cancelModel = new SkillCancelModel();
                     TM2ModelUtil.SetSkilloCancelModel(ref cancelModel, cancelTMArray[i]);
                     cancelModels[i] = cancelModel;
                 }
@@ -53,9 +53,9 @@ namespace TiedanSouls.World.Entities {
             // - Box
             var boxTMArray = tm.boxes;
             if (boxTMArray != null) {
-                var boxes = new SkillorBoxElement[boxTMArray.Length];
+                var boxes = new SkillBoxElement[boxTMArray.Length];
                 for (int i = 0; i < boxes.Length; i += 1) {
-                    boxes[i] = new GameObject("skillor_box").AddComponent<SkillorBoxElement>();
+                    boxes[i] = new GameObject("skill_box").AddComponent<SkillBoxElement>();
                     boxes[i].FromTM(boxTMArray[i]);
                     boxes[i].OnTriggerEnterHandle += Parent.OnEnterOther;
                 }
