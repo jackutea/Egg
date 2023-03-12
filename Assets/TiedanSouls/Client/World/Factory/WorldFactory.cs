@@ -105,7 +105,7 @@ namespace TiedanSouls.World {
 
             // Pos
             role.SetPos_Logic(bornPos);
-            role.SyncRendererr();
+            role.SyncRenderer();
 
             // ControlType
             role.SetControlType(controlType);

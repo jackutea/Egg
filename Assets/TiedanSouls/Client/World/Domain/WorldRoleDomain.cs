@@ -280,7 +280,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void SetRoleFaceDirX(RoleEntity role, sbyte dirX) {
-            role.SetFaceDirX(dirX);
+            role.FaceTo(dirX);
         }
 
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {

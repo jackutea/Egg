@@ -5,6 +5,8 @@ namespace TiedanSouls.World.Entities {
     public class RoleModComponent {
 
         GameObject mod;
+        public GameObject Mod => mod;
+
         SpriteRenderer sr;
         Animator anim;
 
@@ -14,10 +16,6 @@ namespace TiedanSouls.World.Entities {
             this.mod = mod;
             sr = mod.GetComponentInChildren<SpriteRenderer>();
             anim = mod.GetComponent<Animator>();
-        }
-
-        public void SetLocalScale(Vector3 localScale) {
-            mod.transform.localScale = localScale;
         }
 
         public void Anim_PlayIdle() {

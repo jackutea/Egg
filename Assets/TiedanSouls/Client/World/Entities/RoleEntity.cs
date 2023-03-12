@@ -211,16 +211,20 @@ namespace TiedanSouls.World.Entities {
             moveCom.Move(moveAxis, attrCom.MoveSpeed);
         }
 
-        public void SetFaceDirX(sbyte dirX) {
+        public void FaceTo(sbyte dirX) {
             if (dirX == 0) {
                 return;
             }
 
             this.faceDirX = dirX;
-            var scale = new Vector3(dirX, 1, 1);
-            logicRoot.localScale = scale;
+            var rot = logicRoot.localRotation;
+            if (dirX > 0) {
+                rot.y = 0;
+            } else {
+                rot.y = 180;
+            }
 
-            modCom.SetLocalScale(scale);
+            logicRoot.localRotation = rot;
         }
 
         public void Dash(Vector2 dir, Vector2 force) {
@@ -275,7 +279,7 @@ namespace TiedanSouls.World.Entities {
             attrCom.HurtByAtk(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
             SetPos_Logic(rebornPos);
-            SyncRendererr();
+            SyncRenderer();
         }
 
         // ==== Phx ====
@@ -297,16 +301,22 @@ namespace TiedanSouls.World.Entities {
         }
 
         // ==== Renderer ====
-        public void SyncRendererr() {
+        public void SyncRenderer() {
             var logicPos = logicRoot.position;
             rendererRoot.position = logicPos;
             weaponRoot.position = logicPos;
+
+            modCom.Mod.transform.rotation = logicRoot.rotation;
+            weaponRoot.rotation = logicRoot.rotation;
         }
 
-        public void SyncRenderer(float dt) {
+        public void LerpRenderer(float dt) {
             var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
             rendererRoot.position = lerpPos;
             weaponRoot.position = lerpPos;
+
+            modCom.Mod.transform.rotation = logicRoot.rotation;
+            weaponRoot.rotation = logicRoot.rotation;
         }
 
     }
