@@ -71,7 +71,7 @@ namespace TiedanSouls.World.Entities {
             TDLog.Log("人物状态机切换 - 受伤 ");
         }
 
-        public void EnterDead(int maintainFrame) {
+        public void EnterDying(int maintainFrame) {
             state = RoleFSMState.Dying;
             var stateModel = dyingModel;
 

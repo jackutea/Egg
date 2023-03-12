@@ -64,16 +64,19 @@ namespace TiedanSouls.World.Facades {
             }
         }
 
-        public void SpawnByModel(SpawnModel spawnModel) {
+        public void SpawnByModel(in SpawnModel spawnModel) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;
             var allyType = spawnModel.allyType;
-            var ownerRoleSpawnPos = spawnModel.pos;
+            var controlType = spawnModel.controlType;
+            var isBoss = spawnModel.isBoss;
+            var spawnPos = spawnModel.pos;
+
             if (entityType == EntityType.Role) {
-                var role = roleDomain.SpawnRole(roleControlType, typeID, allyType, ownerRoleSpawnPos);
-                role.SetIsBoss(spawnModel.isBoss);
-                TDLog.Log($"人物: AllyType {allyType} / ControlType {role.ControlType} / TypeID {typeID} / RoleName {role.IDCom.EntityName} IsBoss {role.IsBoss} Spawned!");
+                var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                role.SetIsBoss(isBoss);
+                TDLog.Log($"人物: AllyType {allyType} / ControlType {controlType} / TypeID {typeID} / Name {role.IDCom.EntityName} / IsBoss {isBoss} Spawned!");
             } else {
                 TDLog.Error("Not Handle Yet!");
             }

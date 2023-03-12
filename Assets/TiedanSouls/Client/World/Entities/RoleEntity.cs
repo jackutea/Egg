@@ -156,9 +156,6 @@ namespace TiedanSouls.World.Entities {
             // - Weapon
             weaponSlotCom.Reset();
 
-            // - HUD
-            hudSlotCom.Reset();
-
             // - Attribute
             attrCom.Reset();
 
@@ -173,6 +170,10 @@ namespace TiedanSouls.World.Entities {
 
             // - Movement
             moveCom.LeaveGround();
+
+            // - HUD
+            hudSlotCom.Reset();
+            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
         }
 
         public void Hide() {

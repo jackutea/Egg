@@ -20,24 +20,34 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void TickFSM(RoleEntity role, float dt) {
-            if (role == null) {
-                return;
-            }
-            
+            if (role == null) return;
+
             var fsm = role.FSMCom;
+            if (fsm.IsExiting) return;
+            
+            Apply_AnyState(role, fsm, dt);
+
             if (fsm.State == RoleFSMState.Idle) {
-                Apply_Idle(role, dt);
+                Apply_Idle(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Casting) {
-                Apply_Casting(role, dt);
+                Apply_Casting(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.BeHit) {
-                Apply_BeHit(role, dt);
+                Apply_BeHit(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Dying) {
-                Apply_Dead(role, dt);
+                Apply_Dead(role, fsm, dt);
             }
         }
 
-        void Apply_Idle(RoleEntity role, float dt) {
-            var fsm = role.FSMCom;
+        void Apply_AnyState(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            if (fsm.State == RoleFSMState.Dying) return;
+
+            var roleDomain = worldDomain.RoleDomain;
+            if (roleDomain.CanEnterDying(role)) {
+                role.FSMCom.EnterDying(30);
+            }
+        }
+
+        void Apply_Idle(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.IdleModel;
             if (stateModel.isEntering) {
                 stateModel.isEntering = false;
@@ -73,8 +83,7 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void Apply_Casting(RoleEntity role, float dt) {
-            var fsm = role.FSMCom;
+        void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
             if (fsm.State != RoleFSMState.Casting) {
                 return;
             }
@@ -138,8 +147,7 @@ namespace TiedanSouls.World.Domain {
             castingSkill.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
         }
 
-        void Apply_BeHit(RoleEntity role, float dt) {
-            var fsm = role.FSMCom;
+        void Apply_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.BeHitModel;
 
             if (stateModel.isEntering) {
@@ -160,8 +168,7 @@ namespace TiedanSouls.World.Domain {
             stateModel.curFrame += 1;
         }
 
-        void Apply_Dead(RoleEntity role, float dt) {
-            var fsm = role.FSMCom;
+        void Apply_Dead(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.DyingModel;
 
             if (stateModel.IsEntering) {
@@ -174,7 +181,7 @@ namespace TiedanSouls.World.Domain {
 
             if (stateModel.maintainFrame <= 0) {
                 var roleDomain = worldContext.WorldDomain.RoleDomain;
-                roleDomain.RoleDead(role);
+                roleDomain.Die(role);
                 fsm.SetIsExiting(true);
             }
 

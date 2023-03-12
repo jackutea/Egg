@@ -19,7 +19,7 @@ namespace TiedanSouls.World {
 
         public void SetPlayerRole(RoleEntity role) {
             if (playerRole != null) {
-                TDLog.Error("玩家角色已经被设置过了!");
+                TDLog.Warning("玩家角色已经被设置过了!");
                 return;
             }
             playerRole = role;
@@ -65,7 +65,7 @@ namespace TiedanSouls.World {
             }
         }
 
-        public void ForeachAll_AI(Action<RoleEntity> action) {
+        public void Foreach_AI(Action<RoleEntity> action) {
             var len = allAIRoles.Count;
             for (int i = 0; i < len; i++) {
                 var role = allAIRoles[i];
@@ -73,12 +73,12 @@ namespace TiedanSouls.World {
             }
         }
 
-        public void ForeachAll_EnemyOfPlayer(Action<RoleEntity> action) {
+        public void Foreach_EnemyOfPlayer(Action<RoleEntity> action) {
             var playerAllyType = playerRole.IDCom.AllyType;
-            ForeachAll_Enemy(playerAllyType, action);
+            Foreach_Enemy(playerAllyType, action);
         }
 
-        public void ForeachAll_Enemy(AllyType selfAllyType, Action<RoleEntity> action) {
+        public void Foreach_Enemy(AllyType selfAllyType, Action<RoleEntity> action) {
             var len = allAIRoles.Count;
             for (int i = 0; i < len; i++) {
                 var role = allAIRoles[i];
@@ -89,7 +89,7 @@ namespace TiedanSouls.World {
             }
         }
 
-        public void ForeachAllAIRoles_InField(int fieldTypeID, Action<RoleEntity> action) {
+        public void Foreach_AIFromField(int fieldTypeID, Action<RoleEntity> action) {
             if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
                 return;
             }

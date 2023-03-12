@@ -54,6 +54,7 @@ namespace TiedanSouls.World.Domain {
         }
 
         void ApplyFSMState_Spawning(FieldEntity field, float dt) {
+            var fieldTypeID = field.TypeID;
             var fsm = field.FSMComponent;
             var stateModel = fsm.SpawningModel;
             var roleRepo = worldContext.RoleRepo;
@@ -62,7 +63,6 @@ namespace TiedanSouls.World.Domain {
                 stateModel.SetIsEntering(false);
 
                 // 判断前置条件: 是否是重复加载关卡
-                var fieldTypeID = field.TypeID;
                 if (roleRepo.HasFieldRole(fieldTypeID)) {
                     roleRepo.ResetAllAIRolesInField(fieldTypeID, false);
                     stateModel.SetIsRespawning(true);
@@ -96,7 +96,7 @@ namespace TiedanSouls.World.Domain {
             // 刷新当前存活敌人数量
             int aliveEnemyCount = 0;
             int aliveBossCount = 0;
-            roleRepo.ForeachAll_EnemyOfPlayer((enemy) => {
+            roleRepo.Foreach_EnemyOfPlayer((enemy) => {
                 if (!enemy.AttrCom.IsDead()) {
                     aliveEnemyCount++;
                     if (enemy.IsBoss) aliveBossCount++;
@@ -118,23 +118,36 @@ namespace TiedanSouls.World.Domain {
             // 关卡实体生成
             var curFrame = stateModel.curFrame;
             bool hasBreakPoint = false;
+            var spawnArray = field.SpawnModelArray;
+            var len = spawnArray.Length;
+
             if (stateModel.IsRespawning) {
-                TDLog.Warning($"TODO: 如果有关卡来回切换重复加载的情况,就需要在这里处理关卡逻辑重复加载");
-            } else {
-                var spawnArray = field.SpawnModelArray;
-                var len = spawnArray.Length;
-                for (int i = 0; i < len; i++) {
-                    var spawnModel = spawnArray[i];
-                    if (spawnModel.spawnFrame == curFrame) {
+                roleRepo.Foreach_AIFromField(fieldTypeID, ((ai) => {
+                    ai.Reset();
+                    ai.Show();
+                    ai.HudSlotCom.ShowHUD();
+                    ai.SetPos_Logic(ai.BornPos);
+                }));
+                fsm.Enter_Finished();
+                return;
+            }
+
+            for (int i = 0; i < len; i++) {
+                var spawnModel = spawnArray[i];
+                if (spawnModel.spawnFrame == curFrame) {
+                    if (stateModel.IsRespawning) {
+                        // TODO: 从角色对象池里面取出来
+
+                    } else {
                         var worldDomain = worldContext.WorldDomain;
                         worldDomain.SpawnByModel(spawnModel);
-                        if (spawnModel.isBreakPoint) {
-                            hasBreakPoint = true;
-                        }
-
-                        stateModel.curSpawnedCount++;
-                        stateModel.aliveEnemyCount++;
                     }
+                    if (spawnModel.isBreakPoint) {
+                        hasBreakPoint = true;
+                    }
+
+                    stateModel.curSpawnedCount++;
+                    stateModel.aliveEnemyCount++;
                 }
             }
 

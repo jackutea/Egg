@@ -23,11 +23,14 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void Reset() {
-            hpBarHUD.gameObject.SetActive(false);
         }
 
         public void HideHUD() {
             hpBarHUD.gameObject.SetActive(false);
+        }
+
+        public void ShowHUD() {
+            hpBarHUD.gameObject.SetActive(true);
         }
 
     }

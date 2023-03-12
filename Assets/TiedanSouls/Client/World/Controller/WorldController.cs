@@ -32,7 +32,7 @@ namespace TiedanSouls.World.Controller {
 
         float resTime;
         public void Tick(float dt) {
-            worldDomain.RoleDomain.BackPlayerRInput();
+            worldDomain.RoleDomain.BackPlayerInput();
 
             resTime += dt;
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;

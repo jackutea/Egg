@@ -26,16 +26,17 @@ namespace TiedanSouls.World.Entities {
             this.loadingStateModel = new WorldFSMModel_LoadingState();
         }
 
-        public void EnterState_Loading(int fromFieldTypeID, int nextFieldTypeID, int doorIndex) {
+        public void EnterState_Loading(int fromFieldTypeID, int nextFieldTypeID, int doorIndex, int completeLoadingDelayFrame = 30) {
             this.state = WorldFSMState.Loading;
 
             loadingStateModel.SetIsEntering(true);
-            loadingStateModel.SetIsLoadingComplete(false);
+            loadingStateModel.SetIsLoadingCompleted(false);
             loadingStateModel.SetFromFieldTypeID(fromFieldTypeID);
             loadingStateModel.SetNextFieldTypeID(nextFieldTypeID);
             loadingStateModel.SetDoorIndex(doorIndex);
+            loadingStateModel.completeLoadingDelayFrame = completeLoadingDelayFrame;
 
-            TDLog.Log($"------> 世界状态: '{state}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex}");
+            TDLog.Log($"------> 世界状态: '{state}' FromFieldTypeID: {fromFieldTypeID} / NextFieldTypeID: {nextFieldTypeID} / DoorIndex: {doorIndex} / CompleteLoadingDelayFrame: {completeLoadingDelayFrame}");
         }
 
         public void EnterState_Lobby(int fieldTypeID) {

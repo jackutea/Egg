@@ -44,344 +44,6 @@ namespace TiedanSouls.World.Domain {
             return role;
         }
 
-        #region [Physics Event]
-
-        void OnFootTriggerEnter(RoleEntity role, Collider2D other) {
-            if (other.gameObject.layer == LayerCollection.GROUND) {
-                role.EnterGround();
-            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
-                role.EnterCrossPlatform();
-            }
-        }
-
-        void OnFootTriggerExit(RoleEntity role, Collider2D other) {
-            if (other.gameObject.layer == LayerCollection.GROUND) {
-                role.LeaveGround();
-            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
-                role.LeaveCrossPlatform();
-            }
-        }
-
-        void OnTriggerEnter_Skill(SkillModel skill, Collider2D other) {
-            var go = other.gameObject;
-            var otherRole = go.GetComponentInParent<RoleEntity>();
-            if (otherRole != null) {
-                SkillHitRole(skill, otherRole);
-            }
-        }
-
-        #endregion
-
-        // ==== Input ====
-        public void BackPlayerRInput() {
-            RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
-            if (playerRole == null) {
-                return;
-            }
-
-            var inputCom = playerRole.InputCom;
-            var inputGetter = infraContext.InputCore.Getter;
-
-            // - Move
-            Vector2 moveAxis = Vector2.zero;
-            if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
-                moveAxis.x = -1;
-            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
-                moveAxis.x = 1;
-            } else {
-                moveAxis.x = 0;
-            }
-
-            if (inputGetter.GetPressing(InputKeyCollection.MOVE_DOWN)) {
-                moveAxis.y = -1;
-            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
-                moveAxis.y = 1;
-            } else {
-                moveAxis.y = 0;
-            }
-            inputCom.SetInput_Locomotion_Move(moveAxis);
-
-            // - Jump
-            if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
-                inputCom.SetInput_Locomotion_Jump(true);
-            }
-
-            // - Skill Melee && HoldMelee
-            if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
-                inputCom.SetInput_Skill__Melee(true);
-            }
-
-            // - Skill SpecMelee
-            if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
-                inputCom.SetInput_Skill_SpecMelee(true);
-            }
-
-            // - Skill BoomMelee
-            if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
-                inputCom.SetInput_Skill_BoomMelee(true);
-            }
-
-            // - Skill Infinity
-            if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
-                inputCom.SetInput_Skill_Infinity(true);
-            }
-
-            // - Skill Dash
-            if (inputGetter.GetDown(InputKeyCollection.DASH)) {
-                inputCom.SetInput_Skill_Dash(true);
-            }
-
-            // - Pick
-            if (inputGetter.GetDown(InputKeyCollection.PICK)) {
-                inputCom.SetInput_Basic_Pick(true);
-            }
-
-            // - Choose Point
-            if (inputGetter.GetDown(InputKeyCollection.CHOOSE_POINT)) {
-                inputCom.SetInput_Basic_ChoosePoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            }
-        }
-
-        #region [Locomotion]
-
-        public void Move(RoleEntity role) {
-            role.Move();
-        }
-
-        public void SetRoleFaceDirX(RoleEntity role, sbyte dirX) {
-            role.SetFaceDirX(dirX);
-        }
-
-        public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
-            role.Dash(dir, force);
-        }
-
-        public void Jump(RoleEntity role) {
-            role.Jump();
-        }
-
-        public void CrossDown(RoleEntity role) {
-            role.TryCrossDown();
-        }
-
-        public void Falling(RoleEntity role, float dt) {
-            if (role.MoveCom.IsGrounded) {
-                return;
-            }
-
-            role.Falling(dt);
-        }
-
-        #endregion
-
-        #region [Cast]
-
-        public bool TryCastSkillByInput(RoleEntity role) {
-            var inputCom = role.InputCom;
-            SkillType inputSkillType = inputCom.GetSkillType();
-            if (inputSkillType == SkillType.None) {
-                return false;
-            }
-
-            var weaponSlotCom = role.WeaponSlotCom;
-            if (!weaponSlotCom.IsActive) {
-                TDLog.Warning($"无法施放技能 - 武器未激活");
-                return false;
-            }
-
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetOriginalSkillByType(inputSkillType, out var originalSkill)) {
-                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
-                return false;
-            }
-
-            int inputSkillTypeID = originalSkill.TypeID;
-
-            var fsm = role.FSMCom;
-            if (fsm.State == RoleFSMState.Idle) {
-                CastOriginalSkill(role, inputSkillTypeID);
-                return true;
-            }
-
-            // 技能连招逻辑
-            bool isCasting = fsm.State == RoleFSMState.Casting;
-            if (isCasting) {
-                var stateModel = fsm.CastingModel;
-                var castingSkillTypeID = stateModel.castingSkillTypeID;
-                SkillModel castingSkill;
-                if (stateModel.IsCombo) {
-                    skillSlotCom.TryGetComboSkill(castingSkillTypeID, out castingSkill);
-                } else {
-                    skillSlotCom.TryGetOriginalSkillByTypeID(castingSkillTypeID, out castingSkill);
-                }
-
-                if (CanCancelSkill(skillSlotCom, castingSkill, inputSkillTypeID, out var realSkillTypeID, out var isCombo)) {
-                    castingSkill.Reset();
-                    if (isCombo) {
-                        CastComboSkill(role, realSkillTypeID);
-                    } else {
-                        CastOriginalSkill(role, realSkillTypeID);
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillModel castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
-            realSkillTypeID = inputSkillTypeID;
-            isCombo = false;
-
-            if (!castingSkill.TryGetCurrentFrame(out var frame)) {
-                TDLog.Error($"技能未配置帧 - {castingSkill.TypeID} ");
-                return false;
-            }
-
-            var allCancelModels = frame.allCancelModels;
-            if (allCancelModels == null || allCancelModels.Length == 0) {
-                return false;
-            }
-
-            for (int i = 0; i < allCancelModels.Length; i++) {
-                SkillCancelModel cancel = allCancelModels[i];
-                int cancelSkillTypeID = cancel.skillTypeID;
-
-                if (cancel.isCombo) {
-                    // - Combo Cancel
-                    bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
-                    bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
-                    if (hasCombo && isComboInput) {
-                        realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
-                        isCombo = true;
-                        return true;
-                    }
-                } else {
-                    // - Normal Cancel
-                    bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
-                    bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
-                    if (hasOriginal && isOriginalInput) {
-                        isCombo = false;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        void CastOriginalSkill(RoleEntity role, int typeID) {
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetOriginalSkillByTypeID(typeID, out var skill)) {
-                TDLog.Error($"施放原始技能失败:{typeID} ");
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.EnterCasting(skill, false);
-        }
-
-        void CastComboSkill(RoleEntity role, int typeID) {
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetComboSkill(typeID, out var skill)) {
-                TDLog.Error($"施放连击技能失败:{typeID} ");
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.EnterCasting(skill, true);
-        }
-
-        #endregion
-
-        #region [Hit]
-
-        void SkillHitRole(SkillModel skill, RoleEntity other) {
-
-            var caster = skill.Owner;
-
-            // Me Check
-            if (caster == other) {
-                return;
-            }
-
-            // Ally Check
-            var casterIDCom = caster.IDCom;
-            var otherIDCom = other.IDCom;
-            if (casterIDCom.AllyType == otherIDCom.AllyType) {
-                return;
-            }
-
-            // Damage Arbit: Prevent Multi Hit
-            var damageArbitService = worldContext.DamageArbitService;
-            if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
-                return;
-            }
-            damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
-
-            SkillHitRole_Damage(caster, skill, other);
-            if (other.AttrCom.HP <= 0) {
-                RoleBeginDying(other);
-            } else {
-                RoleHitRole_FrameEffector(caster, skill, other);
-            }
-
-        }
-
-        void SkillHitRole_Damage(RoleEntity caster, SkillModel skill, RoleEntity other) {
-
-            // Weapon Damage
-            var curWeapon = caster.WeaponSlotCom.Weapon;
-            other.HitBeHit(curWeapon.atk);
-
-        }
-
-        void RoleHitRole_FrameEffector(RoleEntity caster, SkillModel skill, RoleEntity other) {
-
-            // Frame Effector
-            bool hasFrame = skill.TryGetCurrentFrame(out var frame);
-            if (!hasFrame) {
-                TDLog.Error("Failed to get frame");
-                return;
-            }
-
-            SkillFrameElement otherFrame = null;
-            var otherFSM = other.FSMCom;
-            if (otherFSM.State == RoleFSMState.Casting) {
-                var stateModel = otherFSM.CastingModel;
-                var skillID = stateModel.castingSkillTypeID;
-                var isCombo = stateModel.IsCombo;
-                SkillModel otherSkill;
-                if (isCombo) {
-                    other.SkillSlotCom.TryGetComboSkill(skillID, out otherSkill);
-                } else {
-                    other.SkillSlotCom.TryGetOriginalSkillByTypeID(skillID, out otherSkill);
-                }
-                otherSkill.TryGetCurrentFrame(out otherFrame);
-            }
-
-            var hitPower = frame.hitPower;
-            if (frame.hitPower != null) {
-
-                if (otherFrame != null && hitPower.breakPowerLevel < otherFrame.hitPower.sufferPowerLevel) {
-                    // Not Break
-                    return;
-                }
-
-                otherFSM.EnterBeHit(caster.GetPos_Logic(), hitPower);
-
-            }
-
-        }
-
-        #endregion
-
-        public void RoleBeginDying(RoleEntity role) {
-            var fsm = role.FSMCom;
-            role.SetAIStrategy(null);   //AI 关闭
-            fsm.EnterDead(30);  // TODO: 死亡时间
-        }
-
-        public void RoleDead(RoleEntity role) {
-            role.Hide();
-        }
-
         #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]
 
         public bool TryPickUpSomethingFromField(RoleEntity role) {
@@ -533,6 +195,353 @@ namespace TiedanSouls.World.Domain {
                 for (int j = 0; j < frameCount; j++) {
                     InitAllComboSkill(owner, skillSlotCom, nextFrames[j]);
                 }
+            }
+        }
+
+        #endregion
+
+        #region [Input]
+
+        public void BackPlayerInput() {
+            RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
+            if (playerRole == null) {
+                return;
+            }
+
+            var inputCom = playerRole.InputCom;
+            var inputGetter = infraContext.InputCore.Getter;
+
+            // - Move
+            Vector2 moveAxis = Vector2.zero;
+            if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
+                moveAxis.x = -1;
+            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
+                moveAxis.x = 1;
+            } else {
+                moveAxis.x = 0;
+            }
+
+            if (inputGetter.GetPressing(InputKeyCollection.MOVE_DOWN)) {
+                moveAxis.y = -1;
+            } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
+                moveAxis.y = 1;
+            } else {
+                moveAxis.y = 0;
+            }
+            inputCom.SetInput_Locomotion_Move(moveAxis);
+
+            // - Jump
+            if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
+                inputCom.SetInput_Locomotion_Jump(true);
+            }
+
+            // - Skill Melee && HoldMelee
+            if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
+                inputCom.SetInput_Skill__Melee(true);
+            }
+
+            // - Skill SpecMelee
+            if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
+                inputCom.SetInput_Skill_SpecMelee(true);
+            }
+
+            // - Skill BoomMelee
+            if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
+                inputCom.SetInput_Skill_BoomMelee(true);
+            }
+
+            // - Skill Infinity
+            if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
+                inputCom.SetInput_Skill_Infinity(true);
+            }
+
+            // - Skill Dash
+            if (inputGetter.GetDown(InputKeyCollection.DASH)) {
+                inputCom.SetInput_Skill_Dash(true);
+            }
+
+            // - Pick
+            if (inputGetter.GetDown(InputKeyCollection.PICK)) {
+                inputCom.SetInput_Basic_Pick(true);
+            }
+
+            // - Choose Point
+            if (inputGetter.GetDown(InputKeyCollection.CHOOSE_POINT)) {
+                inputCom.SetInput_Basic_ChoosePoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            }
+        }
+
+        #endregion
+
+        #region [Locomotion]
+
+        public void Move(RoleEntity role) {
+            role.Move();
+        }
+
+        public void SetRoleFaceDirX(RoleEntity role, sbyte dirX) {
+            role.SetFaceDirX(dirX);
+        }
+
+        public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
+            role.Dash(dir, force);
+        }
+
+        public void Jump(RoleEntity role) {
+            role.Jump();
+        }
+
+        public void CrossDown(RoleEntity role) {
+            role.TryCrossDown();
+        }
+
+        public void Falling(RoleEntity role, float dt) {
+            if (role.MoveCom.IsGrounded) {
+                return;
+            }
+
+            role.Falling(dt);
+        }
+
+        #endregion
+
+        #region [Role Casting Skill]
+
+        public bool TryCastSkillByInput(RoleEntity role) {
+            var inputCom = role.InputCom;
+            SkillType inputSkillType = inputCom.GetSkillType();
+            if (inputSkillType == SkillType.None) {
+                return false;
+            }
+
+            var weaponSlotCom = role.WeaponSlotCom;
+            if (!weaponSlotCom.IsActive) {
+                TDLog.Warning($"无法施放技能 - 武器未激活");
+                return false;
+            }
+
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetOriginalSkillByType(inputSkillType, out var originalSkill)) {
+                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
+                return false;
+            }
+
+            int inputSkillTypeID = originalSkill.TypeID;
+
+            var fsm = role.FSMCom;
+            if (fsm.State == RoleFSMState.Idle) {
+                CastOriginalSkill(role, inputSkillTypeID);
+                return true;
+            }
+
+            // 技能连招逻辑
+            bool isCasting = fsm.State == RoleFSMState.Casting;
+            if (isCasting) {
+                var stateModel = fsm.CastingModel;
+                var castingSkillTypeID = stateModel.castingSkillTypeID;
+                SkillModel castingSkill;
+                if (stateModel.IsCombo) {
+                    skillSlotCom.TryGetComboSkill(castingSkillTypeID, out castingSkill);
+                } else {
+                    skillSlotCom.TryGetOriginalSkillByTypeID(castingSkillTypeID, out castingSkill);
+                }
+
+                if (CanCancelSkill(skillSlotCom, castingSkill, inputSkillTypeID, out var realSkillTypeID, out var isCombo)) {
+                    castingSkill.Reset();
+                    if (isCombo) {
+                        CastComboSkill(role, realSkillTypeID);
+                    } else {
+                        CastOriginalSkill(role, realSkillTypeID);
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillModel castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
+            realSkillTypeID = inputSkillTypeID;
+            isCombo = false;
+
+            if (!castingSkill.TryGetCurrentFrame(out var frame)) {
+                TDLog.Error($"技能未配置帧 - {castingSkill.TypeID} ");
+                return false;
+            }
+
+            var allCancelModels = frame.allCancelModels;
+            if (allCancelModels == null || allCancelModels.Length == 0) {
+                return false;
+            }
+
+            for (int i = 0; i < allCancelModels.Length; i++) {
+                SkillCancelModel cancel = allCancelModels[i];
+                int cancelSkillTypeID = cancel.skillTypeID;
+
+                if (cancel.isCombo) {
+                    // - Combo Cancel
+                    bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
+                    bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
+                    if (hasCombo && isComboInput) {
+                        realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
+                        isCombo = true;
+                        return true;
+                    }
+                } else {
+                    // - Normal Cancel
+                    bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
+                    bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
+                    if (hasOriginal && isOriginalInput) {
+                        isCombo = false;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        void CastOriginalSkill(RoleEntity role, int typeID) {
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetOriginalSkillByTypeID(typeID, out var skill)) {
+                TDLog.Error($"施放原始技能失败:{typeID} ");
+                return;
+            }
+            var fsm = role.FSMCom;
+            fsm.EnterCasting(skill, false);
+        }
+
+        void CastComboSkill(RoleEntity role, int typeID) {
+            var skillSlotCom = role.SkillSlotCom;
+            if (!skillSlotCom.TryGetComboSkill(typeID, out var skill)) {
+                TDLog.Error($"施放连击技能失败:{typeID} ");
+                return;
+            }
+            var fsm = role.FSMCom;
+            fsm.EnterCasting(skill, true);
+        }
+
+        #endregion
+
+        #region [Role Hit]
+
+        void BeHitBySkill(RoleEntity other, SkillModel skill) {
+
+            var caster = skill.Owner;
+
+            // Me Check
+            if (caster == other) {
+                return;
+            }
+
+            // Ally Check
+            var casterIDCom = caster.IDCom;
+            var otherIDCom = other.IDCom;
+            if (casterIDCom.AllyType == otherIDCom.AllyType) {
+                return;
+            }
+
+            // Damage Arbit: Prevent Multi Hit
+            var damageArbitService = worldContext.DamageArbitService;
+            if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
+                return;
+            }
+            damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
+
+            DamagedBySkill(caster, skill, other);
+            if (other.AttrCom.HP <= 0) {
+                BeginDying(other);
+            } else {
+                FrameEffector(caster, skill, other);
+            }
+
+        }
+
+        void DamagedBySkill(RoleEntity caster, SkillModel skill, RoleEntity other) {
+            // Weapon Damage
+            var curWeapon = caster.WeaponSlotCom.Weapon;
+            other.HitBeHit(curWeapon.atk);
+        }
+
+        void FrameEffector(RoleEntity caster, SkillModel skill, RoleEntity other) {
+
+            // Frame Effector
+            bool hasFrame = skill.TryGetCurrentFrame(out var frame);
+            if (!hasFrame) {
+                TDLog.Error("Failed to get frame");
+                return;
+            }
+
+            SkillFrameElement otherFrame = null;
+            var otherFSM = other.FSMCom;
+            if (otherFSM.State == RoleFSMState.Casting) {
+                var stateModel = otherFSM.CastingModel;
+                var skillID = stateModel.castingSkillTypeID;
+                var isCombo = stateModel.IsCombo;
+                SkillModel otherSkill;
+                if (isCombo) {
+                    other.SkillSlotCom.TryGetComboSkill(skillID, out otherSkill);
+                } else {
+                    other.SkillSlotCom.TryGetOriginalSkillByTypeID(skillID, out otherSkill);
+                }
+                otherSkill.TryGetCurrentFrame(out otherFrame);
+            }
+
+            var hitPower = frame.hitPower;
+            if (frame.hitPower != null) {
+
+                if (otherFrame != null && hitPower.breakPowerLevel < otherFrame.hitPower.sufferPowerLevel) {
+                    // Not Break
+                    return;
+                }
+
+                otherFSM.EnterBeHit(caster.GetPos_Logic(), hitPower);
+
+            }
+
+        }
+
+        #endregion
+
+        #region [Role State]
+
+        public void BeginDying(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.EnterDying(30);
+        }
+
+        public void Die(RoleEntity role) {
+            role.Hide();
+        }
+
+        public bool CanEnterDying(RoleEntity role) {
+            var attrCom = role.AttrCom;
+            return attrCom.HP <= 0;
+        }
+
+        #endregion
+
+        #region [Role Physics Event]
+
+        void OnFootTriggerEnter(RoleEntity role, Collider2D other) {
+            if (other.gameObject.layer == LayerCollection.GROUND) {
+                role.EnterGround();
+            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
+                role.EnterCrossPlatform();
+            }
+        }
+
+        void OnFootTriggerExit(RoleEntity role, Collider2D other) {
+            if (other.gameObject.layer == LayerCollection.GROUND) {
+                role.LeaveGround();
+            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
+                role.LeaveCrossPlatform();
+            }
+        }
+
+        void OnTriggerEnter_Skill(SkillModel skill, Collider2D other) {
+            var go = other.gameObject;
+            var otherRole = go.GetComponentInParent<RoleEntity>();
+            if (otherRole != null) {
+                BeHitBySkill(otherRole, skill);
             }
         }
 
