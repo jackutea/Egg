@@ -15,13 +15,15 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
         // - Combo
         public int originalSkillTypeID;
 
-        public HitPowerEM[] hitPowerEMs;
+        [Header("打击力")] public HitPowerEM[] hitPowerEMArray;
+
+        [Header("技能检测")] public CollisionTriggerEM[] colliderTriggerEMArray;
 
         // - Renderer
         [SerializeField] public AnimationClip weaponAnim;
 
         [ContextMenu("保存配置")]
-        void Save() {
+        void SaveToSO() {
             var skillTM = EM2TMUtil.GetTM_Skill(this);
             so.tm = skillTM;
         }

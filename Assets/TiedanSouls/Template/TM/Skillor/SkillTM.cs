@@ -20,6 +20,9 @@ namespace TiedanSouls.Template {
         // - Hit Power
         public HitPowerTM[] hitPowerArray;
 
+        // - Collision Trigger
+        public CollisionTriggerTM[] collisionTriggerTMArray;
+
         public SkillTM() { }
 
     }

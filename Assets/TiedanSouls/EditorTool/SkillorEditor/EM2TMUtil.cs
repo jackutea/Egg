@@ -14,7 +14,8 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
             tm.skillType = editorGo.skillType;
             tm.originalSkillTypeID = editorGo.originalSkillTypeID;
             tm.weaponAnimName = editorGo.weaponAnim.name;
-            tm.hitPowerArray = GetTM_HitPowerArray(editorGo.hitPowerEMs);
+            tm.hitPowerArray = GetTM_HitPowerArray(editorGo.hitPowerEMArray);
+            tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger(editorGo.colliderTriggerEMArray);
             return tm;
         }
 
@@ -86,6 +87,68 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
                 knockUpVelocityArray[i] = Mathf.RoundToInt(speed);
             }
             tm.knockUpVelocityArray_cm = knockUpVelocityArray;
+
+            return tm;
+        }
+
+        #endregion
+
+        #region [ColliderTrigger]
+
+        public static CollisionTriggerTM[] GetTMArray_CollisionTrigger(CollisionTriggerEM[] emArray) {
+            var len = emArray.Length;
+            var tmArray = new CollisionTriggerTM[len];
+            for (int i = 0; i < len; i++) {
+                tmArray[i] = GetTM_CollisionTrigger(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static CollisionTriggerTM GetTM_CollisionTrigger(CollisionTriggerEM em) {
+            CollisionTriggerTM tm = new CollisionTriggerTM();
+            tm.startFrame = em.startFrame;
+            tm.endFrame = em.endFrame;
+            tm.triggerIntervalFrame = em.triggerIntervalFrame;
+            tm.triggerMaintainFrame = em.triggerMaintainFrame;
+
+            tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
+
+            return tm;
+        }
+
+        #endregion
+
+        #region [Collider]
+
+        public static ColliderTM[] GetTMArray_Collider(GameObject[] colliderGOArray) {
+            var len = colliderGOArray.Length;
+            var colliderTMArray = new ColliderTM[len];
+            for (int i = 0; i < len; i++) {
+                colliderTMArray[i] = GetTM_Collider(colliderGOArray[i]);
+            }
+            return colliderTMArray;
+        }
+
+        public static ColliderTM GetTM_Collider(GameObject colliderGO) {
+            ColliderType colliderType = ColliderType.Cube;
+            Vector2 localPos = Vector3.zero;
+            float angleZ = 0;
+            Vector2 size = Vector3.one;
+
+            if (colliderGO.TryGetComponent<Collider2D>(out var collider2D)) {
+                colliderType = ColliderType.Cube;
+                localPos = colliderGO.transform.localPosition;
+                angleZ = colliderGO.transform.localEulerAngles.z;
+                size = collider2D.bounds.size;
+            } else {
+                Debug.LogError("未知的碰撞体类型");
+            }
+
+            ColliderTM tm = new ColliderTM();
+            tm.colliderType = colliderType;
+            tm.localPos = localPos;
+            tm.size = size;
+            tm.angleZ = angleZ;
 
             return tm;
         }

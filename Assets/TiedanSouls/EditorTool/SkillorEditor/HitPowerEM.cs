@@ -6,7 +6,6 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
     [Serializable]
     public class HitPowerEM {
 
-
         [Header("开始帧")] public int startFrame;
         [Header("结束帧")] public int endFrame;
 
