@@ -153,12 +153,6 @@ namespace TiedanSouls.World.Domain {
                 skillModel.SetID(idService.PickSkillID());
                 skillModel.SetOwner(role);
                 skillSlotCom.AddOriginalSkill(skillModel);
-
-                var frames = skillTM.frames;
-                var frameCout = frames.Length;
-                for (int j = 0; j < frameCout; j++) {
-                    InitAllComboSkill(role, skillSlotCom, frames[j]);
-                }
             }
         }
 
@@ -190,11 +184,6 @@ namespace TiedanSouls.World.Domain {
                 comboSkillModel.SetOwner(owner);
                 skillSlotCom.AddComboSkill(comboSkillModel);
 
-                var nextFrames = comboSkillTM.frames;
-                var frameCount = nextFrames.Length;
-                for (int j = 0; j < frameCount; j++) {
-                    InitAllComboSkill(owner, skillSlotCom, nextFrames[j]);
-                }
             }
         }
 
@@ -462,40 +451,6 @@ namespace TiedanSouls.World.Domain {
         }
 
         void FrameEffector(RoleEntity caster, SkillModel skill, RoleEntity other) {
-
-            // Frame Effector
-            bool hasFrame = skill.TryGetCurrentFrame(out var frame);
-            if (!hasFrame) {
-                TDLog.Error("Failed to get frame");
-                return;
-            }
-
-            SkillFrameElement otherFrame = null;
-            var otherFSM = other.FSMCom;
-            if (otherFSM.State == RoleFSMState.Casting) {
-                var stateModel = otherFSM.CastingModel;
-                var skillID = stateModel.castingSkillTypeID;
-                var isCombo = stateModel.IsCombo;
-                SkillModel otherSkill;
-                if (isCombo) {
-                    other.SkillSlotCom.TryGetComboSkill(skillID, out otherSkill);
-                } else {
-                    other.SkillSlotCom.TryGetOriginalSkillByTypeID(skillID, out otherSkill);
-                }
-                otherSkill.TryGetCurrentFrame(out otherFrame);
-            }
-
-            var hitPower = frame.hitPower;
-            if (frame.hitPower != null) {
-
-                if (otherFrame != null && hitPower.breakPowerLevel < otherFrame.hitPower.sufferPowerLevel) {
-                    // Not Break
-                    return;
-                }
-
-                otherFSM.EnterBeHit(caster.GetPos_Logic(), hitPower);
-
-            }
 
         }
 

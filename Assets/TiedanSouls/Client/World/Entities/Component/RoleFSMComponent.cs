@@ -63,9 +63,9 @@ namespace TiedanSouls.World.Entities {
 
             stateModel.Reset();
             stateModel.fromPos = fromPos;
-            stateModel.knockbackForce = hitPowerModel.knockbackForce;
-            stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
-            stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
+            // stateModel.knockbackForce = hitPowerModel.knockbackForce;
+            // stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
+            // stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
             stateModel.curFrame = 0;
             stateModel.isEntering = true;
             TDLog.Log("人物状态机切换 - 受伤 ");

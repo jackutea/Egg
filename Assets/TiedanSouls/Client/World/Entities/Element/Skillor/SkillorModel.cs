@@ -43,25 +43,6 @@ namespace TiedanSouls.World.Entities {
 
         public void FromTM(Template.SkillTM tm) {
 
-            // - Identity
-            typeID = tm.typeID;
-            skillType = tm.skillType;
-
-            // - Combo
-            originalSkillTypeID = tm.originalSkillTypeID;
-
-            // - Frames
-            if (tm.frames != null) {
-                var frames = new SkillFrameElement[tm.frames.Length];
-                for (int i = 0; i < frames.Length; i += 1) {
-                    frames[i] = new SkillFrameElement(this);
-                    frames[i].FromTM(tm.frames[i]);
-                }
-                this.allFrames = frames;
-            }
-
-            // - Renderer
-            weaponAnimName = tm.weaponAnimName;
 
         }
 

@@ -14,13 +14,13 @@ namespace TiedanSouls.Template {
         // - Combo
         public int originalSkillTypeID;
 
-        // - Frame
-        public SkillFrameTM[] frames;
-
         // - Renderer
         public string weaponAnimName;
-        
-         public SkillTM() { }
+
+        // - Hit Power
+        public HitPowerTM[] hitPowerArray;
+
+        public SkillTM() { }
 
     }
 

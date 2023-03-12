@@ -1,24 +1,16 @@
+using UnityEngine;
+
 namespace TiedanSouls.Generic {
 
-    public class HitPowerModel {
+    public struct HitPowerModel {
 
-        // ==== Attack ====
-        public float knockbackForce;
-        public short knockbackFrame;
+        public int startFrame;
+        public int endFrame;
+        public float[] damageArray;
+        public int[] hitStunFrameArray;
 
-        public float blowUpForce;
-
-        public short hitStunFrame;
-
-        public short breakPowerLevel;
-
-        // ==== Defense ====
-        public short sufferPowerLevel;
-
-        // ==== Other ====
-        public short hitStopFrame;
-
-        public HitPowerModel() { }
+        public Vector2[] knockBackVelocityArray;
+        public Vector2[] knockUpVelocityArray;
 
     }
 
