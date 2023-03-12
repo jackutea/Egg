@@ -83,7 +83,7 @@ namespace TiedanSouls.World {
             // ID
             int id = idService.PickRoleID();
             var idCom = role.IDCom;
-            idCom.SetEntityD(id);
+            idCom.SetEntityID(id);
             idCom.SetTypeID(typeID);
             idCom.SetAlly(allyType);
             idCom.SetEntityName(roleTM.roleName);
@@ -129,19 +129,18 @@ namespace TiedanSouls.World {
             // TM
             var has = templateCore.AITemplate.TryGet(typeID, out AITM aiTM);
             if (!has) {
-                if (templateCore.AITemplate.TryGet(0, out AITM neutralTM))
-                {
-                    aiTM =neutralTM;
-                }             
+                if (templateCore.AITemplate.TryGet(0, out AITM neutralTM)) {
+                    aiTM = neutralTM;
+                }
                 TDLog.Warning("Failed to get AI template: " + typeID);
             }
 
             // Nodes
             var patrolAIPrecondition = new RolePatrolAIPrecondition(aiTM.sight);
             var followAIPrecondition = new RoleFollowAIPrecondition(aiTM.atkRange);
-            var followAIAction = new RoleFollowAIAction(aiTM.atkRange,aiTM.sight);
+            var followAIAction = new RoleFollowAIAction(aiTM.atkRange, aiTM.sight);
             var patrolAIAction = new RolePatrolAIAction(aiTM.sight);
-            var attackAIAction = new RoleAttackAIAction(aiTM.atkRange,aiTM.atkCD);
+            var attackAIAction = new RoleAttackAIAction(aiTM.atkRange, aiTM.atkCD);
 
             patrolAIPrecondition.Inject(role, worldContext);
             followAIPrecondition.Inject(role, worldContext);
@@ -245,6 +244,28 @@ namespace TiedanSouls.World {
             itemRepo.Add(itemEntity, fromFieldTypeID);
 
             return itemEntity;
+        }
+
+        #endregion
+
+        #region [Skill]
+
+        public bool TrySpawnSkillEntity(int skillTypeID, out SkillEntity skill) {
+            skill = null;
+
+            var skillTemplate = infraContext.TemplateCore.SkillTemplate;
+            if (!skillTemplate.TryGet(skillTypeID, out SkillTM skillTM)) {
+                TDLog.Error($"配置出错! 未找到技能模板数据: TypeID {skillTypeID}");
+                return false;
+            }
+
+            skill = new SkillEntity();
+            skill.SetOriginalSkillTypeID(skillTM.originalSkillTypeID);
+            skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerArray));
+            skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
+            skill.SetWeaponAnimName(skillTM.weaponAnimName);
+
+            return true;
         }
 
         #endregion

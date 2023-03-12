@@ -1,13 +1,23 @@
 namespace TiedanSouls.World.Entities {
 
+    public struct IDArgs {
+        public EntityType entityType;
+        public int entityID;
+        public int typeID;
+        public string entityName;
+        public AllyType allyType;
+    }
+
     public class IDComponent {
 
         // ==== Identity ====
-        public EntityType EntityType => EntityType.Role;
+        EntityType entityType;
+        public EntityType EntityType => entityType;
+        public void SetEntityType(EntityType value) => this.entityType = value;
 
         int entityID;
         public int EntityID => entityID;
-        public void SetEntityD(int value) => this.entityID = value;
+        public void SetEntityID(int value) => this.entityID = value;
 
         int typeID;
         public int TypeID => typeID;
@@ -20,6 +30,20 @@ namespace TiedanSouls.World.Entities {
         AllyType allyType;
         public AllyType AllyType => allyType;
         public void SetAlly(AllyType value) => this.allyType = value;
+
+        IDArgs father;
+        public IDArgs Father => father;
+        public void SetFather(IDArgs value) => this.father = value;
+
+        public IDArgs ToArgs() {
+            IDArgs args = new IDArgs();
+            args.entityType = entityType;
+            args.entityID = entityID;
+            args.typeID = typeID;
+            args.entityName = entityName;
+            args.allyType = allyType;
+            return args;
+        }
 
     }
 

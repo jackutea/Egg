@@ -389,30 +389,18 @@ namespace TiedanSouls.World.Domain {
         // }
 
         void CastOriginalSkill(RoleEntity role, int typeID) {
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetOriginalSkillByTypeID(typeID, out var skill)) {
-                TDLog.Error($"施放原始技能失败:{typeID} ");
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.EnterCasting(skill, false);
+          
         }
 
         void CastComboSkill(RoleEntity role, int typeID) {
-            var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TryGetComboSkill(typeID, out var skill)) {
-                TDLog.Error($"施放连击技能失败:{typeID} ");
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.EnterCasting(skill, true);
+        
         }
 
         #endregion
 
         #region [Role Hit]
 
-        void BeHitBySkill(RoleEntity other, SkillModel skill) {
+        void BeHitBySkill(RoleEntity other, SkillEntity skill) {
 
             // var caster = skill.Owner;
 
@@ -444,13 +432,13 @@ namespace TiedanSouls.World.Domain {
 
         }
 
-        void DamagedBySkill(RoleEntity caster, SkillModel skill, RoleEntity other) {
+        void DamagedBySkill(RoleEntity caster, SkillEntity skill, RoleEntity other) {
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
             other.HitBeHit(curWeapon.atk);
         }
 
-        void FrameEffector(RoleEntity caster, SkillModel skill, RoleEntity other) {
+        void FrameEffector(RoleEntity caster, SkillEntity skill, RoleEntity other) {
 
         }
 
@@ -492,7 +480,7 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void OnTriggerEnter_Skill(SkillModel skill, Collider2D other) {
+        void OnTriggerEnter_Skill(SkillEntity skill, Collider2D other) {
             var go = other.gameObject;
             var otherRole = go.GetComponentInParent<RoleEntity>();
             if (otherRole != null) {

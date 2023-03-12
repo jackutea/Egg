@@ -30,9 +30,6 @@ namespace TiedanSouls.World.Entities {
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
-        SkillSlotComponent skillSlotCom;
-        public SkillSlotComponent SkillSlotCom => skillSlotCom;
-
         WeaponSlotComponent weaponSlotCom;
         public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
 
@@ -137,7 +134,6 @@ namespace TiedanSouls.World.Entities {
             modCom = new RoleModComponent();
             fsmCom = new RoleFSMComponent();
             inputCom = new InputComponent();
-            skillSlotCom = new SkillSlotComponent();
         }
 
         public void TearDown() {
@@ -164,9 +160,6 @@ namespace TiedanSouls.World.Entities {
 
             // - Input
             inputCom.Reset();
-
-            // - Skill
-            skillSlotCom.Reset();
 
             // - Movement
             moveCom.LeaveGround();
