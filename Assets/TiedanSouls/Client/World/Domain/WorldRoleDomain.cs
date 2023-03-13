@@ -68,25 +68,14 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void PickUpWeapon(RoleEntity role, int weaponTypeID) {
-            // // Weapon
-            // SetWeaponSlotComponent(role, weaponTypeID);
+            SetWeaponSlotComponent(role, weaponTypeID);
 
-            // // Skill
-            // var curWeapon = role.WeaponSlotCom.Weapon;
-            // var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            // if (skillTypeIDArray != null) {
-            //     InitRoleSkillSlotCom(role, skillTypeIDArray);
-            // }
-
-            // role.SkillSlotCom.ForeachAllOriginalSkill((skill) => {
-            //     TDLog.Log($"添加技能触发器 - {skill.TypeID}");
-            //     skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
-            // });
-
-            // role.SkillSlotCom.ForeachAllComboSkill((skill) => {
-            //     TDLog.Log($"添加技能触发器 - {skill.TypeID}");
-            //     skill.OnTriggerEnterHandle += OnTriggerEnter_Skill;
-            // });
+            // Skill
+            var curWeapon = role.WeaponSlotCom.Weapon;
+            var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
+            if (skillTypeIDArray != null) {
+                InitSkillSlotCom(role.SkillSlotCom, skillTypeIDArray);
+            }
         }
 
         void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
@@ -136,24 +125,25 @@ namespace TiedanSouls.World.Domain {
             return weapon;
         }
 
-        void InitRoleSkillSlotCom(RoleEntity role, int[] typeIDArray) {
-            // var templateCore = infraContext.TemplateCore;
-            // var idService = worldContext.IDService;
-            // var skillSlotCom = role.SkillSlotCom;
+        void InitSkillSlotCom(SkillSlotComponent skillSlotCom, int[] typeIDArray) {
+            var templateCore = infraContext.TemplateCore;
+            var idService = worldContext.IDService;
+            var factory = worldContext.WorldFactory;
 
-            // var len = typeIDArray.Length;
-            // for (int i = 0; i < len; i++) {
-            //     var typeID = typeIDArray[i];
-            //     if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
-            //         continue;
-            //     }
+            var len = typeIDArray.Length;
+            for (int i = 0; i < len; i++) {
+                var typeID = typeIDArray[i];
+                if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
+                    continue;
+                }
 
-            //     var skillModel = new SkillModel();
-            //     skillModel.FromTM(skillTM);
-            //     skillModel.SetID(idService.PickSkillID());
-            //     skillModel.SetOwner(role);
-            //     skillSlotCom.AddOriginalSkill(skillModel);
-            // }
+                if (!factory.TrySpawnSkillEntity(skillTM.typeID, out SkillEntity skillModel)) {
+                    continue;
+                }
+
+                var idCom = skillModel.IDCom;
+                idCom.SetEntityID(idService.PickSkillID());
+            }
         }
 
         // void InitAllComboSkill(object owner, SkillSlotComponent skillSlotCom, SkillFrameTM frameTM) {
@@ -389,11 +379,11 @@ namespace TiedanSouls.World.Domain {
         // }
 
         void CastOriginalSkill(RoleEntity role, int typeID) {
-          
+
         }
 
         void CastComboSkill(RoleEntity role, int typeID) {
-        
+
         }
 
         #endregion

@@ -5,9 +5,6 @@ namespace TiedanSouls.World.Entities {
 
     public class RoleEntity : MonoBehaviour {
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
-
         ControlType controlType;
         public ControlType ControlType => controlType;
         public void SetControlType(ControlType value) => this.controlType = value;
@@ -18,20 +15,26 @@ namespace TiedanSouls.World.Entities {
 
         #region [Component]
 
+        IDComponent idCom;
+        public IDComponent IDCom => idCom;
+
         InputComponent inputCom;
         public InputComponent InputCom => inputCom;
 
         AttributeComponent attrCom;
         public AttributeComponent AttrCom => attrCom;
 
-        RoleFSMComponent fsmCom;
-        public RoleFSMComponent FSMCom => fsmCom;
+        SkillSlotComponent skillSlotCom;
+        public SkillSlotComponent SkillSlotCom => skillSlotCom;
 
         [SerializeField] MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
         WeaponSlotComponent weaponSlotCom;
         public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
+
+        RoleFSMComponent fsmCom;
+        public RoleFSMComponent FSMCom => fsmCom;
 
         RoleModComponent modCom;
         public RoleModComponent ModCom => modCom;
@@ -87,7 +90,6 @@ namespace TiedanSouls.World.Entities {
         #endregion
 
         public void Ctor() {
-
             faceDirX = 1;
 
             // - Root
@@ -134,6 +136,7 @@ namespace TiedanSouls.World.Entities {
             modCom = new RoleModComponent();
             fsmCom = new RoleFSMComponent();
             inputCom = new InputComponent();
+            skillSlotCom = new SkillSlotComponent();
         }
 
         public void TearDown() {
