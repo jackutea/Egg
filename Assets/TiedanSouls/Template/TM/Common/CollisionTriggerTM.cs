@@ -12,7 +12,7 @@ namespace TiedanSouls.Template {
         [Header("触发间隔")] public int triggerIntervalFrame;
         [Header("触发时间")] public int triggerMaintainFrame;
 
-        [Header("碰撞盒")] public ColliderTM[] colliderTMArray;
+        [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
 
     }
 

@@ -5,6 +5,7 @@ using TiedanSouls.World.Entities;
 using TiedanSouls.World.Facades;
 using TiedanSouls.Template;
 using TiedanSouls.Generic;
+using System;
 
 namespace TiedanSouls.World {
 
@@ -260,8 +261,10 @@ namespace TiedanSouls.World {
             }
 
             skill = new SkillEntity();
-            skill.SetOriginalSkillTypeID(skillTM.originalSkillTypeID);
-            skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerArray));
+            skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
+            skill.SetComboSkillTypeIDArray(skillTM.comboSkillCancelTMArray.Clone() as SkillCancelModel[]);
+            skill.SetCancelSkillTypeIDArray(skillTM.cancelSkillCancelTMArray.Clone() as SkillCancelModel[]);
+            skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerTMArray));
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 

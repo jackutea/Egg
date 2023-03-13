@@ -8,8 +8,10 @@ namespace TiedanSouls.World.Entities {
         // 原始技能名单 ( Key = TypeID )
         Dictionary<int, SkillEntity> skillDic_origin;
 
-        // 组合技能名单 ( Key = TypeID )
+        // 连招技能名单 ( Key = TypeID )
         Dictionary<int, SkillEntity> skillDic_combo;
+
+        // 可强制取消
 
         public SkillSlotComponent() {
             skillDic_origin = new Dictionary<int, SkillEntity>();

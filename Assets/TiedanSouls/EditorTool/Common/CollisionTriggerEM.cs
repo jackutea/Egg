@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillorEditor {
+namespace TiedanSouls.EditorTool.SkillEditor {
 
     [Serializable]
     public class CollisionTriggerEM {

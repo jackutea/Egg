@@ -68,14 +68,14 @@ namespace TiedanSouls.World.Domain {
         }
 
         public void PickUpWeapon(RoleEntity role, int weaponTypeID) {
+            // Weapon Slot
             SetWeaponSlotComponent(role, weaponTypeID);
 
-            // Skill
+            // Skill Slot
             var curWeapon = role.WeaponSlotCom.Weapon;
             var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            if (skillTypeIDArray != null) {
-                InitSkillSlotCom(role.SkillSlotCom, skillTypeIDArray);
-            }
+            AddAllSkillToSlot_Origin(role.SkillSlotCom, skillTypeIDArray);
+            AddAllSkillToSlot_Combo(role.SkillSlotCom);
         }
 
         void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
@@ -125,7 +125,7 @@ namespace TiedanSouls.World.Domain {
             return weapon;
         }
 
-        void InitSkillSlotCom(SkillSlotComponent skillSlotCom, int[] typeIDArray) {
+        void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
             var factory = worldContext.WorldFactory;
@@ -143,39 +143,33 @@ namespace TiedanSouls.World.Domain {
 
                 var idCom = skillModel.IDCom;
                 idCom.SetEntityID(idService.PickSkillID());
+
+                if (!skillSlotCom.TryAdd_Origin(skillModel)) {
+                    TDLog.Error($"添加技能失败! 已添加 '原始' 技能 - {typeID}");
+                }
             }
         }
 
-        // void InitAllComboSkill(object owner, SkillSlotComponent skillSlotCom, SkillFrameTM frameTM) {
-        //     var templateCore = infraContext.TemplateCore;
-        //     var idService = worldContext.IDService;
+        void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom) {
+            skillSlotCom.Foreach_Origin((skill) => {
+                var arry = skill.ComboSkillTypeIDArray;
+                var len = arry.Length;
+                for (int i = 0; i < len; i++) {
+                    var cancelModel = arry[i];
+                    var comboTypeID = cancelModel.skillTypeID;
+                    if (!worldContext.WorldFactory.TrySpawnSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
+                        continue;
+                    }
 
-        //     var cancelTMs = frameTM.cancelTMs;
-        //     var cancelCount = cancelTMs?.Length;
-        //     for (int i = 0; i < cancelCount; i++) {
-        //         var cancelTM = cancelTMs[i];
-        //         if (!cancelTM.isCombo) {
-        //             continue;
-        //         }
+                    var idCom = comboSkill.IDCom;
+                    idCom.SetEntityID(worldContext.IDService.PickSkillID());
 
-        //         var comboSkillTypeID = cancelTM.skillTypeID;
-        //         if (skillSlotCom.HasComboSkill(comboSkillTypeID)) {
-        //             continue;
-        //         }
-
-        //         if (!templateCore.SkillTemplate.TryGet(comboSkillTypeID, out SkillTM comboSkillTM)) {
-        //             TDLog.Error($"加载连击技能失败 - TypeID {comboSkillTypeID} 不存在 ");
-        //             continue;
-        //         }
-
-        //         var comboSkillModel = new SkillModel();
-        //         comboSkillModel.FromTM(comboSkillTM);
-        //         comboSkillModel.SetID(idService.PickSkillID());
-        //         comboSkillModel.SetOwner(owner);
-        //         skillSlotCom.AddComboSkill(comboSkillModel);
-
-        //     }
-        // }
+                    if (!skillSlotCom.TryAdd_Combo(comboSkill)) {
+                        TDLog.Error($"添加技能失败! 已添加 '连招' 技能 - {comboTypeID}");
+                    }
+                }
+            });
+        }
 
         #endregion
 

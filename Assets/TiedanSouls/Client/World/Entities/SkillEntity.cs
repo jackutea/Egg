@@ -7,10 +7,20 @@ namespace TiedanSouls.World.Entities {
         IDComponent idCom;
         public IDComponent IDCom => idCom;
 
-        // - Combo
+        // - 原始技能
         int originalSkillTypeID;
         public int OriginalSkillTypeID => this.originalSkillTypeID;
         public void SetOriginalSkillTypeID(int value) => this.originalSkillTypeID = value;
+
+        // - 连招技能
+        SkillCancelModel[] comboSkillTypeIDArray;
+        public SkillCancelModel[] ComboSkillTypeIDArray => this.comboSkillTypeIDArray;
+        public void SetComboSkillTypeIDArray(SkillCancelModel[] value) => this.comboSkillTypeIDArray = value;
+
+        // - 可强制取消技能
+        SkillCancelModel[] cancelSkillTypeIDArray;
+        public SkillCancelModel[] CancelSkillTypeIDArray => this.cancelSkillTypeIDArray;
+        public void SetCancelSkillTypeIDArray(SkillCancelModel[] value) => this.cancelSkillTypeIDArray = value;
 
         // - Hit Power
         HitPowerModel[] hitPowerArray;

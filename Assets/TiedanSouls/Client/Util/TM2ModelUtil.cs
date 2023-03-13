@@ -66,8 +66,8 @@ namespace TiedanSouls {
             model.endFrame = tm.endFrame;
             model.hitStunFrameArray = tm.hitStunFrameArray;
             model.damageArray = tm.damageArray;
-            model.knockBackVelocityArray = GetFloatArray_Shrink100(tm.knockBackVelocityArray_cm);
-            model.knockUpVelocityArray = GetFloatArray_Shrink100(tm.knockUpVelocityArray_cm);
+            model.knockBackVelocityArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
+            model.knockUpVelocityArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             return model;
         }
 

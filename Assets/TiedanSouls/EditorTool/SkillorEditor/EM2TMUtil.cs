@@ -1,21 +1,46 @@
 using TiedanSouls.Template;
+using UnityEditor;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillorEditor {
+namespace TiedanSouls.EditorTool.SkillEditor {
 
     public static class EM2TMUtil {
 
         #region [Skill]
 
-        public static SkillTM GetTM_Skill(SkillEditorGo editorGo) {
+        public static SkillTM GetTM_Skill(SkillEditorGO editorGo) {
             SkillTM tm = new SkillTM();
+
             tm.typeID = editorGo.typeID;
             tm.skillName = editorGo.skillName;
             tm.skillType = editorGo.skillType;
-            tm.originalSkillTypeID = editorGo.originalSkillTypeID;
-            tm.weaponAnimName = editorGo.weaponAnim.name;
-            tm.hitPowerArray = GetTM_HitPowerArray(editorGo.hitPowerEMArray);
+
+            tm.originSkillTypeID = editorGo.originSkillTypeID;
+            tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
+            tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
+            tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
+            tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
+
+            tm.hitPowerTMArray = GetTM_HitPowerArray(editorGo.hitPowerEMArray);
             tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger(editorGo.colliderTriggerEMArray);
+
+            return tm;
+        }
+
+        static SkillCancelTM[] GetTM_SkillCancel(SkillCancelEM[] ems) {
+            SkillCancelTM[] tms = new SkillCancelTM[ems.Length];
+            for (int i = 0; i < ems.Length; i++) {
+                tms[i] = GetTM_SkillCancel(ems[i]);
+            }
+            return tms;
+        }
+
+        static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
+            SkillCancelTM tm = new SkillCancelTM();
+            tm.skillTypeID = em.skillTypeID;
+            tm.isCombo = em.isCombo;
+            tm.startFrame = em.startFrame;
+            tm.endFrame = em.endFrame;
             return tm;
         }
 
@@ -35,10 +60,12 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
 
             HitPowerTM tm = new HitPowerTM();
+
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
 
-            var baseDamage = em.baseDamage;
+            // 伤害 根据曲线计算每一帧的伤害
+            var baseDamage = em.damageBase;
             var totalFrame = em.endFrame - em.startFrame + 1;
             int[] damageArray = new int[totalFrame];
             var damageCurve = em.damageCurve;
@@ -46,8 +73,10 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
                 damageArray[i] = Mathf.RoundToInt(damageCurve.Evaluate(logicIntervalTime * i) * baseDamage);
             }
             tm.damageArray = damageArray;
+            tm.damageBase = baseDamage;
 
-            var baseHitStunFrame = em.baseHitStunFrame;
+            // 打击顿帧 根据曲线计算每一帧的顿帧数
+            var baseHitStunFrame = em.hitStunFrameBase;
             int[] hitStunFrameArray = new int[totalFrame];
             var hitStunFrameCurve = em.hitStunFrameCurve;
             for (int i = 0; i < totalFrame; i++) {
@@ -55,38 +84,49 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
                 hitStunFrameArray[i] = hitStunFrame;
             }
             tm.hitStunFrameArray = hitStunFrameArray;
+            tm.hitStunFrameBase = baseHitStunFrame;
 
             // 击退 根据曲线计算每一帧的速度
             var knockBackDistance_cm = em.knockBackDistance_cm;
-            var knockBackFrame = em.knockBackFrame;
+            var knockBackCostFrame = em.knockBackCostFrame;
             var knockBackDisCurve = em.knockBackDisCurve;
-            int[] knockBackVelocityArray = new int[knockBackFrame];
-            for (int i = 0; i < knockBackFrame; i++) {
+            int[] knockBackSpeedArray = new int[knockBackCostFrame];
+            for (int i = 0; i < knockBackCostFrame; i++) {
                 var time1 = logicIntervalTime * i;
                 var time2 = time1 + 0.001f;
                 var dis1 = knockBackDisCurve.Evaluate(time1) * knockBackDistance_cm;
                 var dis2 = knockBackDisCurve.Evaluate(time2) * knockBackDistance_cm;
                 var disDiff = dis2 - dis1;
                 var speed = disDiff * 1000;
-                knockBackVelocityArray[i] = Mathf.RoundToInt(speed);
+                knockBackSpeedArray[i] = Mathf.RoundToInt(speed);
             }
-            tm.knockBackVelocityArray_cm = knockBackVelocityArray;
+            tm.knockBackSpeedArray_cm = knockBackSpeedArray;
+                tm.knockBackCostFrame = knockBackCostFrame;
+                tm.knockBackDistance_cm = knockBackDistance_cm;
 
             // 击飞 根据曲线计算每一帧的速度
             var knockUpHeight_cm = em.knockUpHeight_cm;
-            var knockUpFrame = em.knockUpFrame;
+            var knockUpCostFrame = em.knockUpCostFrame;
             var knockUpDisCurve = em.knockUpDisCurve;
-            int[] knockUpVelocityArray = new int[knockUpFrame];
-            for (int i = 0; i < knockUpFrame; i++) {
+            int[] knockUpSpeedArray = new int[knockUpCostFrame];
+            for (int i = 0; i < knockUpCostFrame; i++) {
                 var time1 = logicIntervalTime * i;
                 var time2 = time1 + 0.001f;
                 var dis1 = knockUpDisCurve.Evaluate(time1) * knockUpHeight_cm;
                 var dis2 = knockUpDisCurve.Evaluate(time2) * knockUpHeight_cm;
                 var disDiff = dis2 - dis1;
                 var speed = disDiff * 1000;
-                knockUpVelocityArray[i] = Mathf.RoundToInt(speed);
+                knockUpSpeedArray[i] = Mathf.RoundToInt(speed);
             }
-            tm.knockUpVelocityArray_cm = knockUpVelocityArray;
+            tm.knockUpSpeedArray_cm = knockUpSpeedArray;
+            tm.knockUpCostFrame = knockUpCostFrame;
+            tm.knockUpHeight_cm = knockUpHeight_cm;
+
+            // 曲线 Keyframe 保存
+            tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
+            tm.hitStunFrameCurve_KeyframeTMArray = GetTMArray_Keyframe(hitStunFrameCurve.keys);
+            tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve.keys);
+            tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve.keys);
 
             return tm;
         }
@@ -151,6 +191,19 @@ namespace TiedanSouls.EditorTool.SkillorEditor {
             tm.angleZ = angleZ;
 
             return tm;
+        }
+
+        #endregion
+
+        #region [KeyFrame]
+
+        public static KeyframeTM[] GetTMArray_Keyframe(Keyframe[] keyframeArray) {
+            var len = keyframeArray.Length;
+            var keyFrameArray = new KeyframeTM[len];
+            for (int i = 0; i < len; i++) {
+                keyFrameArray[i] = new KeyframeTM(keyframeArray[i]);
+            }
+            return keyFrameArray;
         }
 
         #endregion
