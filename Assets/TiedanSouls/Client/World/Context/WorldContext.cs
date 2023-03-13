@@ -31,6 +31,9 @@ namespace TiedanSouls.World.Facades {
         ItemRepo itemRepo;
         public ItemRepo ItemRepo => itemRepo;
 
+        SkillRepo skillRepo;
+        public SkillRepo SkillRepo => skillRepo;
+
         public WorldDomain WorldDomain { get; private set; }
 
         public WorldContext() {
@@ -44,6 +47,7 @@ namespace TiedanSouls.World.Facades {
             roleRepo = new RoleRepo();
             fieldRepo = new FieldRepo();
             itemRepo = new ItemRepo();
+            skillRepo = new SkillRepo();
         }
 
         public void Inject(WorldDomain worldDomain) {

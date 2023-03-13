@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TiedanSouls.Generic {
 
     public struct HitPowerModel {
