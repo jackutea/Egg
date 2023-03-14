@@ -272,9 +272,9 @@ namespace TiedanSouls.World {
             // 设置 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
             // 设置 连招技能清单
-            skill.SetComboSkillTypeIDArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
+            skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
             // 设置 取消技能清单
-            skill.SetCancelSkillTypeIDArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
+            skill.SetSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
             // 设置 打击力度
             skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerTMArray));
             // 设置 碰撞器

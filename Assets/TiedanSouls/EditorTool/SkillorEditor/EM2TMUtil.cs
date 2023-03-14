@@ -172,6 +172,11 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         }
 
         public static ColliderTM GetTM_Collider(GameObject colliderGO) {
+            if (colliderGO == null) {
+                Debug.LogWarning("碰撞器为空");
+                return null;
+            }
+
             ColliderType colliderType = ColliderType.Cube;
             Vector2 localPos = Vector3.zero;
             float angleZ = 0;
@@ -183,7 +188,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 angleZ = colliderGO.transform.localEulerAngles.z;
                 size = collider2D.bounds.size;
             } else {
-                Debug.LogError("未知的碰撞体类型");
+                Debug.LogError($"未知的碰撞器类型 {colliderGO.name}");
             }
 
             ColliderTM tm = new ColliderTM();
@@ -212,23 +217,25 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         #region [Misc]
 
-        static string[] GetRelativePathArray(GameObject[] beginArray, Transform end = null) {
-            var len = beginArray.Length;
+        static string[] GetRelativePathArray(GameObject[] goArray, Transform root = null) {
+            var len = goArray.Length;
             var pathArray = new string[len];
             for (int i = 0; i < len; i++) {
-                pathArray[i] = GetRelativePath(beginArray[i]?.transform, end);
+                var go = goArray[i];
+                if (go == null) continue;
+                pathArray[i] = GetRelativePath(go.transform, root);
             }
             return pathArray;
         }
 
-        static string GetRelativePath(Transform begin, Transform end = null) {
-            if (begin == end || begin == null) return "";
+        static string GetRelativePath(Transform begin, Transform root = null) {
+            if (begin == root || begin == null) return "";
 
             string path = begin.name;
             Transform parent = begin.parent;
             if (parent == null) return path;
-            
-            while (parent != null && parent.parent != end) {
+
+            while (parent != null && parent.parent != root) {
                 path = $"{parent.name}/{path}";
                 parent = parent.parent;
             }

@@ -154,10 +154,14 @@ namespace TiedanSouls.World.Domain {
 
         void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom) {
             skillSlotCom.Foreach_Origin((skill) => {
-                var arry = skill.ComboSkillTypeIDArray;
-                var len = arry.Length;
+                var cancelModelArray = skill.ComboSkillCancelModelArray;
+                AddComboSkill(skillSlotCom, cancelModelArray);
+            });
+
+            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray) {
+                var len = cancelModelArray?.Length;
                 for (int i = 0; i < len; i++) {
-                    var cancelModel = arry[i];
+                    var cancelModel = cancelModelArray[i];
                     var comboTypeID = cancelModel.skillTypeID;
                     if (!worldContext.WorldFactory.TrySpawnSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
                         continue;
@@ -167,12 +171,14 @@ namespace TiedanSouls.World.Domain {
                     idCom.SetEntityID(worldContext.IDService.PickSkillID());
 
                     if (!skillSlotCom.TryAdd_Combo(comboSkill)) {
-                        TDLog.Error($"添加技能失败! 已添加 '连招' 技能 - {comboTypeID}");
+                        TDLog.Error($"添加技能失败! - {comboTypeID}");
+                        continue;
                     }
 
                     TDLog.Log($"添加技能成功! 已添加 '连招' 技能 - {comboTypeID}");
+                    AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray);
                 }
-            });
+            }
         }
 
         #endregion

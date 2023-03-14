@@ -52,7 +52,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             GameObject[] colliderGOArray = new GameObject[pathCount];
             for (int i = 0; i < pathCount; i++) {
                 var path = colliderRelativePathArray[i];
-                var go = skillEditorTrans.Find(path).gameObject;
+                var go = skillEditorTrans.Find(path)?.gameObject;
                 colliderGOArray[i] = go;
             }
             em.colliderGOArray = colliderGOArray;

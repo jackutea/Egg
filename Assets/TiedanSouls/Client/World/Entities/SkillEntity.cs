@@ -22,14 +22,14 @@ namespace TiedanSouls.World.Entities {
         public void SetOriginalSkillTypeID(int value) => this.originalSkillTypeID = value;
 
         // - 连招技能
-        SkillCancelModel[] comboSkillTypeIDArray;
-        public SkillCancelModel[] ComboSkillTypeIDArray => this.comboSkillTypeIDArray;
-        public void SetComboSkillTypeIDArray(SkillCancelModel[] value) => this.comboSkillTypeIDArray = value;
+        SkillCancelModel[] comboSkillCancelModelArray;
+        public SkillCancelModel[] ComboSkillCancelModelArray => this.comboSkillCancelModelArray;
+        public void SetComboSkillCancelModelArray(SkillCancelModel[] value) => this.comboSkillCancelModelArray = value;
 
         // - 可强制取消技能
-        SkillCancelModel[] cancelSkillTypeIDArray;
-        public SkillCancelModel[] CancelSkillTypeIDArray => this.cancelSkillTypeIDArray;
-        public void SetCancelSkillTypeIDArray(SkillCancelModel[] value) => this.cancelSkillTypeIDArray = value;
+        SkillCancelModel[] skillCancelModelArray;
+        public SkillCancelModel[] SkillCancelModelArray => this.skillCancelModelArray;
+        public void SetSkillCancelModelArray(SkillCancelModel[] value) => this.skillCancelModelArray = value;
 
         // - 打击力度
         HitPowerModel[] hitPowerArray;
