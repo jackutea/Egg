@@ -18,6 +18,8 @@ namespace TiedanSouls.World.Entities {
             skillDic_combo = new Dictionary<int, SkillEntity>();
         }
 
+        #region [增加]
+
         public bool TryAdd_Origin(in SkillEntity skillSkillEntity) {
             var idCom = skillSkillEntity.IDCom;
             var tid = idCom.TypeID;
@@ -38,13 +40,9 @@ namespace TiedanSouls.World.Entities {
             return true;
         }
 
-        public bool TryGet_Origin(int tid, out SkillEntity skillSkillEntity) {
-            return skillDic_origin.TryGetValue(tid, out skillSkillEntity);
-        }
+        #endregion
 
-        public bool TryGet_Combo(int tid, out SkillEntity skillSkillEntity) {
-            return skillDic_combo.TryGetValue(tid, out skillSkillEntity);
-        }
+        #region [删除]
 
         public bool TryRemove_Origin(in SkillEntity skillSkillEntity) {
             var idCom = skillSkillEntity.IDCom;
@@ -66,6 +64,31 @@ namespace TiedanSouls.World.Entities {
             return true;
         }
 
+        #endregion
+
+        #region [查询]
+
+        public bool TryGet_Origin(int tid, out SkillEntity skillSkillEntity) {
+            return skillDic_origin.TryGetValue(tid, out skillSkillEntity);
+        }
+
+        public bool TryGet_Combo(int tid, out SkillEntity skillSkillEntity) {
+            return skillDic_combo.TryGetValue(tid, out skillSkillEntity);
+        }
+
+        public bool TrgGetOriginSkill_BySkillType(SkillType skillType, out SkillEntity skillSkillEntity) {
+            var e = skillDic_origin.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var skill = e.Current;
+                if (skill.SkillType == skillType) {
+                    skillSkillEntity = skill;
+                    return true;
+                }
+            }
+            skillSkillEntity = null;
+            return false;
+        }
+
         public void Foreach_Origin(Action<SkillEntity> action) {
             foreach (var skill in skillDic_origin.Values) {
                 action(skill);
@@ -77,6 +100,8 @@ namespace TiedanSouls.World.Entities {
                 action(skill);
             }
         }
+
+        #endregion
 
     }
 

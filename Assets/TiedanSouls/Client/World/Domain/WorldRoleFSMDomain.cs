@@ -68,18 +68,18 @@ namespace TiedanSouls.World.Domain {
             }
 
             // Idle状态下 释放技能
-            if (!roleDomain.TryCastSkillByInput(role)) {
-                var x = inputCom.MoveAxis.x;
-                var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
-                roleDomain.SetRoleFaceDirX(role, dirX);
-            } else {
+            if (roleDomain.TryCastSkillByInput(role)) {
                 var choosePoint = inputCom.ChoosePoint;
                 if (choosePoint != Vector2.zero) {
                     var rolePos = role.GetPos_LogicRoot();
                     var xDiff = choosePoint.x - rolePos.x;
                     var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
-                    roleDomain.SetRoleFaceDirX(role, dirX);
+                    roleDomain.FaceTo(role, dirX);
                 }
+            } else {
+                var x = inputCom.MoveAxis.x;
+                var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
+                roleDomain.FaceTo(role, dirX);
             }
         }
 

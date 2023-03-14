@@ -47,14 +47,15 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void EnterCasting(SkillEntity skillModel, bool isCombo) {
-            // state = RoleFSMState.Casting;
-            // var stateModel = castingModel;
+            state = RoleFSMState.Casting;
+            var stateModel = castingModel;
 
-            // stateModel.Reset();
-            // stateModel.castingSkillTypeID = skillModel.TypeID;
-            // stateModel.SetIsCombo(isCombo);
-            // stateModel.SetIsEntering(true);
-            // TDLog.Log($"人物状态机切换 - 施放技能TypeID {skillModel.TypeID} 连击 {isCombo}");
+            stateModel.Reset();
+            var skillTypeID =  skillModel.IDCom.TypeID;
+            stateModel.castingSkillTypeID =skillTypeID;
+            stateModel.SetIsCombo(isCombo);
+            stateModel.SetIsEntering(true);
+            TDLog.Log($"人物状态机切换 - 施放技能 {skillTypeID} 连击 {isCombo}");
         }
 
         public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {

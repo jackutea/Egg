@@ -7,6 +7,11 @@ namespace TiedanSouls.World.Entities {
         IDComponent idCom;
         public IDComponent IDCom => idCom;
 
+        // - 技能类型
+        SkillType skillType;
+        public SkillType SkillType => this.skillType;
+        public void SetSkillType(SkillType value) => this.skillType = value;
+
         // - 生命周期
         int startFrame;
         public int StartFrame => this.startFrame;
@@ -15,6 +20,8 @@ namespace TiedanSouls.World.Entities {
         int endFrame;
         public int EndFrame => this.endFrame;
         public void SetEndFrame(int value) => this.endFrame = value;
+
+        public int curFrame;
 
         // - 原始技能
         int originalSkillTypeID;
@@ -47,6 +54,25 @@ namespace TiedanSouls.World.Entities {
         public SkillEntity() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Skill);
+        }
+
+        public void Reset() {
+            curFrame = 0;
+        }
+
+        public bool TryGet_AllCurrentCancelModel(out SkillCancelModel[] cancelModel) {
+            cancelModel = default;
+            if (skillCancelModelArray == null) {
+                return false;
+            }
+            for (int i = 0; i < skillCancelModelArray.Length; i++) {
+                var model = skillCancelModelArray[i];
+                if (curFrame >= model.startFrame && curFrame <= model.endFrame) {
+                    cancelModel = model;
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

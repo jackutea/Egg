@@ -266,6 +266,8 @@ namespace TiedanSouls.World {
             var idCom = skill.IDCom;
             idCom.SetTypeID(skillTypeID);
             idCom.SetEntityName(skillTM.skillName);
+            // 设置 技能类型
+            skill.SetSkillType(skillTM.skillType);
             // 设置 生命周期
             skill.SetStartFrame(skillTM.startFrame);
             skill.SetEndFrame(skillTM.endFrame);
