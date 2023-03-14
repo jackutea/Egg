@@ -7,6 +7,15 @@ namespace TiedanSouls.World.Entities {
         IDComponent idCom;
         public IDComponent IDCom => idCom;
 
+        // - 生命周期
+        int startFrame;
+        public int StartFrame => this.startFrame;
+        public void SetStartFrame(int value) => this.startFrame = value;
+
+        int endFrame;
+        public int EndFrame => this.endFrame;
+        public void SetEndFrame(int value) => this.endFrame = value;
+
         // - 原始技能
         int originalSkillTypeID;
         public int OriginalSkillTypeID => this.originalSkillTypeID;
@@ -22,15 +31,15 @@ namespace TiedanSouls.World.Entities {
         public SkillCancelModel[] CancelSkillTypeIDArray => this.cancelSkillTypeIDArray;
         public void SetCancelSkillTypeIDArray(SkillCancelModel[] value) => this.cancelSkillTypeIDArray = value;
 
-        // - Hit Power
+        // - 打击力度
         HitPowerModel[] hitPowerArray;
         public void SetHitPowerArray(HitPowerModel[] value) => this.hitPowerArray = value;
 
-        // - Collision Trigger
+        // - 碰撞器
         CollisionTriggerModel[] collisionTriggerArray;
         public void SetCollisionTriggerArray(CollisionTriggerModel[] value) => this.collisionTriggerArray = value;
 
-        // - Renderer
+        // - 表现层
         string weaponAnimName;
         public string WeaponAnimName => this.weaponAnimName;
         public void SetWeaponAnimName(string value) => this.weaponAnimName = value;

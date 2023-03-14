@@ -261,11 +261,25 @@ namespace TiedanSouls.World {
             }
 
             skill = new SkillEntity();
+
+            // 设置 基础信息
+            var idCom = skill.IDCom;
+            idCom.SetTypeID(skillTypeID);
+            idCom.SetEntityName(skillTM.skillName);
+            // 设置 生命周期
+            skill.SetStartFrame(skillTM.startFrame);
+            skill.SetEndFrame(skillTM.endFrame);
+            // 设置 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
-            skill.SetComboSkillTypeIDArray(skillTM.comboSkillCancelTMArray.Clone() as SkillCancelModel[]);
-            skill.SetCancelSkillTypeIDArray(skillTM.cancelSkillCancelTMArray.Clone() as SkillCancelModel[]);
+            // 设置 连招技能清单
+            skill.SetComboSkillTypeIDArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
+            // 设置 取消技能清单
+            skill.SetCancelSkillTypeIDArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
+            // 设置 打击力度
             skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerTMArray));
+            // 设置 碰撞器
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
+            // 设置 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 
             return true;

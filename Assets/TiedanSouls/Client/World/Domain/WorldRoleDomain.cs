@@ -147,6 +147,8 @@ namespace TiedanSouls.World.Domain {
                 if (!skillSlotCom.TryAdd_Origin(skillModel)) {
                     TDLog.Error($"添加技能失败! 已添加 '原始' 技能 - {typeID}");
                 }
+
+                TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
             }
         }
 
@@ -167,6 +169,8 @@ namespace TiedanSouls.World.Domain {
                     if (!skillSlotCom.TryAdd_Combo(comboSkill)) {
                         TDLog.Error($"添加技能失败! 已添加 '连招' 技能 - {comboTypeID}");
                     }
+
+                    TDLog.Log($"添加技能成功! 已添加 '连招' 技能 - {comboTypeID}");
                 }
             });
         }

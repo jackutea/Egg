@@ -6,10 +6,14 @@ namespace TiedanSouls.Template {
     [Serializable]
     public class SkillTM {
 
-        [Header("基础信息 ------------------------ ")]
+        [Header("基础信息 =================================== ")]
         public int typeID;
         public string skillName;
         public SkillType skillType;
+
+        [Header("生命周期 =================================== ")]
+        [Header("开始帧")] public int startFrame;
+        [Header("结束帧")] public int endFrame;
 
         [Header("原始技能")] public int originSkillTypeID;
         [Header("连招技能名单")] public SkillCancelTM[] comboSkillCancelTMArray;

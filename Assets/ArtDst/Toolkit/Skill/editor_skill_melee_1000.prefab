@@ -304,6 +304,8 @@ MonoBehaviour:
   typeID: 1000
   skillName: "\u666E\u653B1\u6BB5"
   skillType: 1
+  startFrame: 0
+  endFrame: 15
   originSkillTypeID: 1000
   comboSkillCancelEMArray:
   - skillTypeID: 1010

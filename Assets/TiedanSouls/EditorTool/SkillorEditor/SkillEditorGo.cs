@@ -6,18 +6,23 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
     public class SkillEditorGO : MonoBehaviour {
 
-        public SkillSO so;
+        [Header("绑定配置文件")]public SkillSO so;
 
+        [Header("基础信息 =================================== ")]
         public int typeID;
         public string skillName;
         public SkillType skillType;
 
+        [Header("生命周期 =================================== ")]
+        [Header("开始帧")] public int startFrame;
+        [Header("结束帧")] public int endFrame;
+
         [Header("原始技能")] public int originSkillTypeID;
 
-        [Header("连招技能名单")] public SkillCancelEM[] comboSkillCancelEMArray;
-        [Header("可强制取消技能名单")] public SkillCancelEM[] cancelSkillCancelEMArray;
-        [Header("打击力度(组)")] public HitPowerEM[] hitPowerEMArray;
-        [Header("碰撞器(组)")] public CollisionTriggerEM[] colliderTriggerEMArray;
+        [Header("连招技能名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
+        [Header("可强制取消技能名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
+        [Header("打击力度(组) ===================================")] public HitPowerEM[] hitPowerEMArray;
+        [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
 
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 

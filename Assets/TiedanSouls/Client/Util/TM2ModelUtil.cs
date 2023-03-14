@@ -6,6 +6,27 @@ namespace TiedanSouls {
 
     public static class TM2ModelUtil {
 
+        #region 
+
+        public static SkillCancelModel[] GetModelArray_SkillCancel(SkillCancelTM[] tmArray) {
+            var len = tmArray.Length;
+            SkillCancelModel[] modelArray = new SkillCancelModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetModel_SkillCancel(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static SkillCancelModel GetModel_SkillCancel(SkillCancelTM tm) {
+            SkillCancelModel model;
+            model.skillTypeID = tm.skillTypeID;
+            model.isCombo = tm.isCombo;
+            model.startFrame = tm.startFrame;
+            model.endFrame = tm.endFrame;
+            return model;
+        }
+
+        #endregion
 
         #region [CollisionTrigger]
 
