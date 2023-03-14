@@ -1,3 +1,4 @@
+using System.Linq;
 using TiedanSouls.Template;
 using UnityEditor;
 using UnityEngine;
@@ -101,8 +102,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 knockBackSpeedArray[i] = Mathf.RoundToInt(speed);
             }
             tm.knockBackSpeedArray_cm = knockBackSpeedArray;
-                tm.knockBackCostFrame = knockBackCostFrame;
-                tm.knockBackDistance_cm = knockBackDistance_cm;
+            tm.knockBackCostFrame = knockBackCostFrame;
+            tm.knockBackDistance_cm = knockBackDistance_cm;
 
             // 击飞 根据曲线计算每一帧的速度
             var knockUpHeight_cm = em.knockUpHeight_cm;
@@ -152,6 +153,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.triggerMaintainFrame = em.triggerMaintainFrame;
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
+            tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;
         }
@@ -204,6 +206,33 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 keyFrameArray[i] = new KeyframeTM(keyframeArray[i]);
             }
             return keyFrameArray;
+        }
+
+        #endregion
+
+        #region [Misc]
+
+        static string[] GetRelativePathArray(GameObject[] beginArray, Transform end = null) {
+            var len = beginArray.Length;
+            var pathArray = new string[len];
+            for (int i = 0; i < len; i++) {
+                pathArray[i] = GetRelativePath(beginArray[i]?.transform, end);
+            }
+            return pathArray;
+        }
+
+        static string GetRelativePath(Transform begin, Transform end = null) {
+            if (begin == end || begin == null) return "";
+
+            string path = begin.name;
+            Transform parent = begin.parent;
+            if (parent == null) return path;
+            
+            while (parent != null && parent.parent != end) {
+                path = $"{parent.name}/{path}";
+                parent = parent.parent;
+            }
+            return path;
         }
 
         #endregion

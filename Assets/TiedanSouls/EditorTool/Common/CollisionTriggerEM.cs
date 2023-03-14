@@ -12,7 +12,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("触发间隔")] public int triggerIntervalFrame;
         [Header("触发时间")] public int triggerMaintainFrame;
 
-        [Header("碰撞盒")] public GameObject[] colliderGOArray;
+        [Header("碰撞器(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;
 
     }
 

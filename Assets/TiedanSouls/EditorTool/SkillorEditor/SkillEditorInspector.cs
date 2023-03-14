@@ -41,7 +41,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 editorGo.Save();
             }
             GUI.color = Color.yellow;
-            if (GUILayout.Button("加载", GUILayout.Width(200), GUILayout.Height(50))) {
+            if (GUILayout.Button("读取", GUILayout.Width(200), GUILayout.Height(50))) {
                 editorGo.Load();
             }
             GUI.color = color;

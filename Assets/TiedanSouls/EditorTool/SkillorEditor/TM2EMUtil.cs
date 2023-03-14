@@ -1,4 +1,5 @@
 using TiedanSouls.Template;
+using UnityEditor;
 using UnityEngine;
 
 namespace TiedanSouls.EditorTool.SkillEditor {
@@ -8,6 +9,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         #region [Skill]
 
         public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {
+            if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillCancelEM[] emArray = new SkillCancelEM[len];
             for (int i = 0; i < len; i++) {
@@ -41,8 +43,20 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             CollisionTriggerEM em = new CollisionTriggerEM();
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
-            em.triggerIntervalFrame= tm.triggerIntervalFrame;
-            em.triggerMaintainFrame= tm.triggerMaintainFrame;
+            em.triggerIntervalFrame = tm.triggerIntervalFrame;
+            em.triggerMaintainFrame = tm.triggerMaintainFrame;
+
+            var skillEditorTrans = Selection.activeGameObject.transform;
+            var colliderRelativePathArray = tm.colliderRelativePathArray;
+            var pathCount = colliderRelativePathArray.Length;
+            GameObject[] colliderGOArray = new GameObject[pathCount];
+            for (int i = 0; i < pathCount; i++) {
+                var path = colliderRelativePathArray[i];
+                var go = skillEditorTrans.Find(path).gameObject;
+                colliderGOArray[i] = go;
+            }
+            em.colliderGOArray = colliderGOArray;
+
             return em;
         }
 
@@ -94,7 +108,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         }
 
         public static Keyframe[] GetTMArray_Keyframe(KeyframeTM[] tmArray) {
-            if(tmArray == null) {
+            if (tmArray == null) {
                 Debug.LogWarning("KeyframeTM Array 为 null");
                 return null;
             }

@@ -14,6 +14,8 @@ namespace TiedanSouls.Template {
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
 
+        [Header("(仅用于编辑器) 碰撞盒相对路径(组)")] public string[] colliderRelativePathArray;
+
     }
 
 }
