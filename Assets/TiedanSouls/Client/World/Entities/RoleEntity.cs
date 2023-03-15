@@ -198,8 +198,12 @@ namespace TiedanSouls.World.Entities {
             return logicRoot.position;
         }
 
-        public float GetRot_Logic() {
+        public float GetAngleZ_Logic() {
             return logicRoot.rotation.z;
+        }
+
+        public Quaternion GetRot_Logic() {
+            return logicRoot.rotation;
         }
 
         public void Move() {

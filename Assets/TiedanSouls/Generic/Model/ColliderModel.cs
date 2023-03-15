@@ -7,9 +7,11 @@ namespace TiedanSouls.Generic {
     public struct ColliderModel {
 
         public ColliderType colliderType;
-        public Vector2 localPos;
+        public Vector3 localPos;
         public float localAngleZ;
-        public Vector2 size;
+        public Vector3 size;
+
+        public Quaternion localRot; // 运行时缓存
 
     }
 

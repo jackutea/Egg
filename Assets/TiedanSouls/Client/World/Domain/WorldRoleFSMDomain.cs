@@ -85,17 +85,16 @@ namespace TiedanSouls.World.Domain {
             var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
             _ = skillSlotCom.TryGet(skillTypeID, isCombo, out var castingSkill);
+            var roleDomain = worldDomain.RoleDomain;
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-                castingSkill.SetRootPos(role.GetPos_Logic());
+
+                // 根据 鼠标点击 改变朝向
+                roleDomain.FaceToChoosePoint(role);
+
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
-
-            var roleDomain = worldDomain.RoleDomain;
-
-            // 根据 鼠标点击 改变朝向
-            roleDomain.FaceToChoosePoint(role);
 
             // 尝试 技能组合技
             if (roleDomain.TryCastSkillByInput(role)) {
@@ -107,8 +106,8 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
 
-            // Next Frame
-            if (!castingSkill.TryMoveNext(new Vector2(2, 0))) {
+            // 技能逻辑迭代
+            if (!castingSkill.TryMoveNext(role.GetPos_Logic(), role.GetRot_Logic())) {
                 castingSkill.Reset();
                 fsm.EnterIdle();
             }

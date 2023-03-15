@@ -53,11 +53,6 @@ namespace TiedanSouls.World.Entities {
 
         int curFrame;
 
-        // - Misc
-        Vector2 rootPos;
-        public Vector2 RootPos => this.rootPos;
-        public void SetRootPos(Vector2 value) => this.rootPos = value;
-
         public SkillEntity() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Skill);
@@ -65,7 +60,6 @@ namespace TiedanSouls.World.Entities {
 
         public void Reset() {
             curFrame = -1;
-            rootPos = Vector2.zero;
             ResetAllColliderGO();
         }
 
@@ -89,42 +83,57 @@ namespace TiedanSouls.World.Entities {
             }
         }
 
-        public bool TryMoveNext(Vector2 offset) {
+        public bool TryMoveNext(Vector3 rootPos, Quaternion rootRot) {
             if (curFrame > endFrame) {
-                curFrame = -1;
+                Reset();
                 return false;
             }
 
             curFrame++;
 
             // 碰撞盒控制
-            Foreach_CollisionTrigger(
-                (model) => {
-                    var colliderCount = model.colliderGOArray;
-                    for (int i = 0; i < colliderCount.Length; i++) {
-                        var colliderGO = colliderCount[i];
-                        colliderGO.transform.position += new Vector3(offset.x, offset.y, 0);
-                        colliderGO.SetActive(true);
-                    }
-                },
-                (model) => {
-                    var colliderCount = model.colliderGOArray;
-                    for (int i = 0; i < colliderCount.Length; i++) {
-                        var colliderGO = colliderCount[i];
-                        colliderGO.SetActive(false);
-                    }
-                }
-            );
-
+            Foreach_CollisionTrigger(TriggerBegin, TriggerEnd, Triggering);
             return true;
+
+            #region [内部方法]
+            void TriggerBegin(CollisionTriggerModel triggerModel) {
+            }
+
+            void TriggerEnd(CollisionTriggerModel triggerModel) {
+                var colliderCount = triggerModel.colliderGOArray;
+                for (int i = 0; i < colliderCount.Length; i++) {
+                    var colliderGO = colliderCount[i];
+                    colliderGO.SetActive(false);
+                }
+            }
+
+            void Triggering(CollisionTriggerModel triggerModel) {
+                var colliderCount = triggerModel.colliderGOArray;
+                var colliderModelArray = triggerModel.colliderModelArray;
+                for (int i = 0; i < colliderCount.Length; i++) {
+                    var colliderGO = colliderCount[i];
+                    var colliderModel = colliderModelArray[i];
+                    colliderGO.transform.position = rootPos + rootRot * colliderModel.localPos;
+                    colliderGO.transform.rotation = rootRot * colliderModel.localRot;
+                    colliderGO.SetActive(true);
+                }
+            }
+            #endregion
         }
 
-        void Foreach_CollisionTrigger(Action<CollisionTriggerModel> action_activated, Action<CollisionTriggerModel> action_not) {
+        void Foreach_CollisionTrigger(
+            Action<CollisionTriggerModel> action_triggerBegin,
+            Action<CollisionTriggerModel> action_triggerEnd,
+            Action<CollisionTriggerModel> action_triggering) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
-                    if (model.startFrame == curFrame) action_activated(model);
-                    else if (model.endFrame == curFrame) action_not(model);
+                    if (!IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
+                        continue;
+                    }
+                    action_triggering?.Invoke(model);
+                    if (model.startFrame == curFrame) action_triggerBegin?.Invoke(model);
+                    else if (model.endFrame == curFrame) action_triggerEnd?.Invoke(model);
                 }
             }
         }

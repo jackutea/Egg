@@ -26,7 +26,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
-        [ContextMenu("保存配置")]
         public void Save() {
             if (so == null) {
                 Debug.LogWarning("配置文件为空!");

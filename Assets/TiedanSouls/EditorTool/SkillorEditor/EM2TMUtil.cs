@@ -20,7 +20,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.endFrame = editorGo.endFrame;
 
             tm.originSkillTypeID = editorGo.originSkillTypeID;
-            
+
             tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
             tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
@@ -182,13 +182,13 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
 
             ColliderType colliderType = ColliderType.Cube;
-            Vector2 localPos = Vector3.zero;
+            Vector3 localPos = Vector3.zero;
             float angleZ = 0;
-            Vector2 size = Vector3.one;
+            Vector3 size = Vector3.one;
 
             if (colliderGO.TryGetComponent<Collider2D>(out var collider2D)) {
                 colliderType = ColliderType.Cube;
-                localPos = colliderGO.transform.localPosition;
+                localPos = colliderGO.transform.position;
                 angleZ = colliderGO.transform.localEulerAngles.z;
                 size = collider2D.bounds.size;
             } else {
@@ -221,25 +221,25 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         #region [Misc]
 
-        static string[] GetRelativePathArray(GameObject[] goArray, Transform root = null) {
+        static string[] GetRelativePathArray(GameObject[] goArray) {
             var len = goArray.Length;
             var pathArray = new string[len];
             for (int i = 0; i < len; i++) {
                 var go = goArray[i];
                 if (go == null) continue;
-                pathArray[i] = GetRelativePath(go.transform, root);
+                pathArray[i] = GetRelativePath(go.transform);
             }
             return pathArray;
         }
 
-        static string GetRelativePath(Transform begin, Transform root = null) {
-            if (begin == root || begin == null) return "";
+        static string GetRelativePath(Transform begin) {
+            if (begin == null) return "";
 
             string path = begin.name;
             Transform parent = begin.parent;
             if (parent == null) return path;
 
-            while (parent != null && parent.parent != root) {
+            while (parent != null && !parent.TryGetComponent<SkillEditorGO>(out _)) {
                 path = $"{parent.name}/{path}";
                 parent = parent.parent;
             }

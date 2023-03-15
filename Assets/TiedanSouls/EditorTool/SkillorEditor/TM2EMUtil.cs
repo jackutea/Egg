@@ -32,6 +32,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         #region [CollisionTrigger]
 
         public static CollisionTriggerEM[] GetEMArray_CollisionTrigger(CollisionTriggerTM[] tmArray) {
+            if (tmArray == null) return null;
             CollisionTriggerEM[] emArray = new CollisionTriggerEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
                 emArray[i] = GetEM_CollisionTrigger(tmArray[i]);

@@ -69,6 +69,7 @@ namespace TiedanSouls {
             model.size = tm.size;
             model.localPos = tm.localPos;
             model.localAngleZ = tm.localAngleZ;
+            model.localRot = Quaternion.Euler(0, 0, tm.localAngleZ);
             return model;
         }
 
@@ -92,10 +93,10 @@ namespace TiedanSouls {
 
             if (colliderType == ColliderType.Cube) {
                 BoxCollider2D boxCollider = colliderGO.AddComponent<BoxCollider2D>();
-                boxCollider.size = new Vector2(colliderSize.x, colliderSize.y);
-                boxCollider.transform.position = new Vector2(localPos.x, localPos.y);
+                boxCollider.isTrigger = true;
+                boxCollider.transform.localScale = new Vector2(colliderSize.x, colliderSize.y);
                 boxCollider.transform.eulerAngles = new Vector3(0, 0, localAngleZ);
-                colliderGO.name = "Collider_Cube";
+                colliderGO.name = "技能碰撞盒";
                 colliderGO.SetActive(false);
             } else {
                 TDLog.Error($"尚未支持的碰撞体类型: {colliderType}");
