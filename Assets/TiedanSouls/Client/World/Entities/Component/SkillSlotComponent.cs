@@ -8,10 +8,8 @@ namespace TiedanSouls.World.Entities {
         // 原始技能名单 ( Key = TypeID )
         Dictionary<int, SkillEntity> skillDic_origin;
 
-        // 连招技能名单 ( Key = TypeID )
+        // 组合技技能名单 ( Key = TypeID )
         Dictionary<int, SkillEntity> skillDic_combo;
-
-        // 可强制取消
 
         public SkillSlotComponent() {
             skillDic_origin = new Dictionary<int, SkillEntity>();
@@ -20,23 +18,23 @@ namespace TiedanSouls.World.Entities {
 
         #region [增加]
 
-        public bool TryAdd_Origin(in SkillEntity skillSkillEntity) {
-            var idCom = skillSkillEntity.IDCom;
+        public bool TryAdd_Origin(in SkillEntity skillEntity) {
+            var idCom = skillEntity.IDCom;
             var tid = idCom.TypeID;
             if (skillDic_origin.ContainsKey(tid)) {
                 return false;
             }
-            skillDic_origin.Add(tid, skillSkillEntity);
+            skillDic_origin.Add(tid, skillEntity);
             return true;
         }
 
-        public bool TryAdd_Combo(in SkillEntity skillSkillEntity) {
-            var idCom = skillSkillEntity.IDCom;
+        public bool TryAdd_Combo(in SkillEntity skillEntity) {
+            var idCom = skillEntity.IDCom;
             var tid = idCom.TypeID;
             if (skillDic_combo.ContainsKey(tid)) {
                 return false;
             }
-            skillDic_combo.Add(tid, skillSkillEntity);
+            skillDic_combo.Add(tid, skillEntity);
             return true;
         }
 
@@ -44,8 +42,8 @@ namespace TiedanSouls.World.Entities {
 
         #region [删除]
 
-        public bool TryRemove_Origin(in SkillEntity skillSkillEntity) {
-            var idCom = skillSkillEntity.IDCom;
+        public bool TryRemove_Origin(in SkillEntity skillEntity) {
+            var idCom = skillEntity.IDCom;
             var tid = idCom.TypeID;
             if (!skillDic_origin.ContainsKey(tid)) {
                 return false;
@@ -54,8 +52,8 @@ namespace TiedanSouls.World.Entities {
             return true;
         }
 
-        public bool TryRemove_Combo(in SkillEntity skillSkillEntity) {
-            var idCom = skillSkillEntity.IDCom;
+        public bool TryRemove_Combo(in SkillEntity skillEntity) {
+            var idCom = skillEntity.IDCom;
             var tid = idCom.TypeID;
             if (!skillDic_combo.ContainsKey(tid)) {
                 return false;
@@ -68,24 +66,34 @@ namespace TiedanSouls.World.Entities {
 
         #region [查询]
 
-        public bool TryGet_Origin(int tid, out SkillEntity skillSkillEntity) {
-            return skillDic_origin.TryGetValue(tid, out skillSkillEntity);
+        public bool TryGet(int skillTypeID, bool isCombo, out SkillEntity skillEntity) {
+            if (skillDic_origin.TryGetValue(skillTypeID, out skillEntity)) {
+                return true;
+            }
+            if (skillDic_combo.TryGetValue(skillTypeID, out skillEntity)) {
+                return true;
+            }
+            return false;
         }
 
-        public bool TryGet_Combo(int tid, out SkillEntity skillSkillEntity) {
-            return skillDic_combo.TryGetValue(tid, out skillSkillEntity);
+        public bool TryGet_Origin(int tid, out SkillEntity skillEntity) {
+            return skillDic_origin.TryGetValue(tid, out skillEntity);
         }
 
-        public bool TrgGetOriginSkill_BySkillType(SkillType skillType, out SkillEntity skillSkillEntity) {
+        public bool TryGet_Combo(int tid, out SkillEntity skillEntity) {
+            return skillDic_combo.TryGetValue(tid, out skillEntity);
+        }
+
+        public bool TrgGet_OriginSkill_BySkillType(SkillType skillType, out SkillEntity skillEntity) {
             var e = skillDic_origin.Values.GetEnumerator();
             while (e.MoveNext()) {
                 var skill = e.Current;
                 if (skill.SkillType == skillType) {
-                    skillSkillEntity = skill;
+                    skillEntity = skill;
                     return true;
                 }
             }
-            skillSkillEntity = null;
+            skillEntity = null;
             return false;
         }
 

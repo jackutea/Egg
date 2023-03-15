@@ -8,7 +8,7 @@ namespace TiedanSouls.Template {
 
         public ColliderType colliderType;
         public Vector2 localPos;
-        public float angleZ;
+        public float localAngleZ;
         public Vector2 size;
 
     }

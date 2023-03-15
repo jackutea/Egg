@@ -30,7 +30,7 @@ namespace TiedanSouls.World.Domain {
             if (fsm.State == RoleFSMState.Idle) {
                 Apply_Idle(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Casting) {
-                // Apply_Casting(role, fsm, dt);
+                Apply_Casting(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.BeHit) {
                 Apply_BeHit(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Dying) {
@@ -69,83 +69,46 @@ namespace TiedanSouls.World.Domain {
 
             // Idle状态下 释放技能
             if (roleDomain.TryCastSkillByInput(role)) {
-                var choosePoint = inputCom.ChoosePoint;
-                if (choosePoint != Vector2.zero) {
-                    var rolePos = role.GetPos_LogicRoot();
-                    var xDiff = choosePoint.x - rolePos.x;
-                    var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
-                    roleDomain.FaceTo(role, dirX);
-                }
+                roleDomain.FaceToChoosePoint(role);
             } else {
-                var x = inputCom.MoveAxis.x;
-                var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
-                roleDomain.FaceTo(role, dirX);
+                roleDomain.FaceToMoveDir(role);
             }
         }
 
-        // void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
-        //     if (fsm.State != RoleFSMState.Casting) {
-        //         return;
-        //     }
+        void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            if (fsm.State != RoleFSMState.Casting) {
+                return;
+            }
 
-        //     var stateModel = fsm.CastingModel;
-        //     var skillTypeID = stateModel.castingSkillTypeID;
-        //     var isCombo = stateModel.IsCombo;
-        //     SkillModel castingSkill;
-        //     if (isCombo) {
-        //         role.SkillSlotCom.TryGetComboSkill(skillTypeID, out castingSkill);
-        //     } else {
-        //         role.SkillSlotCom.TryGetOriginalSkillByTypeID(skillTypeID, out castingSkill);
-        //     }
+            var stateModel = fsm.CastingModel;
+            var skillTypeID = stateModel.castingSkillTypeID;
+            var isCombo = stateModel.IsCombo;
+            var skillSlotCom = role.SkillSlotCom;
+            _ = skillSlotCom.TryGet(skillTypeID, isCombo, out var castingSkill);
 
-        //     if (stateModel.IsEntering) {
-        //         stateModel.SetIsEntering(false);
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
+                role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
+            }
 
+            var roleDomain = worldDomain.RoleDomain;
 
-        //         role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.weaponAnimName);
-        //     }
+            // 根据 鼠标点击 改变朝向
+            roleDomain.FaceToChoosePoint(role);
 
-        //     if (!castingSkill.TryGetCurrentFrame(out SkillFrameElement curFrame)) {
+            // 尝试 技能组合技
+            if (roleDomain.TryCastSkillByInput(role)) {
+                return;
+            }
 
-        //         var damageArbitService = worldContext.DamageArbitService;
-        //         damageArbitService.Remove(castingSkill.EntityType, castingSkill.ID);
+            // Locomotion
+            roleDomain.Move(role);
+            roleDomain.Jump(role);
+            roleDomain.Falling(role, dt);
 
-        //         castingSkill.Reset();
-
-        //         fsm.EnterIdle();
-
-        //         return;
-        //     }
-
-        //     var roleDomain = worldDomain.RoleDomain;
-
-        //     // 根据鼠标点击改变朝向
-        //     var choosePoint = role.InputCom.ChoosePoint;
-        //     if (choosePoint != Vector2.zero) {
-        //         var rolePos = role.GetPos_LogicRoot();
-        //         var xDiff = choosePoint.x - rolePos.x;
-        //         var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
-        //         roleDomain.SetRoleFaceDirX(role, dirX);
-        //     }
-
-        //     // 技能接技能
-        //     if (roleDomain.TryCastSkillByInput(role)) {
-        //         return;
-        //     }
-
-        //     // 角色Locomotion
-        //     roleDomain.Move(role);
-        //     roleDomain.Jump(role);
-        //     roleDomain.Falling(role, dt);
-
-        //     // Dash
-        //     if (curFrame.hasDash) {
-        //         roleDomain.Dash(role, Vector2.right * role.FaceDirX, curFrame.dashForce);
-        //     }
-
-        //     // Next Frame
-        //     castingSkill.ActiveNextFrame(role.GetPos_Logic(), role.GetRot_Logic(), role.FaceDirX);
-        // }
+            // Next Frame
+            castingSkill.MoveNext();
+        }
 
         void Apply_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.BeHitModel;

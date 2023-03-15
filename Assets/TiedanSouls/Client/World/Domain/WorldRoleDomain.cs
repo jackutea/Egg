@@ -74,8 +74,9 @@ namespace TiedanSouls.World.Domain {
             // Skill Slot
             var curWeapon = role.WeaponSlotCom.Weapon;
             var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            AddAllSkillToSlot_Origin(role.SkillSlotCom, skillTypeIDArray);
-            AddAllSkillToSlot_Combo(role.SkillSlotCom);
+            var roleIDArgs = role.IDCom.ToArgs();
+            AddAllSkillToSlot_Origin(role.SkillSlotCom, skillTypeIDArray, roleIDArgs);
+            AddAllSkillToSlot_Combo(role.SkillSlotCom, roleIDArgs);
         }
 
         void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
@@ -125,7 +126,7 @@ namespace TiedanSouls.World.Domain {
             return weapon;
         }
 
-        void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray) {
+        void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
             var factory = worldContext.WorldFactory;
@@ -137,28 +138,30 @@ namespace TiedanSouls.World.Domain {
                     continue;
                 }
 
-                if (!factory.TrySpawnSkillEntity(skillTM.typeID, out SkillEntity skillModel)) {
+                if (!factory.TrySpawnSkillEntity(skillTM.typeID, out SkillEntity skillEntity)) {
                     continue;
                 }
 
-                var idCom = skillModel.IDCom;
+                var idCom = skillEntity.IDCom;
                 idCom.SetEntityID(idService.PickSkillID());
 
-                if (!skillSlotCom.TryAdd_Origin(skillModel)) {
+                if (!skillSlotCom.TryAdd_Origin(skillEntity)) {
                     TDLog.Error($"添加技能失败! 已添加 '原始' 技能 - {typeID}");
                 }
 
+                skillEntity.IDCom.SetFather(father);
                 TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
             }
         }
 
-        void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom) {
+        void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {
+            IDArgs father_lambda = father;
             skillSlotCom.Foreach_Origin((skill) => {
                 var cancelModelArray = skill.ComboSkillCancelModelArray;
-                AddComboSkill(skillSlotCom, cancelModelArray);
+                AddComboSkill(skillSlotCom, cancelModelArray, father_lambda);
             });
 
-            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray) {
+            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray, in IDArgs father) {
                 var len = cancelModelArray?.Length;
                 for (int i = 0; i < len; i++) {
                     var cancelModel = cancelModelArray[i];
@@ -175,8 +178,9 @@ namespace TiedanSouls.World.Domain {
                         continue;
                     }
 
-                    TDLog.Log($"添加技能成功! 已添加 '连招' 技能 - {comboTypeID}");
-                    AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray);
+                    comboSkill.IDCom.SetFather(father);
+                    TDLog.Log($"添加技能成功! 已添加 '组合技' 技能 - {comboTypeID}");
+                    AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray, father);
                 }
             }
         }
@@ -262,7 +266,20 @@ namespace TiedanSouls.World.Domain {
             role.Move();
         }
 
-        public void FaceTo(RoleEntity role, sbyte dirX) {
+        public void FaceToChoosePoint(RoleEntity role) {
+            var choosePoint = role.InputCom.ChoosePoint;
+            if (choosePoint != Vector2.zero) {
+                var rolePos = role.GetPos_LogicRoot();
+                var xDiff = choosePoint.x - rolePos.x;
+                var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
+                role.FaceTo(dirX);
+            }
+        }
+
+        public void FaceToMoveDir(RoleEntity role) {
+            var inputCom = role.InputCom;
+            var x = inputCom.MoveAxis.x;
+            var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
             role.FaceTo(dirX);
         }
 
@@ -304,20 +321,21 @@ namespace TiedanSouls.World.Domain {
             }
 
             var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TrgGetOriginSkill_BySkillType(inputSkillType, out var originalSkill)) {
+            if (!skillSlotCom.TrgGet_OriginSkill_BySkillType(inputSkillType, out var originalSkill)) {
                 TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
                 return false;
             }
 
             int originSkillTypeID = originalSkill.IDCom.TypeID;
 
+            // 正常释放
             var fsm = role.FSMCom;
             if (fsm.State == RoleFSMState.Idle) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
 
-            // 技能连招
+            // 连招
             if (fsm.State == RoleFSMState.Casting) {
                 var stateModel = fsm.CastingModel;
                 var castingSkillTypeID = stateModel.castingSkillTypeID;
@@ -342,45 +360,43 @@ namespace TiedanSouls.World.Domain {
         }
 
         bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
+            // 默认赋值
             realSkillTypeID = inputSkillTypeID;
             isCombo = false;
 
-            if (!castingSkill.TryGet_AllCurrentCancelModel(out var cancelModel)) {
-                return false;
-            }
+            int cancelSkillTypeID = -1;
+            bool isCancelCombo = false;
+            castingSkill.Foreach_CancelModel_InCurrentFrame((cancelModel) => {
+                int skillTypeID = cancelModel.skillTypeID;
 
-            for (int i = 0; i < allCancelModels.Length; i++) {
-                SkillCancelModel cancel = allCancelModels[i];
-                int cancelSkillTypeID = cancel.skillTypeID;
-
-                if (cancel.isCombo) {
-                    // - Combo Cancel
-                    bool hasCombo = skillSlotCom.TryGetComboSkill(cancelSkillTypeID, out var comboSkill);
-                    bool isComboInput = inputSkillTypeID == comboSkill.OriginalSkillTypeID;
-                    if (hasCombo && isComboInput) {
-                        realSkillTypeID = cancelSkillTypeID;    // 改变技能类型ID
-                        isCombo = true;
-                        return true;
-                    }
+                if (cancelModel.isCombo) {
+                    if (!skillSlotCom.TryGet_Combo(skillTypeID, out var comboSkill)) return;
+                    if (inputSkillTypeID != comboSkill.OriginalSkillTypeID) return;
+                    cancelSkillTypeID = comboSkill.IDCom.TypeID;
+                    isCancelCombo = true;
                 } else {
-                    // - Normal Cancel
-                    bool hasOriginal = skillSlotCom.TryGetOriginalSkillByTypeID(cancelSkillTypeID, out var originalSkill);
-                    bool isOriginalInput = inputSkillTypeID == cancelSkillTypeID;
-                    if (hasOriginal && isOriginalInput) {
-                        isCombo = false;
-                        return true;
-                    }
+                    if (!skillSlotCom.TryGet_Origin(skillTypeID, out var originalSkill)) return;
+                    isCancelCombo = false;
+                    return;
                 }
-            }
-            return false;
+            });
+
+            if (cancelSkillTypeID == -1) return false;
+
+            // 真实释放的 技能类型 以及 是否为组合技
+            realSkillTypeID = cancelSkillTypeID;
+            isCombo = isCancelCombo;
+            return true;
         }
 
-        void CastOriginalSkill(RoleEntity role, int typeID) {
-
+        void CastOriginalSkill(RoleEntity role, int skillTypeID) {
+            var fsmCom = role.FSMCom;
+            fsmCom.EnterCasting(skillTypeID, false);
         }
 
-        void CastComboSkill(RoleEntity role, int typeID) {
-
+        void CastComboSkill(RoleEntity role, int skillTypeID) {
+            var fsmCom = role.FSMCom;
+            fsmCom.EnterCasting(skillTypeID, true);
         }
 
         #endregion

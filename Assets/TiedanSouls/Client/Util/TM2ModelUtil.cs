@@ -40,7 +40,7 @@ namespace TiedanSouls {
                 model.endFrame = tm.endFrame;
                 model.triggerIntervalFrame = tm.triggerIntervalFrame;
                 model.triggerMaintainFrame = tm.triggerMaintainFrame;
-                model.colliderArray = GetModelArray_Collider(tm.colliderTMArray);
+                model.colliderGOArray = GetGOArray_Collider(tm.colliderTMArray);
                 modelArray[i] = model;
             }
             return modelArray;
@@ -50,22 +50,35 @@ namespace TiedanSouls {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray) {
+        public static GameObject[] GetGOArray_Collider(ColliderTM[] tmArray) {
             var len = tmArray.Length;
-            ColliderModel[] modelArray = new ColliderModel[len];
+            GameObject[] modelArray = new GameObject[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetModel_Collider(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm) {
-            ColliderModel model;
-            model.colliderType = tm.colliderType;
-            model.localPos = tm.localPos;
-            model.angleZ = tm.angleZ;
-            model.size = tm.size;
-            return model;
+        public static GameObject GetModel_Collider(ColliderTM tm) {
+            GameObject colliderGO = new GameObject();
+
+            var colliderType = tm.colliderType;
+            var colliderSize = tm.size;
+            var localPos = tm.localPos;
+            var localAngleZ = tm.localAngleZ;
+
+            if (colliderType == ColliderType.Cube) {
+                BoxCollider2D boxCollider = colliderGO.AddComponent<BoxCollider2D>();
+                boxCollider.size = new Vector2(colliderSize.x, colliderSize.y);
+                boxCollider.transform.position = new Vector2(localPos.x, localPos.y);
+                boxCollider.transform.eulerAngles = new Vector3(0, 0, localAngleZ);
+                colliderGO.name = "Collider_Cube";
+                colliderGO.SetActive(false);
+            } else {
+                TDLog.Error($"尚未支持的碰撞体类型: {colliderType}");
+            }
+
+            return colliderGO;
         }
 
         #endregion

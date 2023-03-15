@@ -16,8 +16,8 @@ namespace TiedanSouls.Template {
         [Header("结束帧")] public int endFrame;
 
         [Header("原始技能")] public int originSkillTypeID;
-        [Header("连招技能名单")] public SkillCancelTM[] comboSkillCancelTMArray;
-        [Header("可强制取消技能名单")] public SkillCancelTM[] cancelSkillCancelTMArray;
+        [Header("组合技名单")] public SkillCancelTM[] comboSkillCancelTMArray;
+        [Header("连招技名单")] public SkillCancelTM[] cancelSkillCancelTMArray;
         [Header("武器动画名")] public string weaponAnimName;
         [Header("仅用于编辑时: 武器动画文件GUID")] public string weaponAnimClip_GUID;
 

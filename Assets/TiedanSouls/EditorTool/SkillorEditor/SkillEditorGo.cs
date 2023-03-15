@@ -19,8 +19,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         [Header("原始技能")] public int originSkillTypeID;
 
-        [Header("连招技能名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
-        [Header("可强制取消技能名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
+        [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
+        [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
         [Header("打击力度(组) ===================================")] public HitPowerEM[] hitPowerEMArray;
         [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
 
@@ -46,6 +46,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             this.typeID = skillTM.typeID;
             this.skillName = skillTM.skillName;
             this.skillType = skillTM.skillType;
+
+            this.startFrame = skillTM.startFrame;
+            this.endFrame = skillTM.endFrame;
 
             this.originSkillTypeID = skillTM.originSkillTypeID;
 

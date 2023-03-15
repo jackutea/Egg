@@ -11,7 +11,7 @@ namespace TiedanSouls.Generic {
         public int triggerIntervalFrame;
         public int triggerMaintainFrame;
 
-        public ColliderModel[] colliderArray;
+        public GameObject[] colliderGOArray;
 
     }
 

@@ -1,3 +1,4 @@
+using System;
 using TiedanSouls.Generic;
 
 namespace TiedanSouls.World.Entities {
@@ -12,28 +13,17 @@ namespace TiedanSouls.World.Entities {
         public SkillType SkillType => this.skillType;
         public void SetSkillType(SkillType value) => this.skillType = value;
 
-        // - 生命周期
-        int startFrame;
-        public int StartFrame => this.startFrame;
-        public void SetStartFrame(int value) => this.startFrame = value;
-
-        int endFrame;
-        public int EndFrame => this.endFrame;
-        public void SetEndFrame(int value) => this.endFrame = value;
-
-        public int curFrame;
-
         // - 原始技能
         int originalSkillTypeID;
         public int OriginalSkillTypeID => this.originalSkillTypeID;
         public void SetOriginalSkillTypeID(int value) => this.originalSkillTypeID = value;
 
-        // - 连招技能
+        // - 组合技
         SkillCancelModel[] comboSkillCancelModelArray;
         public SkillCancelModel[] ComboSkillCancelModelArray => this.comboSkillCancelModelArray;
         public void SetComboSkillCancelModelArray(SkillCancelModel[] value) => this.comboSkillCancelModelArray = value;
 
-        // - 可强制取消技能
+        // - 连招技
         SkillCancelModel[] skillCancelModelArray;
         public SkillCancelModel[] SkillCancelModelArray => this.skillCancelModelArray;
         public void SetSkillCancelModelArray(SkillCancelModel[] value) => this.skillCancelModelArray = value;
@@ -51,28 +41,84 @@ namespace TiedanSouls.World.Entities {
         public string WeaponAnimName => this.weaponAnimName;
         public void SetWeaponAnimName(string value) => this.weaponAnimName = value;
 
+        // - 生命周期
+        int startFrame;
+        public int StartFrame => this.startFrame;
+        public void SetStartFrame(int value) => this.startFrame = value;
+
+        int endFrame;
+        public int EndFrame => this.endFrame;
+        public void SetEndFrame(int value) => this.endFrame = value;
+
+        int curFrame;
+
         public SkillEntity() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Skill);
         }
 
         public void Reset() {
-            curFrame = 0;
+            curFrame = -1;
         }
 
-        public bool TryGet_AllCurrentCancelModel(out SkillCancelModel[] cancelModel) {
-            cancelModel = default;
-            if (skillCancelModelArray == null) {
-                return false;
+        public void MoveNext() {
+            if (curFrame > endFrame) {
+                curFrame = -1;
+                return;
             }
-            for (int i = 0; i < skillCancelModelArray.Length; i++) {
-                var model = skillCancelModelArray[i];
-                if (curFrame >= model.startFrame && curFrame <= model.endFrame) {
-                    cancelModel = model;
-                    return true;
+
+            curFrame++;
+
+            // 碰撞盒控制
+            Foreach_CollisionTrigger(
+                (model) => {
+                    var colliderCount = model.colliderGOArray;
+                    for (int i = 0; i < colliderCount.Length; i++) {
+                        var colliderGO = colliderCount[i];
+                        colliderGO.SetActive(true);
+                    }
+                },
+                (model) => {
+                    var colliderCount = model.colliderGOArray;
+                    for (int i = 0; i < colliderCount.Length; i++) {
+                        var colliderGO = colliderCount[i];
+                        colliderGO.SetActive(false);
+                    }
+                }
+            );
+        }
+
+        void Foreach_CollisionTrigger(Action<CollisionTriggerModel> action_activated, Action<CollisionTriggerModel> action_not) {
+            if (collisionTriggerArray != null) {
+                for (int i = 0; i < collisionTriggerArray.Length; i++) {
+                    CollisionTriggerModel model = collisionTriggerArray[i];
+                    if (model.startFrame == curFrame) action_activated(model);
+                    else action_not(model);
                 }
             }
-            return false;
+        }
+
+        public void Foreach_CancelModel_InCurrentFrame(Action<SkillCancelModel> action) {
+            if (skillCancelModelArray != null) {
+                for (int i = 0; i < skillCancelModelArray.Length; i++) {
+                    SkillCancelModel model = skillCancelModelArray[i];
+                    if (model.startFrame == curFrame) {
+                        action(model);
+                    }
+                }
+            }
+        }
+
+        public void TryGet_HitPower_InCurrentFrame(Action<HitPowerModel> action) {
+            if (hitPowerArray != null) {
+                for (int i = 0; i < hitPowerArray.Length; i++) {
+                    HitPowerModel model = hitPowerArray[i];
+                    if (model.startFrame == curFrame) {
+                        action(model);
+                        return;
+                    }
+                }
+            }
         }
 
     }

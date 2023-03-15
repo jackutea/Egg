@@ -16,7 +16,11 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.skillName = editorGo.skillName;
             tm.skillType = editorGo.skillType;
 
+            tm.startFrame = editorGo.startFrame;
+            tm.endFrame = editorGo.endFrame;
+
             tm.originSkillTypeID = editorGo.originSkillTypeID;
+            
             tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
             tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
@@ -195,7 +199,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.colliderType = colliderType;
             tm.localPos = localPos;
             tm.size = size;
-            tm.angleZ = angleZ;
+            tm.localAngleZ = angleZ;
 
             return tm;
         }
