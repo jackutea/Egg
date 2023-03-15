@@ -197,8 +197,7 @@ MonoBehaviour:
   originSkillTypeID: 1000
   comboSkillCancelEMArray:
   - skillTypeID: 1010
-    isCombo: 1
-    startFrame: 0
+    startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray: []
   hitPowerEMArray:
@@ -692,8 +691,7 @@ MonoBehaviour:
   originSkillTypeID: 1000
   comboSkillCancelEMArray:
   - skillTypeID: 1020
-    isCombo: 1
-    startFrame: 0
+    startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray: []
   hitPowerEMArray:
@@ -858,7 +856,7 @@ MonoBehaviour:
   typeID: 1020
   skillName: "\u666E\u653B3\u6BB5"
   skillType: 1
-  startFrame: 0
+  startFrame: 10
   endFrame: 15
   originSkillTypeID: 1000
   comboSkillCancelEMArray: []

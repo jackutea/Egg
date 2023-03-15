@@ -6,7 +6,6 @@ namespace TiedanSouls.Generic {
         public int endFrame;
 
         public int skillTypeID;
-        public bool isCombo;
 
     }
 

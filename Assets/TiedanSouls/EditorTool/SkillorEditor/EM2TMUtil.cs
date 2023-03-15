@@ -43,7 +43,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
             SkillCancelTM tm = new SkillCancelTM();
             tm.skillTypeID = em.skillTypeID;
-            tm.isCombo = em.isCombo;
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
             return tm;

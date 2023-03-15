@@ -25,9 +25,9 @@ namespace TiedanSouls.World.Entities {
         public void SetComboSkillCancelModelArray(SkillCancelModel[] value) => this.comboSkillCancelModelArray = value;
 
         // - 连招技
-        SkillCancelModel[] skillCancelModelArray;
-        public SkillCancelModel[] SkillCancelModelArray => this.skillCancelModelArray;
-        public void SetSkillCancelModelArray(SkillCancelModel[] value) => this.skillCancelModelArray = value;
+        SkillCancelModel[] linkSkillCancelModelArray;
+        public SkillCancelModel[] LinkSkillCancelModelArray => this.linkSkillCancelModelArray;
+        public void SetLinkSkillCancelModelArray(SkillCancelModel[] value) => this.linkSkillCancelModelArray = value;
 
         // - 打击力度
         HitPowerModel[] hitPowerArray;
@@ -138,10 +138,21 @@ namespace TiedanSouls.World.Entities {
             }
         }
 
-        public void Foreach_CancelModel_InCurrentFrame(Action<SkillCancelModel> action) {
-            if (skillCancelModelArray != null) {
-                for (int i = 0; i < skillCancelModelArray.Length; i++) {
-                    SkillCancelModel model = skillCancelModelArray[i];
+        public void Foreach_CancelModel_Link_InCurrentFrame(Action<SkillCancelModel> action) {
+            if (linkSkillCancelModelArray != null) {
+                for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
+                    SkillCancelModel model = linkSkillCancelModelArray[i];
+                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
+                        action(model);
+                    }
+                }
+            }
+        }
+
+        public void Foreach_CancelModel_Combo_InCurrentFrame(Action<SkillCancelModel> action) {
+            if (comboSkillCancelModelArray != null) {
+                for (int i = 0; i < comboSkillCancelModelArray.Length; i++) {
+                    SkillCancelModel model = comboSkillCancelModelArray[i];
                     if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
                         action(model);
                     }

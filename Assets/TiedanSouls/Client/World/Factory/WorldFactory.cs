@@ -276,7 +276,7 @@ namespace TiedanSouls.World {
             // 设置 组合技技能清单
             skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
             // 设置 取消技能清单
-            skill.SetSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
+            skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
             // 设置 打击力度
             skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerTMArray));
             // 设置 碰撞器

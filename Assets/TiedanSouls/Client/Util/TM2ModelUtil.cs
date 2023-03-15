@@ -21,7 +21,6 @@ namespace TiedanSouls {
         public static SkillCancelModel GetModel_SkillCancel(SkillCancelTM tm) {
             SkillCancelModel model;
             model.skillTypeID = tm.skillTypeID;
-            model.isCombo = tm.isCombo;
             model.startFrame = tm.startFrame;
             model.endFrame = tm.endFrame;
             return model;

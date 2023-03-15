@@ -341,14 +341,14 @@ namespace TiedanSouls.World.Domain {
                 var castingSkillTypeID = stateModel.castingSkillTypeID;
                 SkillEntity castingSkill;
                 if (stateModel.IsCombo) {
-                    skillSlotCom.TryGet_Combo(castingSkillTypeID, out castingSkill);
+                    _ = skillSlotCom.TryGet_Combo(castingSkillTypeID, out castingSkill);
                 } else {
-                    skillSlotCom.TryGet_Origin(castingSkillTypeID, out castingSkill);
+                    _ = skillSlotCom.TryGet_Origin(castingSkillTypeID, out castingSkill);
                 }
 
-                if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var isCombo)) {
+                if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var cancelType)) {
                     castingSkill.Reset();
-                    if (isCombo) {
+                    if (cancelType == SkillCancelType.Combo) {
                         CastComboSkill(role, realSkillTypeID);
                     } else {
                         CastOriginalSkill(role, realSkillTypeID);
@@ -359,33 +359,42 @@ namespace TiedanSouls.World.Domain {
             return false;
         }
 
-        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out int realSkillTypeID, out bool isCombo) {
+        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out int realSkillTypeID, out SkillCancelType cancelType) {
             // 默认赋值
             realSkillTypeID = inputSkillTypeID;
-            isCombo = false;
 
-            int cancelSkillTypeID = -1;
-            bool isCancelCombo = false;
-            castingSkill.Foreach_CancelModel_InCurrentFrame((cancelModel) => {
+            bool isLink = false;
+            int linkSkillTypeID = -1;
+            // 检查是否为 非组合技连招
+            castingSkill.Foreach_CancelModel_Link_InCurrentFrame((cancelModel) => {
                 int skillTypeID = cancelModel.skillTypeID;
-                if (cancelModel.isCombo) {
-                    if (!skillSlotCom.TryGet_Combo(skillTypeID, out var comboSkill)) return;
-                    if (inputSkillTypeID != comboSkill.OriginalSkillTypeID) return;
-                    cancelSkillTypeID = comboSkill.IDCom.TypeID;
-                    isCancelCombo = true;
-                } else {
-                    if (!skillSlotCom.TryGet_Origin(skillTypeID, out var originalSkill)) return;
-                    isCancelCombo = false;
-                    return;
-                }
+                if (!skillSlotCom.TryGet_Origin(skillTypeID, out _)) return;
+                isLink = true;
+                linkSkillTypeID = skillTypeID;
             });
+            if (isLink) {
+                realSkillTypeID = linkSkillTypeID;
+                cancelType = SkillCancelType.Link;
+                return true;
+            }
 
-            if (cancelSkillTypeID == -1) return false;
+            // 检查是否为 组合技
+            bool isCombo = false;
+            int comboSkillTypeID = -1;
+            castingSkill.Foreach_CancelModel_Combo_InCurrentFrame((cancelModel) => {
+                int skillTypeID = cancelModel.skillTypeID;
+                if (!skillSlotCom.TryGet_Combo(skillTypeID, out _)) return;
+                comboSkillTypeID = skillTypeID;
+                isCombo = true;
+            });
+            if (isCombo) {
+                realSkillTypeID = comboSkillTypeID;
+                cancelType = SkillCancelType.Combo;
+                return true;
+            }
 
-            // 真实释放的 技能类型 以及 是否为组合技
-            realSkillTypeID = cancelSkillTypeID;
-            isCombo = isCancelCombo;
-            return true;
+            cancelType = SkillCancelType.None;
+            return false;
         }
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
