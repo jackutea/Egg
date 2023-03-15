@@ -9,6 +9,7 @@ namespace TiedanSouls {
         #region 
 
         public static SkillCancelModel[] GetModelArray_SkillCancel(SkillCancelTM[] tmArray) {
+            if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillCancelModel[] modelArray = new SkillCancelModel[len];
             for (int i = 0; i < len; i++) {
@@ -31,6 +32,7 @@ namespace TiedanSouls {
         #region [CollisionTrigger]
 
         public static CollisionTriggerModel[] GetModelArray_CollisionTrigger(CollisionTriggerTM[] tmArray) {
+            if (tmArray == null) return null;
             var len = tmArray.Length;
             CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
             for (int i = 0; i < len; i++) {
@@ -40,6 +42,7 @@ namespace TiedanSouls {
                 model.endFrame = tm.endFrame;
                 model.triggerIntervalFrame = tm.triggerIntervalFrame;
                 model.triggerMaintainFrame = tm.triggerMaintainFrame;
+                model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray);
                 model.colliderGOArray = GetGOArray_Collider(tm.colliderTMArray);
                 modelArray[i] = model;
             }
@@ -50,16 +53,36 @@ namespace TiedanSouls {
 
         #region [Collider]
 
-        public static GameObject[] GetGOArray_Collider(ColliderTM[] tmArray) {
+        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray) {
+            if (tmArray == null) return null;
             var len = tmArray.Length;
-            GameObject[] modelArray = new GameObject[len];
+            ColliderModel[] modelArray = new ColliderModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetModel_Collider(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static GameObject GetModel_Collider(ColliderTM tm) {
+        public static ColliderModel GetModel_Collider(ColliderTM tm) {
+            ColliderModel model;
+            model.colliderType = tm.colliderType;
+            model.size = tm.size;
+            model.localPos = tm.localPos;
+            model.localAngleZ = tm.localAngleZ;
+            return model;
+        }
+
+        public static GameObject[] GetGOArray_Collider(ColliderTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            GameObject[] modelArray = new GameObject[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetGO_Collider(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static GameObject GetGO_Collider(ColliderTM tm) {
             GameObject colliderGO = new GameObject();
 
             var colliderType = tm.colliderType;
@@ -86,6 +109,7 @@ namespace TiedanSouls {
         #region [HitPower]
 
         public static HitPowerModel[] GetModelArray_HitPower(HitPowerTM[] tmArray) {
+            if (tmArray == null) return null;
             var len = tmArray.Length;
             HitPowerModel[] modelArray = new HitPowerModel[len];
             for (int i = 0; i < len; i++) {

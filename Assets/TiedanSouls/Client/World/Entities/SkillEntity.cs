@@ -1,5 +1,6 @@
 using System;
 using TiedanSouls.Generic;
+using UnityEngine;
 
 namespace TiedanSouls.World.Entities {
 
@@ -52,6 +53,11 @@ namespace TiedanSouls.World.Entities {
 
         int curFrame;
 
+        // - Misc
+        Vector2 rootPos;
+        public Vector2 RootPos => this.rootPos;
+        public void SetRootPos(Vector2 value) => this.rootPos = value;
+
         public SkillEntity() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Skill);
@@ -59,12 +65,34 @@ namespace TiedanSouls.World.Entities {
 
         public void Reset() {
             curFrame = -1;
+            rootPos = Vector2.zero;
+            ResetAllColliderGO();
         }
 
-        public void MoveNext() {
+        public void ResetAllColliderGO() {
+            var colliderTriggerCount = collisionTriggerArray.Length;
+            for (int i = 0; i < colliderTriggerCount; i++) {
+                var colliderTrigger = collisionTriggerArray[i];
+                var colliderModelArray = colliderTrigger.colliderModelArray;
+                var colliderGOArray = colliderTrigger.colliderGOArray;
+
+                var colliderCount = colliderModelArray.Length;
+                for (int j = 0; j < colliderCount; j++) {
+                    var colliderGO = colliderTrigger.colliderGOArray[j];
+                    var colliderModel = colliderModelArray[j];
+
+                    colliderGO.transform.position = colliderModel.localPos;
+                    colliderGO.transform.rotation = Quaternion.Euler(0, 0, colliderModel.localAngleZ);
+                    var size = colliderModel.size;
+                    colliderGO.transform.localScale = new Vector3(size.x, size.y, 1);
+                }
+            }
+        }
+
+        public bool TryMoveNext(Vector2 offset) {
             if (curFrame > endFrame) {
                 curFrame = -1;
-                return;
+                return false;
             }
 
             curFrame++;
@@ -75,6 +103,7 @@ namespace TiedanSouls.World.Entities {
                     var colliderCount = model.colliderGOArray;
                     for (int i = 0; i < colliderCount.Length; i++) {
                         var colliderGO = colliderCount[i];
+                        colliderGO.transform.position += new Vector3(offset.x, offset.y, 0);
                         colliderGO.SetActive(true);
                     }
                 },
@@ -86,6 +115,8 @@ namespace TiedanSouls.World.Entities {
                     }
                 }
             );
+
+            return true;
         }
 
         void Foreach_CollisionTrigger(Action<CollisionTriggerModel> action_activated, Action<CollisionTriggerModel> action_not) {
@@ -93,7 +124,7 @@ namespace TiedanSouls.World.Entities {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
                     if (model.startFrame == curFrame) action_activated(model);
-                    else action_not(model);
+                    else if (model.endFrame == curFrame) action_not(model);
                 }
             }
         }
@@ -102,7 +133,7 @@ namespace TiedanSouls.World.Entities {
             if (skillCancelModelArray != null) {
                 for (int i = 0; i < skillCancelModelArray.Length; i++) {
                     SkillCancelModel model = skillCancelModelArray[i];
-                    if (model.startFrame == curFrame) {
+                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
                         action(model);
                     }
                 }
@@ -113,12 +144,16 @@ namespace TiedanSouls.World.Entities {
             if (hitPowerArray != null) {
                 for (int i = 0; i < hitPowerArray.Length; i++) {
                     HitPowerModel model = hitPowerArray[i];
-                    if (model.startFrame == curFrame) {
+                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
                         action(model);
                         return;
                     }
                 }
             }
+        }
+
+        bool IsBetweenStartAndEnd(int frame, int start, int end) {
+            return frame >= start && frame <= end;
         }
 
     }

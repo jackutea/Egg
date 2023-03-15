@@ -368,7 +368,6 @@ namespace TiedanSouls.World.Domain {
             bool isCancelCombo = false;
             castingSkill.Foreach_CancelModel_InCurrentFrame((cancelModel) => {
                 int skillTypeID = cancelModel.skillTypeID;
-
                 if (cancelModel.isCombo) {
                     if (!skillSlotCom.TryGet_Combo(skillTypeID, out var comboSkill)) return;
                     if (inputSkillTypeID != comboSkill.OriginalSkillTypeID) return;

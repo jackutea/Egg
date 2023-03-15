@@ -88,6 +88,7 @@ namespace TiedanSouls.World.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
+                castingSkill.SetRootPos(role.GetPos_Logic());
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
 
@@ -107,7 +108,10 @@ namespace TiedanSouls.World.Domain {
             roleDomain.Falling(role, dt);
 
             // Next Frame
-            castingSkill.MoveNext();
+            if (!castingSkill.TryMoveNext(new Vector2(2, 0))) {
+                castingSkill.Reset();
+                fsm.EnterIdle();
+            }
         }
 
         void Apply_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
