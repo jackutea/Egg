@@ -70,7 +70,7 @@ namespace TiedanSouls.World.Entities {
         }
 
         public void ResetAllColliderGO() {
-            var colliderTriggerCount = collisionTriggerArray.Length;
+            var colliderTriggerCount = collisionTriggerArray?.Length;
             for (int i = 0; i < colliderTriggerCount; i++) {
                 var colliderTrigger = collisionTriggerArray[i];
                 var colliderModelArray = colliderTrigger.colliderModelArray;
