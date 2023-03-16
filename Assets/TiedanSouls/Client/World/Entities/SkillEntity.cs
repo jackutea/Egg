@@ -2,7 +2,7 @@ using System;
 using TiedanSouls.Generic;
 using UnityEngine;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class SkillEntity {
 
@@ -35,6 +35,7 @@ namespace TiedanSouls.World.Entities {
 
         // - 碰撞器
         CollisionTriggerModel[] collisionTriggerArray;
+        public CollisionTriggerModel[] CollisionTriggerArray => this.collisionTriggerArray;
         public void SetCollisionTriggerArray(CollisionTriggerModel[] value) => this.collisionTriggerArray = value;
 
         // - 表现层
@@ -60,25 +61,21 @@ namespace TiedanSouls.World.Entities {
 
         public void Reset() {
             curFrame = -1;
-            ResetAllColliderGO();
+            ResetAllColliderModel();
         }
 
-        public void ResetAllColliderGO() {
+        public void ResetAllColliderModel() {
             var colliderTriggerCount = collisionTriggerArray?.Length;
             for (int i = 0; i < colliderTriggerCount; i++) {
                 var colliderTrigger = collisionTriggerArray[i];
                 var colliderModelArray = colliderTrigger.colliderModelArray;
-                var colliderGOArray = colliderTrigger.colliderGOArray;
-
                 var colliderCount = colliderModelArray.Length;
                 for (int j = 0; j < colliderCount; j++) {
-                    var colliderGO = colliderTrigger.colliderGOArray[j];
-                    var colliderModel = colliderModelArray[j];
-
-                    colliderGO.transform.position = colliderModel.localPos;
-                    colliderGO.transform.rotation = Quaternion.Euler(0, 0, colliderModel.localAngleZ);
+                    var colliderModel =colliderModelArray[j];
+                    colliderModel.transform.position = colliderModel.localPos;
+                    colliderModel.transform.rotation = Quaternion.Euler(0, 0, colliderModel.localAngleZ);
                     var size = colliderModel.size;
-                    colliderGO.transform.localScale = new Vector3(size.x, size.y, 1);
+                    colliderModel.transform.localScale = new Vector3(size.x, size.y, 1);
                 }
             }
         }
@@ -100,22 +97,21 @@ namespace TiedanSouls.World.Entities {
             }
 
             void TriggerEnd(CollisionTriggerModel triggerModel) {
-                var colliderCount = triggerModel.colliderGOArray;
+                var colliderCount = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
-                    var colliderGO = colliderCount[i];
-                    colliderGO.SetActive(false);
+                    var colliderModel = colliderCount[i];
+                    colliderModel.gameObject.SetActive(false);
                 }
             }
 
             void Triggering(CollisionTriggerModel triggerModel) {
-                var colliderCount = triggerModel.colliderGOArray;
+                var colliderCount = triggerModel.colliderModelArray;
                 var colliderModelArray = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
-                    var colliderGO = colliderCount[i];
-                    var colliderModel = colliderModelArray[i];
-                    colliderGO.transform.position = rootPos + rootRot * colliderModel.localPos;
-                    colliderGO.transform.rotation = rootRot * colliderModel.localRot;
-                    colliderGO.SetActive(true);
+                    var colliderModel = colliderCount[i];
+                    colliderModel.transform.position = rootPos + rootRot * colliderModel.localPos;
+                    colliderModel.transform.rotation = rootRot * colliderModel.localRot;
+                    colliderModel.gameObject.SetActive(true);
                 }
             }
             #endregion

@@ -1,17 +1,17 @@
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Facades;
+using TiedanSouls.Client.Facades;
 
-namespace TiedanSouls.World.Controller {
+namespace TiedanSouls.Client.Controller {
 
     public class WorldController {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldDomain worldDomain;
+        WorldRootDomain worldDomain;
 
         public WorldController() {
             worldContext = new WorldContext();
-            worldDomain = new WorldDomain();
+            worldDomain = new WorldRootDomain();
         }
 
         public void Inject(InfraContext infraContext) {

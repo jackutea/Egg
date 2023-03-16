@@ -1,7 +1,7 @@
 using UnityEngine;
 using TiedanSouls.Generic;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class RoleFSMComponent {
 

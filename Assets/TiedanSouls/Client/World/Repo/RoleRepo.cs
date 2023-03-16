@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls.World {
+namespace TiedanSouls.Client {
 
     public class RoleRepo {
 

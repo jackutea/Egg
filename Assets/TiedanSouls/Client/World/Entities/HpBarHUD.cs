@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
     public class HpBarHUD : MonoBehaviour {
 
         Image hpBarMove;

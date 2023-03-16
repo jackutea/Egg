@@ -1,4 +1,4 @@
-namespace TiedanSouls.World.Service {
+namespace TiedanSouls.Client.Service {
 
     public class IDService {
 

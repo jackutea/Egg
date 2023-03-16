@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TiedanSouls.World.Domain {
+namespace TiedanSouls.Client.Domain {
 
     public class WorldRoleRendererDomain : MonoBehaviour {
         // Start is called before the first frame update

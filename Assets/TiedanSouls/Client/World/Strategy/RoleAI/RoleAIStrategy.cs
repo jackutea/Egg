@@ -1,6 +1,6 @@
 using GameArki.BTTreeNS;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class RoleAIStrategy {
 

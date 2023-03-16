@@ -1,53 +1,46 @@
 using TiedanSouls.Asset;
-using TiedanSouls.World.Entities;
-using TiedanSouls.World.Service;
+using TiedanSouls.Client.Entities;
+using TiedanSouls.Client.Service;
 
-namespace TiedanSouls.World.Facades {
+namespace TiedanSouls.Client.Facades {
 
     public class WorldContext {
 
         // ==== State ====
-        WorldStateEntity stateEntity;
-        public WorldStateEntity StateEntity => stateEntity;
+        public WorldStateEntity StateEntity { get; private set; }
 
         // ==== Factory ====
-        WorldFactory worldFactory;
-        public WorldFactory WorldFactory => worldFactory;
+        public WorldFactory WorldFactory { get; private set; }
 
         // ==== Services ====
-        IDService idService;
-        public IDService IDService => idService;
-
-        DamageArbitService damageArbitService;
-        public DamageArbitService DamageArbitService => damageArbitService;
+        public IDService IDService { get; private set; }
+        public DamageArbitService DamageArbitService { get; private set; }
 
         // ==== Repository ====
-        RoleRepo roleRepo;
-        public RoleRepo RoleRepo => roleRepo;
+        public RoleRepo RoleRepo { get; private set; }
+        public FieldRepo FieldRepo { get; private set; }
+        public ItemRepo ItemRepo { get; private set; }
+        public CollisionEventRepo CollisionEventRepo { get; private set; }
 
-        FieldRepo fieldRepo;
-        public FieldRepo FieldRepo => fieldRepo;
-
-        ItemRepo itemRepo;
-        public ItemRepo ItemRepo => itemRepo;
-
-        public WorldDomain WorldDomain { get; private set; }
+        // ==== Domain ====
+        public WorldRootDomain RootDomain { get; private set; }
 
         public WorldContext() {
-            stateEntity = new WorldStateEntity();
+            StateEntity = new WorldStateEntity();
 
-            worldFactory = new WorldFactory();
+            WorldFactory = new WorldFactory();
 
-            idService = new IDService();
-            damageArbitService = new DamageArbitService();
+            IDService = new IDService();
+            DamageArbitService = new DamageArbitService();
 
-            roleRepo = new RoleRepo();
-            fieldRepo = new FieldRepo();
-            itemRepo = new ItemRepo();
+            RoleRepo = new RoleRepo();
+            FieldRepo = new FieldRepo();
+            ItemRepo = new ItemRepo();
+            CollisionEventRepo = new CollisionEventRepo();
         }
 
-        public void Inject(WorldDomain worldDomain) {
-            this.WorldDomain = worldDomain;
+        public void Inject(WorldRootDomain rootDomain) {
+            this.RootDomain = rootDomain;
         }
 
     }

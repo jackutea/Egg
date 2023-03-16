@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class BodyComponent : MonoBehaviour {
 

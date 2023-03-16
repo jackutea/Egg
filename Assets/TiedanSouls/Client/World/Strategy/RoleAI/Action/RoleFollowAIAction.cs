@@ -1,8 +1,8 @@
 using GameArki.BTTreeNS;
-using TiedanSouls.World.Facades;
+using TiedanSouls.Client.Facades;
 using UnityEngine;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
     public class RoleFollowAIAction : IBTTreeAction {
 
         RoleEntity role;

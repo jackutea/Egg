@@ -2,20 +2,20 @@ using System;
 using UnityEngine;
 using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Facades;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls.World.Domain {
+namespace TiedanSouls.Client.Domain {
 
     public class WorldRendererDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldDomain worldDomain;
+        WorldRootDomain worldDomain;
 
         public WorldRendererDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
             this.worldDomain = worldDomain;

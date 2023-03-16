@@ -1,8 +1,9 @@
+using UnityEngine;
 using TiedanSouls.Generic;
 using TiedanSouls.Template;
-using UnityEngine;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls {
+namespace TiedanSouls.Client {
 
     public static class TM2ModelUtil {
 
@@ -42,7 +43,6 @@ namespace TiedanSouls {
                 model.triggerIntervalFrame = tm.triggerIntervalFrame;
                 model.triggerMaintainFrame = tm.triggerMaintainFrame;
                 model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray);
-                model.colliderGOArray = GetGOArray_Collider(tm.colliderTMArray);
                 modelArray[i] = model;
             }
             return modelArray;
@@ -63,7 +63,8 @@ namespace TiedanSouls {
         }
 
         public static ColliderModel GetModel_Collider(ColliderTM tm) {
-            ColliderModel model;
+            var go = GetGO_Collider(tm, true);
+            ColliderModel model = go.AddComponent<ColliderModel>();
             model.colliderType = tm.colliderType;
             model.size = tm.size;
             model.localPos = tm.localPos;
@@ -72,17 +73,7 @@ namespace TiedanSouls {
             return model;
         }
 
-        public static GameObject[] GetGOArray_Collider(ColliderTM[] tmArray) {
-            if (tmArray == null) return null;
-            var len = tmArray.Length;
-            GameObject[] modelArray = new GameObject[len];
-            for (int i = 0; i < len; i++) {
-                modelArray[i] = GetGO_Collider(tmArray[i]);
-            }
-            return modelArray;
-        }
-
-        public static GameObject GetGO_Collider(ColliderTM tm) {
+        public static GameObject GetGO_Collider(ColliderTM tm, bool isTrigger) {
             GameObject colliderGO = new GameObject();
 
             var colliderType = tm.colliderType;
@@ -92,7 +83,7 @@ namespace TiedanSouls {
 
             if (colliderType == ColliderType.Cube) {
                 BoxCollider2D boxCollider = colliderGO.AddComponent<BoxCollider2D>();
-                boxCollider.isTrigger = true;
+                boxCollider.isTrigger = isTrigger;
                 boxCollider.transform.localScale = new Vector2(colliderSize.x, colliderSize.y);
                 boxCollider.transform.eulerAngles = new Vector3(0, 0, localAngleZ);
                 colliderGO.name = "技能碰撞盒";

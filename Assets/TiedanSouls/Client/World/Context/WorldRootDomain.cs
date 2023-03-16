@@ -1,10 +1,11 @@
 using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Domain;
+using TiedanSouls.Client.Domain;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls.World.Facades {
+namespace TiedanSouls.Client.Facades {
 
-    public class WorldDomain {
+    public class WorldRootDomain {
 
         WorldFSMDomain gameDomain;
         public WorldFSMDomain GameDomain => gameDomain;
@@ -27,7 +28,10 @@ namespace TiedanSouls.World.Facades {
         WorldRendererDomain worldRendererDomain;
         public WorldRendererDomain WorldRendererDomain => worldRendererDomain;
 
-        public WorldDomain() {
+        WorldContext worldContext;
+        public WorldContext WorldContext => worldContext;
+
+        public WorldRootDomain() {
             gameDomain = new WorldFSMDomain();
 
             fieldDomain = new WorldFieldDomain();
@@ -55,7 +59,11 @@ namespace TiedanSouls.World.Facades {
             WorldPhysicsDomain.Inject(infraContext, worldContext, this);
 
             WorldRendererDomain.Inject(infraContext, worldContext, this);
+
+            this.worldContext = worldContext;
         }
+
+        #region [Spawn]
 
         public void SpawnByModelArray(SpawnModel[] spawnModelArray) {
             var spawnCount = spawnModelArray?.Length;
@@ -80,9 +88,52 @@ namespace TiedanSouls.World.Facades {
             } else {
                 TDLog.Error("Not Handle Yet!");
             }
-
-
         }
+
+        #endregion
+
+        #region [CollisionTrigger]
+
+        public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
+            var len = collisionTriggerModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var triggerModel = collisionTriggerModelArray[i];
+                SetFather_CollisionTriggerModel(triggerModel, father);
+            }
+        }
+
+        public void SetFather_CollisionTriggerModel(in CollisionTriggerModel triggerModel, in IDArgs father) {
+            var array = triggerModel.colliderModelArray;
+            SetFather_ColliderModel(array, father);
+        }
+
+        public void SetFather_ColliderModel(ColliderModel[] colliderModelArray, in IDArgs father) {
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var colliderModel = colliderModelArray[i];
+                colliderModel.SetFather(father);
+                colliderModel.onTriggerEnter2D += AddToCollisionEventRepo_TriggerEnter;
+                colliderModel.onTriggerExit2D += AddToCollisionEventRepo_TriggerExit;
+                colliderModel.onTriggerStay2D += AddToCollisionEventRepo_TriggerStay;
+            }
+        }
+
+        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventArgs args) {
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerEnter(args);
+        }
+
+        void AddToCollisionEventRepo_TriggerExit(in CollisionEventArgs args) {
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerExit(args);
+        }
+
+        void AddToCollisionEventRepo_TriggerStay(in CollisionEventArgs args) {
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerStay(args);
+        }
+
+        #endregion
 
     }
 }

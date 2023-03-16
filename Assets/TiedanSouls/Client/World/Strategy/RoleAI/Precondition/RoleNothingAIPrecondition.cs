@@ -1,7 +1,7 @@
 using GameArki.BTTreeNS;
-using TiedanSouls.World.Facades;
+using TiedanSouls.Client.Facades;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class RoleNothingAIPrecondition : IBTTreePrecondition {
 

@@ -1,7 +1,4 @@
-using System;
-using UnityEngine;
-
-namespace TiedanSouls.Generic {
+namespace TiedanSouls.Client.Entities {
 
     public struct CollisionTriggerModel {
 
@@ -12,7 +9,6 @@ namespace TiedanSouls.Generic {
         public int triggerMaintainFrame;
 
         public ColliderModel[] colliderModelArray;
-        public GameObject[] colliderGOArray;
 
     }
 

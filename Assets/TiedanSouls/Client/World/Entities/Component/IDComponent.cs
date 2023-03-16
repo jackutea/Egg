@@ -1,4 +1,4 @@
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public struct IDArgs {
         public EntityType entityType;
@@ -6,6 +6,10 @@ namespace TiedanSouls.World.Entities {
         public int typeID;
         public string entityName;
         public AllyType allyType;
+
+        public override string ToString() {
+            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType}";
+        }
     }
 
     public class IDComponent {

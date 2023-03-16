@@ -1,8 +1,8 @@
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Facades;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls.World.Domain {
+namespace TiedanSouls.Client.Domain {
 
     public class WorldFieldFSMDomain {
 
@@ -139,7 +139,7 @@ namespace TiedanSouls.World.Domain {
                         // TODO: 从角色对象池里面取出来
 
                     } else {
-                        var worldDomain = worldContext.WorldDomain;
+                        var worldDomain = worldContext.RootDomain;
                         worldDomain.SpawnByModel(spawnModel);
                     }
                     if (spawnModel.isBreakPoint) {

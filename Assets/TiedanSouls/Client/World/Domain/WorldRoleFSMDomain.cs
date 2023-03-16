@@ -1,19 +1,19 @@
 using UnityEngine;
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Facades;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
 
-namespace TiedanSouls.World.Domain {
+namespace TiedanSouls.Client.Domain {
 
     public class WorldRoleFSMDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldDomain worldDomain;
+        WorldRootDomain worldDomain;
 
         public WorldRoleFSMDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
             this.worldDomain = worldDomain;
@@ -146,7 +146,7 @@ namespace TiedanSouls.World.Domain {
             }
 
             if (stateModel.maintainFrame <= 0) {
-                var roleDomain = worldContext.WorldDomain.RoleDomain;
+                var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleDomain.Die(role);
                 fsm.SetIsExiting(true);
             }

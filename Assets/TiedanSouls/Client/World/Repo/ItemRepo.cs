@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Entities;
 using UnityEngine;
 
-namespace TiedanSouls.World {
+namespace TiedanSouls.Client {
 
     public class ItemRepo {
 

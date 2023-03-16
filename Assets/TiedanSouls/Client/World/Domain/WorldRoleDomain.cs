@@ -1,11 +1,11 @@
 using UnityEngine;
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Facades;
-using TiedanSouls.World.Entities;
+using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
 using TiedanSouls.Template;
 using TiedanSouls.Generic;
 
-namespace TiedanSouls.World.Domain {
+namespace TiedanSouls.Client.Domain {
 
     public class WorldRoleDomain {
 
@@ -71,15 +71,26 @@ namespace TiedanSouls.World.Domain {
             // Weapon Slot
             SetWeaponSlotComponent(role, weaponTypeID);
 
+
             // Skill Slot
+            var skillSlotCom = role.SkillSlotCom;
             var curWeapon = role.WeaponSlotCom.Weapon;
             var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            var roleIDArgs = role.IDCom.ToArgs();
-            AddAllSkillToSlot_Origin(role.SkillSlotCom, skillTypeIDArray, roleIDArgs);
-            AddAllSkillToSlot_Combo(role.SkillSlotCom, roleIDArgs);
+            var idArgs = role.IDCom.ToArgs();
+            AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, idArgs);
+            AddAllSkillToSlot_Combo(skillSlotCom, idArgs);
+
+            var rootDomain = worldContext.RootDomain;
+
+            skillSlotCom.Foreach_Origin((skill) => {
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, idArgs);
+            });
+            skillSlotCom.Foreach_Combo((skill) => {
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, idArgs);
+            });
         }
 
-        void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
+        public void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
             var weaponModel = SpawnWeaponModel(weaponTypeID);
             if (weaponModel == null) {
                 TDLog.Error($"武器生成失败 - {weaponTypeID}");
@@ -91,7 +102,7 @@ namespace TiedanSouls.World.Domain {
             role.WeaponSlotCom.SetWeapon(weaponModel);
         }
 
-        WeaponEntity SpawnWeaponModel(int typeID) {
+        public WeaponEntity SpawnWeaponModel(int typeID) {
             WeaponEntity weapon = new WeaponEntity();
 
             var assetCore = infraContext.AssetCore;
@@ -126,7 +137,7 @@ namespace TiedanSouls.World.Domain {
             return weapon;
         }
 
-        void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
+        public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
             var factory = worldContext.WorldFactory;
@@ -154,7 +165,7 @@ namespace TiedanSouls.World.Domain {
             }
         }
 
-        void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {
+        public void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {
             IDArgs father_lambda = father;
             skillSlotCom.Foreach_Origin((skill) => {
                 var cancelModelArray = skill.ComboSkillCancelModelArray;

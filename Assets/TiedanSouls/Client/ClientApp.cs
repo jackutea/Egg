@@ -3,7 +3,7 @@ using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Infra.Controller;
 using TiedanSouls.Main.Controller;
-using TiedanSouls.World.Controller;
+using TiedanSouls.Client.Controller;
 
 namespace TiedanSouls.Main.Entry {
 

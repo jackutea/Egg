@@ -1,13 +1,12 @@
 using UnityEngine;
 using GameArki.BTTreeNS;
 using TiedanSouls.Infra.Facades;
-using TiedanSouls.World.Entities;
-using TiedanSouls.World.Facades;
+using TiedanSouls.Client.Entities;
+using TiedanSouls.Client.Facades;
 using TiedanSouls.Template;
 using TiedanSouls.Generic;
-using System;
 
-namespace TiedanSouls.World {
+namespace TiedanSouls.Client {
 
     public class WorldFactory {
 

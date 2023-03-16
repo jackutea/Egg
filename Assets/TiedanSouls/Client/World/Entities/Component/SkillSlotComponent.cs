@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TiedanSouls.World.Entities {
+namespace TiedanSouls.Client.Entities {
 
     public class SkillSlotComponent {
 
