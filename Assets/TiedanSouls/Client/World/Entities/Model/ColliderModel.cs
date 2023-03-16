@@ -12,17 +12,42 @@ namespace TiedanSouls.Client.Entities {
         public IDArgs Father => father;
         public void SetFather(IDArgs father) => this.father = father;
 
-        public ColliderType colliderType;
-        public Vector3 localPos;
-        public float localAngleZ;
-        public Vector3 size;
+        ColliderType colliderType;
+        public ColliderType ColliderType => colliderType;
+        public void SetColliderType(ColliderType colliderType) => this.colliderType = colliderType;
 
-        public Quaternion localRot; // 运行时缓存
+        Vector3 localPos;
+        public Vector3 LocalPos => localPos;
+        public void SetLocalPos(Vector3 localPos) => this.localPos = localPos;
+
+        float localAngleZ;
+        public float LocalAngleZ => localAngleZ;
+        public void SetLocalAngleZ(float localAngleZ) => this.localAngleZ = localAngleZ;
+
+        Vector3 localScale;
+        public Vector3 LocalScale => localScale;
+        public void SetLocalScale(Vector3 localScale) => this.localScale = localScale;
+
+        Vector3 size;
+        public Vector3 Size => size;
+        public void SetSize(Vector3 size) => this.size = size;
+
+        Quaternion localRot; // 运行时缓存
+        public Quaternion LocalRot => localRot;
+        public void SetLocalRot(Quaternion localRot) => this.localRot = localRot;
 
         public event CollisionEventHandler onTriggerEnter2D;
         public event CollisionEventHandler onTriggerStay2D;
         public event CollisionEventHandler onTriggerExit2D;
         public delegate void CollisionEventHandler(in CollisionEventArgs args);
+
+        public void Activate() {
+            gameObject.SetActive(true);
+        }
+
+        public void Deactivate() {
+            gameObject.SetActive(false);
+        }
 
         void OnTriggerEnter2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var model)) return;

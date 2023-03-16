@@ -14,8 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1
-    name: 
+    skillName: "\u95EA\u73B0 "
     skillType: 6
-    originalSkillTypeID: 0
-    frames: []
-    weaponAnimName: 
+    startFrame: 0
+    endFrame: 10
+    originSkillTypeID: 0
+    comboSkillCancelTMArray: []
+    cancelSkillCancelTMArray: []
+    weaponAnimName: anim_role_tiedan_idle
+    weaponAnimClip_GUID: 08f51868a53651949b1dd02025f80ffb
+    hitPowerTMArray: []
+    collisionTriggerTMArray: []

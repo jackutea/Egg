@@ -119,6 +119,10 @@ namespace TiedanSouls.Client {
             var hpBar = CreateHpBarHUD();
             role.HudSlotCom.SetHpBarHUD(hpBar);
 
+            // Collider Model
+            var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
+            colliderModel.SetFather(idCom.ToArgs());
+
             return role;
         }
 

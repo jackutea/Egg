@@ -189,7 +189,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 colliderType = ColliderType.Cube;
                 localPos = colliderGO.transform.position;
                 angleZ = colliderGO.transform.localEulerAngles.z;
-                size = collider2D.bounds.size;
+                size = collider2D.transform.lossyScale;
             } else {
                 Debug.LogError($"未知的碰撞器类型 {colliderGO.name}");
             }
@@ -199,6 +199,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.localPos = localPos;
             tm.size = size;
             tm.localAngleZ = angleZ;
+            Debug.Log($"碰撞器 {colliderGO.name} 本地坐标 {localPos} 本地角度 {angleZ} 大小 {size}");
 
             return tm;
         }

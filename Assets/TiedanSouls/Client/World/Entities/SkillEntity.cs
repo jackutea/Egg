@@ -71,11 +71,12 @@ namespace TiedanSouls.Client.Entities {
                 var colliderModelArray = colliderTrigger.colliderModelArray;
                 var colliderCount = colliderModelArray.Length;
                 for (int j = 0; j < colliderCount; j++) {
-                    var colliderModel =colliderModelArray[j];
-                    colliderModel.transform.position = colliderModel.localPos;
-                    colliderModel.transform.rotation = Quaternion.Euler(0, 0, colliderModel.localAngleZ);
-                    var size = colliderModel.size;
+                    var colliderModel = colliderModelArray[j];
+                    colliderModel.transform.position = colliderModel.LocalPos;
+                    colliderModel.transform.rotation = Quaternion.Euler(0, 0, colliderModel.LocalAngleZ);
+                    var size = colliderModel.Size;
                     colliderModel.transform.localScale = new Vector3(size.x, size.y, 1);
+                    colliderModel.Deactivate();
                 }
             }
         }
@@ -100,7 +101,7 @@ namespace TiedanSouls.Client.Entities {
                 var colliderCount = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
                     var colliderModel = colliderCount[i];
-                    colliderModel.gameObject.SetActive(false);
+                    colliderModel.Deactivate();
                 }
             }
 
@@ -109,9 +110,9 @@ namespace TiedanSouls.Client.Entities {
                 var colliderModelArray = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
                     var colliderModel = colliderCount[i];
-                    colliderModel.transform.position = rootPos + rootRot * colliderModel.localPos;
-                    colliderModel.transform.rotation = rootRot * colliderModel.localRot;
-                    colliderModel.gameObject.SetActive(true);
+                    colliderModel.transform.position = rootPos + rootRot * colliderModel.LocalPos;
+                    colliderModel.transform.rotation = rootRot * colliderModel.LocalRot;
+                    colliderModel.Activate();
                 }
             }
             #endregion

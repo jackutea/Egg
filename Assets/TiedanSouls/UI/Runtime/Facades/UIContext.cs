@@ -47,7 +47,7 @@ namespace UIRenderer {
 
                 var rt =  go.AddComponent<RectTransform>();
                 rt.SetParent(canvas.transform);
-                rt.localPosition = Vector3.zero;
+                rt.position = Vector3.zero;
                 rt.anchorMin = Vector2.zero;
                 rt.anchorMax = Vector2.one;
                 rt.offsetMin = Vector2.zero;

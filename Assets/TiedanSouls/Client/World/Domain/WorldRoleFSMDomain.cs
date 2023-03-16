@@ -98,6 +98,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 尝试 技能组合技
             if (roleDomain.TryCastSkillByInput(role)) {
+                TDLog.Log(" ColliderModel 技能组合技");
                 return;
             }
 
@@ -108,7 +109,6 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能逻辑迭代
             if (!castingSkill.TryMoveNext(role.GetPos_Logic(), role.GetRot_Logic())) {
-                castingSkill.Reset();
                 fsm.EnterIdle();
             }
         }

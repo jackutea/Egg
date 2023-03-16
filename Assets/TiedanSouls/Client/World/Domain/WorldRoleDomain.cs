@@ -359,11 +359,9 @@ namespace TiedanSouls.Client.Domain {
 
                 if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var cancelType)) {
                     castingSkill.Reset();
-                    if (cancelType == SkillCancelType.Combo) {
-                        CastComboSkill(role, realSkillTypeID);
-                    } else {
-                        CastOriginalSkill(role, realSkillTypeID);
-                    }
+                    if (cancelType == SkillCancelType.Combo) CastComboSkill(role, realSkillTypeID);
+                    else CastOriginalSkill(role, realSkillTypeID);
+                    return true;
                 }
             }
 

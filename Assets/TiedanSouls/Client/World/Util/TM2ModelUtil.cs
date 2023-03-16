@@ -65,11 +65,11 @@ namespace TiedanSouls.Client {
         public static ColliderModel GetModel_Collider(ColliderTM tm) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
-            model.colliderType = tm.colliderType;
-            model.size = tm.size;
-            model.localPos = tm.localPos;
-            model.localAngleZ = tm.localAngleZ;
-            model.localRot = Quaternion.Euler(0, 0, tm.localAngleZ);
+            model.SetColliderType(tm.colliderType);
+            model.SetSize(tm.size);
+            model.SetLocalPos(tm.localPos);
+            model.SetLocalAngleZ(tm.localAngleZ);
+            model.SetLocalRot(Quaternion.Euler(0, 0, tm.localAngleZ));
             return model;
         }
 
@@ -86,7 +86,7 @@ namespace TiedanSouls.Client {
                 boxCollider.isTrigger = isTrigger;
                 boxCollider.transform.localScale = new Vector2(colliderSize.x, colliderSize.y);
                 boxCollider.transform.eulerAngles = new Vector3(0, 0, localAngleZ);
-                colliderGO.name = "技能碰撞盒";
+                colliderGO.name = $"技能碰撞盒_{colliderGO.GetInstanceID()}";
                 colliderGO.SetActive(false);
             } else {
                 TDLog.Error($"尚未支持的碰撞体类型: {colliderType}");

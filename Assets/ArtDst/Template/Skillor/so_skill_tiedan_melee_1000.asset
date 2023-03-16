@@ -16,12 +16,91 @@ MonoBehaviour:
     typeID: 1000
     skillName: "\u666E\u653B1\u6BB5"
     skillType: 1
-    originalSkillTypeID: 1000
+    startFrame: 0
+    endFrame: 15
+    originSkillTypeID: 1000
+    comboSkillCancelTMArray:
+    - skillTypeID: 1010
+      isCombo: 0
+      startFrame: 10
+      endFrame: 15
+    cancelSkillCancelTMArray: []
     weaponAnimName: anim_spear_melee_1000
-    hitPowerArray:
+    weaponAnimClip_GUID: 84dd15d653dd41049994690039901695
+    hitPowerTMArray:
     - startFrame: 0
-      endFrame: 10
-      hitStunFrameArray: 0500000005000000050000000500000006000000060000000600000006000000060000000600000007000000
-      damageArray: 64000000650000006600000066000000670000006800000069000000690000006a0000006b0000006c000000
-      knockBackVelocityArray_cm: 640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
-      knockUpVelocityArray_cm: 640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
+      endFrame: 15
+      hitStunFrameArray: 0a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
+      damageArray: 32000000320000003200000032000000320000003200000032000000320000003200000032000000320000003200000032000000320000003200000032000000
+      knockBackSpeedArray_cm: c8000000c1000000bb000000b4000000ad000000a7000000a000000099000000930000008c000000
+      knockUpSpeedArray_cm: 140000001300000013000000120000001100000011000000100000000f0000000f0000000e000000
+      hitStunFrameCurve_KeyframeTMArray:
+      - time: 0
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      damageCurve_KeyframeTMArray:
+      - time: 0
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      knockBackDisCurve_KeyframeTMArray:
+      - time: 0
+        value: 0
+        inTangent: 2
+        outTangent: 2
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      knockUpDisCurve_KeyframeTMArray:
+      - time: 0
+        value: 0
+        inTangent: 2
+        outTangent: 2
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      hitStunFrameBase: 10
+      damageBase: 50
+      knockBackCostFrame: 10
+      knockBackDistance_cm: 100
+      knockUpCostFrame: 10
+      knockUpHeight_cm: 10
+    collisionTriggerTMArray:
+    - startFrame: 0
+      endFrame: 15
+      triggerIntervalFrame: 0
+      triggerMaintainFrame: 0
+      colliderTMArray:
+      - colliderType: 0
+        localPos: {x: 2.97, y: 0.94, z: 0}
+        localAngleZ: 0
+        size: {x: 5.8185, y: 1.7378125, z: 1}
+      colliderRelativePathArray:
+      - colliders_0/b1

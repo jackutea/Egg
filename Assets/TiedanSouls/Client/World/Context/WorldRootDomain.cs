@@ -95,7 +95,7 @@ namespace TiedanSouls.Client.Facades {
         #region [CollisionTrigger]
 
         public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
-            var len = collisionTriggerModelArray.Length;
+            var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerModelArray[i];
                 SetFather_CollisionTriggerModel(triggerModel, father);

@@ -49,6 +49,10 @@ namespace TiedanSouls.Client.Entities {
             return args;
         }
 
+        public override string ToString() {
+            return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType}";
+        }
+
     }
 
 }

@@ -14,291 +14,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1010
-    name: "\u666E\u653B2\u6BB5"
+    skillName: "\u666E\u653B2\u6BB5"
     skillType: 1
-    originalSkillTypeID: 1000
-    frames:
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 20
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes:
-      - shapeType: 0
-        center: {x: 1, y: 0.8}
-        size: {x: 2, y: 0.8}
-        zRotation: 0
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 20
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes:
-      - shapeType: 0
-        center: {x: 1.25, y: 0.8}
-        size: {x: 2.5, y: 0.8}
-        zRotation: 0
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 20
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs: []
-      boxes:
-      - shapeType: 0
-        center: {x: 1.5, y: 0.8}
-        size: {x: 3, y: 0.8}
-        zRotation: 0
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
-    - hitPower:
-        knockbackForce: 0
-        knockbackFrame: 0
-        blowUpForce: 0
-        hitStunFrame: 0
-        breakPowerLevel: 0
-        sufferPowerLevel: 0
-        hitStopFrame: 0
-      hasDash: 0
-      dashForce: {x: 0, y: 0}
-      isDashEnd: 0
-      cancelTMs:
-      - skillTypeID: 1020
-        startFrame: 0
-        isCombo: 1
-      boxes: []
+    startFrame: 0
+    endFrame: 15
+    originSkillTypeID: 1000
+    comboSkillCancelTMArray:
+    - skillTypeID: 1020
+      isCombo: 0
+      startFrame: 10
+      endFrame: 15
+    cancelSkillCancelTMArray: []
     weaponAnimName: anim_spear_melee_1010
+    weaponAnimClip_GUID: 706030e999e63134b8e0d6ccbf6e3288
+    hitPowerTMArray:
+    - startFrame: 0
+      endFrame: 15
+      hitStunFrameArray: 0a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
+      damageArray: 32000000320000003200000032000000320000003200000032000000320000003200000032000000320000003200000032000000320000003200000032000000
+      knockBackSpeedArray_cm: c8000000c1000000bb000000b4000000ad000000a7000000a000000099000000930000008c000000
+      knockUpSpeedArray_cm: 140000001300000013000000120000001100000011000000100000000f0000000f0000000e000000
+      hitStunFrameCurve_KeyframeTMArray:
+      - time: 0
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      damageCurve_KeyframeTMArray:
+      - time: 0
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      knockBackDisCurve_KeyframeTMArray:
+      - time: 0
+        value: 0
+        inTangent: 2
+        outTangent: 2
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      knockUpDisCurve_KeyframeTMArray:
+      - time: 0
+        value: 0
+        inTangent: 2
+        outTangent: 2
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 0
+        outTangent: 0
+        inWeight: 0
+        outWeight: 0
+      hitStunFrameBase: 10
+      damageBase: 50
+      knockBackCostFrame: 10
+      knockBackDistance_cm: 100
+      knockUpCostFrame: 10
+      knockUpHeight_cm: 10
+    collisionTriggerTMArray:
+    - startFrame: 0
+      endFrame: 15
+      triggerIntervalFrame: 0
+      triggerMaintainFrame: 0
+      colliderTMArray:
+      - colliderType: 0
+        localPos: {x: 2.97, y: 0.94, z: 0}
+        localAngleZ: 0
+        size: {x: 5.8185, y: 1.7378125, z: 1}
+      colliderRelativePathArray:
+      - colliders_0/b1
