@@ -17,7 +17,7 @@ namespace TiedanSouls.Client {
 
         public void Add_TriggerEnter(in CollisionEventArgs args) {
             events_triggerEnter.Add(args);
-            TDLog.Log($"碰撞事件 TriggerEnter args = {args} ");
+            TDLog.Log($"碰撞事件<Trigger:Enter> \n {args} ");
         }
 
         public void Add_TriggerExit(in CollisionEventArgs args) {
