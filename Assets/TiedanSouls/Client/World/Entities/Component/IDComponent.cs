@@ -1,6 +1,7 @@
 namespace TiedanSouls.Client.Entities {
 
     public struct IDArgs {
+        
         public EntityType entityType;
         public int entityID;
         public int typeID;

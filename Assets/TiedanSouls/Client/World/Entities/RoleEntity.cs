@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleEntity : MonoBehaviour {
+    public class RoleEntity : MonoBehaviour,IEntity {
 
         ControlType controlType;
         public ControlType ControlType => controlType;

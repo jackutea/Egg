@@ -71,16 +71,17 @@ namespace TiedanSouls.Client.Domain {
             // Weapon Slot
             SetWeaponSlotComponent(role, weaponTypeID);
 
-
             // Skill Slot
             var skillSlotCom = role.SkillSlotCom;
             var curWeapon = role.WeaponSlotCom.Weapon;
             var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
             var idArgs = role.IDCom.ToArgs();
-            AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, idArgs);
-            AddAllSkillToSlot_Combo(skillSlotCom, idArgs);
 
             var rootDomain = worldContext.RootDomain;
+
+            var skillDomain = rootDomain.SkillDomain;
+            skillDomain.AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, idArgs);
+            skillDomain.AddAllSkillToSlot_Combo(skillSlotCom, idArgs);
 
             skillSlotCom.Foreach_Origin((skill) => {
                 rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, idArgs);
@@ -135,65 +136,6 @@ namespace TiedanSouls.Client.Domain {
             weapon.SetMod(go);
 
             return weapon;
-        }
-
-        public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
-            var templateCore = infraContext.TemplateCore;
-            var idService = worldContext.IDService;
-            var factory = worldContext.WorldFactory;
-
-            var len = typeIDArray.Length;
-            for (int i = 0; i < len; i++) {
-                var typeID = typeIDArray[i];
-                if (!templateCore.SkillTemplate.TryGet(typeID, out SkillTM skillTM)) {
-                    continue;
-                }
-
-                if (!factory.TrySpawnSkillEntity(skillTM.typeID, out SkillEntity skillEntity)) {
-                    continue;
-                }
-
-                var idCom = skillEntity.IDCom;
-                idCom.SetEntityID(idService.PickSkillID());
-
-                if (!skillSlotCom.TryAdd_Origin(skillEntity)) {
-                    TDLog.Error($"添加技能失败! 已添加 '原始' 技能 - {typeID}");
-                }
-
-                skillEntity.IDCom.SetFather(father);
-                TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
-            }
-        }
-
-        public void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {
-            IDArgs father_lambda = father;
-            skillSlotCom.Foreach_Origin((skill) => {
-                var cancelModelArray = skill.ComboSkillCancelModelArray;
-                AddComboSkill(skillSlotCom, cancelModelArray, father_lambda);
-            });
-
-            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray, in IDArgs father) {
-                var len = cancelModelArray?.Length;
-                for (int i = 0; i < len; i++) {
-                    var cancelModel = cancelModelArray[i];
-                    var comboTypeID = cancelModel.skillTypeID;
-                    if (!worldContext.WorldFactory.TrySpawnSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
-                        continue;
-                    }
-
-                    var idCom = comboSkill.IDCom;
-                    idCom.SetEntityID(worldContext.IDService.PickSkillID());
-
-                    if (!skillSlotCom.TryAdd_Combo(comboSkill)) {
-                        TDLog.Error($"添加技能失败! - {comboTypeID}");
-                        continue;
-                    }
-
-                    comboSkill.IDCom.SetFather(father);
-                    TDLog.Log($"添加技能成功! 已添加 '组合技' 技能 - {comboTypeID}");
-                    AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray, father);
-                }
-            }
         }
 
         #endregion

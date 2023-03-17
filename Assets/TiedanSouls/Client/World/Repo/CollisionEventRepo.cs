@@ -7,25 +7,20 @@ namespace TiedanSouls.Client {
 
         List<CollisionEventArgs> events_triggerEnter;
         List<CollisionEventArgs> events_triggerExit;
-        List<CollisionEventArgs> events_triggerStay;
 
         public CollisionEventRepo() {
             events_triggerEnter = new List<CollisionEventArgs>();
             events_triggerExit = new List<CollisionEventArgs>();
-            events_triggerStay = new List<CollisionEventArgs>();
         }
 
         public void Add_TriggerEnter(in CollisionEventArgs args) {
             events_triggerEnter.Add(args);
-            TDLog.Log($"碰撞事件<Trigger:Enter> \n {args} ");
+            TDLog.Log($"碰撞事件<Trigger:Enter>\n{args} ");
         }
 
         public void Add_TriggerExit(in CollisionEventArgs args) {
             events_triggerExit.Add(args);
-        }
-
-        public void Add_TriggerStay(in CollisionEventArgs args) {
-            events_triggerStay.Add(args);
+            TDLog.Log($"碰撞事件<Trigger:Exit>\n{args} ");
         }
 
         public bool TryPick_EnterEvent(out CollisionEventArgs args) {
@@ -49,18 +44,6 @@ namespace TiedanSouls.Client {
 
             args = events_triggerExit[index];
             events_triggerExit.RemoveAt(index);
-            return true;
-        }
-
-        public bool TryPick_StayEvent(out CollisionEventArgs args) {
-            args = default;
-
-            var count = events_triggerStay.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = events_triggerStay[index];
-            events_triggerStay.RemoveAt(index);
             return true;
         }
 

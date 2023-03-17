@@ -14,7 +14,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public override string ToString() {
-            return $"A方-{a} \n  B方{b}";
+            return $"A方-{a}\nB方-{b}";
         }
 
     }

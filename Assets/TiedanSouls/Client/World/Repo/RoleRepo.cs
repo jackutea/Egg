@@ -17,6 +17,24 @@ namespace TiedanSouls.Client {
             allAIRoles = new List<RoleEntity>();
         }
 
+        public bool TryGet(int entityID, out RoleEntity role) {
+            role = null;
+            if (playerRole != null && playerRole.IDCom.EntityID == entityID) {
+                role = playerRole;
+                return true;
+            }
+
+            var len = allAIRoles.Count;
+            for (int i = 0; i < len; i++) {
+                var r = allAIRoles[i];
+                if (r.IDCom.EntityID == entityID) {
+                    role = r;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void SetPlayerRole(RoleEntity role) {
             if (playerRole != null) {
                 TDLog.Warning("玩家角色已经被设置过了!");
@@ -51,6 +69,39 @@ namespace TiedanSouls.Client {
                     break;
                 }
             }
+        }
+
+        public void HideAllAIRolesInField(int fieldTypeID) {
+            TDLog.Log($"隐藏关卡中的角色: fieldTypeID={fieldTypeID}");
+            if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
+                return;
+            }
+
+            var len = list.Count;
+            for (int i = 0; i < len; i++) {
+                var role = list[i];
+                role.Hide();
+            }
+        }
+
+        public void ResetAllAIRolesInField(int fieldTypeID, bool isShow) {
+            if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
+                return;
+            }
+
+            var len = list.Count;
+            for (int i = 0; i < len; i++) {
+                var role = list[i];
+                role.Reset();
+                role.SetPos_Logic(role.BornPos);
+                if (isShow) {
+                    role.Show();
+                }
+            }
+        }
+
+        public bool HasRoleFromFieldType(int fieldTypeID) {
+            return allAIRoles_sortedByField.ContainsKey(fieldTypeID);
         }
 
         public void ForeachAll(Action<RoleEntity> action) {
@@ -99,39 +150,6 @@ namespace TiedanSouls.Client {
                 var role = list[i];
                 action.Invoke(role);
             }
-        }
-
-        public void HideAllAIRolesInField(int fieldTypeID) {
-            TDLog.Log($"隐藏关卡中的角色: fieldTypeID={fieldTypeID}");
-            if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
-                return;
-            }
-
-            var len = list.Count;
-            for (int i = 0; i < len; i++) {
-                var role = list[i];
-                role.Hide();
-            }
-        }
-
-        public void ResetAllAIRolesInField(int fieldTypeID, bool isShow) {
-            if (!allAIRoles_sortedByField.TryGetValue(fieldTypeID, out var list)) {
-                return;
-            }
-
-            var len = list.Count;
-            for (int i = 0; i < len; i++) {
-                var role = list[i];
-                role.Reset();
-                role.SetPos_Logic(role.BornPos);
-                if (isShow) {
-                    role.Show();
-                }
-            }
-        }
-
-        public bool HasFieldRole(int fieldTypeID) {
-            return allAIRoles_sortedByField.ContainsKey(fieldTypeID);
         }
 
     }

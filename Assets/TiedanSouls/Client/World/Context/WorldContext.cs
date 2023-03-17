@@ -1,4 +1,3 @@
-using TiedanSouls.Asset;
 using TiedanSouls.Client.Entities;
 using TiedanSouls.Client.Service;
 
@@ -18,6 +17,7 @@ namespace TiedanSouls.Client.Facades {
 
         // ==== Repository ====
         public RoleRepo RoleRepo { get; private set; }
+        public SkillRepo SkillRepo { get; private set; }
         public FieldRepo FieldRepo { get; private set; }
         public ItemRepo ItemRepo { get; private set; }
         public CollisionEventRepo CollisionEventRepo { get; private set; }
@@ -34,6 +34,7 @@ namespace TiedanSouls.Client.Facades {
             DamageArbitService = new DamageArbitService();
 
             RoleRepo = new RoleRepo();
+            SkillRepo = new SkillRepo();
             FieldRepo = new FieldRepo();
             ItemRepo = new ItemRepo();
             CollisionEventRepo = new CollisionEventRepo();

@@ -107,7 +107,7 @@ namespace TiedanSouls.Client.Domain {
             });
 
             // Physics
-            var phxDomain = worldDomain.WorldPhysicsDomain;
+            var phxDomain = worldDomain.PhysicsDomain;
             phxDomain.Tick(dt);
 
             // 刷新关卡状态机
@@ -181,7 +181,7 @@ namespace TiedanSouls.Client.Domain {
             });
 
             // Physics
-            var phxDomain = worldDomain.WorldPhysicsDomain;
+            var phxDomain = worldDomain.PhysicsDomain;
             phxDomain.Tick(dt);
 
             // 刷新关卡状态机

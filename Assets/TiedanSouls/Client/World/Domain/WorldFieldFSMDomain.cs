@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
 
                 // 判断前置条件: 是否是重复加载关卡
-                if (roleRepo.HasFieldRole(fieldTypeID)) {
+                if (roleRepo.HasRoleFromFieldType(fieldTypeID)) {
                     roleRepo.ResetAllAIRolesInField(fieldTypeID, false);
                     stateModel.SetIsRespawning(true);
                 }

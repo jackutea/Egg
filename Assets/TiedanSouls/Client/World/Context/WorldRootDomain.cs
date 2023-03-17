@@ -7,60 +7,56 @@ namespace TiedanSouls.Client.Facades {
 
     public class WorldRootDomain {
 
-        WorldFSMDomain gameDomain;
-        public WorldFSMDomain GameDomain => gameDomain;
+        public WorldFSMDomain GameDomain { get; private set; }
 
-        WorldFieldDomain fieldDomain;
-        public WorldFieldDomain FieldDomain => fieldDomain;
+        public WorldFieldDomain FieldDomain { get; private set; }
 
-        WorldFieldFSMDomain fieldFSMDomain;
-        public WorldFieldFSMDomain FieldFSMDomain => fieldFSMDomain;
+        public WorldFieldFSMDomain FieldFSMDomain { get; private set; }
 
-        WorldRoleDomain roleDomain;
-        public WorldRoleDomain RoleDomain => roleDomain;
+        public WorldRoleDomain RoleDomain { get; private set; }
 
-        WorldRoleFSMDomain roleFSMDomain;
-        public WorldRoleFSMDomain RoleFSMDomain => roleFSMDomain;
+        public WorldRoleFSMDomain RoleFSMDomain { get; private set; }
 
-        WorldPhysicsDomain phxDomain;
-        public WorldPhysicsDomain WorldPhysicsDomain => phxDomain;
+        public WorldSkillDomain SkillDomain { get; private set; }
 
-        WorldRendererDomain worldRendererDomain;
-        public WorldRendererDomain WorldRendererDomain => worldRendererDomain;
+        public WorldPhysicsDomain PhysicsDomain { get; private set; }
 
-        WorldContext worldContext;
-        public WorldContext WorldContext => worldContext;
+        public WorldRendererDomain WorldRendererDomain { get; private set; }
+
+        public WorldContext WorldContext { get; private set; }
 
         public WorldRootDomain() {
-            gameDomain = new WorldFSMDomain();
+            GameDomain = new WorldFSMDomain();
 
-            fieldDomain = new WorldFieldDomain();
-            fieldFSMDomain = new WorldFieldFSMDomain();
+            FieldDomain = new WorldFieldDomain();
+            FieldFSMDomain = new WorldFieldFSMDomain();
 
-            roleDomain = new WorldRoleDomain();
-            roleFSMDomain = new WorldRoleFSMDomain();
+            RoleDomain = new WorldRoleDomain();
+            RoleFSMDomain = new WorldRoleFSMDomain();
 
-            phxDomain = new WorldPhysicsDomain();
+            PhysicsDomain = new WorldPhysicsDomain();
 
-            worldRendererDomain = new WorldRendererDomain();
+            WorldRendererDomain = new WorldRendererDomain();
         }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
             worldContext.Inject(this);
 
-            GameDomain.Inject(infraContext, worldContext, this);
+            this.GameDomain.Inject(infraContext, worldContext, this);
 
-            RoleFSMDomain.Inject(infraContext, worldContext, this);
-            RoleDomain.Inject(infraContext, worldContext);
+            this.RoleFSMDomain.Inject(infraContext, worldContext, this);
+            this.RoleDomain.Inject(infraContext, worldContext);
 
-            FieldDomain.Inject(infraContext, worldContext);
-            FieldFSMDomain.Inject(infraContext, worldContext);
+            this.SkillDomain.Inject(infraContext, worldContext);
 
-            WorldPhysicsDomain.Inject(infraContext, worldContext, this);
+            this.FieldDomain.Inject(infraContext, worldContext);
+            this.FieldFSMDomain.Inject(infraContext, worldContext);
 
-            WorldRendererDomain.Inject(infraContext, worldContext, this);
+            this.PhysicsDomain.Inject(infraContext, worldContext, this);
 
-            this.worldContext = worldContext;
+            this.WorldRendererDomain.Inject(infraContext, worldContext, this);
+
+            this.WorldContext = worldContext;
         }
 
         #region [Spawn]
@@ -82,7 +78,7 @@ namespace TiedanSouls.Client.Facades {
             var spawnPos = spawnModel.pos;
 
             if (entityType == EntityType.Role) {
-                var role = roleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                var role = RoleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
                 role.SetIsBoss(isBoss);
                 TDLog.Log($"人物: AllyType {allyType} / ControlType {controlType} / TypeID {typeID} / Name {role.IDCom.EntityName} / IsBoss {isBoss} Spawned!");
             } else {
@@ -114,23 +110,45 @@ namespace TiedanSouls.Client.Facades {
                 colliderModel.SetFather(father);
                 colliderModel.onTriggerEnter2D += AddToCollisionEventRepo_TriggerEnter;
                 colliderModel.onTriggerExit2D += AddToCollisionEventRepo_TriggerExit;
-                colliderModel.onTriggerStay2D += AddToCollisionEventRepo_TriggerStay;
             }
         }
 
         void AddToCollisionEventRepo_TriggerEnter(in CollisionEventArgs args) {
-            var evRepo = worldContext.CollisionEventRepo;
+            var evRepo = WorldContext.CollisionEventRepo;
             evRepo.Add_TriggerEnter(args);
         }
 
         void AddToCollisionEventRepo_TriggerExit(in CollisionEventArgs args) {
-            var evRepo = worldContext.CollisionEventRepo;
+            var evRepo = WorldContext.CollisionEventRepo;
             evRepo.Add_TriggerExit(args);
         }
 
-        void AddToCollisionEventRepo_TriggerStay(in CollisionEventArgs args) {
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerStay(args);
+        #endregion
+
+        #region [Entity]
+
+        public bool TryGetEntityObj(in IDArgs idArgs, out IEntity entity) {
+            entity = null;
+
+            var entityType = idArgs.entityType;
+            var entityID = idArgs.entityID;
+
+            if (entityType == EntityType.Role) {
+                var roleRepo = WorldContext.RoleRepo;
+                if (!roleRepo.TryGet(entityID, out var role)) return false;
+                entity = role;
+                return true;
+            }
+
+            if (entityType == EntityType.Skill) {
+                var skillRepo = WorldContext.SkillRepo;
+                if (!skillRepo.TryGet(entityID, out var skill)) return false;
+                entity = skill;
+                return true;
+            }
+
+            TDLog.Error($"尚未处理的实体!\n{idArgs}");
+            return false;
         }
 
         #endregion
