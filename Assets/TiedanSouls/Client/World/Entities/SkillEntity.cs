@@ -87,29 +87,22 @@ namespace TiedanSouls.Client.Entities {
             curFrame++;
 
             // 碰撞盒控制
-            Foreach_CollisionTrigger(TriggerBegin, TriggerEnd, Triggering);
+            Foreach_CollisionTrigger(TriggerBegin, Triggering, TriggerEnd);
             return true;
 
             #region [内部方法]
-            void TriggerBegin(CollisionTriggerModel triggerModel) {
-            }
-
-            void TriggerEnd(CollisionTriggerModel triggerModel) {
-                var colliderCount = triggerModel.colliderModelArray;
-                for (int i = 0; i < colliderCount.Length; i++) {
-                    var colliderModel = colliderCount[i];
-                    colliderModel.Deactivate();
-                }
-            }
-
-            void Triggering(CollisionTriggerModel triggerModel) {
+            void TriggerBegin(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void Triggering(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void TriggerEnd(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
+            void ActivateAllColliderModel(CollisionTriggerModel triggerModel, bool active) {
                 var colliderCount = triggerModel.colliderModelArray;
                 var colliderModelArray = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
                     var colliderModel = colliderCount[i];
                     colliderModel.transform.position = rootPos + rootRot * colliderModel.LocalPos;
                     colliderModel.transform.rotation = rootRot * colliderModel.LocalRot;
-                    colliderModel.Activate();
+                    if (active) colliderModel.Activate();
+                    else colliderModel.Deactivate();
                 }
             }
             #endregion
@@ -149,17 +142,18 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public bool TryGet_ValidTriggerModel(out CollisionTriggerModel model) {
+        public bool TryGet_ValidTriggerModel(out CollisionTriggerModel triggerModel) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
-                    CollisionTriggerModel m = collisionTriggerArray[i];
-                    if (m.GetTriggerStatus(curFrame) != TriggerStatus.None) {
-                        model = m;
+                    CollisionTriggerModel model = collisionTriggerArray[i];
+                    var triggerStatus = model.GetTriggerStatus(curFrame);
+                    if (triggerStatus != TriggerStatus.None) {
+                        triggerModel = model;
                         return true;
                     }
                 }
             }
-            model = default;
+            triggerModel = default;
             return false;
         }
 
