@@ -269,15 +269,15 @@ namespace TiedanSouls.Client.Entities {
         }
 
         // ==== Hit ====
-        public void HitBeHit(int atk) {
+        public void Attribute_HP_Decrease(int atk) {
             TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
-            attributeCom.HuryBy(atk);
+            attributeCom.HP_Decrease(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
         }
 
         // ==== Drop ====
         public void DropBeHit(int damage, Vector2 rebornPos) {
-            attributeCom.HuryBy(damage);
+            attributeCom.HP_Decrease(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
             SetPos_Logic(rebornPos);
             SyncRenderer();

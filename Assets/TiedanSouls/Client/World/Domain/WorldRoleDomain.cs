@@ -399,7 +399,7 @@ namespace TiedanSouls.Client.Domain {
         void DamagedBySkill(RoleEntity caster, SkillEntity skill, RoleEntity other) {
             // Weapon Damage
             var curWeapon = caster.WeaponSlotCom.Weapon;
-            other.HitBeHit(curWeapon.atk);
+            other.Attribute_HP_Decrease(curWeapon.atk);
         }
 
         void FrameEffector(RoleEntity caster, SkillEntity skill, RoleEntity other) {

@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Entities {
             this.fallingSpeedMax = fallingSpeedMax;
         }
 
-        internal void HuryBy(int dmg) {
+        internal void HP_Decrease(int dmg) {
             hp -= dmg;
             if (hp < 0) {
                 hp = 0;

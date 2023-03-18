@@ -38,46 +38,54 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void EnterIdle() {
-            state = RoleFSMState.Idle;
             var stateModel = idleModel;
-
             stateModel.Reset();
+
             idleModel.isEntering = true;
+
+            state = RoleFSMState.Idle;
             TDLog.Log("人物状态机切换 - 待机 ");
         }
 
         public void EnterCasting(int skillTypeID, bool isCombo) {
-            state = RoleFSMState.Casting;
             var stateModel = castingModel;
-
             stateModel.Reset();
+
             stateModel.castingSkillTypeID = skillTypeID;
             stateModel.SetIsCombo(isCombo);
             stateModel.SetIsEntering(true);
-            TDLog.Log($"人物状态机切换 - 施放技能 {skillTypeID} 连击 {isCombo}");
+
+            state = RoleFSMState.Casting;
+            TDLog.Log($"人物状态机切换 - 施法中 {skillTypeID} 连击 {isCombo}");
         }
 
         public void EnterBeHit(in HitPowerModel hitPowerModel, int hitFrame, Vector3 beHitDir) {
-            state = RoleFSMState.BeHit;
             var stateModel = beHitModel;
-
             stateModel.Reset();
+
+            int castingSkillTypeID = -1;
+            if (state == RoleFSMState.Casting) castingSkillTypeID = castingModel.castingSkillTypeID;
+
+            stateModel.isEntering = true;
+
             stateModel.beHitDir = beHitDir;
+            stateModel.hitStunFrame = hitPowerModel.GetHitStunFrame(hitFrame);
+            stateModel.castingSkillTypeID = castingSkillTypeID;
             stateModel.knockBackVelocityArray = hitPowerModel.KnockBackVelocityArray;
             stateModel.knockUpVelocityArray = hitPowerModel.KnockUpVelocityArray;
-            stateModel.hitStunFrame = hitPowerModel.GetHitStunFrame(hitFrame);
-            stateModel.curFrame = 0;
-            stateModel.isEntering = true;
-            TDLog.Log("人物状态机切换 - 受击 ");
+
+            state = RoleFSMState.BeHit;
+            TDLog.Log($"人物状态机切换 - 受击\n受击方向 {beHitDir} / hitFrame {hitFrame} / hitStunFrame {stateModel.hitStunFrame} / 正在释放的技能ID: {castingSkillTypeID}");
         }
 
         public void EnterDying(int maintainFrame) {
-            state = RoleFSMState.Dying;
             var stateModel = dyingModel;
-
             stateModel.Reset();
+
             dyingModel.SetIsEntering(true);
             dyingModel.maintainFrame = maintainFrame;
+
+            state = RoleFSMState.Dying;
             TDLog.Log("人物状态机切换 - 死亡中 ");
         }
 

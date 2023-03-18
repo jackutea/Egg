@@ -23,9 +23,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void HitRoleByHitPower(RoleEntity role, HitPowerModel hitPower, int hitFrame, Vector3 beHitDir) {
             var hitDamage = hitPower.GetHitDamage(hitFrame);
-            var attributeCom = role.AttributeCom;
-            attributeCom.HuryBy(hitDamage);
-            TDLog.Log($"HitRoleByHitPower:  hitDamage {hitDamage}");
+            role.Attribute_HP_Decrease(hitDamage);
 
             role.FSMCom.EnterBeHit(hitPower, hitFrame, beHitDir);
         }

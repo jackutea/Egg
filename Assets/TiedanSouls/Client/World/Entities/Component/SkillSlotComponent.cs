@@ -66,6 +66,12 @@ namespace TiedanSouls.Client.Entities {
 
         #region [查询]
 
+        public bool TryGet(int skillTypeID, out SkillEntity skillEntity) {
+            if (skillDic_origin.TryGetValue(skillTypeID, out skillEntity)) return true;
+            if (skillDic_combo.TryGetValue(skillTypeID, out skillEntity)) return true;
+            return false;
+        }
+
         public bool TryGet(int skillTypeID, bool isCombo, out SkillEntity skillEntity) {
             if (skillDic_origin.TryGetValue(skillTypeID, out skillEntity)) {
                 return true;

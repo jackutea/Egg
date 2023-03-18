@@ -113,8 +113,8 @@ namespace TiedanSouls.Client {
 
         public static HitPowerModel GetModel_HitPower(HitPowerTM tm) {
             HitPowerModel model;
-            model.SetHitStunFrameArray(tm.hitStunFrameArray);
-            model.SetDamageArray(tm.damageArray);
+            model.SetHitStunFrameArray(tm.hitStunFrameArray.Clone() as int[]);
+            model.SetDamageArray(tm.damageArray.Clone() as int[]);
             model.SetKnockBackVelocityArray(GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm));
             model.SetKnockUpVelocityArray(GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm));
             return model;

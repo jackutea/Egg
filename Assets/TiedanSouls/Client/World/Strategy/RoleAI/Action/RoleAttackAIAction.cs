@@ -52,7 +52,7 @@ namespace TiedanSouls.Client.Entities {
             }
 
             //TODO:攻击方式后续修改，暂时先凑合一下        
-            worldContext.RoleRepo.PlayerRole.HitBeHit(30);
+            worldContext.RoleRepo.PlayerRole.Attribute_HP_Decrease(30);
             time = 0;
             return true;
 

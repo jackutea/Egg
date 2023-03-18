@@ -25,8 +25,6 @@ namespace TiedanSouls.Client.Domain {
             var fsm = role.FSMCom;
             if (fsm.IsExiting) return;
 
-            Apply_AnyState(role, fsm, dt);
-
             if (fsm.State == RoleFSMState.Idle) {
                 Apply_Idle(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Casting) {
@@ -36,6 +34,8 @@ namespace TiedanSouls.Client.Domain {
             } else if (fsm.State == RoleFSMState.Dying) {
                 Apply_Dead(role, fsm, dt);
             }
+
+            Apply_AnyState(role, fsm, dt);
         }
 
         void Apply_AnyState(RoleEntity role, RoleFSMComponent fsm, float dt) {
@@ -118,16 +118,23 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.isEntering) {
                 stateModel.isEntering = false;
+
+                // 受击时技能被打断
+                var castingSkillTypeID = stateModel.castingSkillTypeID;
+                if (castingSkillTypeID != -1) {
+                    var skillSlotCom = role.SkillSlotCom;
+                    _ = skillSlotCom.TryGet(castingSkillTypeID, out var castingSkill);
+                    castingSkill.Reset();
+                }
+
                 role.ModCom.Anim_Play_BeHit();
-                return;
             }
 
-            if (stateModel.curFrame >= stateModel.hitStunFrame && stateModel.curFrame >= stateModel.knockbackFrame) {
+            stateModel.hitStunFrame--;
+            if (stateModel.hitStunFrame <= 0) {
                 fsm.EnterIdle();
                 return;
             }
-
-            stateModel.curFrame += 1;
         }
 
         void Apply_Dead(RoleEntity role, RoleFSMComponent fsm, float dt) {
