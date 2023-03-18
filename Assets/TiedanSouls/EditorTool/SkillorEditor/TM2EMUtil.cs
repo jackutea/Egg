@@ -57,6 +57,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
             em.colliderGOArray = colliderGOArray;
 
+            em.hitPowerEM = GetEM_HitPower(tm.hitPowerTM);
+
             return em;
         }
 
@@ -64,15 +66,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         #endregion
 
         #region [HitPower]
-
-        public static HitPowerEM[] GetEMArray_HitPower(HitPowerTM[] tmArray) {
-            if (tmArray == null) return null;
-            HitPowerEM[] emArray = new HitPowerEM[tmArray.Length];
-            for (int i = 0; i < tmArray.Length; i++) {
-                emArray[i] = GetEM_HitPower(tmArray[i]);
-            }
-            return emArray;
-        }
 
         public static HitPowerEM GetEM_HitPower(this HitPowerTM tm) {
             HitPowerEM em = new HitPowerEM();
