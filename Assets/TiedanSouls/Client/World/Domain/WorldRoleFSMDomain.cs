@@ -127,6 +127,8 @@ namespace TiedanSouls.Client.Domain {
                     castingSkill.Reset();
                 }
 
+                role.MoveCom.StopHorizontal();
+
                 role.ModCom.Anim_Play_BeHit();
             }
 
