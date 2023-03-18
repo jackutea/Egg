@@ -2,6 +2,9 @@ namespace TiedanSouls.Generic {
 
     public struct HitPowerModel {
 
+        public int startFrame;
+        public int endFrame;
+
         int[] damageArray;
         public void SetDamageArray(int[] value) => damageArray = value;
 
@@ -17,11 +20,13 @@ namespace TiedanSouls.Generic {
         public void SetKnockUpVelocityArray(float[] value) => knockUpVelocityArray = value;
 
         public int GetHitDamage(int frame) {
+            frame -= startFrame;
             if (damageArray == null) return 0;
             return damageArray[frame];
         }
 
         public int GetHitStunFrame(int frame) {
+            frame -= startFrame;
             if (hitStunFrameArray == null) return 0;
             return hitStunFrameArray[frame];
         }

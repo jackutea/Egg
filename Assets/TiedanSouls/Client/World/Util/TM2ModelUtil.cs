@@ -37,14 +37,17 @@ namespace TiedanSouls.Client {
             CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
+                var startFrame = tm.startFrame;
+                var endFrame = tm.endFrame;
+
                 CollisionTriggerModel model;
-                model.startFrame = tm.startFrame;
-                model.endFrame = tm.endFrame;
+                model.startFrame = startFrame;
+                model.endFrame = endFrame;
                 model.delayFrame = tm.delayFrame;
                 model.intervalFrame = tm.intervalFrame;
                 model.maintainFrame = tm.maintainFrame;
                 model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray);
-                model.hitPower = GetModel_HitPower(tm.hitPowerTM);
+                model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
                 modelArray[i] = model;
             }
             return modelArray;
@@ -101,22 +104,14 @@ namespace TiedanSouls.Client {
 
         #region [HitPower]
 
-        public static HitPowerModel[] GetModelArray_HitPower(HitPowerTM[] tmArray) {
-            if (tmArray == null) return null;
-            var len = tmArray.Length;
-            HitPowerModel[] modelArray = new HitPowerModel[len];
-            for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_HitPower(tmArray[i]);
-            }
-            return modelArray;
-        }
-
-        public static HitPowerModel GetModel_HitPower(HitPowerTM tm) {
-            HitPowerModel model;
+        public static HitPowerModel GetModel_HitPower(HitPowerTM tm, int startFrame, int endFrame) {
+            HitPowerModel model = new HitPowerModel();
             model.SetHitStunFrameArray(tm.hitStunFrameArray.Clone() as int[]);
             model.SetDamageArray(tm.damageArray.Clone() as int[]);
             model.SetKnockBackVelocityArray(GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm));
             model.SetKnockUpVelocityArray(GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm));
+            model.startFrame = startFrame;
+            model.endFrame = endFrame;
             return model;
         }
 

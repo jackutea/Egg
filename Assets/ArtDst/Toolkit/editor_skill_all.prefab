@@ -308,26 +308,82 @@ MonoBehaviour:
     endFrame: 15
     triggerIntervalFrame: 0
     triggerMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 6032330349393271052}
     hitPowerEM:
-      damageBase: 0
+      damageBase: 30
       damageCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 2.2
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 0
+      hitStunFrameBase: 5
       hitStunFrameCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockBackDistance_cm: 0
-      knockBackCostFrame: 0
+      knockBackDistance_cm: 100
+      knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -339,8 +395,6 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    colliderGOArray:
-    - {fileID: 6032330349393271052}
   weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &2380514558212155921
 GameObject:
@@ -889,26 +943,82 @@ MonoBehaviour:
     endFrame: 15
     triggerIntervalFrame: 0
     triggerMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 6032330349393271052}
     hitPowerEM:
-      damageBase: 0
+      damageBase: 30
       damageCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 2.2
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 0
+      hitStunFrameBase: 5
       hitStunFrameCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockBackDistance_cm: 0
-      knockBackCostFrame: 0
+      knockBackDistance_cm: 100
+      knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -920,8 +1030,6 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    colliderGOArray:
-    - {fileID: 946612889277224407}
   weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
@@ -1081,30 +1189,86 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   colliderTriggerEMArray:
-  - startFrame: 0
+  - startFrame: 10
     endFrame: 15
     triggerIntervalFrame: 0
     triggerMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 6032330349393271052}
     hitPowerEM:
-      damageBase: 0
+      damageBase: 30
       damageCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 2.2
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 0
+      hitStunFrameBase: 5
       hitStunFrameCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockBackDistance_cm: 0
-      knockBackCostFrame: 0
+      knockBackDistance_cm: 100
+      knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -1116,8 +1280,6 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    colliderGOArray:
-    - {fileID: 6432408507379964416}
   weaponAnimClip: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
 --- !u!1 &8336571590214725402
 GameObject:
