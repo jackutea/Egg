@@ -1,16 +1,23 @@
 namespace TiedanSouls.Client.Entities {
 
     public struct IDArgs {
-        
+
         public EntityType entityType;
         public int entityID;
         public int typeID;
         public string entityName;
         public AllyType allyType;
 
+        public bool IsTheSame(in IDArgs other) {
+            return entityType == other.entityType
+                && typeID == other.typeID
+                && entityID == other.entityID;
+        }
+
         public override string ToString() {
             return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType}";
         }
+
     }
 
     public class IDComponent {
@@ -38,7 +45,11 @@ namespace TiedanSouls.Client.Entities {
 
         IDArgs father;
         public IDArgs Father => father;
-        public void SetFather(IDArgs value) => this.father = value;
+
+        public void SetFather(IDArgs args) {
+            this.father = args;
+            this.allyType = args.allyType;
+        }
 
         public IDArgs ToArgs() {
             IDArgs args = new IDArgs();

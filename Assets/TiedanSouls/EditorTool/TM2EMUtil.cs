@@ -43,8 +43,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             CollisionTriggerEM em = new CollisionTriggerEM();
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
-            em.triggerIntervalFrame = tm.intervalFrame;
-            em.triggerMaintainFrame = tm.maintainFrame;
+            em.delayFrame = tm.delayFrame;
+            em.intervalFrame = tm.intervalFrame;
+            em.maintainFrame = tm.maintainFrame;
 
             var skillEditorTrans = Selection.activeGameObject.transform;
             var colliderRelativePathArray = tm.colliderRelativePathArray;
@@ -56,8 +57,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 colliderGOArray[i] = go;
             }
             em.colliderGOArray = colliderGOArray;
-
             em.hitPowerEM = GetEM_HitPower(tm.hitPowerTM);
+            em.hitTargetType = tm.hitTargetType;
 
             return em;
         }

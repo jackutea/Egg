@@ -362,52 +362,6 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [Role Hit]
-
-        void BeHitBySkill(RoleEntity other, SkillEntity skill) {
-
-            // var caster = skill.Owner;
-
-            // // Me Check
-            // if (caster == other) {
-            //     return;
-            // }
-
-            // // Ally Check
-            // var casterIDCom = caster.IDCom;
-            // var otherIDCom = other.IDCom;
-            // if (casterIDCom.AllyType == otherIDCom.AllyType) {
-            //     return;
-            // }
-
-            // // Damage Arbit: Prevent Multi Hit
-            // var damageArbitService = worldContext.DamageArbitService;
-            // if (damageArbitService.IsInArbit(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID)) {
-            //     return;
-            // }
-            // damageArbitService.TryAdd(skill.EntityType, skill.ID, otherIDCom.EntityType, otherIDCom.EntityID);
-
-            // DamagedBySkill(caster, skill, other);
-            // if (other.AttrCom.HP <= 0) {
-            //     BeginDying(other);
-            // } else {
-            //     FrameEffector(caster, skill, other);
-            // }
-
-        }
-
-        void DamagedBySkill(RoleEntity caster, SkillEntity skill, RoleEntity other) {
-            // Weapon Damage
-            var curWeapon = caster.WeaponSlotCom.Weapon;
-            other.Attribute_HP_Decrease(curWeapon.atk);
-        }
-
-        void FrameEffector(RoleEntity caster, SkillEntity skill, RoleEntity other) {
-
-        }
-
-        #endregion
-
         #region [Role State]
 
         public void BeginDying(RoleEntity role) {
@@ -441,14 +395,6 @@ namespace TiedanSouls.Client.Domain {
                 role.LeaveGround();
             } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
                 role.LeaveCrossPlatform();
-            }
-        }
-
-        void OnTriggerEnter_Skill(SkillEntity skill, Collider2D other) {
-            var go = other.gameObject;
-            var otherRole = go.GetComponentInParent<RoleEntity>();
-            if (otherRole != null) {
-                BeHitBySkill(otherRole, skill);
             }
         }
 

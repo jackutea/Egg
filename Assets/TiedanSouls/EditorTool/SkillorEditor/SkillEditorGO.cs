@@ -6,24 +6,19 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
     public class SkillEditorGO : MonoBehaviour {
 
-         [Header("绑定配置文件")]public SkillSO so;
+        [Header("绑定配置文件")] public SkillSO so;
 
-        [Header("基础信息 =================================== ")]
-        public int typeID;
-        public string skillName;
-        public SkillType skillType;
-
-        [Header("生命周期 =================================== ")]
-        [Header("开始帧")] public int startFrame;
-        [Header("结束帧")] public int endFrame;
+        [Header("类型ID")] public int typeID;
+        [Header("技能名称")] public string skillName;
+        [Header("技能类型")] public SkillType skillType;
+        [Header("技能持续帧")] public int maintainFrame;
 
         [Header("原始技能")] public int originSkillTypeID;
-
         [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
-        [Header("打击力度(组) ===================================")] public HitPowerEM[] hitPowerEMArray;
-        [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
 
+        [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
+        
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
         public void Save() {
@@ -46,8 +41,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             this.skillName = skillTM.skillName;
             this.skillType = skillTM.skillType;
 
-            this.startFrame = skillTM.startFrame;
-            this.endFrame = skillTM.endFrame;
+            this.maintainFrame = skillTM.maintainFrame;
 
             this.originSkillTypeID = skillTM.originSkillTypeID;
 

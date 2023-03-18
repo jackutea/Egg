@@ -82,11 +82,11 @@ namespace TiedanSouls.Client {
 
             // ID
             int id = idService.PickRoleID();
-            var idCom = role.IDCom;
-            idCom.SetEntityID(id);
-            idCom.SetTypeID(typeID);
-            idCom.SetAlly(allyType);
-            idCom.SetEntityName(roleTM.roleName);
+            var roleIDCom = role.IDCom;
+            roleIDCom.SetEntityID(id);
+            roleIDCom.SetTypeID(typeID);
+            roleIDCom.SetAlly(allyType);
+            roleIDCom.SetEntityName(roleTM.roleName);
 
             // Mod
             var roleModAssets = assetCore.RoleModAssets;
@@ -121,7 +121,7 @@ namespace TiedanSouls.Client {
 
             // Collider Model
             var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
-            colliderModel.SetFather(idCom.ToArgs());
+            colliderModel.SetFather(roleIDCom.ToArgs());
 
             return role;
         }
@@ -159,7 +159,7 @@ namespace TiedanSouls.Client {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            if (role.IDCom.AllyType == AllyType.Enemy) followRoot.AddChild(attackNode);
+            if (role.IDCom.AllyType == AllyType.Two) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 
@@ -265,24 +265,22 @@ namespace TiedanSouls.Client {
 
             skill = new SkillEntity();
 
-            // 设置 基础信息
+            // 基础信息
             var idCom = skill.IDCom;
             idCom.SetTypeID(skillTypeID);
             idCom.SetEntityName(skillTM.skillName);
-            // 设置 技能类型
+            skill.SetMaintainFrame(skillTM.maintainFrame);
+            // 技能类型
             skill.SetSkillType(skillTM.skillType);
-            // 设置 生命周期
-            skill.SetStartFrame(skillTM.startFrame);
-            skill.SetEndFrame(skillTM.endFrame);
-            // 设置 原始技能类型
+            // 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
-            // 设置 组合技技能清单
+            // 组合技能清单
             skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
-            // 设置 取消技能清单
+            // 连招技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
-            // 设置 碰撞器
+            // 碰撞器
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
-            // 设置 武器动画
+            // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 
             return true;

@@ -15,14 +15,12 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.typeID = editorGo.typeID;
             tm.skillName = editorGo.skillName;
             tm.skillType = editorGo.skillType;
-
-            tm.startFrame = editorGo.startFrame;
-            tm.endFrame = editorGo.endFrame;
+            tm.maintainFrame = editorGo.maintainFrame;
 
             tm.originSkillTypeID = editorGo.originSkillTypeID;
-
             tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
             tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
+
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
@@ -143,11 +141,12 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             CollisionTriggerTM tm = new CollisionTriggerTM();
             tm.startFrame = startFrame;
             tm.endFrame = endFrame;
-            tm.intervalFrame = em.triggerIntervalFrame;
-            tm.maintainFrame = em.triggerMaintainFrame;
+            tm.intervalFrame = em.intervalFrame;
+            tm.maintainFrame = em.maintainFrame;
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
             tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM, startFrame, endFrame);
+            tm.hitTargetType = em.hitTargetType;
             tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;

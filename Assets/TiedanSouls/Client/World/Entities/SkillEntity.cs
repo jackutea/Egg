@@ -40,13 +40,8 @@ namespace TiedanSouls.Client.Entities {
         public void SetWeaponAnimName(string value) => this.weaponAnimName = value;
 
         // - 生命周期
-        int startFrame;
-        public int StartFrame => this.startFrame;
-        public void SetStartFrame(int value) => this.startFrame = value;
-
-        int endFrame;
-        public int EndFrame => this.endFrame;
-        public void SetEndFrame(int value) => this.endFrame = value;
+        int maintainFrame;
+        public void SetMaintainFrame(int value) => this.maintainFrame = value;
 
         int curFrame;
         public int CurFrame => this.curFrame;
@@ -79,7 +74,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool TryMoveNext(Vector3 rootPos, Quaternion rootRot) {
-            if (curFrame > endFrame) {
+            if (curFrame > maintainFrame) {
                 Reset();
                 return false;
             }

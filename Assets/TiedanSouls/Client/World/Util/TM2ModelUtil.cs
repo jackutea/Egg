@@ -41,12 +41,14 @@ namespace TiedanSouls.Client {
                 var endFrame = tm.endFrame;
 
                 CollisionTriggerModel model;
+
                 model.startFrame = startFrame;
                 model.endFrame = endFrame;
                 model.delayFrame = tm.delayFrame;
                 model.intervalFrame = tm.intervalFrame;
                 model.maintainFrame = tm.maintainFrame;
-                model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray);
+
+                model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetType);
                 model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
                 modelArray[i] = model;
             }
@@ -57,17 +59,17 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray) {
+        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, HitTargetType hitTargetType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderModel[] modelArray = new ColliderModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_Collider(tmArray[i]);
+                modelArray[i] = GetModel_Collider(tmArray[i], hitTargetType);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm) {
+        public static ColliderModel GetModel_Collider(ColliderTM tm, HitTargetType hitTargetType) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
             model.SetColliderType(tm.colliderType);
@@ -75,6 +77,7 @@ namespace TiedanSouls.Client {
             model.SetLocalPos(tm.localPos);
             model.SetLocalAngleZ(tm.localAngleZ);
             model.SetLocalRot(Quaternion.Euler(0, 0, tm.localAngleZ));
+            model.SetHitTargetType(hitTargetType);
             return model;
         }
 
@@ -106,8 +109,8 @@ namespace TiedanSouls.Client {
 
         public static HitPowerModel GetModel_HitPower(HitPowerTM tm, int startFrame, int endFrame) {
             HitPowerModel model = new HitPowerModel();
-            model.SetHitStunFrameArray(tm.hitStunFrameArray.Clone() as int[]);
-            model.SetDamageArray(tm.damageArray.Clone() as int[]);
+            model.SetHitStunFrameArray(tm.hitStunFrameArray?.Clone() as int[]);
+            model.SetDamageArray(tm.damageArray?.Clone() as int[]);
             model.SetKnockBackVelocityArray(GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm));
             model.SetKnockUpVelocityArray(GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm));
             model.startFrame = startFrame;

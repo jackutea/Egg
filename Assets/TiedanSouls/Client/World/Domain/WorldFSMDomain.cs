@@ -70,7 +70,7 @@ namespace TiedanSouls.Client.Domain {
 
                 var roleDomain = worldDomain.RoleDomain;
                 playerRole = roleRepo.PlayerRole;
-                playerRole ??= roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.Player, new Vector2(5, 5));
+                playerRole ??= roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.One, new Vector2(5, 5));
                 playerRole.Reset();
                 playerRole.Show();
                 playerRole.HudSlotCom.ShowHUD();
@@ -102,7 +102,7 @@ namespace TiedanSouls.Client.Domain {
                 roleFSMDomain.TickFSM(role, dt);
 
                 // HUD
-                if (role.IDCom.AllyType == AllyType.Enemy) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+                if (role.IDCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
                 else if (role.IDCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
             });
 
@@ -173,7 +173,7 @@ namespace TiedanSouls.Client.Domain {
                 roleFSMDomain.TickFSM(role, dt);
 
                 // HUD
-                if (role.IDCom.AllyType == AllyType.Enemy) {
+                if (role.IDCom.AllyType == AllyType.Two) {
                     role.HudSlotCom.HpBarHUD.SetColor(Color.red);
                 } else if (role.IDCom.AllyType == AllyType.Neutral) {
                     role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);

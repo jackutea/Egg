@@ -192,122 +192,20 @@ MonoBehaviour:
   typeID: 1000
   skillName: "\u666E\u653B1\u6BB5"
   skillType: 1
-  startFrame: 0
-  endFrame: 15
+  maintainFrame: 15
   originSkillTypeID: 1000
   comboSkillCancelEMArray:
   - skillTypeID: 1010
     startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray: []
-  hitPowerEMArray:
-  - damageBase: 50
-    damageCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    hitStunFrameBase: 10
-    hitStunFrameCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockBackDistance_cm: 100
-    knockBackCostFrame: 10
-    knockBackDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockUpHeight_cm: 10
-    knockUpCostFrame: 10
-    knockUpDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
   colliderTriggerEMArray:
-  - startFrame: 10
-    endFrame: 15
-    triggerIntervalFrame: 0
-    triggerMaintainFrame: 0
+  - startFrame: 5
+    endFrame: 10
+    delayFrame: 0
+    intervalFrame: 0
+    maintainFrame: 0
+    hitTargetType: 4
     colliderGOArray:
     - {fileID: 6032330349393271052}
     hitPowerEM:
@@ -445,12 +343,10 @@ MonoBehaviour:
   typeID: 1
   skillName: "\u95EA\u73B0"
   skillType: 6
-  startFrame: 0
-  endFrame: 10
+  maintainFrame: 0
   originSkillTypeID: 0
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
-  hitPowerEMArray: []
   colliderTriggerEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
 --- !u!1 &3083040265302036843
@@ -827,122 +723,20 @@ MonoBehaviour:
   typeID: 1010
   skillName: "\u666E\u653B2\u6BB5"
   skillType: 1
-  startFrame: 0
-  endFrame: 15
+  maintainFrame: 15
   originSkillTypeID: 1000
   comboSkillCancelEMArray:
   - skillTypeID: 1020
     startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray: []
-  hitPowerEMArray:
-  - damageBase: 50
-    damageCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    hitStunFrameBase: 10
-    hitStunFrameCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockBackDistance_cm: 100
-    knockBackCostFrame: 10
-    knockBackDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockUpHeight_cm: 10
-    knockUpCostFrame: 10
-    knockUpDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
   colliderTriggerEMArray:
-  - startFrame: 10
-    endFrame: 15
-    triggerIntervalFrame: 0
-    triggerMaintainFrame: 0
+  - startFrame: 5
+    endFrame: 10
+    delayFrame: 0
+    intervalFrame: 0
+    maintainFrame: 0
+    hitTargetType: 4
     colliderGOArray:
     - {fileID: 6032330349393271052}
     hitPowerEM:
@@ -1080,119 +874,17 @@ MonoBehaviour:
   typeID: 1020
   skillName: "\u666E\u653B3\u6BB5"
   skillType: 1
-  startFrame: 10
-  endFrame: 15
+  maintainFrame: 15
   originSkillTypeID: 1000
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
-  hitPowerEMArray:
-  - damageBase: 50
-    damageCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    hitStunFrameBase: 10
-    hitStunFrameCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockBackDistance_cm: 100
-    knockBackCostFrame: 10
-    knockBackDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    knockUpHeight_cm: 10
-    knockUpCostFrame: 10
-    knockUpDisCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
   colliderTriggerEMArray:
-  - startFrame: 10
-    endFrame: 15
-    triggerIntervalFrame: 0
-    triggerMaintainFrame: 0
+  - startFrame: 5
+    endFrame: 10
+    delayFrame: 0
+    intervalFrame: 0
+    maintainFrame: 0
+    hitTargetType: 4
     colliderGOArray:
     - {fileID: 6032330349393271052}
     hitPowerEM:
