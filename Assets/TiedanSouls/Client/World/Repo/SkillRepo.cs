@@ -12,6 +12,10 @@ namespace TiedanSouls.Client {
             allSkills = new Dictionary<int, SkillEntity>();
         }
 
+        public bool TryAdd(SkillEntity skill) {
+            return allSkills.TryAdd(skill.IDCom.EntityID, skill);
+        }
+
         public bool TryGet(int entityID, out SkillEntity skill) {
             skill = null;
             return allSkills.TryGetValue(entityID, out skill);

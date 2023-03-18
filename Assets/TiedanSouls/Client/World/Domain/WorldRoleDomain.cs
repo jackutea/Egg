@@ -75,19 +75,21 @@ namespace TiedanSouls.Client.Domain {
             var skillSlotCom = role.SkillSlotCom;
             var curWeapon = role.WeaponSlotCom.Weapon;
             var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
-            var idArgs = role.IDCom.ToArgs();
 
             var rootDomain = worldContext.RootDomain;
 
             var skillDomain = rootDomain.SkillDomain;
-            skillDomain.AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, idArgs);
-            skillDomain.AddAllSkillToSlot_Combo(skillSlotCom, idArgs);
+            var roleIDArgs = role.IDCom.ToArgs();
+            skillDomain.AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, roleIDArgs);
+            skillDomain.AddAllSkillToSlot_Combo(skillSlotCom, roleIDArgs);
 
             skillSlotCom.Foreach_Origin((skill) => {
-                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, idArgs);
+                var skillIDArgs = skill.IDCom.ToArgs();
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
             });
             skillSlotCom.Foreach_Combo((skill) => {
-                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, idArgs);
+                var skillIDArgs = skill.IDCom.ToArgs();
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
             });
         }
 

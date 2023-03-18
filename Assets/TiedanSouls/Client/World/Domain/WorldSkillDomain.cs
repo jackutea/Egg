@@ -18,7 +18,7 @@ namespace TiedanSouls.Client.Domain {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
         }
-        
+
         public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
@@ -43,7 +43,12 @@ namespace TiedanSouls.Client.Domain {
                 }
 
                 skillEntity.IDCom.SetFather(father);
-                TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
+                var skillRepo = worldContext.SkillRepo;
+                if (!skillRepo.TryAdd(skillEntity)) {
+                    TDLog.Error($"Repo已存在该技能! - {skillEntity.IDCom}");
+                } else {
+                    TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
+                }
             }
         }
 
@@ -71,9 +76,13 @@ namespace TiedanSouls.Client.Domain {
                         continue;
                     }
 
-                    comboSkill.IDCom.SetFather(father);
-                    TDLog.Log($"添加技能成功! 已添加 '组合技' 技能 - {comboTypeID}");
-                    AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray, father);
+                    idCom.SetFather(father);
+                    var skillRepo = worldContext.SkillRepo;
+                    if (!skillRepo.TryAdd(comboSkill)) {
+                        TDLog.Error($"Repo已存在该技能! - {idCom}");
+                    } else {
+                        TDLog.Log($"添加技能成功! 已添加 '组合技' 技能 - {comboTypeID}");
+                    }
                 }
             }
         }

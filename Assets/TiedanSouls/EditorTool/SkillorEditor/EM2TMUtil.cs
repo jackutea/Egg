@@ -51,22 +51,14 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         #region [HitPower]
 
-        public static HitPowerTM[] GetTM_HitPowerArray(HitPowerEM[] ems) {
-            HitPowerTM[] tms = new HitPowerTM[ems.Length];
-            for (int i = 0; i < ems.Length; i++) {
-                tms[i] = GetTM_HitPower(ems[i]);
-            }
-            return tms;
-        }
-
-        public static HitPowerTM GetTM_HitPower(this HitPowerEM em) {
+        public static HitPowerTM GetTM_HitPower(HitPowerEM em, int startFrame, int endFrame) {
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
 
             HitPowerTM tm = new HitPowerTM();
 
             // 伤害 根据曲线计算每一帧的伤害
             var baseDamage = em.damageBase;
-            var totalFrame = em.endFrame - em.startFrame + 1;
+            var totalFrame = endFrame - startFrame + 1;
             int[] damageArray = new int[totalFrame];
             var damageCurve = em.damageCurve;
             for (int i = 0; i < totalFrame; i++) {
@@ -145,14 +137,17 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         }
 
         public static CollisionTriggerTM GetTM_CollisionTrigger(CollisionTriggerEM em) {
+            var startFrame = em.startFrame;
+            var endFrame = em.endFrame;
+
             CollisionTriggerTM tm = new CollisionTriggerTM();
-            tm.startFrame = em.startFrame;
-            tm.endFrame = em.endFrame;
+            tm.startFrame = startFrame;
+            tm.endFrame = endFrame;
             tm.intervalFrame = em.triggerIntervalFrame;
             tm.maintainFrame = em.triggerMaintainFrame;
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
-            tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM);
+            tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM, startFrame, endFrame);
             tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;
@@ -196,7 +191,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.localPos = localPos;
             tm.size = size;
             tm.localAngleZ = angleZ;
-            Debug.Log($"碰撞器 {colliderGO.name} 本地坐标 {localPos} 本地角度 {angleZ} 大小 {size}");
 
             return tm;
         }

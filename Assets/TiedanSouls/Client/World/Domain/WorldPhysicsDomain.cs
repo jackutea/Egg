@@ -81,8 +81,9 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void HandleTriggerEnter_SkillNRole(SkillEntity skill, RoleEntity role) {
-            // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{skill.IDCom}\n{role.IDCom}");
-            if (!skill.TryGet_ValidTriggerModel(out var model)) return;
+            if (!skill.TryGet_ValidTriggerModel(out var model)) {
+                return;
+            }
 
             _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
             var casterRole = fatherEntity as RoleEntity;

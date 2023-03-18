@@ -6,9 +6,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
     [Serializable]
     public class HitPowerEM {
 
-        [Header("开始帧")] public int startFrame;
-        [Header("结束帧")] public int endFrame;
-
         [Header("基础伤害")] public int damageBase;
         [Header("基础伤害 - 曲线")] public AnimationCurve damageCurve;
 
