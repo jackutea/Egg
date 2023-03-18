@@ -1,5 +1,4 @@
 using UnityEngine;
-using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
@@ -10,7 +9,7 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldRootDomain;
+        WorldRootDomain rootDomain;
 
         public WorldPhysicsDomain() {
         }
@@ -18,50 +17,96 @@ namespace TiedanSouls.Client.Domain {
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldRootDomain = worldDomain;
+            this.rootDomain = worldDomain;
         }
 
         public void Tick(float dt) {
             Physics2D.Simulate(dt);
 
             var collisionEventRepo = worldContext.CollisionEventRepo;
-            while (collisionEventRepo.TryPick_EnterEvent(out var ev)) {
+            while (collisionEventRepo.TryPick_Enter(out var ev)) {
                 var idArgs1 = ev.A;
                 var idArgs2 = ev.B;
-                _ = worldRootDomain.TryGetEntityObj(idArgs1, out var entity1);
-                _ = worldRootDomain.TryGetEntityObj(idArgs2, out var entity2);
-                TriggerEnter(idArgs1, entity1, idArgs2, entity2);
+                _ = rootDomain.TryGetEntityObj(idArgs1, out var entity1);
+                _ = rootDomain.TryGetEntityObj(idArgs2, out var entity2);
+                HandleTriggerEnter(entity1, entity2);
             }
 
-            while (collisionEventRepo.TryPick_ExitEvent(out var ev)) {
+            while (collisionEventRepo.TryPick_Exit(out var ev)) {
                 var idArgs1 = ev.A;
                 var idArgs2 = ev.B;
-                _ = worldRootDomain.TryGetEntityObj(idArgs1, out var entity1);
-                _ = worldRootDomain.TryGetEntityObj(idArgs2, out var entity2);
-                TriggerExit(idArgs1, entity1, idArgs2, entity2);
+                _ = rootDomain.TryGetEntityObj(idArgs1, out var entity1);
+                _ = rootDomain.TryGetEntityObj(idArgs2, out var entity2);
+                HandleTriggerExit(entity1, entity2);
             }
         }
 
-        void TriggerEnter(in IDArgs argsA, IEntity entityA, in IDArgs argsB, IEntity entityB) {
-            if (argsA.entityType == EntityType.Role && argsB.entityType == EntityType.Skill)
-                TriggerEnter_SkillNRole((SkillEntity)entityB, (RoleEntity)entityA);
-            else if (argsA.entityType == EntityType.Skill && argsB.entityType == EntityType.Role)
-                TriggerEnter_SkillNRole((SkillEntity)entityA, (RoleEntity)entityB);
+        void HandleTriggerEnter(IEntity entityA, IEntity entityB) {
+            if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
+                HandleTriggerEnter_SkillNRole(skillEntity, roleEntity);
+                return;
+            }
+
+            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
+                HandleTriggerEnter_SkillNRole(skillEntity2, roleEntity2);
+                return;
+            }
+
+            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
+                HandleTriggerEnter_RoleNRole(roleEntity3, roleEntity4);
+                return;
+            }
+
+            TDLog.Error($"未处理的碰撞事件<Trigger - Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        void TriggerEnter_SkillNRole(SkillEntity skillEntity, RoleEntity roleEntity) {
-            TDLog.Log($"碰撞事件<Trigger - Enter>:\n{skillEntity.IDCom}\n{roleEntity.IDCom.EntityID}");
+        void HandleTriggerExit(IEntity entityA, IEntity entityB) {
+            if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
+                HandleTriggerExit_SkillNRole(skillEntity, roleEntity);
+                return;
+            }
+
+            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
+                HandleTriggerExit_SkillNRole(skillEntity2, roleEntity2);
+                return;
+            }
+
+            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
+                HandleTriggerExit_RoleNRole(roleEntity3, roleEntity4);
+                return;
+            }
+
+            TDLog.Error($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
+
         }
 
-        void TriggerExit(in IDArgs argsA, IEntity entityA, in IDArgs argsB, IEntity entityB) {
-            if (argsA.entityType == EntityType.Role && argsB.entityType == EntityType.Skill)
-                TriggerExit_SkillNRole((SkillEntity)entityB, (RoleEntity)entityA);
-            else if (argsA.entityType == EntityType.Skill && argsB.entityType == EntityType.Role)
-                TriggerExit_SkillNRole((SkillEntity)entityA, (RoleEntity)entityB);
+        void HandleTriggerEnter_SkillNRole(SkillEntity skill, RoleEntity role) {
+            // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{skill.IDCom}\n{role.IDCom}");
+            if (!skill.TryGet_ValidTriggerModel(out var model)) return;
+
+            _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
+            var casterRole = fatherEntity as RoleEntity;
+            var casterPos = casterRole.GetPos_Logic();
+            var rolePos = role.GetPos_Logic();
+            var beHitDir = rolePos - casterPos;
+            beHitDir.y = 0;
+            beHitDir.Normalize();
+
+            var hitPower = model.hitPower;
+            var hitDomain = rootDomain.HitDomain;
+            hitDomain.HitRoleByHitPower(role, hitPower, skill.CurFrame, beHitDir);
         }
 
-        void TriggerExit_SkillNRole(SkillEntity skillEntity, RoleEntity roleEntity) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{skillEntity.IDCom}\n{roleEntity.IDCom.EntityID}");
+        void HandleTriggerEnter_RoleNRole(RoleEntity role1, RoleEntity role2) {
+            // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{role1.IDCom}\n{role2.IDCom}");
+        }
+
+        void HandleTriggerExit_SkillNRole(SkillEntity skill, RoleEntity role) {
+            // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{skill.IDCom}\n{role.IDCom}");
+        }
+
+        void HandleTriggerExit_RoleNRole(RoleEntity role1, RoleEntity role2) {
+            // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{role1.IDCom}\n{role2.IDCom}");
         }
 
     }

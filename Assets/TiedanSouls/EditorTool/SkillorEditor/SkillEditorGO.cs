@@ -53,7 +53,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
             this.comboSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.comboSkillCancelTMArray);
             this.cancelSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.cancelSkillCancelTMArray);
-            this.hitPowerEMArray = TM2EMUtil.GetEMArray_HitPower(skillTM.hitPowerTMArray);
             this.colliderTriggerEMArray = TM2EMUtil.GetEMArray_CollisionTrigger(skillTM.collisionTriggerTMArray);
 
             this.weaponAnimClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GUIDToAssetPath(skillTM.weaponAnimClip_GUID));

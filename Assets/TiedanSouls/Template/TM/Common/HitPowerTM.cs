@@ -6,9 +6,6 @@ namespace TiedanSouls.Template {
     [Serializable]
     public class HitPowerTM {
 
-        public int startFrame;
-        public int endFrame;
-
         [Header("击打顿帧(组)")] public int[] hitStunFrameArray;
         [Header("击打伤害(组)")] public int[] damageArray;
         [Header("击退帧速度(组)")] public int[] knockBackSpeedArray_cm;

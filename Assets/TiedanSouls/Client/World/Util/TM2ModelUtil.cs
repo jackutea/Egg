@@ -40,9 +40,11 @@ namespace TiedanSouls.Client {
                 CollisionTriggerModel model;
                 model.startFrame = tm.startFrame;
                 model.endFrame = tm.endFrame;
-                model.triggerIntervalFrame = tm.triggerIntervalFrame;
-                model.triggerMaintainFrame = tm.triggerMaintainFrame;
+                model.delayFrame = tm.delayFrame;
+                model.intervalFrame = tm.intervalFrame;
+                model.maintainFrame = tm.maintainFrame;
                 model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray);
+                model.hitPower = GetModel_HitPower(tm.hitPowerTM);
                 modelArray[i] = model;
             }
             return modelArray;
@@ -111,12 +113,10 @@ namespace TiedanSouls.Client {
 
         public static HitPowerModel GetModel_HitPower(HitPowerTM tm) {
             HitPowerModel model;
-            model.startFrame = tm.startFrame;
-            model.endFrame = tm.endFrame;
-            model.hitStunFrameArray = tm.hitStunFrameArray;
-            model.damageArray = tm.damageArray;
-            model.knockBackVelocityArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
-            model.knockUpVelocityArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
+            model.SetHitStunFrameArray(tm.hitStunFrameArray);
+            model.SetDamageArray(tm.damageArray);
+            model.SetKnockBackVelocityArray(GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm));
+            model.SetKnockUpVelocityArray(GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm));
             return model;
         }
 
@@ -125,6 +125,7 @@ namespace TiedanSouls.Client {
         #region [MISC]
 
         static float[] GetFloatArray_Shrink100(int[] array) {
+            if (array == null) return null;
             var len = array.Length;
             float[] newArray = new float[len];
             for (int i = 0; i < len; i++) {

@@ -23,7 +23,7 @@ namespace TiedanSouls.Client {
             TDLog.Log($"碰撞事件<Trigger:Exit>\n{args} ");
         }
 
-        public bool TryPick_EnterEvent(out CollisionEventArgs args) {
+        public bool TryPick_Enter(out CollisionEventArgs args) {
             args = default;
 
             var count = events_triggerEnter.Count;
@@ -35,7 +35,7 @@ namespace TiedanSouls.Client {
             return true;
         }
 
-        public bool TryPick_ExitEvent(out CollisionEventArgs args) {
+        public bool TryPick_Exit(out CollisionEventArgs args) {
             args = default;
 
             var count = events_triggerExit.Count;

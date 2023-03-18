@@ -43,8 +43,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             CollisionTriggerEM em = new CollisionTriggerEM();
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
-            em.triggerIntervalFrame = tm.triggerIntervalFrame;
-            em.triggerMaintainFrame = tm.triggerMaintainFrame;
+            em.triggerIntervalFrame = tm.intervalFrame;
+            em.triggerMaintainFrame = tm.maintainFrame;
 
             var skillEditorTrans = Selection.activeGameObject.transform;
             var colliderRelativePathArray = tm.colliderRelativePathArray;
@@ -76,10 +76,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         public static HitPowerEM GetEM_HitPower(this HitPowerTM tm) {
             HitPowerEM em = new HitPowerEM();
-
-            // 生命周期
-            em.startFrame = tm.startFrame;
-            em.endFrame = tm.endFrame;
 
             // 伤害 曲线还原
             em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);

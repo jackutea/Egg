@@ -26,7 +26,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
-            tm.hitPowerTMArray = GetTM_HitPowerArray(editorGo.hitPowerEMArray);
             tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger(editorGo.colliderTriggerEMArray);
 
             return tm;
@@ -64,9 +63,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
 
             HitPowerTM tm = new HitPowerTM();
-
-            tm.startFrame = em.startFrame;
-            tm.endFrame = em.endFrame;
 
             // 伤害 根据曲线计算每一帧的伤害
             var baseDamage = em.damageBase;
@@ -152,10 +148,11 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             CollisionTriggerTM tm = new CollisionTriggerTM();
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
-            tm.triggerIntervalFrame = em.triggerIntervalFrame;
-            tm.triggerMaintainFrame = em.triggerMaintainFrame;
+            tm.intervalFrame = em.triggerIntervalFrame;
+            tm.maintainFrame = em.triggerMaintainFrame;
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
+            tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM);
             tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;

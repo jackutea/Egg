@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleEntity : MonoBehaviour,IEntity {
+    public class RoleEntity : MonoBehaviour, IEntity {
 
         ControlType controlType;
         public ControlType ControlType => controlType;
@@ -21,8 +21,8 @@ namespace TiedanSouls.Client.Entities {
         InputComponent inputCom;
         public InputComponent InputCom => inputCom;
 
-        AttributeComponent attrCom;
-        public AttributeComponent AttrCom => attrCom;
+        AttributeComponent attributeCom;
+        public AttributeComponent AttributeCom => attributeCom;
 
         SkillSlotComponent skillSlotCom;
         public SkillSlotComponent SkillSlotCom => skillSlotCom;
@@ -125,7 +125,7 @@ namespace TiedanSouls.Client.Entities {
             hudSlotCom.Inject(hudRoot);
 
             // - Attribute
-            attrCom = new AttributeComponent();
+            attributeCom = new AttributeComponent();
 
             // ==== Bind Event ====
             footCom.FootTriggerEnter += OnFootTriggerEnter;
@@ -133,6 +133,7 @@ namespace TiedanSouls.Client.Entities {
 
             // Component
             idCom = new IDComponent();
+            idCom.SetEntityType(EntityType.Role);
             modCom = new RoleModComponent();
             fsmCom = new RoleFSMComponent();
             inputCom = new InputComponent();
@@ -156,7 +157,7 @@ namespace TiedanSouls.Client.Entities {
             weaponSlotCom.Reset();
 
             // - Attribute
-            attrCom.Reset();
+            attributeCom.Reset();
 
             // - FSM
             fsmCom.Reset();
@@ -169,7 +170,7 @@ namespace TiedanSouls.Client.Entities {
 
             // - HUD
             hudSlotCom.Reset();
-            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
         }
 
         public void Hide() {
@@ -208,7 +209,7 @@ namespace TiedanSouls.Client.Entities {
 
         public void Move() {
             Vector2 moveAxis = inputCom.MoveAxis;
-            moveCom.Move(moveAxis, attrCom.MoveSpeed);
+            moveCom.Move(moveAxis, attributeCom.MoveSpeed);
         }
 
         public void FaceTo(sbyte dirX) {
@@ -232,7 +233,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Jump() {
-            moveCom.Jump(inputCom.HasInput_Locomotion_JumpDown, attrCom.JumpSpeed);
+            moveCom.Jump(inputCom.HasInput_Locomotion_JumpDown, attributeCom.JumpSpeed);
         }
 
         public void TryCrossDown() {
@@ -242,7 +243,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Falling(float dt) {
-            moveCom.Falling(dt, attrCom.FallingAcceleration, attrCom.FallingSpeedMax);
+            moveCom.Falling(dt, attributeCom.FallingAcceleration, attributeCom.FallingSpeedMax);
         }
 
         public void EnterGround() {
@@ -270,14 +271,14 @@ namespace TiedanSouls.Client.Entities {
         // ==== Hit ====
         public void HitBeHit(int atk) {
             TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
-            attrCom.HurtByAtk(atk);
-            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
+            attributeCom.HuryBy(atk);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
         }
 
         // ==== Drop ====
         public void DropBeHit(int damage, Vector2 rebornPos) {
-            attrCom.HurtByAtk(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(attrCom.HP, attrCom.HPMax);
+            attributeCom.HuryBy(damage);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
             SetPos_Logic(rebornPos);
             SyncRenderer();
         }

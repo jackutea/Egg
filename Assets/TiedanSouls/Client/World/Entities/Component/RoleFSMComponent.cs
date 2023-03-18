@@ -51,24 +51,24 @@ namespace TiedanSouls.Client.Entities {
             var stateModel = castingModel;
 
             stateModel.Reset();
-            stateModel.castingSkillTypeID =skillTypeID;
+            stateModel.castingSkillTypeID = skillTypeID;
             stateModel.SetIsCombo(isCombo);
             stateModel.SetIsEntering(true);
             TDLog.Log($"人物状态机切换 - 施放技能 {skillTypeID} 连击 {isCombo}");
         }
 
-        public void EnterBeHit(Vector2 fromPos, HitPowerModel hitPowerModel) {
+        public void EnterBeHit(in HitPowerModel hitPowerModel, int hitFrame, Vector3 beHitDir) {
             state = RoleFSMState.BeHit;
             var stateModel = beHitModel;
 
             stateModel.Reset();
-            stateModel.fromPos = fromPos;
-            // stateModel.knockbackForce = hitPowerModel.knockbackForce;
-            // stateModel.knockbackFrame = hitPowerModel.knockbackFrame;
-            // stateModel.hitStunFrame = hitPowerModel.hitStunFrame;
+            stateModel.beHitDir = beHitDir;
+            stateModel.knockBackVelocityArray = hitPowerModel.KnockBackVelocityArray;
+            stateModel.knockUpVelocityArray = hitPowerModel.KnockUpVelocityArray;
+            stateModel.hitStunFrame = hitPowerModel.GetHitStunFrame(hitFrame);
             stateModel.curFrame = 0;
             stateModel.isEntering = true;
-            TDLog.Log("人物状态机切换 - 受伤 ");
+            TDLog.Log("人物状态机切换 - 受击 ");
         }
 
         public void EnterDying(int maintainFrame) {

@@ -118,10 +118,6 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.isEntering) {
                 stateModel.isEntering = false;
-
-                Vector2 dir = role.GetPos_Logic() - stateModel.fromPos;
-                role.MoveCom.KnockBack(dir.x, stateModel.knockbackForce);
-
                 role.ModCom.Anim_Play_BeHit();
                 return;
             }

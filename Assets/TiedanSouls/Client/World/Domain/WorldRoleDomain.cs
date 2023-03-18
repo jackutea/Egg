@@ -418,7 +418,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public bool CanEnterDying(RoleEntity role) {
-            var attrCom = role.AttrCom;
+            var attrCom = role.AttributeCom;
             return attrCom.HP <= 0;
         }
 

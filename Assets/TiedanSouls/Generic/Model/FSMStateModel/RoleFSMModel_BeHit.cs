@@ -4,26 +4,28 @@ namespace TiedanSouls.Generic {
 
     public class RoleFSMModel_BeHit {
 
-        public Vector2 fromPos;
-
-        public float knockbackForce;
-        public int knockbackFrame;
-
-        public int hitStunFrame;
-
+        public bool isEntering;
         public int curFrame;
 
-        public bool isEntering;
+        public Vector3 beHitDir;
+
+        public int knockbackFrame;
+        public int hitStunFrame;
+        public float[] knockBackVelocityArray;
+        public float[] knockUpVelocityArray;
 
         public RoleFSMModel_BeHit() { }
 
         public void Reset() {
-            fromPos = Vector2.zero;
-            knockbackForce = 0;
+            isEntering = false;
+            curFrame = 0;
+
+            beHitDir = Vector3.zero;
+
             knockbackFrame = 0;
             hitStunFrame = 0;
-            curFrame = 0;
-            isEntering = false;
+            knockBackVelocityArray = null;
+            knockUpVelocityArray = null;
         }
 
     }

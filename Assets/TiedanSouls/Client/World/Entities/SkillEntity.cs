@@ -29,10 +29,6 @@ namespace TiedanSouls.Client.Entities {
         public SkillCancelModel[] LinkSkillCancelModelArray => this.linkSkillCancelModelArray;
         public void SetLinkSkillCancelModelArray(SkillCancelModel[] value) => this.linkSkillCancelModelArray = value;
 
-        // - 打击力度
-        HitPowerModel[] hitPowerArray;
-        public void SetHitPowerArray(HitPowerModel[] value) => this.hitPowerArray = value;
-
         // - 碰撞器
         CollisionTriggerModel[] collisionTriggerArray;
         public CollisionTriggerModel[] CollisionTriggerArray => this.collisionTriggerArray;
@@ -53,6 +49,7 @@ namespace TiedanSouls.Client.Entities {
         public void SetEndFrame(int value) => this.endFrame = value;
 
         int curFrame;
+        public int CurFrame => this.curFrame;
 
         public SkillEntity() {
             idCom = new IDComponent();
@@ -120,17 +117,16 @@ namespace TiedanSouls.Client.Entities {
 
         void Foreach_CollisionTrigger(
             Action<CollisionTriggerModel> action_triggerBegin,
-            Action<CollisionTriggerModel> action_triggerEnd,
-            Action<CollisionTriggerModel> action_triggering) {
+            Action<CollisionTriggerModel> action_triggering,
+            Action<CollisionTriggerModel> action_triggerEnd) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
-                    if (!IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
-                        continue;
-                    }
-                    action_triggering?.Invoke(model);
-                    if (model.startFrame == curFrame) action_triggerBegin?.Invoke(model);
-                    else if (model.endFrame == curFrame) action_triggerEnd?.Invoke(model);
+                    var triggerStatus = model.GetTriggerStatus(curFrame);
+                    if (triggerStatus == TriggerStatus.None) continue;
+                    if (triggerStatus == TriggerStatus.Begin) action_triggerBegin(model);
+                    else if (triggerStatus == TriggerStatus.Triggering) action_triggering(model);
+                    else if (triggerStatus == TriggerStatus.End) action_triggerEnd(model);
                 }
             }
         }
@@ -139,9 +135,7 @@ namespace TiedanSouls.Client.Entities {
             if (linkSkillCancelModelArray != null) {
                 for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
                     SkillCancelModel model = linkSkillCancelModelArray[i];
-                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
-                        action(model);
-                    }
+                    if (model.IsInTriggeringFrame(curFrame)) action(model);
                 }
             }
         }
@@ -150,27 +144,23 @@ namespace TiedanSouls.Client.Entities {
             if (comboSkillCancelModelArray != null) {
                 for (int i = 0; i < comboSkillCancelModelArray.Length; i++) {
                     SkillCancelModel model = comboSkillCancelModelArray[i];
-                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
-                        action(model);
-                    }
+                    if (model.IsInTriggeringFrame(curFrame)) action(model);
                 }
             }
         }
 
-        public void TryGet_HitPower_InCurrentFrame(Action<HitPowerModel> action) {
-            if (hitPowerArray != null) {
-                for (int i = 0; i < hitPowerArray.Length; i++) {
-                    HitPowerModel model = hitPowerArray[i];
-                    if (IsBetweenStartAndEnd(curFrame, model.startFrame, model.endFrame)) {
-                        action(model);
-                        return;
+        public bool TryGet_ValidTriggerModel(out CollisionTriggerModel model) {
+            if (collisionTriggerArray != null) {
+                for (int i = 0; i < collisionTriggerArray.Length; i++) {
+                    CollisionTriggerModel m = collisionTriggerArray[i];
+                    if (m.GetTriggerStatus(curFrame) != TriggerStatus.None) {
+                        model = m;
+                        return true;
                     }
                 }
             }
-        }
-
-        bool IsBetweenStartAndEnd(int frame, int start, int end) {
-            return frame >= start && frame <= end;
+            model = default;
+            return false;
         }
 
     }

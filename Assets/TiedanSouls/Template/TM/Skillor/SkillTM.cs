@@ -21,7 +21,6 @@ namespace TiedanSouls.Template {
         [Header("武器动画名")] public string weaponAnimName;
         [Header("仅用于编辑时: 武器动画文件GUID")] public string weaponAnimClip_GUID;
 
-        [Header("打击力度(组)")] public HitPowerTM[] hitPowerTMArray;
         [Header("碰撞器(组)")] public CollisionTriggerTM[] collisionTriggerTMArray;
 
         public SkillTM() { }

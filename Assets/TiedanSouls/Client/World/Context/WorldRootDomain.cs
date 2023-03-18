@@ -10,16 +10,15 @@ namespace TiedanSouls.Client.Facades {
         public WorldFSMDomain GameDomain { get; private set; }
 
         public WorldFieldDomain FieldDomain { get; private set; }
-
         public WorldFieldFSMDomain FieldFSMDomain { get; private set; }
 
         public WorldRoleDomain RoleDomain { get; private set; }
-
         public WorldRoleFSMDomain RoleFSMDomain { get; private set; }
 
         public WorldSkillDomain SkillDomain { get; private set; }
 
         public WorldPhysicsDomain PhysicsDomain { get; private set; }
+        public WorldHitDomain HitDomain { get; private set; }
 
         public WorldRendererDomain WorldRendererDomain { get; private set; }
 
@@ -34,7 +33,11 @@ namespace TiedanSouls.Client.Facades {
             RoleDomain = new WorldRoleDomain();
             RoleFSMDomain = new WorldRoleFSMDomain();
 
+            SkillDomain = new WorldSkillDomain();
+
             PhysicsDomain = new WorldPhysicsDomain();
+
+            HitDomain = new WorldHitDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
         }
@@ -53,6 +56,8 @@ namespace TiedanSouls.Client.Facades {
             this.FieldFSMDomain.Inject(infraContext, worldContext);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
+            this.HitDomain.Inject(infraContext, worldContext, this);
+
 
             this.WorldRendererDomain.Inject(infraContext, worldContext, this);
 

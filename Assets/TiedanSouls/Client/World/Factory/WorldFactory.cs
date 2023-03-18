@@ -99,7 +99,7 @@ namespace TiedanSouls.Client {
             role.SetMod(roleMod);
 
             // Attr
-            var attrCom = role.AttrCom;
+            var attrCom = role.AttributeCom;
             attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
 
@@ -280,8 +280,6 @@ namespace TiedanSouls.Client {
             skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
             // 设置 取消技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
-            // 设置 打击力度
-            skill.SetHitPowerArray(TM2ModelUtil.GetModelArray_HitPower(skillTM.hitPowerTMArray));
             // 设置 碰撞器
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
             // 设置 武器动画
