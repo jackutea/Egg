@@ -12,11 +12,11 @@ namespace TiedanSouls.Generic {
         public void SetHitStunFrameArray(int[] value) => hitStunFrameArray = value;
 
         float[] knockBackVelocityArray;
-        public float[] KnockBackVelocityArray => knockBackVelocityArray;
+        public float[] knockBackSpeedArray => knockBackVelocityArray;
         public void SetKnockBackVelocityArray(float[] value) => knockBackVelocityArray = value;
 
         float[] knockUpVelocityArray;
-        public float[] KnockUpVelocityArray => knockUpVelocityArray;
+        public float[] knockUpSpeedArray => knockUpVelocityArray;
         public void SetKnockUpVelocityArray(float[] value) => knockUpVelocityArray = value;
 
         public int GetHitDamage(int frame) {

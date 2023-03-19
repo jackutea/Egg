@@ -36,8 +36,8 @@ namespace TiedanSouls.Client.Entities {
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
 
-        RoleModComponent modCom;
-        public RoleModComponent ModCom => modCom;
+        RoleRendererModComponent rendererModCom;
+        public RoleRendererModComponent RendererModCom => rendererModCom;
 
         HUDSlotComponent hudSlotCom;
         public HUDSlotComponent HudSlotCom => hudSlotCom;
@@ -134,7 +134,7 @@ namespace TiedanSouls.Client.Entities {
             // Component
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Role);
-            modCom = new RoleModComponent();
+            rendererModCom = new RoleRendererModComponent();
             fsmCom = new RoleFSMComponent();
             inputCom = new InputComponent();
             skillSlotCom = new SkillSlotComponent();
@@ -187,7 +187,7 @@ namespace TiedanSouls.Client.Entities {
 
         // ==== Mod ====
         public void SetMod(GameObject mod) {
-            modCom.SetMod(mod);
+            rendererModCom.SetMod(mod);
         }
 
         // ==== Locomotion ====
@@ -307,7 +307,7 @@ namespace TiedanSouls.Client.Entities {
             rendererRoot.position = logicPos;
             weaponRoot.position = logicPos;
 
-            modCom.Mod.transform.rotation = logicRoot.rotation;
+            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
             weaponRoot.rotation = logicRoot.rotation;
         }
 
@@ -316,7 +316,7 @@ namespace TiedanSouls.Client.Entities {
             rendererRoot.position = lerpPos;
             weaponRoot.position = lerpPos;
 
-            modCom.Mod.transform.rotation = logicRoot.rotation;
+            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
             weaponRoot.rotation = logicRoot.rotation;
         }
 

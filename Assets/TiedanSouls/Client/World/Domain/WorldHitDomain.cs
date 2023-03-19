@@ -21,7 +21,7 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
-        public void HitRoleByHitPower(RoleEntity role, HitPowerModel hitPower, int hitFrame, Vector3 beHitDir) {
+        public void HitRoleByHitPower(RoleEntity role, HitPowerModel hitPower, int hitFrame, Vector2 beHitDir) {
             // 伤害结算
             var hitDamage = hitPower.GetHitDamage(hitFrame);
             role.Attribute_HP_Decrease(hitDamage);

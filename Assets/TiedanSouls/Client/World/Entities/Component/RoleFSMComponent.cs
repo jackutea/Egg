@@ -60,7 +60,7 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"人物状态机切换 - 施法中 {skillTypeID} 连击 {isCombo}");
         }
 
-        public void EnterBeHit(in HitPowerModel hitPowerModel, int hitFrame, Vector3 beHitDir) {
+        public void EnterBeHit(in HitPowerModel hitPowerModel, int hitFrame, Vector2 beHitDir) {
             var stateModel = beHitModel;
             stateModel.Reset();
 
@@ -72,8 +72,8 @@ namespace TiedanSouls.Client.Entities {
             stateModel.beHitDir = beHitDir;
             stateModel.hitStunFrame = hitPowerModel.GetHitStunFrame(hitFrame);
             stateModel.castingSkillTypeID = castingSkillTypeID;
-            stateModel.knockBackVelocityArray = hitPowerModel.KnockBackVelocityArray;
-            stateModel.knockUpVelocityArray = hitPowerModel.KnockUpVelocityArray;
+            stateModel.knockBackSpeedArray = hitPowerModel.knockBackSpeedArray;
+            stateModel.knockUpSpeedArray = hitPowerModel.knockUpSpeedArray;
 
             state = RoleFSMState.BeHit;
             TDLog.Log($"人物状态机切换 - 受击\n受击方向 {beHitDir} / hitFrame {hitFrame} / hitStunFrame {stateModel.hitStunFrame} / 正在释放的技能ID: {castingSkillTypeID}");

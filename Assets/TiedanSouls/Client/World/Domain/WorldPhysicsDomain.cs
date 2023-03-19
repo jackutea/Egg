@@ -41,6 +41,13 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
+        #region [物理方法]
+
+
+        #endregion
+
+        #region [碰撞事件处理]
+
         void HandleTriggerEnter(IEntity entityA, IEntity entityB) {
             if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
                 HandleTriggerEnter_SkillNRole(skillEntity, roleEntity);
@@ -89,7 +96,6 @@ namespace TiedanSouls.Client.Domain {
             var casterPos = casterRole.GetPos_Logic();
             var rolePos = role.GetPos_Logic();
             var beHitDir = rolePos - casterPos;
-            beHitDir.y = 0;
             beHitDir.Normalize();
 
             var hitPower = model.hitPower;
@@ -108,6 +114,8 @@ namespace TiedanSouls.Client.Domain {
         void HandleTriggerExit_RoleNRole(RoleEntity role1, RoleEntity role2) {
             // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{role1.IDCom}\n{role2.IDCom}");
         }
+
+        #endregion
 
     }
 

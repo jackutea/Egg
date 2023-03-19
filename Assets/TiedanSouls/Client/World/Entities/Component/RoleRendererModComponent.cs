@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleModComponent {
+    public class RoleRendererModComponent {
 
         GameObject mod;
         public GameObject Mod => mod;
@@ -10,7 +10,7 @@ namespace TiedanSouls.Client.Entities {
         SpriteRenderer sr;
         Animator anim;
 
-        public RoleModComponent() { }
+        public RoleRendererModComponent() { }
 
         public void SetMod(GameObject mod) {
             this.mod = mod;

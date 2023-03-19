@@ -32,7 +32,7 @@ namespace TiedanSouls.Client.Domain {
             } else if (fsm.State == RoleFSMState.BeHit) {
                 Apply_BeHit(role, fsm, dt);
             } else if (fsm.State == RoleFSMState.Dying) {
-                Apply_Dead(role, fsm, dt);
+                Apply_Dying(role, fsm, dt);
             }
 
             Apply_AnyState(role, fsm, dt);
@@ -51,7 +51,7 @@ namespace TiedanSouls.Client.Domain {
             var stateModel = fsm.IdleModel;
             if (stateModel.isEntering) {
                 stateModel.isEntering = false;
-                role.ModCom.Anim_PlayIdle();
+                role.RendererModCom.Anim_PlayIdle();
             }
 
             var roleDomain = worldDomain.RoleDomain;
@@ -121,36 +121,70 @@ namespace TiedanSouls.Client.Domain {
                     castingSkill.Reset();
                 }
 
-                role.MoveCom.StopHorizontal();
-
-                role.ModCom.Anim_Play_BeHit();
+                role.MoveCom.Stop();
+                role.RendererModCom.Anim_Play_BeHit();
             }
 
+            var roleDomain = worldDomain.RoleDomain;
+
+            // 击飞击退
+            var beHitDir = stateModel.beHitDir;
+            var knockBackSpeedArray = stateModel.knockBackSpeedArray;
+            var knockUpSpeedArray = stateModel.knockUpSpeedArray;
+            var len1 = knockBackSpeedArray.Length;
+            var len2 = knockUpSpeedArray.Length;
+            var curFrame = stateModel.curFrame;
+            bool canKnockBack = curFrame < len1;
+            bool canKnockUp = curFrame < len2;
+            var moveCom = role.MoveCom;
+
+            if (canKnockBack) KnockBack(moveCom, beHitDir, knockBackSpeedArray[curFrame]);
+            else if (curFrame == len1 - 1) moveCom.StopHorizontal();
+
+            if (canKnockUp) KnockUp(moveCom, knockUpSpeedArray[curFrame]);
+            else if (curFrame == len2 - 1) moveCom.StopVertical();
+            else roleDomain.Falling(role, dt);
+
             stateModel.hitStunFrame--;
+            stateModel.curFrame++;
             if (stateModel.hitStunFrame <= 0) {
+                moveCom.Stop();
                 fsm.EnterIdle();
-                return;
             }
         }
 
-        void Apply_Dead(RoleEntity role, RoleFSMComponent fsm, float dt) {
+        void KnockBack(MoveComponent moveCom, Vector2 beHitDir, float speed) {
+            beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
+            var newV = beHitDir * speed;
+            var oldV = moveCom.Velocity;
+            moveCom.SetVelocity(newV);
+        }
+
+        void KnockUp(MoveComponent moveCom, float speed) {
+            var newV = moveCom.Velocity;
+            newV.y = speed;
+            moveCom.SetVelocity(newV);
+        }
+
+        void Apply_Dying(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.DyingModel;
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
                 role.HudSlotCom.HideHUD();
-                role.ModCom.Anim_Play_Dying();
-                role.MoveCom.StopHorizontal();
+                role.RendererModCom.Anim_Play_Dying();
+                role.MoveCom.Stop();
             }
 
+            var roleDomain = worldDomain.RoleDomain;
+            roleDomain.Falling(role, dt);
+
+            stateModel.maintainFrame--;
             if (stateModel.maintainFrame <= 0) {
-                var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleDomain.Die(role);
                 fsm.SetIsExiting(true);
             }
-
-            stateModel.maintainFrame--;
         }
 
     }

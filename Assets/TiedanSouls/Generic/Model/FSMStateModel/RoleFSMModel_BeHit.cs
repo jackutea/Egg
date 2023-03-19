@@ -6,26 +6,30 @@ namespace TiedanSouls.Generic {
 
         public bool isEntering;
 
-        public Vector3 beHitDir;
+        public Vector2 beHitDir;
 
         public int hitStunFrame;
         public int castingSkillTypeID;
 
-        public float[] knockBackVelocityArray;
-        public float[] knockUpVelocityArray;
+        public float[] knockBackSpeedArray;
+        public float[] knockUpSpeedArray;
+
+        public int curFrame;
 
         public RoleFSMModel_BeHit() { }
 
         public void Reset() {
             isEntering = false;
 
-            beHitDir = Vector3.zero;
+            beHitDir = Vector2.zero;
 
             hitStunFrame = 0;
             castingSkillTypeID = -1;
 
-            knockBackVelocityArray = null;
-            knockUpVelocityArray = null;
+            knockBackSpeedArray = null;
+            knockUpSpeedArray = null;
+
+            curFrame = 0;
         }
 
     }

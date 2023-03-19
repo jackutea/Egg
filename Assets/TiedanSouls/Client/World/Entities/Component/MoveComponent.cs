@@ -8,10 +8,7 @@ namespace TiedanSouls.Client.Entities {
 
         Rigidbody2D rb;
         public Vector2 Velocity => rb.velocity;
-        public void SetVelocity(Vector2 velo) {
-            rb.velocity = velo;
-        }
-
+        public void SetVelocity(Vector2 velo) => rb.velocity = velo;
         bool isJumping;
 
         [SerializeField] bool isGrounded;
@@ -42,15 +39,19 @@ namespace TiedanSouls.Client.Entities {
             SetVelocity(velo);
         }
 
-        public void KnockBack(float dir, float force) {
-            var velo = rb.velocity;
-            velo.x = force * dir;
-            SetVelocity(velo);
+        public void Stop() {
+            rb.velocity = Vector2.zero;
         }
 
         public void StopHorizontal() {
             var velo = rb.velocity;
             velo.x = 0;
+            rb.velocity = velo;
+        }
+
+        public void StopVertical() {
+            var velo = rb.velocity;
+            velo.y = 0;
             SetVelocity(velo);
         }
 
@@ -79,6 +80,7 @@ namespace TiedanSouls.Client.Entities {
             SetVelocity(velo);
         }
 
+        ////////////////////////////////////
         public void EnterGround() {
             isGrounded = true;
             isJumping = false;
