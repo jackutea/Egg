@@ -1,5 +1,6 @@
 namespace TiedanSouls.Generic {
 
+    // 绝对阵营
     public enum AllyType {
 
         None,

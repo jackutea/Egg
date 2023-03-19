@@ -59,7 +59,7 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, HitTargetType hitTargetType) {
+        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, TargetType hitTargetType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderModel[] modelArray = new ColliderModel[len];
@@ -69,7 +69,7 @@ namespace TiedanSouls.Client {
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm, HitTargetType hitTargetType) {
+        public static ColliderModel GetModel_Collider(ColliderTM tm, TargetType hitTargetType) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
             model.SetColliderType(tm.colliderType);

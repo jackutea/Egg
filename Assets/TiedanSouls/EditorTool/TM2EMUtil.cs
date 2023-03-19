@@ -6,6 +6,15 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
     public static class TM2EMUtil {
 
+        #region [Effector]
+
+        public static void ToEffectorEditorGO(EffectorEditorGO editorGO, EffectorTM tm) {
+            editorGO.entitySpawnEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
+            editorGO.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
+        }
+
+        #endregion
+
         #region [Skill]
 
         public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {
@@ -118,6 +127,89 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
             return keyframeArray;
         }
+
+        #endregion
+
+        #region [Entity Summon]
+
+        public static EntitySummonEM[] GetEMArray_EntitySummon(EntitySummonTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            EntitySummonEM[] emArray = new EntitySummonEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_EffectorSummon(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static EntitySummonEM GetEM_EffectorSummon(EntitySummonTM tm) {
+            EntitySummonEM em;
+            em.entityType = tm.entityType;
+            em.typeID = tm.typeID;
+            em.controlType = tm.controlType;
+            return em;
+        }
+
+        #endregion
+
+        #region [Entity Destroy]
+
+        public static EntityDestroyEM[] GetEMArray_EntityDestroy(EntityDestroyTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            EntityDestroyEM[] emArray = new EntityDestroyEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_EntityDestroy(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static EntityDestroyEM GetEM_EntityDestroy(EntityDestroyTM tm) {
+            EntityDestroyEM em;
+            em.entityType = tm.entityType;
+            em.targetType = tm.targetType;
+            em.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
+            em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
+            return em;
+        }
+
+        #region [Selector]
+
+        public static AttributeSelectorEM[] GetEMArray_AttributeSelector(AttributeSelectorTM[] tmArray) {
+            if (tmArray == null) return null;
+            AttributeSelectorEM[] emArray = new AttributeSelectorEM[tmArray.Length];
+            for (int i = 0; i < tmArray.Length; i++) {
+                emArray[i] = GetEM_AttributeSelector(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static AttributeSelectorEM GetEM_AttributeSelector(AttributeSelectorTM tm) {
+            AttributeSelectorEM em;
+            em.hp = tm.hp;
+            em.hp_ComparisonType = tm.hp_ComparisonType;
+            em.hpMax = tm.hpMax;
+            em.hpMax_ComparisonType = tm.hpMax_ComparisonType;
+            em.ep = tm.ep;
+            em.ep_ComparisonType = tm.ep_ComparisonType;
+            em.epMax = tm.epMax;
+            em.epMax_ComparisonType = tm.epMax_ComparisonType;
+            em.gp = tm.gp;
+            em.gp_ComparisonType = tm.gp_ComparisonType;
+            em.gpMax = tm.gpMax;
+            em.gpMax_ComparisonType = tm.gpMax_ComparisonType;
+            em.moveSpeed = tm.moveSpeed;
+            em.moveSpeed_ComparisonType = tm.moveSpeed_ComparisonType;
+            em.jumpSpeed = tm.jumpSpeed;
+            em.jumpSpeed_ComparisonType = tm.jumpSpeed_ComparisonType;
+            em.fallingAcceleration = tm.fallingAcceleration;
+            em.fallingAcceleration_ComparisonType = tm.fallingAcceleration_ComparisonType;
+            em.fallingSpeedMax = tm.fallingSpeedMax;
+            em.fallingSpeedMax_ComparisonType = tm.fallingSpeedMax_ComparisonType;
+            return em;
+        }
+
+        #endregion
 
         #endregion
 

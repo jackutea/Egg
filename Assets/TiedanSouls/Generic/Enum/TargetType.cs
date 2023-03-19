@@ -1,9 +1,12 @@
+using UnityEngine;
+
 namespace TiedanSouls.Generic {
 
-    public enum HitTargetType {
+    // 相对阵营
+    public enum TargetType {
 
         None = 0b0000_0000,
-        
+
         All = 0b1111_1111,
         AllExceptSelf = 0b1111_1110,
         AllExceptAlly = 0b1111_1101,
@@ -18,11 +21,10 @@ namespace TiedanSouls.Generic {
         SelfAndAlly = OnlyAlly | OnlySelf,
         SelfAndEnemy = OnlyEnemy | OnlySelf,
         SelfAndNeutral = OnlyNeutral | OnlySelf,
-        
+
         AllyAndEnemy = OnlyAlly | OnlyEnemy,
         AllyAndNeutral = OnlyAlly | OnlyNeutral,
         EnemyAndNeutral = OnlyEnemy | OnlyNeutral,
-
 
     }
 

@@ -2,6 +2,6 @@ using TiedanSouls.Generic;
 
 public struct EffectorModel {
 
-    EntitySpawnModel entitySpawnModel;
+    EntitySpawnModel entitySpawnModel; // 实体生成模型
 
 }

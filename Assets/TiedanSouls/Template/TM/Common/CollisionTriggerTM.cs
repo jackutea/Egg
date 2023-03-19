@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class CollisionTriggerTM {
+    public struct CollisionTriggerTM {
 
         [Header("开始帧")] public int startFrame;
         [Header("结束帧")] public int endFrame;
@@ -16,7 +16,7 @@ namespace TiedanSouls.Template {
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
         [Header("打击力度")] public HitPowerTM hitPowerTM;
-        [Header("打击目标类型")] public HitTargetType hitTargetType;
+        [Header("打击目标类型")] public TargetType hitTargetType;
 
         [Header("(仅用于编辑器) 碰撞盒相对路径(组)")] public string[] colliderRelativePathArray;
 

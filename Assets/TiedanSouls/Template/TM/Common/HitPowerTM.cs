@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class HitPowerTM {
+    public struct HitPowerTM {
 
         [Header("击打顿帧(组)")] public int[] hitStunFrameArray;
         [Header("击打伤害(组)")] public int[] damageArray;

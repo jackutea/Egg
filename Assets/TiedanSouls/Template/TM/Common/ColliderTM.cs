@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class ColliderTM {
+    public struct ColliderTM {
 
         public ColliderType colliderType;
         public Vector3 localPos;
