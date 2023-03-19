@@ -141,7 +141,7 @@ namespace TiedanSouls.Client.Domain {
 
                     } else {
                         var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnByModel(spawnModel);
+                        worldDomain.SpawnBy_FieldEntitySpawnModel(spawnModel);
                     }
                     if (spawnModel.isBreakPoint) {
                         hasBreakPoint = true;

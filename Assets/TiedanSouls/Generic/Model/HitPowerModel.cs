@@ -5,19 +5,10 @@ namespace TiedanSouls.Generic {
         public int startFrame;
         public int endFrame;
 
-        int[] damageArray;
-        public void SetDamageArray(int[] value) => damageArray = value;
-
-        int[] hitStunFrameArray;
-        public void SetHitStunFrameArray(int[] value) => hitStunFrameArray = value;
-
-        float[] knockBackVelocityArray;
-        public float[] knockBackSpeedArray => knockBackVelocityArray;
-        public void SetKnockBackVelocityArray(float[] value) => knockBackVelocityArray = value;
-
-        float[] knockUpVelocityArray;
-        public float[] knockUpSpeedArray => knockUpVelocityArray;
-        public void SetKnockUpVelocityArray(float[] value) => knockUpVelocityArray = value;
+        public int[] damageArray;
+        public int[] hitStunFrameArray;
+        public float[] knockBackSpeedArray;
+        public float[] knockUpSpeedArray;
 
         public int GetHitDamage(int frame) {
             frame -= startFrame;

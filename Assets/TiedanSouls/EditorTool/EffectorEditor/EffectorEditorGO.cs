@@ -1,21 +1,20 @@
 using UnityEngine;
 using TiedanSouls.Template;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool.EffectorEditor {
 
     public class EffectorEditorGO : MonoBehaviour {
 
         [Header("绑定配置文件")] public EffectorSO so;
 
-        [Header("实体生成模型(组)")] public EntitySummonEM[] entitySpawnEMArray;
-        [Header("实体销毁模型(组)")] public EntityDestroyEM[] entityDestroyEMArray;
+        [Header("效果器")] public EffectorEM effectorEM;
 
         public void Save() {
-            so.tm = EM2TMUtil.GetTM_Effector(this);
+            so.tm = EM2TMUtil.GetTM_Effector(this.effectorEM);
         }
 
         public void Load() {
-            TM2EMUtil.ToEffectorEditorGO(this, so.tm);
+            this.effectorEM = TM2EMUtil.GetEM_Effector(so.tm);
         }
 
     }

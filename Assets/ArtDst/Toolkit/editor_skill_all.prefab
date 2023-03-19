@@ -97,7 +97,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 300
+      knockUpHeight_cm: 10
       knockUpCostFrame: 10
       knockUpDisCurve:
         serializedVersion: 2
@@ -165,6 +165,10 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  skillEffectorEMArray:
+  - triggerFrame: 10
+    effectorTypeID: 100
+    offsetPos: {x: 2, y: 2, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
 GameObject:
@@ -454,7 +458,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 200
+      knockUpHeight_cm: 10
       knockUpCostFrame: 10
       knockUpDisCurve:
         serializedVersion: 2
@@ -480,6 +484,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
 --- !u!1 &2146176807690415295
 GameObject:
@@ -646,6 +651,7 @@ MonoBehaviour:
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   colliderTriggerEMArray: []
+  skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
 --- !u!1 &3083040265302036843
 GameObject:
@@ -1177,6 +1183,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
@@ -1346,6 +1353,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
 --- !u!1 &8336571590214725402
 GameObject:

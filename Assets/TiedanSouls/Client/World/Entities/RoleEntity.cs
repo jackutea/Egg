@@ -196,7 +196,7 @@ namespace TiedanSouls.Client.Entities {
             logicRoot.position = pos;
         }
 
-        public Vector2 GetPos_Logic() {
+        public Vector3 GetPos_Logic() {
             return logicRoot.position;
         }
 

@@ -5,7 +5,7 @@ namespace TiedanSouls.Generic {
 
     // Use for Entity Spawn.
     [Serializable]
-    public struct FieldSpawnModel {
+    public struct FieldEntitySpawnModel {
 
         [Header("是否为Boss")] public bool isBoss;
         [Header("出生帧")] public int spawnFrame;

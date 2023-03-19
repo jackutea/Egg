@@ -104,6 +104,22 @@ namespace TiedanSouls.Client.Domain {
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
 
+            // 技能效果器
+            if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
+                var triggerFrame = skillEffectorModel.triggerFrame;
+                var effectorTypeID = skillEffectorModel.effectorTypeID;
+                var effectorDomain = worldDomain.EffectorDomain;
+                if (!effectorDomain.TryGetEffectorModel(effectorTypeID, out var effectorModel)) {
+                    Debug.LogError($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
+                    return;
+                }
+
+                var idArgs = role.IDCom.ToArgs();
+                var offsetPos = skillEffectorModel.offsetPos;
+                var spawnPos = role.GetPos_Logic() + role.GetRot_Logic() * offsetPos;
+                effectorDomain.ActivatedEffector(effectorModel, idArgs, spawnPos);
+            }
+
             // 技能逻辑迭代
             if (!castingSkill.TryMoveNext(role.GetPos_Logic(), role.GetRot_Logic())) {
                 fsm.EnterIdle();

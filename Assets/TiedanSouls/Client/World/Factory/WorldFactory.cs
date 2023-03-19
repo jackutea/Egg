@@ -44,7 +44,7 @@ namespace TiedanSouls.Client {
             field.Ctor();
 
             field.SetTypeID(typeID);
-            field.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as FieldSpawnModel[]);
+            field.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as FieldEntitySpawnModel[]);
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
@@ -280,6 +280,8 @@ namespace TiedanSouls.Client {
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
             // 碰撞器
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
+            // 技能效果器
+            skill.SetSkillEffectorModelArray(TM2ModelUtil.GetModelArray_SkillEffector(skillTM.skillEffectorTMArray));
             // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 

@@ -34,6 +34,11 @@ namespace TiedanSouls.Client.Entities {
         public CollisionTriggerModel[] CollisionTriggerArray => this.collisionTriggerArray;
         public void SetCollisionTriggerArray(CollisionTriggerModel[] value) => this.collisionTriggerArray = value;
 
+        // - 技能效果器
+        SkillEffectorModel[] skillEffectorModelArray;
+        public SkillEffectorModel[] SkillEffectorModelArray => this.skillEffectorModelArray;
+        public void SetSkillEffectorModelArray(SkillEffectorModel[] value) => this.skillEffectorModelArray = value;
+
         // - 表现层
         string weaponAnimName;
         public string WeaponAnimName => this.weaponAnimName;
@@ -149,6 +154,20 @@ namespace TiedanSouls.Client.Entities {
                 }
             }
             triggerModel = default;
+            return false;
+        }
+
+        public bool TryGet_ValidSkillEffectorModel(out SkillEffectorModel effectorModel) {
+            if (skillEffectorModelArray != null) {
+                for (int i = 0; i < skillEffectorModelArray.Length; i++) {
+                    SkillEffectorModel model = skillEffectorModelArray[i];
+                    if (model.triggerFrame == curFrame) {
+                        effectorModel = model;
+                        return true;
+                    }
+                }
+            }
+            effectorModel = default;
             return false;
         }
 

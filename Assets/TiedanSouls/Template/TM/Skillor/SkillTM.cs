@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class SkillTM {
+    public struct SkillTM {
 
         [Header("类型ID")] public int typeID;
         [Header("技能名称")] public string skillName;
@@ -17,11 +17,11 @@ namespace TiedanSouls.Template {
         [Header("连招技名单")] public SkillCancelTM[] cancelSkillCancelTMArray;
 
         [Header("碰撞器(组)")] public CollisionTriggerTM[] collisionTriggerTMArray;
-        
+
+        [Header("技能效果器(组)")] public SkillEffectorTM[] skillEffectorTMArray;
+
         [Header("武器动画名")] public string weaponAnimName;
         [Header("仅用于编辑时: 武器动画文件GUID")] public string weaponAnimClip_GUID;
-
-        public SkillTM() { }
 
     }
 

@@ -1,19 +1,23 @@
 using System.Linq;
+using TiedanSouls.EditorTool.EffectorEditor;
+using TiedanSouls.EditorTool.SkillEditor;
 using TiedanSouls.Generic;
 using TiedanSouls.Template;
 using UnityEditor;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool {
 
     public static class EM2TMUtil {
 
         #region [Effector]
 
-        public static EffectorTM GetTM_Effector(EffectorEditorGO editorGo) {
+        public static EffectorTM GetTM_Effector(EffectorEM em) {
             EffectorTM tm;
-            tm.entitySummonTMArray = GetTMArray_EntitySummon(editorGo.entitySpawnEMArray);
-            tm.entityDestroyTMArray = GetTMArray_EntityDestroy(editorGo.entityDestroyEMArray);
+            tm.typeID = em.typeID;
+            tm.effectorName = em.effectorName;
+            tm.entitySummonTMArray = GetTMArray_EntitySummon(em.entitySummonEMArray);
+            tm.entityDestroyTMArray = GetTMArray_EntityDestroy(em.entityDestroyEMArray);
             return tm;
         }
 
@@ -22,7 +26,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         #region [Skill]
 
         public static SkillTM GetTM_Skill(SkillEditorGO editorGo) {
-            SkillTM tm = new SkillTM();
+            SkillTM tm;
 
             tm.typeID = editorGo.typeID;
             tm.skillName = editorGo.skillName;
@@ -33,8 +37,11 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
             tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
 
+            tm.skillEffectorTMArray = GetTMArray_SkillEffector(editorGo.skillEffectorEMArray);
+
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
+
 
             tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger(editorGo.colliderTriggerEMArray);
 
@@ -50,10 +57,26 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         }
 
         static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
-            SkillCancelTM tm = new SkillCancelTM();
+            SkillCancelTM tm;
             tm.skillTypeID = em.skillTypeID;
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
+            return tm;
+        }
+
+        static SkillEffectorTM[] GetTMArray_SkillEffector(SkillEffectorEM[] ems) {
+            SkillEffectorTM[] tms = new SkillEffectorTM[ems.Length];
+            for (int i = 0; i < ems.Length; i++) {
+                tms[i] = GetTM_SkillEffector(ems[i]);
+            }
+            return tms;
+        }
+
+        static SkillEffectorTM GetTM_SkillEffector(SkillEffectorEM em) {
+            SkillEffectorTM tm;
+            tm.triggerFrame = em.triggerFrame;
+            tm.effectorTypeID = em.effectorTypeID;
+            tm.offsetPos = em.offsetPos;
             return tm;
         }
 
@@ -64,7 +87,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         public static HitPowerTM GetTM_HitPower(HitPowerEM em, int startFrame, int endFrame) {
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
 
-            HitPowerTM tm = new HitPowerTM();
+            HitPowerTM tm;
 
             // 伤害 根据曲线计算每一帧的伤害
             var baseDamage = em.damageBase;
@@ -150,15 +173,19 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             var startFrame = em.startFrame;
             var endFrame = em.endFrame;
 
-            CollisionTriggerTM tm = new CollisionTriggerTM();
+            CollisionTriggerTM tm;
+
             tm.startFrame = startFrame;
             tm.endFrame = endFrame;
+
+            tm.delayFrame = em.delayFrame;
             tm.intervalFrame = em.intervalFrame;
             tm.maintainFrame = em.maintainFrame;
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
             tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM, startFrame, endFrame);
             tm.hitTargetType = em.hitTargetType;
+            
             tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;
@@ -197,7 +224,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 Debug.LogError($"未知的碰撞器类型 {colliderGO.name}");
             }
 
-            ColliderTM tm = new ColliderTM();
+            ColliderTM tm;
             tm.colliderType = colliderType;
             tm.localPos = localPos;
             tm.size = size;

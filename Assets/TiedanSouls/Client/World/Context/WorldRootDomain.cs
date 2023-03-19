@@ -1,3 +1,4 @@
+using UnityEngine;
 using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Domain;
@@ -7,7 +8,9 @@ namespace TiedanSouls.Client.Facades {
 
     public class WorldRootDomain {
 
-        public WorldFSMDomain GameDomain { get; private set; }
+        #region [实体Domain]
+
+        public WorldFSMDomain WorldFSMDomain { get; private set; }
 
         public WorldFieldDomain FieldDomain { get; private set; }
         public WorldFieldFSMDomain FieldFSMDomain { get; private set; }
@@ -17,27 +20,36 @@ namespace TiedanSouls.Client.Facades {
 
         public WorldSkillDomain SkillDomain { get; private set; }
 
+        #endregion
+
+        #region [Misc Domain]
+
         public WorldPhysicsDomain PhysicsDomain { get; private set; }
         public WorldHitDomain HitDomain { get; private set; }
+        public WorldEffectorDomain EffectorDomain { get; private set; }
+
+        #endregion
+
+        #region [Renderer Domain]
 
         public WorldRendererDomain WorldRendererDomain { get; private set; }
+
+        #endregion
 
         public WorldContext WorldContext { get; private set; }
 
         public WorldRootDomain() {
-            GameDomain = new WorldFSMDomain();
 
+            WorldFSMDomain = new WorldFSMDomain();
             FieldDomain = new WorldFieldDomain();
             FieldFSMDomain = new WorldFieldFSMDomain();
-
             RoleDomain = new WorldRoleDomain();
             RoleFSMDomain = new WorldRoleFSMDomain();
-
             SkillDomain = new WorldSkillDomain();
 
             PhysicsDomain = new WorldPhysicsDomain();
-
             HitDomain = new WorldHitDomain();
+            EffectorDomain = new WorldEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
         }
@@ -45,19 +57,16 @@ namespace TiedanSouls.Client.Facades {
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
             worldContext.Inject(this);
 
-            this.GameDomain.Inject(infraContext, worldContext, this);
-
+            this.WorldFSMDomain.Inject(infraContext, worldContext, this);
             this.RoleFSMDomain.Inject(infraContext, worldContext, this);
             this.RoleDomain.Inject(infraContext, worldContext);
-
             this.SkillDomain.Inject(infraContext, worldContext);
-
             this.FieldDomain.Inject(infraContext, worldContext);
             this.FieldFSMDomain.Inject(infraContext, worldContext);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
             this.HitDomain.Inject(infraContext, worldContext, this);
-
+            this.EffectorDomain.Inject(infraContext, worldContext);
 
             this.WorldRendererDomain.Inject(infraContext, worldContext, this);
 
@@ -66,14 +75,27 @@ namespace TiedanSouls.Client.Facades {
 
         #region [Spawn]
 
-        public void SpawnByModelArray(FieldSpawnModel[] spawnModelArray) {
-            var spawnCount = spawnModelArray?.Length;
-            for (int i = 0; i < spawnCount; i++) {
-                SpawnByModel(spawnModelArray[i]);
+        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos) {
+            var controlType = entitySummonModel.controlType;
+            var entityType = entitySummonModel.entityType;
+            var typeID = entitySummonModel.typeID;
+            var allyType = summoner.allyType;
+
+            if (entityType == EntityType.Role) {
+                var role = RoleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+            } else {
+                TDLog.Error($"未知的实体类型 {entityType}");
             }
         }
 
-        public void SpawnByModel(in FieldSpawnModel spawnModel) {
+        public void SpawnBy_FieldEntitySpawnModelArray(FieldEntitySpawnModel[] spawnModelArray) {
+            var spawnCount = spawnModelArray?.Length;
+            for (int i = 0; i < spawnCount; i++) {
+                SpawnBy_FieldEntitySpawnModel(spawnModelArray[i]);
+            }
+        }
+
+        public void SpawnBy_FieldEntitySpawnModel(in FieldEntitySpawnModel spawnModel) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;
@@ -87,7 +109,7 @@ namespace TiedanSouls.Client.Facades {
                 role.SetIsBoss(isBoss);
                 TDLog.Log($"人物: AllyType {allyType} / ControlType {controlType} / TypeID {typeID} / Name {role.IDCom.EntityName} / IsBoss {isBoss} Spawned!");
             } else {
-                TDLog.Error("Not Handle Yet!");
+                TDLog.Error($"未知的实体类型 {entityType}");
             }
         }
 

@@ -6,6 +6,8 @@ namespace TiedanSouls.Template {
 
     public class TemplateCore {
 
+        #region [实体模板]
+
         RoleTemplate roleTemplate;
         public RoleTemplate RoleTemplate => roleTemplate;
 
@@ -21,11 +23,20 @@ namespace TiedanSouls.Template {
         ItemTemplate itemTemplate;
         public ItemTemplate ItemTemplate => itemTemplate;
 
+        #endregion
+
+        #region [Misc]
+
         AITemplate aiTemplate;
         public AITemplate AITemplate => aiTemplate;
 
+        EffectorTemplate effectorTemplate;
+        public EffectorTemplate EffectorTemplate => effectorTemplate;
+
         GameConfigTM gameConfigTM;
         public GameConfigTM GameConfigTM => gameConfigTM;
+
+        #endregion
 
         public TemplateCore() {
             roleTemplate = new RoleTemplate();
@@ -33,7 +44,9 @@ namespace TiedanSouls.Template {
             weaponTemplate = new WeaponTemplate();
             fieldTemplate = new FieldTemplate();
             itemTemplate = new ItemTemplate();
+
             aiTemplate = new AITemplate();
+            effectorTemplate = new EffectorTemplate();
         }
 
         public async Task Init() {
@@ -43,6 +56,7 @@ namespace TiedanSouls.Template {
             await fieldTemplate.LoadAll();
             await itemTemplate.LoadAll();
             await aiTemplate.LoadAll();
+            await effectorTemplate.LoadAll();
 
             // GameConfig
             AssetLabelReference label = new AssetLabelReference();

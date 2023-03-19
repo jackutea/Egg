@@ -19,7 +19,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
 
         [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
-        
+
+        [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
+
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
         public void Save() {

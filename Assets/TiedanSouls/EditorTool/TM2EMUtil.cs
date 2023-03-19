@@ -1,16 +1,22 @@
+using TiedanSouls.EditorTool.EffectorEditor;
+using TiedanSouls.EditorTool.SkillEditor;
 using TiedanSouls.Template;
 using UnityEditor;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
         #region [Effector]
 
-        public static void ToEffectorEditorGO(EffectorEditorGO editorGO, EffectorTM tm) {
-            editorGO.entitySpawnEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
-            editorGO.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
+        public static EffectorEM GetEM_Effector(EffectorTM tm) {
+            EffectorEM em;
+            em.typeID = tm.typeID;
+            em.effectorName = tm.effectorName;
+            em.entitySummonEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
+            em.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
+            return em;
         }
 
         #endregion

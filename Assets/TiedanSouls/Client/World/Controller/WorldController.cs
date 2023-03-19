@@ -27,7 +27,7 @@ namespace TiedanSouls.Client.Controller {
 
         public void Init() {
             infraContext.EventCenter.Listen_OnStartGameAct(() => {
-                worldDomain.GameDomain.StartGame();
+                worldDomain.WorldFSMDomain.StartGame();
             });
         }
 
@@ -38,7 +38,7 @@ namespace TiedanSouls.Client.Controller {
             resTime += dt;
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
             while (resTime >= logicIntervalTime) {
-                worldDomain.GameDomain.ApplyWorldState(logicIntervalTime);
+                worldDomain.WorldFSMDomain.ApplyWorldState(logicIntervalTime);
                 resTime -= logicIntervalTime;
                 resTime = resTime < 0 ? 0 : resTime;
             }

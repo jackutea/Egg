@@ -77,32 +77,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 8e642aad100456a408d16bcaaab5efd3, type: 2}
-  entitySpawnEMArray:
-  - entityType: 1
-    typeID: 1000
-    controlType: 1
-  entityDestroyEMArray:
-  - entityType: 1
-    targetType: 4
-    isEnabled_attributeSelector: 1
-    attributeSelectorEM:
-      hp: 100
-      hp_ComparisonType: 1
-      hpMax: 0
-      hpMax_ComparisonType: 0
-      ep: 0
-      ep_ComparisonType: 0
-      epMax: 0
-      epMax_ComparisonType: 0
-      gp: 0
-      gp_ComparisonType: 0
-      gpMax: 0
-      gpMax_ComparisonType: 0
-      moveSpeed: 0
-      moveSpeed_ComparisonType: 0
-      jumpSpeed: 0
-      jumpSpeed_ComparisonType: 0
-      fallingAcceleration: 0
-      fallingAcceleration_ComparisonType: 0
-      fallingSpeedMax: 0
-      fallingSpeedMax_ComparisonType: 0
+  effectorEM:
+    typeID: 100
+    effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
+    entitySummonEMArray:
+    - entityType: 1
+      typeID: 1000
+      controlType: 1
+    entityDestroyEMArray:
+    - entityType: 1
+      targetType: 4
+      isEnabled_attributeSelector: 1
+      attributeSelectorEM:
+        hp: 100
+        hp_ComparisonType: 1
+        hpMax: 0
+        hpMax_ComparisonType: 0
+        ep: 0
+        ep_ComparisonType: 0
+        epMax: 0
+        epMax_ComparisonType: 0
+        gp: 0
+        gp_ComparisonType: 0
+        gpMax: 0
+        gpMax_ComparisonType: 0
+        moveSpeed: 0
+        moveSpeed_ComparisonType: 0
+        jumpSpeed: 0
+        jumpSpeed_ComparisonType: 0
+        fallingAcceleration: 0
+        fallingAcceleration_ComparisonType: 0
+        fallingSpeedMax: 0
+        fallingSpeedMax_ComparisonType: 0
