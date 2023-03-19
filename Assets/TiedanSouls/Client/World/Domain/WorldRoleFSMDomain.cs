@@ -61,18 +61,18 @@ namespace TiedanSouls.Client.Domain {
             roleDomain.Falling(role, dt);
             roleDomain.CrossDown(role);
 
-            // Idle状态下 拾取武器
+            // 拾取武器
             var inputCom = role.InputCom;
             if (inputCom.HasInput_Basic_Pick) {
                 roleDomain.TryPickUpSomethingFromField(role);
             }
 
-            // Idle状态下 释放技能
-            if (roleDomain.TryCastSkillByInput(role)) {
-                roleDomain.FaceToChoosePoint(role);
-            } else {
-                roleDomain.FaceToMoveDir(role);
-            }
+            // 面向移动方向
+            roleDomain.FaceToMoveDir(role);
+
+            // 释放技能
+            _ = roleDomain.TryCastSkillByInput(role);
+
         }
 
         void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
@@ -81,7 +81,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             var stateModel = fsm.CastingModel;
-            var skillTypeID = stateModel.castingSkillTypeID;
+            var skillTypeID = stateModel.CastingSkillTypeID;
             var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
             _ = skillSlotCom.TryGet(skillTypeID, isCombo, out var castingSkill);
@@ -89,18 +89,12 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-
-                // 根据 鼠标点击 改变朝向
-                roleDomain.FaceToChoosePoint(role);
-
+                roleDomain.FaceTo_Horizontal(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
 
-            // 尝试 技能组合技
-            if (roleDomain.TryCastSkillByInput(role)) {
-                TDLog.Log(" ColliderModel 技能组合技");
-                return;
-            }
+            // 释放技能
+            if (roleDomain.TryCastSkillByInput(role)) return;
 
             // Locomotion
             roleDomain.Move(role);

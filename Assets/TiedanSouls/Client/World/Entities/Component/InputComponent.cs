@@ -36,9 +36,9 @@ namespace TiedanSouls.Client.Entities {
         public bool HasInput_Basic_Pick => hasInput_Basic_Pick;
         public void SetInput_Basic_Pick(bool value) => this.hasInput_Basic_Pick = value;
 
-        Vector2 chosePoint;
-        public Vector2 ChoosePoint => chosePoint;
-        public void SetInput_Basic_ChoosePoint(Vector2 value) => this.chosePoint = value;
+        Vector2 chosenPoint;
+        public Vector2 ChosenPoint => chosenPoint;
+        public void SetInput_Basic_ChosenPoint(Vector2 value) => this.chosenPoint = value;
 
         public InputComponent() { }
 
@@ -51,7 +51,7 @@ namespace TiedanSouls.Client.Entities {
             hasInput_Skill_Infinity = false;
             hasInput_Skill_Dash = false;
             hasInput_Basic_Pick = false;
-            chosePoint = Vector2.zero;
+            chosenPoint = Vector2.zero;
         }
 
         public SkillType GetSkillType() {

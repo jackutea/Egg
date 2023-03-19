@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace TiedanSouls.Generic {
 
     public class RoleFSMModel_Casting {
@@ -10,7 +12,14 @@ namespace TiedanSouls.Generic {
         public bool IsCombo => isCombo;
         public void SetIsCombo(bool value) => isCombo = value;
 
-        public int castingSkillTypeID;
+        int castingSkillTypeID;
+        public int CastingSkillTypeID => castingSkillTypeID;
+        public void SetCastingSkillTypeID(int value) => castingSkillTypeID = value;
+
+        Vector2 chosedPoint;
+        public Vector2 ChosedPoint => chosedPoint;
+        public void SetChosedPoint(Vector2 value) => chosedPoint = value;
+
         public int maintainFrame;
 
         public RoleFSMModel_Casting() { }

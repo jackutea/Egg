@@ -20,5 +20,5 @@ MonoBehaviour:
     crit: 0
     skillMeleeTypeID: 1000
     skillHoldMeleeTypeID: 1
-    skillSpecMeleeTypeID: 0
+    skillSpecMeleeTypeID: 2000
     meshName: mod_weapon_spear

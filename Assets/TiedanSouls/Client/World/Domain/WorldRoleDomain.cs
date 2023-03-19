@@ -209,7 +209,8 @@ namespace TiedanSouls.Client.Domain {
 
             // - Choose Point
             if (inputGetter.GetDown(InputKeyCollection.CHOOSE_POINT)) {
-                inputCom.SetInput_Basic_ChoosePoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                var chosenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                inputCom.SetInput_Basic_ChosenPoint(chosenPoint);
             }
         }
 
@@ -221,11 +222,10 @@ namespace TiedanSouls.Client.Domain {
             role.Move();
         }
 
-        public void FaceToChoosePoint(RoleEntity role) {
-            var choosePoint = role.InputCom.ChoosePoint;
-            if (choosePoint != Vector2.zero) {
+        public void FaceTo_Horizontal(RoleEntity role,Vector2 point) {
+            if (point != Vector2.zero) {
                 var rolePos = role.GetPos_LogicRoot();
-                var xDiff = choosePoint.x - rolePos.x;
+                var xDiff = point.x - rolePos.x;
                 var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
                 role.FaceTo(dirX);
             }
@@ -293,7 +293,7 @@ namespace TiedanSouls.Client.Domain {
             // 连招
             if (fsm.State == RoleFSMState.Casting) {
                 var stateModel = fsm.CastingModel;
-                var castingSkillTypeID = stateModel.castingSkillTypeID;
+                var castingSkillTypeID = stateModel.CastingSkillTypeID;
                 SkillEntity castingSkill;
                 if (stateModel.IsCombo) {
                     _ = skillSlotCom.TryGet_Combo(castingSkillTypeID, out castingSkill);
@@ -352,12 +352,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterCasting(skillTypeID, false);
+            fsmCom.EnterCasting(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterCasting(skillTypeID, true);
+            fsmCom.EnterCasting(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion

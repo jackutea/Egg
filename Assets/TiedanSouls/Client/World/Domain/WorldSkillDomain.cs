@@ -82,6 +82,7 @@ namespace TiedanSouls.Client.Domain {
                         TDLog.Error($"Repo已存在该技能! - {idCom}");
                     } else {
                         TDLog.Log($"添加技能成功! 已添加 '组合技' 技能 - {comboTypeID}");
+                        AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray, father_lambda);
                     }
                 }
             }

@@ -293,7 +293,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
 --- !u!1 &2380514558212155921
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +739,7 @@ MonoBehaviour:
     maintainFrame: 0
     hitTargetType: 4
     colliderGOArray:
-    - {fileID: 6032330349393271052}
+    - {fileID: 946612889277224407}
     hitPowerEM:
       damageBase: 30
       damageCurve:
@@ -825,7 +825,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
     maintainFrame: 0
     hitTargetType: 4
     colliderGOArray:
-    - {fileID: 6032330349393271052}
+    - {fileID: 6432408507379964416}
     hitPowerEM:
       damageBase: 50
       damageCurve:
@@ -973,7 +973,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  weaponAnimClip: {fileID: 7400000, guid: bf207167b798a1e41a0446eee3522050, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
 --- !u!1 &8336571590214725402
 GameObject:
   m_ObjectHideFlags: 0

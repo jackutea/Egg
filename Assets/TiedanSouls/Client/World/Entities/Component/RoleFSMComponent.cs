@@ -47,14 +47,15 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log("人物状态机切换 - 待机 ");
         }
 
-        public void EnterCasting(int skillTypeID, bool isCombo) {
+        public void EnterCasting(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingModel;
             stateModel.Reset();
 
-            stateModel.castingSkillTypeID = skillTypeID;
+            stateModel.SetCastingSkillTypeID (skillTypeID);
             stateModel.SetIsCombo(isCombo);
-            stateModel.SetIsEntering(true);
+            stateModel.SetChosedPoint(chosedPoint);
 
+            stateModel.SetIsEntering(true);
             state = RoleFSMState.Casting;
             TDLog.Log($"人物状态机切换 - 施法中 {skillTypeID} 连击 {isCombo}");
         }
@@ -64,7 +65,7 @@ namespace TiedanSouls.Client.Entities {
             stateModel.Reset();
 
             int castingSkillTypeID = -1;
-            if (state == RoleFSMState.Casting) castingSkillTypeID = castingModel.castingSkillTypeID;
+            if (state == RoleFSMState.Casting) castingSkillTypeID = castingModel.CastingSkillTypeID;
 
             stateModel.isEntering = true;
 
