@@ -49,7 +49,7 @@ namespace TiedanSouls.Client.Domain {
 
             // Clear Input
             var roleRepo = worldContext.RoleRepo;
-            roleRepo.ForeachAll((role) => {
+            roleRepo.Foreach_All((role) => {
                 role.InputCom.Reset();
             });
         }
@@ -89,7 +89,7 @@ namespace TiedanSouls.Client.Domain {
 
             // AI
             var curFieldTypeID = stateEntity.CurFieldTypeID;
-            roleRepo.Foreach_AIFromField(curFieldTypeID, (role) => {
+            roleRepo.Foreach_AI(curFieldTypeID, (role) => {
                 // Strategy
                 if (role.FSMCom.State != RoleFSMState.Dying) {
                     role.AIStrategy.Tick(dt);
@@ -149,7 +149,7 @@ namespace TiedanSouls.Client.Domain {
 
             // Player
             if (playerRole != null) {
-                if (playerRole.FSMCom.IsExiting) {
+                if (playerRole.AttributeCom.IsDead()) {
                     var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
                     var lobbyFieldTypeID = gameConfigTM.lobbyFieldTypeID;
                     stateEntity.EnterState_Loading(stateEntity.CurFieldTypeID, lobbyFieldTypeID, 0);
@@ -160,7 +160,7 @@ namespace TiedanSouls.Client.Domain {
 
             // AI
             var curFieldTypeID = stateEntity.CurFieldTypeID;
-            roleRepo.Foreach_AIFromField(curFieldTypeID, (role) => {
+            roleRepo.Foreach_AI(curFieldTypeID, (role) => {
                 // Strategy
                 if (role.FSMCom.State != RoleFSMState.Dying) {
                     role.AIStrategy.Tick(dt);
@@ -250,7 +250,7 @@ namespace TiedanSouls.Client.Domain {
 
                 // 隐藏当前关卡内AI角色
                 var roleRepo = worldContext.RoleRepo;
-                roleRepo.HideAllAIRolesInField(curFieldTypeID);
+                roleRepo.HideAll_AIs(curFieldTypeID);
 
                 // 显示下一关卡
                 _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);

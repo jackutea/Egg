@@ -23,7 +23,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void Tick(float dt) {
             var repo = worldContext.RoleRepo;
-            repo.ForeachAll((role) => {
+            repo.Foreach_All((role) => {
                 role.LerpRenderer(dt);
                 role.HudSlotCom.HpBarHUD.Tick(dt);
             });

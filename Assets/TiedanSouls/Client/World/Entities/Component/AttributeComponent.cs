@@ -49,6 +49,10 @@ namespace TiedanSouls.Client.Entities {
             gp = gpMax;
         }
 
+        public void ClearHP() {
+            hp = 0;
+        }
+
         public void InitializeHealth(int hp, int hpMax, int ep, int epMax, int gp, int gpMax) {
             this.hp = hp;
             this.hpMax = hpMax;

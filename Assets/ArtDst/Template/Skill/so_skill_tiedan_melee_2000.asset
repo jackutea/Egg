@@ -35,7 +35,7 @@ MonoBehaviour:
         hitStunFrameArray: 1e0000001e0000001e0000001e0000001e0000001e000000
         damageArray: 320000003200000032000000320000003300000033000000
         knockBackSpeedArray_cm: e8030000c6030000a503000083030000620300004103000020030000fe020000dd020000bb0200009a02000079020000570200003602000015020000f4010000d2010000b10100008f0100006e010000
-        knockUpSpeedArray_cm: 5802000044020000300200001c02000008020000f4010000e0010000cc010000b8010000a4010000
+        knockUpSpeedArray_cm: 140000001300000013000000120000001100000011000000100000000f0000000f0000000e000000
         hitStunFrameCurve_KeyframeTMArray:
         - time: 0
           value: 1
@@ -93,9 +93,13 @@ MonoBehaviour:
         knockBackCostFrame: 20
         knockBackDistance_cm: 500
         knockUpCostFrame: 10
-        knockUpHeight_cm: 300
+        knockUpHeight_cm: 10
       hitTargetType: 4
       colliderRelativePathArray:
       - colliders_0/b1
+    skillEffectorTMArray:
+    - triggerFrame: 10
+      effectorTypeID: 100
+      offsetPos: {x: 2, y: 2, z: 0}
     weaponAnimName: anim_spear_melee_2000
     weaponAnimClip_GUID: 37e9cfbf86e646f4da9e4b48d68e6bd5

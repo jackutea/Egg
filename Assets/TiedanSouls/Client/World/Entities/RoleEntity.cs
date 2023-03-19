@@ -88,6 +88,10 @@ namespace TiedanSouls.Client.Entities {
         public bool IsBoss => isBoss;
         public void SetIsBoss(bool value) => this.isBoss = value;
 
+        int fromFieldTypeID;
+        public int FromFieldTypeID => fromFieldTypeID;
+        public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
+
         #endregion
 
         public void Ctor() {

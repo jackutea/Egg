@@ -59,13 +59,15 @@ namespace TiedanSouls.Client.Domain {
             var fsm = field.FSMComponent;
             var stateModel = fsm.SpawningModel;
             var roleRepo = worldContext.RoleRepo;
+            var stateEntity = worldContext.StateEntity;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
                 // 判断前置条件: 是否是重复加载关卡
-                if (roleRepo.HasRoleFromFieldType(fieldTypeID)) {
-                    roleRepo.ResetAllAIRolesInField(fieldTypeID, false);
+                if (roleRepo.HasAI(fieldTypeID)) {
+                    roleRepo.ResetAll_AIs(fieldTypeID, false);
                     stateModel.SetIsRespawning(true);
                 }
 
@@ -94,10 +96,11 @@ namespace TiedanSouls.Client.Domain {
 
             }
 
-            // 刷新当前存活敌人数量
+            // 刷新当前关卡存活敌人数量
             int aliveEnemyCount = 0;
             int aliveBossCount = 0;
-            roleRepo.Foreach_EnemyOfPlayer((enemy) => {
+            roleRepo.Foreach_EnemyOfPlayer(curFieldTypeID,
+            (enemy) => {
                 if (!enemy.AttributeCom.IsDead()) {
                     aliveEnemyCount++;
                     if (enemy.IsBoss) aliveBossCount++;
@@ -123,7 +126,7 @@ namespace TiedanSouls.Client.Domain {
             var len = spawnArray.Length;
 
             if (stateModel.IsRespawning) {
-                roleRepo.Foreach_AIFromField(fieldTypeID, ((ai) => {
+                roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
                     ai.Show();
                     ai.HudSlotCom.ShowHUD();
@@ -162,7 +165,6 @@ namespace TiedanSouls.Client.Domain {
             }
 
             stateModel.curFrame++;
-
             if (hasBreakPoint) {
                 stateModel.SetIsSpawningPaused(true);
                 TDLog.Warning($"关卡实体生成暂停,请杀死当前所有敌人以推进关卡进度 {stateModel.IsSpawningPaused}");

@@ -21,8 +21,12 @@ namespace TiedanSouls.Client.Domain {
 
         public RoleEntity SpawnRole(ControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
 
+            var fromFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+
             var factory = worldContext.WorldFactory;
             var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
+
+            role.SetFromFieldTypeID(worldContext.StateEntity.CurFieldTypeID);
 
             // - Physics
             role.FootTriggerEnterAction += OnFootTriggerEnter;
@@ -33,12 +37,11 @@ namespace TiedanSouls.Client.Domain {
 
             var repo = worldContext.RoleRepo;
             if (role.ControlType == ControlType.Player) {
-                repo.SetPlayerRole(role);
+                repo.Set_Player(role);
             } else if (role.ControlType == ControlType.AI) {
                 var ai = role.AIStrategy;
                 ai.Activate();
-                var fromFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-                repo.AddAIRole(role, fromFieldTypeID);
+                repo.Add_ToAI(role);
             }
 
             return role;
@@ -365,16 +368,20 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Role State]
 
-        public void BeginDying(RoleEntity role) {
+        public void Role_PrepareToDie(RoleEntity role) {
+            var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
             fsm.EnterDying(30);
         }
 
-        public void Die(RoleEntity role) {
+        public void Role_Die(RoleEntity role) {
+            TDLog.Log($"角色死亡 - {role.IDCom.TypeID}");
+            role.FSMCom.SetIsExiting(true);
+            role.AttributeCom.ClearHP();
             role.Hide();
         }
 
-        public bool CanEnterDying(RoleEntity role) {
+        public bool IsRoleDead(RoleEntity role) {
             var attrCom = role.AttributeCom;
             return attrCom.HP <= 0;
         }

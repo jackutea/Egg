@@ -3,6 +3,8 @@ using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Domain;
 using TiedanSouls.Client.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace TiedanSouls.Client.Facades {
 
@@ -115,6 +117,35 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
+        #region [Destroy]
+
+        public void DestroyBy_EntityDestroyModel(in EntityDestroyModel entityDestroyModel, in IDArgs summoner) {
+            var entityType = entityDestroyModel.entityType;
+            if (entityType == EntityType.None) return;
+
+            var targetType = entityDestroyModel.targetType;
+            var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
+            var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
+            var curFieldTypeID = WorldContext.StateEntity.CurFieldTypeID;
+            var roleDomain = WorldContext.RootDomain.RoleDomain;
+
+            if (entityType == EntityType.Role) {
+                var roleRepo = WorldContext.RoleRepo;
+                var list = roleRepo.GetRoleList_ByTargetType(curFieldTypeID, targetType, summoner);
+                list.ForEach(((role) => {
+                    var attributeCom = role.AttributeCom;
+                    // 选择器 - 属性
+                    if (isEnabled_attributeSelector && !attributeCom.IsMatch(attributeSelectorModel)) return;
+                    roleDomain.Role_PrepareToDie(role);
+                }));
+
+            } else {
+                TDLog.Error($"未知的实体类型 {entityType}");
+            }
+        }
+
+        #endregion
+
         #region [CollisionTrigger]
 
         public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
@@ -162,7 +193,7 @@ namespace TiedanSouls.Client.Facades {
 
             if (entityType == EntityType.Role) {
                 var roleRepo = WorldContext.RoleRepo;
-                if (!roleRepo.TryGet(entityID, out var role)) return false;
+                if (!roleRepo.TryGet_FromAll(entityID, out var role)) return false;
                 entity = role;
                 return true;
             }

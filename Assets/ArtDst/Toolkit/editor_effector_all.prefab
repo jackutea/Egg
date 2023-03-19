@@ -80,17 +80,14 @@ MonoBehaviour:
   effectorEM:
     typeID: 100
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
-    entitySummonEMArray:
-    - entityType: 1
-      typeID: 1000
-      controlType: 1
+    entitySummonEMArray: []
     entityDestroyEMArray:
     - entityType: 1
       targetType: 4
-      isEnabled_attributeSelector: 1
+      isEnabled_attributeSelector: 0
       attributeSelectorEM:
-        hp: 100
-        hp_ComparisonType: 1
+        hp: 0
+        hp_ComparisonType: 0
         hpMax: 0
         hpMax_ComparisonType: 0
         ep: 0

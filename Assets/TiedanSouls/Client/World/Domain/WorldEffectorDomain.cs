@@ -36,10 +36,13 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len1; i++) {
                 var entitySummonModel = effectorModel.entitySummonModelArray[i];
                 worldContext.RootDomain.SpawnBy_EntitySummonModel(entitySummonModel, summoner, spawnPos);
-                TDLog.Log($"效果器激活: 生成实体 {entitySummonModel} 位置 {spawnPos}");
             }
 
-            // TODO: 实现entityDestroyModelArray
+            var len2 = effectorModel.entityDestroyModelArray.Length;
+            for (int i = 0; i < len2; i++) {
+                var entityDestroyModel = effectorModel.entityDestroyModelArray[i];
+                worldContext.RootDomain.DestroyBy_EntityDestroyModel(entityDestroyModel, summoner);
+            }
         }
 
     }

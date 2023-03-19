@@ -43,7 +43,7 @@ namespace TiedanSouls.Client.Domain {
             if (fsm.State == RoleFSMState.Dying) return;
 
             var roleDomain = worldDomain.RoleDomain;
-            if (roleDomain.CanEnterDying(role)) {
+            if (roleDomain.IsRoleDead(role)) {
                 role.FSMCom.EnterDying(30);
             }
         }
@@ -201,8 +201,7 @@ namespace TiedanSouls.Client.Domain {
 
             stateModel.maintainFrame--;
             if (stateModel.maintainFrame <= 0) {
-                roleDomain.Die(role);
-                fsm.SetIsExiting(true);
+                roleDomain.Role_Die(role);
             }
         }
 
