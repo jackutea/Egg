@@ -19,10 +19,10 @@ MonoBehaviour:
     entityDestroyTMArray:
     - entityType: 1
       targetType: 4
-      isEnabled_attributeSelector: 0
+      isEnabled_attributeSelector: 1
       attributeSelectorTM:
-        hp: 0
-        hp_ComparisonType: 0
+        hp: 50
+        hp_ComparisonType: 2
         hpMax: 0
         hpMax_ComparisonType: 0
         ep: 0
