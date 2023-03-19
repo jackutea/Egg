@@ -21,6 +21,7 @@ namespace TiedanSouls.Client.Entities {
 
         public void SetWeapon(WeaponEntity weapon) {
             this.weapon = weapon;
+            this.isActive = true;
         }
 
         public bool HasWeapon() {
@@ -32,7 +33,7 @@ namespace TiedanSouls.Client.Entities {
             this.isActive = active;
         }
 
-        public void Reset(){}
+        public void Reset() { }
 
     }
 

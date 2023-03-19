@@ -119,7 +119,7 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void Foreach_CancelModel_Link_InCurrentFrame(Action<SkillCancelModel> action) {
+        public void Foreach_CancelModel_Linked_InCurrentFrame(Action<SkillCancelModel> action) {
             if (linkSkillCancelModelArray != null) {
                 for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
                     SkillCancelModel model = linkSkillCancelModelArray[i];

@@ -20,6 +20,7 @@ namespace TiedanSouls.Template {
             foreach (var item in list) {
                 var tm = item.tm;
                 all.Add(tm.typeID, tm);
+                TDLog.Log($"{nameof(SkillTemplate)}: {tm.typeID} loaded!");
             }
         }
 

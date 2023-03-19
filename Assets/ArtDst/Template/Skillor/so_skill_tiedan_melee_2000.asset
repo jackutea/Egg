@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b9a126cf033a54bad92c48b7f14539, type: 3}
+  m_Name: so_skill_tiedan_melee_2000
+  m_EditorClassIdentifier: 
+  tm:
+    typeID: 2000
+    skillName: "\u666E\u653B3\u6BB5 "
+    skillType: 1
+    maintainFrame: 0
+    originSkillTypeID: 1000
+    comboSkillCancelTMArray: []
+    cancelSkillCancelTMArray: []
+    collisionTriggerTMArray:
+    - startFrame: 0
+      endFrame: 15
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+      colliderTMArray:
+      - colliderType: 0
+        localPos: {x: 2.97, y: 0.94, z: 0}
+        localAngleZ: 0
+        size: {x: 5.8185, y: 1.7378125, z: 0}
+      hitPowerTM:
+        hitStunFrameArray: 
+        damageArray: 
+        knockBackSpeedArray_cm: 
+        knockUpSpeedArray_cm: 
+        hitStunFrameCurve_KeyframeTMArray: []
+        damageCurve_KeyframeTMArray: []
+        knockBackDisCurve_KeyframeTMArray: []
+        knockUpDisCurve_KeyframeTMArray: []
+        hitStunFrameBase: 0
+        damageBase: 0
+        knockBackCostFrame: 0
+        knockBackDistance_cm: 0
+        knockUpCostFrame: 0
+        knockUpHeight_cm: 0
+      hitTargetType: 0
+      colliderRelativePathArray:
+      - colliders_0/b1
+    weaponAnimName: anim_spear_melee_1020
+    weaponAnimClip_GUID: bf207167b798a1e41a0446eee3522050

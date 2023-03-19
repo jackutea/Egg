@@ -94,7 +94,9 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // 释放技能
-            if (roleDomain.TryCastSkillByInput(role)) return;
+            if (roleDomain.TryCastSkillByInput(role)) {
+                return;
+            }
 
             // Locomotion
             roleDomain.Move(role);

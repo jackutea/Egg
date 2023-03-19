@@ -75,9 +75,6 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.Show();
                 playerRole.HudSlotCom.ShowHUD();
 
-                // 大厅禁用武器
-                playerRole.WeaponSlotCom.SetWeaponActive(false);
-
                 // 设置相机 
                 _ = worldContext.FieldRepo.TryGet(stateEntity.CurFieldTypeID, out var field);
                 var cameraSetter = infraContext.CameraCore.SetterAPI;
