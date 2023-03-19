@@ -4,6 +4,7 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.Infra.Controller;
 using TiedanSouls.Main.Controller;
 using TiedanSouls.Client.Controller;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Main.Entry {
 

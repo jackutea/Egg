@@ -1,6 +1,7 @@
 using UnityEngine;
-using TiedanSouls.Template;
 using UnityEditor;
+using TiedanSouls.Template;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.EditorTool.SkillEditor {
 

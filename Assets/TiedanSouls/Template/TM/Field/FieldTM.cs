@@ -16,7 +16,7 @@ namespace TiedanSouls.Template {
         public ushort level;
 
         // Spawn
-        public SpawnModel[] spawnModelArray;
+        public FieldSpawnModel[] spawnModelArray;
         public Vector2[] itemSpawnPosArray;
 
         // Field Link

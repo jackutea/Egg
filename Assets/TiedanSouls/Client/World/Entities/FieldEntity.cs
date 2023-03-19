@@ -18,9 +18,9 @@ namespace TiedanSouls.Client.Entities {
         BoxCollider2D confiner;
         public Vector2 ConfinerSize => confiner.size;
 
-        SpawnModel[] spawnModelArray;
-        public SpawnModel[] SpawnModelArray => spawnModelArray;
-        public void SetSpawnModelArray(SpawnModel[] v) => spawnModelArray = v;
+        FieldSpawnModel[] spawnModelArray;
+        public FieldSpawnModel[] SpawnModelArray => spawnModelArray;
+        public void SetSpawnModelArray(FieldSpawnModel[] v) => spawnModelArray = v;
 
         Vector2[] itemSpawnPosArray;
         public Vector2[] ItemSpawnPosArray => itemSpawnPosArray;

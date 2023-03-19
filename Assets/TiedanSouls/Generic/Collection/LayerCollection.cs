@@ -1,4 +1,4 @@
-namespace TiedanSouls {
+namespace TiedanSouls.Generic {
 
     public static class LayerCollection {
 

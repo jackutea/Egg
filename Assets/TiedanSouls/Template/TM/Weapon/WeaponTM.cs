@@ -1,4 +1,5 @@
 using System;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Template {
 

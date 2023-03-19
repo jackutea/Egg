@@ -66,14 +66,14 @@ namespace TiedanSouls.Client.Facades {
 
         #region [Spawn]
 
-        public void SpawnByModelArray(SpawnModel[] spawnModelArray) {
+        public void SpawnByModelArray(FieldSpawnModel[] spawnModelArray) {
             var spawnCount = spawnModelArray?.Length;
             for (int i = 0; i < spawnCount; i++) {
                 SpawnByModel(spawnModelArray[i]);
             }
         }
 
-        public void SpawnByModel(in SpawnModel spawnModel) {
+        public void SpawnByModel(in FieldSpawnModel spawnModel) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;

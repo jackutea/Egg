@@ -44,7 +44,7 @@ namespace TiedanSouls.Client {
             field.Ctor();
 
             field.SetTypeID(typeID);
-            field.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as SpawnModel[]);
+            field.SetSpawnModelArray(fieldTM.spawnModelArray?.Clone() as FieldSpawnModel[]);
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);

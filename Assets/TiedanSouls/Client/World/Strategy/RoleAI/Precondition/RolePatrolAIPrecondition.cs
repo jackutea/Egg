@@ -1,5 +1,6 @@
 using GameArki.BTTreeNS;
 using TiedanSouls.Client.Facades;
+using TiedanSouls.Generic;
 using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {

@@ -1,3 +1,4 @@
+using TiedanSouls.Generic;
 using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {

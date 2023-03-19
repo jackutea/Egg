@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TiedanSouls.Client.Entities;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client {
 

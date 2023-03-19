@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using TiedanSouls.Generic;
 
@@ -20,13 +21,11 @@ namespace TiedanSouls.Template {
             foreach (var item in list) {
                 var tm = item.tm;
                 all.Add(tm.typeID, tm);
-                TDLog.Log($"{nameof(SkillTemplate)}: {tm.typeID} loaded!");
             }
         }
 
         public bool TryGet(int typeID, out SkillTM tm) {
             if (!all.TryGetValue(typeID, out tm)) {
-                TDLog.Warning($"{nameof(SkillTemplate)}: {typeID} not found!");
                 return false;
             }
 

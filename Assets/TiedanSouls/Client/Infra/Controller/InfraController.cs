@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using TiedanSouls.Infra.Facades;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Infra.Controller {
 

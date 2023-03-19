@@ -1,4 +1,5 @@
 using System;
+using TiedanSouls.Generic;
 using UnityEngine;
 
 namespace TiedanSouls.EditorTool.SkillEditor {

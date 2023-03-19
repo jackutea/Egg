@@ -1,6 +1,5 @@
 using System;
-using UnityEngine;
-using TiedanSouls;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Template {
 

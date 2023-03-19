@@ -1,5 +1,6 @@
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Controller {
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TiedanSouls {
+namespace TiedanSouls.Generic {
 
     public static class TDLog {
 

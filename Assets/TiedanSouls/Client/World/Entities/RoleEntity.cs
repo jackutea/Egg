@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
