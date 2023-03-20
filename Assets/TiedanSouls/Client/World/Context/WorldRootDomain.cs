@@ -90,14 +90,14 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
-        public void SpawnBy_FieldEntitySpawnModelArray(FieldEntitySpawnModel[] spawnModelArray) {
-            var spawnCount = spawnModelArray?.Length;
+        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray) {
+            var spawnCount = spawnCtrlModelArray?.Length;
             for (int i = 0; i < spawnCount; i++) {
-                SpawnBy_FieldEntitySpawnModel(spawnModelArray[i]);
+                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i]);
             }
         }
 
-        public void SpawnBy_FieldEntitySpawnModel(in FieldEntitySpawnModel spawnModel) {
+        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnModel) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;

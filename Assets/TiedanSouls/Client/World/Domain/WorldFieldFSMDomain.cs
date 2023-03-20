@@ -50,7 +50,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......
-            var totalSpawnCount = field.SpawnModelArray.Length;
+            var totalSpawnCount = field.SpawnModelArray?.Length ?? 0;
             fsm.Enter_Spawning(totalSpawnCount);
         }
 
@@ -144,7 +144,7 @@ namespace TiedanSouls.Client.Domain {
 
                     } else {
                         var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnBy_FieldEntitySpawnModel(spawnModel);
+                        worldDomain.SpawnBy_EntitySpawnCtrlModel(spawnModel);
                     }
                     if (spawnModel.isBreakPoint) {
                         hasBreakPoint = true;
