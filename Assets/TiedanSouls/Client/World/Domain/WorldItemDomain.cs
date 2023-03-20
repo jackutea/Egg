@@ -35,6 +35,7 @@ namespace TiedanSouls.Client.Domain {
             var repo = worldContext.ItemRepo;
             repo.Add(item);
 
+            item.name = $"物件_{item.IDCom}";
             TDLog.Log($"生成实体 物件 - {idCom}");
         }
 

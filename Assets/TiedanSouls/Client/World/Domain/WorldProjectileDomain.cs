@@ -42,6 +42,7 @@ namespace TiedanSouls.Client.Domain {
             var repo = worldContext.ProjectileRepo;
             repo.Add(projectile);
 
+            projectile.name = $"弹道 {projectile.IDCom}";
             return true;
         }
     }

@@ -32,21 +32,14 @@ namespace TiedanSouls.Client.Domain {
             role.SetPos_Logic(pos);
             role.Renderer_Sync();
 
-            // ControlType
-            role.SetControlType(controlType);
-            if (controlType == ControlType.AI) {
-                var ai = factory.CreateAIStrategy(role, typeID);
-                role.SetAIStrategy(ai);
-            }
-
             // ID
             var idService = worldContext.IDService;
             int id = idService.PickRoleID();
-            var roleIDCom = role.IDCom;
-            roleIDCom.SetEntityID(id);
+            var idCom = role.IDCom;
+            idCom.SetEntityID(id);
+            idCom.SetControlType(controlType);
 
             // Father
-            var idCom = role.IDCom;
             idCom.SetFather(father);
 
             // Physics
@@ -56,15 +49,22 @@ namespace TiedanSouls.Client.Domain {
             // FSM
             role.FSMCom.EnterIdle();
 
+            // AI
+            if (controlType == ControlType.AI) {
+                var ai = factory.CreateAIStrategy(role, typeID);
+                role.SetAIStrategy(ai);
+            }
+
             var repo = worldContext.RoleRepo;
-            if (role.ControlType == ControlType.Player) {
+            if (idCom.ControlType == ControlType.Player) {
                 repo.Set_Player(role);
-            } else if (role.ControlType == ControlType.AI) {
+            } else if (idCom.ControlType == ControlType.AI) {
                 var ai = role.AIStrategy;
                 ai.Activate();
                 repo.Add_ToAI(role);
             }
 
+            role.name = $"角色_{idCom}";
             TDLog.Log($"生成实体 角色 - {idCom}");
             return true;
         }

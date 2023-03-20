@@ -6,10 +6,6 @@ namespace TiedanSouls.Client.Entities {
 
     public class RoleEntity : MonoBehaviour, IEntity {
 
-        ControlType controlType;
-        public ControlType ControlType => controlType;
-        public void SetControlType(ControlType value) => this.controlType = value;
-
         RoleAIStrategy aiStrategy;
         public RoleAIStrategy AIStrategy => aiStrategy;
         public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;

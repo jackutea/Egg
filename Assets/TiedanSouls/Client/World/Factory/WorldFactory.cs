@@ -53,8 +53,6 @@ namespace TiedanSouls.Client {
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
 
-            field.name = $"关卡_{field.IDCom}";
-
             return field;
         }
 
@@ -115,8 +113,6 @@ namespace TiedanSouls.Client {
             var mod = GameObject.Instantiate(modPrefab);
             item.SetMod(mod);
 
-            item.name = $"物件_{item.IDCom}";
-
             return item;
         }
 
@@ -174,8 +170,6 @@ namespace TiedanSouls.Client {
             // Collider Model
             var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
             colliderModel.SetFather(roleIDCom.ToArgs());
-
-            role.name = $"角色_{role.IDCom}";
 
             return role;
         }
@@ -314,8 +308,6 @@ namespace TiedanSouls.Client {
             projectile.SetRootElement(TM2ModelUtil.GetElement_Projectile(tm.rootElementTM));
             projectile.SetLeafElements(TM2ModelUtil.GetElementArray_Projectile(tm.leafElementTMArray));
 
-            projectile.name = $"弹道 {projectile.IDCom}";
-            
             return projectile;
         }
 
