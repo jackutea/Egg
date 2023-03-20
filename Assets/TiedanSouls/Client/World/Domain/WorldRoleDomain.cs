@@ -254,7 +254,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Falling(RoleEntity role, float dt) {
-            if (role.MoveCom.IsGrounded) {
+            if (role.IsGrounded) {
                 return;
             }
 

@@ -46,7 +46,7 @@ namespace TiedanSouls.Client.Domain {
                 var playerRole = worldContext.RoleRepo.PlayerRole;
                 doorPos.y = playerRole.GetPos_Logic().y;
                 playerRole.SetPos_Logic(doorPos);
-                playerRole.SyncRenderer();
+                playerRole.Renderer_Sync();
             }
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......

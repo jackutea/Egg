@@ -3,24 +3,18 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    [Serializable]
+    /// <summary>
+    /// 基本运动组件
+    /// </summary>
     public class MoveComponent {
 
         Rigidbody2D rb;
+        public Rigidbody2D RB => rb;
+
         public Vector2 Velocity => rb.velocity;
         public void SetVelocity(Vector2 velo) => rb.velocity = velo;
-        bool isJumping;
 
-        [SerializeField] bool isGrounded;
-        public bool IsGrounded => isGrounded;
-
-        bool isStandCrossPlatform;
-        public bool IsStandCrossPlatform => isStandCrossPlatform;
-
-        public MoveComponent() {
-            isJumping = false;
-            isGrounded = false;
-        }
+        public MoveComponent() {}
 
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;
@@ -53,50 +47,6 @@ namespace TiedanSouls.Client.Entities {
             var velo = rb.velocity;
             velo.y = 0;
             SetVelocity(velo);
-        }
-
-        public void Jump(bool isJumpPress, float jumpSpeed) {
-            if (!isJumpPress) return;
-            if (isJumping) return;
-            if (!isGrounded) return;
-
-            this.isJumping = true;
-            this.isGrounded = false;
-
-            var velo = rb.velocity;
-            velo.y = jumpSpeed;
-            SetVelocity(velo);
-        }
-
-        public void Falling(float dt, float fallingAcceleration, float fallingSpeedMax) {
-            if (isGrounded) return;
-
-            var velo = rb.velocity;
-            var offset = fallingAcceleration * dt;
-            velo.y -= offset;
-            if (velo.y < -fallingSpeedMax) {
-                velo.y = -fallingSpeedMax;
-            }
-            SetVelocity(velo);
-        }
-
-        ////////////////////////////////////
-        public void EnterGround() {
-            isGrounded = true;
-            isJumping = false;
-            var velo = rb.velocity;
-            velo.y = 0;
-            SetVelocity(velo);
-        }
-
-        public void LeaveGround() {
-            isGrounded = false;
-            isStandCrossPlatform = false;
-        }
-
-        public void EnterCrossPlatform() {
-            EnterGround();
-            isStandCrossPlatform = true;
         }
 
     }

@@ -105,7 +105,7 @@ namespace TiedanSouls.Client {
 
             // Pos
             role.SetPos_Logic(bornPos);
-            role.SyncRenderer();
+            role.Renderer_Sync();
 
             // ControlType
             role.SetControlType(controlType);

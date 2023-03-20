@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Entities {
         SkillSlotComponent skillSlotCom;
         public SkillSlotComponent SkillSlotCom => skillSlotCom;
 
-        [SerializeField] MoveComponent moveCom;
+        MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
         WeaponSlotComponent weaponSlotCom;
@@ -72,6 +72,18 @@ namespace TiedanSouls.Client.Entities {
         public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
         public event Action<RoleEntity, Collider2D> FootTriggerExit;
         public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
+
+        #endregion
+
+        #region [Locomotion]
+
+        bool isJumping;
+
+        bool isGrounded;
+        public bool IsGrounded => isGrounded;
+
+        bool isStandCrossPlatform;
+        public bool IsStandCrossPlatform => isStandCrossPlatform;
 
         #endregion
 
@@ -132,17 +144,21 @@ namespace TiedanSouls.Client.Entities {
             // - Attribute
             attributeCom = new AttributeComponent();
 
-            // ==== Bind Event ====
-            footCom.FootTriggerEnter += OnFootTriggerEnter;
-            footCom.FootTriggerExit += OnFootCollisionExit;
-
-            // Component
+            // - Component
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Role);
             rendererModCom = new RoleRendererModComponent();
             fsmCom = new RoleFSMComponent();
             inputCom = new InputComponent();
             skillSlotCom = new SkillSlotComponent();
+
+            // - Locomotion
+            isJumping = false;
+            isGrounded = false;
+
+            // - Bind Event
+            footCom.FootTriggerEnter += OnFootTriggerEnter;
+            footCom.FootTriggerExit += OnFootCollisionExit;
         }
 
         public void TearDown() {
@@ -171,17 +187,11 @@ namespace TiedanSouls.Client.Entities {
             inputCom.Reset();
 
             // - Movement
-            moveCom.LeaveGround();
+            LeaveGround();
 
             // - HUD
             hudSlotCom.Reset();
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-        }
-
-        public void Hide() {
-            logicRoot.gameObject.SetActive(false);
-            rendererRoot.gameObject.SetActive(false);
-            TDLog.Log($"隐藏角色: {idCom.EntityName} ");
         }
 
         public void Show() {
@@ -190,14 +200,10 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"显示角色: {idCom.EntityName} ");
         }
 
-        // ==== Mod ====
-        public void SetMod(GameObject mod) {
-            rendererModCom.SetMod(mod);
-        }
-
-        // ==== Locomotion ====
-        public void SetPos_Logic(Vector2 pos) {
-            logicRoot.position = pos;
+        public void Hide() {
+            logicRoot.gameObject.SetActive(false);
+            rendererRoot.gameObject.SetActive(false);
+            TDLog.Log($"隐藏角色: {idCom.EntityName} ");
         }
 
         public Vector3 GetPos_Logic() {
@@ -212,9 +218,12 @@ namespace TiedanSouls.Client.Entities {
             return logicRoot.rotation;
         }
 
-        public void Move() {
-            Vector2 moveAxis = inputCom.MoveAxis;
-            moveCom.Move(moveAxis, attributeCom.MoveSpeed);
+        public void SetMod(GameObject mod) {
+            rendererModCom.SetMod(mod);
+        }
+
+        public void SetPos_Logic(Vector2 pos) {
+            logicRoot.position = pos;
         }
 
         public void FaceTo(sbyte dirX) {
@@ -233,66 +242,101 @@ namespace TiedanSouls.Client.Entities {
             logicRoot.localRotation = rot;
         }
 
+        #region [Locomotion]
+
+        public void Move() {
+            Vector2 moveAxis = inputCom.MoveAxis;
+            moveCom.Move(moveAxis, attributeCom.MoveSpeed);
+        }
+
         public void Dash(Vector2 dir, Vector2 force) {
             moveCom.Dash(dir, force);
         }
 
         public void Jump() {
-            moveCom.Jump(inputCom.HasInput_Locomotion_JumpDown, attributeCom.JumpSpeed);
+            bool isJumpPress = inputCom.HasInput_Locomotion_JumpDown;
+            if (!isJumpPress) return;
+            if (isJumping) return;
+            if (!isGrounded) return;
+
+            this.isJumping = true;
+            this.isGrounded = false;
+
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            var jumpSpeed = attributeCom.JumpSpeed;
+            velo.y = jumpSpeed;
+            moveCom.SetVelocity(velo);
         }
 
         public void TryCrossDown() {
-            if (inputCom.MoveAxis.y < 0 && moveCom.IsStandCrossPlatform) {
+            if (inputCom.MoveAxis.y < 0 && isStandCrossPlatform) {
                 LeaveCrossPlatform();
             }
         }
 
         public void Falling(float dt) {
-            moveCom.Falling(dt, attributeCom.FallingAcceleration, attributeCom.FallingSpeedMax);
+            if (isGrounded) return;
+
+            var fallingAcceleration = attributeCom.FallingAcceleration;
+            var fallingSpeedMax = attributeCom.FallingSpeedMax;
+
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            var offset = fallingAcceleration * dt;
+
+            velo.y -= offset;
+            if (velo.y < -fallingSpeedMax) {
+                velo.y = -fallingSpeedMax;
+            }
+            moveCom.SetVelocity(velo);
         }
 
         public void EnterGround() {
-            moveCom.EnterGround();
             coll_logicRoot.isTrigger = false;
-            // TDLog.Log($"--- 进入地面 {entityID} ");
+            isGrounded = true;
+            isJumping = false;
+
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            velo.y = 0;
+            moveCom.SetVelocity(velo);
         }
 
         public void LeaveGround() {
-            moveCom.LeaveGround();
-            // TDLog.Log($"--- 离开地面 {entityID} ");
+            isGrounded = false;
+            isStandCrossPlatform = false;
         }
 
         public void EnterCrossPlatform() {
-            moveCom.EnterCrossPlatform();
-            // TDLog.Log($"--- 进入横跨平台 {entityID} ");
+            isStandCrossPlatform = true;
         }
 
         public void LeaveCrossPlatform() {
-            moveCom.LeaveGround();
+            LeaveGround();
             coll_logicRoot.isTrigger = true;
-            // TDLog.Log($"--- 离开横跨平台 {entityID} ");
         }
 
-        // ==== Hit ====
+        #endregion
+
+        #region [Attribute]
+
         public void Attribute_HP_Decrease(int atk) {
             TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
             attributeCom.HP_Decrease(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
         }
 
-        // ==== Drop ====
         public void DropBeHit(int damage, Vector2 rebornPos) {
             attributeCom.HP_Decrease(damage);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
             SetPos_Logic(rebornPos);
-            SyncRenderer();
+            Renderer_Sync();
         }
 
-        // ==== Phx ====
-        public void SetFootTrigger(bool isTrigger) {
-            footCom.SetTrigger(isTrigger);
-            bodyCom.SetTrigger(isTrigger);
-        }
+        #endregion
+
+        #region [Foot]
 
         void OnFootTriggerEnter(Collider2D other) {
             FootTriggerEnterAction.Invoke(this, other);
@@ -302,12 +346,11 @@ namespace TiedanSouls.Client.Entities {
             FootTriggerExit.Invoke(this, other);
         }
 
-        void OnBodyTriggerExit(Collider2D other) {
-            BodyTriggerExitAction.Invoke(this, other);
-        }
+        #endregion
 
-        // ==== Renderer ====
-        public void SyncRenderer() {
+        #region [Renderer]
+
+        public void Renderer_Sync() {
             var logicPos = logicRoot.position;
             rendererRoot.position = logicPos;
             weaponRoot.position = logicPos;
@@ -316,7 +359,7 @@ namespace TiedanSouls.Client.Entities {
             weaponRoot.rotation = logicRoot.rotation;
         }
 
-        public void LerpRenderer(float dt) {
+        public void Renderer_Easing(float dt) {
             var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
             rendererRoot.position = lerpPos;
             weaponRoot.position = lerpPos;
@@ -324,6 +367,8 @@ namespace TiedanSouls.Client.Entities {
             rendererModCom.Mod.transform.rotation = logicRoot.rotation;
             weaponRoot.rotation = logicRoot.rotation;
         }
+
+        #endregion
 
     }
 
