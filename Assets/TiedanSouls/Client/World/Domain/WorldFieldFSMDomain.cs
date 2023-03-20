@@ -55,7 +55,8 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void ApplyFSMState_Spawning(FieldEntity field, float dt) {
-            var fieldTypeID = field.TypeID;
+            var idCom = field.IDCom;
+            var fieldTypeID = idCom.TypeID;
             var fsm = field.FSMComponent;
             var stateModel = fsm.SpawningModel;
             var roleRepo = worldContext.RoleRepo;
@@ -87,8 +88,7 @@ namespace TiedanSouls.Client.Domain {
 
                             var typeID = lobbyItemTypeIDArray[i];
                             var itemSpawnPos = itemSpawnPosArray[i];
-                            var itemEntity = worldContext.WorldFactory.SpawnItemEntity(typeID, itemSpawnPos, field.TypeID);
-                            TDLog.Log($"物件: EntityID: {itemEntity.EntityD} / TypeID {itemEntity.TypeID} / ItemType {itemEntity.ItemType} / TypeIDForPickUp {itemEntity.TypeIDForPickUp}");
+                            worldContext.RootDomain.ItemDomain.SpawnItemEntity(typeID, itemSpawnPos, field.IDCom.ToArgs());
                         }
                         TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
                     }
@@ -144,7 +144,7 @@ namespace TiedanSouls.Client.Domain {
 
                     } else {
                         var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnBy_EntitySpawnCtrlModel(spawnModel);
+                        worldDomain.SpawnBy_EntitySpawnCtrlModel(spawnModel, field.IDCom.ToArgs());
                     }
                     if (spawnModel.isBreakPoint) {
                         hasBreakPoint = true;

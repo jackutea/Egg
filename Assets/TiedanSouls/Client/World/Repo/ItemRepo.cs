@@ -14,12 +14,12 @@ namespace TiedanSouls.Client {
             all_list = new List<ItemEntity>();
         }
 
-        public bool TryGet(int itemEntityD, out ItemEntity item) {
+        public bool TryGet(int entityID, out ItemEntity item) {
             item = null;
             var len = all_list.Count;
             for (int i = 0; i < len; i++) {
                 var curItem = all_list[i];
-                if (curItem.EntityD == itemEntityD) {
+                if (curItem.IDCom.EntityID == entityID) {
                     item = curItem;
                     return true;
                 }
@@ -27,7 +27,8 @@ namespace TiedanSouls.Client {
             return false;
         }
 
-        public void Add(ItemEntity item, int fromFieldTypeID) {
+        public void Add(ItemEntity item) {
+            var fromFieldTypeID = item.IDCom.FromFieldTypeID;
             if (!all_dic.TryGetValue(fromFieldTypeID, out var list)) {
                 list = new List<ItemEntity>();
                 all_dic.Add(fromFieldTypeID, list);
@@ -37,7 +38,7 @@ namespace TiedanSouls.Client {
         }
 
         public void Remove(ItemEntity item) {
-            all_dic.Remove(item.EntityD);
+            all_dic.Remove(item.IDCom.EntityID);
             all_list.Remove(item);
         }
 

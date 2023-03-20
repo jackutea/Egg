@@ -8,6 +8,7 @@ namespace TiedanSouls.Generic {
         public const string SO_CONFIG = "SO_Config";
         public const string SO_SKILL = "SO_Skill";
         public const string SO_ROLE = "SO_Role";
+        public const string SO_PROJECTILE = "SO_Projectile";
         public const string SO_Field = "SO_Field";
         public const string SO_EFFECTOR = "SO_Effector";
         public const string SO_WEAPON = "SO_Weapon";

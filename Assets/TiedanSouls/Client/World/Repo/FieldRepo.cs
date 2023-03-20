@@ -16,11 +16,11 @@ namespace TiedanSouls.Client {
         }
 
         public void Add(FieldEntity field) {
-            all.Add(field.TypeID, field);
+            all.Add(field.IDCom.TypeID, field);
         }
 
         public void Remove(FieldEntity field) {
-            all.Remove(field.TypeID);
+            all.Remove(field.IDCom.TypeID);
         }
 
         public IEnumerable<FieldEntity> GetAll() {

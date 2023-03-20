@@ -22,7 +22,7 @@ namespace TiedanSouls.Client {
 
         #region [Field]
 
-        public bool TrySpawnFieldEntity(int typeID, out FieldEntity field) {
+        public bool TryCreateFieldEntity(int typeID, out FieldEntity field) {
             field = null;
 
             var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
@@ -43,11 +43,18 @@ namespace TiedanSouls.Client {
             field = GameObject.Instantiate(go).GetComponent<FieldEntity>();
             field.Ctor();
 
-            field.SetTypeID(typeID);
+            var idCom = field.IDCom;
+            var service = worldContext.IDService;
+            idCom.SetEntityID(service.PickFieldID());
+            idCom.SetTypeID(typeID);
+
             field.SetSpawnModelArray(fieldTM.spawnCtrlModelArray?.Clone() as EntitySpawnCtrlModel[]);
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
+
+            // Father
+            idCom.SetFather(new IDArgs { entityType = EntityType.None });
 
             return field;
         }
@@ -56,22 +63,22 @@ namespace TiedanSouls.Client {
 
         #region [Item]
 
-        public ItemEntity SpawnItemEntity(int itemTypeID, Vector2 pos, int fromFieldTypeID) {
-            ItemEntity itemEntity = null;
+        public bool TryCreateItemEntity(int itemTypeID, out ItemEntity item) {
+            item = null;
 
             var templateCore = infraContext.TemplateCore;
 
             // Template
             if (!templateCore.ItemTemplate.TryGet(itemTypeID, out ItemTM itemTM)) {
                 TDLog.Error("Failed to get Item template: " + itemTypeID);
-                return null;
+                return false;
             }
 
             // Check
             var itemType = itemTM.itemType;
             if (itemType == ItemType.None) {
                 TDLog.Error("ItemType is None");
-                return null;
+                return false;
             }
 
             // Container
@@ -80,74 +87,71 @@ namespace TiedanSouls.Client {
             var contanerAssetName = "mod_container_item";
             if (!containerModAssets.TryGet(contanerAssetName, out GameObject itemPrefab)) {
                 TDLog.Error($"Failed to get Container: {contanerAssetName}");
-                return null;
+                return false;
             }
 
             // ItemEntity
             var itemGo = GameObject.Instantiate(itemPrefab);
+            item = itemGo.GetComponent<ItemEntity>();
+            item.Ctor();
+
+            var idCom = item.IDCom;
             var idService = worldContext.IDService;
             var itemID = idService.PickItemID();
-            itemEntity = itemGo.GetComponent<ItemEntity>();
-            itemEntity.Ctor();
-            itemEntity.SetEntityD(itemID);
-            itemEntity.SetTypeID(itemTypeID);
-            itemEntity.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
-            itemEntity.SetItemType(itemType);
-            itemEntity.SetPos(pos);
+            idCom.SetEntityID(itemID);
+            idCom.SetTypeID(itemTypeID);
+
+            item.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
+            item.SetItemType(itemType);
 
             // Asset
             var itemAssetName = itemTM.itemAssetName;
             var itemModAssets = assetCore.ItemModAsset;
             if (!itemModAssets.TryGet(itemAssetName, out GameObject modPrefab)) {
                 TDLog.Error($"Failed to get ModAsset: {itemAssetName}");
-                return null;
+                return false;
             }
 
             // Set Mod
             var mod = GameObject.Instantiate(modPrefab);
-            itemEntity.SetMod(mod);
+            item.SetMod(mod);
 
-            // Repo
-            var itemRepo = worldContext.ItemRepo;
-            itemRepo.Add(itemEntity, fromFieldTypeID);
-
-            return itemEntity;
+            return item;
         }
 
         #endregion
 
         #region [Role]
 
-        public RoleEntity SpawnRoleEntity(ControlType controlType, int typeID, AllyType allyType, Vector2 bornPos) {
-            var idService = worldContext.IDService;
+        public bool TryCreateRoleEntity(int typeID, out RoleEntity role) {
+            role = null;
+
+            // TM
             var templateCore = infraContext.TemplateCore;
-            var assetCore = infraContext.AssetCore;
+            if (!templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM)) {
+                TDLog.Error($"配置出错! 未找到角色模板数据: TypeID {typeID}");
+                return false;
+            }
 
             // Container
+            var assetCore = infraContext.AssetCore;
             var containerModAssets = assetCore.ContainerModAssets;
             var contanerAssetName = "mod_container_role";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
             if (!has) {
-                TDLog.Error($"Failed to get asset: {contanerAssetName}");
-                return null;
+                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
+                return false;
             }
 
-            var role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
+            role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
             role.Ctor();
-            role.SetBornPos(bornPos);
-
-            // TM
-            if (!templateCore.RoleTemplate.TryGet(typeID, out RoleTM roleTM)) {
-                TDLog.Error("Failed to get role template: " + typeID);
-                return null;
-            }
 
             // ID
+            var idService = worldContext.IDService;
             int id = idService.PickRoleID();
             var roleIDCom = role.IDCom;
             roleIDCom.SetEntityID(id);
             roleIDCom.SetTypeID(typeID);
-            roleIDCom.SetAlly(allyType);
             roleIDCom.SetEntityName(roleTM.roleName);
 
             // Mod
@@ -155,7 +159,7 @@ namespace TiedanSouls.Client {
             has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
             if (!has) {
                 TDLog.Error($"请检查配置! 角色模型资源不存在! {roleTM.modName}");
-                return null;
+                return false;
             }
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
             role.SetMod(roleMod);
@@ -164,18 +168,6 @@ namespace TiedanSouls.Client {
             var attrCom = role.AttributeCom;
             attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
             attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
-
-            // Pos
-            role.SetPos_Logic(bornPos);
-            role.Renderer_Sync();
-
-            // ControlType
-            role.SetControlType(controlType);
-
-            if (controlType == ControlType.AI) {
-                var ai = CreateAIStrategy(role, typeID);
-                role.SetAIStrategy(ai);
-            }
 
             // HUD
             var hpBar = CreateHpBarHUD();
@@ -188,7 +180,7 @@ namespace TiedanSouls.Client {
             return role;
         }
 
-        RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
+        public RoleAIStrategy CreateAIStrategy(RoleEntity role, int typeID) {
             var templateCore = infraContext.TemplateCore;
             var assetCore = infraContext.AssetCore;
 
@@ -292,8 +284,32 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public ProjectileEntity SpawnProjectileEntity(int projectileTypeID, Vector3 pos, Vector3 dir) {
-            ProjectileEntity projectile = new ProjectileEntity();
+        public bool TrySpawnProjectile(int typeID, out ProjectileEntity projectile) {
+            projectile = null;
+
+            var template = infraContext.TemplateCore.ProjectileTemplate;
+            if (!template.TryGet(typeID, out ProjectileTM tm)) {
+                TDLog.Error($"配置出错! 未找到弹道模板数据: TypeID {typeID}");
+                return false;
+            }
+
+            // Container
+            var assetCore = infraContext.AssetCore;
+            var containerModAssets = assetCore.ContainerModAssets;
+            var contanerAssetName = "mod_container_projectile";
+            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
+            if (!has) {
+                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
+                return false;
+            }
+
+            projectile = GameObject.Instantiate(go).GetComponent<ProjectileEntity>();
+            projectile.Ctor();
+
+
+            projectile.SetRootElement(TM2ModelUtil.GetElement_Projectile(tm.rootElementTM));
+            projectile.SetLeafElements(TM2ModelUtil.GetElementArray_Projectile(tm.leafElementTMArray));
+
             return projectile;
         }
 

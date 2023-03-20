@@ -5,9 +5,18 @@ namespace TiedanSouls.Client.Entities {
 
     public class FieldEntity : MonoBehaviour {
 
-        int typeID;
-        public int TypeID => typeID;
-        public void SetTypeID(int v) => typeID = v;
+
+        #region [组件]
+
+        IDComponent idCom;
+        public IDComponent IDCom => idCom;
+
+        FieldFSMComponent fsmComponent;
+        public FieldFSMComponent FSMComponent => fsmComponent;
+
+        #endregion
+
+        #region  [章节信息]
 
         ushort chapter;
         public ushort Chapter => chapter;
@@ -15,8 +24,9 @@ namespace TiedanSouls.Client.Entities {
         ushort level;
         public ushort Level => level;
 
-        BoxCollider2D confiner;
-        public Vector2 ConfinerSize => confiner.size;
+        #endregion
+
+        #region [实体生成控制模型]
 
         EntitySpawnCtrlModel[] spawnCtrlModelArray;
         public EntitySpawnCtrlModel[] SpawnModelArray => spawnCtrlModelArray;
@@ -26,23 +36,24 @@ namespace TiedanSouls.Client.Entities {
         public Vector2[] ItemSpawnPosArray => itemSpawnPosArray;
         public void SetItemSpawnPosArray(Vector2[] v) => itemSpawnPosArray = v;
 
+        #endregion
+
         FieldType fieldType;
         public FieldType FieldType => fieldType;
         public void SetFieldType(FieldType v) => fieldType = v;
 
-        // Field Door
         FieldDoorModel[] fieldDoorArray;
         public FieldDoorModel[] FieldDoorArray => fieldDoorArray;
         public void SetFieldDoorArray(FieldDoorModel[] v) => fieldDoorArray = v;
 
-        // ====== Component
-        FieldFSMComponent fsmComponent;
-        public FieldFSMComponent FSMComponent => fsmComponent;
+        BoxCollider2D confiner;
+        public Vector2 ConfinerSize => confiner.size;
 
         public void Ctor() {
             confiner = transform.Find("confiner").GetComponent<BoxCollider2D>();
             TDLog.Assert(confiner != null);
 
+            idCom = new IDComponent();
             fsmComponent = new FieldFSMComponent();
         }
 

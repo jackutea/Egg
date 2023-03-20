@@ -3,15 +3,10 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class ItemEntity : MonoBehaviour {
+    public class ItemEntity : MonoBehaviour, IEntity {
 
-        int entityID;
-        public int EntityD => entityID;
-        public void SetEntityD(int v) => entityID = v;
-
-        int typeID;
-        public int TypeID => typeID;
-        public void SetTypeID(int v) => typeID = v;
+        IDComponent idCom;
+        public IDComponent IDCom => idCom;
 
         ItemType itemType;
         public ItemType ItemType => itemType;
@@ -26,6 +21,8 @@ namespace TiedanSouls.Client.Entities {
 
         public void Ctor() {
             body = transform.Find("body").gameObject;
+            idCom = new IDComponent();
+            idCom.SetEntityType(EntityType.Item);
         }
 
         public void SetMod(GameObject mod) {

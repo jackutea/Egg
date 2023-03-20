@@ -31,12 +31,16 @@ namespace TiedanSouls.Client.Entities {
         public ControlType ControlType => controlType;
         public void SetControlType(ControlType value) => this.controlType = value;
 
+        int fromFieldTypeID;
+        public int FromFieldTypeID => fromFieldTypeID;
+
         IDArgs father;
         public IDArgs Father => father;
 
         public void SetFather(IDArgs args) {
             this.father = args;
             this.allyType = args.allyType;
+            this.fromFieldTypeID = args.fromFieldTypeID;
         }
 
         public IDArgs ToArgs() {
@@ -46,11 +50,12 @@ namespace TiedanSouls.Client.Entities {
             args.typeID = typeID;
             args.entityName = entityName;
             args.allyType = allyType;
+
             return args;
         }
 
         public override string ToString() {
-            return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType}";
+            return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 来自关卡 {fromFieldTypeID}";
         }
 
     }
@@ -62,6 +67,9 @@ namespace TiedanSouls.Client.Entities {
         public int typeID;
         public string entityName;
         public AllyType allyType;
+        public ControlType controlType;
+        
+        public int fromFieldTypeID;
 
         public bool IsTheSame(in IDArgs other) {
             return entityType == other.entityType
@@ -70,7 +78,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public override string ToString() {
-            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType}";
+            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 来自关卡 {fromFieldTypeID}";
         }
 
     }

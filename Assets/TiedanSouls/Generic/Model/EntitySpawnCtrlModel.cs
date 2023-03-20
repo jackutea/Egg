@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace TiedanSouls.Generic {
 
-    // Use for Entity Spawn.
     [Serializable]
     public struct EntitySpawnCtrlModel {
 

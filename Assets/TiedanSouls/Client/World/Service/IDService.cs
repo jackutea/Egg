@@ -5,6 +5,7 @@ namespace TiedanSouls.Client.Service {
         int roleIDRecord;
         int skillIDRecord;
         int itemIDRecord;
+        int fieldIDRecord;
 
         public IDService() { }
 
@@ -21,6 +22,11 @@ namespace TiedanSouls.Client.Service {
         public int PickItemID() {
             itemIDRecord += 1;
             return itemIDRecord;
+        }
+
+        public int PickFieldID() {
+            fieldIDRecord += 1;
+            return fieldIDRecord;
         }
 
     }

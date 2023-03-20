@@ -85,24 +85,20 @@ namespace TiedanSouls.Client.Entities {
         bool isStandCrossPlatform;
         public bool IsStandCrossPlatform => isStandCrossPlatform;
 
+        sbyte faceDirX;
+        public sbyte FaceDirX => faceDirX;
+
         #endregion
 
-        #region [Misc]
+        #region [出生点 & 是否为Boss]
 
         Vector2 bornPos;
         public Vector2 BornPos => bornPos;
         public void SetBornPos(Vector2 value) => this.bornPos = value;
 
-        sbyte faceDirX;
-        public sbyte FaceDirX => faceDirX;
-
         bool isBoss;
         public bool IsBoss => isBoss;
         public void SetIsBoss(bool value) => this.isBoss = value;
-
-        int fromFieldTypeID;
-        public int FromFieldTypeID => fromFieldTypeID;
-        public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
         #endregion
 

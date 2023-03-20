@@ -10,7 +10,7 @@ namespace TiedanSouls.Template {
         [Header("类型ID")] public int typeID;
         [Header("弹道名称")] public string projectileName;
 
-        [Header("根元素")] public ProjectileElementTM rootElement;
+        [Header("根元素")] public ProjectileElementTM rootElementTM;
         [Header("叶元素")] public ProjectileElementTM[] leafElementTMArray;
 
     }

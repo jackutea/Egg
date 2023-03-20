@@ -77,9 +77,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [碰撞器]
 
-        CollisionTriggerModel triggerModel;
-        public CollisionTriggerModel TriggerModel => triggerModel;
-        public void SetTriggerModel(in CollisionTriggerModel value) => this.triggerModel = value;
+        CollisionTriggerModel collisionTriggerModel;
+        public CollisionTriggerModel CollisionTriggerModel => collisionTriggerModel;
+        public void SetCollisionTriggerModel(in CollisionTriggerModel value) => this.collisionTriggerModel = value;
 
         #endregion
 
@@ -91,9 +91,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetHitEffectorModel(EffectorModel value) => this.hitEffectorModel = value;
 
         // 死亡效果器
-        EffectorModel deadEffectorModel;
-        public EffectorModel DeadEffectorModel => deadEffectorModel;
-        public void SetDeadEffectorModel(EffectorModel value) => this.deadEffectorModel = value;
+        EffectorModel deathEffectorModel;
+        public EffectorModel DeathEffectorModel => deathEffectorModel;
+        public void SetDeathEffectorModel(EffectorModel value) => this.deathEffectorModel = value;
 
         #endregion
 

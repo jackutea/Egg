@@ -117,7 +117,7 @@ namespace TiedanSouls.Client.Domain {
                 var idArgs = role.IDCom.ToArgs();
                 var offsetPos = skillEffectorModel.offsetPos;
                 var spawnPos = role.GetPos_Logic() + role.GetRot_Logic() * offsetPos;
-                effectorDomain.ActivatedEffector(effectorModel, idArgs, spawnPos);
+                effectorDomain.ActivatedEffectorModel(effectorModel, idArgs, spawnPos);
             }
 
             // 技能逻辑迭代

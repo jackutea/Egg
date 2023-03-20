@@ -6,7 +6,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 弹道实体
     /// </summary>
-    public class ProjectileEntity : IEntity {
+    public class ProjectileEntity : MonoBehaviour, IEntity {
 
         #region [组件]
 
@@ -18,7 +18,7 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [坐标 & 出生点 & 来源类型]
+        #region [坐标 & 出生点]
 
         Vector2 pos;
         public Vector2 Pos => pos;
@@ -27,10 +27,6 @@ namespace TiedanSouls.Client.Entities {
         Vector2 bornPos;
         public Vector2 BornPos => bornPos;
         public void SetBornPos(Vector2 value) => this.bornPos = value;
-
-        int fromFieldTypeID;
-        public int FromFieldTypeID => fromFieldTypeID;
-        public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
         #endregion
 

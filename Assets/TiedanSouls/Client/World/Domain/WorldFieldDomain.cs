@@ -21,7 +21,7 @@ namespace TiedanSouls.Client.Domain {
             var fieldRepo = worldContext.FieldRepo;
             if (!fieldRepo.TryGet(typeID, out field)) {
                 var factory = worldContext.WorldFactory;
-                if (!factory.TrySpawnFieldEntity(typeID, out field)) {
+                if (!factory.TryCreateFieldEntity(typeID, out field)) {
                     return false;
                 }
 

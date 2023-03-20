@@ -11,15 +11,12 @@ namespace TiedanSouls.Client.Facades {
         #region [实体 Domain]
 
         public WorldFSMDomain WorldFSMDomain { get; private set; }
-
         public WorldFieldDomain FieldDomain { get; private set; }
         public WorldFieldFSMDomain FieldFSMDomain { get; private set; }
-
         public WorldRoleDomain RoleDomain { get; private set; }
         public WorldRoleFSMDomain RoleFSMDomain { get; private set; }
-
         public WorldSkillDomain SkillDomain { get; private set; }
-
+        public WorldItemDomain ItemDomain { get; private set; }
         public WorldProjectileDomain ProjectileDomain { get; private set; }
         public WorldProjectileElementDomain ProjectileElementDomain { get; private set; }
 
@@ -52,6 +49,7 @@ namespace TiedanSouls.Client.Facades {
             RoleDomain = new WorldRoleDomain();
             RoleFSMDomain = new WorldRoleFSMDomain();
             SkillDomain = new WorldSkillDomain();
+            ItemDomain = new WorldItemDomain();
             ProjectileDomain = new WorldProjectileDomain();
             ProjectileElementDomain = new WorldProjectileElementDomain();
 
@@ -71,6 +69,7 @@ namespace TiedanSouls.Client.Facades {
             this.RoleFSMDomain.Inject(infraContext, worldContext, this);
             this.RoleDomain.Inject(infraContext, worldContext);
             this.SkillDomain.Inject(infraContext, worldContext);
+            this.ItemDomain.Inject(infraContext, worldContext);
             this.ProjectileDomain.Inject(infraContext, worldContext, this);
             this.ProjectileElementDomain.Inject(infraContext, worldContext, this);
 
@@ -92,20 +91,22 @@ namespace TiedanSouls.Client.Facades {
             var allyType = summoner.allyType;
 
             if (entityType == EntityType.Role) {
-                var role = RoleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out _);
+            } else if (entityType == EntityType.Projectile) {
+                _ = ProjectileDomain.TrySpawnProjectile(controlType, typeID, summoner, spawnPos, out _);
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }
         }
 
-        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray) {
+        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, in IDArgs summoner) {
             var spawnCount = spawnCtrlModelArray?.Length;
             for (int i = 0; i < spawnCount; i++) {
-                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i]);
+                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i], summoner);
             }
         }
 
-        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnModel) {
+        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnModel, in IDArgs summoner) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;
@@ -115,7 +116,7 @@ namespace TiedanSouls.Client.Facades {
             var spawnPos = spawnModel.pos;
 
             if (entityType == EntityType.Role) {
-                var role = RoleDomain.SpawnRole(controlType, typeID, allyType, spawnPos);
+                _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out var role);
                 role.SetIsBoss(isBoss);
                 TDLog.Log($"人物: AllyType {allyType} / ControlType {controlType} / TypeID {typeID} / Name {role.IDCom.EntityName} / IsBoss {isBoss} Spawned!");
             } else {

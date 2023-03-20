@@ -7,6 +7,30 @@ namespace TiedanSouls.Client {
 
     public static class TM2ModelUtil {
 
+        #region [Projectile]
+
+        public static ProjectileElement[] GetElementArray_Projectile(ProjectileElementTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            ProjectileElement[] elementArray = new ProjectileElement[len];
+            for (int i = 0; i < len; i++) {
+                elementArray[i] = GetElement_Projectile(tmArray[i]);
+            }
+            return elementArray;
+        }
+
+        public static ProjectileElement GetElement_Projectile(ProjectileElementTM tm) {
+            ProjectileElement element = new ProjectileElement();
+            element.SetStartFrame(tm.startFrame);
+            element.SetEndFrame(tm.endFrame);
+            element.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));
+            element.SetHitEffectorModel(GetModel_Effector(tm.hitEffectorTM));
+            element.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
+            return element;
+        }
+
+        #endregion
+
         #region [Skill]
 
         public static SkillCancelModel[] GetModelArray_SkillCancel(SkillCancelTM[] tmArray) {
@@ -53,26 +77,26 @@ namespace TiedanSouls.Client {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
-            for (int i = 0; i < len; i++) {
-                var tm = tmArray[i];
-                var startFrame = tm.startFrame;
-                var endFrame = tm.endFrame;
-
-                CollisionTriggerModel model;
-
-                model.isEnabled = tm.isEnabled;
-                model.startFrame = startFrame;
-                model.endFrame = endFrame;
-                model.delayFrame = tm.delayFrame;
-                model.intervalFrame = tm.intervalFrame;
-                model.maintainFrame = tm.maintainFrame;
-
-                model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetType);
-                model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
-                modelArray[i] = model;
-            }
+            for (int i = 0; i < len; i++) modelArray[i] = GetModel_CollisionTrigger(tmArray[i]);
             return modelArray;
         }
+
+        public static CollisionTriggerModel GetModel_CollisionTrigger(CollisionTriggerTM tm) {
+            CollisionTriggerModel model;
+            var startFrame = tm.startFrame;
+            var endFrame = tm.endFrame;
+            model.isEnabled = tm.isEnabled;
+            model.startFrame = startFrame;
+            model.endFrame = endFrame;
+            model.delayFrame = tm.delayFrame;
+            model.intervalFrame = tm.intervalFrame;
+            model.maintainFrame = tm.maintainFrame;
+
+            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetType);
+            model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
+            return model;
+        }
+
 
         #endregion
 

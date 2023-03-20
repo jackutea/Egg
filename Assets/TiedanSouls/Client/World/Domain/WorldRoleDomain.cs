@@ -19,14 +19,29 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public RoleEntity SpawnRole(ControlType controlType, int typeID, AllyType allyType, Vector2 pos) {
-
+        public bool TrySpawnRole(ControlType controlType, int typeID, in IDArgs father, Vector2 pos, out RoleEntity role) {
             var fromFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
 
             var factory = worldContext.WorldFactory;
-            var role = factory.SpawnRoleEntity(controlType, typeID, allyType, pos);
+            if (!factory.TryCreateRoleEntity(typeID, out role)) {
+                TDLog.Error($"创建角色失败! - {typeID}");
+                return false;
+            }
 
-            role.SetFromFieldTypeID(worldContext.StateEntity.CurFieldTypeID);
+            // Pos
+            role.SetPos_Logic(pos);
+            role.Renderer_Sync();
+
+            // ControlType
+            role.SetControlType(controlType);
+            if (controlType == ControlType.AI) {
+                var ai = factory.CreateAIStrategy(role, typeID);
+                role.SetAIStrategy(ai);
+            }
+
+            // - Father
+            var idCom = role.IDCom;
+            idCom.SetFather(father);
 
             // - Physics
             role.FootTriggerEnterAction += OnFootTriggerEnter;
@@ -44,7 +59,7 @@ namespace TiedanSouls.Client.Domain {
                 repo.Add_ToAI(role);
             }
 
-            return role;
+            return true;
         }
 
         #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]

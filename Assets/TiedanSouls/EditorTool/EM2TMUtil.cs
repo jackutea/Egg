@@ -16,7 +16,7 @@ namespace TiedanSouls.EditorTool {
             ProjectileTM tm;
             tm.typeID = editorGo.typeID;
             tm.projectileName = editorGo.projectileName;
-            tm.rootElement = GetTM_ProjectileElement(editorGo.rootElement);
+            tm.rootElementTM = GetTM_ProjectileElement(editorGo.rootElement);
             tm.leafElementTMArray = GetTMArray_ProjectileElement(editorGo.leafElementEMArray);
             return tm;
         }

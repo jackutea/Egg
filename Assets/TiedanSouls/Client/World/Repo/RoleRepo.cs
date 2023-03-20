@@ -30,7 +30,7 @@ namespace TiedanSouls.Client {
         }
 
         public void Add_ToAI(RoleEntity role) {
-            var fromFieldTypeID = role.FromFieldTypeID;
+            var fromFieldTypeID = role.IDCom.FromFieldTypeID;
             if (!allAIRoles_Sorted.TryGetValue(fromFieldTypeID, out var list)) {
                 list = new List<RoleEntity>();
                 allAIRoles_Sorted.Add(fromFieldTypeID, list);
@@ -71,7 +71,7 @@ namespace TiedanSouls.Client {
                 var r = allAIRoles[i];
                 if (r.IDCom.EntityID == roleIDCom.EntityID) {
                     allAIRoles.RemoveAt(i);
-                    var fromFieldTypeID = role.FromFieldTypeID;
+                    var fromFieldTypeID = role.IDCom.FromFieldTypeID;
                     if (allAIRoles_Sorted.TryGetValue(fromFieldTypeID, out var list)) {
                         list.Remove(role);
                     }

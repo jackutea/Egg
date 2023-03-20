@@ -2,7 +2,6 @@ using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
-using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -31,7 +30,10 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public void ActivatedEffector(in EffectorModel effectorModel, in IDArgs summoner, Vector2 spawnPos) {
+        /// <summary>
+        /// 激活效果器
+        /// </summary>
+        public void ActivatedEffectorModel(in EffectorModel effectorModel, in IDArgs summoner, Vector2 spawnPos) {
             var len1 = effectorModel.entitySummonModelArray.Length;
             for (int i = 0; i < len1; i++) {
                 var entitySummonModel = effectorModel.entitySummonModelArray[i];

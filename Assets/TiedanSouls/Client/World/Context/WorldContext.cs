@@ -20,6 +20,7 @@ namespace TiedanSouls.Client.Facades {
         public SkillRepo SkillRepo { get; private set; }
         public FieldRepo FieldRepo { get; private set; }
         public ItemRepo ItemRepo { get; private set; }
+        public ProjectileRepo ProjectileRepo { get; private set; }
         public CollisionEventRepo CollisionEventRepo { get; private set; }
 
         // ==== Domain ====
@@ -37,6 +38,7 @@ namespace TiedanSouls.Client.Facades {
             SkillRepo = new SkillRepo();
             FieldRepo = new FieldRepo();
             ItemRepo = new ItemRepo();
+            ProjectileRepo = new ProjectileRepo();
             CollisionEventRepo = new CollisionEventRepo();
         }
 

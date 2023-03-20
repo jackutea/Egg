@@ -1,5 +1,8 @@
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
+using TiedanSouls.Generic;
+using UnityEngine;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -17,6 +20,27 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
+        public bool TrySpawnProjectile(ControlType controlType, int typeID, in IDArgs summoner, Vector2 pos, out ProjectileEntity projectile) {
+            var factory = worldContext.WorldFactory;
+            if (!factory.TrySpawnProjectile(typeID, out projectile)) {
+                TDLog.Error($"创建实体 弹道 失败! - {typeID}");
+                return false;
+            }
+
+            // Pos
+            projectile.SetBornPos(pos);
+            projectile.SetPos(pos);
+
+            // Father
+            var idCom = projectile.IDCom;
+            idCom.SetFather(summoner);
+
+            // Repo
+            var repo = worldContext.ProjectileRepo;
+            repo.Add(projectile);
+
+            return true;
+        }
     }
 
 }

@@ -83,6 +83,7 @@ MonoBehaviour:
     startFrame: 0
     endFrame: 100
     collisionTriggerEM:
+      isEnabled: 0
       startFrame: 0
       endFrame: 0
       delayFrame: 0
@@ -132,5 +133,5 @@ MonoBehaviour:
       entitySummonEMArray: []
       entityDestroyEMArray: []
     extraHitTimes: 100
-    vfxPrefab: {fileID: 0}
+    vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
   leafElementEMArray: []

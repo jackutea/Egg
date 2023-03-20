@@ -70,7 +70,9 @@ namespace TiedanSouls.Client.Domain {
 
                 var roleDomain = worldDomain.RoleDomain;
                 playerRole = roleRepo.PlayerRole;
-                playerRole ??= roleDomain.SpawnRole(ControlType.Player, tieDanRoleTypeID, AllyType.One, new Vector2(5, 5));
+                if (playerRole == null) {
+                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One }, new Vector2(5, 5), out playerRole);
+                }
                 playerRole.Reset();
                 playerRole.Show();
                 playerRole.HudSlotCom.ShowHUD();
