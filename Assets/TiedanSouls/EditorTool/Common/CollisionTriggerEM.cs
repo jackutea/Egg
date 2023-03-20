@@ -5,7 +5,9 @@ using UnityEngine;
 namespace TiedanSouls.EditorTool.SkillEditor {
 
     [Serializable]
-    public class CollisionTriggerEM {
+    public struct CollisionTriggerEM {
+
+        [Header("启用/关闭")] public bool isEnabled;
 
         [Header("开始帧")] public int startFrame;
         [Header("结束帧")] public int endFrame;

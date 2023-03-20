@@ -28,9 +28,11 @@ namespace TiedanSouls.EditorTool.SkillEditor {
                 return;
             }
 
-            var projectileTM = so.tm;
-            this.typeID = projectileTM.typeID;
-            this.projectileName = projectileTM.projectileName;
+            var tm = so.tm;
+            this.typeID = tm.typeID;
+            this.projectileName = tm.projectileName;
+            this.rootElement = TM2EMUtil.GetEM_ProjectileElement(tm.rootElement);
+            this.leafElementEMArray = TM2EMUtil.GetEMArray_ProjectileElement(tm.leafElementTMArray);
         }
 
     }

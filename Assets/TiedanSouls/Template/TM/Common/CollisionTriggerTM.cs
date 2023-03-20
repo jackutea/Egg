@@ -7,6 +7,8 @@ namespace TiedanSouls.Template {
     [Serializable]
     public struct CollisionTriggerTM {
 
+        [Header("启用/关闭")] public bool isEnabled;
+        
         [Header("开始帧")] public int startFrame;
         [Header("结束帧")] public int endFrame;
 

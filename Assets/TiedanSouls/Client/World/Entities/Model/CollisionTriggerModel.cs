@@ -4,6 +4,8 @@ namespace TiedanSouls.Client.Entities {
 
     public struct CollisionTriggerModel {
 
+        public bool isEnabled;
+
         public int startFrame;
         public int endFrame;
 
@@ -15,6 +17,8 @@ namespace TiedanSouls.Client.Entities {
         public HitPowerModel hitPower;
 
         public TriggerStatus GetTriggerStatus(int frame) {
+            if(!isEnabled) return TriggerStatus.None;
+            
             if (intervalFrame == 0) {
                 var endFrame_delayed = endFrame + delayFrame;
                 if (frame < startFrame || frame > endFrame_delayed) return TriggerStatus.None;

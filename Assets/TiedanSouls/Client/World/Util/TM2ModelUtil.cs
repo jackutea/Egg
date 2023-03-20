@@ -60,6 +60,7 @@ namespace TiedanSouls.Client {
 
                 CollisionTriggerModel model;
 
+                model.isEnabled = tm.isEnabled;
                 model.startFrame = startFrame;
                 model.endFrame = endFrame;
                 model.delayFrame = tm.delayFrame;

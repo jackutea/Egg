@@ -35,7 +35,7 @@ namespace TiedanSouls.EditorTool {
             tm.endFrame = em.endFrame;
             tm.collisionTriggerTM = GetTM_CollisionTrigger(em.collisionTriggerEM);
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
-            tm.deathEffectorTM = GetTM_Effector(em.deadEffectorEM);
+            tm.deathEffectorTM = GetTM_Effector(em.deathEffectorEM);
             tm.extraHitTimes = em.extraHitTimes;
             tm.vfxPrefabName = em.vfxPrefab == null ? string.Empty : em.vfxPrefab.name;
             tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.vfxPrefab));
@@ -209,6 +209,7 @@ namespace TiedanSouls.EditorTool {
 
             CollisionTriggerTM tm;
 
+            tm.isEnabled = em.isEnabled;
             tm.startFrame = startFrame;
             tm.endFrame = endFrame;
 

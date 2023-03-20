@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7242303559924722033}
   m_Layer: 0
-  m_Name: editor_projectile_all
+  m_Name: vfx_test_projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
   projectileName: "\u6D4B\u8BD5\u5F39\u9053"
   rootElement:
     startFrame: 0
-    endFrame: 100
+    endFrame: 0
     collisionTriggerEM:
       startFrame: 0
       endFrame: 0
@@ -131,6 +131,6 @@ MonoBehaviour:
       effectorName: 
       entitySummonEMArray: []
       entityDestroyEMArray: []
-    extraHitTimes: 100
+    extraHitTimes: 0
     vfxPrefab: {fileID: 0}
   leafElementEMArray: []

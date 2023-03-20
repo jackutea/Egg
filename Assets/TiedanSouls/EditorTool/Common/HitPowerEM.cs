@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.EditorTool.SkillEditor {
 
     [Serializable]
-    public class HitPowerEM {
+    public struct HitPowerEM {
 
         [Header("基础伤害")] public int damageBase;
         [Header("基础伤害 - 曲线")] public AnimationCurve damageCurve;

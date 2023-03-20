@@ -12,7 +12,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("碰撞器")] public CollisionTriggerEM collisionTriggerEM;
 
         [Header("打击效果器")] public EffectorEM hitEffectorEM;
-        [Header("死亡效果器")] public EffectorEM deadEffectorEM;
+        [Header("死亡效果器")] public EffectorEM deathEffectorEM;
 
         [Header("额外打击次数")] public int extraHitTimes;
 

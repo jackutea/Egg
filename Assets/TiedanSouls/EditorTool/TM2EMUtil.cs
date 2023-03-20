@@ -8,14 +8,26 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
-        #region [Effector]
+        #region [Projectile]
 
-        public static EffectorEM GetEM_Effector(EffectorTM tm) {
-            EffectorEM em;
-            em.typeID = tm.typeID;
-            em.effectorName = tm.effectorName;
-            em.entitySummonEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
-            em.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
+        public static ProjectileElementEM[] GetEMArray_ProjectileElement(ProjectileElementTM[] tmArray) {
+            if (tmArray == null) return null;
+            ProjectileElementEM[] emArray = new ProjectileElementEM[tmArray.Length];
+            for (int i = 0; i < tmArray.Length; i++) {
+                emArray[i] = GetEM_ProjectileElement(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static ProjectileElementEM GetEM_ProjectileElement(ProjectileElementTM tm) {
+            ProjectileElementEM em;
+            em.startFrame = tm.startFrame;
+            em.endFrame = tm.endFrame;
+            em.collisionTriggerEM = GetEM_CollisionTrigger(tm.collisionTriggerTM);
+            em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
+            em.deathEffectorEM = GetEM_Effector(tm.deathEffectorTM);
+            em.extraHitTimes = tm.extraHitTimes;
+            em.vfxPrefab = tm.vfxPrefab_GUID == null ? null : AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(tm.vfxPrefab_GUID));
             return em;
         }
 
@@ -34,10 +46,23 @@ namespace TiedanSouls.EditorTool {
         }
 
         public static SkillCancelEM GetEM_SkillCancel(SkillCancelTM tm) {
-            SkillCancelEM em = new SkillCancelEM();
+            SkillCancelEM em;
             em.skillTypeID = tm.skillTypeID;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
+            return em;
+        }
+
+        #endregion
+
+        #region [Effector]
+
+        public static EffectorEM GetEM_Effector(EffectorTM tm) {
+            EffectorEM em;
+            em.typeID = tm.typeID;
+            em.effectorName = tm.effectorName;
+            em.entitySummonEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
+            em.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
             return em;
         }
 
@@ -55,7 +80,8 @@ namespace TiedanSouls.EditorTool {
         }
 
         public static CollisionTriggerEM GetEM_CollisionTrigger(CollisionTriggerTM tm) {
-            CollisionTriggerEM em = new CollisionTriggerEM();
+            CollisionTriggerEM em;
+            em.isEnabled = tm.isEnabled;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
             em.delayFrame = tm.delayFrame;
@@ -84,7 +110,7 @@ namespace TiedanSouls.EditorTool {
         #region [HitPower]
 
         public static HitPowerEM GetEM_HitPower(this HitPowerTM tm) {
-            HitPowerEM em = new HitPowerEM();
+            HitPowerEM em;
 
             // 伤害 曲线还原
             em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);
