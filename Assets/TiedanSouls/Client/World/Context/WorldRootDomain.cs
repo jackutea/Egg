@@ -3,14 +3,12 @@ using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Domain;
 using TiedanSouls.Client.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace TiedanSouls.Client.Facades {
 
     public class WorldRootDomain {
 
-        #region [实体Domain]
+        #region [实体 Domain]
 
         public WorldFSMDomain WorldFSMDomain { get; private set; }
 
@@ -22,9 +20,12 @@ namespace TiedanSouls.Client.Facades {
 
         public WorldSkillDomain SkillDomain { get; private set; }
 
+        public WorldProjectileDomain ProjectileDomain { get; private set; }
+        public WorldProjectileElementDomain ProjectileElementDomain { get; private set; }
+
         #endregion
 
-        #region [Misc Domain]
+        #region [杂项 Domain]
 
         public WorldPhysicsDomain PhysicsDomain { get; private set; }
         public WorldHitDomain HitDomain { get; private set; }
@@ -32,22 +33,27 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [Renderer Domain]
+        #region [表现层 Domain]
 
         public WorldRendererDomain WorldRendererDomain { get; private set; }
 
         #endregion
 
+        #region [上下文]
+
         public WorldContext WorldContext { get; private set; }
 
-        public WorldRootDomain() {
+        #endregion
 
+        public WorldRootDomain() {
             WorldFSMDomain = new WorldFSMDomain();
             FieldDomain = new WorldFieldDomain();
             FieldFSMDomain = new WorldFieldFSMDomain();
             RoleDomain = new WorldRoleDomain();
             RoleFSMDomain = new WorldRoleFSMDomain();
             SkillDomain = new WorldSkillDomain();
+            ProjectileDomain = new WorldProjectileDomain();
+            ProjectileElementDomain = new WorldProjectileElementDomain();
 
             PhysicsDomain = new WorldPhysicsDomain();
             HitDomain = new WorldHitDomain();
@@ -60,11 +66,13 @@ namespace TiedanSouls.Client.Facades {
             worldContext.Inject(this);
 
             this.WorldFSMDomain.Inject(infraContext, worldContext, this);
+            this.FieldDomain.Inject(infraContext, worldContext);
+            this.FieldFSMDomain.Inject(infraContext, worldContext);
             this.RoleFSMDomain.Inject(infraContext, worldContext, this);
             this.RoleDomain.Inject(infraContext, worldContext);
             this.SkillDomain.Inject(infraContext, worldContext);
-            this.FieldDomain.Inject(infraContext, worldContext);
-            this.FieldFSMDomain.Inject(infraContext, worldContext);
+            this.ProjectileDomain.Inject(infraContext, worldContext, this);
+            this.ProjectileElementDomain.Inject(infraContext, worldContext, this);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
             this.HitDomain.Inject(infraContext, worldContext, this);
@@ -75,7 +83,7 @@ namespace TiedanSouls.Client.Facades {
             this.WorldContext = worldContext;
         }
 
-        #region [Spawn]
+        #region [生成]
 
         public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos) {
             var controlType = entitySummonModel.controlType;
@@ -117,7 +125,7 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [Destroy]
+        #region [销毁]
 
         public void DestroyBy_EntityDestroyModel(in EntityDestroyModel entityDestroyModel, in IDArgs summoner) {
             var entityType = entityDestroyModel.entityType;
@@ -146,7 +154,7 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [CollisionTrigger]
+        #region [碰撞器]
 
         public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
             var len = collisionTriggerModelArray?.Length;
@@ -183,7 +191,7 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [Entity]
+        #region [实体]
 
         public bool TryGetEntityObj(in IDArgs idArgs, out IEntity entity) {
             entity = null;
