@@ -54,6 +54,7 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Assert(confiner != null);
 
             idCom = new IDComponent();
+            idCom.SetEntityType(EntityType.Field);
             fsmComponent = new FieldFSMComponent();
         }
 

@@ -41,21 +41,24 @@ namespace TiedanSouls.Client.Entities {
             this.father = args;
             this.allyType = args.allyType;
             this.fromFieldTypeID = args.fromFieldTypeID;
+            TDLog.Log($"设置父级:  {this} -> {args}");
         }
 
         public IDArgs ToArgs() {
             IDArgs args = new IDArgs();
             args.entityType = entityType;
-            args.entityID = entityID;
             args.typeID = typeID;
+            args.entityID = entityID;
             args.entityName = entityName;
             args.allyType = allyType;
+            args.controlType = controlType;
+            args.fromFieldTypeID = fromFieldTypeID;
 
             return args;
         }
 
         public override string ToString() {
-            return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 来自关卡 {fromFieldTypeID}";
+            return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
         }
 
     }
@@ -68,7 +71,7 @@ namespace TiedanSouls.Client.Entities {
         public string entityName;
         public AllyType allyType;
         public ControlType controlType;
-        
+
         public int fromFieldTypeID;
 
         public bool IsTheSame(in IDArgs other) {

@@ -39,15 +39,21 @@ namespace TiedanSouls.Client.Domain {
                 role.SetAIStrategy(ai);
             }
 
-            // - Father
+            // ID
+            var idService = worldContext.IDService;
+            int id = idService.PickRoleID();
+            var roleIDCom = role.IDCom;
+            roleIDCom.SetEntityID(id);
+
+            // Father
             var idCom = role.IDCom;
             idCom.SetFather(father);
 
-            // - Physics
+            // Physics
             role.FootTriggerEnterAction += OnFootTriggerEnter;
             role.FootTriggerExit += OnFootTriggerExit;
 
-            // - FSM
+            // FSM
             role.FSMCom.EnterIdle();
 
             var repo = worldContext.RoleRepo;
@@ -59,10 +65,11 @@ namespace TiedanSouls.Client.Domain {
                 repo.Add_ToAI(role);
             }
 
+            TDLog.Log($"生成实体 角色 - {idCom}");
             return true;
         }
 
-        #region [拾取武器 -> 初始化武器组件 -> 添加对应技能]
+        #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
 
         public bool TryPickUpSomethingFromField(RoleEntity role) {
             var repo = worldContext.ItemRepo;
@@ -160,7 +167,7 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [Input]
+        #region [玩家角色输入]
 
         public void BackPlayerInput() {
             RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
@@ -278,7 +285,7 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [Role Casting Skill]
+        #region [角色释放技能]
 
         public bool TryCastSkillByInput(RoleEntity role) {
             var inputCom = role.InputCom;
@@ -381,7 +388,7 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [Role State]
+        #region [角色状态]
 
         public void Role_PrepareToDie(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;
@@ -403,7 +410,7 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [Role Physics Event]
+        #region [角色物理事件]
 
         void OnFootTriggerEnter(RoleEntity role, Collider2D other) {
             if (other.gameObject.layer == LayerCollection.GROUND) {

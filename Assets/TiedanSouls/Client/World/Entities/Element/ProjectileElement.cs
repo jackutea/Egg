@@ -5,7 +5,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 弹道元素模型
     /// </summary>
-    public class ProjectileElement : MonoBehaviour {
+    public class ProjectileElement {
 
         IDArgs father;
         public IDArgs Father => father;
@@ -26,40 +26,20 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [逻辑层]
+        #region [GameObject]
 
-        Transform logicRoot;
-        public Transform LogicRoot => logicRoot;
-        public Vector2 GetPos_LogicRoot() => logicRoot.position;
-
-        Rigidbody2D rb_logicRoot;
+        Rigidbody2D rb;
+        
+        GameObject logicGO;
+        public GameObject LogicGO => logicGO;
 
         #endregion
 
         #region [表现层]
 
-        Transform rendererRoot;
-        public Transform RendererRoot => rendererRoot;
-        public Vector2 GetPos_RendererRoot() => rendererRoot.position;
-
         GameObject vfxGO;
         public GameObject VFXGO => vfxGO;
         public void SetVFXGO(GameObject value) => this.vfxGO = value;
-
-        #endregion
-
-        #region [杂项]
-
-        Vector2 bornPos;
-        public Vector2 BornPos => bornPos;
-        public void SetBornPos(Vector2 value) => this.bornPos = value;
-
-        sbyte faceDirX;
-        public sbyte FaceDirX => faceDirX;
-
-        int fromFieldTypeID;
-        public int FromFieldTypeID => fromFieldTypeID;
-        public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
         #endregion
 
@@ -106,24 +86,30 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        public void Ctor() {
-            faceDirX = 1;
+        Vector2 bornPos;
+        public Vector2 BornPos => bornPos;
+        public void SetBornPos(Vector2 value) => this.bornPos = value;
 
-            // Root
-            logicRoot = transform.Find("logic_root");
-            rb_logicRoot = logicRoot.GetComponent<Rigidbody2D>();
-            rendererRoot = transform.Find("renderer_root");
+        public void Ctor() {
+            // GameObject
+            logicGO = new GameObject("弹道元素");
+            rb = logicGO.AddComponent<Rigidbody2D>();
 
             // Component
             moveCom = new MoveComponent();
-            moveCom.Inject(rb_logicRoot);
+            moveCom.Inject(rb);
             inputCom = new InputComponent();
             attributeCom = new AttributeComponent();
             fsmCom = new ProjectileElementFSMComponent();
         }
 
         public void TearDown() {
-            GameObject.Destroy(gameObject);
+            logicGO.SetActive(false);
+            vfxGO.gameObject.SetActive(false);
+        }
+
+        public void SetFather(in IDArgs father) {
+            this.father = father;
         }
 
         public void Reset() {
@@ -131,46 +117,48 @@ namespace TiedanSouls.Client.Entities {
             inputCom.Reset();
         }
 
-        public void Show() {
-            logicRoot.gameObject.SetActive(true);
-            rendererRoot.gameObject.SetActive(true);
+        public void Activated() {
+            logicGO.SetActive(true);
+            vfxGO.SetActive(true);
         }
 
-        public void Hide() {
-            logicRoot.gameObject.SetActive(false);
-            rendererRoot.gameObject.SetActive(false);
+        public void Deactivated() {
+            logicGO.SetActive(false);
+            vfxGO.SetActive(false);
         }
 
         public void Attribute_HP_Decrease(int atk) {
             attributeCom.HP_Decrease(atk);
         }
 
-        public Vector3 GetPos_Logic() {
-            return logicRoot.position;
+        public Vector3 GetLogic_Pos() {
+            return logicGO.transform.position;
         }
 
-        public float GetAngleZ_Logic() {
-            return logicRoot.rotation.z;
+        public float GetLogic_AngleZ() {
+            return logicGO.transform.rotation.z;
         }
 
-        public Quaternion GetRot_Logic() {
-            return logicRoot.rotation;
+        public Quaternion GetLogic_Rot() {
+            return logicGO.transform.rotation;
         }
 
-        public void SetPos_Logic(Vector2 pos) {
-            logicRoot.position = pos;
+        public void SetElementPos(Vector2 pos) {
+            logicGO.transform.position = pos;
         }
 
         #region [表现同步]
 
         public void Renderer_Sync() {
-            var logicPos = logicRoot.position;
-            rendererRoot.position = logicPos;
+            var elementPos = logicGO.transform.position;
+            vfxGO.transform.position = elementPos;
         }
 
         public void Renderer_Lerp(float dt) {
-            var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
-            rendererRoot.position = lerpPos;
+            var vfxPos = vfxGO.transform.position;
+            var elementPos = logicGO.transform.position;
+            var lerpPos = Vector3.Lerp(vfxPos, elementPos, dt * 30);
+            vfxGO.transform.position = lerpPos;
         }
 
         #endregion

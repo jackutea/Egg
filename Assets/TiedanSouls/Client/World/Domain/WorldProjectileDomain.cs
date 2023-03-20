@@ -31,8 +31,11 @@ namespace TiedanSouls.Client.Domain {
             projectile.SetBornPos(pos);
             projectile.SetPos(pos);
 
-            // Father
+            // ID
             var idCom = projectile.IDCom;
+            idCom.SetEntityID(worldContext.IDService.PickFieldID());
+
+            // Father
             idCom.SetFather(summoner);
 
             // Repo

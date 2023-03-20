@@ -34,11 +34,12 @@ namespace TiedanSouls.Client.Entities {
 
         ProjectileElement rootElement;
         public ProjectileElement RootElement => rootElement;
-        public void SetRootElement(ProjectileElement value) => this.rootElement = value;
 
         ProjectileElement[] leafElements;
         public ProjectileElement[] LeafElements => leafElements;
-        public void SetLeafElements(ProjectileElement[] value) => this.leafElements = value;
+
+        Transform rootElementTrans;
+        Transform leafElementGroupTrans;
 
         #endregion
 
@@ -46,6 +47,9 @@ namespace TiedanSouls.Client.Entities {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Projectile);
             fsmCom = new ProjectileFSMComponent();
+
+            rootElementTrans = transform.Find("root_element");
+            leafElementGroupTrans = transform.Find("leaf_element_group");
         }
 
         public void TearDown() {
@@ -65,20 +69,34 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Hide() {
-            rootElement.Hide();
+            rootElement.Deactivated();
             var len = leafElements.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Hide();
+                leafElements[i].Deactivated();
             }
         }
 
         public void Show() {
-            rootElement.Show();
+            rootElement.Activated();
             var len = leafElements.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Show();
+                leafElements[i].Activated();
             }
         }
+
+        public void SetRootElement(ProjectileElement element) {
+            element.LogicGO.transform.SetParent(rootElementTrans, false);
+            this.rootElement = element;
+        }
+
+        public void SetLeafElements(ProjectileElement[] elementArray) {
+            var len = elementArray.Length;
+            for (int i = 0; i < len; i++) {
+                elementArray[i].LogicGO.transform.SetParent(leafElementGroupTrans, false);
+            }
+            this.leafElements = elementArray;
+        }
+
 
         #region [Locomotion]
 

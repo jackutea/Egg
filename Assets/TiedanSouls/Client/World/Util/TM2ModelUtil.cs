@@ -21,6 +21,7 @@ namespace TiedanSouls.Client {
 
         public static ProjectileElement GetElement_Projectile(ProjectileElementTM tm) {
             ProjectileElement element = new ProjectileElement();
+            element.Ctor();
             element.SetStartFrame(tm.startFrame);
             element.SetEndFrame(tm.endFrame);
             element.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));

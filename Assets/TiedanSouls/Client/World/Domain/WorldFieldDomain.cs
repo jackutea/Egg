@@ -21,14 +21,20 @@ namespace TiedanSouls.Client.Domain {
             var fieldRepo = worldContext.FieldRepo;
             if (!fieldRepo.TryGet(typeID, out field)) {
                 var factory = worldContext.WorldFactory;
-                if (!factory.TryCreateFieldEntity(typeID, out field)) {
+                if (!factory.TryCreateField(typeID, out field)) {
                     return false;
                 }
 
                 fieldRepo.Add(field);
             }
 
+
+            // Father
+            var idCom = field.IDCom;
+            idCom.SetFather(new IDArgs { entityType = EntityType.Field, fromFieldTypeID = typeID });
+
             field.Show();
+
             return true;
         }
 

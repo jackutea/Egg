@@ -200,7 +200,6 @@ namespace TiedanSouls.Client {
             Foreach_ByTargetType(fieldTypeID, targetType, iDArgs, (role) => {
                 roleList_temp.Add(role);
             });
-            TDLog.Log($"GetRoleList_ByTargetType fieldTypeID {fieldTypeID} ");
             return roleList_temp;
         }
 

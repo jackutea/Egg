@@ -88,13 +88,13 @@ namespace TiedanSouls.EditorTool {
             em.intervalFrame = tm.intervalFrame;
             em.maintainFrame = tm.maintainFrame;
 
-            var skillEditorTrans = Selection.activeGameObject.transform;
+            var editorTrans = Selection.activeGameObject.transform;
             var colliderRelativePathArray = tm.colliderRelativePathArray;
             var pathCount = colliderRelativePathArray.Length;
             GameObject[] colliderGOArray = new GameObject[pathCount];
             for (int i = 0; i < pathCount; i++) {
                 var path = colliderRelativePathArray[i];
-                var go = skillEditorTrans.Find(path)?.gameObject;
+                var go = editorTrans.Find(path)?.gameObject;
                 colliderGOArray[i] = go;
             }
             em.colliderGOArray = colliderGOArray;

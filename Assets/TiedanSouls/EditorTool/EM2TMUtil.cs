@@ -33,7 +33,7 @@ namespace TiedanSouls.EditorTool {
             ProjectileElementTM tm;
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
-            tm.collisionTriggerTM = GetTM_CollisionTrigger(em.collisionTriggerEM);
+            tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(em.collisionTriggerEM);
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
             tm.deathEffectorTM = GetTM_Effector(em.deathEffectorEM);
             tm.extraHitTimes = em.extraHitTimes;
@@ -77,7 +77,7 @@ namespace TiedanSouls.EditorTool {
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
 
-            tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger(editorGo.colliderTriggerEMArray);
+            tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger<SkillEditorGO>(editorGo.colliderTriggerEMArray);
 
             return tm;
         }
@@ -194,16 +194,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [ColliderTrigger]
 
-        public static CollisionTriggerTM[] GetTMArray_CollisionTrigger(CollisionTriggerEM[] emArray) {
+        public static CollisionTriggerTM[] GetTMArray_CollisionTrigger<T>(CollisionTriggerEM[] emArray) {
             var len = emArray.Length;
             var tmArray = new CollisionTriggerTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetTM_CollisionTrigger(emArray[i]);
+                tmArray[i] = GetTM_CollisionTrigger<T>(emArray[i]);
             }
             return tmArray;
         }
 
-        public static CollisionTriggerTM GetTM_CollisionTrigger(CollisionTriggerEM em) {
+        public static CollisionTriggerTM GetTM_CollisionTrigger<T>(CollisionTriggerEM em) {
             var startFrame = em.startFrame;
             var endFrame = em.endFrame;
 
@@ -221,7 +221,7 @@ namespace TiedanSouls.EditorTool {
             tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM, startFrame, endFrame);
             tm.hitTargetType = em.hitTargetType;
 
-            tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
+            tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);
 
             return tm;
         }
@@ -366,25 +366,25 @@ namespace TiedanSouls.EditorTool {
 
         #region [Misc]
 
-        static string[] GetRelativePathArray(GameObject[] goArray) {
+        static string[] GetRelativePathArray_SkillEditor<T>(GameObject[] goArray) {
             var len = goArray.Length;
             var pathArray = new string[len];
             for (int i = 0; i < len; i++) {
                 var go = goArray[i];
                 if (go == null) continue;
-                pathArray[i] = GetRelativePath(go.transform);
+                pathArray[i] = GetRelativePath_SkillEditor<T>(go.transform);
             }
             return pathArray;
         }
 
-        static string GetRelativePath(Transform begin) {
+        static string GetRelativePath_SkillEditor<T>(Transform begin) {
             if (begin == null) return "";
 
             string path = begin.name;
             Transform parent = begin.parent;
             if (parent == null) return path;
 
-            while (parent != null && !parent.TryGetComponent<SkillEditorGO>(out _)) {
+            while (parent != null && !parent.TryGetComponent<T>(out _)) {
                 path = $"{parent.name}/{path}";
                 parent = parent.parent;
             }

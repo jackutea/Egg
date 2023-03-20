@@ -84,6 +84,9 @@ namespace TiedanSouls.Client.Facades {
 
         #region [生成]
 
+        /// <summary>
+        /// 根据 实体召唤模型 生成实体
+        /// </summary>
         public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos) {
             var controlType = entitySummonModel.controlType;
             var entityType = entitySummonModel.entityType;
@@ -99,6 +102,9 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
+        /// <summary>
+        /// 根据 实体生成控制模型数组 生成实体
+        /// </summary>
         public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, in IDArgs summoner) {
             var spawnCount = spawnCtrlModelArray?.Length;
             for (int i = 0; i < spawnCount; i++) {
@@ -106,6 +112,9 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
+        /// <summary>
+        /// 根据 实体生成控制模型 生成实体
+        /// </summary>
         public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnModel, in IDArgs summoner) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
@@ -118,7 +127,6 @@ namespace TiedanSouls.Client.Facades {
             if (entityType == EntityType.Role) {
                 _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out var role);
                 role.SetIsBoss(isBoss);
-                TDLog.Log($"人物: AllyType {allyType} / ControlType {controlType} / TypeID {typeID} / Name {role.IDCom.EntityName} / IsBoss {isBoss} Spawned!");
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }
@@ -128,6 +136,9 @@ namespace TiedanSouls.Client.Facades {
 
         #region [销毁]
 
+        /// <summary>
+        /// 根据 实体销毁模型 销毁实体  
+        /// </summary>
         public void DestroyBy_EntityDestroyModel(in EntityDestroyModel entityDestroyModel, in IDArgs summoner) {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;

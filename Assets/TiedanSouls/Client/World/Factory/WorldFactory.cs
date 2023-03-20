@@ -22,7 +22,7 @@ namespace TiedanSouls.Client {
 
         #region [Field]
 
-        public bool TryCreateFieldEntity(int typeID, out FieldEntity field) {
+        public bool TryCreateField(int typeID, out FieldEntity field) {
             field = null;
 
             var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
@@ -53,8 +53,7 @@ namespace TiedanSouls.Client {
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
 
-            // Father
-            idCom.SetFather(new IDArgs { entityType = EntityType.None });
+            field.name = $"关卡_{field.IDCom}";
 
             return field;
         }
@@ -63,21 +62,21 @@ namespace TiedanSouls.Client {
 
         #region [Item]
 
-        public bool TryCreateItemEntity(int itemTypeID, out ItemEntity item) {
+        public bool TryCreateItemEntity(int typeID, out ItemEntity item) {
             item = null;
 
             var templateCore = infraContext.TemplateCore;
 
             // Template
-            if (!templateCore.ItemTemplate.TryGet(itemTypeID, out ItemTM itemTM)) {
-                TDLog.Error("Failed to get Item template: " + itemTypeID);
+            if (!templateCore.ItemTemplate.TryGet(typeID, out ItemTM itemTM)) {
+                TDLog.Error($"配置出错! 未找到 物件 模板数据: TypeID {typeID}");
                 return false;
             }
 
             // Check
             var itemType = itemTM.itemType;
             if (itemType == ItemType.None) {
-                TDLog.Error("ItemType is None");
+                TDLog.Error("物件类型 is None");
                 return false;
             }
 
@@ -86,7 +85,7 @@ namespace TiedanSouls.Client {
             var containerModAssets = assetCore.ContainerModAssets;
             var contanerAssetName = "mod_container_item";
             if (!containerModAssets.TryGet(contanerAssetName, out GameObject itemPrefab)) {
-                TDLog.Error($"Failed to get Container: {contanerAssetName}");
+                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
                 return false;
             }
 
@@ -99,7 +98,7 @@ namespace TiedanSouls.Client {
             var idService = worldContext.IDService;
             var itemID = idService.PickItemID();
             idCom.SetEntityID(itemID);
-            idCom.SetTypeID(itemTypeID);
+            idCom.SetTypeID(typeID);
 
             item.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
             item.SetItemType(itemType);
@@ -115,6 +114,8 @@ namespace TiedanSouls.Client {
             // Set Mod
             var mod = GameObject.Instantiate(modPrefab);
             item.SetMod(mod);
+
+            item.name = $"物件_{item.IDCom}";
 
             return item;
         }
@@ -147,10 +148,7 @@ namespace TiedanSouls.Client {
             role.Ctor();
 
             // ID
-            var idService = worldContext.IDService;
-            int id = idService.PickRoleID();
             var roleIDCom = role.IDCom;
-            roleIDCom.SetEntityID(id);
             roleIDCom.SetTypeID(typeID);
             roleIDCom.SetEntityName(roleTM.roleName);
 
@@ -176,6 +174,8 @@ namespace TiedanSouls.Client {
             // Collider Model
             var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
             colliderModel.SetFather(roleIDCom.ToArgs());
+
+            role.name = $"角色_{role.IDCom}";
 
             return role;
         }
@@ -306,10 +306,16 @@ namespace TiedanSouls.Client {
             projectile = GameObject.Instantiate(go).GetComponent<ProjectileEntity>();
             projectile.Ctor();
 
+            // ID
+            var idCom = projectile.IDCom;
+            idCom.SetTypeID(typeID);
+            idCom.SetEntityName(tm.projectileName);
 
             projectile.SetRootElement(TM2ModelUtil.GetElement_Projectile(tm.rootElementTM));
             projectile.SetLeafElements(TM2ModelUtil.GetElementArray_Projectile(tm.leafElementTMArray));
 
+            projectile.name = $"弹道 {projectile.IDCom}";
+            
             return projectile;
         }
 

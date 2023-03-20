@@ -119,12 +119,7 @@ namespace TiedanSouls.Client.Domain {
                 TDLog.Warning($"关卡敌人生成继续,剩余敌人数量: {stateModel.totalSpawnCount - stateModel.curSpawnedCount}");
             }
 
-            // 关卡实体生成
-            var curFrame = stateModel.curFrame;
-            bool hasBreakPoint = false;
-            var spawnArray = field.SpawnModelArray;
-            var len = spawnArray.Length;
-
+            // 关卡 是否为重复加载
             if (stateModel.IsRespawning) {
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
@@ -135,6 +130,12 @@ namespace TiedanSouls.Client.Domain {
                 fsm.Enter_Finished();
                 return;
             }
+
+            // 关卡实体生成
+            var curFrame = stateModel.curFrame;
+            bool hasBreakPoint = false;
+            var spawnArray = field.SpawnModelArray;
+            var len = spawnArray?.Length;
 
             for (int i = 0; i < len; i++) {
                 var spawnModel = spawnArray[i];
