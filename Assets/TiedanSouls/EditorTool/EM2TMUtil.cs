@@ -10,6 +10,40 @@ namespace TiedanSouls.EditorTool {
 
     public static class EM2TMUtil {
 
+        #region [Projectile]
+
+        public static ProjectileTM GetTM_Projectile(ProjectileEditorGO editorGo) {
+            ProjectileTM tm;
+            tm.typeID = editorGo.typeID;
+            tm.projectileName = editorGo.projectileName;
+            tm.rootElement = GetTM_ProjectileElement(editorGo.rootElement);
+            tm.leafElementTMArray = GetTMArray_ProjectileElement(editorGo.leafElementEMArray);
+            return tm;
+        }
+
+        public static ProjectileElementTM[] GetTMArray_ProjectileElement(ProjectileElementEM[] emArray) {
+            var tmArray = new ProjectileElementTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tmArray[i] = GetTM_ProjectileElement(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static ProjectileElementTM GetTM_ProjectileElement(ProjectileElementEM em) {
+            ProjectileElementTM tm;
+            tm.startFrame = em.startFrame;
+            tm.endFrame = em.endFrame;
+            tm.collisionTriggerTM = GetTM_CollisionTrigger(em.collisionTriggerEM);
+            tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
+            tm.deathEffectorTM = GetTM_Effector(em.deadEffectorEM);
+            tm.extraHitTimes = em.extraHitTimes;
+            tm.vfxPrefabName = em.vfxPrefab == null ? string.Empty : em.vfxPrefab.name;
+            tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.vfxPrefab));
+            return tm;
+        }
+
+        #endregion
+
         #region [Effector]
 
         public static EffectorTM GetTM_Effector(EffectorEM em) {
@@ -185,7 +219,7 @@ namespace TiedanSouls.EditorTool {
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
             tm.hitPowerTM = GetTM_HitPower(em.hitPowerEM, startFrame, endFrame);
             tm.hitTargetType = em.hitTargetType;
-            
+
             tm.colliderRelativePathArray = GetRelativePathArray(em.colliderGOArray);
 
             return tm;

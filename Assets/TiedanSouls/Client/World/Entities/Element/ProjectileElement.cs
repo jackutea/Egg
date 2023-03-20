@@ -97,7 +97,7 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [多次打击机制]
+        #region [额外打击次数]
 
         int extraHitTimes;
         public int ExtraHitTimes => extraHitTimes;
