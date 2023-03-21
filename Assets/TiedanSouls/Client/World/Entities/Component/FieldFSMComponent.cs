@@ -14,6 +14,10 @@ namespace TiedanSouls.Client.Entities {
         FieldFSMModel_Spawning spawningModel;
         public FieldFSMModel_Spawning SpawningModel => spawningModel;
 
+        bool isExiting;
+        public bool IsExiting => isExiting;
+        public void SetIsExiting(bool isExiting) => this.isExiting = isExiting;
+
         public FieldFSMComponent() {
             state = FieldFSMState.None;
             readyModel = new FieldFSMModel_Ready();

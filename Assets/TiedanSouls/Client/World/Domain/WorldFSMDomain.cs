@@ -55,11 +55,14 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Apply_Lobby(float dt) {
-            var stateEntity = worldContext.StateEntity;
-            var lobbyStateModel = stateEntity.LobbyStateModel;
+            var phxDomain = worldDomain.PhysicsDomain;
+            phxDomain.Tick(dt);
 
             var roleRepo = worldContext.RoleRepo;
             RoleEntity playerRole = roleRepo.PlayerRole;
+
+            var stateEntity = worldContext.StateEntity;
+            var lobbyStateModel = stateEntity.LobbyStateModel;
 
             if (lobbyStateModel.IsEntering) {
                 lobbyStateModel.SetIsEntering(false);
@@ -68,9 +71,8 @@ namespace TiedanSouls.Client.Domain {
                 var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
 
                 var roleDomain = worldDomain.RoleDomain;
-                playerRole = roleRepo.PlayerRole;
                 if (playerRole == null) {
-                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One,fromFieldTypeID =  stateEntity.CurFieldTypeID,}, new Vector2(5, 5), out playerRole);
+                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One, fromFieldTypeID = stateEntity.CurFieldTypeID, }, new Vector2(5, 5), out playerRole);
                 }
                 playerRole.Reset();
                 playerRole.Show();
@@ -83,39 +85,8 @@ namespace TiedanSouls.Client.Domain {
                 cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
             }
 
-            var roleFSMDomain = worldDomain.RoleFSMDomain;
-
-            // Player
-            roleFSMDomain.TickFSM(playerRole, dt);
-
-            // AI
-            var curFieldTypeID = stateEntity.CurFieldTypeID;
-            roleRepo.Foreach_AI(curFieldTypeID, (role) => {
-                // Strategy
-                if (role.FSMCom.State != RoleFSMState.Dying) {
-                    role.AIStrategy.Tick(dt);
-                }
-
-                // Role FSM
-                roleFSMDomain.TickFSM(role, dt);
-
-                // HUD
-                if (role.IDCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-                else if (role.IDCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
-            });
-
-            // Physics
-            var phxDomain = worldDomain.PhysicsDomain;
-            phxDomain.Tick(dt);
-
-            // 刷新关卡状态机
-            var fieldFSMDomain = worldDomain.FieldFSMDomain;
-            fieldFSMDomain.TickFSM_CurrentField(dt);
-
             // 检查玩家是否满足离开条件: 拾取了武器
-            if (!IsTieDanWantToLeave(out var door)) {
-                return;
-            }
+            if (!IsTieDanWantToLeave(out var door)) return;
 
             if (!playerRole.WeaponSlotCom.HasWeapon()) {
                 TDLog.Warning("请选择你使用的武器!");
@@ -131,12 +102,15 @@ namespace TiedanSouls.Client.Domain {
 
             if (nextField.FieldType == FieldType.BattleField) {
                 var doorIndex = door.doorIndex;
-                stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
+                stateEntity.EnterState_Loading(stateEntity.CurFieldTypeID, nextFieldTypeID, doorIndex);
                 return;
             }
         }
 
         public void Apply_Battle(float dt) {
+            var phxDomain = worldDomain.PhysicsDomain;
+            phxDomain.Tick(dt);
+
             var roleRepo = worldContext.RoleRepo;
             var playerRole = roleRepo.PlayerRole;
             var stateEntity = worldContext.StateEntity;
@@ -146,54 +120,13 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
 
-            var roleFSMDomain = worldDomain.RoleFSMDomain;
-
-            // Player
-            if (playerRole != null) {
-                if (playerRole.AttributeCom.IsDead()) {
-                    var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
-                    var lobbyFieldTypeID = gameConfigTM.lobbyFieldTypeID;
-                    stateEntity.EnterState_Loading(stateEntity.CurFieldTypeID, lobbyFieldTypeID, 0);
-                } else {
-                    roleFSMDomain.TickFSM(playerRole, dt);
-                }
-            }
-
-            // AI
-            var curFieldTypeID = stateEntity.CurFieldTypeID;
-            roleRepo.Foreach_AI(curFieldTypeID, (role) => {
-                // Strategy
-                if (role.FSMCom.State != RoleFSMState.Dying) {
-                    role.AIStrategy.Tick(dt);
-                }
-
-                // Role FSM
-                roleFSMDomain.TickFSM(role, dt);
-
-                // HUD
-                if (role.IDCom.AllyType == AllyType.Two) {
-                    role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-                } else if (role.IDCom.AllyType == AllyType.Neutral) {
-                    role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
-                }
-            });
-
-            // Physics
-            var phxDomain = worldDomain.PhysicsDomain;
-            phxDomain.Tick(dt);
-
-            // 刷新关卡状态机
-            var fieldFSMDomain = worldDomain.FieldFSMDomain;
-            fieldFSMDomain.TickFSM_CurrentField(dt);
+            TickAllFSM(dt);
 
             // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
-            if (!IsTieDanWantToLeave(out var door)) {
-                return;
-            }
+            if (!IsTieDanWantToLeave(out var door)) return;
 
+            // 检查是否有敌人未消灭
             var fieldDomain = worldDomain.FieldDomain;
-
-            // -检查是否有敌人未消灭
             var curField = fieldDomain.GetCurField();
             var fieldFSM = curField.FSMComponent;
             if (fieldFSM.State != FieldFSMState.Finished) {
@@ -201,11 +134,10 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            // - TODO: 检查是否有奖励未拾取
-
+            // TODO: 检查是否有奖励未拾取
             var nextFieldTypeID = door.fieldTypeID;
             var doorIndex = door.doorIndex;
-            stateEntity.EnterState_Loading(curFieldTypeID, nextFieldTypeID, doorIndex);
+            stateEntity.EnterState_Loading(worldContext.StateEntity.CurFieldTypeID, nextFieldTypeID, doorIndex);
         }
 
         void Apply_Store(float dt) {
@@ -273,6 +205,23 @@ namespace TiedanSouls.Client.Domain {
                 _ = field.TryFindDoorByIndex(doorIndex, out var door);
                 field.FSMComponent.Enter_Ready(door);
             }
+        }
+
+        void TickAllFSM(float dt) {
+            var stateEntity = worldContext.StateEntity;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
+
+            // 刷新 关卡状态机
+            var fieldFSMDomain = worldDomain.FieldFSMDomain;
+            fieldFSMDomain.TickFSM(dt);
+
+            // 刷新 角色状态机(当前关卡内)
+            var roleFSMDomain = worldDomain.RoleFSMDomain;
+            roleFSMDomain.TickFSM(curFieldTypeID, dt);
+
+            // 刷新 弹道状态机(当前关卡内)
+            var projectileFSMDomain = worldDomain.ProjectileFSMDomain;
+            projectileFSMDomain.TickFSM(curFieldTypeID, dt);
         }
 
         bool IsTieDanWantToLeave(out FieldDoorModel door) {

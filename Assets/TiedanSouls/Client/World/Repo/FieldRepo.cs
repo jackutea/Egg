@@ -23,8 +23,11 @@ namespace TiedanSouls.Client {
             all.Remove(field.IDCom.TypeID);
         }
 
-        public IEnumerable<FieldEntity> GetAll() {
-            return all.Values;
+        public void Foreach(System.Action<FieldEntity> action) {
+            var e = all.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                action(e.Current);
+            }
         }
 
     }

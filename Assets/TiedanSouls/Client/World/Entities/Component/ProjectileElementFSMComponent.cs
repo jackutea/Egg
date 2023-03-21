@@ -1,4 +1,3 @@
-using UnityEngine;
 using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
@@ -12,7 +11,22 @@ namespace TiedanSouls.Client.Entities {
         public bool IsExiting => isExiting;
         public void SetIsExiting(bool value) => isExiting = value;
 
-        public ProjectileElementFSMComponent() { }
+        // Model
+        ProjectileElementFSMModel_Activated activatedModel;
+        public ProjectileElementFSMModel_Activated ActivatedModel => activatedModel;
+
+        ProjectileElementFSMModel_Deactivated deactivatedModel;
+        public ProjectileElementFSMModel_Deactivated DeactivatedModel => deactivatedModel;
+
+        ProjectileElementFSMModel_Dying dyingModel;
+        public ProjectileElementFSMModel_Dying DyingModel => dyingModel;
+
+        public ProjectileElementFSMComponent() {
+            isExiting = false;
+            activatedModel = new ProjectileElementFSMModel_Activated();
+            deactivatedModel = new ProjectileElementFSMModel_Deactivated();
+            dyingModel = new ProjectileElementFSMModel_Dying();
+        }
 
         public void Reset() {
             isExiting = false;
@@ -21,14 +35,20 @@ namespace TiedanSouls.Client.Entities {
 
         public void Enter_Deactivated() {
             state = ProjectileElementFSMState.Deactivated;
+
+            deactivatedModel.SetIsEntering(true);
         }
 
         public void Enter_Activated() {
             state = ProjectileElementFSMState.Activated;
+
+            activatedModel.SetIsEntering(true);
         }
 
         public void Enter_Destroyed() {
-            state = ProjectileElementFSMState.Destroyed;
+            state = ProjectileElementFSMState.Dying;
+
+            dyingModel.SetIsEntering(true);
         }
 
     }

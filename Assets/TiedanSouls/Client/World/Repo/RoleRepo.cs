@@ -135,6 +135,14 @@ namespace TiedanSouls.Client {
         #region [Foreach]
 
         /// <summary>
+        /// 遍历指定关卡的所有角色 -1代表查找范围为所有关卡
+        /// </summary>
+        public void Foreach_All(int fieldTypeID, Action<RoleEntity> action) {
+            Foreach_ByFieldTypeID(fieldTypeID, action);
+            if (playerRole != null) action.Invoke(playerRole);
+        }
+
+        /// <summary>
         /// 遍历所有角色
         /// </summary>
         public void Foreach_All(Action<RoleEntity> action) {

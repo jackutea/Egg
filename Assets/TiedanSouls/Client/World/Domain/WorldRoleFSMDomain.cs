@@ -20,7 +20,24 @@ namespace TiedanSouls.Client.Domain {
             this.worldDomain = worldDomain;
         }
 
-        public void TickFSM(RoleEntity role, float dt) {
+        public void TickFSM(int curFieldTypeID, float dt) {
+            worldContext.RoleRepo.Foreach_All(curFieldTypeID, (role) => {
+                // Strategy
+                if (role.FSMCom.State != RoleFSMState.Dying) {
+                    role.AIStrategy.Tick(dt);
+                }
+
+                // Role FSM
+                TickFSM(role, dt);
+
+                // HUD
+                if (role.IDCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+                else if (role.IDCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+            });
+
+        }
+
+        void TickFSM(RoleEntity role, float dt) {
             if (role == null) return;
 
             var fsm = role.FSMCom;
