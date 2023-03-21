@@ -11,30 +11,35 @@ namespace TiedanSouls.Client.Entities {
         Rigidbody2D rb;
         public Rigidbody2D RB => rb;
 
-        public Vector2 Velocity => rb.velocity;
-        public void SetVelocity(Vector2 velo) => rb.velocity = velo;
+        public Vector3 Velocity => rb.velocity;
+        public void SetVelocity(Vector3 velo) => rb.velocity = velo;
 
-        public MoveComponent() {}
+        public MoveComponent() { }
 
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;
         }
 
-        public void Move(Vector2 moveAxis, float moveSpeed) {
+        public void Move(Vector3 dir, float moveSpeed) {
             var velo = rb.velocity;
-            velo.x = moveAxis.x * moveSpeed;
-            SetVelocity(velo);
+            rb.velocity = dir * moveSpeed;
         }
 
-        public void Dash(Vector2 dir, Vector2 force) {
+        public void Move_Horizontal(float x, float moveSpeed) {
+            var velo = rb.velocity;
+            velo.x = x * moveSpeed;
+            rb.velocity = velo;
+        }
+
+        public void Dash(Vector3 dir, Vector3 force) {
             var velo = rb.velocity;
             velo.x = dir.x * force.x;
             velo.y = dir.y * force.y;
-            SetVelocity(velo);
+            rb.velocity = velo;
         }
 
         public void Stop() {
-            rb.velocity = Vector2.zero;
+            rb.velocity = Vector3.zero;
         }
 
         public void StopHorizontal() {
@@ -46,7 +51,7 @@ namespace TiedanSouls.Client.Entities {
         public void StopVertical() {
             var velo = rb.velocity;
             velo.y = 0;
-            SetVelocity(velo);
+            rb.velocity = velo;
         }
 
     }

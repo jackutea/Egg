@@ -236,9 +236,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Locomotion]
 
-        public void Move() {
+        public void Move_Horizontal() {
             Vector2 moveAxis = inputCom.MoveAxis;
-            moveCom.Move(moveAxis, attributeCom.MoveSpeed);
+            moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
 
         public void Dash(Vector2 dir, Vector2 force) {

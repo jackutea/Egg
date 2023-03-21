@@ -31,7 +31,7 @@ namespace TiedanSouls.Client.Domain {
                     continue;
                 }
 
-                if (!factory.TrySpawnSkillEntity(skillTM.typeID, out SkillEntity skillEntity)) {
+                if (!factory.TryCreateSkillEntity(skillTM.typeID, out SkillEntity skillEntity)) {
                     continue;
                 }
 
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Domain {
                 for (int i = 0; i < len; i++) {
                     var cancelModel = cancelModelArray[i];
                     var comboTypeID = cancelModel.skillTypeID;
-                    if (!worldContext.WorldFactory.TrySpawnSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
+                    if (!worldContext.WorldFactory.TryCreateSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
                         continue;
                     }
 

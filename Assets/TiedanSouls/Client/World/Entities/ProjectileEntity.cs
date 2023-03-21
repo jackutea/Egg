@@ -35,6 +35,9 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
+        int existFrame;
+        public int ExistFrame => existFrame;
+
         public void Ctor() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Projectile);
@@ -42,6 +45,8 @@ namespace TiedanSouls.Client.Entities {
 
             rootElementTrans = transform.Find("root_element");
             leafElementGroupTrans = transform.Find("leaf_element_group");
+
+            existFrame = -1;
         }
 
         public void TearDown() {
@@ -93,25 +98,31 @@ namespace TiedanSouls.Client.Entities {
             transform.position = value;
         }
 
-
-        #region [Locomotion]
-
-        public void Move() {
-            // todo： 移动所有Element，在move的过程中，
-            // ~ 会根据生命周期，触发各种事件，比如生命周期结束导致元素死亡。
-            // ~ 会根据生命周期，设置不同的速度。
+        public void MoveNext(float dt) {
+            existFrame++;
+            rootElement.MoveNext(existFrame, dt);
+            var len = leafElements.Length;
+            for (int i = 0; i < len; i++) {
+                leafElements[i].MoveNext(existFrame, dt);
+            }
         }
-
-        #endregion
 
         #region [Renderer]
 
         public void Renderer_Sync() {
-            // todo: 同步所有Element
+            rootElement.Renderer_Sync();
+            var len = leafElements.Length;
+            for (int i = 0; i < len; i++) {
+                leafElements[i].Renderer_Sync();
+            }
         }
 
         public void Renderer_Easing(float dt) {
-            // todo: 平滑过渡所有Element
+            rootElement.Renderer_Easing(dt);
+            var len = leafElements.Length;
+            for (int i = 0; i < len; i++) {
+                leafElements[i].Renderer_Easing(dt);
+            }
         }
 
         #endregion

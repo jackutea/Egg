@@ -236,7 +236,7 @@ namespace TiedanSouls.Client {
 
         #region [Skill]
 
-        public bool TrySpawnSkillEntity(int skillTypeID, out SkillEntity skill) {
+        public bool TryCreateSkillEntity(int skillTypeID, out SkillEntity skill) {
             skill = null;
 
             var skillTemplate = infraContext.TemplateCore.SkillTemplate;
@@ -274,7 +274,7 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public bool TrySpawnProjectile(int typeID, out ProjectileEntity projectile) {
+        public bool TryCreateProjectile(int typeID, out ProjectileEntity projectile) {
             projectile = null;
 
             var template = infraContext.TemplateCore.ProjectileTemplate;

@@ -21,25 +21,27 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void TickFSM(int curFieldTypeID, float dt) {
-            worldContext.RoleRepo.Foreach_All(curFieldTypeID, (role) => {
-                // Strategy
-                if (role.FSMCom.State != RoleFSMState.Dying) {
+            worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
+                var fsm = role.FSMCom;
+                if (fsm.IsExiting) return;
+
+                if (fsm.State != RoleFSMState.Dying) {
                     role.AIStrategy.Tick(dt);
                 }
 
-                // Role FSM
                 TickFSM(role, dt);
 
-                // HUD
                 if (role.IDCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
                 else if (role.IDCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
             });
 
+            var playerRole = worldContext.RoleRepo.PlayerRole;
+            if (playerRole != null) {
+                TickFSM(playerRole, dt);
+            }
         }
 
         void TickFSM(RoleEntity role, float dt) {
-            if (role == null) return;
-
             var fsm = role.FSMCom;
             if (fsm.IsExiting) return;
 
@@ -74,7 +76,7 @@ namespace TiedanSouls.Client.Domain {
 
             var roleDomain = worldDomain.RoleDomain;
 
-            roleDomain.Move(role);
+            roleDomain.Move_Horizontal(role);
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
             roleDomain.CrossDown(role);
@@ -90,14 +92,9 @@ namespace TiedanSouls.Client.Domain {
 
             // 释放技能
             _ = roleDomain.TryCastSkillByInput(role);
-
         }
 
         void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            if (fsm.State != RoleFSMState.Casting) {
-                return;
-            }
-
             var stateModel = fsm.CastingModel;
             var skillTypeID = stateModel.CastingSkillTypeID;
             var isCombo = stateModel.IsCombo;
@@ -117,7 +114,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // Locomotion
-            roleDomain.Move(role);
+            roleDomain.Move_Horizontal(role);
             roleDomain.Jump(role);
             roleDomain.Falling(role, dt);
 

@@ -22,7 +22,7 @@ namespace TiedanSouls.Client.Domain {
 
         public bool TrySpawnProjectile(ControlType controlType, int typeID, in IDArgs summoner, Vector2 pos, out ProjectileEntity projectile) {
             var factory = worldContext.WorldFactory;
-            if (!factory.TrySpawnProjectile(typeID, out projectile)) {
+            if (!factory.TryCreateProjectile(typeID, out projectile)) {
                 TDLog.Error($"创建实体 弹道 失败! - {typeID}");
                 return false;
             }
@@ -41,6 +41,10 @@ namespace TiedanSouls.Client.Domain {
             // Repo
             var repo = worldContext.ProjectileRepo;
             repo.Add(projectile);
+
+            // 激活
+            var fsm = projectile.FSMCom;
+            fsm.Enter_Activated();
 
             projectile.name = $"弹道 {projectile.IDCom}";
             return true;

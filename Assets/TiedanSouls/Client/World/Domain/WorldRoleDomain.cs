@@ -199,6 +199,7 @@ namespace TiedanSouls.Client.Domain {
             } else {
                 moveAxis.y = 0;
             }
+            moveAxis.Normalize();
             inputCom.SetInput_Locomotion_Move(moveAxis);
 
             // - Jump
@@ -247,8 +248,8 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Locomotion]
 
-        public void Move(RoleEntity role) {
-            role.Move();
+        public void Move_Horizontal(RoleEntity role) {
+            role.Move_Horizontal();
         }
 
         public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
@@ -285,6 +286,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             role.Falling(dt);
+            Debug.Log("Falling");
         }
 
         #endregion

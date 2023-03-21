@@ -27,6 +27,9 @@ namespace TiedanSouls.Client {
             element.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));
             element.SetHitEffectorModel(GetModel_Effector(tm.hitEffectorTM));
             element.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
+            element.SetExtraHitTimes(tm.extraHitTimes);
+            element.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
+            element.SetDirectionArray(tm.directionArray.Clone() as Vector3[]);
             return element;
         }
 

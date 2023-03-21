@@ -55,9 +55,6 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Apply_Lobby(float dt) {
-            var phxDomain = worldDomain.PhysicsDomain;
-            phxDomain.Tick(dt);
-
             var roleRepo = worldContext.RoleRepo;
             RoleEntity playerRole = roleRepo.PlayerRole;
 
@@ -85,6 +82,11 @@ namespace TiedanSouls.Client.Domain {
                 cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
             }
 
+            var phxDomain = worldDomain.PhysicsDomain;
+            phxDomain.Tick(dt);
+
+            TickAllFSM(dt);
+
             // 检查玩家是否满足离开条件: 拾取了武器
             if (!IsTieDanWantToLeave(out var door)) return;
 
@@ -100,17 +102,11 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            if (nextField.FieldType == FieldType.BattleField) {
-                var doorIndex = door.doorIndex;
-                stateEntity.EnterState_Loading(stateEntity.CurFieldTypeID, nextFieldTypeID, doorIndex);
-                return;
-            }
+            var doorIndex = door.doorIndex;
+            stateEntity.EnterState_Loading(stateEntity.CurFieldTypeID, nextFieldTypeID, doorIndex);
         }
 
         public void Apply_Battle(float dt) {
-            var phxDomain = worldDomain.PhysicsDomain;
-            phxDomain.Tick(dt);
-
             var roleRepo = worldContext.RoleRepo;
             var playerRole = roleRepo.PlayerRole;
             var stateEntity = worldContext.StateEntity;
@@ -119,6 +115,9 @@ namespace TiedanSouls.Client.Domain {
                 battleFieldStateModel.SetIsEntering(false);
                 playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
+
+            var phxDomain = worldDomain.PhysicsDomain;
+            phxDomain.Tick(dt);
 
             TickAllFSM(dt);
 

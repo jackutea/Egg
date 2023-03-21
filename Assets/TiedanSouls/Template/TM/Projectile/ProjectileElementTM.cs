@@ -22,7 +22,8 @@ namespace TiedanSouls.Template {
 
         [Header("位移(cm)")] public int moveDistance;
         [Header("位移时间(帧)")] public int moveTotalFrame;
-        [Header("速度(组)")] public int[] moveSpeedArray_cm;
+        [Header("速度组(cm)")] public int[] moveSpeedArray_cm;
+        [Header("方向组")] public Vector3[] directionArray;
         [Header("仅用于编辑时: 位移曲线KeyFrameTM")] public KeyframeTM[] keyframeTMArray;
 
     }

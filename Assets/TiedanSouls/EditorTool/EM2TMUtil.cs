@@ -44,10 +44,11 @@ namespace TiedanSouls.EditorTool {
             var moveTotalFrame = em.moveTotalFrame;
             var moveCurve = em.moveCurve;
             var moveKeyFrameArray = em.moveCurve.keys;
-            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, moveCurve);
             tm.keyframeTMArray = GetTMArray_Keyframe(moveKeyFrameArray);
             tm.moveDistance = em.moveDistance_cm;
             tm.moveTotalFrame = em.moveTotalFrame;
+            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, moveCurve);
+            tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame);
             return tm;
         }
 
@@ -128,8 +129,6 @@ namespace TiedanSouls.EditorTool {
         #region [HitPower]
 
         public static HitPowerTM GetTM_HitPower(HitPowerEM em, int startFrame, int endFrame) {
-            var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
-
             HitPowerTM tm;
 
             // 伤害 根据曲线计算每一帧的伤害
@@ -350,17 +349,24 @@ namespace TiedanSouls.EditorTool {
             float logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
             float totalTime = totalFrame * logicIntervalTime;
             int[] speedArray = new int[totalFrame];
-            float timeOffset = 0.001f;
             for (int i = 0; i < totalFrame; i++) {
-                float norTime1 = (logicIntervalTime * i) / totalTime;
-                float norTime2 = (logicIntervalTime * i + timeOffset) / totalTime;
+                float norTime1 = logicIntervalTime * i / totalTime;
+                float norTime2 = logicIntervalTime * (i + 1) / totalTime;
                 float dis1 = curve.Evaluate(norTime1) * totalDis;
                 float dis2 = curve.Evaluate(norTime2) * totalDis;
                 float disDiff = dis2 - dis1;
-                float speed = disDiff / timeOffset;
+                float speed = disDiff / logicIntervalTime;
                 speedArray[i] = Mathf.RoundToInt(speed);
             }
             return speedArray;
+        }
+
+        public static Vector3[] GetDirectionArray_AnimationCurve(int totalFrame) {
+            Vector3[] directionArray = new Vector3[totalFrame];
+            for (int i = 0; i < totalFrame; i++) {
+                directionArray[i] = Vector3.right;
+            }
+            return directionArray;
         }
 
         #endregion

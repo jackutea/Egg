@@ -36,8 +36,8 @@ namespace TiedanSouls.Client.Entities {
         GameObject logicRoot;
         public GameObject LogicRoot => logicRoot;
 
-        GameObject vfxRoot;
-        public GameObject VFXRoot => vfxRoot;
+        GameObject rendererRoot;
+        public GameObject RendererRoot => rendererRoot;
 
         #endregion
 
@@ -86,22 +86,38 @@ namespace TiedanSouls.Client.Entities {
 
         int extraHitTimes;
         public int ExtraHitTimes => extraHitTimes;
-        public void SetExtraHitTime(int value) => extraHitTimes = value;
+        public void SetExtraHitTimes(int value) => extraHitTimes = value;
         public void ReduceHitExtraTimes() => extraHitTimes--;
 
         #endregion
 
-        Vector2 bornPos;
-        public Vector2 BornPos => bornPos;
-        public void SetBornPos(Vector2 value) => this.bornPos = value;
+        #region [速度组]
+
+        float[] moveSpeedArray;
+        public float[] MoveSpeedArray => moveSpeedArray;
+        public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
+
+        #endregion
+
+        #region [方向组]
+
+        Vector3[] directionArray;
+        public Vector3[] DirectionArray => directionArray;
+        public void SetDirectionArray(Vector3[] value) => this.directionArray = value;
+
+        #endregion
+
+        Vector3 bornPos;
+        public Vector3 BornPos => bornPos;
+        public void SetBornPos(Vector3 value) => this.bornPos = value;
 
         public void Ctor() {
             // GameObject
             rootGO = new GameObject("弹道元素");
             logicRoot = new GameObject("LogicRoot");
-            vfxRoot = new GameObject("VFXRoot");
+            rendererRoot = new GameObject("VFXRoot");
             logicRoot.transform.SetParent(rootGO.transform, false);
-            vfxRoot.transform.SetParent(rootGO.transform, false);
+            rendererRoot.transform.SetParent(rootGO.transform, false);
 
             // Rb
             rb = logicRoot.AddComponent<Rigidbody2D>();
@@ -120,12 +136,22 @@ namespace TiedanSouls.Client.Entities {
             vfxGO.gameObject.SetActive(false);
         }
 
+        public void MoveNext(int curFrame, float dt) {
+            if (!IsInLifeTime(curFrame)) return;
+            if (!TryGetFrameSpeed(curFrame, out var frameSpeed)) {
+                if (curFrame == endFrame) moveCom.Stop();
+                return;
+            }
+            if (!TryGetFrameDirection(curFrame, out var frameDirection)) return;
+            moveCom.Move(frameDirection, frameSpeed);
+        }
+
         public void SetFather(in IDArgs father) {
             this.father = father;
         }
 
         public void SetVFXGO(GameObject value) {
-            value.transform.SetParent(vfxRoot.transform, false);
+            value.transform.SetParent(rendererRoot.transform, false);
             this.vfxGO = value;
         }
 
@@ -164,6 +190,30 @@ namespace TiedanSouls.Client.Entities {
             rootGO.transform.position = pos;
         }
 
+        bool IsInLifeTime(int curFrame) {
+            return curFrame >= startFrame && curFrame <= endFrame;
+        }
+
+        bool TryGetFrameSpeed(int curFrame, out float speed) {
+            var index = curFrame - startFrame;
+            if (index < moveSpeedArray.Length) {
+                speed = moveSpeedArray[index];
+                return true;
+            }
+            speed = 0;
+            return false;
+        }
+
+        bool TryGetFrameDirection(int curFrame, out Vector3 direction) {
+            var index = curFrame - startFrame;
+            if (index < directionArray.Length) {
+                direction = directionArray[index];
+                return true;
+            }
+            direction = Vector3.zero;
+            return false;
+        }
+
         #region [表现同步]
 
         public void Renderer_Sync() {
@@ -171,11 +221,11 @@ namespace TiedanSouls.Client.Entities {
             vfxGO.transform.position = elementPos;
         }
 
-        public void Renderer_Lerp(float dt) {
-            var vfxPos = vfxGO.transform.position;
-            var elementPos = rootGO.transform.position;
-            var lerpPos = Vector3.Lerp(vfxPos, elementPos, dt * 30);
-            vfxGO.transform.position = lerpPos;
+        public void Renderer_Easing(float dt) {
+            var rendererPos = rendererRoot.transform.position;
+            var logicPos = logicRoot.transform.position;
+            var lerpPos = Vector3.Lerp(rendererPos, logicPos, dt * 30);// todo bug
+            rendererRoot.transform.position = lerpPos;
         }
 
         #endregion

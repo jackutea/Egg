@@ -27,6 +27,11 @@ namespace TiedanSouls.Client.Domain {
                 role.Renderer_Easing(dt);
                 role.HudSlotCom.HpBarHUD.Tick(dt);
             });
+
+            var projectileRepo = worldContext.ProjectileRepo;
+            projectileRepo.Foreach(-1, (projectile) => {
+                projectile.Renderer_Easing(dt);
+            });
         }
 
     }

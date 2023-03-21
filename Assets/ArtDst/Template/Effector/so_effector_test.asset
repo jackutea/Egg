@@ -15,11 +15,14 @@ MonoBehaviour:
   tm:
     typeID: 100
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668 "
-    entitySummonTMArray: []
+    entitySummonTMArray:
+    - entityType: 3
+      typeID: 9999
+      controlType: 0
     entityDestroyTMArray:
     - entityType: 1
       targetType: 4
-      isEnabled_attributeSelector: 1
+      isEnabled_attributeSelector: 0
       attributeSelectorTM:
         hp: 50
         hp_ComparisonType: 2
