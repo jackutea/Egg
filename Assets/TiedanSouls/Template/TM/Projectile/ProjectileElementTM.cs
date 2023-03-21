@@ -18,7 +18,12 @@ namespace TiedanSouls.Template {
         [Header("额外打击次数")] public int extraHitTimes;
 
         [Header("弹道元素特效")] public string vfxPrefabName;
-       [Header("仅用于编辑时: 弹道元素特效文件GUID")]public string vfxPrefab_GUID;
+        [Header("仅用于编辑时: 弹道元素特效文件GUID")] public string vfxPrefab_GUID;
+
+        [Header("位移(cm)")] public int moveDistance;
+        [Header("位移时间(帧)")] public int moveTotalFrame;
+        [Header("速度(组)")] public int[] moveSpeedArray_cm;
+        [Header("仅用于编辑时: 位移曲线KeyFrameTM")] public KeyframeTM[] keyframeTMArray;
 
     }
 

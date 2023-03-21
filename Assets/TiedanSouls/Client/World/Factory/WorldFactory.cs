@@ -167,10 +167,6 @@ namespace TiedanSouls.Client {
             var hpBar = CreateHpBarHUD();
             role.HudSlotCom.SetHpBarHUD(hpBar);
 
-            // Collider Model
-            var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
-            colliderModel.SetFather(roleIDCom.ToArgs());
-
             return role;
         }
 
@@ -305,8 +301,31 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(typeID);
             idCom.SetEntityName(tm.projectileName);
 
-            projectile.SetRootElement(TM2ModelUtil.GetElement_Projectile(tm.rootElementTM));
-            projectile.SetLeafElements(TM2ModelUtil.GetElementArray_Projectile(tm.leafElementTMArray));
+            var rootElementTM = tm.rootElementTM;
+            var leafElementTMArray = tm.leafElementTMArray;
+            var rootElement = TM2ModelUtil.GetElement_Projectile(rootElementTM);
+            var leafElements = TM2ModelUtil.GetElementArray_Projectile(leafElementTMArray);
+
+            var vfxAssets = infraContext.AssetCore.VFXAssets;
+            if (!vfxAssets.TryGet(rootElementTM.vfxPrefabName, out GameObject vfxPrefab)) {
+                TDLog.Warning($"获取VFX失败! {rootElementTM.vfxPrefabName}");
+            }
+            var vfxGO = GameObject.Instantiate(vfxPrefab);
+            rootElement.SetVFXGO(vfxGO);
+
+            var len = leafElements.Length;
+            for (int i = 0; i < len; i++) {
+                var leafElement = leafElements[i];
+                var leafElementTM = leafElementTMArray[i];
+                if (!vfxAssets.TryGet(leafElementTM.vfxPrefabName, out GameObject leafVFXPrefab)) {
+                    TDLog.Warning($"获取VFX失败! {leafElementTM.vfxPrefabName}");
+                }
+                var leafVFXGO = GameObject.Instantiate(leafVFXPrefab);
+                leafElement.SetVFXGO(leafVFXGO);
+            }
+
+            projectile.SetRootElement(rootElement);
+            projectile.SetLeafElements(leafElements);
 
             return projectile;
         }

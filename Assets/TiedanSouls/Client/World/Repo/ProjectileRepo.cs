@@ -11,16 +11,16 @@ namespace TiedanSouls.Client {
             all = new Dictionary<int, ProjectileEntity>();
         }
 
-        public bool TryGet(int typeID, out ProjectileEntity field) {
-            return all.TryGetValue(typeID, out field);
+        public bool TryGet(int id, out ProjectileEntity projectile) {
+            return all.TryGetValue(id, out projectile);
         }
 
-        public void Add(ProjectileEntity field) {
-            all.Add(field.IDCom.TypeID, field);
+        public void Add(ProjectileEntity projectile) {
+            all.Add(projectile.IDCom.EntityID, projectile);
         }
 
-        public void Remove(ProjectileEntity field) {
-            all.Remove(field.IDCom.TypeID);
+        public void Remove(ProjectileEntity projectile) {
+            all.Remove(projectile.IDCom.EntityID);
         }
 
     }

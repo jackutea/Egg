@@ -46,6 +46,10 @@ namespace TiedanSouls.Client.Domain {
             role.FootTriggerEnterAction += OnFootTriggerEnter;
             role.FootTriggerExit += OnFootTriggerExit;
 
+            // Collider Model
+            var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
+            colliderModel.SetFather(idCom.ToArgs());
+
             // FSM
             role.FSMCom.EnterIdle();
 

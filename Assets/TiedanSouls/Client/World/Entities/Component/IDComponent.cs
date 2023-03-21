@@ -25,7 +25,6 @@ namespace TiedanSouls.Client.Entities {
 
         AllyType allyType;
         public AllyType AllyType => allyType;
-        public void SetAlly(AllyType value) => this.allyType = value;
 
         ControlType controlType;
         public ControlType ControlType => controlType;
@@ -41,7 +40,7 @@ namespace TiedanSouls.Client.Entities {
             this.father = args;
             this.allyType = args.allyType;
             this.fromFieldTypeID = args.fromFieldTypeID;
-            TDLog.Log($"设置父级:  {this} -> {args}");
+            TDLog.Log($"设置父级:\n{this}\n{args}");
         }
 
         public IDArgs ToArgs() {
@@ -81,7 +80,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public override string ToString() {
-            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 来自关卡 {fromFieldTypeID}";
+            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
         }
 
     }

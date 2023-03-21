@@ -28,6 +28,10 @@ namespace TiedanSouls.EditorTool {
             em.deathEffectorEM = GetEM_Effector(tm.deathEffectorTM);
             em.extraHitTimes = tm.extraHitTimes;
             em.vfxPrefab = tm.vfxPrefab_GUID == null ? null : AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(tm.vfxPrefab_GUID));
+
+            em.moveDistance_cm = tm.moveDistance;
+            em.moveTotalFrame = tm.moveTotalFrame;
+            em.moveCurve = GetAnimationCurve(tm.keyframeTMArray);
             return em;
         }
 

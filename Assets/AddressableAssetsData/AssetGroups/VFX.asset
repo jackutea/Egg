@@ -10,16 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: VFX
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: VFX
   m_Data:
     m_SerializedData: []
-  m_GUID: bdf7ff0ee238ec34eb3c8426256963e0
-  m_SerializeEntries: []
+  m_GUID: 29debcc9ade83ba4db7421644f412055
+  m_SerializeEntries:
+  - m_GUID: 255c1b7094df72f4582aa4b9f979e595
+    m_Address: vfx_test_projectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 5e642b105f3d9ae44999b1ecb787d77f, type: 2}
-    - {fileID: 11400000, guid: 1e8e1a63666fceb45b99a0862e5f1927, type: 2}
+    - {fileID: 11400000, guid: 30fe2422953990341ad8127103c6b34c, type: 2}
+    - {fileID: 11400000, guid: 336fbd5e7397c1d4fb26e4f7154aba06, type: 2}

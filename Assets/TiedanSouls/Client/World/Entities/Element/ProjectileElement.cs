@@ -29,9 +29,15 @@ namespace TiedanSouls.Client.Entities {
         #region [GameObject]
 
         Rigidbody2D rb;
-        
-        GameObject logicGO;
-        public GameObject LogicGO => logicGO;
+
+        GameObject rootGO;
+        public GameObject RootGO => rootGO;
+
+        GameObject logicRoot;
+        public GameObject LogicRoot => logicRoot;
+
+        GameObject vfxRoot;
+        public GameObject VFXRoot => vfxRoot;
 
         #endregion
 
@@ -39,7 +45,6 @@ namespace TiedanSouls.Client.Entities {
 
         GameObject vfxGO;
         public GameObject VFXGO => vfxGO;
-        public void SetVFXGO(GameObject value) => this.vfxGO = value;
 
         #endregion
 
@@ -92,8 +97,15 @@ namespace TiedanSouls.Client.Entities {
 
         public void Ctor() {
             // GameObject
-            logicGO = new GameObject("弹道元素");
-            rb = logicGO.AddComponent<Rigidbody2D>();
+            rootGO = new GameObject("弹道元素");
+            logicRoot = new GameObject("LogicRoot");
+            vfxRoot = new GameObject("VFXRoot");
+            logicRoot.transform.SetParent(rootGO.transform, false);
+            vfxRoot.transform.SetParent(rootGO.transform, false);
+
+            // Rb
+            rb = logicRoot.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0;
 
             // Component
             moveCom = new MoveComponent();
@@ -104,12 +116,17 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void TearDown() {
-            logicGO.SetActive(false);
+            rootGO.SetActive(false);
             vfxGO.gameObject.SetActive(false);
         }
 
         public void SetFather(in IDArgs father) {
             this.father = father;
+        }
+
+        public void SetVFXGO(GameObject value) {
+            value.transform.SetParent(vfxRoot.transform, false);
+            this.vfxGO = value;
         }
 
         public void Reset() {
@@ -118,12 +135,12 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Activated() {
-            logicGO.SetActive(true);
+            rootGO.SetActive(true);
             vfxGO.SetActive(true);
         }
 
         public void Deactivated() {
-            logicGO.SetActive(false);
+            rootGO.SetActive(false);
             vfxGO.SetActive(false);
         }
 
@@ -132,31 +149,31 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public Vector3 GetLogic_Pos() {
-            return logicGO.transform.position;
+            return rootGO.transform.position;
         }
 
         public float GetLogic_AngleZ() {
-            return logicGO.transform.rotation.z;
+            return rootGO.transform.rotation.z;
         }
 
         public Quaternion GetLogic_Rot() {
-            return logicGO.transform.rotation;
+            return rootGO.transform.rotation;
         }
 
         public void SetElementPos(Vector2 pos) {
-            logicGO.transform.position = pos;
+            rootGO.transform.position = pos;
         }
 
         #region [表现同步]
 
         public void Renderer_Sync() {
-            var elementPos = logicGO.transform.position;
+            var elementPos = rootGO.transform.position;
             vfxGO.transform.position = elementPos;
         }
 
         public void Renderer_Lerp(float dt) {
             var vfxPos = vfxGO.transform.position;
-            var elementPos = logicGO.transform.position;
+            var elementPos = rootGO.transform.position;
             var lerpPos = Vector3.Lerp(vfxPos, elementPos, dt * 30);
             vfxGO.transform.position = lerpPos;
         }

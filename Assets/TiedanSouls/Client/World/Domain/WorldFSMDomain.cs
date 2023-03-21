@@ -63,7 +63,6 @@ namespace TiedanSouls.Client.Domain {
 
             if (lobbyStateModel.IsEntering) {
                 lobbyStateModel.SetIsEntering(false);
-
                 // 生成铁蛋 
                 var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
                 var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
@@ -71,7 +70,7 @@ namespace TiedanSouls.Client.Domain {
                 var roleDomain = worldDomain.RoleDomain;
                 playerRole = roleRepo.PlayerRole;
                 if (playerRole == null) {
-                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One }, new Vector2(5, 5), out playerRole);
+                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One,fromFieldTypeID =  stateEntity.CurFieldTypeID,}, new Vector2(5, 5), out playerRole);
                 }
                 playerRole.Reset();
                 playerRole.Show();

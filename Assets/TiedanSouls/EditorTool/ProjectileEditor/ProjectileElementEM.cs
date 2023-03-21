@@ -18,6 +18,10 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         [Header("弹道元素特效")] public GameObject vfxPrefab;
 
+        [Header("位移(cm)")] public int moveDistance_cm;
+        [Header("位移时间(帧)")] public int moveTotalFrame;
+        [Header("位移曲线")] public AnimationCurve moveCurve;
+
     }
 
 }

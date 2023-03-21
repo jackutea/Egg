@@ -18,17 +18,9 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [坐标 & 出生点]
-
-        Vector2 pos;
-        public Vector2 Pos => pos;
-        public void SetPos(Vector2 value) => this.pos = value;
-
         Vector2 bornPos;
         public Vector2 BornPos => bornPos;
         public void SetBornPos(Vector2 value) => this.bornPos = value;
-
-        #endregion
 
         #region [弹道元素]
 
@@ -85,16 +77,20 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void SetRootElement(ProjectileElement element) {
-            element.LogicGO.transform.SetParent(rootElementTrans, false);
+            element.RootGO.transform.SetParent(rootElementTrans, false);
             this.rootElement = element;
         }
 
         public void SetLeafElements(ProjectileElement[] elementArray) {
             var len = elementArray.Length;
             for (int i = 0; i < len; i++) {
-                elementArray[i].LogicGO.transform.SetParent(leafElementGroupTrans, false);
+                elementArray[i].RootGO.transform.SetParent(leafElementGroupTrans, false);
             }
             this.leafElements = elementArray;
+        }
+
+        public void SetPos(Vector2 value) {
+            transform.position = value;
         }
 
 

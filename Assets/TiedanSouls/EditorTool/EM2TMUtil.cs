@@ -39,6 +39,15 @@ namespace TiedanSouls.EditorTool {
             tm.extraHitTimes = em.extraHitTimes;
             tm.vfxPrefabName = em.vfxPrefab == null ? string.Empty : em.vfxPrefab.name;
             tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.vfxPrefab));
+
+            var moveDistance_cm = em.moveDistance_cm;
+            var moveTotalFrame = em.moveTotalFrame;
+            var moveCurve = em.moveCurve;
+            var moveKeyFrameArray = em.moveCurve.keys;
+            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, moveCurve);
+            tm.keyframeTMArray = GetTMArray_Keyframe(moveKeyFrameArray);
+            tm.moveDistance = em.moveDistance_cm;
+            tm.moveTotalFrame = em.moveTotalFrame;
             return tm;
         }
 
@@ -124,64 +133,40 @@ namespace TiedanSouls.EditorTool {
             HitPowerTM tm;
 
             // 伤害 根据曲线计算每一帧的伤害
-            var baseDamage = em.damageBase;
-            var totalFrame = endFrame - startFrame + 1;
-            int[] damageArray = new int[totalFrame];
+            var damageBase = em.damageBase;
+            var totalFrame_damage = endFrame - startFrame + 1;
             var damageCurve = em.damageCurve;
-            for (int i = 0; i < totalFrame; i++) {
-                damageArray[i] = Mathf.RoundToInt(damageCurve.Evaluate(logicIntervalTime * i) * baseDamage);
-            }
+            var damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame_damage, damageCurve);
             tm.damageArray = damageArray;
-            tm.damageBase = baseDamage;
+            tm.damageBase = damageBase;
 
             // 打击顿帧 根据曲线计算每一帧的顿帧数
-            var baseHitStunFrame = em.hitStunFrameBase;
-            int[] hitStunFrameArray = new int[totalFrame];
+            var hitStunFrameBase = em.hitStunFrameBase;
+            var totalFrame_hitStun = endFrame - startFrame + 1;
             var hitStunFrameCurve = em.hitStunFrameCurve;
-            for (int i = 0; i < totalFrame; i++) {
-                var hitStunFrame = Mathf.RoundToInt(hitStunFrameCurve.Evaluate(logicIntervalTime * i) * baseHitStunFrame);
-                hitStunFrameArray[i] = hitStunFrame;
-            }
+            var hitStunFrameArray = GetValueArray_AnimationCurve(hitStunFrameBase, totalFrame_hitStun, hitStunFrameCurve);
             tm.hitStunFrameArray = hitStunFrameArray;
-            tm.hitStunFrameBase = baseHitStunFrame;
+            tm.hitStunFrameBase = hitStunFrameBase;
 
             // 击退 根据曲线计算每一帧的速度
             var knockBackDistance_cm = em.knockBackDistance_cm;
             var knockBackCostFrame = em.knockBackCostFrame;
             var knockBackDisCurve = em.knockBackDisCurve;
-            int[] knockBackSpeedArray = new int[knockBackCostFrame];
-            for (int i = 0; i < knockBackCostFrame; i++) {
-                var time1 = logicIntervalTime * i;
-                var time2 = time1 + 0.001f;
-                var dis1 = knockBackDisCurve.Evaluate(time1) * knockBackDistance_cm;
-                var dis2 = knockBackDisCurve.Evaluate(time2) * knockBackDistance_cm;
-                var disDiff = dis2 - dis1;
-                var speed = disDiff * 1000;
-                knockBackSpeedArray[i] = Mathf.RoundToInt(speed);
-            }
-            tm.knockBackSpeedArray_cm = knockBackSpeedArray;
+            var knockBackSpeedArray_cm = GetSpeedArray_AnimationCurve(knockBackDistance_cm, knockBackCostFrame, knockBackDisCurve);
             tm.knockBackCostFrame = knockBackCostFrame;
             tm.knockBackDistance_cm = knockBackDistance_cm;
+            tm.knockBackSpeedArray_cm = knockBackSpeedArray_cm;
 
             // 击飞 根据曲线计算每一帧的速度
             var knockUpHeight_cm = em.knockUpHeight_cm;
             var knockUpCostFrame = em.knockUpCostFrame;
             var knockUpDisCurve = em.knockUpDisCurve;
-            int[] knockUpSpeedArray = new int[knockUpCostFrame];
-            for (int i = 0; i < knockUpCostFrame; i++) {
-                var time1 = logicIntervalTime * i;
-                var time2 = time1 + 0.001f;
-                var dis1 = knockUpDisCurve.Evaluate(time1) * knockUpHeight_cm;
-                var dis2 = knockUpDisCurve.Evaluate(time2) * knockUpHeight_cm;
-                var disDiff = dis2 - dis1;
-                var speed = disDiff * 1000;
-                knockUpSpeedArray[i] = Mathf.RoundToInt(speed);
-            }
-            tm.knockUpSpeedArray_cm = knockUpSpeedArray;
+            var knockUpSpeedArray_cm = GetSpeedArray_AnimationCurve(knockUpHeight_cm, knockUpCostFrame, knockUpDisCurve);
             tm.knockUpCostFrame = knockUpCostFrame;
             tm.knockUpHeight_cm = knockUpHeight_cm;
+            tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
 
-            // 曲线 Keyframe 保存
+            // 曲线 KeyframeTM 保存
             tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
             tm.hitStunFrameCurve_KeyframeTMArray = GetTMArray_Keyframe(hitStunFrameCurve.keys);
             tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve.keys);
@@ -347,6 +332,35 @@ namespace TiedanSouls.EditorTool {
             tm.fallingSpeedMax = em.fallingSpeedMax;
             tm.fallingSpeedMax_ComparisonType = em.fallingSpeedMax_ComparisonType;
             return tm;
+        }
+
+        #endregion
+
+        #region [Animation Curve]
+
+        public static int[] GetValueArray_AnimationCurve(int baseV, int totalFrame, AnimationCurve curve) {
+            int[] damageArray = new int[totalFrame];
+            for (int i = 0; i < totalFrame; i++) {
+                damageArray[i] = Mathf.RoundToInt(curve.Evaluate(totalFrame * i) * baseV);
+            }
+            return damageArray;
+        }
+
+        public static int[] GetSpeedArray_AnimationCurve(int totalDis, int totalFrame, AnimationCurve curve) {
+            float logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
+            float totalTime = totalFrame * logicIntervalTime;
+            int[] speedArray = new int[totalFrame];
+            float timeOffset = 0.001f;
+            for (int i = 0; i < totalFrame; i++) {
+                float norTime1 = (logicIntervalTime * i) / totalTime;
+                float norTime2 = (logicIntervalTime * i + timeOffset) / totalTime;
+                float dis1 = curve.Evaluate(norTime1) * totalDis;
+                float dis2 = curve.Evaluate(norTime2) * totalDis;
+                float disDiff = dis2 - dis1;
+                float speed = disDiff / timeOffset;
+                speedArray[i] = Mathf.RoundToInt(speed);
+            }
+            return speedArray;
         }
 
         #endregion

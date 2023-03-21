@@ -1,5 +1,6 @@
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
+using TiedanSouls.Client.Entities;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -15,6 +16,9 @@ namespace TiedanSouls.Client.Domain {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
             this.worldRootDomain = worldDomain;
+        }
+
+        public void TickElement(ProjectileElement element, float dt) {
         }
 
     }

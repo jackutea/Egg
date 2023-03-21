@@ -33,7 +33,7 @@ namespace TiedanSouls.Client {
 
             args = events_triggerEnter[index];
             events_triggerEnter.RemoveAt(index);
-            TDLog.Log($"TryPick_Enter {args} ");
+            TDLog.Log($"TryPick_Enter\n{args} ");
             return true;
         }
 

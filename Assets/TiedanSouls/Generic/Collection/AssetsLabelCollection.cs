@@ -21,6 +21,7 @@ namespace TiedanSouls.Generic {
         public const string MOD_FIELD = "Mod_Field";
         public const string MOD_ITEM = "Mod_Item";
 
+        public const string VFX = "VFX";
 
     }
 
