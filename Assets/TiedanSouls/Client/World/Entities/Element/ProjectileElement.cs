@@ -42,14 +42,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [其他]
-
-        Vector3 bornPos;
-        public Vector3 BornPos => bornPos;
-        public void SetBornPos(Vector3 value) => this.bornPos = value;
-
-        #endregion
-
         #region [表现层]
 
         GameObject vfxGO;
@@ -79,12 +71,10 @@ namespace TiedanSouls.Client.Entities {
 
         #region [效果器]
 
-        // - 打击效果器
         EffectorModel hitEffectorModel;
         public EffectorModel HitEffectorModel => hitEffectorModel;
         public void SetHitEffectorModel(EffectorModel value) => this.hitEffectorModel = value;
 
-        // 死亡效果器
         EffectorModel deathEffectorModel;
         public EffectorModel DeathEffectorModel => deathEffectorModel;
         public void SetDeathEffectorModel(EffectorModel value) => this.deathEffectorModel = value;
@@ -94,7 +84,6 @@ namespace TiedanSouls.Client.Entities {
         #region [额外打击次数]
 
         int extraHitTimes;
-        public int ExtraHitTimes => extraHitTimes;
         public void SetExtraHitTimes(int value) => extraHitTimes = value;
         public void ReduceHitExtraTimes() => extraHitTimes--;
 
@@ -103,7 +92,6 @@ namespace TiedanSouls.Client.Entities {
         #region [速度组]
 
         float[] moveSpeedArray;
-        public float[] MoveSpeedArray => moveSpeedArray;
         public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
 
         #endregion
@@ -111,8 +99,19 @@ namespace TiedanSouls.Client.Entities {
         #region [方向组]
 
         Vector3[] directionArray;
-        public Vector3[] DirectionArray => directionArray;
         public void SetDirectionArray(Vector3[] value) => this.directionArray = value;
+
+        #endregion
+
+        #region [初始相对偏移]
+
+        Vector3 relativeOffset_pos;
+        public Vector3 RelativeOffset_pos => relativeOffset_pos;
+        public void SetRelativeOffset_pos(Vector3 value) => this.relativeOffset_pos = value;
+
+        Vector3Int relativeOffset_euler;
+        public Vector3Int RelativeOffset_euler => relativeOffset_euler;
+        public void SetRelativeOffset_euler(Vector3Int value) => this.relativeOffset_euler = value;
 
         #endregion
 
@@ -181,8 +180,20 @@ namespace TiedanSouls.Client.Entities {
             return rootGO.transform.rotation;
         }
 
-        public void SetElementPos(Vector2 pos) {
+        public void SetPos(Vector2 pos) {
             rootGO.transform.position = pos;
+        }
+
+        public void SetRotation(Quaternion rot) {
+            rootGO.transform.rotation = rot;
+        }
+
+        public void SetRotation_UseRelativeOffset(Quaternion rot) {
+            rootGO.transform.rotation = rot * Quaternion.Euler(relativeOffset_euler);
+        }
+
+        public void SetPos_UseRelativeOffset(Vector3 pos) {
+            rootGO.transform.position = pos + relativeOffset_pos;
         }
 
         #region [根据帧 判断状态]

@@ -130,8 +130,9 @@ namespace TiedanSouls.Client.Domain {
 
                 var idArgs = role.IDCom.ToArgs();
                 var offsetPos = skillEffectorModel.offsetPos;
-                var spawnPos = role.GetPos_Logic() + role.GetRot_Logic() * offsetPos;
-                effectorDomain.ActivatedEffectorModel(effectorModel, idArgs, spawnPos);
+                var spawnRot = role.GetRot_Logic();
+                var spawnPos = role.GetPos_Logic() + spawnRot * offsetPos;
+                effectorDomain.ActivatedEffectorModel(effectorModel, idArgs, spawnPos, spawnRot);
             }
 
             // 技能逻辑迭代

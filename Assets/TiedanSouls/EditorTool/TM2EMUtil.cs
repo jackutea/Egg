@@ -32,6 +32,10 @@ namespace TiedanSouls.EditorTool {
             em.moveDistance_cm = tm.moveDistance;
             em.moveTotalFrame = tm.moveTotalFrame;
             em.moveCurve = GetAnimationCurve(tm.keyframeTMArray);
+
+            em.relativeOffset_pos = tm.relativeOffset_pos;
+            em.relativeOffset_euler = tm.relativeOffset_euler;
+
             return em;
         }
 

@@ -305,7 +305,8 @@ namespace TiedanSouls.Client {
             var leafElementTMArray = tm.leafElementTMArray;
             var rootElement = TM2ModelUtil.GetElement_Projectile(rootElementTM);
             var leafElements = TM2ModelUtil.GetElementArray_Projectile(leafElementTMArray);
-
+            
+            // 特效设置
             var vfxAssets = infraContext.AssetCore.VFXAssets;
             if (!vfxAssets.TryGet(rootElementTM.vfxPrefabName, out GameObject vfxPrefab)) {
                 TDLog.Warning($"获取VFX失败! {rootElementTM.vfxPrefabName}");

@@ -53,6 +53,10 @@ namespace TiedanSouls.EditorTool {
             tm.moveTotalFrame = em.moveTotalFrame;
             tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, moveCurve);
             tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame);
+
+            tm.relativeOffset_pos = em.relativeOffset_pos;
+            tm.relativeOffset_euler = em.relativeOffset_euler;
+
             return tm;
         }
 

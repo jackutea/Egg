@@ -20,7 +20,7 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
-        public bool TrySpawnProjectile(ControlType controlType, int typeID, in IDArgs summoner, Vector2 pos, out ProjectileEntity projectile) {
+        public bool TrySpawnProjectile(ControlType controlType, int typeID, in IDArgs summoner, Vector3 pos, Quaternion spawnRot, out ProjectileEntity projectile) {
             var factory = worldContext.WorldFactory;
             if (!factory.TryCreateProjectile(typeID, out projectile)) {
                 TDLog.Error($"创建实体 弹道 失败! - {typeID}");
@@ -30,6 +30,19 @@ namespace TiedanSouls.Client.Domain {
             // Pos
             projectile.SetBornPos(pos);
             projectile.SetPos(pos);
+
+            // 元素 位置&角度 
+            var rootElement = projectile.RootElement;
+            rootElement.SetRotation_UseRelativeOffset(spawnRot);
+            rootElement.SetPos_UseRelativeOffset(pos);
+
+            var leafElementArray = projectile.LeafElementArray;
+            var len = leafElementArray.Length;
+            for (int i = 0; i < len; i++) {
+                var leafElement = leafElementArray[i];
+                leafElement.SetRotation_UseRelativeOffset(spawnRot);
+                leafElement.SetPos_UseRelativeOffset(pos);
+            }
 
             // ID
             var idCom = projectile.IDCom;

@@ -26,6 +26,9 @@ namespace TiedanSouls.Template {
         [Header("方向组")] public Vector3[] directionArray;
         [Header("仅用于编辑时: 位移曲线KeyFrameTM")] public KeyframeTM[] keyframeTMArray;
 
+        [Header("相对偏移: 位置(cm)")] public Vector3Int relativeOffset_pos;
+        [Header("相对偏移: 旋转(度)")] public Vector3Int relativeOffset_euler;
+
     }
 
 }

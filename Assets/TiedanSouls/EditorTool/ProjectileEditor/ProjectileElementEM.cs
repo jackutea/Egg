@@ -22,6 +22,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("位移时间(帧)")] public int moveTotalFrame;
         [Header("位移曲线")] public AnimationCurve moveCurve;
 
+        [Header("相对偏移: 位置(cm)")] public Vector3Int relativeOffset_pos;
+        [Header("相对偏移: 旋转(度)")] public Vector3Int relativeOffset_euler; 
+
     }
 
 }

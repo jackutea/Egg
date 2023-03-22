@@ -144,6 +144,8 @@ MonoBehaviour:
         outTangent: 1
         inWeight: 0
         outWeight: 0
+      relativeOffset_pos: {x: 0, y: 0, z: 0}
+      relativeOffset_euler: {x: 0, y: 0, z: 0}
     leafElementTMArray:
     - startFrame: 30
       endFrame: 60
@@ -273,6 +275,8 @@ MonoBehaviour:
         outTangent: 1
         inWeight: 0
         outWeight: 0
+      relativeOffset_pos: {x: 0, y: 500, z: 0}
+      relativeOffset_euler: {x: 0, y: 0, z: 0}
     - startFrame: 60
       endFrame: 90
       collisionTriggerTM:
@@ -401,3 +405,5 @@ MonoBehaviour:
         outTangent: 1
         inWeight: 0
         outWeight: 0
+      relativeOffset_pos: {x: 0, y: 800, z: 0}
+      relativeOffset_euler: {x: 0, y: 0, z: 0}

@@ -93,7 +93,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体召唤模型 生成实体
         /// </summary>
-        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos) {
+        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos, Quaternion spawnRot) {
             var controlType = entitySummonModel.controlType;
             var entityType = entitySummonModel.entityType;
             var typeID = entitySummonModel.typeID;
@@ -102,7 +102,7 @@ namespace TiedanSouls.Client.Facades {
             if (entityType == EntityType.Role) {
                 _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out _);
             } else if (entityType == EntityType.Projectile) {
-                _ = ProjectileDomain.TrySpawnProjectile(controlType, typeID, summoner, spawnPos, out _);
+                _ = ProjectileDomain.TrySpawnProjectile(controlType, typeID, summoner, spawnPos, spawnRot, out _);
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }

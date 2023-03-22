@@ -33,11 +33,11 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 激活效果器
         /// </summary>
-        public void ActivatedEffectorModel(in EffectorModel effectorModel, in IDArgs summoner, Vector2 spawnPos) {
+        public void ActivatedEffectorModel(in EffectorModel effectorModel, in IDArgs summoner, Vector3 spawnPos, Quaternion spawnRot) {
             var len1 = effectorModel.entitySummonModelArray.Length;
             for (int i = 0; i < len1; i++) {
                 var entitySummonModel = effectorModel.entitySummonModelArray[i];
-                worldContext.RootDomain.SpawnBy_EntitySummonModel(entitySummonModel, summoner, spawnPos);
+                worldContext.RootDomain.SpawnBy_EntitySummonModel(entitySummonModel, summoner, spawnPos, spawnRot);
             }
 
             var len2 = effectorModel.entityDestroyModelArray.Length;

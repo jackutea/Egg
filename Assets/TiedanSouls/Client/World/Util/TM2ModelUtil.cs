@@ -30,6 +30,10 @@ namespace TiedanSouls.Client {
             element.SetExtraHitTimes(tm.extraHitTimes);
             element.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
             element.SetDirectionArray(tm.directionArray.Clone() as Vector3[]);
+
+            element.SetRelativeOffset_pos(GetVector3_Shrink100(tm.relativeOffset_pos));
+            element.SetRelativeOffset_euler(tm.relativeOffset_euler);
+
             return element;
         }
 
@@ -274,6 +278,10 @@ namespace TiedanSouls.Client {
                 newArray[i] = array[i] * 0.01f;
             }
             return newArray;
+        }
+
+        static Vector3 GetVector3_Shrink100(Vector3 v) {
+            return new Vector3(v.x * 0.01f, v.y * 0.01f, v.z * 0.01f);
         }
 
         #endregion
