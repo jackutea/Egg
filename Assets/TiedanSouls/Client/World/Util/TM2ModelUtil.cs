@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TiedanSouls.Generic;
 using TiedanSouls.Template;
@@ -91,18 +92,44 @@ namespace TiedanSouls.Client {
 
         public static CollisionTriggerModel GetModel_CollisionTrigger(CollisionTriggerTM tm) {
             CollisionTriggerModel model;
+
             var startFrame = tm.startFrame;
             var endFrame = tm.endFrame;
+
             model.isEnabled = tm.isEnabled;
             model.startFrame = startFrame;
             model.endFrame = endFrame;
-            model.delayFrame = tm.delayFrame;
-            model.intervalFrame = tm.intervalFrame;
-            model.maintainFrame = tm.maintainFrame;
 
-            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetGroupType);
-            model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
+            model.triggerStatusDic = GetDic_TriggerStatus(startFrame, endFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
+            model.targetGroupType = tm.targetGroupType;
+
+            model.damageModel = GetModel_Damage(tm.damageTM);
+            model.physicsPowerModel = GetModel_HitPower(tm.physicsPowerTM);
+            model.hitEffectorModel = GetModel_Effector(tm.hitEffectorTM);
+            model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
+
+            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.targetGroupType);
+
             return model;
+        }
+
+        public static Dictionary<int, TriggerStatus> GetDic_TriggerStatus(int startFrame,
+                                                                          int endFrame,
+                                                                          int delayFrame,
+                                                                          int intervalFrame,
+                                                                          int maintainFrame) {
+            var dic = new Dictionary<int, TriggerStatus>();
+            var T = intervalFrame + maintainFrame;
+            for (int i = startFrame + delayFrame; i < endFrame; i += T) {
+                dic.TryAdd(i, TriggerStatus.Begin);
+                var end = i + intervalFrame;
+                for (int j = i + 1; j < end; j++) {
+                    dic.TryAdd(j, TriggerStatus.Triggering);
+                }
+                dic.TryAdd(end, TriggerStatus.End);
+            }
+
+            return dic;
         }
 
 
@@ -156,16 +183,35 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [HitPower]
+        #region [PhysicsPower]
 
-        public static HitPowerModel GetModel_HitPower(HitPowerTM tm, int startFrame, int endFrame) {
-            HitPowerModel model;
-            model.startFrame = startFrame;
-            model.endFrame = endFrame;
-            model.damageArray = tm.damageArray?.Clone() as int[];
-            model.hitStunFrameArray = tm.hitStunFrameArray?.Clone() as int[];
+        public static PhysicsPowerModel GetModel_HitPower(PhysicsPowerTM tm) {
+            PhysicsPowerModel model;
             model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
+            return model;
+        }
+
+        #endregion
+
+        #region [Damage]
+
+        public static DamageModel GetModel_Damage(DamageTM tm) {
+            DamageModel model;
+            model.damageType = tm.damageType;
+            model.damageArray = tm.damageArray.Clone() as int[];
+            return model;
+        }
+
+        #endregion
+
+        #region [StateEffect]
+
+        public static StateEffectModel GetModel_StateEffect(StateEffectTM tm) {
+            StateEffectModel model;
+            model.effectStateType = tm.effectStateType;
+            model.effectStateValue = tm.effectStateValue;
+            model.effectMaintainFrame = tm.effectMaintainFrame;
             return model;
         }
 

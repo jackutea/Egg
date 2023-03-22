@@ -142,7 +142,7 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public bool TryGet_ValidTriggerModel(out CollisionTriggerModel triggerModel) {
+        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel triggerModel) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];

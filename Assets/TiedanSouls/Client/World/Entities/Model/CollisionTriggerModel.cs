@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
@@ -9,33 +10,27 @@ namespace TiedanSouls.Client.Entities {
         public int startFrame;
         public int endFrame;
 
-        public int delayFrame;
-        public int intervalFrame;
-        public int maintainFrame;
+        // 触发状态字典
+        public Dictionary<int, TriggerStatus> triggerStatusDic;
+
+        // 作用目标
+        public TargetGroupType targetGroupType;
+        // 模型: 伤害
+        public DamageModel damageModel;
+        // 模型: 物理力度
+        public PhysicsPowerModel physicsPowerModel;
+        // 模型: 击中效果器
+        public EffectorModel hitEffectorModel;
+        // 模型: 状态影响
+        public StateEffectModel stateEffectModel;
 
         public ColliderModel[] colliderModelArray;
-        public HitPowerModel hitPower;
 
         public TriggerStatus GetTriggerStatus(int frame) {
-            if(!isEnabled) return TriggerStatus.None;
-            
-            if (intervalFrame == 0) {
-                var endFrame_delayed = endFrame + delayFrame;
-                if (frame < startFrame || frame > endFrame_delayed) return TriggerStatus.None;
-                if (frame == startFrame) return TriggerStatus.Begin;
-                if (frame == endFrame_delayed) return TriggerStatus.End;
-                return TriggerStatus.Triggering;
-            }
-
-            if (frame < startFrame || frame > endFrame) return TriggerStatus.None;
-            if (frame == startFrame) return TriggerStatus.Begin;
-            if (frame == endFrame + delayFrame) return TriggerStatus.End;
-
-            var mod = (frame - delayFrame) % (intervalFrame + maintainFrame);
-            if (mod == 0) return TriggerStatus.Begin;
-            if (mod == maintainFrame) return TriggerStatus.End;
-            return TriggerStatus.Triggering;
+            if (!isEnabled) return TriggerStatus.None;
+            return triggerStatusDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : TriggerStatus.None;
         }
+
     }
 
 }

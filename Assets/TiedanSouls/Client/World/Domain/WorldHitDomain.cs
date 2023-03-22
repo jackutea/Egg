@@ -21,13 +21,16 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
-        public void HitRoleByHitPower(RoleEntity role, HitPowerModel hitPower, int hitFrame, Vector2 beHitDir) {
+        public void Role_BeHit(RoleEntity role, in CollisionTriggerModel collisionTriggerModel, int hitFrame, Vector2 beHitDir) {
             // 伤害结算
-            var hitDamage = hitPower.GetHitDamage(hitFrame);
+            var damageModel = collisionTriggerModel.damageModel;
+            var hitDamage =damageModel.GetDamage(hitFrame);
             role.Attribute_HP_Decrease(hitDamage);
 
+            // 物理力度
+            var physicsPowerModel = collisionTriggerModel.physicsPowerModel;
             // 状态机切换
-            role.FSMCom.EnterBeHit(hitPower, hitFrame, beHitDir);
+            role.FSMCom.EnterBeHit(physicsPowerModel, hitFrame, beHitDir);
         }
 
     }

@@ -105,9 +105,15 @@ namespace TiedanSouls.EditorTool {
                 var go = editorTrans.Find(path)?.gameObject;
                 colliderGOArray[i] = go;
             }
+
             em.colliderGOArray = colliderGOArray;
-            em.hitPowerEM = GetEM_HitPower(tm.hitPowerTM);
-            em.hitTargetGroupType = tm.hitTargetGroupType;
+
+            em.hitTargetGroupType = tm.targetGroupType;
+
+            em.damageEM = GetEM_Damage(tm.damageTM);
+            em.physicsPowerEM = GetEM_PhysicsPower(tm.physicsPowerTM);
+            em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
+            em.stateEffectEM = GetEM_StateEffect(tm.stateEffectTM);
 
             return em;
         }
@@ -115,26 +121,44 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [HitPower]
+        #region [PhysicsPower]
 
-        public static HitPowerEM GetEM_HitPower(this HitPowerTM tm) {
-            HitPowerEM em;
+        public static PhysicsPowerEM GetEM_PhysicsPower(this PhysicsPowerTM tm) {
+            PhysicsPowerEM em;
 
-            // 伤害 曲线还原
-            em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);
-            em.damageBase = tm.damageBase;
-            // 顿帧 曲线还原
-            em.hitStunFrameCurve = GetAnimationCurve(tm.hitStunFrameCurve_KeyframeTMArray);
-            em.hitStunFrameBase = tm.hitStunFrameBase;
-            // 击退 曲线还原
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
             em.knockBackDistance_cm = tm.knockBackDistance_cm;
             em.knockBackCostFrame = tm.knockBackCostFrame;
-            // 击飞 曲线还原
+
             em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
             em.knockUpHeight_cm = tm.knockUpCostFrame;
             em.knockUpCostFrame = tm.knockUpCostFrame;
 
+            return em;
+        }
+
+        #endregion
+
+        #region [Damage]
+
+        public static DamageEM GetEM_Damage(DamageTM tm) {
+            DamageEM em;
+            em.damageType = tm.damageType;
+            em.totalFrame = tm.totalFrame;
+            em.damageBase = tm.damageBase;
+            em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);
+            return em;
+        }
+
+        #endregion
+
+        #region [StateEffect]
+
+        public static StateEffectEM GetEM_StateEffect(StateEffectTM tm) {
+            StateEffectEM em;
+            em.effectStateType = tm.effectStateType;
+            em.effectStateValue = tm.effectStateValue;
+            em.effectMaintainFrame = tm.effectMaintainFrame;
             return em;
         }
 

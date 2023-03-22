@@ -5,16 +5,15 @@ namespace TiedanSouls.Generic {
     public class RoleFSMModel_BeHit {
 
         public bool isEntering;
+        public int curFrame;
 
         public Vector2 beHitDir;
-
-        public int hitStunFrame;
         public int castingSkillTypeID;
 
+        // 模型来源数据
+        public int hitStunFrame;
         public float[] knockBackSpeedArray;
         public float[] knockUpSpeedArray;
-
-        public int curFrame;
 
         public RoleFSMModel_BeHit() { }
 

@@ -88,7 +88,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void HandleTriggerEnter_SkillNRole(SkillEntity skill, RoleEntity role) {
-            if (!skill.TryGet_ValidTriggerModel(out var model)) {
+            if (!skill.TryGet_ValidCollisionTriggerModel(out var model)) {
                 return;
             }
 
@@ -99,9 +99,8 @@ namespace TiedanSouls.Client.Domain {
             var beHitDir = rolePos - casterPos;
             beHitDir.Normalize();
 
-            var hitPower = model.hitPower;
             var hitDomain = rootDomain.HitDomain;
-            hitDomain.HitRoleByHitPower(role, hitPower, skill.CurFrame, beHitDir);
+            hitDomain.Role_BeHit(role, model, skill.CurFrame, beHitDir);
         }
 
         void HandleTriggerEnter_RoleNRole(RoleEntity role1, RoleEntity role2) {

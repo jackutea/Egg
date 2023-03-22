@@ -3,14 +3,11 @@ using UnityEngine;
 
 namespace TiedanSouls.EditorTool.SkillEditor {
 
+    /// <summary>
+    /// 物理力度模型
+    /// </summary>
     [Serializable]
-    public struct HitPowerEM {
-
-        [Header("基础伤害")] public int damageBase;
-        [Header("基础伤害 - 曲线")] public AnimationCurve damageCurve;
-
-        [Header("基础硬直帧")] public int hitStunFrameBase;
-        [Header("基础硬直帧 - 曲线")] public AnimationCurve hitStunFrameCurve;
+    public struct PhysicsPowerEM {
 
         // 击退
         [Header("击退距离")] public int knockBackDistance_cm;
