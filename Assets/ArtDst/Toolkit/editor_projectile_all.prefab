@@ -206,10 +206,28 @@ MonoBehaviour:
       targetGroupType: 4
       damageEM:
         damageType: 3
-        damageBase: 0
+        damageBase: 100
         damageCurve:
           serializedVersion: 2
-          m_Curve: []
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 2
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
@@ -280,180 +298,4 @@ MonoBehaviour:
       m_RotationOrder: 4
     relativeOffset_pos: {x: 0, y: 0, z: 0}
     relativeOffset_euler: {x: 0, y: 0, z: 0}
-  leafElementEMArray:
-  - startFrame: 30
-    endFrame: 60
-    collisionTriggerEM:
-      isEnabled: 1
-      startFrame: 0
-      endFrame: 100
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
-      colliderGOArray:
-      - {fileID: 0}
-      targetGroupType: 0
-      damageEM:
-        damageType: 0
-        damageBase: 0
-        damageCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      knockBackPowerEM:
-        knockBackDistance_cm: 0
-        knockBackCostFrame: 0
-        knockBackDisCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      knockUpPowerEM:
-        knockUpHeight_cm: 0
-        knockUpCostFrame: 0
-        knockUpDisCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      hitEffectorEM:
-        typeID: 0
-        effectorName: 
-        entitySummonEMArray: []
-        entityDestroyEMArray: []
-      stateEffectEM:
-        effectStateType: 0
-        effectStateValue: 0
-        effectMaintainFrame: 0
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
-    deathEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
-    extraHitTimes: 100
-    vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
-    moveDistance_cm: 4000
-    moveTotalFrame: 30
-    moveCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    relativeOffset_pos: {x: 0, y: 500, z: 0}
-    relativeOffset_euler: {x: 0, y: 0, z: 0}
-  - startFrame: 60
-    endFrame: 90
-    collisionTriggerEM:
-      isEnabled: 1
-      startFrame: 0
-      endFrame: 100
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
-      colliderGOArray:
-      - {fileID: 0}
-      targetGroupType: 0
-      damageEM:
-        damageType: 0
-        damageBase: 0
-        damageCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      knockBackPowerEM:
-        knockBackDistance_cm: 0
-        knockBackCostFrame: 0
-        knockBackDisCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      knockUpPowerEM:
-        knockUpHeight_cm: 0
-        knockUpCostFrame: 0
-        knockUpDisCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      hitEffectorEM:
-        typeID: 0
-        effectorName: 
-        entitySummonEMArray: []
-        entityDestroyEMArray: []
-      stateEffectEM:
-        effectStateType: 0
-        effectStateValue: 0
-        effectMaintainFrame: 0
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
-    deathEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
-    extraHitTimes: 100
-    vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
-    moveDistance_cm: 4000
-    moveTotalFrame: 30
-    moveCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    relativeOffset_pos: {x: 0, y: 800, z: 0}
-    relativeOffset_euler: {x: 0, y: 0, z: 0}
+  leafElementEMArray: []
