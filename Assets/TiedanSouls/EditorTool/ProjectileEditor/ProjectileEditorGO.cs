@@ -1,5 +1,6 @@
 using UnityEngine;
 using TiedanSouls.Template;
+using UnityEditor;
 
 namespace TiedanSouls.EditorTool.SkillEditor {
 
@@ -20,6 +21,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
             var projectileTM = EM2TMUtil.GetTM_Projectile(this);
             so.tm = projectileTM;
+            
+            EditorUtility.SetDirty(so);
+            EditorUtility.SetDirty(gameObject);
         }
 
         public void Load() {

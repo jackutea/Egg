@@ -31,6 +31,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
             var skillTM = EM2TMUtil.GetTM_Skill(this);
             so.tm = skillTM;
+
+            EditorUtility.SetDirty(so);
+            EditorUtility.SetDirty(gameObject);
         }
 
         public void Load() {

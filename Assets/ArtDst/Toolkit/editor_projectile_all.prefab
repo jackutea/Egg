@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 3e6929af02276c34bb0091c1cb8f346a, type: 2}
   typeID: 9999
-  projectileName: "\u6D4B\u8BD5\u5F39\u9053"
+  projectileName: "\u6D4B\u8BD5\u5F39\u90539999"
   rootElement:
     startFrame: 0
     endFrame: 100
