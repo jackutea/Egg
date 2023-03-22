@@ -1,6 +1,8 @@
 using UnityEngine;
-using TiedanSouls.Template;
 using UnityEditor;
+using GameArki.AddressableHelper;
+using TiedanSouls.Template;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.EditorTool.SkillEditor {
 
@@ -21,9 +23,12 @@ namespace TiedanSouls.EditorTool.SkillEditor {
             }
             var projectileTM = EM2TMUtil.GetTM_Projectile(this);
             so.tm = projectileTM;
-            
+
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
+
+            var labelName = AssetsLabelCollection.SO_PROJECTILE;
+            AddressableHelper.SetAddressable(so, labelName, labelName);
         }
 
         public void Load() {

@@ -2,7 +2,6 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
 using TiedanSouls.Generic;
-using UnityEngine;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -20,6 +19,9 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
+        /// <summary>
+        /// 用于更新指定关卡的弹道状态机 -1表示所有关卡
+        /// </summary>
         public void TickFSM(int curFieldTypeID, float dt) {
             var projectileRepo = worldContext.ProjectileRepo;
             projectileRepo.Foreach(curFieldTypeID, (projectile) => {
@@ -39,19 +41,21 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
+        void Apply_Deactivated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
+            // 这里可能的业务需求
+            // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
+        }
+
         void Apply_Activated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
-
-                // 首次激活
             }
 
-            projectile.MoveNext(dt);
-        }
+            var elementFSMDomain = worldRootDomain.ProjectileElementFSMDomain;
+            elementFSMDomain.TickFSM_AllElements(projectile, dt);
 
-        void Apply_Deactivated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
-
+            projectile.AddFrame();
         }
 
         void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {

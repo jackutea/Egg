@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1020
-    skillName: "\u666E\u653B3\u6BB5 "
+    skillName: "\u666E\u653B3\u6BB5"
     skillType: 1
     maintainFrame: 20
     originSkillTypeID: 1000
     comboSkillCancelTMArray: []
     cancelSkillCancelTMArray:
     - skillTypeID: 2000
-      isCombo: 0
       startFrame: 15
       endFrame: 20
     collisionTriggerTMArray:
-    - startFrame: 5
+    - isEnabled: 0
+      startFrame: 5
       endFrame: 15
       delayFrame: 0
       intervalFrame: 0
@@ -37,9 +37,9 @@ MonoBehaviour:
         size: {x: 5.408878, y: 1.7378125, z: 1}
       hitPowerTM:
         hitStunFrameArray: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
-        damageArray: 320000003400000036000000380000003a0000003c0000003e00000040000000420000004400000046000000
-        knockBackSpeedArray_cm: 2003000005030000ea020000d0020000b50200009a02000080020000650200004a02000030020000
-        knockUpSpeedArray_cm: 2003000005030000ea020000d0020000b50200009a02000080020000650200004a02000030020000
+        damageArray: 320000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e000000
+        knockBackSpeedArray_cm: e8080000f80700000807000018060000280500003804000048030000580200006801000078000000
+        knockUpSpeedArray_cm: e8080000f80700000807000018060000280500003804000048030000580200006801000078000000
         hitStunFrameCurve_KeyframeTMArray:
         - time: 0
           value: 1
@@ -101,5 +101,6 @@ MonoBehaviour:
       hitTargetType: 4
       colliderRelativePathArray:
       - colliders_0/b1
+    skillEffectorTMArray: []
     weaponAnimName: anim_spear_melee_1020
     weaponAnimClip_GUID: b4189be50390e1a4b9fb109d58662c73

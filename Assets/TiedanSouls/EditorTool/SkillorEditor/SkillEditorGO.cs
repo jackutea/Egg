@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using GameArki.AddressableHelper;
 using TiedanSouls.Template;
 using TiedanSouls.Generic;
 
@@ -34,6 +35,9 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
+
+            var labelName = AssetsLabelCollection.SO_SKILL;
+            AddressableHelper.SetAddressable(so, labelName, labelName);
         }
 
         public void Load() {

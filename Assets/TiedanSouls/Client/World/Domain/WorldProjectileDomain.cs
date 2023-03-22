@@ -42,7 +42,7 @@ namespace TiedanSouls.Client.Domain {
             var repo = worldContext.ProjectileRepo;
             repo.Add(projectile);
 
-            // 激活
+            // 立刻激活  、  TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;
             fsm.Enter_Activated();
 

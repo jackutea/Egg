@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.gamearki.addressablehelper": "ssh://git@github.com/gamearki/addressablehelper.git?path=Assets/com.gamearki.addressablehelper#main",
     "com.gamearki.fpeasing": "ssh://git@github.com/gamearki/FPEasing.git?path=Assets/com.gamearki.fpeasing#main",
     "com.gamearki.freeinput": "ssh://git@github.com/gamearki/FreeInput.git?path=Assets/com.gamearki.freeinput#main",
     "com.gamearki.menutool": "ssh://git@github.com/gamearki/arkimenutool.git?path=Assets/com.gamearki.menutool#main",

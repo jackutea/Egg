@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.gamearki.addressablehelper": {
+      "version": "ssh://git@github.com/gamearki/addressablehelper.git?path=Assets/com.gamearki.addressablehelper#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ab78c402688107129c02cd634e35460f21db6496"
+    },
     "com.gamearki.fpeasing": {
       "version": "ssh://git@github.com/gamearki/FPEasing.git?path=Assets/com.gamearki.fpeasing#main",
       "depth": 0,
@@ -40,7 +47,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "41668898b81800681247a2b960d8f9d8cdc8b415"
+      "hash": "b07d2f2e1bceb127167a0bbb3a7d4dbc067019ab"
     },
     "com.gamearki.vfxcore": {
       "version": "ssh://git@github.com/gamearki/vfxcore.git?path=Assets/com.gamearki.vfxcore#main",

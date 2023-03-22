@@ -1,3 +1,4 @@
+using TiedanSouls.Generic;
 using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
@@ -38,6 +39,14 @@ namespace TiedanSouls.Client.Entities {
 
         GameObject rendererRoot;
         public GameObject RendererRoot => rendererRoot;
+
+        #endregion
+
+        #region [其他]
+
+        Vector3 bornPos;
+        public Vector3 BornPos => bornPos;
+        public void SetBornPos(Vector3 value) => this.bornPos = value;
 
         #endregion
 
@@ -107,10 +116,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        Vector3 bornPos;
-        public Vector3 BornPos => bornPos;
-        public void SetBornPos(Vector3 value) => this.bornPos = value;
-
         public void Ctor() {
             // GameObject
             rootGO = new GameObject("弹道元素");
@@ -136,14 +141,9 @@ namespace TiedanSouls.Client.Entities {
             vfxGO.gameObject.SetActive(false);
         }
 
-        public void MoveNext(int curFrame, float dt) {
-            if (!IsInLifeTime(curFrame)) return;
-            if (!TryGetFrameSpeed(curFrame, out var frameSpeed)) {
-                if (curFrame == endFrame) moveCom.Stop();
-                return;
-            }
-            if (!TryGetFrameDirection(curFrame, out var frameDirection)) return;
-            moveCom.Move(frameDirection, frameSpeed);
+        public void Reset() {
+            attributeCom.Reset();
+            inputCom.Reset();
         }
 
         public void SetFather(in IDArgs father) {
@@ -153,11 +153,6 @@ namespace TiedanSouls.Client.Entities {
         public void SetVFXGO(GameObject value) {
             value.transform.SetParent(rendererRoot.transform, false);
             this.vfxGO = value;
-        }
-
-        public void Reset() {
-            attributeCom.Reset();
-            inputCom.Reset();
         }
 
         public void Activated() {
@@ -190,12 +185,22 @@ namespace TiedanSouls.Client.Entities {
             rootGO.transform.position = pos;
         }
 
-        bool IsInLifeTime(int curFrame) {
-            return curFrame >= startFrame && curFrame <= endFrame;
+        #region [根据帧 判断状态]
+
+        public bool CanMove(int frame) {
+            var index = frame - startFrame;
+            if (index >= moveSpeedArray.Length) return false;
+            if (index >= directionArray.Length) return false;
+            return true;
         }
 
-        bool TryGetFrameSpeed(int curFrame, out float speed) {
-            var index = curFrame - startFrame;
+        public bool IsJustPassLastMoveFrame(int frame) {
+            var index = frame - startFrame;
+            return index == moveSpeedArray.Length - 1;
+        }
+
+        public bool TryGetFrameSpeed(int frame, out float speed) {
+            var index = frame - startFrame;
             if (index < moveSpeedArray.Length) {
                 speed = moveSpeedArray[index];
                 return true;
@@ -204,8 +209,13 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        bool TryGetFrameDirection(int curFrame, out Vector3 direction) {
-            var index = curFrame - startFrame;
+        public float GetFrameSpeed(int frame) {
+            var index = frame - startFrame;
+            return moveSpeedArray[index];
+        }
+
+        public bool TryGetFrameDirection(int frame, out Vector3 direction) {
+            var index = frame - startFrame;
             if (index < directionArray.Length) {
                 direction = directionArray[index];
                 return true;
@@ -213,6 +223,20 @@ namespace TiedanSouls.Client.Entities {
             direction = Vector3.zero;
             return false;
         }
+
+        public Vector3 GetFrameDirection(int frame) {
+            var index = frame - startFrame;
+            return directionArray[index];
+        }
+
+        public TriggerStatus GetTriggerStatus(int frame) {
+            if (frame < startFrame || frame > endFrame) return TriggerStatus.None;
+            if (frame == startFrame) return TriggerStatus.Begin;
+            if (frame == endFrame) return TriggerStatus.End;
+            return TriggerStatus.Triggering;
+        }
+
+        #endregion
 
         #region [表现同步]
 

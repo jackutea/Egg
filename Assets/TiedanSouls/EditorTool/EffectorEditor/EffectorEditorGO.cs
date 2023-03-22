@@ -1,5 +1,8 @@
 using UnityEngine;
+using UnityEditor;
+using GameArki.AddressableHelper;
 using TiedanSouls.Template;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.EditorTool.EffectorEditor {
 
@@ -11,6 +14,12 @@ namespace TiedanSouls.EditorTool.EffectorEditor {
 
         public void Save() {
             so.tm = EM2TMUtil.GetTM_Effector(this.effectorEM);
+
+            EditorUtility.SetDirty(so);
+            EditorUtility.SetDirty(gameObject);
+
+            var labelName = AssetsLabelCollection.SO_EFFECTOR;
+            AddressableHelper.SetAddressable(so, labelName, labelName);
         }
 
         public void Load() {

@@ -27,16 +27,17 @@ namespace TiedanSouls.Client.Entities {
         ProjectileElement rootElement;
         public ProjectileElement RootElement => rootElement;
 
-        ProjectileElement[] leafElements;
-        public ProjectileElement[] LeafElements => leafElements;
+        ProjectileElement[] leafElementArray;
+        public ProjectileElement[] LeafElementArray => leafElementArray;
 
         Transform rootElementTrans;
         Transform leafElementGroupTrans;
 
         #endregion
 
-        int existFrame;
-        public int ExistFrame => existFrame;
+        int curFrame;
+        public int CurFrame => curFrame;
+        public void AddFrame() => curFrame++;
 
         public void Ctor() {
             idCom = new IDComponent();
@@ -46,38 +47,38 @@ namespace TiedanSouls.Client.Entities {
             rootElementTrans = transform.Find("root_element");
             leafElementGroupTrans = transform.Find("leaf_element_group");
 
-            existFrame = -1;
+            curFrame = -1;
         }
 
         public void TearDown() {
             rootElement.TearDown();
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].TearDown();
+                leafElementArray[i].TearDown();
             }
         }
 
         public void Reset() {
             rootElement.Reset();
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Reset();
+                leafElementArray[i].Reset();
             }
         }
 
         public void Hide() {
             rootElement.Deactivated();
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Deactivated();
+                leafElementArray[i].Deactivated();
             }
         }
 
         public void Show() {
             rootElement.Activated();
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Activated();
+                leafElementArray[i].Activated();
             }
         }
 
@@ -91,37 +92,37 @@ namespace TiedanSouls.Client.Entities {
             for (int i = 0; i < len; i++) {
                 elementArray[i].RootGO.transform.SetParent(leafElementGroupTrans, false);
             }
-            this.leafElements = elementArray;
+            this.leafElementArray = elementArray;
         }
 
         public void SetPos(Vector2 value) {
             transform.position = value;
         }
 
-        public void MoveNext(float dt) {
-            existFrame++;
-            rootElement.MoveNext(existFrame, dt);
-            var len = leafElements.Length;
-            for (int i = 0; i < len; i++) {
-                leafElements[i].MoveNext(existFrame, dt);
-            }
+        #region [根据帧 判断状态]
+
+        public bool IsDead(int frame) {
+            return frame > rootElement.EndFrame;
         }
 
-        #region [Renderer]
+        #endregion
+
+
+        #region [表现层同步]
 
         public void Renderer_Sync() {
             rootElement.Renderer_Sync();
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Renderer_Sync();
+                leafElementArray[i].Renderer_Sync();
             }
         }
 
         public void Renderer_Easing(float dt) {
             rootElement.Renderer_Easing(dt);
-            var len = leafElements.Length;
+            var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElements[i].Renderer_Easing(dt);
+                leafElementArray[i].Renderer_Easing(dt);
             }
         }
 

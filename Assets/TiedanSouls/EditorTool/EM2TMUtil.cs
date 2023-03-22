@@ -1,4 +1,5 @@
 using System.Linq;
+using GameArki.AddressableHelper;
 using TiedanSouls.EditorTool.EffectorEditor;
 using TiedanSouls.EditorTool.SkillEditor;
 using TiedanSouls.Generic;
@@ -39,6 +40,9 @@ namespace TiedanSouls.EditorTool {
             tm.extraHitTimes = em.extraHitTimes;
             tm.vfxPrefabName = em.vfxPrefab == null ? string.Empty : em.vfxPrefab.name;
             tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.vfxPrefab));
+
+            var labelName = AssetsLabelCollection.VFX;
+            AddressableHelper.SetAddressable(em.vfxPrefab, labelName, labelName);
 
             var moveDistance_cm = em.moveDistance_cm;
             var moveTotalFrame = em.moveTotalFrame;
