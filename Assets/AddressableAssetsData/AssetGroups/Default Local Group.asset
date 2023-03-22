@@ -16,7 +16,11 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: bdf7ff0ee238ec34eb3c8426256963e0
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 3e6929af02276c34bb0091c1cb8f346a
+    m_Address: Assets/ArtDst/Template/Projectile/so_projetile_9999.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

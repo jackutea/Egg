@@ -126,8 +126,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# 忽略文档
+/ApiDocument/
+
 # 忽略日志
 /*.log
+
 
 # 忽略编译包体
 /[Bb]in/
@@ -142,3 +146,8 @@ Settings-Generated.asset.meta
 *-Generated.txt
 *-Generated.txt.meta
 .vscode/launch.json
+link.xml
+link.xml.meta
+
+# HybridCLR
+HyBridCLRData

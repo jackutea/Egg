@@ -220,14 +220,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686eb9986830ccd488bab3b140b8127d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  so: {fileID: 11400000, guid: a54f15fbe9874a042977ab4b633a71ec, type: 2}
+  so: {fileID: 11400000, guid: 3e6929af02276c34bb0091c1cb8f346a, type: 2}
   typeID: 9999
   projectileName: "\u6D4B\u8BD5\u5F39\u9053"
   rootElement:
     startFrame: 0
     endFrame: 100
     collisionTriggerEM:
-      isEnabled: 1
+      isEnabled: 0
       startFrame: 0
       endFrame: 100
       delayFrame: 0

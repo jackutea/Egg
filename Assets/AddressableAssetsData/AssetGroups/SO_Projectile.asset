@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: d48ba3c376a5c664997475434f96ceac
-  m_SerializeEntries:
-  - m_GUID: a54f15fbe9874a042977ab4b633a71ec
-    m_Address: so_projetile_test
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SO_Projectile
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:
