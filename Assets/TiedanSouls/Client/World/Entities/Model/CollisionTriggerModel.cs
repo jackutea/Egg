@@ -36,7 +36,6 @@ namespace TiedanSouls.Client.Entities {
             if (mod == maintainFrame) return TriggerStatus.End;
             return TriggerStatus.Triggering;
         }
-
     }
 
 }

@@ -33,8 +33,8 @@ namespace TiedanSouls.Client.Entities {
         public void SetSize(Vector3 size) => this.size = size;
 
         // 打击目标类型
-        TargetType hitTargetType;
-        public void SetHitTargetType(TargetType hitTargetType) => this.hitTargetType = hitTargetType;
+        TargetGroupType hitTargetGroupType;
+        public void SetHitTargetGroupType(TargetGroupType hitTargetGroupType) => this.hitTargetGroupType = hitTargetGroupType;
 
         // 运行时缓存
         Quaternion localRot;
@@ -94,25 +94,25 @@ namespace TiedanSouls.Client.Entities {
             var otherFatherAllyType = otherFather.allyType;
             bool isSelf = father.IsTheSame(otherFather);
 
-            if (hitTargetType == TargetType.None) return false;
-            if (hitTargetType == TargetType.All) return true;
-            if (hitTargetType == TargetType.AllExceptSelf) return !isSelf;
-            if (hitTargetType == TargetType.AllExceptAlly) return !selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitTargetType == TargetType.AllExceptEnemy) return !selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitTargetType == TargetType.AllExceptNeutral) return selfFatherAllyType != AllyType.Neutral;
+            if (hitTargetGroupType == TargetGroupType.None) return false;
+            if (hitTargetGroupType == TargetGroupType.All) return true;
+            if (hitTargetGroupType == TargetGroupType.AllExceptSelf) return !isSelf;
+            if (hitTargetGroupType == TargetGroupType.AllExceptAlly) return !selfFatherAllyType.IsAlly(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.AllExceptEnemy) return !selfFatherAllyType.IsEnemy(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.AllExceptNeutral) return selfFatherAllyType != AllyType.Neutral;
 
-            if (hitTargetType == TargetType.OnlySelf) return isSelf;
-            if (hitTargetType == TargetType.OnlyAlly) return selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitTargetType == TargetType.OnlyEnemy) return selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitTargetType == TargetType.OnlyNeutral) return selfFatherAllyType == AllyType.Neutral;
+            if (hitTargetGroupType == TargetGroupType.OnlySelf) return isSelf;
+            if (hitTargetGroupType == TargetGroupType.OnlyAlly) return selfFatherAllyType.IsAlly(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.OnlyEnemy) return selfFatherAllyType.IsEnemy(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.OnlyNeutral) return selfFatherAllyType == AllyType.Neutral;
 
-            if (hitTargetType == TargetType.SelfAndAlly) return isSelf || selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitTargetType == TargetType.SelfAndEnemy) return isSelf || selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitTargetType == TargetType.SelfAndNeutral) return isSelf || selfFatherAllyType == AllyType.Neutral;
+            if (hitTargetGroupType == TargetGroupType.SelfAndAlly) return isSelf || selfFatherAllyType.IsAlly(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.SelfAndEnemy) return isSelf || selfFatherAllyType.IsEnemy(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.SelfAndNeutral) return isSelf || selfFatherAllyType == AllyType.Neutral;
 
-            if (hitTargetType == TargetType.AllyAndEnemy) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitTargetType == TargetType.AllyAndNeutral) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
-            if (hitTargetType == TargetType.EnemyAndNeutral) return selfFatherAllyType.IsEnemy(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
+            if (hitTargetGroupType == TargetGroupType.AllyAndEnemy) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType.IsEnemy(otherFatherAllyType);
+            if (hitTargetGroupType == TargetGroupType.AllyAndNeutral) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
+            if (hitTargetGroupType == TargetGroupType.EnemyAndNeutral) return selfFatherAllyType.IsEnemy(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
 
             return false;
         }

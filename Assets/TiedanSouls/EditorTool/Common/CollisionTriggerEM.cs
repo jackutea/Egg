@@ -16,7 +16,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("触发间隔")] public int intervalFrame;
         [Header("触发时间")] public int maintainFrame;
 
-        [Header("打击目标类型")] public TargetType hitTargetType;
+        [Header("打击目标类型")] public TargetGroupType hitTargetGroupType;
         [Header("碰撞器(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;
         [Header("打击力度")] public HitPowerEM hitPowerEM;
 

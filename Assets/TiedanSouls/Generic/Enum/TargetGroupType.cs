@@ -1,9 +1,7 @@
-using UnityEngine;
-
 namespace TiedanSouls.Generic {
 
-    // 相对阵营
-    public enum TargetType {
+    // 目标群体类型
+    public enum TargetGroupType {
 
         None = 0b0000_0000,
 

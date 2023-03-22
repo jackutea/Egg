@@ -11,7 +11,7 @@ namespace TiedanSouls.Template {
     public struct EntityDestroyTM {
 
         [Header("销毁实体类型")] public EntityType entityType;
-        [Header("目标类型")] public TargetType targetType;
+        [Header("目标类型")] public TargetGroupType targetGroupType;
 
         public bool isEnabled_attributeSelector;
 

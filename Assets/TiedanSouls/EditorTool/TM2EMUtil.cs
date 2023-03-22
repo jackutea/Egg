@@ -107,7 +107,7 @@ namespace TiedanSouls.EditorTool {
             }
             em.colliderGOArray = colliderGOArray;
             em.hitPowerEM = GetEM_HitPower(tm.hitPowerTM);
-            em.hitTargetType = tm.hitTargetType;
+            em.hitTargetGroupType = tm.hitTargetGroupType;
 
             return em;
         }
@@ -207,7 +207,7 @@ namespace TiedanSouls.EditorTool {
         public static EntityDestroyEM GetEM_EntityDestroy(EntityDestroyTM tm) {
             EntityDestroyEM em;
             em.entityType = tm.entityType;
-            em.targetType = tm.targetType;
+            em.targetGroupType = tm.targetGroupType;
             em.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
             em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
             return em;

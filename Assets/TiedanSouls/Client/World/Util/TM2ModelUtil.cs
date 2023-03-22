@@ -100,7 +100,7 @@ namespace TiedanSouls.Client {
             model.intervalFrame = tm.intervalFrame;
             model.maintainFrame = tm.maintainFrame;
 
-            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetType);
+            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.hitTargetGroupType);
             model.hitPower = GetModel_HitPower(tm.hitPowerTM, startFrame, endFrame);
             return model;
         }
@@ -110,17 +110,17 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, TargetType hitTargetType) {
+        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, TargetGroupType hitTargetGroupType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderModel[] modelArray = new ColliderModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_Collider(tmArray[i], hitTargetType);
+                modelArray[i] = GetModel_Collider(tmArray[i], hitTargetGroupType);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm, TargetType hitTargetType) {
+        public static ColliderModel GetModel_Collider(ColliderTM tm, TargetGroupType hitTargetGroupType) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
             model.SetColliderType(tm.colliderType);
@@ -128,7 +128,7 @@ namespace TiedanSouls.Client {
             model.SetLocalPos(tm.localPos);
             model.SetLocalAngleZ(tm.localAngleZ);
             model.SetLocalRot(Quaternion.Euler(0, 0, tm.localAngleZ));
-            model.SetHitTargetType(hitTargetType);
+            model.SetHitTargetGroupType(hitTargetGroupType);
             return model;
         }
 
@@ -221,7 +221,7 @@ namespace TiedanSouls.Client {
         public static EntityDestroyModel GetModel_EntityDestroy(EntityDestroyTM tm) {
             EntityDestroyModel model;
             model.entityType = tm.entityType;
-            model.targetType = tm.targetType;
+            model.targetGroupType = tm.targetGroupType;
             model.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
             model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
             return model;

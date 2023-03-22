@@ -149,7 +149,7 @@ namespace TiedanSouls.Client.Facades {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 
-            var targetType = entityDestroyModel.targetType;
+            var targetGroupType = entityDestroyModel.targetGroupType;
             var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
             var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
             var curFieldTypeID = WorldContext.StateEntity.CurFieldTypeID;
@@ -157,7 +157,7 @@ namespace TiedanSouls.Client.Facades {
 
             if (entityType == EntityType.Role) {
                 var roleRepo = WorldContext.RoleRepo;
-                var list = roleRepo.GetRoleList_ByTargetType(curFieldTypeID, targetType, summoner);
+                var list = roleRepo.GetRoleList_ByTargetGroupType(curFieldTypeID, targetGroupType, summoner);
                 list.ForEach(((role) => {
                     var attributeCom = role.AttributeCom;
                     // 选择器 - 属性

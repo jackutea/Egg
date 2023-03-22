@@ -1,8 +1,8 @@
+using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
 using TiedanSouls.Generic;
-using UnityEngine;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -27,9 +27,16 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            // Pos
+            // 弹道 位置&角度 
             projectile.SetBornPos(pos);
             projectile.SetPos(pos);
+
+            // ID
+            var idCom = projectile.IDCom;
+            idCom.SetEntityID(worldContext.IDService.PickFieldID());
+
+            // Father
+            idCom.SetFather(summoner);
 
             // 元素 位置&角度 
             var rootElement = projectile.RootElement;
@@ -44,22 +51,16 @@ namespace TiedanSouls.Client.Domain {
                 leafElement.SetPos_UseRelativeOffset(pos);
             }
 
-            // ID
-            var idCom = projectile.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickFieldID());
-
-            // Father
-            idCom.SetFather(summoner);
-
-            // Repo
-            var repo = worldContext.ProjectileRepo;
-            repo.Add(projectile);
-
             // 立刻激活  、  TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;
             fsm.Enter_Activated();
 
             projectile.name = $"弹道 {projectile.IDCom}";
+
+            // Repo
+            var repo = worldContext.ProjectileRepo;
+            repo.Add(projectile);
+
             return true;
         }
     }
