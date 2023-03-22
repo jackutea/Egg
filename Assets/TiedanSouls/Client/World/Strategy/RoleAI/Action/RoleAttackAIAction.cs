@@ -32,7 +32,11 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool Execute() {
-            if (role.FSMCom.State == RoleFSMState.BeHit) return false;
+            var fsm = role.FSMCom;
+            if (fsm.StateFlag.Contains(StateFlag.KnockBack)
+                || fsm.StateFlag.Contains(StateFlag.KnockUp)) {
+                return false;
+            }
 
             Vector2 pos_role = role.GetPos_RendererRoot();
             Vector2 pos_target = worldContext.RoleRepo.PlayerRole.GetPos_RendererRoot();

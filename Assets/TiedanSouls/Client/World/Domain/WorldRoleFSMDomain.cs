@@ -25,7 +25,7 @@ namespace TiedanSouls.Client.Domain {
                 var fsm = role.FSMCom;
                 if (fsm.IsExiting) return;
 
-                if (fsm.State != RoleFSMState.Dying) {
+                if (fsm.StateFlag != StateFlag.Dying) {
                     role.AIStrategy.Tick(dt);
                 }
 
@@ -45,32 +45,25 @@ namespace TiedanSouls.Client.Domain {
             var fsm = role.FSMCom;
             if (fsm.IsExiting) return;
 
-            if (fsm.State == RoleFSMState.Idle) {
-                Apply_Idle(role, fsm, dt);
-            } else if (fsm.State == RoleFSMState.Casting) {
-                Apply_Casting(role, fsm, dt);
-            } else if (fsm.State == RoleFSMState.BeHit) {
-                Apply_BeHit(role, fsm, dt);
-            } else if (fsm.State == RoleFSMState.Dying) {
-                Apply_Dying(role, fsm, dt);
-            }
-
+            Apply_Idle(role, fsm, dt);
+            Apply_Cast(role, fsm, dt);
+            Apply_KnockBack(role, fsm, dt);
+            Apply_Dying(role, fsm, dt);
             Apply_AnyState(role, fsm, dt);
         }
 
         void Apply_AnyState(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            if (fsm.State == RoleFSMState.Dying) return;
-
+            if (fsm.StateFlag == StateFlag.Dying) return;
             var roleDomain = worldDomain.RoleDomain;
             if (roleDomain.IsRoleDead(role)) {
-                role.FSMCom.EnterDying(30);
+                role.FSMCom.Add_Dying(30);
             }
         }
 
         void Apply_Idle(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.IdleModel;
-            if (stateModel.isEntering) {
-                stateModel.isEntering = false;
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
                 role.RendererModCom.Anim_PlayIdle();
             }
 
@@ -94,7 +87,7 @@ namespace TiedanSouls.Client.Domain {
             _ = roleDomain.TryCastSkillByInput(role);
         }
 
-        void Apply_Casting(RoleEntity role, RoleFSMComponent fsm, float dt) {
+        void Apply_Cast(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.CastingModel;
             var skillTypeID = stateModel.CastingSkillTypeID;
             var isCombo = stateModel.IsCombo;
@@ -137,53 +130,51 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能逻辑迭代
             if (!castingSkill.TryMoveNext(role.GetPos_Logic(), role.GetRot_Logic())) {
-                fsm.EnterIdle();
+                fsm.Add_Idle();
             }
         }
 
-        void Apply_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.BeHitModel;
-
-            if (stateModel.isEntering) {
-                stateModel.isEntering = false;
-
-                // 受击时技能被打断
-                var castingSkillTypeID = stateModel.castingSkillTypeID;
-                if (castingSkillTypeID != -1) {
-                    var skillSlotCom = role.SkillSlotCom;
-                    _ = skillSlotCom.TryGet(castingSkillTypeID, out var castingSkill);
-                    castingSkill.Reset();
-                }
-
-                role.MoveCom.Stop();
-                role.RendererModCom.Anim_Play_BeHit();
+        void Apply_KnockBack(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var stateModel = fsm.KnockBackModel;
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
             }
 
-            var roleDomain = worldDomain.RoleDomain;
-
-            // 击飞击退
+            var curFrame = stateModel.curFrame;
+            var moveCom = role.MoveCom;
             var beHitDir = stateModel.beHitDir;
             var knockBackSpeedArray = stateModel.knockBackSpeedArray;
-            var knockUpSpeedArray = stateModel.knockUpSpeedArray;
-            var len1 = knockBackSpeedArray.Length;
-            var len2 = knockUpSpeedArray.Length;
+            var len = knockBackSpeedArray.Length;
+            bool canKnockBack = curFrame < len;
+            if (canKnockBack) KnockBack(moveCom, beHitDir, knockBackSpeedArray[curFrame]);
+            else if (curFrame == len) {
+                moveCom.StopHorizontal();
+                fsm.Remove_KnockBack();
+            }
+
+            stateModel.curFrame++;
+        }
+
+        void Apply_KnockUp(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var stateModel = fsm.KnockUpModel;
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
+            }
+
             var curFrame = stateModel.curFrame;
-            bool canKnockBack = curFrame < len1;
-            bool canKnockUp = curFrame < len2;
             var moveCom = role.MoveCom;
 
-            if (canKnockBack) KnockBack(moveCom, beHitDir, knockBackSpeedArray[curFrame]);
-            else if (curFrame == len1 - 1) moveCom.StopHorizontal();
-
-            if (canKnockUp) KnockUp(moveCom, knockUpSpeedArray[curFrame]);
-            else if (curFrame == len2 - 1) moveCom.StopVertical();
-            else roleDomain.Falling(role, dt);
-
-            stateModel.hitStunFrame--;
-            stateModel.curFrame++;
-            if (stateModel.hitStunFrame <= 0) {
-                moveCom.Stop();
-                fsm.EnterIdle();
+            var roleDomain = worldDomain.RoleDomain;
+            var knockUpSpeedArray = stateModel.knockUpSpeedArray;
+            var len = knockUpSpeedArray.Length;
+            bool canKnockUp = curFrame < len;
+            if (canKnockUp) {
+                KnockUp(moveCom, knockUpSpeedArray[curFrame]);
+            } else if (curFrame == len) {
+                moveCom.StopVertical();
+                fsm.Remove_KnockUp();
+            } else {
+                roleDomain.Falling(role, dt);
             }
         }
 

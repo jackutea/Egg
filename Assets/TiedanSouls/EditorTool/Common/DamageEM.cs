@@ -9,8 +9,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         [Header("伤害类型")] public DamageType damageType;
 
-        [Header("总时间(帧)")] public int totalFrame;
-
         [Header("基础伤害")] public int damageBase;
         [Header("基础伤害 - 曲线")] public AnimationCurve damageCurve;
 

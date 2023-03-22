@@ -89,6 +89,7 @@ namespace TiedanSouls.EditorTool {
 
         public static CollisionTriggerEM GetEM_CollisionTrigger(CollisionTriggerTM tm) {
             CollisionTriggerEM em;
+
             em.isEnabled = tm.isEnabled;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
@@ -108,10 +109,10 @@ namespace TiedanSouls.EditorTool {
 
             em.colliderGOArray = colliderGOArray;
 
-            em.hitTargetGroupType = tm.targetGroupType;
-
+            em.targetGroupType = tm.targetGroupType;
             em.damageEM = GetEM_Damage(tm.damageTM);
-            em.physicsPowerEM = GetEM_PhysicsPower(tm.physicsPowerTM);
+            em.knockBackPowerEM = GetEM_KnockBackPower(tm.knockBackPowerTM);
+            em.knockUpPowerEM = GetEM_KnockUpPower(tm.knockUpPowerTM);
             em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
             em.stateEffectEM = GetEM_StateEffect(tm.stateEffectTM);
 
@@ -123,12 +124,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [PhysicsPower]
 
-        public static PhysicsPowerEM GetEM_PhysicsPower(this PhysicsPowerTM tm) {
-            PhysicsPowerEM em;
+        public static KnockBackPowerEM GetEM_KnockBackPower(this KnockBackPowerTM tm) {
+            KnockBackPowerEM em;
 
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
             em.knockBackDistance_cm = tm.knockBackDistance_cm;
             em.knockBackCostFrame = tm.knockBackCostFrame;
+
+            return em;
+        }
+
+        public static KnockUpPowerEM GetEM_KnockUpPower(this KnockUpPowerTM tm) {
+            KnockUpPowerEM em;
 
             em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
             em.knockUpHeight_cm = tm.knockUpCostFrame;
@@ -144,7 +151,6 @@ namespace TiedanSouls.EditorTool {
         public static DamageEM GetEM_Damage(DamageTM tm) {
             DamageEM em;
             em.damageType = tm.damageType;
-            em.totalFrame = tm.totalFrame;
             em.damageBase = tm.damageBase;
             em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);
             return em;

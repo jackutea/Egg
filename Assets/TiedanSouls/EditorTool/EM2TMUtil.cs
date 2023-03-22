@@ -134,10 +134,12 @@ namespace TiedanSouls.EditorTool {
 
         #region [PhysicsPower]
 
-        public static PhysicsPowerTM GetTM_HitPower(PhysicsPowerEM em) {
-            PhysicsPowerTM tm;
-
-            // 击退 根据曲线计算每一帧的速度
+        /// <summary>
+        /// 击退 根据曲线计算每一帧的速度
+        /// </summary>
+        public static KnockBackPowerTM GetTM_KnockBackPower(KnockBackPowerEM em) {
+            KnockBackPowerTM tm;
+            // 
             var knockBackDistance_cm = em.knockBackDistance_cm;
             var knockBackCostFrame = em.knockBackCostFrame;
             var knockBackDisCurve = em.knockBackDisCurve;
@@ -146,8 +148,14 @@ namespace TiedanSouls.EditorTool {
             tm.knockBackDistance_cm = knockBackDistance_cm;
             tm.knockBackSpeedArray_cm = knockBackSpeedArray_cm;
             tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve.keys);
+            return tm;
+        }
 
-            // 击飞 根据曲线计算每一帧的速度
+        /// <summary>
+        /// 击飞 根据曲线计算每一帧的速度
+        /// </summary>
+        public static KnockUpPowerTM GetTM_KnockUpPower(KnockUpPowerEM em) {
+            KnockUpPowerTM tm;
             var knockUpHeight_cm = em.knockUpHeight_cm;
             var knockUpCostFrame = em.knockUpCostFrame;
             var knockUpDisCurve = em.knockUpDisCurve;
@@ -156,7 +164,6 @@ namespace TiedanSouls.EditorTool {
             tm.knockUpHeight_cm = knockUpHeight_cm;
             tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
             tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve.keys);
-
             return tm;
         }
 
@@ -164,8 +171,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [Damage]
 
-        public static DamageTM GetTM_Damage(DamageEM em) {
-            var totalFrame = em.totalFrame;
+        public static DamageTM GetTM_Damage(DamageEM em, int totalFrame) {
             var damageBase = em.damageBase;
             var damageCurve = em.damageCurve;
             var damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame, damageCurve);
@@ -175,7 +181,6 @@ namespace TiedanSouls.EditorTool {
             tm.damageArray = damageArray;
             tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
 
-            tm.totalFrame = totalFrame;
             tm.damageBase = damageBase;
             tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
             return tm;
@@ -209,6 +214,7 @@ namespace TiedanSouls.EditorTool {
         public static CollisionTriggerTM GetTM_CollisionTrigger<T>(CollisionTriggerEM em) {
             var startFrame = em.startFrame;
             var endFrame = em.endFrame;
+            var totalFrame = endFrame - startFrame + 1;
 
             CollisionTriggerTM tm;
 
@@ -223,9 +229,10 @@ namespace TiedanSouls.EditorTool {
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
 
-            tm.targetGroupType = em.hitTargetGroupType;
-            tm.damageTM = GetTM_Damage(em.damageEM);
-            tm.physicsPowerTM = GetTM_HitPower(em.physicsPowerEM);
+            tm.targetGroupType = em.targetGroupType;
+            tm.damageTM = GetTM_Damage(em.damageEM, totalFrame);
+            tm.knockBackPowerTM = GetTM_KnockBackPower(em.knockBackPowerEM);
+            tm.knockUpPowerTM = GetTM_KnockUpPower(em.knockUpPowerEM);
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
             tm.stateEffectTM = GetTM_StateEffect(em.stateEffectEM);
 

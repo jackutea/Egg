@@ -118,7 +118,7 @@ namespace TiedanSouls.Client {
                 var idCom = role.IDCom;
                 var roleAllyType = idCom.AllyType;
                 if (!roleAllyType.IsEnemy(allyType)) return;
-                if (role.FSMCom.State != RoleFSMState.Dying) hasAliveEnemy = true;
+                if (role.FSMCom.StateFlag != StateFlag.Dying) hasAliveEnemy = true;
             });
 
             return hasAliveEnemy;

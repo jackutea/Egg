@@ -22,15 +22,20 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Role_BeHit(RoleEntity role, in CollisionTriggerModel collisionTriggerModel, int hitFrame, Vector2 beHitDir) {
+            var fsm = role.FSMCom;
+
+            // 击退
+            var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
+            fsm.Add_KnockBack(beHitDir, knockBackPowerModel);
+            // 击飞
+            var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
+            fsm.Add_KnockUp(knockUpPowerModel);
+
+
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
-            var hitDamage =damageModel.GetDamage(hitFrame);
+            var hitDamage = damageModel.GetDamage(hitFrame);
             role.Attribute_HP_Decrease(hitDamage);
-
-            // 物理力度
-            var physicsPowerModel = collisionTriggerModel.physicsPowerModel;
-            // 状态机切换
-            role.FSMCom.EnterBeHit(physicsPowerModel, hitFrame, beHitDir);
         }
 
     }

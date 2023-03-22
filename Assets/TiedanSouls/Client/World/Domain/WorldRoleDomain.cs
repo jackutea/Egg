@@ -50,9 +50,6 @@ namespace TiedanSouls.Client.Domain {
             var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
             colliderModel.SetFather(idCom.ToArgs());
 
-            // FSM
-            role.FSMCom.EnterIdle();
-
             // AI
             if (controlType == ControlType.AI) {
                 var ai = factory.CreateAIStrategy(role, typeID);
@@ -316,13 +313,13 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsm = role.FSMCom;
-            if (fsm.State == RoleFSMState.Idle) {
+            if (fsm.StateFlag == StateFlag.Idle) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
 
             // 连招
-            if (fsm.State == RoleFSMState.Casting) {
+            if (fsm.StateFlag.Contains(StateFlag.Cast)) {
                 var stateModel = fsm.CastingModel;
                 var castingSkillTypeID = stateModel.CastingSkillTypeID;
                 SkillEntity castingSkill;
@@ -384,12 +381,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterCasting(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.Add_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterCasting(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.Add_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion
@@ -399,7 +396,7 @@ namespace TiedanSouls.Client.Domain {
         public void Role_PrepareToDie(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
-            fsm.EnterDying(30);
+            fsm.Add_Dying(30);
         }
 
         public void Role_Die(RoleEntity role) {

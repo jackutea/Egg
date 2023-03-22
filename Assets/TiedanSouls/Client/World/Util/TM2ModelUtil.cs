@@ -104,7 +104,8 @@ namespace TiedanSouls.Client {
             model.targetGroupType = tm.targetGroupType;
 
             model.damageModel = GetModel_Damage(tm.damageTM);
-            model.physicsPowerModel = GetModel_HitPower(tm.physicsPowerTM);
+            model.knockBackPowerModel = GetModel_KnockBackPower(tm.knockBackPowerTM);
+            model.knockUpPowerModel = GetModel_KnockUpPower(tm.knockUpPowerTM);
             model.hitEffectorModel = GetModel_Effector(tm.hitEffectorTM);
             model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
@@ -183,12 +184,17 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [PhysicsPower]
+        #region [KnockBackPower]
 
-        public static PhysicsPowerModel GetModel_HitPower(PhysicsPowerTM tm) {
-            PhysicsPowerModel model;
-            model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
+        public static KnockBackPowerModel GetModel_KnockBackPower(KnockBackPowerTM tm) {
+            KnockBackPowerModel model;
             model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
+            return model;
+        }
+
+        public static KnockUpPowerModel GetModel_KnockUpPower(KnockUpPowerTM tm) {
+            KnockUpPowerModel model;
+            model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             return model;
         }
 
