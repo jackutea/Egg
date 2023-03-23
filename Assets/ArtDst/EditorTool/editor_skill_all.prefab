@@ -130,7 +130,7 @@ MonoBehaviour:
       entitySummonEMArray: []
       entityDestroyEMArray: []
     stateEffectEM:
-      effectStateType: 0
+      addStateFlag: 0
       effectStateValue: 0
       effectMaintainFrame: 0
     colliderGOArray:
@@ -419,7 +419,7 @@ MonoBehaviour:
       entitySummonEMArray: []
       entityDestroyEMArray: []
     stateEffectEM:
-      effectStateType: 0
+      addStateFlag: 0
       effectStateValue: 0
       effectMaintainFrame: 0
     colliderGOArray:
@@ -1030,7 +1030,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -1039,7 +1039,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -1088,13 +1088,13 @@ MonoBehaviour:
       entitySummonEMArray: []
       entityDestroyEMArray: []
     stateEffectEM:
-      effectStateType: 0
+      addStateFlag: 0
       effectStateValue: 0
       effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 946612889277224407}
   skillEffectorEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1228,7 @@ MonoBehaviour:
       entitySummonEMArray: []
       entityDestroyEMArray: []
     stateEffectEM:
-      effectStateType: 0
+      addStateFlag: 0
       effectStateValue: 0
       effectMaintainFrame: 0
     colliderGOArray:

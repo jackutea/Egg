@@ -79,7 +79,7 @@ MonoBehaviour:
         entitySummonTMArray: []
         entityDestroyTMArray: []
       stateEffectTM:
-        effectStateType: 0
+        addStateFlag: 0
         effectStateValue: 0
         effectMaintainFrame: 0
       colliderTMArray:
@@ -91,4 +91,4 @@ MonoBehaviour:
       - colliders_0/b1
     skillEffectorTMArray: []
     weaponAnimName: anim_spear_melee_1010
-    weaponAnimClip_GUID: 706030e999e63134b8e0d6ccbf6e3288
+    weaponAnimClip_GUID: 84dd15d653dd41049994690039901695
