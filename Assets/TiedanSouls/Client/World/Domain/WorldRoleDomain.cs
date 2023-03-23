@@ -155,15 +155,6 @@ namespace TiedanSouls.Client.Domain {
             var roleIDArgs = role.IDCom.ToArgs();
             skillDomain.AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, roleIDArgs);
             skillDomain.AddAllSkillToSlot_Combo(skillSlotCom, roleIDArgs);
-
-            skillSlotCom.Foreach_Origin((skill) => {
-                var skillIDArgs = skill.IDCom.ToArgs();
-                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
-            });
-            skillSlotCom.Foreach_Combo((skill) => {
-                var skillIDArgs = skill.IDCom.ToArgs();
-                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
-            });
         }
 
         public void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {

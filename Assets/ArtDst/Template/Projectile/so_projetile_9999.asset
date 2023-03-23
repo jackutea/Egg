@@ -25,36 +25,72 @@ MonoBehaviour:
         delayFrame: 0
         intervalFrame: 0
         maintainFrame: 0
-        colliderTMArray:
-        - colliderType: 0
-          localPos: {x: 2.4564545, y: 3.935334, z: 0}
-          localAngleZ: 0
-          size: {x: 1, y: 1, z: 1}
         targetGroupType: 4
         damageTM:
           damageType: 3
-          damageArray: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-          damageBase: 0
-          damageCurve_KeyframeTMArray: []
+          damageArray: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
+          damageBase: 30
+          damageCurve_KeyframeTMArray:
+          - time: 0
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
         knockBackPowerTM:
-          knockBackSpeedArray_cm: 
-          knockBackDisCurve_KeyframeTMArray: []
-          knockBackCostFrame: 0
-          knockBackDistance_cm: 0
+          knockBackSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+          knockBackDisCurve_KeyframeTMArray:
+          - time: 0
+            value: 0
+            inTangent: 2
+            outTangent: 2
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          knockBackCostFrame: 10
+          knockBackDistance_cm: 500
         knockUpPowerTM:
-          knockUpSpeedArray_cm: 
-          knockUpDisCurve_KeyframeTMArray: []
-          knockUpCostFrame: 0
-          knockUpHeight_cm: 0
+          knockUpSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+          knockUpDisCurve_KeyframeTMArray:
+          - time: 0
+            value: 0
+            inTangent: 2
+            outTangent: 2
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          knockUpCostFrame: 10
+          knockUpHeight_cm: 500
         hitEffectorTM:
           typeID: 0
           effectorName: 
           entitySummonTMArray: []
           entityDestroyTMArray: []
         stateEffectTM:
-          effectStateType: 0
+          addStateFlag: 0
           effectStateValue: 0
           effectMaintainFrame: 0
+        colliderTMArray:
+        - colliderType: 0
+          localPos: {x: 2.4564545, y: 3.935334, z: 0}
+          localAngleZ: 0
+          size: {x: 5, y: 5, z: 5}
         colliderRelativePathArray:
         - collider
       hitEffectorTM:
@@ -120,109 +156,6 @@ MonoBehaviour:
       relativeOffset_pos: {x: 0, y: 0, z: 0}
       relativeOffset_euler: {x: 0, y: 0, z: 0}
     leafElementTMArray:
-    - startFrame: 30
-      endFrame: 60
-      collisionTriggerTM:
-        isEnabled: 1
-        startFrame: 0
-        endFrame: 100
-        delayFrame: 0
-        intervalFrame: 0
-        maintainFrame: 0
-        colliderTMArray:
-        - colliderType: 0
-          localPos: {x: 0, y: 0, z: 0}
-          localAngleZ: 0
-          size: {x: 0, y: 0, z: 0}
-        targetGroupType: 0
-        damageTM:
-          damageType: 0
-          damageArray: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-          damageBase: 0
-          damageCurve_KeyframeTMArray: []
-        knockBackPowerTM:
-          knockBackSpeedArray_cm: 
-          knockBackDisCurve_KeyframeTMArray: []
-          knockBackCostFrame: 0
-          knockBackDistance_cm: 0
-        knockUpPowerTM:
-          knockUpSpeedArray_cm: 
-          knockUpDisCurve_KeyframeTMArray: []
-          knockUpCostFrame: 0
-          knockUpHeight_cm: 0
-        hitEffectorTM:
-          typeID: 0
-          effectorName: 
-          entitySummonTMArray: []
-          entityDestroyTMArray: []
-        stateEffectTM:
-          effectStateType: 0
-          effectStateValue: 0
-          effectMaintainFrame: 0
-        colliderRelativePathArray:
-        - 
-      hitEffectorTM:
-        typeID: 0
-        effectorName: 
-        entitySummonTMArray: []
-        entityDestroyTMArray: []
-      deathEffectorTM:
-        typeID: 0
-        effectorName: 
-        entitySummonTMArray: []
-        entityDestroyTMArray: []
-      extraHitTimes: 100
-      vfxPrefabName: vfx_test_projectile
-      vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595
-      moveDistance: 4000
-      moveTotalFrame: 30
-      moveSpeedArray_cm: a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000
-      directionArray:
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      - {x: 1, y: 0, z: 0}
-      keyframeTMArray:
-      - time: 0
-        value: 0
-        inTangent: 1
-        outTangent: 1
-        inWeight: 0
-        outWeight: 0
-      - time: 1
-        value: 1
-        inTangent: 1
-        outTangent: 1
-        inWeight: 0
-        outWeight: 0
-      relativeOffset_pos: {x: 0, y: 500, z: 0}
-      relativeOffset_euler: {x: 0, y: 0, z: 0}
     - startFrame: 60
       endFrame: 90
       collisionTriggerTM:
@@ -232,38 +165,74 @@ MonoBehaviour:
         delayFrame: 0
         intervalFrame: 0
         maintainFrame: 0
-        colliderTMArray:
-        - colliderType: 0
-          localPos: {x: 0, y: 0, z: 0}
-          localAngleZ: 0
-          size: {x: 0, y: 0, z: 0}
-        targetGroupType: 0
+        targetGroupType: 4
         damageTM:
-          damageType: 0
-          damageArray: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-          damageBase: 0
-          damageCurve_KeyframeTMArray: []
+          damageType: 3
+          damageArray: 1400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000
+          damageBase: 20
+          damageCurve_KeyframeTMArray:
+          - time: 0
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
         knockBackPowerTM:
-          knockBackSpeedArray_cm: 
-          knockBackDisCurve_KeyframeTMArray: []
-          knockBackCostFrame: 0
-          knockBackDistance_cm: 0
+          knockBackSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+          knockBackDisCurve_KeyframeTMArray:
+          - time: 0
+            value: 0
+            inTangent: 2
+            outTangent: 2
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          knockBackCostFrame: 10
+          knockBackDistance_cm: 500
         knockUpPowerTM:
-          knockUpSpeedArray_cm: 
-          knockUpDisCurve_KeyframeTMArray: []
-          knockUpCostFrame: 0
-          knockUpHeight_cm: 0
+          knockUpSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+          knockUpDisCurve_KeyframeTMArray:
+          - time: 0
+            value: 0
+            inTangent: 2
+            outTangent: 2
+            inWeight: 0
+            outWeight: 0
+          - time: 1
+            value: 1
+            inTangent: 0
+            outTangent: 0
+            inWeight: 0
+            outWeight: 0
+          knockUpCostFrame: 10
+          knockUpHeight_cm: 500
         hitEffectorTM:
           typeID: 0
           effectorName: 
           entitySummonTMArray: []
           entityDestroyTMArray: []
         stateEffectTM:
-          effectStateType: 0
+          addStateFlag: 0
           effectStateValue: 0
           effectMaintainFrame: 0
+        colliderTMArray:
+        - colliderType: 0
+          localPos: {x: 2.4564545, y: 3.935334, z: 0}
+          localAngleZ: 0
+          size: {x: 5, y: 5, z: 5}
         colliderRelativePathArray:
-        - 
+        - collider
       hitEffectorTM:
         typeID: 0
         effectorName: 
@@ -277,9 +246,9 @@ MonoBehaviour:
       extraHitTimes: 100
       vfxPrefabName: vfx_test_projectile
       vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595
-      moveDistance: 4000
+      moveDistance: 5000
       moveTotalFrame: 30
-      moveSpeedArray_cm: a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000a00f0000
+      moveSpeedArray_cm: 881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000
       directionArray:
       - {x: 1, y: 0, z: 0}
       - {x: 1, y: 0, z: 0}
@@ -324,5 +293,5 @@ MonoBehaviour:
         outTangent: 1
         inWeight: 0
         outWeight: 0
-      relativeOffset_pos: {x: 0, y: 800, z: 0}
+      relativeOffset_pos: {x: 0, y: 0, z: 0}
       relativeOffset_euler: {x: 0, y: 0, z: 0}

@@ -72,7 +72,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   skillEffectorEMArray:
   - triggerFrame: 10
     effectorTypeID: 100
-    offsetPos: {x: 3, y: 3, z: 0}
+    offsetPos: {x: 2, y: 0, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
 GameObject:

@@ -10,14 +10,14 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldRootDomain;
+        WorldRootDomain rootDomain;
 
         public WorldProjectileDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldRootDomain = worldDomain;
+            this.rootDomain = worldDomain;
         }
 
         public bool TrySummonProjectile(Vector3 pos, Quaternion spawnRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out ProjectileEntity projectile) {
@@ -51,6 +51,10 @@ namespace TiedanSouls.Client.Domain {
                 leafElement.SetRotation_UseRelativeOffset(spawnRot);
                 leafElement.SetPos_UseRelativeOffset(pos);
             }
+
+            // 碰撞盒关联
+            this.rootDomain.SetFather_CollisionTriggerModel(rootElement.CollisionTriggerModel, idCom.ToArgs());
+
 
             // 立刻激活  、  TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;

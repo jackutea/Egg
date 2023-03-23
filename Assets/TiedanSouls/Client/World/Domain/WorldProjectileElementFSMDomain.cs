@@ -45,29 +45,47 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void Apply_Deactivated(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {
-            var triggerStatus = element.GetTriggerStatus(curFrame);
-            if (triggerStatus == TriggerStatus.Begin) {
+            var elementTriggerStatus = element.GetElementTriggerStatus(curFrame);
+            if (elementTriggerStatus == TriggerStatus.TriggerEnter) {
+                // 激活时做一次碰撞盒控制
+                var collisionTriggerModel = element.CollisionTriggerModel;
+                var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(curFrame - collisionTriggerModel.startFrame);
+                if (collisionTriggerStatus == TriggerStatus.TriggerEnter) {
+                    element.ActivateAllColliderModels();
+                } else if (collisionTriggerStatus == TriggerStatus.TriggerExit) {
+                    element.DeactivateAllColliderModels();
+                }
+
                 fsm.Enter_Activated();
                 return;
             }
         }
 
         void Apply_Activated(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {
-            var moveCom = element.MoveCom;
-
-            var triggerStatus = element.GetTriggerStatus(curFrame);
-            if (triggerStatus == TriggerStatus.End) {
-                fsm.Enter_Deactivated();
-                moveCom.Stop();
-                return;
-            }
-
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
             }
 
-            // 移动逻辑
+            var moveCom = element.MoveCom;
+            var elementTriggerStatus = element.GetElementTriggerStatus(curFrame);
+            if (elementTriggerStatus == TriggerStatus.TriggerExit) {
+                moveCom.Stop();
+                element.DeactivateAllColliderModels();
+                fsm.Enter_Deactivated();
+                return;
+            }
+
+            // 碰撞盒 激活 & 取消激活
+            var collisionTriggerModel = element.CollisionTriggerModel;
+            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(curFrame - collisionTriggerModel.startFrame);
+            if (collisionTriggerStatus == TriggerStatus.TriggerEnter) {
+                element.ActivateAllColliderModels();
+            } else if (collisionTriggerStatus == TriggerStatus.TriggerExit) {
+                element.DeactivateAllColliderModels();
+            }
+
+            // 元素 移动
             var canMove = element.CanMove(curFrame);
             if (canMove) {
                 var speed = element.GetFrameSpeed(curFrame);
@@ -80,6 +98,9 @@ namespace TiedanSouls.Client.Domain {
             if (isLastMoveFrame) {
                 moveCom.Stop();
             }
+
+
+            // TODO: 消失逻辑
         }
 
         void Apply_Dying(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {

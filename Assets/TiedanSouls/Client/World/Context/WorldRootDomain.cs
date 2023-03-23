@@ -72,7 +72,7 @@ namespace TiedanSouls.Client.Facades {
             this.FieldFSMDomain.Inject(infraContext, worldContext);
             this.RoleFSMDomain.Inject(infraContext, worldContext, this);
             this.RoleDomain.Inject(infraContext, worldContext);
-            this.SkillDomain.Inject(infraContext, worldContext);
+            this.SkillDomain.Inject(infraContext, worldContext, this);
             this.ItemDomain.Inject(infraContext, worldContext);
             this.ProjectileDomain.Inject(infraContext, worldContext, this);
             this.ProjectileFSMDomain.Inject(infraContext, worldContext, this);

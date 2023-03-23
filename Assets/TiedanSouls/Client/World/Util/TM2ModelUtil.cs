@@ -126,11 +126,11 @@ namespace TiedanSouls.Client {
 
             var startFrame_delayed = startFrame + delayFrame;
             if (intervalFrame == 0) {
-                dic.TryAdd(startFrame_delayed, TriggerStatus.Begin);
+                dic.TryAdd(startFrame_delayed, TriggerStatus.TriggerEnter);
                 for (int i = startFrame_delayed + 1; i < endFrame; i++) {
                     dic.TryAdd(i, TriggerStatus.Triggering);
                 }
-                dic.TryAdd(endFrame, TriggerStatus.End);
+                dic.TryAdd(endFrame, TriggerStatus.TriggerExit);
                 return dic;
             }
 
@@ -138,12 +138,12 @@ namespace TiedanSouls.Client {
 
             var T = intervalFrame + maintainFrame;
             for (int i = startFrame + delayFrame; i < endFrame; i += T) {
-                dic.TryAdd(i, TriggerStatus.Begin);
+                dic.TryAdd(i, TriggerStatus.TriggerEnter);
                 var end = i + intervalFrame;
                 for (int j = i + 1; j < end; j++) {
                     dic.TryAdd(j, TriggerStatus.Triggering);
                 }
-                dic.TryAdd(end, TriggerStatus.End);
+                dic.TryAdd(end, TriggerStatus.TriggerExit);
             }
 
             return dic;
@@ -189,7 +189,7 @@ namespace TiedanSouls.Client {
                 boxCollider.isTrigger = isTrigger;
                 boxCollider.transform.localScale = new Vector2(colliderSize.x, colliderSize.y);
                 boxCollider.transform.eulerAngles = new Vector3(0, 0, localAngleZ);
-                colliderGO.name = $"技能碰撞盒_{colliderGO.GetInstanceID()}";
+                colliderGO.name = "碰撞盒";
                 colliderGO.SetActive(false);
             } else {
                 TDLog.Error($"尚未支持的碰撞体类型: {colliderType}");

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 285879737727348702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.04394201}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2118739567234550776}
@@ -201,51 +201,85 @@ MonoBehaviour:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
-      colliderGOArray:
-      - {fileID: 285879737727348702}
       targetGroupType: 4
       damageEM:
         damageType: 3
-        damageBase: 100
+        damageBase: 30
         damageCurve:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
             value: 1
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
             weightedMode: 0
             inWeight: 0
-            outWeight: 0.33333334
+            outWeight: 0
           - serializedVersion: 3
             time: 1
-            value: 2
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
             weightedMode: 0
-            inWeight: 0.33333334
+            inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
       knockBackPowerEM:
-        knockBackDistance_cm: 0
-        knockBackCostFrame: 0
+        knockBackDistance_cm: 500
+        knockBackCostFrame: 10
         knockBackDisCurve:
           serializedVersion: 2
-          m_Curve: []
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
       knockUpPowerEM:
-        knockUpHeight_cm: 0
-        knockUpCostFrame: 0
+        knockUpHeight_cm: 10
+        knockUpCostFrame: 10
         knockUpDisCurve:
           serializedVersion: 2
-          m_Curve: []
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
@@ -255,9 +289,11 @@ MonoBehaviour:
         entitySummonEMArray: []
         entityDestroyEMArray: []
       stateEffectEM:
-        effectStateType: 0
+        addStateFlag: 0
         effectStateValue: 0
         effectMaintainFrame: 0
+      colliderGOArray:
+      - {fileID: 285879737727348702}
     hitEffectorEM:
       typeID: 0
       effectorName: 
@@ -298,4 +334,146 @@ MonoBehaviour:
       m_RotationOrder: 4
     relativeOffset_pos: {x: 0, y: 0, z: 0}
     relativeOffset_euler: {x: 0, y: 0, z: 0}
-  leafElementEMArray: []
+  leafElementEMArray:
+  - startFrame: 60
+    endFrame: 90
+    collisionTriggerEM:
+      isEnabled: 1
+      startFrame: 0
+      endFrame: 100
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+      targetGroupType: 4
+      damageEM:
+        damageType: 3
+        damageBase: 20
+        damageCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      knockBackPowerEM:
+        knockBackDistance_cm: 500
+        knockBackCostFrame: 10
+        knockBackDisCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      knockUpPowerEM:
+        knockUpHeight_cm: 10
+        knockUpCostFrame: 10
+        knockUpDisCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      hitEffectorEM:
+        typeID: 0
+        effectorName: 
+        entitySummonEMArray: []
+        entityDestroyEMArray: []
+      stateEffectEM:
+        addStateFlag: 0
+        effectStateValue: 0
+        effectMaintainFrame: 0
+      colliderGOArray:
+      - {fileID: 285879737727348702}
+    hitEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    deathEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    extraHitTimes: 100
+    vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
+    moveDistance_cm: 5000
+    moveTotalFrame: 30
+    moveCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    relativeOffset_pos: {x: 0, y: 0, z: 0}
+    relativeOffset_euler: {x: 0, y: 0, z: 0}

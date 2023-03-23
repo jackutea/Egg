@@ -1,9 +1,9 @@
 namespace TiedanSouls.Generic {
 
-    public enum TriggerStatus {
+    public enum TriggerStatus : byte {
         None,
-        Begin,
-        End,
+        TriggerEnter,
+        TriggerExit,
         Triggering,
     }
 

@@ -11,12 +11,14 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
+        WorldRootDomain rootDomain;
 
         public WorldSkillDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext,WorldRootDomain rootDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
+            this.rootDomain = rootDomain;
         }
 
         public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
@@ -50,6 +52,15 @@ namespace TiedanSouls.Client.Domain {
                     TDLog.Log($"添加技能成功! 已添加 '原始' 技能 - {typeID}");
                 }
             }
+
+            skillSlotCom.Foreach_Origin((skill) => {
+                var skillIDArgs = skill.IDCom.ToArgs();
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
+            });
+            skillSlotCom.Foreach_Combo((skill) => {
+                var skillIDArgs = skill.IDCom.ToArgs();
+                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
+            });
         }
 
         public void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {

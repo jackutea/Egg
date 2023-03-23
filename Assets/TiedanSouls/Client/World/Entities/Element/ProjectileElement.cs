@@ -1,3 +1,4 @@
+using System;
 using TiedanSouls.Generic;
 using UnityEngine;
 
@@ -65,7 +66,15 @@ namespace TiedanSouls.Client.Entities {
 
         CollisionTriggerModel collisionTriggerModel;
         public CollisionTriggerModel CollisionTriggerModel => collisionTriggerModel;
-        public void SetCollisionTriggerModel(in CollisionTriggerModel value) => this.collisionTriggerModel = value;
+        public void SetCollisionTriggerModel(in CollisionTriggerModel value) {
+            var colliderModelArray = value.colliderModelArray;
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var colliderModel = colliderModelArray[i];
+                colliderModel.transform.SetParent(logicRoot.transform, false);
+            }
+            this.collisionTriggerModel = value;
+        }
 
         #endregion
 
@@ -154,12 +163,12 @@ namespace TiedanSouls.Client.Entities {
             this.vfxGO = value;
         }
 
-        public void Activated() {
+        public void Activate() {
             rootGO.SetActive(true);
             vfxGO.SetActive(true);
         }
 
-        public void Deactivated() {
+        public void Deactivate() {
             rootGO.SetActive(false);
             vfxGO.SetActive(false);
         }
@@ -196,7 +205,30 @@ namespace TiedanSouls.Client.Entities {
             rootGO.transform.position = pos + relativeOffset_pos;
         }
 
-        #region [根据帧 判断状态]
+        #region [碰撞器]
+
+        public void ActivateAllColliderModels() {
+            var colliderModelArray = collisionTriggerModel.colliderModelArray;
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var colliderModel = colliderModelArray[i];
+                colliderModel.Activate();
+            }
+        }
+
+        public void DeactivateAllColliderModels() {
+            var colliderModelArray = collisionTriggerModel.colliderModelArray;
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var colliderModel = colliderModelArray[i];
+                colliderModel.Deactivate();
+            }
+        }
+
+        #endregion
+
+
+        #region [帧 状态]
 
         public bool CanMove(int frame) {
             var index = frame - startFrame;
@@ -240,10 +272,10 @@ namespace TiedanSouls.Client.Entities {
             return directionArray[index];
         }
 
-        public TriggerStatus GetTriggerStatus(int frame) {
+        public TriggerStatus GetElementTriggerStatus(int frame) {
             if (frame < startFrame || frame > endFrame) return TriggerStatus.None;
-            if (frame == startFrame) return TriggerStatus.Begin;
-            if (frame == endFrame) return TriggerStatus.End;
+            if (frame == startFrame) return TriggerStatus.TriggerEnter;
+            if (frame == endFrame) return TriggerStatus.TriggerExit;
             return TriggerStatus.Triggering;
         }
 

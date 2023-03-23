@@ -66,19 +66,19 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void Hide() {
-            rootElement.Deactivated();
+        public void Deactivate() {
+            rootElement.Deactivate();
             var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Deactivated();
+                leafElementArray[i].Deactivate();
             }
         }
 
-        public void Show() {
-            rootElement.Activated();
+        public void Activate() {
+            rootElement.Activate();
             var len = leafElementArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Activated();
+                leafElementArray[i].Activate();
             }
         }
 

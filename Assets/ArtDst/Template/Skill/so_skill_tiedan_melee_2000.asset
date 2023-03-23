@@ -86,6 +86,6 @@ MonoBehaviour:
     skillEffectorTMArray:
     - triggerFrame: 10
       effectorTypeID: 100
-      offsetPos: {x: 3, y: 3, z: 0}
+      offsetPos: {x: 2, y: 0, z: 0}
     weaponAnimName: anim_spear_melee_2000
     weaponAnimClip_GUID: 37e9cfbf86e646f4da9e4b48d68e6bd5

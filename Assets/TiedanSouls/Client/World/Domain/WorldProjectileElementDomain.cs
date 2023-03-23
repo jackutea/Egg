@@ -18,9 +18,6 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
-        public void TickElement(ProjectileElement element, float dt) {
-        }
-
     }
 
 }

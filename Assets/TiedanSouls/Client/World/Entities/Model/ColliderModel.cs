@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 此脚本通过动态挂载到技能碰撞盒
+    /// 此脚本通过动态挂载
     /// </summary>
     public class ColliderModel : MonoBehaviour {
 
@@ -46,6 +46,8 @@ namespace TiedanSouls.Client.Entities {
         public event CollisionEventHandler onTriggerStay2D;
         public event CollisionEventHandler onTriggerExit2D;
         public delegate void CollisionEventHandler(in CollisionEventArgs args);
+
+        public bool IsActivated => gameObject.activeSelf;
 
         public void Activate() {
             gameObject.SetActive(true);
