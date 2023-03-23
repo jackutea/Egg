@@ -71,7 +71,7 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"角色状态机 - 添加  {StateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddKnockBack(Vector2 beHitDir, in KnockBackPowerModel model) {
+        public void AddKnockBack(Vector2 beHitDir, in KnockBackModel model) {
             var stateModel = this.knockBackModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -85,7 +85,7 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockBack}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddKnockUp(in KnockUpPowerModel model) {
+        public void AddKnockUp(in KnockUpModel model) {
             var stateModel = this.knockUpModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);

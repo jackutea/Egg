@@ -18,8 +18,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
 
         [Header("作用目标")] public TargetGroupType targetGroupType;
         [Header("模型: 伤害")] public DamageEM damageEM;
-        [Header("模型: 物理力度")] public KnockBackPowerEM knockBackPowerEM;
-        [Header("模型: 击飞力度")] public KnockUpPowerEM knockUpPowerEM;
+        [Header("模型: 物理力度")] public KnockBackEM knockBackPowerEM;
+        [Header("模型: 击飞力度")] public KnockUpEM knockUpPowerEM;
         [Header("模型: 击中效果器")] public EffectorEM hitEffectorEM;
         [Header("模型: 状态影响")] public StateEffectEM stateEffectEM;
 

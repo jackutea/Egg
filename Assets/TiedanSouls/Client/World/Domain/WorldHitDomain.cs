@@ -31,7 +31,6 @@ namespace TiedanSouls.Client.Domain {
             var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
             fsm.AddKnockUp(knockUpPowerModel);
 
-
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
             var hitDamage = damageModel.GetDamage(hitFrame);

@@ -7,7 +7,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
     /// 击飞力度模型
     /// </summary>
     [Serializable]
-    public struct KnockUpPowerEM {
+    public struct KnockUpEM {
 
         // 击飞
         [Header("击飞高度")] public int knockUpHeight_cm;

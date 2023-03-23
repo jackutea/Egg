@@ -18,9 +18,9 @@ namespace TiedanSouls.Client.Entities {
         // 模型: 伤害
         public DamageModel damageModel;
         // 模型: 击退力度
-        public KnockBackPowerModel knockBackPowerModel;
+        public KnockBackModel knockBackPowerModel;
         // 模型: 击飞力度
-        public KnockUpPowerModel knockUpPowerModel;
+        public KnockUpModel knockUpPowerModel;
         // 模型: 击中效果器
         public EffectorModel hitEffectorModel;
         // 模型: 状态影响

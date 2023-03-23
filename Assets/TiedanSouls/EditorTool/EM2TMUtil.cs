@@ -137,8 +137,8 @@ namespace TiedanSouls.EditorTool {
         /// <summary>
         /// 击退 根据曲线计算每一帧的速度
         /// </summary>
-        public static KnockBackPowerTM GetTM_KnockBackPower(KnockBackPowerEM em) {
-            KnockBackPowerTM tm;
+        public static KnockBackTM GetTM_KnockBack(KnockBackEM em) {
+            KnockBackTM tm;
             // 
             var knockBackDistance_cm = em.knockBackDistance_cm;
             var knockBackCostFrame = em.knockBackCostFrame;
@@ -154,8 +154,8 @@ namespace TiedanSouls.EditorTool {
         /// <summary>
         /// 击飞 根据曲线计算每一帧的速度
         /// </summary>
-        public static KnockUpPowerTM GetTM_KnockUpPower(KnockUpPowerEM em) {
-            KnockUpPowerTM tm;
+        public static KnockUpTM GetTM_KnockUp(KnockUpEM em) {
+            KnockUpTM tm;
             var knockUpHeight_cm = em.knockUpHeight_cm;
             var knockUpCostFrame = em.knockUpCostFrame;
             var knockUpDisCurve = em.knockUpDisCurve;
@@ -192,7 +192,7 @@ namespace TiedanSouls.EditorTool {
 
         public static StateEffectTM GetTM_StateEffect(StateEffectEM em) {
             StateEffectTM tm;
-            tm.effectStateType = em.effectStateType;
+            tm.addStateFlag = em.addStateFlag;
             tm.effectStateValue = em.effectStateValue;
             tm.effectMaintainFrame = em.effectMaintainFrame;
             return tm;
@@ -231,8 +231,8 @@ namespace TiedanSouls.EditorTool {
 
             tm.targetGroupType = em.targetGroupType;
             tm.damageTM = GetTM_Damage(em.damageEM, totalFrame);
-            tm.knockBackPowerTM = GetTM_KnockBackPower(em.knockBackPowerEM);
-            tm.knockUpPowerTM = GetTM_KnockUpPower(em.knockUpPowerEM);
+            tm.knockBackPowerTM = GetTM_KnockBack(em.knockBackPowerEM);
+            tm.knockUpPowerTM = GetTM_KnockUp(em.knockUpPowerEM);
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
             tm.stateEffectTM = GetTM_StateEffect(em.stateEffectEM);
 

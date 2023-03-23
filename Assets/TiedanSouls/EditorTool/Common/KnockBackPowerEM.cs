@@ -7,7 +7,7 @@ namespace TiedanSouls.EditorTool.SkillEditor {
     /// 物理力度模型
     /// </summary>
     [Serializable]
-    public struct KnockBackPowerEM {
+    public struct KnockBackEM {
 
         // 击退
         [Header("击退距离")] public int knockBackDistance_cm;

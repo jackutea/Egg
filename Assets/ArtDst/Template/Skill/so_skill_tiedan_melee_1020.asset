@@ -30,17 +30,41 @@ MonoBehaviour:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
-      targetGroupType: 0
+      targetGroupType: 4
       damageTM:
-        damageType: 0
-        damageArray: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        damageBase: 0
-        damageCurve_KeyframeTMArray: []
+        damageType: 3
+        damageArray: 4600000046000000460000004600000046000000460000004600000046000000460000004600000046000000
+        damageBase: 70
+        damageCurve_KeyframeTMArray:
+        - time: 0
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: 
-        knockBackDisCurve_KeyframeTMArray: []
-        knockBackCostFrame: 0
-        knockBackDistance_cm: 0
+        knockBackSpeedArray_cm: 44160000ec130000941100003c0f0000e40c00008c0a000034080000dc050000840300002c010000
+        knockBackDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockBackCostFrame: 10
+        knockBackDistance_cm: 1000
       knockUpPowerTM:
         knockUpSpeedArray_cm: 
         knockUpDisCurve_KeyframeTMArray: []

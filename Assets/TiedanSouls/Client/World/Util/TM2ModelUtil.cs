@@ -107,8 +107,8 @@ namespace TiedanSouls.Client {
             model.targetGroupType = tm.targetGroupType;
 
             model.damageModel = GetModel_Damage(tm.damageTM);
-            model.knockBackPowerModel = GetModel_KnockBackPower(tm.knockBackPowerTM);
-            model.knockUpPowerModel = GetModel_KnockUpPower(tm.knockUpPowerTM);
+            model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
+            model.knockUpPowerModel = GetModel_KnockUp(tm.knockUpPowerTM);
             model.hitEffectorModel = GetModel_Effector(tm.hitEffectorTM);
             model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
@@ -200,16 +200,16 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [KnockBackPower]
+        #region [KnockBack]
 
-        public static KnockBackPowerModel GetModel_KnockBackPower(KnockBackPowerTM tm) {
-            KnockBackPowerModel model;
+        public static KnockBackModel GetModel_KnockBack(KnockBackTM tm) {
+            KnockBackModel model;
             model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
             return model;
         }
 
-        public static KnockUpPowerModel GetModel_KnockUpPower(KnockUpPowerTM tm) {
-            KnockUpPowerModel model;
+        public static KnockUpModel GetModel_KnockUp(KnockUpTM tm) {
+            KnockUpModel model;
             model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             return model;
         }
@@ -231,7 +231,7 @@ namespace TiedanSouls.Client {
 
         public static StateEffectModel GetModel_StateEffect(StateEffectTM tm) {
             StateEffectModel model;
-            model.effectStateType = tm.effectStateType;
+            model.effectStateType = tm.addStateFlag;
             model.effectStateValue = tm.effectStateValue;
             model.effectMaintainFrame = tm.effectMaintainFrame;
             return model;

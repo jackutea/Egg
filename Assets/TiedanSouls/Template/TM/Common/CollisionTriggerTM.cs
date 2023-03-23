@@ -18,8 +18,8 @@ namespace TiedanSouls.Template {
 
         [Header("作用目标")] public TargetGroupType targetGroupType;
         [Header("模型: 伤害")] public DamageTM damageTM;
-        [Header("模型: 击退力度")] public KnockBackPowerTM knockBackPowerTM;
-        [Header("模型: 击飞力度")] public KnockUpPowerTM knockUpPowerTM;
+        [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;
+        [Header("模型: 击飞力度")] public KnockUpTM knockUpPowerTM;
         [Header("模型: 效果器")] public EffectorTM hitEffectorTM;
         [Header("模型: 状态影响")] public StateEffectTM stateEffectTM;
 

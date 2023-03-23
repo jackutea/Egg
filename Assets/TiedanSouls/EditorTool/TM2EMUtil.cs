@@ -111,8 +111,8 @@ namespace TiedanSouls.EditorTool {
 
             em.targetGroupType = tm.targetGroupType;
             em.damageEM = GetEM_Damage(tm.damageTM);
-            em.knockBackPowerEM = GetEM_KnockBackPower(tm.knockBackPowerTM);
-            em.knockUpPowerEM = GetEM_KnockUpPower(tm.knockUpPowerTM);
+            em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
+            em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
             em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
             em.stateEffectEM = GetEM_StateEffect(tm.stateEffectTM);
 
@@ -124,8 +124,8 @@ namespace TiedanSouls.EditorTool {
 
         #region [PhysicsPower]
 
-        public static KnockBackPowerEM GetEM_KnockBackPower(this KnockBackPowerTM tm) {
-            KnockBackPowerEM em;
+        public static KnockBackEM GetEM_KnockBack(this KnockBackTM tm) {
+            KnockBackEM em;
 
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
             em.knockBackDistance_cm = tm.knockBackDistance_cm;
@@ -134,8 +134,8 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
-        public static KnockUpPowerEM GetEM_KnockUpPower(this KnockUpPowerTM tm) {
-            KnockUpPowerEM em;
+        public static KnockUpEM GetEM_KnockUp(this KnockUpTM tm) {
+            KnockUpEM em;
 
             em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
             em.knockUpHeight_cm = tm.knockUpCostFrame;
@@ -162,7 +162,7 @@ namespace TiedanSouls.EditorTool {
 
         public static StateEffectEM GetEM_StateEffect(StateEffectTM tm) {
             StateEffectEM em;
-            em.effectStateType = tm.effectStateType;
+            em.addStateFlag = tm.addStateFlag;
             em.effectStateValue = tm.effectStateValue;
             em.effectMaintainFrame = tm.effectMaintainFrame;
             return em;

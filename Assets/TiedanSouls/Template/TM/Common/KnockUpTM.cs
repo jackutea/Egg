@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public struct KnockUpPowerTM {
+    public struct KnockUpTM {
 
         [Header("击飞帧速度(组)")] public int[] knockUpSpeedArray_cm;
         [Header("(仅用于编辑时) 击飞 KeyFrameTM")] public KeyframeTM[] knockUpDisCurve_KeyframeTMArray;
