@@ -117,7 +117,6 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
                 roleDomain.FaceTo_Horizontal(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
-                TDLog.Log($"角色释放技能 武器动画 {castingSkill.WeaponAnimName}");
             }
 
             // 技能效果器

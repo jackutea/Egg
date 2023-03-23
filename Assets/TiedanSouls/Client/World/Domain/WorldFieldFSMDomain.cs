@@ -52,7 +52,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......
-            var totalSpawnCount = field.SpawnModelArray?.Length ?? 0;
+            var totalSpawnCount = field.EntitySpawnCtrlModelArray?.Length ?? 0;
             fsm.Enter_Spawning(totalSpawnCount);
         }
 
@@ -136,22 +136,21 @@ namespace TiedanSouls.Client.Domain {
             // 关卡实体生成
             var curFrame = stateModel.curFrame;
             bool hasBreakPoint = false;
-            var spawnArray = field.SpawnModelArray;
-            var len = spawnArray?.Length;
+            var entitySpawnCtrlModelArray = field.EntitySpawnCtrlModelArray;
+            var len = entitySpawnCtrlModelArray?.Length;
 
             for (int i = 0; i < len; i++) {
-                var spawnModel = spawnArray[i];
-                if (spawnModel.spawnFrame == curFrame) {
-                    if (stateModel.IsRespawning) {
-                        // TODO: 从角色对象池里面取出来
+                var entitySpawnCtrlModel = entitySpawnCtrlModelArray[i];
 
-                    } else {
+                if (entitySpawnCtrlModel.spawnFrame == curFrame) {
+                    if (!stateModel.IsRespawning) {
                         var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnBy_EntitySpawnCtrlModel(spawnModel, field.IDCom.ToArgs());
+                        worldDomain.SpawnBy_EntitySpawnCtrlModel(entitySpawnCtrlModel, field.IDCom.ToArgs());
+                    } else {
+                        TDLog.Warning("未处理 关卡实体生成 -- 重复加载关卡");
                     }
-                    if (spawnModel.isBreakPoint) {
-                        hasBreakPoint = true;
-                    }
+
+                    if (entitySpawnCtrlModel.isBreakPoint) hasBreakPoint = true;
 
                     stateModel.curSpawnedCount++;
                     stateModel.aliveEnemyCount++;

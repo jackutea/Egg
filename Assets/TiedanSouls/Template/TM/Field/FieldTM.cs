@@ -12,15 +12,13 @@ namespace TiedanSouls.Template {
         public int typeID;
         public FieldType fieldType;
 
-        public ushort chapter;
-        public ushort level;
+        public ushort chapter;                              // 章节
+        public ushort level;                                // 关卡
 
-        // Spawn
-        public EntitySpawnCtrlModel[] spawnCtrlModelArray;
-        public Vector2[] itemSpawnPosArray;
+        public EntitySpawnCtrlTM[] entitySpawnCtrlTMArray;  // 实体生成控制模型(组)
+        public Vector2[] itemSpawnPosArray;                 // 物品生成位置(组) 
 
-        // Field Link
-        public FieldDoorModel[] fieldDoorArray;
+        public FieldDoorModel[] fieldDoorArray;             // 场景门模型(组)
 
     }
 

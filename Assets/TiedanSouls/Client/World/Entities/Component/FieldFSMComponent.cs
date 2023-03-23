@@ -44,7 +44,7 @@ namespace TiedanSouls.Client.Entities {
             spawningModel.SetIsEntering(true);
             spawningModel.totalSpawnCount = totalSpawnCount;
             spawningModel.curSpawnedCount = 0;
-            TDLog.Log($"关卡状态: '{state}'");
+            TDLog.Log($"关卡状态: '{state}' 所需生成实体数量: {totalSpawnCount}");
         }
 
         public void Enter_Finished() {

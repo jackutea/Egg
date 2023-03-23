@@ -91,7 +91,7 @@ namespace TiedanSouls.Client.Facades {
         #region [生成]
 
         /// <summary>
-        /// 根据 实体召唤模型 生成实体
+        /// 根据 实体召唤模型 生成一个实体
         /// </summary>
         public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos, Quaternion spawnRot) {
             var controlType = entitySummonModel.controlType;
@@ -109,7 +109,7 @@ namespace TiedanSouls.Client.Facades {
         }
 
         /// <summary>
-        /// 根据 实体生成控制模型数组 生成实体
+        /// 实体生成控制模型(数组) --> 生成多个实体
         /// </summary>
         public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, in IDArgs summoner) {
             var spawnCount = spawnCtrlModelArray?.Length;
@@ -119,16 +119,23 @@ namespace TiedanSouls.Client.Facades {
         }
 
         /// <summary>
-        /// 根据 实体生成控制模型 生成实体
+        /// 实体生成控制模型 --> 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnModel, in IDArgs summoner) {
+        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnCtrlModel, in IDArgs summoner) {
+            SpawnBy_EntitySpawnModel(spawnCtrlModel.entitySpawnModel, summoner);
+        }
+
+        /// <summary>
+        /// 实体生成模型 --> 生成一个实体
+        /// </summary>
+        public void SpawnBy_EntitySpawnModel(in EntitySpawnModel spawnModel, in IDArgs summoner) {
             var entityType = spawnModel.entityType;
             var typeID = spawnModel.typeID;
             var roleControlType = spawnModel.controlType;
             var allyType = spawnModel.allyType;
             var controlType = spawnModel.controlType;
             var isBoss = spawnModel.isBoss;
-            var spawnPos = spawnModel.pos;
+            var spawnPos = spawnModel.spawnPos;
 
             if (entityType == EntityType.Role) {
                 _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out var role);
@@ -143,7 +150,7 @@ namespace TiedanSouls.Client.Facades {
         #region [销毁]
 
         /// <summary>
-        /// 根据 实体销毁模型 销毁实体  
+        /// 根据 实体销毁模型 销毁一个实体  
         /// </summary>
         public void DestroyBy_EntityDestroyModel(in EntityDestroyModel entityDestroyModel, in IDArgs summoner) {
             var entityType = entityDestroyModel.entityType;

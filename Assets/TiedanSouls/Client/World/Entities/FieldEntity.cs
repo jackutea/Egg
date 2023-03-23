@@ -28,9 +28,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [实体生成控制模型]
 
-        EntitySpawnCtrlModel[] spawnCtrlModelArray;
-        public EntitySpawnCtrlModel[] SpawnModelArray => spawnCtrlModelArray;
-        public void SetSpawnModelArray(EntitySpawnCtrlModel[] v) => spawnCtrlModelArray = v;
+        EntitySpawnCtrlModel[] entitySpawnCtrlModelArray;
+        public EntitySpawnCtrlModel[] EntitySpawnCtrlModelArray => entitySpawnCtrlModelArray;
+        public void SetEntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] v) => entitySpawnCtrlModelArray = v;
 
         Vector2[] itemSpawnPosArray;
         public Vector2[] ItemSpawnPosArray => itemSpawnPosArray;

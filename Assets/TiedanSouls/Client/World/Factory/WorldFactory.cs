@@ -48,7 +48,7 @@ namespace TiedanSouls.Client {
             idCom.SetEntityID(service.PickFieldID());
             idCom.SetTypeID(typeID);
 
-            field.SetSpawnModelArray(fieldTM.spawnCtrlModelArray?.Clone() as EntitySpawnCtrlModel[]);
+            field.SetEntitySpawnCtrlModelArray(GetModelArray_EntitySpawnCtrl(fieldTM.entitySpawnCtrlTMArray));
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
@@ -305,7 +305,7 @@ namespace TiedanSouls.Client {
             var leafElementTMArray = tm.leafElementTMArray;
             var rootElement = TM2ModelUtil.GetElement_Projectile(rootElementTM);
             var leafElements = TM2ModelUtil.GetElementArray_Projectile(leafElementTMArray);
-            
+
             // 特效设置
             var vfxAssets = infraContext.AssetCore.VFXAssets;
             if (!vfxAssets.TryGet(rootElementTM.vfxPrefabName, out GameObject vfxPrefab)) {
@@ -330,6 +330,44 @@ namespace TiedanSouls.Client {
 
             return projectile;
         }
+
+        #endregion
+
+        #region [EntitySpawnCtrl]
+
+        public static EntitySpawnCtrlModel[] GetModelArray_EntitySpawnCtrl(EntitySpawnCtrlTM[] tmArray) {
+            var len = tmArray.Length;
+            var modelArray = new EntitySpawnCtrlModel[len];
+            for (int i = 0; i < len; i++) {
+                var tm = tmArray[i];
+                var model = GetModel_EntitySpawnCtrl(tm);
+                modelArray[i] = model;
+            }
+            return modelArray;
+        }
+
+        public static EntitySpawnCtrlModel GetModel_EntitySpawnCtrl(EntitySpawnCtrlTM tm) {
+            EntitySpawnCtrlModel model;
+            model.spawnFrame = tm.spawnFrame;
+            model.isBreakPoint = tm.isBreakPoint;
+            model.entitySpawnModel = GetModel_EntitySpawn(tm.entitySpawnTM);
+            return model;
+        }
+
+        #region [EntitySpawn]
+
+        public static EntitySpawnModel GetModel_EntitySpawn(EntitySpawnTM tm) {
+            EntitySpawnModel model;
+            model.entityType = tm.entityType;
+            model.typeID = tm.typeID;
+            model.controlType = tm.controlType;
+            model.allyType = tm.allyType;
+            model.spawnPos = tm.spawnPos;
+            model.isBoss = tm.isBoss;
+            return model;
+        }
+
+        #endregion
 
         #endregion
 
