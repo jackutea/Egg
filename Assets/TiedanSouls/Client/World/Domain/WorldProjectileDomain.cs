@@ -20,7 +20,8 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
-        public bool TrySpawnProjectile(ControlType controlType, int typeID, in IDArgs summoner, Vector3 pos, Quaternion spawnRot, out ProjectileEntity projectile) {
+        public bool TrySummonProjectile(Vector3 pos, Quaternion spawnRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out ProjectileEntity projectile) {
+            var typeID = entitySummonModel.typeID;
             var factory = worldContext.WorldFactory;
             if (!factory.TryCreateProjectile(typeID, out projectile)) {
                 TDLog.Error($"创建实体 弹道 失败! - {typeID}");

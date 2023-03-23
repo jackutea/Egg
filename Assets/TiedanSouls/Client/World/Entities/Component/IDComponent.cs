@@ -25,6 +25,7 @@ namespace TiedanSouls.Client.Entities {
 
         AllyType allyType;
         public AllyType AllyType => allyType;
+        public void SetAllyType(AllyType value) => this.allyType = value;
 
         ControlType controlType;
         public ControlType ControlType => controlType;
@@ -32,11 +33,20 @@ namespace TiedanSouls.Client.Entities {
 
         int fromFieldTypeID;
         public int FromFieldTypeID => fromFieldTypeID;
+        public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
         IDArgs father;
         public IDArgs Father => father;
 
-        public void SetFather(IDArgs args) {
+        bool hasFather;
+        public bool HasFather => hasFather;
+
+        public IDComponent() {
+            hasFather = false;
+        }
+
+        public void SetFather(in IDArgs args) {
+            this.hasFather = true;
             this.father = args;
             this.allyType = args.allyType;
             this.fromFieldTypeID = args.fromFieldTypeID;

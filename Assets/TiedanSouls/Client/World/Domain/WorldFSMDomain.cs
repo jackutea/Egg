@@ -59,8 +59,9 @@ namespace TiedanSouls.Client.Domain {
             RoleEntity playerRole = roleRepo.PlayerRole;
 
             var stateEntity = worldContext.StateEntity;
-            var lobbyStateModel = stateEntity.LobbyStateModel;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
 
+            var lobbyStateModel = stateEntity.LobbyStateModel;
             if (lobbyStateModel.IsEntering) {
                 lobbyStateModel.SetIsEntering(false);
                 // 生成铁蛋 
@@ -69,14 +70,17 @@ namespace TiedanSouls.Client.Domain {
 
                 var roleDomain = worldDomain.RoleDomain;
                 if (playerRole == null) {
-                    roleDomain.TrySpawnRole(ControlType.Player, tieDanRoleTypeID, new IDArgs { allyType = AllyType.One, fromFieldTypeID = stateEntity.CurFieldTypeID, }, new Vector2(5, 5), out playerRole);
+                    roleDomain.TrySpawnRole(curFieldTypeID,
+                                            new EntitySpawnModel { allyType = AllyType.One, controlType = ControlType.Player, typeID = tieDanRoleTypeID, spawnPos = new Vector2(5, 5) },
+                                            out playerRole);
                 }
                 playerRole.Reset();
+
                 playerRole.Show();
                 playerRole.HudSlotCom.ShowHUD();
 
                 // 设置相机 
-                _ = worldContext.FieldRepo.TryGet(stateEntity.CurFieldTypeID, out var field);
+                _ = worldContext.FieldRepo.TryGet(curFieldTypeID, out var field);
                 var cameraSetter = infraContext.CameraCore.SetterAPI;
                 cameraSetter.Follow_Current(playerRole.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
                 cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);

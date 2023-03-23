@@ -19,8 +19,14 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public bool TrySpawnRole(ControlType controlType, int typeID, in IDArgs father, Vector2 pos, out RoleEntity role) {
-            var fromFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+        /// <summary>
+        /// 根据实体生成模型 生成角色
+        /// </summary>
+        public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
+            var typeID = entitySpawnModel.typeID;
+            var pos = entitySpawnModel.spawnPos;
+            var allyType = entitySpawnModel.allyType;
+            var controlType = entitySpawnModel.controlType;
 
             var factory = worldContext.WorldFactory;
             if (!factory.TryCreateRoleEntity(typeID, out role)) {
@@ -28,6 +34,57 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
+            BaseSetRole(role, typeID, pos, allyType, controlType);
+
+            var idCom = role.IDCom;
+            idCom.SetFromFieldTypeID(fromFieldTypeID);
+            role.SetIsBoss(entitySpawnModel.isBoss);
+
+            var repo = worldContext.RoleRepo;
+            if (idCom.ControlType == ControlType.Player) {
+                repo.Set_Player(role);
+            } else if (idCom.ControlType == ControlType.AI) {
+                var ai = role.AIStrategy;
+                ai.Activate();
+                repo.Add_ToAI(role);
+            }
+            
+            return true;
+        }
+
+        /// <summary>
+        /// 根据实体召唤模型 召唤角色
+        /// </summary>
+        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
+            var typeID = entitySummonModel.typeID;
+            var controlType = entitySummonModel.controlType;
+            var factory = worldContext.WorldFactory;
+            if (!factory.TryCreateRoleEntity(typeID, out role)) {
+                TDLog.Error($"创建角色失败! - {typeID}");
+                return false;
+            }
+
+            BaseSetRole(role, typeID, summonPos, summoner.allyType, controlType);
+
+            var idCom = role.IDCom;
+            idCom.SetFather(summoner);
+
+            var repo = worldContext.RoleRepo;
+            if (idCom.ControlType == ControlType.Player) {
+                repo.Set_Player(role);
+            } else if (idCom.ControlType == ControlType.AI) {
+                var ai = role.AIStrategy;
+                ai.Activate();
+                repo.Add_ToAI(role);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 设置角色基础信息
+        /// </summary>
+        void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, AllyType allyType, ControlType controlType) {
             // Pos
             role.SetPos_Logic(pos);
             role.Renderer_Sync();
@@ -38,9 +95,7 @@ namespace TiedanSouls.Client.Domain {
             var idCom = role.IDCom;
             idCom.SetEntityID(id);
             idCom.SetControlType(controlType);
-
-            // Father
-            idCom.SetFather(father);
+            idCom.SetAllyType(allyType);
 
             // Physics
             role.FootTriggerEnterAction += OnFootTriggerEnter;
@@ -52,26 +107,14 @@ namespace TiedanSouls.Client.Domain {
 
             // AI
             if (controlType == ControlType.AI) {
+                var factory = worldContext.WorldFactory;
                 var ai = factory.CreateAIStrategy(role, typeID);
                 role.SetAIStrategy(ai);
-            }
-
-            var repo = worldContext.RoleRepo;
-            if (idCom.ControlType == ControlType.Player) {
-                repo.Set_Player(role);
-            } else if (idCom.ControlType == ControlType.AI) {
-                var ai = role.AIStrategy;
-                ai.Activate();
-                repo.Add_ToAI(role);
             }
 
             // HUD Show
             if (idCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
             else if (idCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
-
-            role.name = $"角色_{idCom}";
-            TDLog.Log($"生成实体 角色 - {idCom}");
-            return true;
         }
 
         #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -287,7 +330,6 @@ namespace TiedanSouls.Client.Domain {
             }
 
             role.Falling(dt);
-            Debug.Log("Falling");
         }
 
         #endregion

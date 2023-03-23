@@ -91,30 +91,28 @@ namespace TiedanSouls.Client.Facades {
         #region [生成]
 
         /// <summary>
-        /// 根据 实体召唤模型 生成一个实体
+        /// 根据 实体召唤模型 生成多个实体
         /// </summary>
-        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 spawnPos, Quaternion spawnRot) {
-            var controlType = entitySummonModel.controlType;
-            var entityType = entitySummonModel.entityType;
-            var typeID = entitySummonModel.typeID;
-            var allyType = summoner.allyType;
-
-            if (entityType == EntityType.Role) {
-                _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out _);
-            } else if (entityType == EntityType.Projectile) {
-                _ = ProjectileDomain.TrySpawnProjectile(controlType, typeID, summoner, spawnPos, spawnRot, out _);
-            } else {
-                TDLog.Error($"未知的实体类型 {entityType}");
+        public void SpawnBy_EntitySummonModelArray(in EntitySummonModel[] entitySummonModel, in IDArgs summoner, Vector3 summonPos, Quaternion baseRot) {
+            var len = entitySummonModel.Length;
+            for (int i = 0; i < len; i++) {
+                SpawnBy_EntitySummonModel(entitySummonModel[i], summoner, summonPos, baseRot);
             }
         }
 
         /// <summary>
-        /// 实体生成控制模型(数组) --> 生成多个实体
+        /// 根据 实体召唤模型 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, int fromFieldTypeID) {
-            var spawnCount = spawnCtrlModelArray?.Length;
-            for (int i = 0; i < spawnCount; i++) {
-                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i], fromFieldTypeID);
+        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 summonPos, Quaternion baseRot) {
+            var entityType = entitySummonModel.entityType;
+
+            if (entityType == EntityType.Role) {
+                _ = RoleDomain.TrySummonRole(summonPos, baseRot, summoner, entitySummonModel, out var role);
+                role.name = $"角色(召唤)_{role.IDCom}";
+            } else if (entityType == EntityType.Projectile) {
+                _ = ProjectileDomain.TrySummonProjectile(summonPos, baseRot, summoner, entitySummonModel, out _);
+            } else {
+                TDLog.Error($"未知的实体类型 {entityType}");
             }
         }
 
@@ -130,19 +128,10 @@ namespace TiedanSouls.Client.Facades {
         /// </summary>
         public void SpawnBy_EntitySpawnModel(in EntitySpawnModel spawnModel, int fromFieldTypeID) {
             var spawnEntityType = spawnModel.entityType;
-            var spawnTypeID = spawnModel.typeID;
-            var spawnControlType = spawnModel.controlType;
-            var allyType = spawnModel.allyType;
-            var isBoss = spawnModel.isBoss;
-            var spawnPos = spawnModel.spawnPos;
-
-            var father = new IDArgs {
-                fromFieldTypeID = fromFieldTypeID,
-            };
 
             if (spawnEntityType == EntityType.Role) {
-                _ = RoleDomain.TrySpawnRole(spawnControlType, spawnTypeID, father, spawnPos, out var role);
-                role.SetIsBoss(isBoss);
+                _ = RoleDomain.TrySpawnRole(fromFieldTypeID, spawnModel, out var role);
+                role.name = $"角色(生成)_{role.IDCom}";
             } else {
                 TDLog.Error($"未知的实体类型 {spawnEntityType}");
             }
@@ -151,6 +140,13 @@ namespace TiedanSouls.Client.Facades {
         #endregion
 
         #region [销毁]
+
+        public void DestroyBy_EntityDestroyModelArray(in EntityDestroyModel[] entityDestroyModel, in IDArgs summoner) {
+            var len = entityDestroyModel.Length;
+            for (int i = 0; i < len; i++) {
+                DestroyBy_EntityDestroyModel(entityDestroyModel[i], summoner);
+            }
+        }
 
         /// <summary>
         /// 根据 实体销毁模型 销毁一个实体  

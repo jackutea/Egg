@@ -10,14 +10,14 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldDomain;
+        WorldRootDomain rootDomain;
 
         public WorldRoleFSMDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldDomain = worldDomain;
+            this.rootDomain = worldDomain;
         }
 
         public void TickFSM(int curFieldTypeID, float dt) {
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Domain {
         void Tick_AnyState(RoleEntity role, RoleFSMComponent fsm, float dt) {
             if (fsm.StateFlag == StateFlag.Dying) return;
 
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
 
             // 任意状态下的死亡判定
             if (roleDomain.IsRoleDead(role)) {
@@ -87,7 +87,7 @@ namespace TiedanSouls.Client.Domain {
                 role.RendererModCom.Anim_PlayIdle();
             }
 
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
 
             // 拾取武器
             var inputCom = role.InputCom;
@@ -108,7 +108,7 @@ namespace TiedanSouls.Client.Domain {
             var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
             _ = skillSlotCom.TryGet(skillTypeID, isCombo, out var castingSkill);
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
@@ -120,17 +120,18 @@ namespace TiedanSouls.Client.Domain {
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
                 var triggerFrame = skillEffectorModel.triggerFrame;
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
-                var effectorDomain = worldDomain.EffectorDomain;
+                var effectorDomain = this.rootDomain.EffectorDomain;
                 if (!effectorDomain.TryGetEffectorModel(effectorTypeID, out var effectorModel)) {
                     Debug.LogError($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
                     return;
                 }
 
-                var idArgs = role.IDCom.ToArgs();
-                var offsetPos = skillEffectorModel.offsetPos;
-                var spawnRot = role.GetRot_Logic();
-                var spawnPos = role.GetPos_Logic() + spawnRot * offsetPos;
-                effectorDomain.ActivatedEffectorModel(effectorModel, idArgs, spawnPos, spawnRot);
+                var summoner = role.IDCom.ToArgs();
+                var baseRot = role.GetRot_Logic();
+                var summonPos = role.GetPos_Logic() + baseRot * skillEffectorModel.offsetPos;
+
+                this.rootDomain.SpawnBy_EntitySummonModelArray(effectorModel.entitySummonModelArray, summoner, summonPos, baseRot);
+                this.rootDomain.DestroyBy_EntityDestroyModelArray(effectorModel.entityDestroyModelArray, summoner);
             }
 
             // 技能逻辑迭代
@@ -179,7 +180,7 @@ namespace TiedanSouls.Client.Domain {
             var curFrame = stateModel.curFrame;
             var moveCom = role.MoveCom;
 
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
             var knockUpSpeedArray = stateModel.knockUpSpeedArray;
             var len = knockUpSpeedArray.Length;
             bool canKnockUp = curFrame < len;
@@ -209,7 +210,7 @@ namespace TiedanSouls.Client.Domain {
                 role.MoveCom.Stop();
             }
 
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
             roleDomain.Fall(role, dt);
 
             stateModel.maintainFrame--;
@@ -226,7 +227,7 @@ namespace TiedanSouls.Client.Domain {
         /// 处理 运动状态
         /// </summary>
         void Apply_Locomotion(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
             if (fsm.CanMove()) roleDomain.MoveByInput(role);
             if (fsm.CanJump()) roleDomain.JumpByInput(role);
             if (fsm.CanFall()) roleDomain.Fall(role, dt);
@@ -236,7 +237,7 @@ namespace TiedanSouls.Client.Domain {
         /// 处理 技能释放
         /// </summary>
         void Apply_RealseSkill(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var roleDomain = worldDomain.RoleDomain;
+            var roleDomain = rootDomain.RoleDomain;
 
             // 普通技能
             if (fsm.CanCast_NormalSkill()) {
