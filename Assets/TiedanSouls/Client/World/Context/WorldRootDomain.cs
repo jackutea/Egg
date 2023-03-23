@@ -111,37 +111,44 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 实体生成控制模型(数组) --> 生成多个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, in IDArgs summoner) {
+        public void SpawnBy_EntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] spawnCtrlModelArray, int fromFieldTypeID) {
             var spawnCount = spawnCtrlModelArray?.Length;
             for (int i = 0; i < spawnCount; i++) {
-                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i], summoner);
+                SpawnBy_EntitySpawnCtrlModel(spawnCtrlModelArray[i], fromFieldTypeID);
             }
         }
 
         /// <summary>
         /// 实体生成控制模型 --> 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnCtrlModel, in IDArgs summoner) {
-            SpawnBy_EntitySpawnModel(spawnCtrlModel.entitySpawnModel, summoner);
+        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnCtrlModel, int fromFieldTypeID) {
+            SpawnBy_EntitySpawnModel(spawnCtrlModel.entitySpawnModel, fromFieldTypeID);
         }
 
         /// <summary>
         /// 实体生成模型 --> 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnModel(in EntitySpawnModel spawnModel, in IDArgs summoner) {
-            var entityType = spawnModel.entityType;
-            var typeID = spawnModel.typeID;
-            var roleControlType = spawnModel.controlType;
+        public void SpawnBy_EntitySpawnModel(in EntitySpawnModel spawnModel, int fromFieldTypeID) {
+            var spawnEntityType = spawnModel.entityType;
+            var spawnTypeID = spawnModel.typeID;
+            var spawnControlType = spawnModel.controlType;
             var allyType = spawnModel.allyType;
-            var controlType = spawnModel.controlType;
             var isBoss = spawnModel.isBoss;
             var spawnPos = spawnModel.spawnPos;
 
-            if (entityType == EntityType.Role) {
-                _ = RoleDomain.TrySpawnRole(controlType, typeID, summoner, spawnPos, out var role);
+            var father = new IDArgs {
+                allyType = allyType,
+                controlType = spawnControlType,
+                entityType = EntityType.None,
+                typeID = spawnTypeID,
+                fromFieldTypeID = fromFieldTypeID,
+            };
+
+            if (spawnEntityType == EntityType.Role) {
+                _ = RoleDomain.TrySpawnRole(spawnControlType, spawnTypeID, father, spawnPos, out var role);
                 role.SetIsBoss(isBoss);
             } else {
-                TDLog.Error($"未知的实体类型 {entityType}");
+                TDLog.Error($"未知的实体类型 {spawnEntityType}");
             }
         }
 

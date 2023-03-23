@@ -1,9 +1,5 @@
-using System;
-using UnityEngine;
-using GameArki.FPEasing;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
-using TiedanSouls.Client.Entities;
 
 namespace TiedanSouls.Client.Domain {
 

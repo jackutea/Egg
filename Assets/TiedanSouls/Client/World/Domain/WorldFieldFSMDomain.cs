@@ -145,7 +145,7 @@ namespace TiedanSouls.Client.Domain {
                 if (entitySpawnCtrlModel.spawnFrame == curFrame) {
                     if (!stateModel.IsRespawning) {
                         var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnBy_EntitySpawnCtrlModel(entitySpawnCtrlModel, field.IDCom.ToArgs());
+                        worldDomain.SpawnBy_EntitySpawnCtrlModel(entitySpawnCtrlModel, curFieldTypeID);
                     } else {
                         TDLog.Warning("未处理 关卡实体生成 -- 重复加载关卡");
                     }

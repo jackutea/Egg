@@ -30,9 +30,6 @@ namespace TiedanSouls.Client.Domain {
                 }
 
                 TickFSM(role, dt);
-
-                if (role.IDCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-                else if (role.IDCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
             });
 
             var playerRole = worldContext.RoleRepo.PlayerRole;

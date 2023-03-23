@@ -65,6 +65,10 @@ namespace TiedanSouls.Client.Domain {
                 repo.Add_ToAI(role);
             }
 
+            // HUD Show
+            if (idCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+            else if (idCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+
             role.name = $"角色_{idCom}";
             TDLog.Log($"生成实体 角色 - {idCom}");
             return true;
