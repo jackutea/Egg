@@ -343,7 +343,7 @@ MonoBehaviour:
     startFrame: 10
     endFrame: 15
   colliderTriggerEMArray:
-  - isEnabled: 0
+  - isEnabled: 1
     startFrame: 5
     endFrame: 10
     delayFrame: 0
@@ -1012,7 +1012,7 @@ MonoBehaviour:
     startFrame: 10
     endFrame: 15
   colliderTriggerEMArray:
-  - isEnabled: 0
+  - isEnabled: 1
     startFrame: 5
     endFrame: 10
     delayFrame: 0
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     startFrame: 15
     endFrame: 20
   colliderTriggerEMArray:
-  - isEnabled: 0
+  - isEnabled: 1
     startFrame: 5
     endFrame: 15
     delayFrame: 0

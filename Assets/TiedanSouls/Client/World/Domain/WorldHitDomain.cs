@@ -33,7 +33,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
-            var hitDamage = damageModel.GetDamage(hitFrame);
+            var hitDamage = damageModel.GetDamage(hitFrame - collisionTriggerModel.startFrame);
             role.Attribute_HP_Decrease(hitDamage);
         }
 

@@ -124,8 +124,6 @@ namespace TiedanSouls.Client {
                                                                           int maintainFrame) {
             var dic = new Dictionary<int, TriggerStatus>();
 
-            if (maintainFrame == 0) return dic;
-
             var startFrame_delayed = startFrame + delayFrame;
             if (intervalFrame == 0) {
                 dic.TryAdd(startFrame_delayed, TriggerStatus.Begin);
@@ -135,6 +133,8 @@ namespace TiedanSouls.Client {
                 dic.TryAdd(endFrame, TriggerStatus.End);
                 return dic;
             }
+
+            if (maintainFrame == 0) return dic;
 
             var T = intervalFrame + maintainFrame;
             for (int i = startFrame + delayFrame; i < endFrame; i += T) {

@@ -24,7 +24,7 @@ MonoBehaviour:
       startFrame: 15
       endFrame: 20
     collisionTriggerTMArray:
-    - isEnabled: 0
+    - isEnabled: 1
       startFrame: 5
       endFrame: 15
       delayFrame: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
         entitySummonTMArray: []
         entityDestroyTMArray: []
       stateEffectTM:
-        effectStateType: 0
+        addStateFlag: 0
         effectStateValue: 0
         effectMaintainFrame: 0
       colliderTMArray:

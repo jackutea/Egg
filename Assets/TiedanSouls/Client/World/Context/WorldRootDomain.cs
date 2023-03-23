@@ -137,10 +137,6 @@ namespace TiedanSouls.Client.Facades {
             var spawnPos = spawnModel.spawnPos;
 
             var father = new IDArgs {
-                allyType = allyType,
-                controlType = spawnControlType,
-                entityType = EntityType.None,
-                typeID = spawnTypeID,
                 fromFieldTypeID = fromFieldTypeID,
             };
 
