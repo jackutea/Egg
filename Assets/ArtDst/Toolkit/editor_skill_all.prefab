@@ -60,112 +60,45 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    hitTargetType: 4
-    colliderGOArray:
-    - {fileID: 2146176807690415295}
-    hitPowerEM:
-      damageBase: 50
+    targetGroupType: 0
+    damageEM:
+      damageType: 0
+      damageBase: 0
       damageCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 2
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 30
-      hitStunFrameCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockBackDistance_cm: 500
-      knockBackCostFrame: 20
+    knockBackPowerEM:
+      knockBackDistance_cm: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 10
-      knockUpCostFrame: 10
+    knockUpPowerEM:
+      knockUpHeight_cm: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    hitEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    stateEffectEM:
+      effectStateType: 0
+      effectStateValue: 0
+      effectMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 2146176807690415295}
   skillEffectorEMArray:
   - triggerFrame: 10
     effectorTypeID: 100
@@ -380,112 +313,45 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    hitTargetType: 4
-    colliderGOArray:
-    - {fileID: 6032330349393271052}
-    hitPowerEM:
-      damageBase: 30
+    targetGroupType: 0
+    damageEM:
+      damageType: 0
+      damageBase: 0
       damageCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 2.2
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 20
-      hitStunFrameCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockBackDistance_cm: 200
-      knockBackCostFrame: 10
+    knockBackPowerEM:
+      knockBackDistance_cm: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 10
-      knockUpCostFrame: 10
+    knockUpPowerEM:
+      knockUpHeight_cm: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    hitEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    stateEffectEM:
+      effectStateType: 0
+      effectStateValue: 0
+      effectMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 6032330349393271052}
   skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
 --- !u!1 &2146176807690415295
@@ -1080,114 +946,47 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    hitTargetType: 4
-    colliderGOArray:
-    - {fileID: 946612889277224407}
-    hitPowerEM:
-      damageBase: 30
+    targetGroupType: 0
+    damageEM:
+      damageType: 0
+      damageBase: 0
       damageCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 2.2
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 20
-      hitStunFrameCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockBackDistance_cm: 200
-      knockBackCostFrame: 10
+    knockBackPowerEM:
+      knockBackDistance_cm: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 200
-      knockUpCostFrame: 10
+    knockUpPowerEM:
+      knockUpHeight_cm: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    hitEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    stateEffectEM:
+      effectStateType: 0
+      effectStateValue: 0
+      effectMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 946612889277224407}
   skillEffectorEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,112 +1050,45 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    hitTargetType: 4
-    colliderGOArray:
-    - {fileID: 6432408507379964416}
-    hitPowerEM:
-      damageBase: 50
+    targetGroupType: 0
+    damageEM:
+      damageType: 0
+      damageBase: 0
       damageCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 2.2
-          inSlope: 1.2
-          outSlope: 1.2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      hitStunFrameBase: 30
-      hitStunFrameCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockBackDistance_cm: 400
-      knockBackCostFrame: 10
+    knockBackPowerEM:
+      knockBackDistance_cm: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpHeight_cm: 400
-      knockUpCostFrame: 10
+    knockUpPowerEM:
+      knockUpHeight_cm: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+    hitEffectorEM:
+      typeID: 0
+      effectorName: 
+      entitySummonEMArray: []
+      entityDestroyEMArray: []
+    stateEffectEM:
+      effectStateType: 0
+      effectStateValue: 0
+      effectMaintainFrame: 0
+    colliderGOArray:
+    - {fileID: 6432408507379964416}
   skillEffectorEMArray: []
   weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
 --- !u!1 &8336571590214725402

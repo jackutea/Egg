@@ -33,77 +33,38 @@ MonoBehaviour:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
+      targetGroupType: 0
+      damageTM:
+        damageType: 0
+        damageArray: 000000000000000000000000000000000000000000000000
+        damageBase: 0
+        damageCurve_KeyframeTMArray: []
+      knockBackPowerTM:
+        knockBackSpeedArray_cm: 
+        knockBackDisCurve_KeyframeTMArray: []
+        knockBackCostFrame: 0
+        knockBackDistance_cm: 0
+      knockUpPowerTM:
+        knockUpSpeedArray_cm: 
+        knockUpDisCurve_KeyframeTMArray: []
+        knockUpCostFrame: 0
+        knockUpHeight_cm: 0
+      hitEffectorTM:
+        typeID: 0
+        effectorName: 
+        entitySummonTMArray: []
+        entityDestroyTMArray: []
+      stateEffectTM:
+        effectStateType: 0
+        effectStateValue: 0
+        effectMaintainFrame: 0
       colliderTMArray:
       - colliderType: 0
         localPos: {x: 2.0966, y: 0.94, z: 0}
         localAngleZ: 0
         size: {x: 4.0717864, y: 1.7378125, z: 1}
-      hitPowerTM:
-        hitStunFrameArray: 140000001400000014000000140000001400000014000000
-        damageArray: 1e0000004200000042000000420000004200000042000000
-        knockBackSpeedArray_cm: 74040000fc030000840300000c030000940200001c020000a40100002c010000b40000003c000000
-        knockUpSpeedArray_cm: 74040000fc030000840300000c030000940200001c020000a40100002c010000b40000003c000000
-        hitStunFrameCurve_KeyframeTMArray:
-        - time: 0
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        damageCurve_KeyframeTMArray:
-        - time: 0
-          value: 1
-          inTangent: 1.2
-          outTangent: 1.2
-          inWeight: 0
-          outWeight: 0.33333334
-        - time: 1
-          value: 2.2
-          inTangent: 1.2
-          outTangent: 1.2
-          inWeight: 0.33333334
-          outWeight: 0
-        knockBackDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        knockUpDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        hitStunFrameBase: 20
-        damageBase: 30
-        knockBackCostFrame: 10
-        knockBackDistance_cm: 200
-        knockUpCostFrame: 10
-        knockUpHeight_cm: 200
-      hitTargetType: 4
       colliderRelativePathArray:
       - colliders_0/b1
     skillEffectorTMArray: []
-    weaponAnimName: 
-    weaponAnimClip_GUID: 
+    weaponAnimName: anim_spear_melee_1010
+    weaponAnimClip_GUID: 706030e999e63134b8e0d6ccbf6e3288

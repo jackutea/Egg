@@ -28,35 +28,35 @@ namespace TiedanSouls.Client.Entities {
         public void SetIsExiting(bool value) => isExiting = value;
 
         public RoleFSMComponent() {
-            stateFlag = StateFlag.Idle;
             idleModel = new RoleFSMModel_Idle();
             castingModel = new RoleFSMModel_Casting();
             knockBackModel = new RoleFSMModel_KnockBack();
             knockUpModel = new RoleFSMModel_KnockUp();
             dyingModel = new RoleFSMModel_Dying();
+            SetIdle();
         }
 
         public void Reset() {
             isExiting = false;
-            stateFlag = StateFlag.Idle;
             idleModel.Reset();
             castingModel.Reset();
             knockBackModel.Reset();
             dyingModel.Reset();
+            SetIdle();
         }
 
-        #region [Add State Flag]
-
-        public void Add_Idle() {
+        public void SetIdle() {
             var stateModel = idleModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            stateFlag.AddStateFlag(StateFlag.Idle);
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.Idle}'  \n{stateFlag}");
+            stateFlag = StateFlag.Idle;
+            TDLog.Log($"角色状态机 - 设置 '{stateFlag}'");
         }
 
-        public void Add_Cast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
+        #region [添加 状态标记]
+
+        public void AddCast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingModel;
             stateModel.Reset();
 
@@ -65,11 +65,13 @@ namespace TiedanSouls.Client.Entities {
             stateModel.SetChosedPoint(chosedPoint);
             stateModel.SetIsEntering(true);
 
-            stateFlag.AddStateFlag(StateFlag.Cast);
-            TDLog.Log($"角色状态机 - 添加  {StateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag}");
+            stateFlag = stateFlag.AddStateFlag(StateFlag.Cast);
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+
+            TDLog.Log($"角色状态机 - 添加  {StateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Add_KnockBack(Vector2 beHitDir, in KnockBackPowerModel model) {
+        public void AddKnockBack(Vector2 beHitDir, in KnockBackPowerModel model) {
             var stateModel = this.knockBackModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -77,54 +79,117 @@ namespace TiedanSouls.Client.Entities {
             stateModel.beHitDir = beHitDir;
             stateModel.knockBackSpeedArray = model.knockBackSpeedArray;
 
-            stateFlag.AddStateFlag(StateFlag.KnockBack);
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockBack}'  \n{stateFlag}");
+            stateFlag = stateFlag.AddStateFlag(StateFlag.KnockBack);
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+
+            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockBack}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Add_KnockUp(in KnockUpPowerModel model) {
+        public void AddKnockUp(in KnockUpPowerModel model) {
             var stateModel = this.knockUpModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
             stateModel.knockUpSpeedArray = model.knockUpSpeedArray;
 
-            stateFlag.AddStateFlag(StateFlag.KnockUp);
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockUp}'  \n{stateFlag}");
+            stateFlag = stateFlag.AddStateFlag(StateFlag.KnockUp);
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+
+            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockUp}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Add_Dying(int maintainFrame) {
+        public void AddDying(int maintainFrame) {
             var stateModel = this.dyingModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
             stateModel.maintainFrame = maintainFrame;
 
-            stateFlag.AddStateFlag(StateFlag.Dying);
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.Dying}'  \n{stateFlag}");
+            stateFlag = stateFlag.AddStateFlag(StateFlag.Dying);
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+
+            TDLog.Log($"角色状态机 - 添加  '{StateFlag.Dying}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
         #endregion
 
-        #region [Remove State Flag]
+        #region [移除 状态标记]
 
-        public void Remove_Idle() {
-            stateFlag.RemoveStateFlag(StateFlag.Idle);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Idle}'  \n{stateFlag}");
+        public void RemoveIdle() {
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Idle}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Remove_Cast() {
-            stateFlag.RemoveStateFlag(StateFlag.Cast);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Cast}'  \n{stateFlag}");
+        public void RemoveCast() {
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Cast);
+            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Cast}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Remove_KnockBack() {
-            stateFlag.RemoveStateFlag(StateFlag.KnockBack);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockBack}'  \n{stateFlag}");
+        public void RemoveKnockBack() {
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.KnockBack);
+            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockBack}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void Remove_KnockUp() {
-            stateFlag.RemoveStateFlag(StateFlag.KnockUp);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockUp}'  \n{stateFlag}");
+        public void RemoveKnockUp() {
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.KnockUp);
+            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockUp}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        #endregion
+
+        #region [Locomotion 判断]
+
+        /// <summary>
+        /// 当前状态 是否可以移动
+        /// </summary>
+        public bool CanMove() {
+            return !stateFlag.Contains(StateFlag.Dying)
+                && !stateFlag.Contains(StateFlag.KnockBack)
+                && !stateFlag.Contains(StateFlag.KnockUp)
+                && !stateFlag.Contains(StateFlag.Root)
+                && !stateFlag.Contains(StateFlag.Stun);
+        }
+
+        /// <summary>
+        /// 当前状态 是否可以跳跃
+        /// </summary>
+        public bool CanJump() {
+            return !stateFlag.Contains(StateFlag.Dying)
+                && !stateFlag.Contains(StateFlag.KnockBack)
+                && !stateFlag.Contains(StateFlag.KnockUp)
+                && !stateFlag.Contains(StateFlag.Root)
+                && !stateFlag.Contains(StateFlag.Stun);
+        }
+
+        /// <summary>
+        /// 当前状态 是否会下落
+        /// </summary>
+        public bool CanFall() {
+            return !stateFlag.Contains(StateFlag.KnockBack)
+                && !stateFlag.Contains(StateFlag.KnockUp)
+                && !stateFlag.Contains(StateFlag.Stun);
+        }
+
+        #endregion
+
+        #region [施法 判断]
+
+        /// <summary>
+        /// 当前状态 是否可以释放 普通技能
+        /// </summary>
+        public bool CanCast_NormalSkill() {
+            return !stateFlag.Contains(StateFlag.Dying)
+                && !stateFlag.Contains(StateFlag.Root)
+                && !stateFlag.Contains(StateFlag.Stun)
+                && !stateFlag.Contains(StateFlag.Silence);
+        }
+
+        #endregion
+
+        #region [Idle 判断]
+
+        public bool NeedSetIdle() {
+            return stateFlag == 0;
         }
 
         #endregion

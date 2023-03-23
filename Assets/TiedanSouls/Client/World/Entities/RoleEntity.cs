@@ -236,7 +236,7 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Locomotion]
 
-        public void Move_Horizontal() {
+        public void MoveByInput() {
             Vector2 moveAxis = inputCom.MoveAxis;
             moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
@@ -245,7 +245,7 @@ namespace TiedanSouls.Client.Entities {
             moveCom.Dash(dir, force);
         }
 
-        public void Jump() {
+        public void JumpByInput() {
             bool isJumpPress = inputCom.HasInput_Locomotion_JumpDown;
             if (!isJumpPress) return;
             if (isJumping) return;

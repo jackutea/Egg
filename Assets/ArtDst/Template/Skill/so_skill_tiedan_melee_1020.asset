@@ -30,75 +30,36 @@ MonoBehaviour:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
+      targetGroupType: 0
+      damageTM:
+        damageType: 0
+        damageArray: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        damageBase: 0
+        damageCurve_KeyframeTMArray: []
+      knockBackPowerTM:
+        knockBackSpeedArray_cm: 
+        knockBackDisCurve_KeyframeTMArray: []
+        knockBackCostFrame: 0
+        knockBackDistance_cm: 0
+      knockUpPowerTM:
+        knockUpSpeedArray_cm: 
+        knockUpDisCurve_KeyframeTMArray: []
+        knockUpCostFrame: 0
+        knockUpHeight_cm: 0
+      hitEffectorTM:
+        typeID: 0
+        effectorName: 
+        entitySummonTMArray: []
+        entityDestroyTMArray: []
+      stateEffectTM:
+        effectStateType: 0
+        effectStateValue: 0
+        effectMaintainFrame: 0
       colliderTMArray:
       - colliderType: 0
         localPos: {x: 2.7651, y: 0.94, z: 0}
         localAngleZ: 0
         size: {x: 5.408878, y: 1.7378125, z: 1}
-      hitPowerTM:
-        hitStunFrameArray: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
-        damageArray: 320000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e0000006e000000
-        knockBackSpeedArray_cm: e8080000f80700000807000018060000280500003804000048030000580200006801000078000000
-        knockUpSpeedArray_cm: e8080000f80700000807000018060000280500003804000048030000580200006801000078000000
-        hitStunFrameCurve_KeyframeTMArray:
-        - time: 0
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        damageCurve_KeyframeTMArray:
-        - time: 0
-          value: 1
-          inTangent: 1.2
-          outTangent: 1.2
-          inWeight: 0
-          outWeight: 0.33333334
-        - time: 1
-          value: 2.2
-          inTangent: 1.2
-          outTangent: 1.2
-          inWeight: 0.33333334
-          outWeight: 0
-        knockBackDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        knockUpDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        hitStunFrameBase: 30
-        damageBase: 50
-        knockBackCostFrame: 10
-        knockBackDistance_cm: 400
-        knockUpCostFrame: 10
-        knockUpHeight_cm: 400
-      hitTargetType: 4
       colliderRelativePathArray:
       - colliders_0/b1
     skillEffectorTMArray: []

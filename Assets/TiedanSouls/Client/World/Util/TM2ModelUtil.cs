@@ -30,7 +30,7 @@ namespace TiedanSouls.Client {
             element.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
             element.SetExtraHitTimes(tm.extraHitTimes);
             element.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
-            element.SetDirectionArray(tm.directionArray.Clone() as Vector3[]);
+            element.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
 
             element.SetRelativeOffset_pos(GetVector3_Shrink100(tm.relativeOffset_pos));
             element.SetRelativeOffset_euler(tm.relativeOffset_euler);
@@ -86,7 +86,10 @@ namespace TiedanSouls.Client {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
-            for (int i = 0; i < len; i++) modelArray[i] = GetModel_CollisionTrigger(tmArray[i]);
+            for (int i = 0; i < len; i++) {
+                var tm = tmArray[i];
+                modelArray[i] = GetModel_CollisionTrigger(tm);
+            }
             return modelArray;
         }
 
@@ -120,6 +123,19 @@ namespace TiedanSouls.Client {
                                                                           int intervalFrame,
                                                                           int maintainFrame) {
             var dic = new Dictionary<int, TriggerStatus>();
+
+            if (maintainFrame == 0) return dic;
+
+            var startFrame_delayed = startFrame + delayFrame;
+            if (intervalFrame == 0) {
+                dic.TryAdd(startFrame_delayed, TriggerStatus.Begin);
+                for (int i = startFrame_delayed + 1; i < endFrame; i++) {
+                    dic.TryAdd(i, TriggerStatus.Triggering);
+                }
+                dic.TryAdd(endFrame, TriggerStatus.End);
+                return dic;
+            }
+
             var T = intervalFrame + maintainFrame;
             for (int i = startFrame + delayFrame; i < endFrame; i += T) {
                 dic.TryAdd(i, TriggerStatus.Begin);
@@ -205,7 +221,7 @@ namespace TiedanSouls.Client {
         public static DamageModel GetModel_Damage(DamageTM tm) {
             DamageModel model;
             model.damageType = tm.damageType;
-            model.damageArray = tm.damageArray.Clone() as int[];
+            model.damageArray = tm.damageArray?.Clone() as int[];
             return model;
         }
 

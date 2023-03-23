@@ -16,8 +16,6 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("触发间隔")] public int intervalFrame;
         [Header("触发时间")] public int maintainFrame;
 
-        [Header("碰撞盒(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;
-
         [Header("作用目标")] public TargetGroupType targetGroupType;
         [Header("模型: 伤害")] public DamageEM damageEM;
         [Header("模型: 物理力度")] public KnockBackPowerEM knockBackPowerEM;
@@ -25,6 +23,8 @@ namespace TiedanSouls.EditorTool.SkillEditor {
         [Header("模型: 击中效果器")] public EffectorEM hitEffectorEM;
         [Header("模型: 状态影响")] public StateEffectEM stateEffectEM;
 
+        [Header("碰撞盒(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;
+        
     }
 
 }

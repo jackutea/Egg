@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.EditorTool.SkillEditor {
 
     /// <summary>
-    /// 物理力度模型
+    /// 击飞力度模型
     /// </summary>
     [Serializable]
     public struct KnockUpPowerEM {

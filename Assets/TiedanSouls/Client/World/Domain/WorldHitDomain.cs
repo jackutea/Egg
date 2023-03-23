@@ -26,10 +26,10 @@ namespace TiedanSouls.Client.Domain {
 
             // 击退
             var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
-            fsm.Add_KnockBack(beHitDir, knockBackPowerModel);
+            fsm.AddKnockBack(beHitDir, knockBackPowerModel);
             // 击飞
             var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
-            fsm.Add_KnockUp(knockUpPowerModel);
+            fsm.AddKnockUp(knockUpPowerModel);
 
 
             // 伤害结算

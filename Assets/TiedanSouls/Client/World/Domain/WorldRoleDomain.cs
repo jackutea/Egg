@@ -245,8 +245,8 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Locomotion]
 
-        public void Move_Horizontal(RoleEntity role) {
-            role.Move_Horizontal();
+        public void MoveByInput(RoleEntity role) {
+            role.MoveByInput();
         }
 
         public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
@@ -269,15 +269,15 @@ namespace TiedanSouls.Client.Domain {
             role.Dash(dir, force);
         }
 
-        public void Jump(RoleEntity role) {
-            role.Jump();
+        public void JumpByInput(RoleEntity role) {
+            role.JumpByInput();
         }
 
         public void CrossDown(RoleEntity role) {
             role.TryCrossDown();
         }
 
-        public void Falling(RoleEntity role, float dt) {
+        public void Fall(RoleEntity role, float dt) {
             if (role.IsGrounded) {
                 return;
             }
@@ -381,12 +381,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Add_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.AddCast(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Add_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.AddCast(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion
@@ -396,7 +396,7 @@ namespace TiedanSouls.Client.Domain {
         public void Role_PrepareToDie(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
-            fsm.Add_Dying(30);
+            fsm.AddDying(30);
         }
 
         public void Role_Die(RoleEntity role) {
