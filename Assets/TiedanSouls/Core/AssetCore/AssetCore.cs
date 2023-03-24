@@ -4,35 +4,35 @@ namespace TiedanSouls.Asset {
 
     public class AssetCore {
 
-        public ContainerModAssets ContainerModAssets { get; private set; }
-        public FieldModAssets FieldModAssets { get; private set; }
-        public SpriteAssets SpriteAssets { get; private set; }
-        public WeaponModAssets WeaponModAssets { get; private set; }
-        public RoleModAssets RoleModAssets { get; private set; }
+        public ContainerModAsset ContainerModAsset { get; private set; }
+        public FieldModAsset FieldModAsset { get; private set; }
+        public SpriteAsset SpriteAsset { get; private set; }
+        public WeaponModAsset WeaponModAsset { get; private set; }
+        public RoleModAsset RoleModAsset { get; private set; }
         public ItemModAsset ItemModAsset { get; private set; }
-        public HUDAssets HUDAssets { get; private set; }
-        public VFXAssets VFXAssets { get; private set; }
+        public HUDAsset HUDAsset { get; private set; }
+        public VFXAsset VFXAsset { get; private set; }
 
         public AssetCore() {
-            ContainerModAssets = new ContainerModAssets();
-            FieldModAssets = new FieldModAssets();
-            SpriteAssets = new SpriteAssets();
-            WeaponModAssets = new WeaponModAssets();
-            RoleModAssets = new RoleModAssets();
+            ContainerModAsset = new ContainerModAsset();
+            FieldModAsset = new FieldModAsset();
+            SpriteAsset = new SpriteAsset();
+            WeaponModAsset = new WeaponModAsset();
+            RoleModAsset = new RoleModAsset();
             ItemModAsset = new ItemModAsset();
-            HUDAssets = new HUDAssets();
-            VFXAssets = new VFXAssets();
+            HUDAsset = new HUDAsset();
+            VFXAsset = new VFXAsset();
         }
 
         public async Task Init() {
-            await HUDAssets.LoadAll();
-            await ContainerModAssets.LoadAll();
-            await FieldModAssets.LoadAll();
-            await SpriteAssets.LoadAll();
-            await WeaponModAssets.LoadAll();
-            await RoleModAssets.LoadAll();
+            await HUDAsset.LoadAll();
+            await ContainerModAsset.LoadAll();
+            await FieldModAsset.LoadAll();
+            await SpriteAsset.LoadAll();
+            await WeaponModAsset.LoadAll();
+            await RoleModAsset.LoadAll();
             await ItemModAsset.LoadAll();
-            await VFXAssets.LoadAll();
+            await VFXAsset.LoadAll();
         }
 
     }

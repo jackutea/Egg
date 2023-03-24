@@ -10,29 +10,11 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public static BulletEntity[] GetElementArray_Projectile(BulletTM[] tmArray) {
-            if (tmArray == null) return null;
-            var len = tmArray.Length;
-            BulletEntity[] elementArray = new BulletEntity[len];
-            for (int i = 0; i < len; i++) {
-                elementArray[i] = GetElement_Projectile(tmArray[i]);
-            }
-            return elementArray;
-        }
 
-        public static BulletEntity GetElement_Projectile(BulletTM tm) {
-            BulletEntity bullet = new BulletEntity();
-            bullet.Ctor();
+        #endregion
 
-            bullet.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));
-            bullet.SetHitEffectorModel(GetModel_Effector(tm.hitEffectorTM));
-            bullet.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
-           
-            bullet.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
-            bullet.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
+        #region [ProjectileBullet]
 
-            return bullet;
-        }
 
         #endregion
 
@@ -334,7 +316,7 @@ namespace TiedanSouls.Client {
 
         #region [MISC]
 
-        static float[] GetFloatArray_Shrink100(int[] array) {
+        public static float[] GetFloatArray_Shrink100(int[] array) {
             if (array == null) return null;
             var len = array.Length;
             float[] newArray = new float[len];

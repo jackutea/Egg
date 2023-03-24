@@ -6,6 +6,9 @@ namespace TiedanSouls.EditorTool {
     [Serializable]
     public struct BulletEM {
 
+        [Header("类型ID")] public int typeID;
+        [Header("子弹名称")] public string bulletName;
+
         [Header("碰撞器")] public CollisionTriggerEM collisionTriggerEM;
 
         [Header("打击效果器")] public EffectorEM hitEffectorEM;

@@ -183,7 +183,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // Weapon Mod
-            has = assetCore.WeaponModAssets.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
+            has = assetCore.WeaponModAsset.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
             if (!has) {
                 TDLog.Error("Failed to get weapon mod: " + weaponTM.meshName);
                 return null;

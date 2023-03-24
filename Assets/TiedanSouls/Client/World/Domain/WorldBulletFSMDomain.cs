@@ -1,21 +1,23 @@
+using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
-    public class WorldBulletDomain {
+    public class WorldBulletFSMDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldRootDomain;
+        WorldRootDomain rootDomain;
 
-        public WorldBulletDomain() { }
+        public WorldBulletFSMDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldRootDomain = worldDomain;
+            this.rootDomain = worldDomain;
         }
 
     }

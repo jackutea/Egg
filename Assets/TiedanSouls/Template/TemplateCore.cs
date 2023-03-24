@@ -26,6 +26,9 @@ namespace TiedanSouls.Template {
         ProjectileTemplate projectileTemplate;
         public ProjectileTemplate ProjectileTemplate => projectileTemplate;
 
+        BulletTemplate bulletTemplate;
+        public BulletTemplate BulletTemplate => bulletTemplate;
+
         #endregion
 
         #region [Misc]

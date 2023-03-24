@@ -6,11 +6,11 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 
-    public class ContainerModAssets {
+    public class ContainerModAsset {
 
         Dictionary<string, GameObject> all;
 
-        public ContainerModAssets() {
+        public ContainerModAsset() {
             all = new Dictionary<string, GameObject>();
         }
 

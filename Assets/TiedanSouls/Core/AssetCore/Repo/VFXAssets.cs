@@ -6,11 +6,11 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 
-    public class VFXAssets {
+    public class VFXAsset {
 
         Dictionary<string, GameObject> all;
 
-        public VFXAssets() {
+        public VFXAsset() {
             all = new Dictionary<string, GameObject>();
         }
 

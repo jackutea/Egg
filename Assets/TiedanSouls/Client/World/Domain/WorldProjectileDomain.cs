@@ -39,24 +39,17 @@ namespace TiedanSouls.Client.Domain {
             // Father
             idCom.SetFather(summoner);
 
-            // 元素 位置&角度 
-            var rootElement = projectile.RootElement;
-            rootElement.SetRotation_UseRelativeOffset(spawnRot);
-            rootElement.SetPos_UseRelativeOffset(pos);
-
-            var leafElementArray = projectile.LeafElementArray;
-            var len = leafElementArray.Length;
+            var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var leafElement = leafElementArray[i];
-                leafElement.SetRotation_UseRelativeOffset(spawnRot);
-                leafElement.SetPos_UseRelativeOffset(pos);
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
+                // 碰撞盒关联
+                this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
+                // TODO  元素 位置&角度 
             }
 
-            // 碰撞盒关联
-            this.rootDomain.SetFather_CollisionTriggerModel(rootElement.CollisionTriggerModel, idCom.ToArgs());
-
-
-            // 立刻激活  、  TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
+            // TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;
             fsm.Enter_Activated();
 

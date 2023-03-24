@@ -20,6 +20,10 @@ namespace TiedanSouls.EditorTool {
 
         public static BulletEM GetEM_Bullet(BulletTM tm) {
             BulletEM em;
+            
+            em.typeID = tm.typeID;
+            em.bulletName = tm.bulletName;
+
             em.collisionTriggerEM = GetEM_CollisionTrigger(tm.collisionTriggerTM);
             em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
             em.deathEffectorEM = GetEM_Effector(tm.deathEffectorTM);

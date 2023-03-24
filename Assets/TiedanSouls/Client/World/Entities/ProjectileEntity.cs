@@ -24,7 +24,8 @@ namespace TiedanSouls.Client.Entities {
 
         #region [弹道子弹模型组]
 
-        ProjectileBulletModel[] bulletModelArray;
+        ProjectileBulletModel[] projectileBulletModelArray;
+        public ProjectileBulletModel[] ProjectileBulletModelArray => projectileBulletModelArray;
 
         #endregion
 
@@ -47,31 +48,31 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Deactivate() {
-            var len = bulletModelArray.Length;
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = bulletModelArray[i];
-                var bullet = bulletModel.bullet;
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
                 bullet.Deactivate();
             }
         }
 
         public void Activate() {
-            var len = bulletModelArray.Length;
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = bulletModelArray[i];
-                var bullet = bulletModel.bullet;
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
                 bullet.Activate();
             }
         }
 
-        public void SetBulletEntityArray(ProjectileBulletModel[] bulletModelArray) {
-            var len = bulletModelArray.Length;
+        public void SeProjectileBulletModelArray(ProjectileBulletModel[] projectileBulletModelArray) {
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = bulletModelArray[i];
-                var bullet = bulletModel.bullet;
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
                 bullet.RootGO.transform.SetParent(this.transform);
             }
-            this.bulletModelArray = bulletModelArray;
+            this.projectileBulletModelArray = projectileBulletModelArray;
         }
 
         public void SetPos(Vector2 value) {
@@ -81,19 +82,19 @@ namespace TiedanSouls.Client.Entities {
         #region [表现层同步]
 
         public void Renderer_Sync() {
-            var len = bulletModelArray.Length;
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = bulletModelArray[i];
-                var bullet = bulletModel.bullet;
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
                 bullet.Renderer_Sync();
             }
         }
 
         public void Renderer_Easing(float dt) {
-            var len = bulletModelArray.Length;
+            var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = bulletModelArray[i];
-                var bullet = bulletModel.bullet;
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
                 bullet.Renderer_Easing(dt);
             }
         }

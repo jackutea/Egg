@@ -22,7 +22,7 @@ namespace TiedanSouls.Client {
 
         #region [Field]
 
-        public bool TryCreateField(int typeID, out FieldEntity field) {
+        public bool TryCreateFieldEntity(int typeID, out FieldEntity field) {
             field = null;
 
             var fieldTemplate = infraContext.TemplateCore.FieldTemplate;
@@ -33,7 +33,7 @@ namespace TiedanSouls.Client {
 
             var fieldModAssetName = fieldTM.fieldAssetName;
 
-            var fieldModAssets = infraContext.AssetCore.FieldModAssets;
+            var fieldModAssets = infraContext.AssetCore.FieldModAsset;
             bool has = fieldModAssets.TryGet(fieldModAssetName, out GameObject go);
             if (!has) {
                 TDLog.Error($"Failed to get asset: {fieldModAssetName}");
@@ -80,7 +80,7 @@ namespace TiedanSouls.Client {
 
             // Container
             var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAssets;
+            var containerModAssets = assetCore.ContainerModAsset;
             var contanerAssetName = "mod_container_item";
             if (!containerModAssets.TryGet(contanerAssetName, out GameObject itemPrefab)) {
                 TDLog.Error($"获取实体容器失败! {contanerAssetName}");
@@ -132,7 +132,7 @@ namespace TiedanSouls.Client {
 
             // Container
             var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAssets;
+            var containerModAssets = assetCore.ContainerModAsset;
             var contanerAssetName = "mod_container_role";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
             if (!has) {
@@ -149,7 +149,7 @@ namespace TiedanSouls.Client {
             roleIDCom.SetEntityName(roleTM.roleName);
 
             // Mod
-            var roleModAssets = assetCore.RoleModAssets;
+            var roleModAssets = assetCore.RoleModAsset;
             has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
             if (!has) {
                 TDLog.Error($"请检查配置! 角色模型资源不存在! {roleTM.modName}");
@@ -221,7 +221,7 @@ namespace TiedanSouls.Client {
 
         public HpBarHUD CreateHpBarHUD() {
             var assetCore = infraContext.AssetCore;
-            var hudAssets = assetCore.HUDAssets;
+            var hudAssets = assetCore.HUDAsset;
             bool has = hudAssets.TryGet("hud_hp_bar", out GameObject go);
             if (!has) {
                 TDLog.Error("Failed to get asset: hud_hp_bar");
@@ -278,14 +278,14 @@ namespace TiedanSouls.Client {
             projectile = null;
 
             var template = infraContext.TemplateCore.ProjectileTemplate;
-            if (!template.TryGet(typeID, out BulletTM tm)) {
-                TDLog.Error($"配置出错! 未找到弹道模板数据: TypeID {typeID}");
+            if (!template.TryGet(typeID, out ProjectileTM projetileTM)) {
+                TDLog.Error($"配置出错! 未找到 弹道 模板数据: TypeID {typeID}");
                 return false;
             }
 
             // Container
             var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAssets;
+            var containerModAssets = assetCore.ContainerModAsset;
             var contanerAssetName = "mod_container_projectile";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
             if (!has) {
@@ -299,43 +299,96 @@ namespace TiedanSouls.Client {
             // ID
             var idCom = projectile.IDCom;
             idCom.SetTypeID(typeID);
-            idCom.SetEntityName(tm.projectileName);
+            idCom.SetEntityName(projetileTM.projectileName);
 
-            var rootElementTM = tm.rootElementTM;
-            var leafElementTMArray = tm.leafElementTMArray;
-            var rootElement = TM2ModelUtil.GetElement_Projectile(rootElementTM);
-            var leafElements = TM2ModelUtil.GetElementArray_Projectile(leafElementTMArray);
-
-            // 特效设置
-            var vfxAssets = infraContext.AssetCore.VFXAssets;
-            if (!vfxAssets.TryGet(rootElementTM.vfxPrefabName, out GameObject vfxPrefab)) {
-                TDLog.Warning($"获取VFX失败! {rootElementTM.vfxPrefabName}");
-            }
-            var vfxGO = GameObject.Instantiate(vfxPrefab);
-            rootElement.SetVFXGO(vfxGO);
-
-            var len = leafElements.Length;
+            // 弹道子弹
+            var projetileBulletTMArray = projetileTM.projetileBulletTMArray;
+            var len = projetileBulletTMArray.Length;
+            ProjectileBulletModel[] projectileBulletModelArray = new ProjectileBulletModel[len];
             for (int i = 0; i < len; i++) {
-                var leafElement = leafElements[i];
-                var leafElementTM = leafElementTMArray[i];
-                if (!vfxAssets.TryGet(leafElementTM.vfxPrefabName, out GameObject leafVFXPrefab)) {
-                    TDLog.Warning($"获取VFX失败! {leafElementTM.vfxPrefabName}");
+                var projetileBulletTM = projetileBulletTMArray[i];
+                if (!TryGetProjectileBulletModel(projetileBulletTM, out ProjectileBulletModel projectileBulletModel)) {
+                    TDLog.Error($"创建 弹道子弹 失败! {projetileBulletTM.bulletTypeID}");
+                    return false;
                 }
-                var leafVFXGO = GameObject.Instantiate(leafVFXPrefab);
-                leafElement.SetVFXGO(leafVFXGO);
-            }
 
-            projectile.SetRootElement(rootElement);
-            projectile.SetBulletEntityArray(leafElements);
+                projectileBulletModelArray[i] = projectileBulletModel;
+            }
+            projectile.SeProjectileBulletModelArray(projectileBulletModelArray);
 
             return projectile;
         }
 
         #endregion
 
+        #region [ProjectileBullet]
+
+        public bool TryGetProjectileBulletModel(ProjectileBulletTM tm, out ProjectileBulletModel model) {
+            model.extraHitTimes = tm.extraHitTimes;
+            model.localPos = tm.localPos;
+            model.localEulerAngles = tm.localEulerAngles;
+            if (!TryCreateBullet(tm.bulletTypeID, out model.bulletEntity)) {
+                TDLog.Error($"创建子弹失败! {tm.bulletTypeID}");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region [Bullet]
+
+        public bool TryCreateBullet(int bulletTypeID, out BulletEntity bullet) {
+            bullet = null;
+
+            var templateCore = infraContext.TemplateCore;
+            var bulletTemplate = templateCore.BulletTemplate;
+            if (!bulletTemplate.TryGet(bulletTypeID, out BulletTM tm)) {
+                TDLog.Error($"配置出错! 未找到 子弹 模板数据: TypeID {bulletTypeID}");
+                return false;
+            }
+
+            // Container
+            var assetCore = infraContext.AssetCore;
+            var containerModAssets = assetCore.ContainerModAsset;
+            var contanerAssetName = "mod_container_bullet";
+            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
+            if (!has) {
+                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
+                return false;
+            }
+
+            bullet = GameObject.Instantiate(go).GetComponent<BulletEntity>();
+            bullet.Ctor();
+
+            var idCom = bullet.IDCom;
+            idCom.SetTypeID(tm.typeID);
+            idCom.SetEntityName(tm.bulletName);
+
+            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
+            bullet.SetHitEffectorModel(TM2ModelUtil.GetModel_Effector(tm.hitEffectorTM));
+            bullet.SetDeathEffectorModel(TM2ModelUtil.GetModel_Effector(tm.deathEffectorTM));
+
+            bullet.SetMoveSpeedArray(TM2ModelUtil.GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
+            bullet.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
+
+            // 表现层
+            var vfxAsset = assetCore.VFXAsset;
+            if (!vfxAsset.TryGet(tm.vfxPrefabName, out GameObject vfxGO)) {
+                TDLog.Error($"获取 VFX 失败! {tm.vfxPrefabName}");
+                return false;
+            }
+            bullet.SetVFXGO(vfxGO);
+
+            return true;
+        }
+
+        #endregion
+
         #region [EntitySpawnCtrl]
 
-        public static EntitySpawnCtrlModel[] GetModelArray_EntitySpawnCtrl(EntitySpawnCtrlTM[] tmArray) {
+        public EntitySpawnCtrlModel[] GetModelArray_EntitySpawnCtrl(EntitySpawnCtrlTM[] tmArray) {
             var len = tmArray.Length;
             var modelArray = new EntitySpawnCtrlModel[len];
             for (int i = 0; i < len; i++) {
@@ -346,7 +399,7 @@ namespace TiedanSouls.Client {
             return modelArray;
         }
 
-        public static EntitySpawnCtrlModel GetModel_EntitySpawnCtrl(EntitySpawnCtrlTM tm) {
+        public EntitySpawnCtrlModel GetModel_EntitySpawnCtrl(EntitySpawnCtrlTM tm) {
             EntitySpawnCtrlModel model;
             model.spawnFrame = tm.spawnFrame;
             model.isBreakPoint = tm.isBreakPoint;
@@ -356,7 +409,7 @@ namespace TiedanSouls.Client {
 
         #region [EntitySpawn]
 
-        public static EntitySpawnModel GetModel_EntitySpawn(EntitySpawnTM tm) {
+        public EntitySpawnModel GetModel_EntitySpawn(EntitySpawnTM tm) {
             EntitySpawnModel model;
             model.entityType = tm.entityType;
             model.typeID = tm.typeID;

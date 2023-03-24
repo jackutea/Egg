@@ -12,7 +12,7 @@ namespace TiedanSouls.EditorTool {
   
         [Header("类型ID")] public int typeID;
         [Header("名称")] public string projectileName;
-        [Header("弹道子弹(组)")] public ProjectileBulletEM[] tmArray;
+        [Header("弹道子弹(组)")] public ProjectileBulletEM[] projectileBulletEMArray;
 
         public void Save() {
             if (so == null) {

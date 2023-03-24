@@ -9,7 +9,7 @@ namespace TiedanSouls.Template {
 
         [Header("类型ID")] public int typeID;
         [Header("名称")] public string projectileName;
-        [Header("弹道子弹(组)")] public ProjectileBulletTM[] tmArray;
+        [Header("弹道子弹(组)")] public ProjectileBulletTM[] projetileBulletTMArray;
 
     }
 

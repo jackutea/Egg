@@ -7,6 +7,9 @@ namespace TiedanSouls.Template {
     [Serializable]
     public struct BulletTM {
 
+        [Header("类型ID")] public int typeID;
+        [Header("子弹名称")] public string bulletName;
+
         [Header("碰撞器")] public CollisionTriggerTM collisionTriggerTM;
         [Header("打击效果器")] public EffectorTM hitEffectorTM;
         [Header("死亡效果器")] public EffectorTM deathEffectorTM;

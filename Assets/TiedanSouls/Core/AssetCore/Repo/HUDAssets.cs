@@ -6,11 +6,11 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 
-    public class HUDAssets{
+    public class HUDAsset{
         
         Dictionary<string, GameObject> all;
 
-        public HUDAssets() {
+        public HUDAsset() {
             all = new Dictionary<string, GameObject>();
         }
 

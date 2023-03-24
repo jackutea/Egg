@@ -6,11 +6,11 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 
-    public class SpriteAssets {
+    public class SpriteAsset {
 
         Dictionary<string, Sprite> all;
 
-        public SpriteAssets() {
+        public SpriteAsset() {
             all = new Dictionary<string, Sprite>();
         }
 

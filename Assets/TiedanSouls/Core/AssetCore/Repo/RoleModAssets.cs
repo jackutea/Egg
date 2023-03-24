@@ -6,11 +6,11 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Asset {
 
-    public class RoleModAssets {
+    public class RoleModAsset {
 
         Dictionary<string, GameObject> all;
 
-        public RoleModAssets() {
+        public RoleModAsset() {
             all = new Dictionary<string, GameObject>();
         }
 

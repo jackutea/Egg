@@ -15,7 +15,7 @@ namespace TiedanSouls.EditorTool {
 
             tm.typeID = editorGo.typeID;
             tm.projectileName = editorGo.projectileName;
-            tm.tmArray = GetTMArray_ProjectleBullet(editorGo.tmArray);
+            tm.projetileBulletTMArray = GetTMArray_ProjectleBullet(editorGo.projectileBulletEMArray);
 
             return tm;
         }
@@ -59,7 +59,11 @@ namespace TiedanSouls.EditorTool {
         public static BulletTM GetTM_Bullet(BulletEM em) {
             BulletTM tm;
 
+            tm.typeID = em.typeID;
+            tm.bulletName = em.bulletName;
+
             tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(em.collisionTriggerEM);
+
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
             tm.deathEffectorTM = GetTM_Effector(em.deathEffectorEM);
 
