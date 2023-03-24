@@ -5,6 +5,7 @@ namespace TiedanSouls.Generic {
         Role,
         Skill,
         Projectile,
+        Bullet,
         Field,
         Item
     }

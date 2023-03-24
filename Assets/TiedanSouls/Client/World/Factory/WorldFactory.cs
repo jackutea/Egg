@@ -278,7 +278,7 @@ namespace TiedanSouls.Client {
             projectile = null;
 
             var template = infraContext.TemplateCore.ProjectileTemplate;
-            if (!template.TryGet(typeID, out ProjectileTM tm)) {
+            if (!template.TryGet(typeID, out BulletTM tm)) {
                 TDLog.Error($"配置出错! 未找到弹道模板数据: TypeID {typeID}");
                 return false;
             }
@@ -326,7 +326,7 @@ namespace TiedanSouls.Client {
             }
 
             projectile.SetRootElement(rootElement);
-            projectile.SetLeafElements(leafElements);
+            projectile.SetBulletEntityArray(leafElements);
 
             return projectile;
         }

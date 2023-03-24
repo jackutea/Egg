@@ -52,7 +52,7 @@ namespace TiedanSouls.Client.Domain {
                 model.SetIsEntering(false);
             }
 
-            var elementFSMDomain = worldRootDomain.ProjectileElementFSMDomain;
+            var elementFSMDomain = worldRootDomain.BulletFSMDomain;
             elementFSMDomain.TickFSM_AllElements(projectile, dt);
 
             projectile.AddFrame();

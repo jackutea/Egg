@@ -19,8 +19,8 @@ namespace TiedanSouls.Client.Facades {
         public WorldItemDomain ItemDomain { get; private set; }
         public WorldProjectileDomain ProjectileDomain { get; private set; }
         public WorldProjectileFSMDomain ProjectileFSMDomain { get; private set; }
-        public WorldProjectileElementDomain ProjectileElementDomain { get; private set; }
-        public WorldProjectileElementFSMDomain ProjectileElementFSMDomain { get; private set; }
+        public WorldBulletDomain BulletDomain { get; private set; }
+        public WorldBulletFSMDomain BulletFSMDomain { get; private set; }
 
         #endregion
 
@@ -54,8 +54,8 @@ namespace TiedanSouls.Client.Facades {
             ItemDomain = new WorldItemDomain();
             ProjectileDomain = new WorldProjectileDomain();
             ProjectileFSMDomain = new WorldProjectileFSMDomain();
-            ProjectileElementDomain = new WorldProjectileElementDomain();
-            ProjectileElementFSMDomain = new WorldProjectileElementFSMDomain();
+            BulletDomain = new WorldBulletDomain();
+            BulletFSMDomain = new WorldBulletFSMDomain();
 
             PhysicsDomain = new WorldPhysicsDomain();
             HitDomain = new WorldHitDomain();
@@ -76,8 +76,8 @@ namespace TiedanSouls.Client.Facades {
             this.ItemDomain.Inject(infraContext, worldContext);
             this.ProjectileDomain.Inject(infraContext, worldContext, this);
             this.ProjectileFSMDomain.Inject(infraContext, worldContext, this);
-            this.ProjectileElementDomain.Inject(infraContext, worldContext, this);
-            this.ProjectileElementFSMDomain.Inject(infraContext, worldContext, this);
+            this.BulletDomain.Inject(infraContext, worldContext, this);
+            this.BulletFSMDomain.Inject(infraContext, worldContext, this);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
             this.HitDomain.Inject(infraContext, worldContext, this);

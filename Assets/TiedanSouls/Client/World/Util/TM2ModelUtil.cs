@@ -10,32 +10,28 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public static ProjectileElement[] GetElementArray_Projectile(ProjectileElementTM[] tmArray) {
+        public static BulletEntity[] GetElementArray_Projectile(BulletTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            ProjectileElement[] elementArray = new ProjectileElement[len];
+            BulletEntity[] elementArray = new BulletEntity[len];
             for (int i = 0; i < len; i++) {
                 elementArray[i] = GetElement_Projectile(tmArray[i]);
             }
             return elementArray;
         }
 
-        public static ProjectileElement GetElement_Projectile(ProjectileElementTM tm) {
-            ProjectileElement element = new ProjectileElement();
-            element.Ctor();
-            element.SetStartFrame(tm.startFrame);
-            element.SetEndFrame(tm.endFrame);
-            element.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));
-            element.SetHitEffectorModel(GetModel_Effector(tm.hitEffectorTM));
-            element.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
-            element.SetExtraHitTimes(tm.extraHitTimes);
-            element.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
-            element.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
+        public static BulletEntity GetElement_Projectile(BulletTM tm) {
+            BulletEntity bullet = new BulletEntity();
+            bullet.Ctor();
 
-            element.SetRelativeOffset_pos(GetVector3_Shrink100(tm.relativeOffset_pos));
-            element.SetRelativeOffset_euler(tm.relativeOffset_euler);
+            bullet.SetCollisionTriggerModel(GetModel_CollisionTrigger(tm.collisionTriggerTM));
+            bullet.SetHitEffectorModel(GetModel_Effector(tm.hitEffectorTM));
+            bullet.SetDeathEffectorModel(GetModel_Effector(tm.deathEffectorTM));
+           
+            bullet.SetMoveSpeedArray(GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
+            bullet.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
 
-            return element;
+            return bullet;
         }
 
         #endregion

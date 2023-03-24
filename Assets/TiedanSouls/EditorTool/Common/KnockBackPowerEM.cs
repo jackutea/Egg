@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool {
 
     /// <summary>
     /// 物理力度模型

@@ -8,10 +8,8 @@ namespace TiedanSouls.Template {
     public struct ProjectileTM {
 
         [Header("类型ID")] public int typeID;
-        [Header("弹道名称")] public string projectileName;
-
-        [Header("根元素")] public ProjectileElementTM rootElementTM;
-        [Header("叶元素")] public ProjectileElementTM[] leafElementTMArray;
+        [Header("名称")] public string projectileName;
+        [Header("弹道子弹(组)")] public ProjectileBulletTM[] tmArray;
 
     }
 

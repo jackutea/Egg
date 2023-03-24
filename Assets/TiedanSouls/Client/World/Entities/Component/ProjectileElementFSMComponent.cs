@@ -2,52 +2,52 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class ProjectileElementFSMComponent {
+    public class BulletFSMComponent {
 
-        ProjectileElementFSMState state;
-        public ProjectileElementFSMState State => state;
+        BulletFSMState state;
+        public BulletFSMState State => state;
 
         bool isExiting;
         public bool IsExiting => isExiting;
         public void SetIsExiting(bool value) => isExiting = value;
 
         // Model
-        ProjectileElementFSMModel_Activated activatedModel;
-        public ProjectileElementFSMModel_Activated ActivatedModel => activatedModel;
+        BulletFSMModel_Activated activatedModel;
+        public BulletFSMModel_Activated ActivatedModel => activatedModel;
 
-        ProjectileElementFSMModel_Deactivated deactivatedModel;
-        public ProjectileElementFSMModel_Deactivated DeactivatedModel => deactivatedModel;
+        BulletFSMModel_Deactivated deactivatedModel;
+        public BulletFSMModel_Deactivated DeactivatedModel => deactivatedModel;
 
-        ProjectileElementFSMModel_Dying dyingModel;
-        public ProjectileElementFSMModel_Dying DyingModel => dyingModel;
+        BulletFSMModel_Dying dyingModel;
+        public BulletFSMModel_Dying DyingModel => dyingModel;
 
-        public ProjectileElementFSMComponent() {
+        public BulletFSMComponent() {
             isExiting = false;
-            activatedModel = new ProjectileElementFSMModel_Activated();
-            deactivatedModel = new ProjectileElementFSMModel_Deactivated();
-            dyingModel = new ProjectileElementFSMModel_Dying();
+            activatedModel = new BulletFSMModel_Activated();
+            deactivatedModel = new BulletFSMModel_Deactivated();
+            dyingModel = new BulletFSMModel_Dying();
         }
 
         public void Reset() {
             isExiting = false;
-            state = ProjectileElementFSMState.Deactivated;
+            state = BulletFSMState.Deactivated;
         }
 
         public void Enter_Deactivated() {
             TDLog.Log($"弹道元素 -状态机 - 进入 Deactivated");
-            state = ProjectileElementFSMState.Deactivated;
+            state = BulletFSMState.Deactivated;
             deactivatedModel.SetIsEntering(true);
         }
 
         public void Enter_Activated() {
             TDLog.Log($"弹道元素 -状态机 - 进入 Activated");
-            state = ProjectileElementFSMState.Activated;
+            state = BulletFSMState.Activated;
             activatedModel.SetIsEntering(true);
         }
 
         public void Enter_Destroyed() {
             TDLog.Log($"弹道元素 -状态机 - 进入 Destroyed");
-            state = ProjectileElementFSMState.Dying;
+            state = BulletFSMState.Dying;
             dyingModel.SetIsEntering(true);
         }
 

@@ -22,16 +22,9 @@ namespace TiedanSouls.Client.Entities {
         public Vector2 BornPos => bornPos;
         public void SetBornPos(Vector2 value) => this.bornPos = value;
 
-        #region [弹道元素]
+        #region [弹道子弹模型组]
 
-        ProjectileElement rootElement;
-        public ProjectileElement RootElement => rootElement;
-
-        ProjectileElement[] leafElementArray;
-        public ProjectileElement[] LeafElementArray => leafElementArray;
-
-        Transform rootElementTrans;
-        Transform leafElementGroupTrans;
+        ProjectileBulletModel[] bulletModelArray;
 
         #endregion
 
@@ -44,85 +37,64 @@ namespace TiedanSouls.Client.Entities {
             idCom.SetEntityType(EntityType.Projectile);
             fsmCom = new ProjectileFSMComponent();
 
-            rootElementTrans = transform.Find("root_element");
-            leafElementGroupTrans = transform.Find("leaf_element_group");
-
             curFrame = -1;
         }
 
         public void TearDown() {
-            rootElement.TearDown();
-            var len = leafElementArray.Length;
-            for (int i = 0; i < len; i++) {
-                leafElementArray[i].TearDown();
-            }
         }
 
         public void Reset() {
-            rootElement.Reset();
-            var len = leafElementArray.Length;
-            for (int i = 0; i < len; i++) {
-                leafElementArray[i].Reset();
-            }
         }
 
         public void Deactivate() {
-            rootElement.Deactivate();
-            var len = leafElementArray.Length;
+            var len = bulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Deactivate();
+                var bulletModel = bulletModelArray[i];
+                var bullet = bulletModel.bullet;
+                bullet.Deactivate();
             }
         }
 
         public void Activate() {
-            rootElement.Activate();
-            var len = leafElementArray.Length;
+            var len = bulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Activate();
+                var bulletModel = bulletModelArray[i];
+                var bullet = bulletModel.bullet;
+                bullet.Activate();
             }
         }
 
-        public void SetRootElement(ProjectileElement element) {
-            element.RootGO.transform.SetParent(rootElementTrans, false);
-            this.rootElement = element;
-        }
-
-        public void SetLeafElements(ProjectileElement[] elementArray) {
-            var len = elementArray.Length;
+        public void SetBulletEntityArray(ProjectileBulletModel[] bulletModelArray) {
+            var len = bulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                elementArray[i].RootGO.transform.SetParent(leafElementGroupTrans, false);
+                var bulletModel = bulletModelArray[i];
+                var bullet = bulletModel.bullet;
+                bullet.RootGO.transform.SetParent(this.transform);
             }
-            this.leafElementArray = elementArray;
+            this.bulletModelArray = bulletModelArray;
         }
 
         public void SetPos(Vector2 value) {
             transform.position = value;
         }
 
-        #region [根据帧 判断状态]
-
-        public bool IsDead(int frame) {
-            return frame > rootElement.EndFrame;
-        }
-
-        #endregion
-
-
         #region [表现层同步]
 
         public void Renderer_Sync() {
-            rootElement.Renderer_Sync();
-            var len = leafElementArray.Length;
+            var len = bulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Renderer_Sync();
+                var bulletModel = bulletModelArray[i];
+                var bullet = bulletModel.bullet;
+                bullet.Renderer_Sync();
             }
         }
 
         public void Renderer_Easing(float dt) {
-            rootElement.Renderer_Easing(dt);
-            var len = leafElementArray.Length;
+            var len = bulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                leafElementArray[i].Renderer_Easing(dt);
+                var bulletModel = bulletModelArray[i];
+                var bullet = bulletModel.bullet;
+                bullet.Renderer_Easing(dt);
             }
         }
 

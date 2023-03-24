@@ -5,13 +5,13 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
-    public class WorldProjectileElementFSMDomain {
+    public class WorldBulletFSMDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldRootDomain worldRootDomain;
 
-        public WorldProjectileElementFSMDomain() { }
+        public WorldBulletFSMDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
@@ -31,20 +31,20 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void TickFSM(ProjectileElement element, int curFrame, float dt) {
+        void TickFSM(BulletEntity element, int curFrame, float dt) {
             var fsm = element.FSMCom;
             var state = fsm.State;
 
-            if (state == ProjectileElementFSMState.Deactivated) {
+            if (state == BulletFSMState.Deactivated) {
                 Apply_Deactivated(element, curFrame, fsm, dt);
-            } else if (state == ProjectileElementFSMState.Activated) {
+            } else if (state == BulletFSMState.Activated) {
                 Apply_Activated(element, curFrame, fsm, dt);
-            } else if (state == ProjectileElementFSMState.Dying) {
+            } else if (state == BulletFSMState.Dying) {
                 Apply_Dying(element, curFrame, fsm, dt);
             }
         }
 
-        void Apply_Deactivated(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {
+        void Apply_Deactivated(BulletEntity element, int curFrame, BulletFSMComponent fsm, float dt) {
             var elementTriggerStatus = element.GetElementTriggerStatus(curFrame);
             if (elementTriggerStatus == TriggerStatus.TriggerEnter) {
                 // 激活时做一次碰撞盒控制
@@ -61,7 +61,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Apply_Activated(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {
+        void Apply_Activated(BulletEntity element, int curFrame, BulletFSMComponent fsm, float dt) {
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
@@ -103,7 +103,7 @@ namespace TiedanSouls.Client.Domain {
             // TODO: 消失逻辑
         }
 
-        void Apply_Dying(ProjectileElement element, int curFrame, ProjectileElementFSMComponent fsm, float dt) {
+        void Apply_Dying(BulletEntity element, int curFrame, BulletFSMComponent fsm, float dt) {
 
         }
 

@@ -1,5 +1,4 @@
 using TiedanSouls.EditorTool.EffectorEditor;
-using TiedanSouls.EditorTool.SkillEditor;
 using TiedanSouls.Template;
 using UnityEditor;
 using UnityEngine;
@@ -8,33 +7,29 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
-        #region [Projectile]
+        #region [Bullet]
 
-        public static ProjectileElementEM[] GetEMArray_ProjectileElement(ProjectileElementTM[] tmArray) {
-            if (tmArray == null) return null;
-            ProjectileElementEM[] emArray = new ProjectileElementEM[tmArray.Length];
-            for (int i = 0; i < tmArray.Length; i++) {
-                emArray[i] = GetEM_ProjectileElement(tmArray[i]);
+        public static BulletEM[] GetEMArray_Bullet(BulletTM[] tmArray) {
+            var len = tmArray.Length;
+            BulletEM[] emArray = new BulletEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_Bullet(tmArray[i]);
             }
             return emArray;
         }
 
-        public static ProjectileElementEM GetEM_ProjectileElement(ProjectileElementTM tm) {
-            ProjectileElementEM em;
-            em.startFrame = tm.startFrame;
-            em.endFrame = tm.endFrame;
+        public static BulletEM GetEM_Bullet(BulletTM tm) {
+            BulletEM em;
             em.collisionTriggerEM = GetEM_CollisionTrigger(tm.collisionTriggerTM);
             em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
             em.deathEffectorEM = GetEM_Effector(tm.deathEffectorTM);
-            em.extraHitTimes = tm.extraHitTimes;
-            em.vfxPrefab = tm.vfxPrefab_GUID == null ? null : AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(tm.vfxPrefab_GUID));
 
-            em.moveDistance_cm = tm.moveDistance;
+            var vfxGUI = tm.vfxPrefab_GUID;
+            em.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;
+
+            em.moveDistance_cm = tm.moveDistance_cm;
             em.moveTotalFrame = tm.moveTotalFrame;
-            em.moveCurve = GetAnimationCurve(tm.keyframeTMArray);
-
-            em.relativeOffset_pos = tm.relativeOffset_pos;
-            em.relativeOffset_euler = tm.relativeOffset_euler;
+            em.disCurve = GetAnimationCurve(tm.disCurve_KeyframeTMArray);
 
             return em;
         }

@@ -1,5 +1,4 @@
 using GameArki.AddressableHelper;
-using TiedanSouls.EditorTool.SkillEditor;
 using TiedanSouls.Generic;
 using TiedanSouls.Template;
 using UnityEditor;
@@ -13,47 +12,72 @@ namespace TiedanSouls.EditorTool {
 
         public static ProjectileTM GetTM_Projectile(ProjectileEditorGO editorGo) {
             ProjectileTM tm;
+
             tm.typeID = editorGo.typeID;
             tm.projectileName = editorGo.projectileName;
-            tm.rootElementTM = GetTM_ProjectileElement(editorGo.rootElement);
-            tm.leafElementTMArray = GetTMArray_ProjectileElement(editorGo.leafElementEMArray);
+            tm.tmArray = GetTMArray_ProjectleBullet(editorGo.tmArray);
+
             return tm;
         }
 
-        public static ProjectileElementTM[] GetTMArray_ProjectileElement(ProjectileElementEM[] emArray) {
-            var tmArray = new ProjectileElementTM[emArray.Length];
+
+        #endregion
+
+        #region [ProjectileBullet]
+
+        public static ProjectileBulletTM[] GetTMArray_ProjectleBullet(ProjectileBulletEM[] emArray) {
+            var tmArray = new ProjectileBulletTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
-                tmArray[i] = GetTM_ProjectileElement(emArray[i]);
+                tmArray[i] = GetTM_ProjectleBullet(emArray[i]);
             }
             return tmArray;
         }
 
-        public static ProjectileElementTM GetTM_ProjectileElement(ProjectileElementEM em) {
-            ProjectileElementTM tm;
-            tm.startFrame = em.startFrame;
-            tm.endFrame = em.endFrame;
+        public static ProjectileBulletTM GetTM_ProjectleBullet(ProjectileBulletEM em) {
+            ProjectileBulletTM tm;
+
+            tm.extraHitTimes = em.extraHitTimes;
+            tm.localPos = em.localPos;
+            tm.localEulerAngles = em.localEulerAngles;
+            tm.bulletTypeID = em.bulletTypeID;
+
+            return tm;
+        }
+
+        #endregion
+
+        #region [Bullet]
+
+        public static BulletTM[] GetTMArray_Bullet(BulletEM[] emArray) {
+            var tmArray = new BulletTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tmArray[i] = GetTM_Bullet(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static BulletTM GetTM_Bullet(BulletEM em) {
+            BulletTM tm;
+
             tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(em.collisionTriggerEM);
             tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
             tm.deathEffectorTM = GetTM_Effector(em.deathEffectorEM);
-            tm.extraHitTimes = em.extraHitTimes;
-            tm.vfxPrefabName = em.vfxPrefab == null ? string.Empty : em.vfxPrefab.name;
-            tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.vfxPrefab));
+
+            var moveTotalFrame = em.moveTotalFrame;
+            var disCurve = em.disCurve;
+            var moveDistance_cm = em.moveDistance_cm;
+            tm.moveDistance_cm = moveDistance_cm;
+            tm.moveTotalFrame = moveTotalFrame;
+            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
+            tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
+            tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
+
+            var vfxPrefab = em.vfxPrefab;
+            tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
+            tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(vfxPrefab));
 
             var labelName = AssetsLabelCollection.VFX;
-            AddressableHelper.SetAddressable(em.vfxPrefab, labelName, labelName);
-
-            var moveDistance_cm = em.moveDistance_cm;
-            var moveTotalFrame = em.moveTotalFrame;
-            var moveCurve = em.moveCurve;
-            var moveKeyFrameArray = em.moveCurve.keys;
-            tm.keyframeTMArray = GetTMArray_Keyframe(moveKeyFrameArray);
-            tm.moveDistance = em.moveDistance_cm;
-            tm.moveTotalFrame = em.moveTotalFrame;
-            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, moveCurve);
-            tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame);
-
-            tm.relativeOffset_pos = em.relativeOffset_pos;
-            tm.relativeOffset_euler = em.relativeOffset_euler;
+            AddressableHelper.SetAddressable(vfxPrefab, labelName, labelName);
 
             return tm;
         }
@@ -147,7 +171,7 @@ namespace TiedanSouls.EditorTool {
             tm.knockBackCostFrame = knockBackCostFrame;
             tm.knockBackDistance_cm = knockBackDistance_cm;
             tm.knockBackSpeedArray_cm = knockBackSpeedArray_cm;
-            tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve.keys);
+            tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve);
             return tm;
         }
 
@@ -163,7 +187,7 @@ namespace TiedanSouls.EditorTool {
             tm.knockUpCostFrame = knockUpCostFrame;
             tm.knockUpHeight_cm = knockUpHeight_cm;
             tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
-            tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve.keys);
+            tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve);
             return tm;
         }
 
@@ -174,15 +198,13 @@ namespace TiedanSouls.EditorTool {
         public static DamageTM GetTM_Damage(DamageEM em, int totalFrame) {
             var damageBase = em.damageBase;
             var damageCurve = em.damageCurve;
-            var damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame, damageCurve);
 
             DamageTM tm;
             tm.damageType = em.damageType;
-            tm.damageArray = damageArray;
-            tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
-
             tm.damageBase = damageBase;
-            tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve.keys);
+            tm.damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame, damageCurve);
+            tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve);
+
             return tm;
         }
 
@@ -392,10 +414,10 @@ namespace TiedanSouls.EditorTool {
             return speedArray;
         }
 
-        public static Vector3[] GetDirectionArray_AnimationCurve(int totalFrame) {
-            Vector3[] directionArray = new Vector3[totalFrame];
+        public static Vector3Int[] GetDirectionArray_AnimationCurve(int totalFrame, AnimationCurve curve) {
+            Vector3Int[] directionArray = new Vector3Int[totalFrame];
             for (int i = 0; i < totalFrame; i++) {
-                directionArray[i] = Vector3.right;
+                directionArray[i] = Vector3Int.right;
             }
             return directionArray;
         }
@@ -404,7 +426,8 @@ namespace TiedanSouls.EditorTool {
 
         #region [KeyFrame]
 
-        public static KeyframeTM[] GetTMArray_Keyframe(Keyframe[] keyframeArray) {
+        public static KeyframeTM[] GetTMArray_Keyframe(AnimationCurve curve) {
+            var keyframeArray = curve.keys;
             var len = keyframeArray.Length;
             var keyFrameArray = new KeyframeTM[len];
             for (int i = 0; i < len; i++) {

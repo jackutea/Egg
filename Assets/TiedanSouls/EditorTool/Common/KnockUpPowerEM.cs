@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool {
 
     /// <summary>
     /// 击飞力度模型

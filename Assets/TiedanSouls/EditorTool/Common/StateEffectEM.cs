@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using TiedanSouls.Generic;
 
-namespace TiedanSouls.EditorTool.SkillEditor {
+namespace TiedanSouls.EditorTool {
 
     [Serializable]
     public struct StateEffectEM {

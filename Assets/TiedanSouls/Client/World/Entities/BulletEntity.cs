@@ -5,14 +5,14 @@ using UnityEngine;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 弹道元素模型
+    /// 子弹
     /// </summary>
-    public class ProjectileElement {
-
-        IDArgs father;
-        public IDArgs Father => father;
+    public class BulletEntity : IEntity {
 
         #region [组件]
+
+        IDComponent idCom;
+        public IDComponent IDCom => idCom;
 
         InputComponent inputCom;
         public InputComponent InputCom => inputCom;
@@ -23,8 +23,8 @@ namespace TiedanSouls.Client.Entities {
         MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
 
-        ProjectileElementFSMComponent fsmCom;
-        public ProjectileElementFSMComponent FSMCom => fsmCom;
+        BulletFSMComponent fsmCom;
+        public BulletFSMComponent FSMCom => fsmCom;
 
         #endregion
 
@@ -90,13 +90,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [额外打击次数]
-
-        int extraHitTimes;
-        public void SetExtraHitTimes(int value) => extraHitTimes = value;
-        public void ReduceHitExtraTimes() => extraHitTimes--;
-
-        #endregion
 
         #region [速度组]
 
@@ -109,18 +102,6 @@ namespace TiedanSouls.Client.Entities {
 
         Vector3[] directionArray;
         public void SetDirectionArray(Vector3[] value) => this.directionArray = value;
-
-        #endregion
-
-        #region [初始相对偏移]
-
-        Vector3 relativeOffset_pos;
-        public Vector3 RelativeOffset_pos => relativeOffset_pos;
-        public void SetRelativeOffset_pos(Vector3 value) => this.relativeOffset_pos = value;
-
-        Vector3Int relativeOffset_euler;
-        public Vector3Int RelativeOffset_euler => relativeOffset_euler;
-        public void SetRelativeOffset_euler(Vector3Int value) => this.relativeOffset_euler = value;
 
         #endregion
 
@@ -137,11 +118,17 @@ namespace TiedanSouls.Client.Entities {
             rb.gravityScale = 0;
 
             // Component
+            idCom = new IDComponent();
+            idCom.SetEntityType(EntityType.Bullet);
+
+            inputCom = new InputComponent();
+
             moveCom = new MoveComponent();
             moveCom.Inject(rb);
-            inputCom = new InputComponent();
+
             attributeCom = new AttributeComponent();
-            fsmCom = new ProjectileElementFSMComponent();
+
+            fsmCom = new BulletFSMComponent();
         }
 
         public void TearDown() {
@@ -152,10 +139,6 @@ namespace TiedanSouls.Client.Entities {
         public void Reset() {
             attributeCom.Reset();
             inputCom.Reset();
-        }
-
-        public void SetFather(in IDArgs father) {
-            this.father = father;
         }
 
         public void SetVFXGO(GameObject value) {
@@ -195,14 +178,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void SetRotation(Quaternion rot) {
             rootGO.transform.rotation = rot;
-        }
-
-        public void SetRotation_UseRelativeOffset(Quaternion rot) {
-            rootGO.transform.rotation = rot * Quaternion.Euler(relativeOffset_euler);
-        }
-
-        public void SetPos_UseRelativeOffset(Vector3 pos) {
-            rootGO.transform.position = pos + relativeOffset_pos;
         }
 
         #region [碰撞器]

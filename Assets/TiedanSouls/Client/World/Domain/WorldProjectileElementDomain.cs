@@ -4,13 +4,13 @@ using TiedanSouls.Client.Entities;
 
 namespace TiedanSouls.Client.Domain {
 
-    public class WorldProjectileElementDomain {
+    public class WorldBulletDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldRootDomain worldRootDomain;
 
-        public WorldProjectileElementDomain() { }
+        public WorldBulletDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
             this.infraContext = infraContext;
