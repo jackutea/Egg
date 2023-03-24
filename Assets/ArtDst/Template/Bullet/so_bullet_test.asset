@@ -16,16 +16,15 @@ MonoBehaviour:
     typeID: 9999
     bulletName: "\u6D4B\u8BD5\u5B50\u5F39"
     collisionTriggerTM:
-      isEnabled: 0
-      startFrame: 0
-      endFrame: 0
+      isEnabled: 1
+      totalFrame: 0
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
-      targetGroupType: 0
+      targetGroupType: 4
       damageTM:
         damageType: 0
-        damageArray: 00000000
+        damageArray: 
         damageBase: 0
         damageCurve_KeyframeTMArray: []
       knockBackPowerTM:
@@ -47,8 +46,13 @@ MonoBehaviour:
         addStateFlag: 0
         effectStateValue: 0
         effectMaintainFrame: 0
-      colliderTMArray: []
-      colliderRelativePathArray: []
+      colliderTMArray:
+      - colliderType: 0
+        localPos: {x: 2.4564545, y: 3.935334, z: 0}
+        localAngleZ: 0
+        size: {x: 5, y: 5, z: 5}
+      colliderRelativePathArray:
+      - collider
     hitEffectorTM:
       typeID: 0
       effectorName: 

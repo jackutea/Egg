@@ -35,7 +35,7 @@ namespace TiedanSouls.Client.Domain {
             // 2. 填充 弹道子弹模型数据 数组
             var bulletDomain = rootDomain.BulletDomain;
             var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
-            var len = projectileBulletModelArray.Length;
+            var len = projectileBulletModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var projetileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projetileBulletModel.bulletTypeID;

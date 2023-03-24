@@ -51,6 +51,7 @@ namespace TiedanSouls.Template {
             fieldTemplate = new FieldTemplate();
             itemTemplate = new ItemTemplate();
             projectileTemplate = new ProjectileTemplate();
+            bulletTemplate = new BulletTemplate();
 
             aiTemplate = new AITemplate();
             effectorTemplate = new EffectorTemplate();
@@ -63,6 +64,7 @@ namespace TiedanSouls.Template {
             await fieldTemplate.LoadAll();
             await itemTemplate.LoadAll();
             await projectileTemplate.LoadAll();
+            await bulletTemplate.LoadAll();
             
             await aiTemplate.LoadAll();
             await effectorTemplate.LoadAll();

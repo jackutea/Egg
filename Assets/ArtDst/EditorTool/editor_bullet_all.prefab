@@ -192,13 +192,12 @@ MonoBehaviour:
   typeID: 9999
   bulletName: "\u6D4B\u8BD5\u5B50\u5F39"
   collisionTriggerEM:
-    isEnabled: 0
-    startFrame: 0
-    endFrame: 0
+    isEnabled: 1
+    totalFrame: 0
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    targetGroupType: 0
+    targetGroupType: 4
     damageEM:
       damageType: 0
       damageBase: 0
@@ -235,7 +234,8 @@ MonoBehaviour:
       addStateFlag: 0
       effectStateValue: 0
       effectMaintainFrame: 0
-    colliderGOArray: []
+    colliderGOArray:
+    - {fileID: 285879737727348702}
   hitEffectorEM:
     typeID: 0
     effectorName: 

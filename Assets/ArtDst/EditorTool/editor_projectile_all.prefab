@@ -192,7 +192,9 @@ MonoBehaviour:
   typeID: 9999
   projectileName: "\u6D4B\u8BD5\u5F39\u90539999"
   projectileBulletEMArray:
-  - extraHitTimes: 0
+  - startFrame: 0
+    endFrame: 30
+    extraHitTimes: 99
     localPos: {x: 0, y: 0, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
-    bulletTypeID: 0
+    bulletTypeID: 9999

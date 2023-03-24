@@ -56,7 +56,7 @@ namespace TiedanSouls.EditorTool {
             tm.typeID = editorGO.typeID;
             tm.bulletName = editorGO.bulletName;
 
-            tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(editorGO.collisionTriggerEM);
+            tm.collisionTriggerTM = GetTM_CollisionTrigger<BulletEditorGO>(editorGO.collisionTriggerEM);
 
             tm.hitEffectorTM = GetTM_Effector(editorGO.hitEffectorEM);
             tm.deathEffectorTM = GetTM_Effector(editorGO.deathEffectorEM);
@@ -232,16 +232,13 @@ namespace TiedanSouls.EditorTool {
         }
 
         public static CollisionTriggerTM GetTM_CollisionTrigger<T>(CollisionTriggerEM em) {
-            var startFrame = em.startFrame;
-            var endFrame = em.endFrame;
-            var totalFrame = endFrame - startFrame + 1;
+            var totalFrame = em.totalFrame;
 
             CollisionTriggerTM tm;
 
             tm.isEnabled = em.isEnabled;
 
-            tm.startFrame = startFrame;
-            tm.endFrame = endFrame;
+            tm.totalFrame = totalFrame;
 
             tm.delayFrame = em.delayFrame;
             tm.intervalFrame = em.intervalFrame;

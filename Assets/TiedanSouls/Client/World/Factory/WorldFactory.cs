@@ -293,14 +293,16 @@ namespace TiedanSouls.Client {
 
             // 弹道子弹模型数据
             var projetileBulletTMArray = projetileTM.projetileBulletTMArray;
-            var len = projetileBulletTMArray.Length;
-            ProjectileBulletModel[] projetileBulletModelArray = new ProjectileBulletModel[len];
-            for (int i = 0; i < len; i++) {
-                var tm = projetileBulletTMArray[i];
-                var model = TM2ModelUtil.GetModel_ProjectileBullet(tm);
-                projetileBulletModelArray[i] = model;
+            if (projetileBulletTMArray != null) {
+                var len = projetileBulletTMArray.Length;
+                ProjectileBulletModel[] projetileBulletModelArray = new ProjectileBulletModel[len];
+                for (int i = 0; i < len; i++) {
+                    var tm = projetileBulletTMArray[i];
+                    var model = TM2ModelUtil.GetModel_ProjectileBullet(tm);
+                    projetileBulletModelArray[i] = model;
+                }
+                projectile.SetProjectileBulletModelArray(projetileBulletModelArray);
             }
-            projectile.SetProjectileBulletModelArray(projetileBulletModelArray);
 
             return true;
         }
@@ -340,7 +342,7 @@ namespace TiedanSouls.Client {
                 TDLog.Error($"获取 VFX 失败! {tm.vfxPrefabName}");
                 return false;
             }
-            bullet.SetVFXGO(vfxGO);
+            bullet.SetVFXGO(GameObject.Instantiate(vfxGO));
 
             return true;
         }

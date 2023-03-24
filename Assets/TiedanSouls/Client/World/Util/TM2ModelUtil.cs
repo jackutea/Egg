@@ -90,14 +90,13 @@ namespace TiedanSouls.Client {
         public static CollisionTriggerModel GetModel_CollisionTrigger(CollisionTriggerTM tm) {
             CollisionTriggerModel model;
 
-            var startFrame = tm.startFrame;
-            var endFrame = tm.endFrame;
+            var totalFrame = tm.totalFrame;
 
             model.isEnabled = tm.isEnabled;
-            model.startFrame = startFrame;
-            model.endFrame = endFrame;
 
-            model.triggerStatusDic = GetDic_TriggerStatus(startFrame, endFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
+            model.totalFrame = totalFrame;
+
+            model.triggerStatusDic = GetDic_TriggerStatus(totalFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
             model.targetGroupType = tm.targetGroupType;
 
             model.damageModel = GetModel_Damage(tm.damageTM);
@@ -111,27 +110,26 @@ namespace TiedanSouls.Client {
             return model;
         }
 
-        public static Dictionary<int, TriggerStatus> GetDic_TriggerStatus(int startFrame,
-                                                                          int endFrame,
+        public static Dictionary<int, TriggerStatus> GetDic_TriggerStatus(int totalFrame,
                                                                           int delayFrame,
                                                                           int intervalFrame,
                                                                           int maintainFrame) {
             var dic = new Dictionary<int, TriggerStatus>();
 
-            var startFrame_delayed = startFrame + delayFrame;
+            var startFrame_delayed = totalFrame + delayFrame;
             if (intervalFrame == 0) {
                 dic.TryAdd(startFrame_delayed, TriggerStatus.TriggerEnter);
-                for (int i = startFrame_delayed + 1; i < endFrame; i++) {
+                for (int i = startFrame_delayed + 1; i < totalFrame; i++) {
                     dic.TryAdd(i, TriggerStatus.Triggering);
                 }
-                dic.TryAdd(endFrame, TriggerStatus.TriggerExit);
+                dic.TryAdd(totalFrame, TriggerStatus.TriggerExit);
                 return dic;
             }
 
             if (maintainFrame == 0) return dic;
 
             var T = intervalFrame + maintainFrame;
-            for (int i = startFrame + delayFrame; i < endFrame; i += T) {
+            for (int i = delayFrame; i < totalFrame; i += T) {
                 dic.TryAdd(i, TriggerStatus.TriggerEnter);
                 var end = i + intervalFrame;
                 for (int j = i + 1; j < end; j++) {

@@ -8,8 +8,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool isEnabled;
 
-        public int startFrame;
-        public int endFrame;
+        public int totalFrame;
 
         // 触发状态字典
         public Dictionary<int, TriggerStatus> triggerStatusDic;

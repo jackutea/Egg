@@ -7,6 +7,32 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
+        #region [ProjectileBullet]
+
+        public static ProjectileBulletEM[] GetEMArray_ProjectileBullet(ProjectileBulletTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            ProjectileBulletEM[] emArray = new ProjectileBulletEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_ProjectileBullet(tmArray[i]);
+            }
+            return emArray;
+        }
+
+
+        public static ProjectileBulletEM GetEM_ProjectileBullet(ProjectileBulletTM tm) {
+            ProjectileBulletEM em;
+            em.startFrame = tm.startFrame;
+            em.endFrame = tm.endFrame;
+            em.extraHitTimes = tm.extraHitTimes;
+            em.localPos = tm.localPos;
+            em.localEulerAngles = tm.localEulerAngles;
+            em.bulletTypeID = tm.bulletTypeID;
+            return em;
+        }
+
+        #endregion
+
         #region [Skill]
 
         public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {
@@ -57,8 +83,8 @@ namespace TiedanSouls.EditorTool {
             CollisionTriggerEM em;
 
             em.isEnabled = tm.isEnabled;
-            em.startFrame = tm.startFrame;
-            em.endFrame = tm.endFrame;
+            
+            em.totalFrame = tm.totalFrame;
             em.delayFrame = tm.delayFrame;
             em.intervalFrame = tm.intervalFrame;
             em.maintainFrame = tm.maintainFrame;

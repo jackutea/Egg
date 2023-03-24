@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TiedanSouls.Client.Entities;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client {
 
@@ -17,7 +18,9 @@ namespace TiedanSouls.Client {
         }
 
         public void Add(BulletEntity bullet) {
-            all.Add(bullet.IDCom.EntityID, bullet);
+            var idCom = bullet.IDCom;
+            all.Add(idCom.EntityID, bullet);
+            TDLog.Log($"子弹仓库 添加 {idCom.EntityName}");
         }
 
         public void Remove(BulletEntity bullet) {

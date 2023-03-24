@@ -9,12 +9,10 @@ namespace TiedanSouls.EditorTool {
 
         [Header("启用/关闭")] public bool isEnabled;
 
-        [Header("开始帧")] public int startFrame;
-        [Header("结束帧")] public int endFrame;
-
-        [Header("延迟帧数")] public int delayFrame;
-        [Header("触发间隔")] public int intervalFrame;
-        [Header("触发时间")] public int maintainFrame;
+        [Header("总时间(帧)")] public int totalFrame;
+        [Header("延时触发(帧)")] public int delayFrame;
+        [Header("触发间隔(帧)")] public int intervalFrame;
+        [Header("单次触发时间(帧)")] public int maintainFrame;
 
         [Header("作用目标")] public TargetGroupType targetGroupType;
         [Header("模型: 伤害")] public DamageEM damageEM;

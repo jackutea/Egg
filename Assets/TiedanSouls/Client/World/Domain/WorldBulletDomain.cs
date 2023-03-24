@@ -42,6 +42,7 @@ namespace TiedanSouls.Client.Domain {
             // 3. 添加至仓库
             var repo = worldContext.BulletRepo;
             repo.Add(bullet);
+            
             return true;
         }
 
