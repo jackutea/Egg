@@ -53,17 +53,31 @@ namespace TiedanSouls.Client.Domain {
                 model.SetIsEntering(false);
             }
 
-            model.curFrame++;
+            var curFrame = model.curFrame;
+            curFrame++;
 
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
-            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
+            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(curFrame);
             if (collisionTriggerStatus == TriggerStatus.TriggerEnter) collisionTriggerModel.ActivateAll();
             if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
 
-            if (model.curFrame == bullet.TotalFrame - 1) {
+            // 移动逻辑
+            var moveCom = bullet.MoveCom;
+            if (bullet.TryGetMoveSpeed(curFrame, out var speed)) {
+                _ = bullet.TryGetMoveDir(curFrame, out var moveDir);
+                var velocity = moveDir * speed;
+                moveCom.SetVelocity(velocity);
+            }else if(bullet.IsJustPassLastMoveFrame(curFrame)){
+                moveCom.Stop();
+            }
+
+            if (curFrame == bullet.TotalFrame - 1) {
+                moveCom.Stop();
                 fsm.Enter_Deactivated();
             }
+
+            model.curFrame = curFrame;
         }
 
         void Apply_Dying(BulletEntity bullet, BulletFSMComponent fsm, float dt) { }

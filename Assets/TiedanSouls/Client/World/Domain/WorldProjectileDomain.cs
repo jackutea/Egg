@@ -47,8 +47,9 @@ namespace TiedanSouls.Client.Domain {
                 // 子弹设置 父级 & 位置 & 旋转
                 var bulletIDCom = bullet.IDCom;
                 bulletIDCom.SetFather(projectileIDCom.ToArgs());
-                bullet.SetPos(summonPos + projectileBulletModel.localPos);
-                bullet.SetRot(baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles));
+                var finalRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
+                bullet.SetPos(finalRot * projectileBulletModel.localPos + summonPos);
+                bullet.SetRot(finalRot);
 
                 projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
                 projectileBulletModelArray[i] = projectileBulletModel;

@@ -167,6 +167,11 @@ namespace TiedanSouls.Client.Entities {
 
         public void SetRot(Quaternion rot) {
             rootGO.transform.rotation = rot;
+            var len = moveSpeedArray.Length;
+            for (int i = 0; i < len; i++) {
+                var moveDir = moveDirArray[i];
+                moveDirArray[i] = rot * moveDir;
+            }
         }
 
         public bool CanMove(int frame) {
@@ -181,7 +186,13 @@ namespace TiedanSouls.Client.Entities {
             return index == moveSpeedArray.Length - 1;
         }
 
-        public bool TryGetSpeed(int frame, out float speed) {
+        public bool TryGetMoveSpeed(int frame, out float speed) {
+            speed = 0;
+            if (moveSpeedArray == null) {
+                TDLog.Warning("子弹移动 速度 数组为空");
+                return false;
+            }
+
             var index = frame;
             if (index < moveSpeedArray.Length) {
                 speed = moveSpeedArray[index];
@@ -191,24 +202,20 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public float GetSpeed(int frame) {
-            var index = frame;
-            return moveSpeedArray[index];
-        }
+        public bool TryGetMoveDir(int frame, out Vector3 moveDir) {
+            moveDir = Vector3.zero;
+            if (moveDirArray == null) {
+                TDLog.Warning("子弹移动 方向 数组为空");
+                return false;
+            }
 
-        public bool TryGetDir(int frame, out Vector3 direction) {
             var index = frame;
             if (index < moveDirArray.Length) {
-                direction = moveDirArray[index];
+                moveDir = moveDirArray[index];
                 return true;
             }
-            direction = Vector3.zero;
+            moveDir = Vector3.zero;
             return false;
-        }
-
-        public Vector3 GetDir(int frame) {
-            var index = frame;
-            return moveDirArray[index];
         }
 
         public void Renderer_Sync() {

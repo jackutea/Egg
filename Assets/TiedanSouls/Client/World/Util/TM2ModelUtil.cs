@@ -26,7 +26,7 @@ namespace TiedanSouls.Client {
             model.endFrame = tm.endFrame;
             model.bulletTypeID = tm.bulletTypeID;
             model.extraHitTimes = tm.extraHitTimes;
-            model.localPos = tm.localPos;
+            model.localPos = GetVector3_Shrink100(tm.localPos_cm);
             model.localEulerAngles = tm.localEulerAngles;
             model.bulletEntityID = -1;
             return model;
@@ -330,6 +330,16 @@ namespace TiedanSouls.Client {
 
         #region [MISC]
 
+        public static Vector3[] GetVector3Array_Normalized(Vector3[] array) {
+            if (array == null) return null;
+            var len = array.Length;
+            Vector3[] newArray = new Vector3[len];
+            for (int i = 0; i < len; i++) {
+                newArray[i] = array[i].normalized;
+            }
+            return newArray;
+        }
+
         public static float[] GetFloatArray_Shrink100(int[] array) {
             if (array == null) return null;
             var len = array.Length;
@@ -340,7 +350,21 @@ namespace TiedanSouls.Client {
             return newArray;
         }
 
-        static Vector3 GetVector3_Shrink100(Vector3 v) {
+        public static float GetFloat_Shrink100(int v) {
+            return v * 0.01f;
+        }
+
+        public static Vector3[] GetVector3Array_Shrink100(Vector3Int[] array) {
+            if (array == null) return null;
+            var len = array.Length;
+            Vector3[] newArray = new Vector3[len];
+            for (int i = 0; i < len; i++) {
+                newArray[i] = GetVector3_Shrink100(array[i]);
+            }
+            return newArray;
+        }
+
+        public static Vector3 GetVector3_Shrink100(Vector3Int v) {
             return new Vector3(v.x * 0.01f, v.y * 0.01f, v.z * 0.01f);
         }
 

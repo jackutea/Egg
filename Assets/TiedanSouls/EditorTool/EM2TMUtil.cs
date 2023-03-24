@@ -39,7 +39,7 @@ namespace TiedanSouls.EditorTool {
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
             tm.extraHitTimes = em.extraHitTimes;
-            tm.localPos = em.localPos;
+            tm.localPos_cm = em.localPos_cm;
             tm.localEulerAngles = em.localEulerAngles;
             tm.bulletTypeID = em.bulletTypeID;
 

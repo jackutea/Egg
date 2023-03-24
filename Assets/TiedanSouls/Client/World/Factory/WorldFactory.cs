@@ -333,7 +333,7 @@ namespace TiedanSouls.Client {
             bullet.SetDeathEffectorModel(TM2ModelUtil.GetModel_Effector(tm.deathEffectorTM));
 
             bullet.SetMoveSpeedArray(TM2ModelUtil.GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
-            bullet.SetMoveDirArray(tm.moveDirArray?.Clone() as Vector3[]);
+            bullet.SetMoveDirArray(TM2ModelUtil.GetVector3Array_Normalized(TM2ModelUtil.GetVector3Array_Shrink100(tm.moveDirArray)));
 
             // 表现层
             var assetCore = infraContext.AssetCore;
