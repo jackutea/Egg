@@ -200,7 +200,7 @@ MonoBehaviour:
     targetGroupType: 4
     damageEM:
       damageType: 3
-      damageBase: 20
+      damageBase: 33
       damageCurve:
         serializedVersion: 2
         m_Curve:
@@ -227,7 +227,7 @@ MonoBehaviour:
         m_RotationOrder: 4
     knockBackPowerEM:
       knockBackDistance_cm: 500
-      knockBackCostFrame: 10
+      knockBackCostFrame: 20
       knockBackDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -253,7 +253,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 1000
+      knockUpHeight_cm: 500
       knockUpCostFrame: 20
       knockUpDisCurve:
         serializedVersion: 2
