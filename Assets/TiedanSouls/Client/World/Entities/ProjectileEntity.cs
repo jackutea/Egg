@@ -58,18 +58,6 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void Foreach_NeedDeactivatedBulletID(Action<int> action) {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var model = projectileBulletModelArray[i];
-                var startFrame = model.startFrame;
-                var endFrame = model.endFrame;
-                if (curFrame == endFrame) {
-                    action(model.bulletEntityID);
-                }
-            }
-        }
-
     }
 
 }

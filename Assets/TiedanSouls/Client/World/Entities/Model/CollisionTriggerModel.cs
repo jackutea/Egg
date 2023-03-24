@@ -33,6 +33,20 @@ namespace TiedanSouls.Client.Entities {
             return triggerStatusDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : TriggerStatus.None;
         }
 
+        public void ActivateAll() {
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                colliderModelArray[i].Activate();
+            }
+        }
+
+        public void DeactivateAll() {
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                colliderModelArray[i].Deactivate();
+            }
+        }
+
     }
 
 }

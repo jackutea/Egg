@@ -16,7 +16,7 @@ namespace TiedanSouls.Template {
         [Header("仅用于编辑时: 位移(cm)")] public int moveDistance_cm;
         [Header("仅用于编辑时: 位移时间(帧)")] public int moveTotalFrame;
         [Header("速度组(cm)")] public int[] moveSpeedArray_cm;
-        [Header("方向组")] public Vector3Int[] directionArray;
+        [Header("方向组")] public Vector3Int[] moveDirArray;
         [Header("仅用于编辑时: 位移曲线KeyFrameTM")] public KeyframeTM[] disCurve_KeyframeTMArray;
 
         [Header("子弹特效")] public string vfxPrefabName;

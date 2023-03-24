@@ -20,7 +20,7 @@ namespace TiedanSouls.Client {
         public void Add(BulletEntity bullet) {
             var idCom = bullet.IDCom;
             all.Add(idCom.EntityID, bullet);
-            TDLog.Log($"子弹仓库 添加 {idCom.EntityName}");
+            TDLog.Log($"子弹仓库 添加 {idCom}");
         }
 
         public void Remove(BulletEntity bullet) {

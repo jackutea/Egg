@@ -52,13 +52,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [生命周期]
 
-        int startFrame;
-        public int StartFrame => startFrame;
-        public void SetStartFrame(int value) => startFrame = value;
-
-        int endFrame;
-        public int EndFrame => endFrame;
-        public void SetEndFrame(int value) => endFrame = value;
+        int totalFrame;
+        public int TotalFrame => totalFrame;
+        public void SetTotalFrame(int value) => totalFrame = value;
 
         #endregion
 
@@ -95,8 +91,8 @@ namespace TiedanSouls.Client.Entities {
         float[] moveSpeedArray;
         public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
 
-        Vector3[] directionArray;
-        public void SetDirectionArray(Vector3[] value) => this.directionArray = value;
+        Vector3[] moveDirArray;
+        public void SetMoveDirArray(Vector3[] value) => this.moveDirArray = value;
 
         #endregion
 
@@ -173,45 +169,20 @@ namespace TiedanSouls.Client.Entities {
             rootGO.transform.rotation = rot;
         }
 
-        #region [碰撞器]
-
-        public void ActivateAllColliderModels() {
-            var colliderModelArray = collisionTriggerModel.colliderModelArray;
-            var len = colliderModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var colliderModel = colliderModelArray[i];
-                colliderModel.Activate();
-            }
-        }
-
-        public void DeactivateAllColliderModels() {
-            var colliderModelArray = collisionTriggerModel.colliderModelArray;
-            var len = colliderModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var colliderModel = colliderModelArray[i];
-                colliderModel.Deactivate();
-            }
-        }
-
-        #endregion
-
-
-        #region [帧 状态]
-
         public bool CanMove(int frame) {
-            var index = frame - startFrame;
+            var index = frame;
             if (index >= moveSpeedArray.Length) return false;
-            if (index >= directionArray.Length) return false;
+            if (index >= moveDirArray.Length) return false;
             return true;
         }
 
         public bool IsJustPassLastMoveFrame(int frame) {
-            var index = frame - startFrame;
+            var index = frame;
             return index == moveSpeedArray.Length - 1;
         }
 
-        public bool TryGetFrameSpeed(int frame, out float speed) {
-            var index = frame - startFrame;
+        public bool TryGetSpeed(int frame, out float speed) {
+            var index = frame;
             if (index < moveSpeedArray.Length) {
                 speed = moveSpeedArray[index];
                 return true;
@@ -220,36 +191,25 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public float GetFrameSpeed(int frame) {
-            var index = frame - startFrame;
+        public float GetSpeed(int frame) {
+            var index = frame;
             return moveSpeedArray[index];
         }
 
-        public bool TryGetFrameDirection(int frame, out Vector3 direction) {
-            var index = frame - startFrame;
-            if (index < directionArray.Length) {
-                direction = directionArray[index];
+        public bool TryGetDir(int frame, out Vector3 direction) {
+            var index = frame;
+            if (index < moveDirArray.Length) {
+                direction = moveDirArray[index];
                 return true;
             }
             direction = Vector3.zero;
             return false;
         }
 
-        public Vector3 GetFrameDirection(int frame) {
-            var index = frame - startFrame;
-            return directionArray[index];
+        public Vector3 GetDir(int frame) {
+            var index = frame;
+            return moveDirArray[index];
         }
-
-        public TriggerStatus GetElementTriggerStatus(int frame) {
-            if (frame < startFrame || frame > endFrame) return TriggerStatus.None;
-            if (frame == startFrame) return TriggerStatus.TriggerEnter;
-            if (frame == endFrame) return TriggerStatus.TriggerExit;
-            return TriggerStatus.Triggering;
-        }
-
-        #endregion
-
-        #region [表现同步]
 
         public void Renderer_Sync() {
             var elementPos = rootGO.transform.position;
@@ -262,8 +222,6 @@ namespace TiedanSouls.Client.Entities {
             var lerpPos = Vector3.Lerp(rendererPos, logicPos, dt * 30);// todo bug
             rendererRoot.transform.position = lerpPos;
         }
-
-        #endregion
 
     }
 

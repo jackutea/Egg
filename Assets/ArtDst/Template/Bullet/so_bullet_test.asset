@@ -17,21 +17,45 @@ MonoBehaviour:
     bulletName: "\u6D4B\u8BD5\u5B50\u5F39"
     collisionTriggerTM:
       isEnabled: 1
-      totalFrame: 0
+      totalFrame: 30
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
       targetGroupType: 4
       damageTM:
-        damageType: 0
-        damageArray: 
-        damageBase: 0
-        damageCurve_KeyframeTMArray: []
+        damageType: 3
+        damageArray: 140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000
+        damageBase: 20
+        damageCurve_KeyframeTMArray:
+        - time: 0
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: 
-        knockBackDisCurve_KeyframeTMArray: []
-        knockBackCostFrame: 0
-        knockBackDistance_cm: 0
+        knockBackSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+        knockBackDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockBackCostFrame: 10
+        knockBackDistance_cm: 500
       knockUpPowerTM:
         knockUpSpeedArray_cm: 
         knockUpDisCurve_KeyframeTMArray: []
@@ -66,7 +90,7 @@ MonoBehaviour:
     moveDistance_cm: 2000
     moveTotalFrame: 30
     moveSpeedArray_cm: d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000
-    directionArray:
+    moveDirArray:
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}

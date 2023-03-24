@@ -34,7 +34,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 1. 子弹 ID
             var idCom = bullet.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickFieldID());
+            idCom.SetEntityID(worldContext.IDService.PickBulletID());
 
             // 2. 子弹 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
@@ -65,7 +65,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 1. 子弹 ID
             var idCom = bullet.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickFieldID());
+            idCom.SetEntityID(worldContext.IDService.PickBulletID());
             idCom.SetFromFieldTypeID(fromFieldTypeID);
             idCom.SetControlType(controlType);
             idCom.SetAllyType(allyType);

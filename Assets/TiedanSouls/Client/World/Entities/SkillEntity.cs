@@ -78,6 +78,7 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
+        // TODO: 重构 实体内不做过多逻辑处理
         public bool TryMoveNext(Vector3 rootPos, Quaternion rootRot) {
             if (curFrame > maintainFrame) {
                 Reset();

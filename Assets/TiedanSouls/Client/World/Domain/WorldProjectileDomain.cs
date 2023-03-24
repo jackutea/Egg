@@ -28,23 +28,33 @@ namespace TiedanSouls.Client.Domain {
                 TDLog.Error($"创建实体 '弹道' 失败! - {typeID}");
                 return false;
             }
-            var idCom = projectile.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickFieldID());
-            idCom.SetFather(summoner);
+            var projectileIDCom = projectile.IDCom;
+            projectileIDCom.SetEntityID(worldContext.IDService.PickProjectileID());
+            projectileIDCom.SetFather(summoner);
 
             // 2. 填充 弹道子弹模型数据 数组
             var bulletDomain = rootDomain.BulletDomain;
             var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
             var len = projectileBulletModelArray?.Length;
             for (int i = 0; i < len; i++) {
-                var projetileBulletModel = projectileBulletModelArray[i];
-                var bulletTypeID = projetileBulletModel.bulletTypeID;
+                var projectileBulletModel = projectileBulletModelArray[i];
+                var bulletTypeID = projectileBulletModel.bulletTypeID;
                 if (!bulletDomain.TrySpawnBullet(bulletTypeID, out var bullet)) {
                     TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }
 
-                projetileBulletModel.bulletEntityID = bullet.IDCom.EntityID;
+                // 子弹设置 父级 & 位置 & 旋转
+                var bulletIDCom = bullet.IDCom;
+                bulletIDCom.SetFather(projectileIDCom.ToArgs());
+                bullet.SetPos(summonPos + projectileBulletModel.localPos);
+                bullet.SetRot(baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles));
+
+                projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
+                projectileBulletModelArray[i] = projectileBulletModel;
+
+                // 为了方便调试，这里给子弹加上名字
+                bullet.RootGO.name = $"子弹_{bulletIDCom}";
             }
 
             // 3. 激活弹道 TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足

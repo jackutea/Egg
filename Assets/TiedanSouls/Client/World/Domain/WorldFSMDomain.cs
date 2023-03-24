@@ -213,18 +213,22 @@ namespace TiedanSouls.Client.Domain {
         void TickAllFSM(float dt) {
             var stateEntity = worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
-
-            // 刷新 关卡状态机
+ 
+            // 刷新 关卡 状态机
             var fieldFSMDomain = worldDomain.FieldFSMDomain;
             fieldFSMDomain.TickFSM(dt);
 
-            // 刷新 角色状态机(当前关卡内)
+            // 刷新 角色 状态机(当前关卡内)
             var roleFSMDomain = worldDomain.RoleFSMDomain;
             roleFSMDomain.TickFSM(curFieldTypeID, dt);
 
-            // 刷新 弹道状态机(当前关卡内)
+            // 刷新 弹道 状态机(当前关卡内)
             var projectileFSMDomain = worldDomain.ProjectileFSMDomain;
             projectileFSMDomain.TickFSM(curFieldTypeID, dt);
+
+            // 刷新 子弹 状态机(当前关卡内)
+            var bulletFSMDomain = worldDomain.BulletFSMDomain;
+            bulletFSMDomain.TickFSM(curFieldTypeID, dt);
         }
 
         bool IsTieDanWantToLeave(out FieldDoorModel door) {

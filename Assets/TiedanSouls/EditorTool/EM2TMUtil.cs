@@ -67,7 +67,7 @@ namespace TiedanSouls.EditorTool {
             tm.moveDistance_cm = moveDistance_cm;
             tm.moveTotalFrame = moveTotalFrame;
             tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
-            tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
+            tm.moveDirArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
             tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
 
             var vfxPrefab = editorGO.vfxPrefab;
@@ -409,12 +409,13 @@ namespace TiedanSouls.EditorTool {
             return speedArray;
         }
 
+        // TODO 根据曲线计算出移动方向
         public static Vector3Int[] GetDirectionArray_AnimationCurve(int totalFrame, AnimationCurve curve) {
-            Vector3Int[] directionArray = new Vector3Int[totalFrame];
+            Vector3Int[] moveDirArray = new Vector3Int[totalFrame];
             for (int i = 0; i < totalFrame; i++) {
-                directionArray[i] = Vector3Int.right;
+                moveDirArray[i] = Vector3Int.right;
             }
-            return directionArray;
+            return moveDirArray;
         }
 
         #endregion
