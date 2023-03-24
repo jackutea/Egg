@@ -8,10 +8,13 @@ namespace TiedanSouls.Generic {
 
         public int maintainFrame;
 
-        public RoleFSMModel_Dying() { }
+        public RoleFSMModel_Dying() { 
+            Reset();
+        }
 
         public void Reset() {
             isEntering = false;
+            maintainFrame = 0;
         }
 
     }

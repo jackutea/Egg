@@ -12,12 +12,14 @@ namespace TiedanSouls.Generic {
 
         public float[] knockUpSpeedArray;
 
-        public RoleFSMModel_KnockUp() { }
+        public RoleFSMModel_KnockUp() {
+            Reset();
+        }
 
         public void Reset() {
             isEntering = false;
             knockUpSpeedArray = null;
-            curFrame = 0;
+            curFrame = -1;
         }
 
     }

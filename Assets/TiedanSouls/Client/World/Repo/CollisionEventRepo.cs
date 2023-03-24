@@ -14,6 +14,7 @@ namespace TiedanSouls.Client {
             events_triggerExit = new List<CollisionEventArgs>();
         }
 
+        // todo ： 重复事件
         public void Add_TriggerEnter(in CollisionEventArgs args) {
             events_triggerEnter.Add(args);
             TDLog.Log($"碰撞事件<Trigger:Enter>\n{args} ");
@@ -33,7 +34,6 @@ namespace TiedanSouls.Client {
 
             args = events_triggerEnter[index];
             events_triggerEnter.RemoveAt(index);
-            TDLog.Log($"TryPick_Enter\n{args} ");
             return true;
         }
 

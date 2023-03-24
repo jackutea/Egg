@@ -328,6 +328,8 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(tm.typeID);
             idCom.SetEntityName(tm.bulletName);
 
+            bullet.SetMoveTotalFrame(tm.moveTotalFrame);
+
             bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
             bullet.SetHitEffectorModel(TM2ModelUtil.GetModel_Effector(tm.hitEffectorTM));
             bullet.SetDeathEffectorModel(TM2ModelUtil.GetModel_Effector(tm.deathEffectorTM));

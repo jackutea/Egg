@@ -34,6 +34,8 @@ namespace TiedanSouls.Client.Entities {
 
         GameObject rootGO;
         public GameObject RootGO => rootGO;
+        public Vector3 Pos => rootGO.transform.position;
+        public float AngleZ => rootGO.transform.rotation.z;
 
         GameObject logicRoot;
         public GameObject LogicRoot => logicRoot;
@@ -52,9 +54,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [生命周期]
 
-        int totalFrame;
-        public int TotalFrame => totalFrame;
-        public void SetTotalFrame(int value) => totalFrame = value;
+        int moveTotalFrame;
+        public int MoveTotalFrame => moveTotalFrame;
+        public void SetMoveTotalFrame(int value) => moveTotalFrame = value;
 
         #endregion
 
@@ -149,14 +151,6 @@ namespace TiedanSouls.Client.Entities {
             attributeCom.HP_Decrease(atk);
         }
 
-        public Vector3 GetLogic_Pos() {
-            return rootGO.transform.position;
-        }
-
-        public float GetLogic_AngleZ() {
-            return rootGO.transform.rotation.z;
-        }
-
         public Quaternion GetLogic_Rot() {
             return rootGO.transform.rotation;
         }
@@ -184,6 +178,18 @@ namespace TiedanSouls.Client.Entities {
         public bool IsJustPassLastMoveFrame(int frame) {
             var index = frame;
             return index == moveSpeedArray.Length - 1;
+        }
+
+        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel triggerModel) {
+            triggerModel = default;
+            var model = fsmCom.ActivatedModel;
+            var triggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
+            if (triggerStatus != TriggerStatus.None) {
+                triggerModel = collisionTriggerModel;
+                return true;
+            }
+
+            return false;
         }
 
         public bool TryGetMoveSpeed(int frame, out float speed) {

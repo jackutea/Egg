@@ -116,10 +116,9 @@ namespace TiedanSouls.Client {
                                                                           int maintainFrame) {
             var dic = new Dictionary<int, TriggerStatus>();
 
-            var startFrame_delayed = totalFrame + delayFrame;
             if (intervalFrame == 0) {
-                dic.TryAdd(startFrame_delayed, TriggerStatus.TriggerEnter);
-                for (int i = startFrame_delayed + 1; i < totalFrame; i++) {
+                dic.TryAdd(delayFrame, TriggerStatus.TriggerEnter);
+                for (int i = delayFrame + 1; i < totalFrame; i++) {
                     dic.TryAdd(i, TriggerStatus.Triggering);
                 }
                 dic.TryAdd(totalFrame, TriggerStatus.TriggerExit);

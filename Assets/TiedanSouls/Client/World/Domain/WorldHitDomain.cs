@@ -21,6 +21,11 @@ namespace TiedanSouls.Client.Domain {
             this.worldRootDomain = worldDomain;
         }
 
+        /// <summary>
+        /// 角色受击处理
+        /// TODO: 
+        /// StateEffectModel的逻辑，如 禁锢 等
+        /// </summary>
         public void Role_BeHit(RoleEntity role, in CollisionTriggerModel collisionTriggerModel, int hitFrame, Vector2 beHitDir) {
             var fsm = role.FSMCom;
 
@@ -33,8 +38,22 @@ namespace TiedanSouls.Client.Domain {
 
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
-            var hitDamage = damageModel.GetDamage(hitFrame - collisionTriggerModel.totalFrame);
+            var hitDamage = damageModel.GetDamage(hitFrame);
             role.Attribute_HP_Decrease(hitDamage);
+        }
+
+        /// <summary>
+        /// 技能受击处理
+        /// </summary>
+        public void Skill_BeHit(SkillEntity skill, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+
+        }
+
+        /// <summary>
+        /// 子弹受击处理
+        /// </summary>
+        public void Bullet_BeHit(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+
         }
 
     }

@@ -45,6 +45,12 @@ namespace TiedanSouls.Client.Domain {
         void Apply_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
             // 这里可能的业务需求
             // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
+            var model = fsm.DeactivatedModel;
+            if (model.IsEntering) {
+                model.SetIsEntering(false);
+
+                bullet.Deactivate();
+            }
         }
 
         void Apply_Activated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
@@ -59,6 +65,7 @@ namespace TiedanSouls.Client.Domain {
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
             var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(curFrame);
+
             if (collisionTriggerStatus == TriggerStatus.TriggerEnter) collisionTriggerModel.ActivateAll();
             if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
 
@@ -68,11 +75,11 @@ namespace TiedanSouls.Client.Domain {
                 _ = bullet.TryGetMoveDir(curFrame, out var moveDir);
                 var velocity = moveDir * speed;
                 moveCom.SetVelocity(velocity);
-            }else if(bullet.IsJustPassLastMoveFrame(curFrame)){
+            } else if (bullet.IsJustPassLastMoveFrame(curFrame)) {
                 moveCom.Stop();
             }
 
-            if (curFrame == bullet.TotalFrame - 1) {
+            if (curFrame == bullet.MoveTotalFrame - 1) {
                 moveCom.Stop();
                 fsm.Enter_Deactivated();
             }

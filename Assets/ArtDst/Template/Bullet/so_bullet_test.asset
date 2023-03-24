@@ -24,7 +24,7 @@ MonoBehaviour:
       targetGroupType: 4
       damageTM:
         damageType: 3
-        damageArray: 140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000140000001400000014000000
+        damageArray: 140000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000280000002800000028000000
         damageBase: 20
         damageCurve_KeyframeTMArray:
         - time: 0
@@ -34,9 +34,9 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
+          value: 2
+          inTangent: 2
+          outTangent: 2
           inWeight: 0
           outWeight: 0
       knockBackPowerTM:
@@ -57,10 +57,22 @@ MonoBehaviour:
         knockBackCostFrame: 10
         knockBackDistance_cm: 500
       knockUpPowerTM:
-        knockUpSpeedArray_cm: 
-        knockUpDisCurve_KeyframeTMArray: []
-        knockUpCostFrame: 0
-        knockUpHeight_cm: 0
+        knockUpSpeedArray_cm: 6d0b0000d70a0000410a0000ab090000150900007f080000e907000053070000bd0600002706000091050000fb04000065040000cf03000039030000a30200000d02000077010000e10000004b000000
+        knockUpDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockUpCostFrame: 20
+        knockUpHeight_cm: 1000
       hitEffectorTM:
         typeID: 0
         effectorName: 
@@ -87,9 +99,9 @@ MonoBehaviour:
       effectorName: 
       entitySummonTMArray: []
       entityDestroyTMArray: []
-    moveDistance_cm: 2000
+    moveDistance_cm: 1500
     moveTotalFrame: 30
-    moveSpeedArray_cm: d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000d0070000
+    moveSpeedArray_cm: 3200000096000000fa0000005e010000c2010000260200008a020000ee02000052030000b60300001a0400007e040000e204000046050000aa0500000e06000072060000d60600003a0700009e0700000208000066080000ca0800002e09000092090000f60900005a0a0000be0a0000220b0000860b0000
     moveDirArray:
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
@@ -124,14 +136,14 @@ MonoBehaviour:
     disCurve_KeyframeTMArray:
     - time: 0
       value: 0
-      inTangent: 1
-      outTangent: 1
+      inTangent: 0
+      outTangent: 0
       inWeight: 0
       outWeight: 0
     - time: 1
       value: 1
-      inTangent: 1
-      outTangent: 1
+      inTangent: 2
+      outTangent: 2
       inWeight: 0
       outWeight: 0
     vfxPrefabName: vfx_test_bullet

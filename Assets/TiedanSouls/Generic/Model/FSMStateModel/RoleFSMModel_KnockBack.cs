@@ -13,13 +13,15 @@ namespace TiedanSouls.Generic {
         public float[] knockBackSpeedArray;
         public int curFrame;
 
-        public RoleFSMModel_KnockBack() { }
+        public RoleFSMModel_KnockBack() {
+            Reset();
+        }
 
         public void Reset() {
             isEntering = false;
             beHitDir = Vector2.zero;
             knockBackSpeedArray = null;
-            curFrame = 0;
+            curFrame = -1;
         }
 
     }

@@ -149,7 +149,9 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
             }
 
+            stateModel.curFrame++;
             var curFrame = stateModel.curFrame;
+
             var moveCom = role.MoveCom;
             var beHitDir = stateModel.beHitDir;
             var knockBackSpeedArray = stateModel.knockBackSpeedArray;
@@ -157,15 +159,11 @@ namespace TiedanSouls.Client.Domain {
             bool canKnockBack = curFrame < len;
             if (canKnockBack) {
                 beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
-                var newV = beHitDir * knockBackSpeedArray[curFrame];
-                var oldV = moveCom.Velocity;
-                moveCom.SetVelocity(newV);
+                moveCom.Set_Horizontal(beHitDir * knockBackSpeedArray[curFrame]);
             } else if (curFrame == len) {
-                moveCom.StopHorizontal();
+                moveCom.Stop_Horizontal();
                 fsm.RemoveKnockBack();
             }
-
-            stateModel.curFrame++;
         }
 
         /// <summary>
@@ -177,7 +175,9 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
             }
 
+            stateModel.curFrame++;
             var curFrame = stateModel.curFrame;
+
             var moveCom = role.MoveCom;
 
             var roleDomain = rootDomain.RoleDomain;
@@ -187,13 +187,14 @@ namespace TiedanSouls.Client.Domain {
             if (canKnockUp) {
                 var newV = moveCom.Velocity;
                 newV.y = knockUpSpeedArray[curFrame];
-                moveCom.SetVelocity(newV);
+                moveCom.Set_Vertical(newV);
             } else if (curFrame == len) {
-                moveCom.StopVertical();
+                moveCom.Stop_Vertical();
                 fsm.RemoveKnockUp();
             } else {
                 roleDomain.Fall(role, dt);
             }
+
         }
 
         /// <summary>

@@ -21,16 +21,15 @@ MonoBehaviour:
     comboSkillCancelTMArray: []
     cancelSkillCancelTMArray: []
     collisionTriggerTMArray:
-    - isEnabled: 1
-      startFrame: 10
-      endFrame: 15
+    - isEnabled: 0
+      totalFrame: 0
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
       targetGroupType: 4
       damageTM:
         damageType: 3
-        damageArray: 0a0000000a0000000a0000000a0000000a0000000a000000
+        damageArray: 
         damageBase: 10
         damageCurve_KeyframeTMArray:
         - time: 0

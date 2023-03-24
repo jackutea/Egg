@@ -143,18 +143,18 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel triggerModel) {
+        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel collisionTriggerModel) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus != TriggerStatus.None) {
-                        triggerModel = model;
+                        collisionTriggerModel = model;
                         return true;
                     }
                 }
             }
-            triggerModel = default;
+            collisionTriggerModel = default;
             return false;
         }
 

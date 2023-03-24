@@ -10,7 +10,9 @@ namespace TiedanSouls.Generic {
 
         public int curFrame;
 
-        public BulletFSMModel_Activated() { }
+        public BulletFSMModel_Activated() { 
+            Reset();
+        }
 
         public void Reset() {
             isEntering = false;

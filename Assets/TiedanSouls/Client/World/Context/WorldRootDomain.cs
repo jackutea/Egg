@@ -237,6 +237,13 @@ namespace TiedanSouls.Client.Facades {
                 return true;
             }
 
+            if (entityType == EntityType.Bullet) {
+                var bulletRepo = WorldContext.BulletRepo;
+                if (!bulletRepo.TryGet(entityID, out var bullet)) return false;
+                entity = bullet;
+                return true;
+            }
+
             TDLog.Error($"尚未处理的实体!\n{idArgs}");
             return false;
         }

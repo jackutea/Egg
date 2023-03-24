@@ -54,9 +54,8 @@ MonoBehaviour:
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   colliderTriggerEMArray:
-  - isEnabled: 1
-    startFrame: 10
-    endFrame: 15
+  - isEnabled: 0
+    totalFrame: 0
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
@@ -344,8 +343,7 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    startFrame: 5
-    endFrame: 10
+    totalFrame: 0
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
@@ -1013,8 +1011,7 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    startFrame: 5
-    endFrame: 10
+    totalFrame: 0
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
@@ -1153,8 +1150,7 @@ MonoBehaviour:
     endFrame: 20
   colliderTriggerEMArray:
   - isEnabled: 1
-    startFrame: 5
-    endFrame: 15
+    totalFrame: 0
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0

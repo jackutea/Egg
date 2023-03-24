@@ -47,48 +47,56 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [碰撞事件处理]
+        #region [碰撞事件处理 Enter]
 
         void HandleTriggerEnter(IEntity entityA, IEntity entityB) {
+            // 技能 & 角色 
             if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
-                HandleTriggerEnter_SkillNRole(skillEntity, roleEntity);
+                HandleTriggerEnter_Skill_Role(skillEntity, roleEntity);
                 return;
             }
-
             if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
-                HandleTriggerEnter_SkillNRole(skillEntity2, roleEntity2);
+                HandleTriggerEnter_Skill_Role(skillEntity2, roleEntity2);
                 return;
             }
 
+            // 子弹 & 角色
+            if (entityA is BulletEntity bulletEntity && entityB is RoleEntity roleEntity5) {
+                HandleTriggerEnter_Bullet_Role(bulletEntity, roleEntity5);
+                return;
+            }
+            if (entityA is RoleEntity roleEntity6 && entityB is BulletEntity bulletEntity2) {
+                HandleTriggerEnter_Bullet_Role(bulletEntity2, roleEntity6);
+                return;
+            }
+
+            // 子弹 & 技能
+            if (entityA is BulletEntity bulletEntity3 && entityB is SkillEntity skillEntity3) {
+                HandleTriggerEnter_Bullet_Skill(bulletEntity3, skillEntity3);
+                return;
+            }
+            if (entityA is SkillEntity skillEntity4 && entityB is BulletEntity bulletEntity4) {
+                HandleTriggerEnter_Bullet_Skill(bulletEntity4, skillEntity4);
+                return;
+            }
+
+            // 角色 & 角色
             if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
-                HandleTriggerEnter_RoleNRole(roleEntity3, roleEntity4);
+                HandleTriggerEnter_Role_Role(roleEntity3, roleEntity4);
+                return;
+            }
+
+            // 子弹 & 子弹
+            if (entityA is BulletEntity bulletEntity5 && entityB is BulletEntity bulletEntity6) {
+                HandleTriggerEnter_BulletNBullet(bulletEntity5, bulletEntity6);
                 return;
             }
 
             TDLog.Error($"未处理的碰撞事件<Trigger - Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        void HandleTriggerExit(IEntity entityA, IEntity entityB) {
-            if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
-                HandleTriggerExit_SkillNRole(skillEntity, roleEntity);
-                return;
-            }
-
-            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
-                HandleTriggerExit_SkillNRole(skillEntity2, roleEntity2);
-                return;
-            }
-
-            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
-                HandleTriggerExit_RoleNRole(roleEntity3, roleEntity4);
-                return;
-            }
-
-            TDLog.Error($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
-        }
-
-        void HandleTriggerEnter_SkillNRole(SkillEntity skill, RoleEntity role) {
-            if (!skill.TryGet_ValidCollisionTriggerModel(out var model)) {
+        void HandleTriggerEnter_Skill_Role(SkillEntity skill, RoleEntity role) {
+            if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
 
@@ -100,19 +108,116 @@ namespace TiedanSouls.Client.Domain {
             beHitDir.Normalize();
 
             var hitDomain = rootDomain.HitDomain;
-            hitDomain.Role_BeHit(role, model, skill.CurFrame, beHitDir);
+            hitDomain.Role_BeHit(role, collisionTriggerModel, skill.CurFrame, beHitDir);
         }
 
-        void HandleTriggerEnter_RoleNRole(RoleEntity role1, RoleEntity role2) {
+        void HandleTriggerEnter_Bullet_Role(BulletEntity bullet, RoleEntity role) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
+
+            var rolePos = role.GetPos_Logic();
+            var beHitDir = rolePos - bullet.Pos;
+            beHitDir.Normalize();
+
+            var hitDomain = rootDomain.HitDomain;
+            hitDomain.Role_BeHit(role, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame, beHitDir);
+        }
+
+        void HandleTriggerEnter_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
+
+            var hitDomain = rootDomain.HitDomain;
+            hitDomain.Skill_BeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
+        }
+
+        void HandleTriggerEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {
+            if (!bullet1.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel1)) {
+                return;
+            }
+
+            if (!bullet2.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel2)) {
+                return;
+            }
+
+            var hitDomain = rootDomain.HitDomain;
+            hitDomain.Bullet_BeHit(bullet1, collisionTriggerModel1, bullet2.FSMCom.ActivatedModel.curFrame);
+            hitDomain.Bullet_BeHit(bullet2, collisionTriggerModel2, bullet1.FSMCom.ActivatedModel.curFrame);
+        }
+
+        #endregion
+
+        #region [碰撞事件处理 Exit]
+        void HandleTriggerExit(IEntity entityA, IEntity entityB) {
+            // 角色 & 角色
+            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
+                HandleTriggerExit_Role_Role(roleEntity3, roleEntity4);
+                return;
+            }
+
+            // 子弹 & 子弹
+            if (entityA is BulletEntity bulletEntity5 && entityB is BulletEntity bulletEntity6) {
+                HandleTriggerExit_Bullet_Bullet(bulletEntity5, bulletEntity6);
+                return;
+            }
+
+            // 技能 & 角色
+            if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
+                HandleTriggerExit_Skill_Role(skillEntity, roleEntity);
+                return;
+            }
+            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
+                HandleTriggerExit_Skill_Role(skillEntity2, roleEntity2);
+                return;
+            }
+
+            // 子弹 & 角色
+            if (entityA is BulletEntity bulletEntity && entityB is RoleEntity roleEntity5) {
+                HandleTriggerExit_Bullet_Role(bulletEntity, roleEntity5);
+                return;
+            }
+            if (entityA is RoleEntity roleEntity6 && entityB is BulletEntity bulletEntity2) {
+                HandleTriggerExit_Bullet_Role(bulletEntity2, roleEntity6);
+                return;
+            }
+
+            // 子弹 & 技能
+            if (entityA is BulletEntity bulletEntity3 && entityB is SkillEntity skillEntity3) {
+                HandleTriggerExit_Bullet_Skill(bulletEntity3, skillEntity3);
+                return;
+            }
+            if (entityA is SkillEntity skillEntity4 && entityB is BulletEntity bulletEntity4) {
+                HandleTriggerExit_Bullet_Skill(bulletEntity4, skillEntity4);
+                return;
+            }
+
+            TDLog.Error($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
+        }
+
+        void HandleTriggerEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
             // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{role1.IDCom}\n{role2.IDCom}");
         }
 
-        void HandleTriggerExit_SkillNRole(SkillEntity skill, RoleEntity role) {
+        void HandleTriggerExit_Bullet_Bullet(BulletEntity bullet1, BulletEntity bullet2) {
+            // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet1.IDCom}\n{bullet2.IDCom}");
+        }
+
+        void HandleTriggerExit_Skill_Role(SkillEntity skill, RoleEntity role) {
             // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{skill.IDCom}\n{role.IDCom}");
         }
 
-        void HandleTriggerExit_RoleNRole(RoleEntity role1, RoleEntity role2) {
+        void HandleTriggerExit_Role_Role(RoleEntity role1, RoleEntity role2) {
             // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{role1.IDCom}\n{role2.IDCom}");
+        }
+
+        void HandleTriggerExit_Bullet_Role(BulletEntity bullet, RoleEntity role) {
+            // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet.IDCom}\n{role.IDCom}");
+        }
+
+        void HandleTriggerExit_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
+            // TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet.IDCom}\n{skill.IDCom}");
         }
 
         #endregion
