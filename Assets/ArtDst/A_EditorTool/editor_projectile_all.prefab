@@ -196,7 +196,7 @@ MonoBehaviour:
   - startFrame: 0
     endFrame: 30
     extraHitTimes: 99
-    localPos: {x: 150, y: 100, z: 0}
+    localPos_cm: {x: 150, y: 100, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
     bulletTypeID: 9999
 --- !u!1001 &4397344545868278270
