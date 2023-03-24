@@ -34,19 +34,19 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Enter_Deactivated() {
-            TDLog.Log($"弹道元素 -状态机 - 进入 Deactivated");
+            TDLog.Log($"子弹 -状态机 - 进入 Deactivated");
             state = BulletFSMState.Deactivated;
             deactivatedModel.SetIsEntering(true);
         }
 
         public void Enter_Activated() {
-            TDLog.Log($"弹道元素 -状态机 - 进入 Activated");
+            TDLog.Log($"子弹 -状态机 - 进入 Activated");
             state = BulletFSMState.Activated;
             activatedModel.SetIsEntering(true);
         }
 
         public void Enter_Destroyed() {
-            TDLog.Log($"弹道元素 -状态机 - 进入 Destroyed");
+            TDLog.Log($"子弹 -状态机 - 进入 Destroyed");
             state = BulletFSMState.Dying;
             dyingModel.SetIsEntering(true);
         }

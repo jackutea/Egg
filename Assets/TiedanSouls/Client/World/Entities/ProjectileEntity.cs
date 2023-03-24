@@ -1,5 +1,6 @@
 using UnityEngine;
 using TiedanSouls.Generic;
+using System;
 
 namespace TiedanSouls.Client.Entities {
 
@@ -22,6 +23,7 @@ namespace TiedanSouls.Client.Entities {
 
         ProjectileBulletModel[] projectileBulletModelArray;
         public ProjectileBulletModel[] ProjectileBulletModelArray => projectileBulletModelArray;
+        public void SetProjectileBulletModelArray(ProjectileBulletModel[] projectileBulletModelArray) => this.projectileBulletModelArray = projectileBulletModelArray;
 
         #endregion
 
@@ -44,57 +46,28 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() { }
 
-        #region [激活 & 取消激活]
-
-        public void Activate() {
+        public void Foreach_NeedActivatedBulletID(Action<int> action) {
             var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.Activate();
+                var model = projectileBulletModelArray[i];
+                var startFrame = model.startFrame;
+                var endFrame = model.endFrame;
+                if (curFrame == startFrame) {
+                    action(model.bulletEntityID);
+                }
             }
         }
 
-        public void Deactivate() {
+        public void Foreach_NeedDeactivatedBulletID(Action<int> action) {
             var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.Deactivate();
+                var model = projectileBulletModelArray[i];
+                var startFrame = model.startFrame;
+                var endFrame = model.endFrame;
+                if (curFrame == endFrame) {
+                    action(model.bulletEntityID);
+                }
             }
-        }
-
-        #endregion
-
-        #region [设置Transform]
-
-        public void Renderer_Sync() {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.Renderer_Sync();
-            }
-        }
-
-        public void Renderer_Easing(float dt) {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.Renderer_Easing(dt);
-            }
-        }
-
-        #endregion
-
-        public void SetProjectileBulletModelArray(ProjectileBulletModel[] projectileBulletModelArray) {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-            }
-            this.projectileBulletModelArray = projectileBulletModelArray;
         }
 
     }

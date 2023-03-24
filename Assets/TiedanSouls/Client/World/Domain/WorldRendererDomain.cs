@@ -18,15 +18,17 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Tick(float dt) {
-            var repo = worldContext.RoleRepo;
-            repo.Foreach_All((role) => {
+            // 角色
+            var roleRepo = worldContext.RoleRepo;
+            roleRepo.Foreach_All((role) => {
                 role.Renderer_Easing(dt);
                 role.HudSlotCom.HpBarHUD.Tick(dt);
             });
 
-            var projectileRepo = worldContext.ProjectileRepo;
-            projectileRepo.Foreach(-1, (projectile) => {
-                projectile.Renderer_Easing(dt);
+            // 子弹
+            var bulletRepo = worldContext.BulletRepo;
+            bulletRepo.Foreach(-1, (bullet) => {
+                bullet.Renderer_Easing(dt);
             });
         }
 

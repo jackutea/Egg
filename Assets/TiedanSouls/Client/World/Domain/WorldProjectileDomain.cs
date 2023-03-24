@@ -20,36 +20,38 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain = worldDomain;
         }
 
-        public bool TrySummonProjectile(Vector3 pos, Quaternion spawnRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out ProjectileEntity projectile) {
+        public bool TrySummonProjectile(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out ProjectileEntity projectile) {
+            // 1. 创建弹道
             var typeID = entitySummonModel.typeID;
             var factory = worldContext.WorldFactory;
-            if (!factory.TryCreateProjectile(typeID, out projectile)) {
-                TDLog.Error($"创建实体 弹道 失败! - {typeID}");
+            if (!factory.TryCreateProjectile(typeID, summonPos, baseRot, out projectile)) {
+                TDLog.Error($"创建实体 '弹道' 失败! - {typeID}");
                 return false;
             }
-
-            // ID
             var idCom = projectile.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickFieldID());
-
-            // Father
             idCom.SetFather(summoner);
 
+            // 2. 填充 弹道子弹模型数据 数组
+            var bulletDomain = rootDomain.BulletDomain;
             var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
             var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                // 碰撞盒关联
-                this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
-                // TODO  元素 位置&角度 
+                var projetileBulletModel = projectileBulletModelArray[i];
+                var bulletTypeID = projetileBulletModel.bulletTypeID;
+                if (!bulletDomain.TrySpawnBullet(bulletTypeID, out var bullet)) {
+                    TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
+                    return false;
+                }
+
+                projetileBulletModel.bulletEntityID = bullet.IDCom.EntityID;
             }
 
-            // TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
+            // 3. 激活弹道 TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;
             fsm.Enter_Activated();
 
-            // Repo
+            // 4. 添加至仓库
             var repo = worldContext.ProjectileRepo;
             repo.Add(projectile);
 

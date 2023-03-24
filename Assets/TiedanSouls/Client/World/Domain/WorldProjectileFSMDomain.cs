@@ -53,6 +53,21 @@ namespace TiedanSouls.Client.Domain {
             }
 
             projectile.AddFrame();
+            projectile.Foreach_NeedActivatedBulletID((bulletID) => {
+                var bulletRepo = worldContext.BulletRepo;
+                if (bulletRepo.TryGet(bulletID, out var bullet)) {
+                    var bulletFSM = bullet.FSMCom;
+                    bulletFSM.Enter_Activated();
+                }
+            });
+
+            projectile.Foreach_NeedDeactivatedBulletID((bulletID) => {
+                var bulletRepo = worldContext.BulletRepo;
+                if (bulletRepo.TryGet(bulletID, out var bullet)) {
+                    var bulletFSM = bullet.FSMCom;
+                    bulletFSM.Enter_Deactivated();
+                }
+            });
         }
 
         void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {}

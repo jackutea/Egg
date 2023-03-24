@@ -36,6 +36,8 @@ namespace TiedanSouls.EditorTool {
         public static ProjectileBulletTM GetTM_ProjectleBullet(ProjectileBulletEM em) {
             ProjectileBulletTM tm;
 
+            tm.startFrame = em.startFrame;
+            tm.endFrame = em.endFrame;
             tm.extraHitTimes = em.extraHitTimes;
             tm.localPos = em.localPos;
             tm.localEulerAngles = em.localEulerAngles;

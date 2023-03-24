@@ -8,13 +8,29 @@ namespace TiedanSouls.Client {
 
     public static class TM2ModelUtil {
 
-        #region [Projectile]
-
-
-        #endregion
-
         #region [ProjectileBullet]
 
+        public static ProjectileBulletModel[] GetModelArray_ProjectileBullet(ProjectileBulletTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            ProjectileBulletModel[] modelArray = new ProjectileBulletModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetModel_ProjectileBullet(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static ProjectileBulletModel GetModel_ProjectileBullet(ProjectileBulletTM tm) {
+            ProjectileBulletModel model;
+            model.startFrame = tm.startFrame;
+            model.endFrame = tm.endFrame;
+            model.bulletTypeID = tm.bulletTypeID;
+            model.extraHitTimes = tm.extraHitTimes;
+            model.localPos = tm.localPos;
+            model.localEulerAngles = tm.localEulerAngles;
+            model.bulletEntityID = -1;
+            return model;
+        }
 
         #endregion
 

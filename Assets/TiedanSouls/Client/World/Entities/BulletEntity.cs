@@ -169,7 +169,7 @@ namespace TiedanSouls.Client.Entities {
             rootGO.transform.position = pos;
         }
 
-        public void SetRotation(Quaternion rot) {
+        public void SetRot(Quaternion rot) {
             rootGO.transform.rotation = rot;
         }
 

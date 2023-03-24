@@ -274,7 +274,7 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public bool TryCreateProjectile(int typeID, out ProjectileEntity projectile) {
+        public bool TryCreateProjectile(int typeID, Vector3 basePos, Quaternion baseRot, out ProjectileEntity projectile) {
             projectile = null;
 
             var template = infraContext.TemplateCore.ProjectileTemplate;
@@ -291,36 +291,16 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(typeID);
             idCom.SetEntityName(projetileTM.projectileName);
 
-            // 弹道子弹
+            // 弹道子弹模型数据
             var projetileBulletTMArray = projetileTM.projetileBulletTMArray;
             var len = projetileBulletTMArray.Length;
-            ProjectileBulletModel[] projectileBulletModelArray = new ProjectileBulletModel[len];
+            ProjectileBulletModel[] projetileBulletModelArray = new ProjectileBulletModel[len];
             for (int i = 0; i < len; i++) {
-                var projetileBulletTM = projetileBulletTMArray[i];
-                if (!TryGetProjectileBulletModel(projetileBulletTM, out ProjectileBulletModel projectileBulletModel)) {
-                    TDLog.Error($"创建 弹道子弹 失败! {projetileBulletTM.bulletTypeID}");
-                    return false;
-                }
-
-                projectileBulletModelArray[i] = projectileBulletModel;
+                var tm = projetileBulletTMArray[i];
+                var model = TM2ModelUtil.GetModel_ProjectileBullet(tm);
+                projetileBulletModelArray[i] = model;
             }
-            projectile.SetProjectileBulletModelArray(projectileBulletModelArray);
-
-            return true;
-        }
-
-        #endregion
-
-        #region [ProjectileBullet]
-
-        public bool TryGetProjectileBulletModel(ProjectileBulletTM tm, out ProjectileBulletModel model) {
-            model.extraHitTimes = tm.extraHitTimes;
-            model.localPos = tm.localPos;
-            model.localEulerAngles = tm.localEulerAngles;
-            if (!TryCreateBullet(tm.bulletTypeID, out model.bulletEntity)) {
-                TDLog.Error($"创建子弹失败! {tm.bulletTypeID}");
-                return false;
-            }
+            projectile.SetProjectileBulletModelArray(projetileBulletModelArray);
 
             return true;
         }
