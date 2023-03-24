@@ -211,7 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7242303559924722033}
   m_Layer: 0
-  m_Name: vfx_test_projectile
+  m_Name: vfx_test_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

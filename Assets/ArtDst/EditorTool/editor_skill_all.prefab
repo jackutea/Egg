@@ -137,7 +137,7 @@ MonoBehaviour:
     - {fileID: 2146176807690415295}
   skillEffectorEMArray:
   - triggerFrame: 10
-    effectorTypeID: 100
+    effectorTypeID: 9999
     offsetPos: {x: 2, y: 0, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407

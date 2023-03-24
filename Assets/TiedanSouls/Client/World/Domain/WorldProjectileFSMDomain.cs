@@ -55,9 +55,7 @@ namespace TiedanSouls.Client.Domain {
             projectile.AddFrame();
         }
 
-        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
-
-        }
+        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {}
 
     }
 

@@ -7,39 +7,6 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
-        #region [Bullet]
-
-        public static BulletEM[] GetEMArray_Bullet(BulletTM[] tmArray) {
-            var len = tmArray.Length;
-            BulletEM[] emArray = new BulletEM[len];
-            for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_Bullet(tmArray[i]);
-            }
-            return emArray;
-        }
-
-        public static BulletEM GetEM_Bullet(BulletTM tm) {
-            BulletEM em;
-            
-            em.typeID = tm.typeID;
-            em.bulletName = tm.bulletName;
-
-            em.collisionTriggerEM = GetEM_CollisionTrigger(tm.collisionTriggerTM);
-            em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
-            em.deathEffectorEM = GetEM_Effector(tm.deathEffectorTM);
-
-            var vfxGUI = tm.vfxPrefab_GUID;
-            em.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;
-
-            em.moveDistance_cm = tm.moveDistance_cm;
-            em.moveTotalFrame = tm.moveTotalFrame;
-            em.disCurve = GetAnimationCurve(tm.disCurve_KeyframeTMArray);
-
-            return em;
-        }
-
-        #endregion
-
         #region [Skill]
 
         public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {

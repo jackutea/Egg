@@ -48,35 +48,27 @@ namespace TiedanSouls.EditorTool {
 
         #region [Bullet]
 
-        public static BulletTM[] GetTMArray_Bullet(BulletEM[] emArray) {
-            var tmArray = new BulletTM[emArray.Length];
-            for (int i = 0; i < emArray.Length; i++) {
-                tmArray[i] = GetTM_Bullet(emArray[i]);
-            }
-            return tmArray;
-        }
-
-        public static BulletTM GetTM_Bullet(BulletEM em) {
+        public static BulletTM GetTM_Bullet(BulletEditorGO editorGO) {
             BulletTM tm;
 
-            tm.typeID = em.typeID;
-            tm.bulletName = em.bulletName;
+            tm.typeID = editorGO.typeID;
+            tm.bulletName = editorGO.bulletName;
 
-            tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(em.collisionTriggerEM);
+            tm.collisionTriggerTM = GetTM_CollisionTrigger<ProjectileEditorGO>(editorGO.collisionTriggerEM);
 
-            tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
-            tm.deathEffectorTM = GetTM_Effector(em.deathEffectorEM);
+            tm.hitEffectorTM = GetTM_Effector(editorGO.hitEffectorEM);
+            tm.deathEffectorTM = GetTM_Effector(editorGO.deathEffectorEM);
 
-            var moveTotalFrame = em.moveTotalFrame;
-            var disCurve = em.disCurve;
-            var moveDistance_cm = em.moveDistance_cm;
+            var moveTotalFrame = editorGO.moveTotalFrame;
+            var disCurve = editorGO.disCurve;
+            var moveDistance_cm = editorGO.moveDistance_cm;
             tm.moveDistance_cm = moveDistance_cm;
             tm.moveTotalFrame = moveTotalFrame;
             tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
             tm.directionArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
             tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
 
-            var vfxPrefab = em.vfxPrefab;
+            var vfxPrefab = editorGO.vfxPrefab;
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
             tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(vfxPrefab));
 

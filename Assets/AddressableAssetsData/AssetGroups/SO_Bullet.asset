@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: VFX
+  m_Name: SO_Bullet
   m_EditorClassIdentifier: 
-  m_GroupName: VFX
+  m_GroupName: SO_Bullet
   m_Data:
     m_SerializedData: []
-  m_GUID: 29debcc9ade83ba4db7421644f412055
+  m_GUID: 8384734183696a3418248375e571576d
   m_SerializeEntries:
-  - m_GUID: 255c1b7094df72f4582aa4b9f979e595
-    m_Address: vfx_test_bullet
+  - m_GUID: e48d156f05bc7704392b8859a0b618d1
+    m_Address: so_bullet_test
     m_ReadOnly: 0
     m_SerializedLabels:
-    - VFX
+    - SO_Bullet
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 30fe2422953990341ad8127103c6b34c, type: 2}
-    - {fileID: 11400000, guid: 336fbd5e7397c1d4fb26e4f7154aba06, type: 2}
+    - {fileID: 11400000, guid: e72f13af0fcc5ff4087730522d7e1b2c, type: 2}
+    - {fileID: 11400000, guid: c8520c5a80751834aa6798806d4af489, type: 2}

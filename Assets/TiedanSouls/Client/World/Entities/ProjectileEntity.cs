@@ -6,7 +6,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 弹道实体
     /// </summary>
-    public class ProjectileEntity : MonoBehaviour, IEntity {
+    public class ProjectileEntity : IEntity {
 
         #region [组件]
 
@@ -18,10 +18,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        Vector2 bornPos;
-        public Vector2 BornPos => bornPos;
-        public void SetBornPos(Vector2 value) => this.bornPos = value;
-
         #region [弹道子弹模型组]
 
         ProjectileBulletModel[] projectileBulletModelArray;
@@ -29,22 +25,34 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
+        #region [生命周期]
+
         int curFrame;
         public int CurFrame => curFrame;
         public void AddFrame() => curFrame++;
+
+        #endregion
 
         public void Ctor() {
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Projectile);
             fsmCom = new ProjectileFSMComponent();
-
             curFrame = -1;
         }
 
-        public void TearDown() {
-        }
+        public void TearDown() { }
 
-        public void Reset() {
+        public void Reset() { }
+
+        #region [激活 & 取消激活]
+
+        public void Activate() {
+            var len = projectileBulletModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
+                bullet.Activate();
+            }
         }
 
         public void Deactivate() {
@@ -56,30 +64,9 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void Activate() {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.Activate();
-            }
-        }
+        #endregion
 
-        public void SeProjectileBulletModelArray(ProjectileBulletModel[] projectileBulletModelArray) {
-            var len = projectileBulletModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                var bulletModel = projectileBulletModelArray[i];
-                var bullet = bulletModel.bulletEntity;
-                bullet.RootGO.transform.SetParent(this.transform);
-            }
-            this.projectileBulletModelArray = projectileBulletModelArray;
-        }
-
-        public void SetPos(Vector2 value) {
-            transform.position = value;
-        }
-
-        #region [表现层同步]
+        #region [设置Transform]
 
         public void Renderer_Sync() {
             var len = projectileBulletModelArray.Length;
@@ -100,6 +87,15 @@ namespace TiedanSouls.Client.Entities {
         }
 
         #endregion
+
+        public void SetProjectileBulletModelArray(ProjectileBulletModel[] projectileBulletModelArray) {
+            var len = projectileBulletModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var bulletModel = projectileBulletModelArray[i];
+                var bullet = bulletModel.bulletEntity;
+            }
+            this.projectileBulletModelArray = projectileBulletModelArray;
+        }
 
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: so_effector_test
   m_EditorClassIdentifier: 
   tm:
-    typeID: 100
+    typeID: 9999
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
     entitySummonTMArray:
     - entityType: 3
@@ -21,7 +21,7 @@ MonoBehaviour:
       controlType: 0
     entityDestroyTMArray:
     - entityType: 1
-      targetType: 4
+      targetGroupType: 0
       isEnabled_attributeSelector: 0
       attributeSelectorTM:
         hp: 50

@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 8e642aad100456a408d16bcaaab5efd3, type: 2}
   effectorEM:
-    typeID: 100
+    typeID: 9999
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
     entitySummonEMArray:
     - entityType: 3
@@ -86,7 +86,7 @@ MonoBehaviour:
       controlType: 0
     entityDestroyEMArray:
     - entityType: 1
-      targetType: 4
+      targetGroupType: 0
       isEnabled_attributeSelector: 0
       attributeSelectorEM:
         hp: 50

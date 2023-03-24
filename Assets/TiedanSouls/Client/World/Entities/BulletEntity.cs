@@ -90,15 +90,10 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-
-        #region [速度组]
+        #region [速度矢量组]
 
         float[] moveSpeedArray;
         public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
-
-        #endregion
-
-        #region [方向组]
 
         Vector3[] directionArray;
         public void SetDirectionArray(Vector3[] value) => this.directionArray = value;
@@ -106,18 +101,16 @@ namespace TiedanSouls.Client.Entities {
         #endregion
 
         public void Ctor() {
-            // GameObject
-            rootGO = new GameObject("弹道元素");
-            logicRoot = new GameObject("LogicRoot");
-            rendererRoot = new GameObject("VFXRoot");
+            rootGO = new GameObject("子弹");
+            logicRoot = new GameObject("Logic_Root");
+            rendererRoot = new GameObject("Renderer_Root");
+
             logicRoot.transform.SetParent(rootGO.transform, false);
             rendererRoot.transform.SetParent(rootGO.transform, false);
 
-            // Rb
             rb = logicRoot.AddComponent<Rigidbody2D>();
             rb.gravityScale = 0;
 
-            // Component
             idCom = new IDComponent();
             idCom.SetEntityType(EntityType.Bullet);
 

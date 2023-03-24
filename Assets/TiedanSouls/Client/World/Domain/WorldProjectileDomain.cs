@@ -28,10 +28,6 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            // 弹道 位置&角度 
-            projectile.SetBornPos(pos);
-            projectile.SetPos(pos);
-
             // ID
             var idCom = projectile.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickFieldID());
@@ -52,8 +48,6 @@ namespace TiedanSouls.Client.Domain {
             // TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;
             fsm.Enter_Activated();
-
-            projectile.name = $"弹道 {projectile.IDCom}";
 
             // Repo
             var repo = worldContext.ProjectileRepo;

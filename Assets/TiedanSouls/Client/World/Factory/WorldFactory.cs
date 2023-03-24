@@ -283,17 +283,7 @@ namespace TiedanSouls.Client {
                 return false;
             }
 
-            // Container
-            var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAsset;
-            var contanerAssetName = "mod_container_projectile";
-            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
-            if (!has) {
-                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
-                return false;
-            }
-
-            projectile = GameObject.Instantiate(go).GetComponent<ProjectileEntity>();
+            projectile = new ProjectileEntity();
             projectile.Ctor();
 
             // ID
@@ -314,9 +304,9 @@ namespace TiedanSouls.Client {
 
                 projectileBulletModelArray[i] = projectileBulletModel;
             }
-            projectile.SeProjectileBulletModelArray(projectileBulletModelArray);
+            projectile.SetProjectileBulletModelArray(projectileBulletModelArray);
 
-            return projectile;
+            return true;
         }
 
         #endregion
@@ -349,17 +339,7 @@ namespace TiedanSouls.Client {
                 return false;
             }
 
-            // Container
-            var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAsset;
-            var contanerAssetName = "mod_container_bullet";
-            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
-            if (!has) {
-                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
-                return false;
-            }
-
-            bullet = GameObject.Instantiate(go).GetComponent<BulletEntity>();
+            bullet = new BulletEntity();
             bullet.Ctor();
 
             var idCom = bullet.IDCom;
@@ -374,6 +354,7 @@ namespace TiedanSouls.Client {
             bullet.SetDirectionArray(tm.directionArray?.Clone() as Vector3[]);
 
             // 表现层
+            var assetCore = infraContext.AssetCore;
             var vfxAsset = assetCore.VFXAsset;
             if (!vfxAsset.TryGet(tm.vfxPrefabName, out GameObject vfxGO)) {
                 TDLog.Error($"获取 VFX 失败! {tm.vfxPrefabName}");
