@@ -1,5 +1,8 @@
 namespace TiedanSouls.Generic {
 
+    /// <summary>
+    /// 伤害模型
+    /// </summary>
     public struct DamageModel {
 
         public DamageType damageType;   // 伤害类型
