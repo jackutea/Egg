@@ -45,6 +45,9 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() { }
 
+        /// <summary>
+        /// 遍历当前帧需要激活的子弹ID
+        /// </summary>
         public void Foreach_NeedActivatedBulletID(Action<int> action) {
             var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
@@ -52,6 +55,21 @@ namespace TiedanSouls.Client.Entities {
                 var startFrame = model.startFrame;
                 var endFrame = model.endFrame;
                 if (curFrame == startFrame) {
+                    action(model.bulletEntityID);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 遍历当前帧需要取消激活的子弹ID
+        /// </summary>
+        public void Foreach_NeedDeactivatedBulletID(Action<int> action) {
+            var len = projectileBulletModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var model = projectileBulletModelArray[i];
+                var startFrame = model.startFrame;
+                var endFrame = model.endFrame;
+                if (curFrame == endFrame) {
                     action(model.bulletEntityID);
                 }
             }

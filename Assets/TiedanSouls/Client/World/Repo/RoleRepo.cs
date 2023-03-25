@@ -142,7 +142,8 @@ namespace TiedanSouls.Client {
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var r = list[i];
-                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;   // 选择器过滤 - 属性
+                if (r.FSMCom.IsExited) continue;                                    // 状态过滤 - 已经退出
+                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
                 role = r;
                 return true;
             }

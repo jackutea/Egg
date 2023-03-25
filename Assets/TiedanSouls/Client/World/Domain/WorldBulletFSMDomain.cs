@@ -59,6 +59,8 @@ namespace TiedanSouls.Client.Domain {
             var model = fsm.DeactivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
+                var moveCom = bullet.MoveCom;
+                moveCom.Stop();
                 bullet.Deactivate();
             }
         }
@@ -67,19 +69,21 @@ namespace TiedanSouls.Client.Domain {
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
-                // 如果是追踪类型，需要设置追踪目标
-                if (bullet.TrajectoryType == TrajectoryType.Track) {
-                    this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
-                }
             }
 
             model.curFrame++;
+
+            // 如果是追踪类型，需要设置追踪目标
+            if (bullet.TrajectoryType == TrajectoryType.Track) {
+                this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
+            }
 
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
             var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
             if (collisionTriggerStatus == TriggerStatus.TriggerEnter) collisionTriggerModel.ActivateAll();
-            if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
+            else if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
+            else if (collisionTriggerStatus == TriggerStatus.None) collisionTriggerModel.DeactivateAll();
 
             // 移动逻辑(根据轨迹类型)
             var moveCom = bullet.MoveCom;
@@ -95,7 +99,6 @@ namespace TiedanSouls.Client.Domain {
 
             if (model.curFrame == bullet.MoveTotalFrame - 1) {
                 moveCom.Stop();
-                fsm.Enter_TearDown(0);
                 // TODO: 业务逻辑：子弹到达终点后，不一定立马消失，有可能进入未激活状态，等待 某一事件 or 固定事件 继续激活
             }
         }

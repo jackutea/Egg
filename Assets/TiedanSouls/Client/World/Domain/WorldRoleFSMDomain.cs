@@ -23,7 +23,7 @@ namespace TiedanSouls.Client.Domain {
         public void TickFSM(int curFieldTypeID, float dt) {
             worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
                 var fsm = role.FSMCom;
-                if (fsm.IsExiting) return;
+                if (fsm.IsExited) return;
 
                 if (fsm.StateFlag != StateFlag.Dying) {
                     role.AIStrategy.Tick(dt);
@@ -42,7 +42,7 @@ namespace TiedanSouls.Client.Domain {
 
         void TickFSM(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
-            if (fsm.IsExiting) return;
+            if (fsm.IsExited) return;
 
             // - 1. Tick 状态
             var stateFlag = fsm.StateFlag;

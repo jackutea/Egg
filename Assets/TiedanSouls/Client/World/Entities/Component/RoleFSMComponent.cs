@@ -23,9 +23,9 @@ namespace TiedanSouls.Client.Entities {
         RoleFSMModel_Dying dyingModel;
         public RoleFSMModel_Dying DyingModel => dyingModel;
 
-        bool isExiting;
-        public bool IsExiting => isExiting;
-        public void SetIsExiting(bool value) => isExiting = value;
+        bool isExited;
+        public bool IsExited => isExited;
+        public void SetIsExited(bool value) => isExited = value;
 
         public RoleFSMComponent() {
             idleModel = new RoleFSMModel_Idle();
@@ -37,7 +37,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Reset() {
-            isExiting = false;
+            isExited = false;
             idleModel.Reset();
             castingModel.Reset();
             knockBackModel.Reset();

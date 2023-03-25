@@ -41,5 +41,16 @@ namespace TiedanSouls.Client {
             }
         }
 
+        public void DeactivateAllProjectilesInField(int fieldID) {
+            var e = all.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var projectile = e.Current;
+                if (projectile.IDCom.FromFieldTypeID == fieldID) {
+                    projectile.FSMCom.Enter_Activated();
+                }
+            }
+        }
+
     }
+
 }

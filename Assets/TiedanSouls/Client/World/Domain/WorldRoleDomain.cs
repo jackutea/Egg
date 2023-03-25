@@ -460,7 +460,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
-            role.FSMCom.SetIsExiting(true);
+            role.FSMCom.SetIsExited(true);
             role.AttributeCom.ClearHP();
             role.Hide();
             role.DeactivateCollider();

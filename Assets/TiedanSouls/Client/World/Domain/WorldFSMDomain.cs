@@ -180,13 +180,21 @@ namespace TiedanSouls.Client.Domain {
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 fieldDomain.HideField(curFieldTypeID);
 
-                // 隐藏当前关卡内物件
+                // 隐藏当前关卡所有物件
                 var itemRepo = worldContext.ItemRepo;
                 itemRepo.HideAllItemsInField(curFieldTypeID);
 
-                // 隐藏当前关卡内AI角色
+                // 隐藏当前关卡所有AI角色
                 var roleRepo = worldContext.RoleRepo;
                 roleRepo.HideAll_AIs(curFieldTypeID);
+
+                // 隐藏当前关卡所有子弹
+                var bulletRepo = worldContext.BulletRepo;
+                bulletRepo.DeactivateAllBulletsInField(curFieldTypeID);
+
+                // 隐藏当前关卡所有弹道
+                var projectileRepo = worldContext.ProjectileRepo;
+                projectileRepo.DeactivateAllProjectilesInField(curFieldTypeID);
 
                 // 显示下一关卡
                 _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);

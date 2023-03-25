@@ -78,5 +78,15 @@ namespace TiedanSouls.Client {
             return removeList;
         }
 
+        public void DeactivateAllBulletsInField(int fieldID) {
+            var e = all.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var bullet = e.Current;
+                if (bullet.IDCom.FromFieldTypeID == fieldID) {
+                    bullet.FSMCom.Enter_Deactivated();
+                }
+            }
+        }
+
     }
 }

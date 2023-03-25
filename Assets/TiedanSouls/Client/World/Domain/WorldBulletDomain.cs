@@ -152,7 +152,8 @@ namespace TiedanSouls.Client.Domain {
             var velocity = moveDir * trackSpeed;
             moveCom.SetVelocity(velocity);
 
-            bullet.SetLogicRotation(Quaternion.LookRotation(moveDir));
+            var rot = Quaternion.FromToRotation(Vector3.right, moveDir);
+            bullet.SetLogicRotation(rot);
         }
 
         public void MoveStraight(BulletEntity bullet) {
