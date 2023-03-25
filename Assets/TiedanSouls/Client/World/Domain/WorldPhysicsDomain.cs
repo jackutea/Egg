@@ -107,8 +107,9 @@ namespace TiedanSouls.Client.Domain {
             var beHitDir = rolePos - casterPos;
             beHitDir.Normalize();
 
-            var hitDomain = rootDomain.HitDomain;
-            hitDomain.Role_BeHit(role, collisionTriggerModel, skill.CurFrame, beHitDir);
+            // 角色受击
+            var roleDomain = rootDomain.RoleDomain;
+            roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom.ToArgs(), collisionTriggerModel);
         }
 
         void HandleTriggerEnter_Bullet_Role(BulletEntity bullet, RoleEntity role) {
@@ -120,13 +121,14 @@ namespace TiedanSouls.Client.Domain {
             var beHitDir = rolePos - bullet.Pos;
             beHitDir.Normalize();
 
-            var hitDomain = rootDomain.HitDomain;
+            // 角色撞击事件
+            var roleDomain = rootDomain.RoleDomain;
             var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
-            hitDomain.Role_BeHit(role, collisionTriggerModel, hitFrame, beHitDir);
+            roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
 
-            // 子弹击中 事件处理
+            // 子弹撞击事件
             var bulletDomain = rootDomain.BulletDomain;
-            bulletDomain.HandleHitEvent(bullet);
+            bulletDomain.HandleBeHit(bullet);
         }
 
         void HandleTriggerEnter_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
@@ -134,8 +136,8 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            var hitDomain = rootDomain.HitDomain;
-            hitDomain.Skill_BeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
+            var skillDomain = rootDomain.SkillDomain;
+            skillDomain.HandleBeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
         }
 
         void HandleTriggerEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {
@@ -147,9 +149,9 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            var hitDomain = rootDomain.HitDomain;
-            hitDomain.Bullet_BeHit(bullet1, collisionTriggerModel1, bullet2.FSMCom.ActivatedModel.curFrame);
-            hitDomain.Bullet_BeHit(bullet2, collisionTriggerModel2, bullet1.FSMCom.ActivatedModel.curFrame);
+            var bulletDomain = rootDomain.BulletDomain;
+            bulletDomain.HandleBeHit(bullet1, collisionTriggerModel1, bullet2.FSMCom.ActivatedModel.curFrame);
+            bulletDomain.HandleBeHit(bullet2, collisionTriggerModel2, bullet1.FSMCom.ActivatedModel.curFrame);
         }
 
         #endregion

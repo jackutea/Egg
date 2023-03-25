@@ -63,9 +63,10 @@ namespace TiedanSouls.EditorTool {
 
             var moveTotalFrame = editorGO.moveTotalFrame;
             var disCurve = editorGO.disCurve;
-            var moveDistance_cm = editorGO.moveDistance_cm;
-            tm.moveDistance_cm = moveDistance_cm;
+            var moveDistance_cm = GetInt_Expand100(editorGO.moveDistance);
+
             tm.moveTotalFrame = moveTotalFrame;
+            tm.moveDistance_cm = moveDistance_cm;
             tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
             tm.moveDirArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
             tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
@@ -393,7 +394,7 @@ namespace TiedanSouls.EditorTool {
             return damageArray;
         }
 
-        public static int[] GetSpeedArray_AnimationCurve(int totalDis, int totalFrame, AnimationCurve curve) {
+        public static int[] GetSpeedArray_AnimationCurve(float totalDis, int totalFrame, AnimationCurve curve) {
             float logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
             float totalTime = totalFrame * logicIntervalTime;
             int[] speedArray = new int[totalFrame];
@@ -459,6 +460,19 @@ namespace TiedanSouls.EditorTool {
                 parent = parent.parent;
             }
             return path;
+        }
+
+        static int[] GetIntArray_Expand100(float[] vArray) {
+            var len = vArray.Length;
+            var intArray = new int[len];
+            for (int i = 0; i < len; i++) {
+                intArray[i] = Mathf.RoundToInt(vArray[i] * 100);
+            }
+            return intArray;
+        }
+
+        static int GetInt_Expand100(float v) {
+            return Mathf.RoundToInt(v * 100);
         }
 
         #endregion

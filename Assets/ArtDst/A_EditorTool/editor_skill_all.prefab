@@ -123,11 +123,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
+    hitEffectorTypeID: 0
     stateEffectEM:
       addStateFlag: 0
       effectStateValue: 0
@@ -135,9 +131,9 @@ MonoBehaviour:
     colliderGOArray:
     - {fileID: 2146176807690415295}
   skillEffectorEMArray:
-  - triggerFrame: 10
-    effectorTypeID: 9999
-    offsetPos: {x: 2, y: 0, z: 0}
+  - effectorTypeID: 9999
+    triggerFrame: 15
+    offsetPos: {x: 2, y: 1.5, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
 GameObject:
@@ -411,11 +407,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
+    hitEffectorTypeID: 0
     stateEffectEM:
       addStateFlag: 0
       effectStateValue: 0
@@ -1079,11 +1071,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
+    hitEffectorTypeID: 0
     stateEffectEM:
       addStateFlag: 0
       effectStateValue: 0
@@ -1218,11 +1206,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorEM:
-      typeID: 0
-      effectorName: 
-      entitySummonEMArray: []
-      entityDestroyEMArray: []
+    hitEffectorTypeID: 0
     stateEffectEM:
       addStateFlag: 0
       effectStateValue: 0

@@ -27,7 +27,6 @@ namespace TiedanSouls.Client.Facades {
         #region [杂项 Domain]
 
         public WorldPhysicsDomain PhysicsDomain { get; private set; }
-        public WorldHitDomain HitDomain { get; private set; }
         public WorldEffectorDomain EffectorDomain { get; private set; }
 
         #endregion
@@ -58,7 +57,6 @@ namespace TiedanSouls.Client.Facades {
             BulletFSMDomain = new WorldBulletFSMDomain();
 
             PhysicsDomain = new WorldPhysicsDomain();
-            HitDomain = new WorldHitDomain();
             EffectorDomain = new WorldEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
@@ -80,7 +78,6 @@ namespace TiedanSouls.Client.Facades {
             this.BulletFSMDomain.Inject(infraContext, worldContext, this);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
-            this.HitDomain.Inject(infraContext, worldContext, this);
             this.EffectorDomain.Inject(infraContext, worldContext);
 
             this.WorldRendererDomain.Inject(infraContext, worldContext, this);
@@ -162,7 +159,7 @@ namespace TiedanSouls.Client.Facades {
             var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
             var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
             var curFieldTypeID = WorldContext.StateEntity.CurFieldTypeID;
-            var roleDomain = WorldContext.RootDomain.RoleDomain;
+            var roleFSMDomain = WorldContext.RootDomain.RoleFSMDomain;
 
             if (entityType == EntityType.Role) {
                 var roleRepo = WorldContext.RoleRepo;
@@ -171,7 +168,7 @@ namespace TiedanSouls.Client.Facades {
                     var attributeCom = role.AttributeCom;
                     // 选择器 - 属性
                     if (isEnabled_attributeSelector && !attributeCom.IsMatch(attributeSelectorModel)) return;
-                    roleDomain.Role_PrepareToDie(role);
+                    roleFSMDomain.Role_EnterDying(role);
                 }));
 
             } else {

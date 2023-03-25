@@ -15,11 +15,13 @@ namespace TiedanSouls.Client.Domain {
 
         public WorldSkillDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext,WorldRootDomain rootDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain rootDomain) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
             this.rootDomain = rootDomain;
         }
+
+        #region [添加技能]
 
         public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
             var templateCore = infraContext.TemplateCore;
@@ -99,6 +101,18 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
+        #endregion
+
+        #region [技能受击处理]
+
+        /// <summary>
+        /// 技能受击处理
+        /// </summary>
+        public void HandleBeHit(SkillEntity skill, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+
+        }
+
+        #endregion
 
     }
 

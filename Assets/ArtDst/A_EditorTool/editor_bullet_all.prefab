@@ -226,8 +226,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 500
-      knockBackCostFrame: 20
+      knockBackDistance_cm: 300
+      knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -253,8 +253,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 20
-      knockUpCostFrame: 20
+      knockUpHeight_cm: 300
+      knockUpCostFrame: 10
       knockUpDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -289,7 +289,7 @@ MonoBehaviour:
   deathEffectorTypeID: 0
   extraPenetrateCount: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
-  moveDistance_cm: 1500
+  moveDistance: 50
   moveTotalFrame: 30
   disCurve:
     serializedVersion: 2
@@ -297,18 +297,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0

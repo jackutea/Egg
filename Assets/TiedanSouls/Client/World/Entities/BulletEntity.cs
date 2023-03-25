@@ -151,7 +151,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Attribute_HP_Decrease(int atk) {
-            attributeCom.HP_Decrease(atk);
+            attributeCom.DecreaseHP(atk);
         }
 
         public Quaternion GetLogic_Rot() {

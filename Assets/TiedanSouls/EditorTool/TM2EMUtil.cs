@@ -53,6 +53,24 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
+        public static SkillEffectorEM[] GetEMArray_SkillEffector(SkillEffectorTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            SkillEffectorEM[] emArray = new SkillEffectorEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_SkillEffector(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static SkillEffectorEM GetEM_SkillEffector(SkillEffectorTM tm) {
+            SkillEffectorEM em;
+            em.effectorTypeID = tm.effectorTypeID;
+            em.triggerFrame = tm.triggerFrame;
+            em.offsetPos = tm.offsetPos;
+            return em;
+        }
+
         #endregion
 
         #region [Effector]
@@ -235,6 +253,8 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
+        #endregion
+
         #region [Selector]
 
         public static AttributeSelectorEM[] GetEMArray_AttributeSelector(AttributeSelectorTM[] tmArray) {
@@ -272,6 +292,12 @@ namespace TiedanSouls.EditorTool {
         }
 
         #endregion
+
+        #region [Misc]
+
+        public static float GetFloat_Shrink100(int value) {
+            return value / 100f;
+        }
 
         #endregion
 

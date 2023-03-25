@@ -16,31 +16,7 @@ MonoBehaviour:
     typeID: 9999
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
     entitySummonTMArray:
-    - entityType: 3
+    - entityType: 4
       typeID: 9999
       controlType: 0
-    entityDestroyTMArray:
-    - entityType: 1
-      targetGroupType: 0
-      isEnabled_attributeSelector: 0
-      attributeSelectorTM:
-        hp: 50
-        hp_ComparisonType: 2
-        hpMax: 0
-        hpMax_ComparisonType: 0
-        ep: 0
-        ep_ComparisonType: 0
-        epMax: 0
-        epMax_ComparisonType: 0
-        gp: 0
-        gp_ComparisonType: 0
-        gpMax: 0
-        gpMax_ComparisonType: 0
-        moveSpeed: 0
-        moveSpeed_ComparisonType: 0
-        jumpSpeed: 0
-        jumpSpeed_ComparisonType: 0
-        fallingAcceleration: 0
-        fallingAcceleration_ComparisonType: 0
-        fallingSpeedMax: 0
-        fallingSpeedMax_ComparisonType: 0
+    entityDestroyTMArray: []

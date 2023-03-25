@@ -83,7 +83,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 子弹击中时触发的逻辑
         /// </summary>
-        public void HandleHitEvent(BulletEntity bullet) {
+        public void HandleBeHit(BulletEntity bullet) {
             if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
@@ -121,6 +121,14 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
         }
+
+        /// <summary>
+        /// 子弹受击处理
+        /// </summary>
+        public void HandleBeHit(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+
+        }
+
 
     }
 

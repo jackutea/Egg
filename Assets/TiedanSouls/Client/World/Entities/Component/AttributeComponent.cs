@@ -69,11 +69,19 @@ namespace TiedanSouls.Client.Entities {
             this.fallingSpeedMax = fallingSpeedMax;
         }
 
-        internal void HP_Decrease(int dmg) {
-            hp -= dmg;
-            if (hp < 0) {
-                hp = 0;
+        public int DecreaseHP(int damage) {
+            int realDamage = 0;
+            var newHP = hp - damage;
+            if (newHP < 0) {
+                realDamage = hp;
+                newHP = 0;
+            } else {
+                realDamage = damage;
             }
+            
+            hp = newHP;
+
+            return realDamage;
         }
 
         public bool IsDead() {

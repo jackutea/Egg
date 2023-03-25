@@ -20,7 +20,7 @@ namespace TiedanSouls.EditorTool {
 
         [Header("子弹特效")] public GameObject vfxPrefab;
 
-        [Header("位移(cm)")] public int moveDistance_cm;
+        [Header("位移(m)")] public float moveDistance;
         [Header("位移时间(帧)")] public int moveTotalFrame;
         [Header("位移曲线")] public AnimationCurve disCurve;
 
@@ -57,7 +57,7 @@ namespace TiedanSouls.EditorTool {
             var vfxGUI = tm.vfxPrefab_GUID;
             this.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;
 
-            this.moveDistance_cm = tm.moveDistance_cm;
+            this.moveDistance = TM2EMUtil.GetFloat_Shrink100(tm.moveDistance_cm) ;
             this.moveTotalFrame = tm.moveTotalFrame;
             this.disCurve = TM2EMUtil.GetAnimationCurve(tm.disCurve_KeyframeTMArray);
         }

@@ -38,6 +38,8 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
+        #region [角色状态 - Tick]
+
         void TickFSM(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
             if (fsm.IsExiting) return;
@@ -56,8 +58,6 @@ namespace TiedanSouls.Client.Domain {
             Apply_RealseSkill(role, fsm, dt);   // 释放技能
         }
 
-        #region [角色状态处理]
-
         /// <summary>
         /// 任意状态
         /// </summary>
@@ -68,7 +68,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 任意状态下的死亡判定
             if (roleDomain.IsRoleDead(role)) {
-                fsm.AddDying(30);
+                roleDomain.TearDownRole(role);
             }
 
             // 任意状态下的Idle设置判定
@@ -216,7 +216,7 @@ namespace TiedanSouls.Client.Domain {
 
             stateModel.maintainFrame--;
             if (stateModel.maintainFrame <= 0) {
-                roleDomain.Role_Die(role);
+                roleDomain.TearDownRole(role);
             }
         }
 
@@ -246,6 +246,16 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // TODO: 觉醒技能........
+        }
+
+        #endregion
+
+        #region [角色状态 - 进入]
+
+        public void Role_EnterDying(RoleEntity role) {
+            var roleRepo = worldContext.RoleRepo;
+            var fsm = role.FSMCom;
+            fsm.AddDying(30);
         }
 
         #endregion

@@ -6,8 +6,8 @@ namespace TiedanSouls.EditorTool {
     [Serializable]
     public struct SkillEffectorEM {
 
-        [Header("触发帧")] public int triggerFrame;
         [Header("触发效果器类型ID")] public int effectorTypeID;
+        [Header("触发帧")] public int triggerFrame;
         [Header("偏移位置")] public Vector3 offsetPos;
 
     }

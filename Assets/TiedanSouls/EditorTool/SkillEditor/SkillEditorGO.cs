@@ -16,11 +16,10 @@ namespace TiedanSouls.EditorTool {
         [Header("技能持续帧")] public int maintainFrame;
 
         [Header("原始技能")] public int originSkillTypeID;
+
         [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
-
         [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
-
         [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
 
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
@@ -58,6 +57,7 @@ namespace TiedanSouls.EditorTool {
             this.comboSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.comboSkillCancelTMArray);
             this.cancelSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.cancelSkillCancelTMArray);
             this.colliderTriggerEMArray = TM2EMUtil.GetEMArray_CollisionTrigger(skillTM.collisionTriggerTMArray);
+            this.skillEffectorEMArray = TM2EMUtil.GetEMArray_SkillEffector(skillTM.skillEffectorTMArray);
 
             this.weaponAnimClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GUIDToAssetPath(skillTM.weaponAnimClip_GUID));
         }

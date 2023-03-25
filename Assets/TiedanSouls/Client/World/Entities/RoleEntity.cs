@@ -198,6 +198,14 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"隐藏角色: {idCom.EntityName} ");
         }
 
+        public void ActivateCollider() {
+            coll_logicRoot.enabled = true;
+        }
+
+        public void DeactivateCollider() {
+            coll_logicRoot.enabled = false;
+        }
+
         public Vector3 GetPos_Logic() {
             return logicRoot.position;
         }
@@ -313,17 +321,10 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Attribute]
 
-        public void Attribute_HP_Decrease(int atk) {
+        public int Attribute_DecreaseHP(int atk) {
             TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
-            attributeCom.HP_Decrease(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-        }
-
-        public void DropBeHit(int damage, Vector2 rebornPos) {
-            attributeCom.HP_Decrease(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-            SetPos_Logic(rebornPos);
-            Renderer_Sync();
+            return attributeCom.DecreaseHP(atk);
         }
 
         #endregion

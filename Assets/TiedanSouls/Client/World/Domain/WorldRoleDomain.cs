@@ -48,7 +48,7 @@ namespace TiedanSouls.Client.Domain {
                 ai.Activate();
                 repo.Add_ToAI(role);
             }
-            
+
             return true;
         }
 
@@ -428,19 +428,42 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [角色状态]
+        #region [角色受击处理]
 
-        public void Role_PrepareToDie(RoleEntity role) {
-            var roleRepo = worldContext.RoleRepo;
+        /// <summary>
+        /// 角色受击的统一处理方式
+        /// </summary>
+        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in IDArgs hitter, in CollisionTriggerModel collisionTriggerModel) {
             var fsm = role.FSMCom;
-            fsm.AddDying(30);
+
+            // 击退
+            var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
+            fsm.AddKnockBack(beHitDir, knockBackPowerModel);
+            // 击飞
+            var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
+            fsm.AddKnockUp(knockUpPowerModel);
+            /// TODO:  StateEffectModel的逻辑，如 禁锢 等
+
+            // 伤害结算
+            var damageModel = collisionTriggerModel.damageModel;
+            var hitDamage = damageModel.GetDamage(hitFrame);
+            role.Attribute_DecreaseHP(hitDamage);
+
+            // 伤害记录
+            var damageService = worldContext.DamageArbitService;
+            damageService.Add(damageModel.damageType, hitDamage, role.IDCom.ToArgs(), hitter);
         }
 
-        public void Role_Die(RoleEntity role) {
-            TDLog.Log($"角色死亡 - {role.IDCom.TypeID}");
+        #endregion
+
+        #region [角色 TearDown 相关]
+
+        public void TearDownRole(RoleEntity role) {
+            TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.SetIsExiting(true);
             role.AttributeCom.ClearHP();
             role.Hide();
+            role.DeactivateCollider();
         }
 
         public bool IsRoleDead(RoleEntity role) {
