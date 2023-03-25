@@ -94,13 +94,29 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [速度矢量组]
+        #region [子弹轨迹]
+
+        TrajectoryType trajectoryType;
+        public TrajectoryType TrajectoryType => trajectoryType;
+        public void SetTrajectoryType(TrajectoryType value) => this.trajectoryType = value;
+
+        #region [跟踪]
+
+        EntityTrackModel entityTrackModel;
+        public EntityTrackModel EntityTrackModel => entityTrackModel;
+        public void SetEntityTrackModel(in EntityTrackModel value) => this.entityTrackModel = value;
+
+        #endregion
+
+        #region [直线]
 
         float[] moveSpeedArray;
         public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
 
         Vector3[] moveDirArray;
         public void SetMoveDirArray(Vector3[] value) => this.moveDirArray = value;
+
+        #endregion
 
         #endregion
 

@@ -65,11 +65,16 @@ namespace TiedanSouls.EditorTool {
             var disCurve = editorGO.disCurve;
             var moveDistance_cm = GetInt_Expand100(editorGO.moveDistance);
 
+            tm.trajectoryType = editorGO.trajectoryType;
+
+            tm.entityTrackTM = GetTM_EntityTrack(editorGO.entityTrackingEM);
+
             tm.moveTotalFrame = moveTotalFrame;
             tm.moveDistance_cm = moveDistance_cm;
             tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
             tm.moveDirArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
             tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
+
 
             var vfxPrefab = editorGO.vfxPrefab;
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
@@ -211,7 +216,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [StateEffect]
 
-        public static StateEffectTM GetTM_StateEffect(StateEffectEM em) {
+        public static StateEffectTM GetTM_StateEffect(RoleStateEffectEM em) {
             StateEffectTM tm;
             tm.addStateFlag = em.addStateFlag;
             tm.effectStateValue = em.effectStateValue;
@@ -247,7 +252,7 @@ namespace TiedanSouls.EditorTool {
 
             tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
 
-            tm.targetGroupType = em.targetGroupType;
+            tm.relativeTargetGroupType = em.relativeTargetGroupType;
             tm.damageTM = GetTM_Damage(em.damageEM, totalFrame);
             tm.knockBackPowerTM = GetTM_KnockBack(em.knockBackPowerEM);
             tm.knockUpPowerTM = GetTM_KnockUp(em.knockUpPowerEM);
@@ -338,8 +343,26 @@ namespace TiedanSouls.EditorTool {
         public static EntityDestroyTM GetTM_EntityDestroy(EntityDestroyEM em) {
             EntityDestroyTM tm;
             tm.entityType = em.entityType;
-            tm.targetGroupType = em.targetGroupType;
+            tm.relativeTargetGroupType = em.relativeTargetGroupType;
             tm.isEnabled_attributeSelector = em.isEnabled_attributeSelector;
+            tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
+            return tm;
+        }
+
+        #endregion
+
+        #region [EntityTrack]
+
+        public static EntityTrackTM GetTM_EntityTrack(EntityTrackEM em) {
+            EntityTrackTM tm;
+            tm.trackSpeed_cm = GetInt_Expand100(em.trackSpeed);
+            tm.trackTargetGroupType = em.trackTargetGroupType;
+            tm.entityTrackSelectorTM = GetTM_EntityTrackSelector(em.entityTrackSelectorEM);
+            return tm;
+        }
+
+        public static EntityTrackSelectorTM GetTM_EntityTrackSelector(EntityTrackSelectorEM em) {
+            EntityTrackSelectorTM tm;
             tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
             return tm;
         }

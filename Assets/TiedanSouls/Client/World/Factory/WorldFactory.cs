@@ -328,10 +328,15 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(tm.typeID);
             idCom.SetEntityName(tm.bulletName);
 
+            bullet.SetTrajectoryType(tm.trajectoryType);
+
+          // 实体追踪模型
+            bullet.SetEntityTrackModel(TM2ModelUtil.GetModel_EntityTrack(tm.entityTrackTM));
+
             bullet.SetMoveTotalFrame(tm.moveTotalFrame);
             bullet.SetMoveSpeedArray(TM2ModelUtil.GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
             bullet.SetMoveDirArray(TM2ModelUtil.GetVector3Array_Normalized(TM2ModelUtil.GetVector3Array_Shrink100(tm.moveDirArray)));
-            
+
             bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);

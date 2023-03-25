@@ -97,7 +97,7 @@ namespace TiedanSouls.Client {
             model.totalFrame = totalFrame;
 
             model.triggerStatusDic = GetDic_TriggerStatus(totalFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
-            model.targetGroupType = tm.targetGroupType;
+            model.relativeTargetGroupType = tm.relativeTargetGroupType;
 
             model.damageModel = GetModel_Damage(tm.damageTM);
             model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
@@ -105,7 +105,7 @@ namespace TiedanSouls.Client {
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
             model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
-            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.targetGroupType);
+            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.relativeTargetGroupType);
 
             return model;
         }
@@ -145,17 +145,17 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, TargetGroupType hitTargetGroupType) {
+        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderModel[] modelArray = new ColliderModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_Collider(tmArray[i], hitTargetGroupType);
+                modelArray[i] = GetModel_Collider(tmArray[i], hitRelativeTargetGroupType);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm, TargetGroupType hitTargetGroupType) {
+        public static ColliderModel GetModel_Collider(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
             model.SetColliderType(tm.colliderType);
@@ -163,7 +163,7 @@ namespace TiedanSouls.Client {
             model.SetLocalPos(tm.localPos);
             model.SetLocalAngleZ(tm.localAngleZ);
             model.SetLocalRot(Quaternion.Euler(0, 0, tm.localAngleZ));
-            model.SetHitTargetGroupType(hitTargetGroupType);
+            model.SetHitRelativeTargetGroupType(hitRelativeTargetGroupType);
             return model;
         }
 
@@ -243,7 +243,7 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [Entity Summon]
+        #region [EntitySummon]
 
         public static EntitySummonModel[] GetModelArray_EntitySummon(EntitySummonTM[] tmArray) {
             if (tmArray == null) return null;
@@ -265,7 +265,7 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [Entity Destroy]
+        #region [EntityDestroy]
 
         public static EntityDestroyModel[] GetModelArray_EntityDestroy(EntityDestroyTM[] tmArray) {
             if (tmArray == null) return null;
@@ -280,8 +280,27 @@ namespace TiedanSouls.Client {
         public static EntityDestroyModel GetModel_EntityDestroy(EntityDestroyTM tm) {
             EntityDestroyModel model;
             model.entityType = tm.entityType;
-            model.targetGroupType = tm.targetGroupType;
+            model.relativeTargetGroupType = tm.relativeTargetGroupType;
             model.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
+            model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
+            return model;
+        }
+
+        #endregion
+
+        #region [EntityTrack]
+
+        public static EntityTrackModel GetModel_EntityTrack(EntityTrackTM tm) {
+            EntityTrackModel model;
+            model.trackSpeed = GetFloat_Shrink100(tm.trackSpeed_cm);
+            model.trackTargetGroupType = tm.trackTargetGroupType;
+            model.entityTrackSelectorModel = GetModel_EntityTrackSelector(tm.entityTrackSelectorTM);
+            model.trackTarget = default;
+            return model;
+        }
+
+        public static EntityTrackSelectorModel GetModel_EntityTrackSelector(EntityTrackSelectorTM tm) {
+            EntityTrackSelectorModel model;
             model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
             return model;
         }

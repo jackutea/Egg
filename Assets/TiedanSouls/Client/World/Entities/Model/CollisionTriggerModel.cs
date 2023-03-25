@@ -17,7 +17,7 @@ namespace TiedanSouls.Client.Entities {
         public Dictionary<int, TriggerStatus> triggerStatusDic;
 
         // 作用目标
-        public TargetGroupType targetGroupType;
+        public RelativeTargetGroupType relativeTargetGroupType;
         // 模型: 伤害
         public DamageModel damageModel;
         // 模型: 击退力度

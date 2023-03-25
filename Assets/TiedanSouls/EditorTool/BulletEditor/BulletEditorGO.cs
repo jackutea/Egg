@@ -20,9 +20,21 @@ namespace TiedanSouls.EditorTool {
 
         [Header("子弹特效")] public GameObject vfxPrefab;
 
+        #region [子弹轨迹 ----------------------------------------------------]
+
+        [Header("轨迹类型")] public TrajectoryType trajectoryType;
+
+        #region [直线轨迹] TODO: Model
+
         [Header("位移(m)")] public float moveDistance;
         [Header("位移时间(帧)")] public int moveTotalFrame;
         [Header("位移曲线")] public AnimationCurve disCurve;
+
+        #endregion
+
+        [Header("实体追踪模型")] public EntityTrackEM entityTrackingEM;
+
+        #endregion
 
         public void Save() {
             if (so == null) {
@@ -57,9 +69,13 @@ namespace TiedanSouls.EditorTool {
             var vfxGUI = tm.vfxPrefab_GUID;
             this.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;
 
-            this.moveDistance = TM2EMUtil.GetFloat_Shrink100(tm.moveDistance_cm) ;
+            this.trajectoryType = tm.trajectoryType;
+
             this.moveTotalFrame = tm.moveTotalFrame;
+            this.moveDistance = TM2EMUtil.GetFloat_Shrink100(tm.moveDistance_cm);
             this.disCurve = TM2EMUtil.GetAnimationCurve(tm.disCurve_KeyframeTMArray);
+            this.entityTrackingEM = TM2EMUtil.GetEM_EntityTrack(tm.entityTrackTM);
+
         }
 
     }

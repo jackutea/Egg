@@ -1,7 +1,7 @@
 namespace TiedanSouls.Generic {
 
     // 目标群体类型
-    public enum TargetGroupType {
+    public enum RelativeTargetGroupType {
 
         None = 0b0000_0000,
 

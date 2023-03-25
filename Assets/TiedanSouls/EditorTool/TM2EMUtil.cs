@@ -119,7 +119,7 @@ namespace TiedanSouls.EditorTool {
 
             em.colliderGOArray = colliderGOArray;
 
-            em.targetGroupType = tm.targetGroupType;
+            em.relativeTargetGroupType = tm.relativeTargetGroupType;
             em.damageEM = GetEM_Damage(tm.damageTM);
             em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
             em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
@@ -170,8 +170,8 @@ namespace TiedanSouls.EditorTool {
 
         #region [StateEffect]
 
-        public static StateEffectEM GetEM_StateEffect(StateEffectTM tm) {
-            StateEffectEM em;
+        public static RoleStateEffectEM GetEM_StateEffect(StateEffectTM tm) {
+            RoleStateEffectEM em;
             em.addStateFlag = tm.addStateFlag;
             em.effectStateValue = tm.effectStateValue;
             em.effectMaintainFrame = tm.effectMaintainFrame;
@@ -210,7 +210,7 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [Entity Summon]
+        #region [EntitySummon]
 
         public static EntitySummonEM[] GetEMArray_EntitySummon(EntitySummonTM[] tmArray) {
             if (tmArray == null) return null;
@@ -232,7 +232,7 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [Entity Destroy]
+        #region [EntityDestroy]
 
         public static EntityDestroyEM[] GetEMArray_EntityDestroy(EntityDestroyTM[] tmArray) {
             if (tmArray == null) return null;
@@ -247,7 +247,7 @@ namespace TiedanSouls.EditorTool {
         public static EntityDestroyEM GetEM_EntityDestroy(EntityDestroyTM tm) {
             EntityDestroyEM em;
             em.entityType = tm.entityType;
-            em.targetGroupType = tm.targetGroupType;
+            em.relativeTargetGroupType = tm.relativeTargetGroupType;
             em.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
             em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
             return em;
@@ -255,6 +255,24 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
+        #region [EntityTracking]
+
+        public static EntityTrackEM GetEM_EntityTrack(EntityTrackTM tm) {
+            EntityTrackEM em;
+            em.trackSpeed = tm.trackSpeed_cm;
+            em.trackTargetGroupType = tm.trackTargetGroupType;
+            em.entityTrackSelectorEM = GetEM_EntityTrackSelector(tm.entityTrackSelectorTM);
+            return em;
+        }
+        
+        public static EntityTrackSelectorEM GetEM_EntityTrackSelector(EntityTrackSelectorTM tm) {
+            EntityTrackSelectorEM em;
+            em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
+            return em;
+        }
+
+        #endregion
+        
         #region [Selector]
 
         public static AttributeSelectorEM[] GetEMArray_AttributeSelector(AttributeSelectorTM[] tmArray) {

@@ -17,7 +17,7 @@ namespace TiedanSouls.Template {
         [Header("触发间隔(帧)")] public int intervalFrame;
         [Header("单次触发时间(帧)")] public int maintainFrame;
 
-        [Header("作用目标")] public TargetGroupType targetGroupType;
+        [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
         [Header("模型: 伤害")] public DamageTM damageTM;
         [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;
         [Header("模型: 击飞力度")] public KnockUpTM knockUpPowerTM;
