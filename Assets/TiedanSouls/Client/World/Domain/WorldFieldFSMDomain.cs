@@ -46,7 +46,7 @@ namespace TiedanSouls.Client.Domain {
                 var door = readyModel.EnterDoorModel;
                 var doorPos = door.pos;
                 var playerRole = worldContext.RoleRepo.PlayerRole;
-                doorPos.y = playerRole.GetPos_Logic().y;
+                doorPos.y = playerRole.LogicPos.y;
                 playerRole.SetPos_Logic(doorPos);
                 playerRole.Renderer_Sync();
                 playerRole.IDCom.SetFromFieldTypeID(field.IDCom.TypeID);

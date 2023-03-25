@@ -127,15 +127,15 @@ namespace TiedanSouls.Client.Domain {
                 }
 
                 var summoner = role.IDCom.ToArgs();
-                var baseRot = role.GetRot_Logic();
-                var summonPos = role.GetPos_Logic() + baseRot * skillEffectorModel.offsetPos;
+                var baseRot = role.LogicRotation;
+                var summonPos = role.LogicPos + baseRot * skillEffectorModel.offsetPos;
 
                 this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
                 this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
             }
 
             // 技能逻辑迭代
-            if (!castingSkill.TryMoveNext(role.GetPos_Logic(), role.GetRot_Logic())) {
+            if (!castingSkill.TryMoveNext(role.LogicPos, role.LogicRotation)) {
                 fsm.RemoveCast();
             }
         }

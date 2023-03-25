@@ -3,6 +3,7 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
+    // TODO: 去除 Mono
     public class ItemEntity : MonoBehaviour, IEntity {
 
         IDComponent idCom;

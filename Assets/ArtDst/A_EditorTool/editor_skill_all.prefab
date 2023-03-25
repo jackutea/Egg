@@ -59,7 +59,7 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    targetGroupType: 4
+    relativeTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 10
@@ -132,7 +132,7 @@ MonoBehaviour:
     - {fileID: 2146176807690415295}
   skillEffectorEMArray:
   - effectorTypeID: 9999
-    triggerFrame: 15
+    triggerFrame: 10
     offsetPos: {x: 2, y: 1.5, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
@@ -343,7 +343,7 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    targetGroupType: 4
+    relativeTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 50
@@ -1007,7 +1007,7 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    targetGroupType: 4
+    relativeTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 60
@@ -1142,7 +1142,7 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 0
     maintainFrame: 0
-    targetGroupType: 4
+    relativeTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 70

@@ -9,6 +9,8 @@ namespace TiedanSouls.Client.Entities {
     [Serializable]
     public struct EntityTrackSelectorModel {
 
+        public EntityType entityType;
+        public bool isAttributeSelectorEnabled;
         public AttributeSelectorModel attributeSelectorModel;
 
     }

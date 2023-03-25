@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - VFX
+  - m_GUID: c57b42eb162926d45b358a9f0055727a
+    m_Address: vfx_test_bullet1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

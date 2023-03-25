@@ -13,6 +13,8 @@ namespace TiedanSouls.Client.Entities {
 
         public Vector3 Velocity => rb.velocity;
 
+        public Vector3 Pos => rb.position;
+
         public MoveComponent() { }
 
         public void Inject(Rigidbody2D rb) {

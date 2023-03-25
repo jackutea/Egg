@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Domain {
             // 子弹
             var bulletRepo = worldContext.BulletRepo;
             bulletRepo.Foreach(-1, (bullet) => {
-                bullet.Renderer_Easing(dt);
+                bullet.EasingRenderer(dt);
             });
         }
 

@@ -1,4 +1,3 @@
-using System;
 using TiedanSouls.Generic;
 using UnityEngine;
 
@@ -34,12 +33,13 @@ namespace TiedanSouls.Client.Entities {
 
         GameObject rootGO;
         public GameObject RootGO => rootGO;
-        public Vector3 Pos => rootGO.transform.position;
-        public Quaternion Rotation => rootGO.transform.rotation;
-        public float AngleZ => rootGO.transform.rotation.z;
 
         GameObject logicRoot;
         public GameObject LogicRoot => logicRoot;
+
+        public Vector3 LogicPos => logicRoot.transform.position;
+        public Quaternion LogicRotation => logicRoot.transform.rotation;
+        public float LogicAngleZ => logicRoot.transform.rotation.z;
 
         GameObject rendererRoot;
         public GameObject RendererRoot => rendererRoot;
@@ -100,13 +100,7 @@ namespace TiedanSouls.Client.Entities {
         public TrajectoryType TrajectoryType => trajectoryType;
         public void SetTrajectoryType(TrajectoryType value) => this.trajectoryType = value;
 
-        #region [跟踪]
-
-        EntityTrackModel entityTrackModel;
-        public EntityTrackModel EntityTrackModel => entityTrackModel;
-        public void SetEntityTrackModel(in EntityTrackModel value) => this.entityTrackModel = value;
-
-        #endregion
+        public EntityTrackModel entityTrackModel;   // 实体跟踪模型
 
         #region [直线]
 
@@ -170,16 +164,15 @@ namespace TiedanSouls.Client.Entities {
             attributeCom.DecreaseHP(atk);
         }
 
-        public Quaternion GetLogic_Rot() {
-            return rootGO.transform.rotation;
+        public void SetLogicPos(Vector3 pos) {
+            logicRoot.transform.position = pos;
         }
 
-        public void SetPos(Vector2 pos) {
-            rootGO.transform.position = pos;
+        public void SetLogicRotation(Quaternion rot) {
+            logicRoot.transform.rotation = rot;
         }
 
-        public void SetRot(Quaternion rot) {
-            rootGO.transform.rotation = rot;
+        public void RotateMoveDir(Quaternion rot) {
             var len = moveSpeedArray.Length;
             for (int i = 0; i < len; i++) {
                 var moveDir = moveDirArray[i];
@@ -243,12 +236,12 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public void Renderer_Sync() {
-            var elementPos = rootGO.transform.position;
-            vfxGO.transform.position = elementPos;
+        public void SyncRenderer() {
+            rendererRoot.transform.position = logicRoot.transform.position;
+            rendererRoot.transform.rotation = logicRoot.transform.rotation;
         }
 
-        public void Renderer_Easing(float dt) {
+        public void EasingRenderer(float dt) {
             var rendererPos = rendererRoot.transform.position;
             var logicPos = logicRoot.transform.position;
             var lerpPos = Vector3.Lerp(rendererPos, logicPos, dt * 30);// todo bug

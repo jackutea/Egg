@@ -259,20 +259,22 @@ namespace TiedanSouls.EditorTool {
 
         public static EntityTrackEM GetEM_EntityTrack(EntityTrackTM tm) {
             EntityTrackEM em;
-            em.trackSpeed = tm.trackSpeed_cm;
+            em.trackSpeed = GetFloat_Shrink100(tm.trackSpeed_cm);
             em.trackTargetGroupType = tm.trackTargetGroupType;
             em.entityTrackSelectorEM = GetEM_EntityTrackSelector(tm.entityTrackSelectorTM);
             return em;
         }
-        
+
         public static EntityTrackSelectorEM GetEM_EntityTrackSelector(EntityTrackSelectorTM tm) {
             EntityTrackSelectorEM em;
+            em.entityType = tm.entityType;
+            em.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
             em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
             return em;
         }
 
         #endregion
-        
+
         #region [Selector]
 
         public static AttributeSelectorEM[] GetEMArray_AttributeSelector(AttributeSelectorTM[] tmArray) {

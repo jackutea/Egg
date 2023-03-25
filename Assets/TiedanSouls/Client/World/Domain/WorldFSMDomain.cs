@@ -251,8 +251,8 @@ namespace TiedanSouls.Client.Domain {
                 for (int i = 0; i < count; i++) {
                     var d = allDoors[i];
                     var pos = d.pos;
-                    var rolePos = playerRole.GetPos_LogicRoot();
-                    if (Vector2.SqrMagnitude(pos - rolePos) > 1f) {
+                    var rolePos = playerRole.LogicPos;
+                    if (Vector3.SqrMagnitude(pos - rolePos) > 1f) {
                         continue;
                     }
 

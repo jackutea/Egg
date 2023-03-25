@@ -48,7 +48,10 @@ namespace TiedanSouls.Client.Entities {
 
         Transform logicRoot;
         public Transform LogicRoot => logicRoot;
-        public Vector2 GetPos_LogicRoot() => logicRoot.position;
+
+        public Vector3 LogicPos => logicRoot.position;
+        public float LogicAngleZ => logicRoot.rotation.z;
+        public Quaternion LogicRotation => logicRoot.rotation;
 
         Transform rendererRoot;
         public Transform RendererRoot => rendererRoot;
@@ -204,18 +207,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void DeactivateCollider() {
             coll_logicRoot.enabled = false;
-        }
-
-        public Vector3 GetPos_Logic() {
-            return logicRoot.position;
-        }
-
-        public float GetAngleZ_Logic() {
-            return logicRoot.rotation.z;
-        }
-
-        public Quaternion GetRot_Logic() {
-            return logicRoot.rotation;
         }
 
         public void SetMod(GameObject mod) {

@@ -7,7 +7,7 @@ namespace TiedanSouls.Generic {
     public struct FieldDoorModel {
 
         public int fieldTypeID;
-        public Vector2 pos;
+        public Vector3 pos;
         public int doorIndex;
 
     }

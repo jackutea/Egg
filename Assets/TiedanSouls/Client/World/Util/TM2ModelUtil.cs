@@ -293,14 +293,16 @@ namespace TiedanSouls.Client {
         public static EntityTrackModel GetModel_EntityTrack(EntityTrackTM tm) {
             EntityTrackModel model;
             model.trackSpeed = GetFloat_Shrink100(tm.trackSpeed_cm);
-            model.trackTargetGroupType = tm.trackTargetGroupType;
+            model.relativeTrackTargetGroupType = tm.trackTargetGroupType;
             model.entityTrackSelectorModel = GetModel_EntityTrackSelector(tm.entityTrackSelectorTM);
-            model.trackTarget = default;
+            model.target = default;
             return model;
         }
 
         public static EntityTrackSelectorModel GetModel_EntityTrackSelector(EntityTrackSelectorTM tm) {
             EntityTrackSelectorModel model;
+            model.entityType = tm.entityType;
+            model.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
             model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
             return model;
         }

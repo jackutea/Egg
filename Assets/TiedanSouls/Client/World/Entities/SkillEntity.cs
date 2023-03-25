@@ -72,7 +72,7 @@ namespace TiedanSouls.Client.Entities {
                     colliderModel.transform.position = colliderModel.LocalPos;
                     colliderModel.transform.rotation = Quaternion.Euler(0, 0, colliderModel.LocalAngleZ);
                     var size = colliderModel.Size;
-                    colliderModel.transform.localScale = new Vector3(size.x, size.y, 1);
+                    colliderModel.transform.localScale = size;
                     colliderModel.Deactivate();
                 }
             }

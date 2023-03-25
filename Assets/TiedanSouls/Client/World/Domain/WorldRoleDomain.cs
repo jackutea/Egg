@@ -122,7 +122,7 @@ namespace TiedanSouls.Client.Domain {
         public bool TryPickUpSomethingFromField(RoleEntity role) {
             var repo = worldContext.ItemRepo;
             var fieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-            if (!repo.TryGetOneItemFromField(fieldTypeID, role.GetPos_Logic(), 1, out var item)) {
+            if (!repo.TryGetOneItemFromField(fieldTypeID, role.LogicPos, 1, out var item)) {
                 return false;
             }
 
@@ -289,7 +289,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
             if (point != Vector2.zero) {
-                var rolePos = role.GetPos_LogicRoot();
+                var rolePos = role.LogicPos;
                 var xDiff = point.x - rolePos.x;
                 var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
                 role.FaceTo(dirX);

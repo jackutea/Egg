@@ -3,6 +3,7 @@ using TiedanSouls.Generic;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Domain;
 using TiedanSouls.Client.Entities;
+using System;
 
 namespace TiedanSouls.Client.Facades {
 
@@ -39,7 +40,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [上下文]
 
-        public WorldContext WorldContext { get; private set; }
+        public WorldContext worldContext { get; private set; }
 
         #endregion
 
@@ -82,7 +83,7 @@ namespace TiedanSouls.Client.Facades {
 
             this.WorldRendererDomain.Inject(infraContext, worldContext, this);
 
-            this.WorldContext = worldContext;
+            this.worldContext = worldContext;
         }
 
         #region [生成]
@@ -136,7 +137,7 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [销毁]
+        #region [销毁实体]
 
         /// <summary>
         /// 根据 实体销毁模型 销毁多个实体
@@ -158,19 +159,20 @@ namespace TiedanSouls.Client.Facades {
             var relativeTargetGroupType = entityDestroyModel.relativeTargetGroupType;
             var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
             var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
-            var curFieldTypeID = WorldContext.StateEntity.CurFieldTypeID;
-            var roleFSMDomain = WorldContext.RootDomain.RoleFSMDomain;
+            var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
 
             if (entityType == EntityType.Role) {
-                var roleRepo = WorldContext.RoleRepo;
-                var list = roleRepo.GetRoleList_ByRelativeTargetGroupType(curFieldTypeID, relativeTargetGroupType, summoner);
-                list.ForEach(((role) => {
-                    var attributeCom = role.AttributeCom;
-                    // 选择器 - 属性
-                    if (isEnabled_attributeSelector && !attributeCom.IsMatch(attributeSelectorModel)) return;
-                    roleFSMDomain.Role_EnterDying(role);
-                }));
-
+                var roleRepo = worldContext.RoleRepo;
+                if (isEnabled_attributeSelector) {
+                    roleRepo.Foreach_AttributeSelector(
+                        curFieldTypeID,
+                        relativeTargetGroupType,
+                        summoner,
+                        attributeSelectorModel,
+                        roleFSMDomain.Role_EnterDying
+                    );
+                }
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }
@@ -207,18 +209,18 @@ namespace TiedanSouls.Client.Facades {
         }
 
         void AddToCollisionEventRepo_TriggerEnter(in CollisionEventArgs args) {
-            var evRepo = WorldContext.CollisionEventRepo;
+            var evRepo = worldContext.CollisionEventRepo;
             evRepo.Add_TriggerEnter(args);
         }
 
         void AddToCollisionEventRepo_TriggerExit(in CollisionEventArgs args) {
-            var evRepo = WorldContext.CollisionEventRepo;
+            var evRepo = worldContext.CollisionEventRepo;
             evRepo.Add_TriggerExit(args);
         }
 
         #endregion
 
-        #region [实体]
+        #region [获取实体信息]
 
         public bool TryGetEntityObj(in IDArgs idArgs, out IEntity entity) {
             entity = null;
@@ -227,21 +229,21 @@ namespace TiedanSouls.Client.Facades {
             var entityID = idArgs.entityID;
 
             if (entityType == EntityType.Role) {
-                var roleRepo = WorldContext.RoleRepo;
+                var roleRepo = worldContext.RoleRepo;
                 if (!roleRepo.TryGet_FromAll(entityID, out var role)) return false;
                 entity = role;
                 return true;
             }
 
             if (entityType == EntityType.Skill) {
-                var skillRepo = WorldContext.SkillRepo;
+                var skillRepo = worldContext.SkillRepo;
                 if (!skillRepo.TryGet(entityID, out var skill)) return false;
                 entity = skill;
                 return true;
             }
 
             if (entityType == EntityType.Bullet) {
-                var bulletRepo = WorldContext.BulletRepo;
+                var bulletRepo = worldContext.BulletRepo;
                 if (!bulletRepo.TryGet(entityID, out var bullet)) return false;
                 entity = bullet;
                 return true;
@@ -251,7 +253,68 @@ namespace TiedanSouls.Client.Facades {
             return false;
         }
 
+        /// <summary>
+        /// 获取实体的位置坐标
+        /// </summary>
+        public bool TryGetEntityPos(IEntity entity, out Vector3 pos) {
+            if (entity is RoleEntity role) {
+                pos = role.LogicPos;
+                return true;
+            }
+
+            // TODO 技能的位置坐标
+            if (entity is SkillEntity skill) {
+                pos = Vector3.zero;
+                return true;
+            }
+
+            if (entity is BulletEntity bullet) {
+                pos = bullet.LogicPos;
+                return true;
+            }
+
+            pos = Vector3.zero;
+            TDLog.Error($"尚未处理的实体!\n{entity}");
+            return false;
+        }
+
+        #endregion
+
+        #region [实体追踪 目标设置]
+
+        /// <summary>
+        /// 根据 实体追踪模型 设置 第一个满足条件的实体目标
+        /// </summary>
+        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in IDArgs self) {
+            var stateEntity = this.worldContext.StateEntity;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
+
+            var entityTrackSelectorModel = entityTrackModel.entityTrackSelectorModel;
+            var trackEntityType = entityTrackSelectorModel.entityType;
+            var attributeSelectorModel = entityTrackSelectorModel.attributeSelectorModel;
+
+            if (trackEntityType == EntityType.Role) {
+                var roleRepo = this.worldContext.RoleRepo;
+                if (roleRepo.TryGet_EntityTrackOne(
+                    curFieldTypeID,
+                    entityTrackModel.relativeTrackTargetGroupType,
+                    self,
+                    attributeSelectorModel,
+                    out var role
+                )) {
+                    entityTrackModel.target = role.IDCom.ToArgs();
+                }
+
+                return;
+            }
+
+
+            TDLog.Error($"EntityTrack 未处理的实体类型 {trackEntityType}");
+            return;
+        }
+
         #endregion
 
     }
+
 }

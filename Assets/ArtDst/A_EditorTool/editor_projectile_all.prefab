@@ -199,6 +199,12 @@ MonoBehaviour:
     localPos_cm: {x: 0, y: 0, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
     bulletTypeID: 9999
+  - startFrame: 0
+    endFrame: 30
+    extraHitTimes: 99
+    localPos_cm: {x: 0, y: 100, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    bulletTypeID: 99991
 --- !u!1001 &4397344545868278270
 PrefabInstance:
   m_ObjectHideFlags: 0

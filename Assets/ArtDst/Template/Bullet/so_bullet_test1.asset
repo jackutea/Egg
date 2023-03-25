@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 233fbdee6e51af94a80ff67dfa6ea174, type: 3}
-  m_Name: so_bullet_test
+  m_Name: so_bullet_test1
   m_EditorClassIdentifier: 
   tm:
-    typeID: 9999
-    bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+    typeID: 99991
+    bulletName: "\u8DDF\u8E2A\u5B50\u5F39"
     collisionTriggerTM:
       isEnabled: 1
       totalFrame: 30
@@ -87,7 +87,7 @@ MonoBehaviour:
       - collider
     deathEffectorTypeID: 0
     extraPenetrateCount: 0
-    trajectoryType: 1
+    trajectoryType: 2
     moveDistance_cm: 5000
     moveTotalFrame: 30
     moveSpeedArray_cm: 881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000
@@ -123,10 +123,10 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
     entityTrackTM:
-      trackSpeed_cm: 0
-      trackTargetGroupType: 0
+      trackSpeed_cm: 1000
+      trackTargetGroupType: 4
       entityTrackSelectorTM:
-        entityType: 0
+        entityType: 1
         isAttributeSelectorEnabled: 0
         attributeSelectorTM:
           hp: 0
@@ -162,5 +162,5 @@ MonoBehaviour:
       outTangent: 1
       inWeight: 0
       outWeight: 0
-    vfxPrefabName: vfx_test_bullet
-    vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595
+    vfxPrefabName: vfx_test_bullet1
+    vfxPrefab_GUID: c57b42eb162926d45b358a9f0055727a

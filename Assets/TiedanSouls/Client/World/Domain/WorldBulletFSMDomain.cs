@@ -1,4 +1,3 @@
-using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
@@ -38,23 +37,23 @@ namespace TiedanSouls.Client.Domain {
             var fsm = bullet.FSMCom;
             var state = fsm.State;
             if (state == BulletFSMState.Deactivated) {
-                Apply_Deactivated(bullet, fsm, dt);
+                Tick_Deactivated(bullet, fsm, dt);
             } else if (state == BulletFSMState.Activated) {
-                Apply_Activated(bullet, fsm, dt);
+                Tick_Activated(bullet, fsm, dt);
             } else if (state == BulletFSMState.TearDown) {
-                Apply_TearDown(bullet, fsm, dt);
+                Tick_TearDown(bullet, fsm, dt);
             }
 
-            Apply_Any(bullet, fsm, dt);
+            Tick_Any(bullet, fsm, dt);
         }
 
-        void Apply_Any(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+        void Tick_Any(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
             if (fsm.State == BulletFSMState.TearDown) return;
 
             if (bullet.ExtraPenetrateCount < 0) fsm.Enter_TearDown(0);
         }
 
-        void Apply_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+        void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
             // 这里可能的业务需求
             // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
             var model = fsm.DeactivatedModel;
@@ -64,42 +63,44 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Apply_Activated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+        void Tick_Activated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
+                // 如果是追踪类型，需要设置追踪目标
+                if (bullet.TrajectoryType == TrajectoryType.Track) {
+                    this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
+                }
             }
 
-            var curFrame = model.curFrame;
-            curFrame++;
+            model.curFrame++;
 
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
-            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(curFrame);
-
+            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
             if (collisionTriggerStatus == TriggerStatus.TriggerEnter) collisionTriggerModel.ActivateAll();
             if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
 
-            // 移动逻辑
+            // 移动逻辑(根据轨迹类型)
             var moveCom = bullet.MoveCom;
-            if (bullet.TryGetMoveSpeed(curFrame, out var speed)) {
-                _ = bullet.TryGetMoveDir(curFrame, out var moveDir);
-                var velocity = moveDir * speed;
-                moveCom.SetVelocity(velocity);
-            } else if (bullet.IsJustPassLastMoveFrame(curFrame)) {
-                moveCom.Stop();
+            var trajectoryType = bullet.TrajectoryType;
+            var bulletDomain = this.rootDomain.BulletDomain;
+            if (trajectoryType == TrajectoryType.Track) {
+                bulletDomain.MoveToTrackingTarget(bullet);
+            } else if (trajectoryType == TrajectoryType.Straight) {
+                bulletDomain.MoveStraight(bullet);
+            } else {
+                TDLog.Error($"未处理的移动轨迹类型 {trajectoryType}");
             }
 
-            if (curFrame == bullet.MoveTotalFrame - 1) {
+            if (model.curFrame == bullet.MoveTotalFrame - 1) {
                 moveCom.Stop();
                 fsm.Enter_TearDown(0);
                 // TODO: 业务逻辑：子弹到达终点后，不一定立马消失，有可能进入未激活状态，等待 某一事件 or 固定事件 继续激活
             }
-
-            model.curFrame = curFrame;
         }
 
-        void Apply_TearDown(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+        void Tick_TearDown(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
             var model = fsm.TearDownModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);

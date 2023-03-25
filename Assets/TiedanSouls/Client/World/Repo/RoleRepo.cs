@@ -132,6 +132,26 @@ namespace TiedanSouls.Client {
             }
         }
 
+
+        public bool TryGet_EntityTrackOne(int fieldTypeID,
+                               RelativeTargetGroupType relativeTargetGroupType,
+                               in IDArgs compareIDArgs,
+                               in AttributeSelectorModel attributeSelectorModel
+                               , out RoleEntity role) {
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
+            var count = list.Count;
+            for (int i = 0; i < count; i++) {
+                var r = list[i];
+                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;   // 选择器过滤 - 属性
+                role = r;
+                return true;
+            }
+
+            role = null;
+            return false;
+        }
+
+
         #region [Foreach]
 
         /// <summary>
@@ -203,9 +223,9 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 获取所有指定相对阵营类型的角色
         /// </summary>
-        public List<RoleEntity> GetRoleList_ByRelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in IDArgs iDArgs) {
+        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in IDArgs compareIDArgs) {
             roleList_temp.Clear();
-            Foreach_ByRelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, iDArgs, (role) => {
+            Foreach_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs, (role) => {
                 roleList_temp.Add(role);
             });
             return roleList_temp;
@@ -214,98 +234,103 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历所有指定相对阵营类型的角色
         /// </summary>
-        public void Foreach_ByRelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in IDArgs iDArgs, Action<RoleEntity> action) {
+        public void Foreach_RelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in IDArgs compareIDArgs, Action<RoleEntity> action) {
             if (relativeTargetGroupType == RelativeTargetGroupType.None) return;
             if (relativeTargetGroupType == RelativeTargetGroupType.All) {
                 Foreach_All(action);
                 return;
             }
 
-            var selfEntityID = iDArgs.entityID;
-            if (!TryGet_FromAll(selfEntityID, out var selfRole)) return;
+            var compareEntityType = compareIDArgs.entityType;
+            var compareAllyType = compareIDArgs.allyType;
 
-            var selfAllyType = selfRole.IDCom.AllyType;
+            // 若比较的是角色，且角色不存在，则返回
+            bool isCompareRole = compareEntityType == EntityType.Role;
+            bool hasRole = TryGet_FromAll(compareIDArgs.entityID, out var selfRole);
+            if (isCompareRole && !hasRole) {
+                return;
+            }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllExceptSelf) {
-                Foreach_Ally(fieldTypeID, iDArgs, action);
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllExceptAlly) {
-                action.Invoke(selfRole);
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllExceptEnemy) {
-                action.Invoke(selfRole);
-                Foreach_Ally(fieldTypeID, iDArgs, action);
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllExceptNeutral) {
-                action.Invoke(selfRole);
-                Foreach_Ally(fieldTypeID, iDArgs, action);
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.OnlySelf) {
-                action.Invoke(selfRole);
+                if (isCompareRole) action.Invoke(selfRole);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.OnlyAlly) {
-                Foreach_Ally(fieldTypeID, iDArgs, action);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.OnlyEnemy) {
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.OnlyNeutral) {
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.SelfAndAlly) {
-                action.Invoke(selfRole);
-                Foreach_Ally(fieldTypeID, iDArgs, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.SelfAndEnemy) {
-                action.Invoke(selfRole);
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.SelfAndNeutral) {
-                action.Invoke(selfRole);
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                if (isCompareRole) action.Invoke(selfRole);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllyAndEnemy) {
-                Foreach_Ally(fieldTypeID, iDArgs, action);
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.AllyAndNeutral) {
-                Foreach_Ally(fieldTypeID, iDArgs, action);
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                Foreach_Ally(fieldTypeID, compareIDArgs, action);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
 
             if (relativeTargetGroupType == RelativeTargetGroupType.EnemyAndNeutral) {
-                Foreach_Enemy(fieldTypeID, selfAllyType, action);
-                Foreach_Neutral(fieldTypeID, selfAllyType, action);
+                Foreach_Enemy(fieldTypeID, compareAllyType, action);
+                Foreach_Neutral(fieldTypeID, compareAllyType, action);
                 return;
             }
         }
@@ -328,6 +353,23 @@ namespace TiedanSouls.Client {
         void Foreach_SortedDic(int fieldTypeID, Action<RoleEntity> action) {
             if (!allAIRoles_Sorted.TryGetValue(fieldTypeID, out var list)) return;
             list.ForEach(action);
+        }
+
+        /// <summary>
+        /// 遍历所有相对目标组角色, 根据'属性'选择器过滤
+        /// </summary>sd
+        public void Foreach_AttributeSelector(int fieldTypeID,
+                                              RelativeTargetGroupType relativeTargetGroupType,
+                                              in IDArgs self,
+                                              in AttributeSelectorModel attributeSelectorModel,
+                                              Action<RoleEntity> action) {
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, self);
+            var count = list.Count;
+            for (int i = 0; i < count; i++) {
+                var role = list[i];
+                if (!role.AttributeCom.IsMatch(attributeSelectorModel)) continue;   // 选择器过滤 - 属性
+                action.Invoke(role);
+            }
         }
 
         #endregion

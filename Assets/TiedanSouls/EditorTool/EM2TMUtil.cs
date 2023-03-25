@@ -363,6 +363,8 @@ namespace TiedanSouls.EditorTool {
 
         public static EntityTrackSelectorTM GetTM_EntityTrackSelector(EntityTrackSelectorEM em) {
             EntityTrackSelectorTM tm;
+            tm.entityType = em.entityType;
+            tm.isAttributeSelectorEnabled = em.isAttributeSelectorEnabled;
             tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
             return tm;
         }

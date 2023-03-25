@@ -27,7 +27,7 @@ namespace TiedanSouls.Client.Entities {
             record.victim = victim;
             record.attacker = attacker;
             list.Add(record);
-            TDLog.Log($"伤害仲裁服务 - 添加伤害记录/n{record}");
+            TDLog.Log($"伤害仲裁服务 - 添加伤害记录\n{record}");
         }
 
         /// <summary>

@@ -50,7 +50,7 @@ MonoBehaviour:
     effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
     entitySummonEMArray:
     - entityType: 4
-      typeID: 9999
+      typeID: 99991
       controlType: 0
     entityDestroyEMArray: []
 --- !u!1 &6683752914446885422

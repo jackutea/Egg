@@ -113,8 +113,8 @@ namespace TiedanSouls.Client.Domain {
             if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
                 return;
             }
-            var summonPos = bullet.Pos;
-            var baseRot = bullet.Rotation;
+            var summonPos = bullet.LogicPos;
+            var baseRot = bullet.LogicRotation;
             var summoner = bullet.IDCom.ToArgs();
             var entitySummonModelArray = effectorModel.entitySummonModelArray;
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
@@ -129,6 +129,46 @@ namespace TiedanSouls.Client.Domain {
 
         }
 
+        /// <summary>
+        /// 子弹追踪目标
+        /// </summary>
+        public void MoveToTrackingTarget(BulletEntity bullet) {
+            var entityTrackModel = bullet.entityTrackModel;
+            var target = entityTrackModel.target;
+            if (target.entityType == EntityType.None) {
+                // 说明没有目标了
+                return;
+            }
+
+            var entityTrackSelectorModel = entityTrackModel.entityTrackSelectorModel;
+            var entityType = entityTrackSelectorModel.entityType;
+            var trackSpeed = entityTrackModel.trackSpeed;
+
+            this.rootDomain.TryGetEntityObj(target, out var entity);
+            this.rootDomain.TryGetEntityPos(entity, out var targetPos);
+            var moveCom = bullet.MoveCom;
+            var bulletPos = moveCom.Pos;
+            var moveDir = (targetPos - bulletPos).normalized;
+            var velocity = moveDir * trackSpeed;
+            moveCom.SetVelocity(velocity);
+
+            bullet.SetLogicRotation(Quaternion.LookRotation(moveDir));
+        }
+
+        public void MoveStraight(BulletEntity bullet) {
+            var fsm = bullet.FSMCom;
+            var model = fsm.ActivatedModel;
+            var curFrame = model.curFrame;
+            var moveCom = bullet.MoveCom;
+            // 直线
+            if (bullet.TryGetMoveSpeed(curFrame, out var speed)) {
+                _ = bullet.TryGetMoveDir(curFrame, out var moveDir);
+                var velocity = moveDir * speed;
+                moveCom.SetVelocity(velocity);
+            } else if (bullet.IsJustPassLastMoveFrame(curFrame)) {
+                moveCom.Stop();
+            }
+        }
 
     }
 

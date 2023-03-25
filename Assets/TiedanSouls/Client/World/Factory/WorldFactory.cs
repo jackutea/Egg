@@ -330,8 +330,8 @@ namespace TiedanSouls.Client {
 
             bullet.SetTrajectoryType(tm.trajectoryType);
 
-          // 实体追踪模型
-            bullet.SetEntityTrackModel(TM2ModelUtil.GetModel_EntityTrack(tm.entityTrackTM));
+            // 实体追踪模型
+            bullet.entityTrackModel = TM2ModelUtil.GetModel_EntityTrack(tm.entityTrackTM);
 
             bullet.SetMoveTotalFrame(tm.moveTotalFrame);
             bullet.SetMoveSpeedArray(TM2ModelUtil.GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
