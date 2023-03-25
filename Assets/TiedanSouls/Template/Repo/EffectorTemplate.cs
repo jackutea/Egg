@@ -21,7 +21,7 @@ namespace TiedanSouls.Template {
             foreach (var item in list) {
                 var tm = item.tm;
                 all.Add(tm.typeID, tm);
-                Debug.Log($"加载效果器模板: 类型ID {tm.typeID} 效果器名称 {tm.effectorName}");
+                Debug.Log($"加载效果器模板: 类型ID {tm.typeID}");
             }
         }
 

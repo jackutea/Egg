@@ -35,6 +35,7 @@ namespace TiedanSouls.Client.Entities {
         GameObject rootGO;
         public GameObject RootGO => rootGO;
         public Vector3 Pos => rootGO.transform.position;
+        public Quaternion Rotation => rootGO.transform.rotation;
         public float AngleZ => rootGO.transform.rotation.z;
 
         GameObject logicRoot;
@@ -78,13 +79,18 @@ namespace TiedanSouls.Client.Entities {
 
         #region [效果器]
 
-        EffectorModel hitEffectorModel;
-        public EffectorModel HitEffectorModel => hitEffectorModel;
-        public void SetHitEffectorModel(EffectorModel value) => this.hitEffectorModel = value;
+        int deathEffectorTypeID;
+        public int DeathEffectorTypeID => deathEffectorTypeID;
+        public void SetDeathEffectorTypeID(int value) => this.deathEffectorTypeID = value;
 
-        EffectorModel deathEffectorModel;
-        public EffectorModel DeathEffectorModel => deathEffectorModel;
-        public void SetDeathEffectorModel(EffectorModel value) => this.deathEffectorModel = value;
+        #endregion
+
+        #region [额外穿透次数]
+
+        int extraPenetrateCount;
+        public int ExtraPenetrateCount => extraPenetrateCount;
+        public void SetExtraPenetrateCount(int value) => this.extraPenetrateCount = value;
+        public void ReduceExtraPenetrateCount() => this.extraPenetrateCount--;
 
         #endregion
 
@@ -123,8 +129,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void TearDown() {
-            rootGO.SetActive(false);
-            vfxGO.gameObject.SetActive(false);
+            GameObject.Destroy(rootGO);
         }
 
         public void Reset() {
@@ -139,12 +144,10 @@ namespace TiedanSouls.Client.Entities {
 
         public void Activate() {
             rootGO.SetActive(true);
-            vfxGO.SetActive(true);
         }
 
         public void Deactivate() {
             rootGO.SetActive(false);
-            vfxGO.SetActive(false);
         }
 
         public void Attribute_HP_Decrease(int atk) {

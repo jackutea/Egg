@@ -121,7 +121,12 @@ namespace TiedanSouls.Client.Domain {
             beHitDir.Normalize();
 
             var hitDomain = rootDomain.HitDomain;
-            hitDomain.Role_BeHit(role, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame, beHitDir);
+            var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
+            hitDomain.Role_BeHit(role, collisionTriggerModel, hitFrame, beHitDir);
+
+            // 子弹击中 事件处理
+            var bulletDomain = rootDomain.BulletDomain;
+            bulletDomain.HandleHitEvent(bullet);
         }
 
         void HandleTriggerEnter_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {

@@ -25,8 +25,12 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         public void TickFSM(int curFieldTypeID, float dt) {
             var bulletRepo = worldContext.BulletRepo;
-            bulletRepo.Foreach(curFieldTypeID, (bullet) => {
+            var removeList = bulletRepo.ForeachAndGetRemoveList(curFieldTypeID, (bullet) => {
                 TickFSM(bullet, dt);
+            });
+
+            removeList.ForEach((entityID) => {
+                bulletRepo.Remove(entityID);
             });
         }
 
@@ -37,9 +41,17 @@ namespace TiedanSouls.Client.Domain {
                 Apply_Deactivated(bullet, fsm, dt);
             } else if (state == BulletFSMState.Activated) {
                 Apply_Activated(bullet, fsm, dt);
-            } else if (state == BulletFSMState.Dying) {
-                Apply_Dying(bullet, fsm, dt);
+            } else if (state == BulletFSMState.TearDown) {
+                Apply_TearDown(bullet, fsm, dt);
             }
+
+            Apply_Any(bullet, fsm, dt);
+        }
+
+        void Apply_Any(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+            if (fsm.State == BulletFSMState.TearDown) return;
+
+            if (bullet.ExtraPenetrateCount < 0) fsm.Enter_TearDown(0);
         }
 
         void Apply_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
@@ -48,7 +60,6 @@ namespace TiedanSouls.Client.Domain {
             var model = fsm.DeactivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
-
                 bullet.Deactivate();
             }
         }
@@ -81,13 +92,31 @@ namespace TiedanSouls.Client.Domain {
 
             if (curFrame == bullet.MoveTotalFrame - 1) {
                 moveCom.Stop();
-                fsm.Enter_Deactivated();
+                fsm.Enter_TearDown(0);
+                // TODO: 业务逻辑：子弹到达终点后，不一定立马消失，有可能进入未激活状态，等待 某一事件 or 固定事件 继续激活
             }
 
             model.curFrame = curFrame;
         }
 
-        void Apply_Dying(BulletEntity bullet, BulletFSMComponent fsm, float dt) { }
+        void Apply_TearDown(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
+            var model = fsm.TearDownModel;
+            if (model.IsEntering) {
+                model.SetIsEntering(false);
+            }
+
+            var maintainFrame = model.maintainFrame;
+            maintainFrame--;
+
+            if (maintainFrame <= 0) {
+                bullet.TearDown();
+                fsm.SetIsExiting(true);
+                TDLog.Log("子弹 TearDown - 设置状态机退出");
+                return;
+            }
+
+            model.maintainFrame = maintainFrame;
+        }
 
     }
 

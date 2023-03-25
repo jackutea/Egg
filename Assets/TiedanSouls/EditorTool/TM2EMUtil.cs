@@ -83,7 +83,7 @@ namespace TiedanSouls.EditorTool {
             CollisionTriggerEM em;
 
             em.isEnabled = tm.isEnabled;
-            
+
             em.totalFrame = tm.totalFrame;
             em.delayFrame = tm.delayFrame;
             em.intervalFrame = tm.intervalFrame;
@@ -105,7 +105,7 @@ namespace TiedanSouls.EditorTool {
             em.damageEM = GetEM_Damage(tm.damageTM);
             em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
             em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
-            em.hitEffectorEM = GetEM_Effector(tm.hitEffectorTM);
+            em.hitEffectorTypeID = tm.hitEffectorTypeID;
             em.stateEffectEM = GetEM_StateEffect(tm.stateEffectTM);
 
             return em;

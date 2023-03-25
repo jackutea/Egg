@@ -121,7 +121,7 @@ namespace TiedanSouls.Client.Domain {
                 var triggerFrame = skillEffectorModel.triggerFrame;
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
                 var effectorDomain = this.rootDomain.EffectorDomain;
-                if (!effectorDomain.TryGetEffectorModel(effectorTypeID, out var effectorModel)) {
+                if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
                     Debug.LogError($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
                     return;
                 }
@@ -130,8 +130,8 @@ namespace TiedanSouls.Client.Domain {
                 var baseRot = role.GetRot_Logic();
                 var summonPos = role.GetPos_Logic() + baseRot * skillEffectorModel.offsetPos;
 
-                this.rootDomain.SpawnBy_EntitySummonModelArray(effectorModel.entitySummonModelArray, summoner, summonPos, baseRot);
-                this.rootDomain.DestroyBy_EntityDestroyModelArray(effectorModel.entityDestroyModelArray, summoner);
+                this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
+                this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
             }
 
             // 技能逻辑迭代

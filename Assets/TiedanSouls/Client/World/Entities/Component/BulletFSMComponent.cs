@@ -18,14 +18,14 @@ namespace TiedanSouls.Client.Entities {
         BulletFSMModel_Deactivated deactivatedModel;
         public BulletFSMModel_Deactivated DeactivatedModel => deactivatedModel;
 
-        BulletFSMModel_Dying dyingModel;
-        public BulletFSMModel_Dying DyingModel => dyingModel;
+        BulletFSMModel_TearDown tearDownModel;
+        public BulletFSMModel_TearDown TearDownModel => tearDownModel;
 
         public BulletFSMComponent() {
             isExiting = false;
             activatedModel = new BulletFSMModel_Activated();
             deactivatedModel = new BulletFSMModel_Deactivated();
-            dyingModel = new BulletFSMModel_Dying();
+            tearDownModel = new BulletFSMModel_TearDown();
         }
 
         public void Reset() {
@@ -45,10 +45,12 @@ namespace TiedanSouls.Client.Entities {
             activatedModel.SetIsEntering(true);
         }
 
-        public void Enter_Destroyed() {
-            TDLog.Log($"子弹 -状态机 - 进入 Destroyed");
-            state = BulletFSMState.Dying;
-            dyingModel.SetIsEntering(true);
+        public void Enter_TearDown(int maintainFrame) {
+            TDLog.Log($"子弹 -状态机 - 进入 TearDown");
+            state = BulletFSMState.TearDown;
+            tearDownModel.SetIsEntering(true);
+
+            tearDownModel.maintainFrame = maintainFrame;
         }
 
     }

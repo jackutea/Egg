@@ -93,17 +93,17 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体召唤模型 生成多个实体
         /// </summary>
-        public void SpawnBy_EntitySummonModelArray(in EntitySummonModel[] entitySummonModel, in IDArgs summoner, Vector3 summonPos, Quaternion baseRot) {
+        public void SpawnBy_EntitySummonModelArray(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel[] entitySummonModel) {
             var len = entitySummonModel.Length;
             for (int i = 0; i < len; i++) {
-                SpawnBy_EntitySummonModel(entitySummonModel[i], summoner, summonPos, baseRot);
+                SpawnBy_EntitySummonModel(summonPos, baseRot, summoner, entitySummonModel[i]);
             }
         }
 
         /// <summary>
         /// 根据 实体召唤模型 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySummonModel(in EntitySummonModel entitySummonModel, in IDArgs summoner, Vector3 summonPos, Quaternion baseRot) {
+        public void SpawnBy_EntitySummonModel(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel entitySummonModel) {
             var entityType = entitySummonModel.entityType;
 
             if (entityType == EntityType.Role) {
@@ -141,17 +141,20 @@ namespace TiedanSouls.Client.Facades {
 
         #region [销毁]
 
-        public void DestroyBy_EntityDestroyModelArray(in EntityDestroyModel[] entityDestroyModel, in IDArgs summoner) {
+        /// <summary>
+        /// 根据 实体销毁模型 销毁多个实体
+        /// </summary>
+        public void DestroyBy_EntityDestroyModelArray(in IDArgs summoner, EntityDestroyModel[] entityDestroyModel) {
             var len = entityDestroyModel.Length;
             for (int i = 0; i < len; i++) {
-                DestroyBy_EntityDestroyModel(entityDestroyModel[i], summoner);
+                DestroyBy_EntityDestroyModel(summoner, entityDestroyModel[i]);
             }
         }
 
         /// <summary>
         /// 根据 实体销毁模型 销毁一个实体  
         /// </summary>
-        public void DestroyBy_EntityDestroyModel(in EntityDestroyModel entityDestroyModel, in IDArgs summoner) {
+        public void DestroyBy_EntityDestroyModel(in IDArgs summoner, in EntityDestroyModel entityDestroyModel) {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 
@@ -180,6 +183,9 @@ namespace TiedanSouls.Client.Facades {
 
         #region [碰撞器]
 
+        /// <summary>
+        /// 设置 碰撞触发器模型 的父级(为了在碰撞事件触发时找到父级实体)
+        /// </summary>
         public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
             var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {

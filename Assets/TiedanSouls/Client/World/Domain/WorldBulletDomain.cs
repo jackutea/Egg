@@ -42,7 +42,7 @@ namespace TiedanSouls.Client.Domain {
             // 3. 添加至仓库
             var repo = worldContext.BulletRepo;
             repo.Add(bullet);
-            
+
             return true;
         }
 
@@ -77,6 +77,48 @@ namespace TiedanSouls.Client.Domain {
             var repo = worldContext.BulletRepo;
             repo.Add(bullet);
             return true;
+        }
+
+        /// <summary>
+        /// 子弹击中时触发的逻辑
+        /// </summary>
+        public void HandleHitEvent(BulletEntity bullet) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
+
+            TriggerHitEffector(bullet, collisionTriggerModel);
+            bullet.ReduceExtraPenetrateCount();
+        }
+
+        /// <summary>
+        /// 触发子弹的 击中效果器
+        /// </summary>
+        public void TriggerHitEffector(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel) {
+            var effectorTypeID = collisionTriggerModel.hitEffectorTypeID;
+            TriggerEffector(bullet, effectorTypeID);
+        }
+
+        /// <summary>
+        /// 触发子弹的 死亡效果器
+        /// </summary>
+        public void TriggerDeathEffector(BulletEntity bullet) {
+            var effectorTypeID = bullet.DeathEffectorTypeID;
+            TriggerEffector(bullet, effectorTypeID);
+        }
+
+        void TriggerEffector(BulletEntity bullet, int effectorTypeID) {
+            var effectorDomain = rootDomain.EffectorDomain;
+            if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
+                return;
+            }
+            var summonPos = bullet.Pos;
+            var baseRot = bullet.Rotation;
+            var summoner = bullet.IDCom.ToArgs();
+            var entitySummonModelArray = effectorModel.entitySummonModelArray;
+            var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
+            this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
+            this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
         }
 
     }

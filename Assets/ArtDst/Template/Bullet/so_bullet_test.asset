@@ -73,15 +73,11 @@ MonoBehaviour:
           outWeight: 0
         knockUpCostFrame: 20
         knockUpHeight_cm: 500
-      hitEffectorTM:
-        typeID: 0
-        effectorName: 
-        entitySummonTMArray: []
-        entityDestroyTMArray: []
       stateEffectTM:
         addStateFlag: 0
         effectStateValue: 0
         effectMaintainFrame: 0
+      hitEffectorTypeID: 99991
       colliderTMArray:
       - colliderType: 0
         localPos: {x: 2.4564545, y: 3.935334, z: 0}
@@ -89,16 +85,8 @@ MonoBehaviour:
         size: {x: 5, y: 5, z: 5}
       colliderRelativePathArray:
       - collider
-    hitEffectorTM:
-      typeID: 0
-      effectorName: 
-      entitySummonTMArray: []
-      entityDestroyTMArray: []
-    deathEffectorTM:
-      typeID: 0
-      effectorName: 
-      entitySummonTMArray: []
-      entityDestroyTMArray: []
+    deathEffectorTypeID: 0
+    extraPenetrateCount: 0
     moveDistance_cm: 1500
     moveTotalFrame: 30
     moveSpeedArray_cm: 3200000096000000fa0000005e010000c2010000260200008a020000ee02000052030000b60300001a0400007e040000e204000046050000aa0500000e06000072060000d60600003a0700009e0700000208000066080000ca0800002e09000092090000f60900005a0a0000be0a0000220b0000860b0000

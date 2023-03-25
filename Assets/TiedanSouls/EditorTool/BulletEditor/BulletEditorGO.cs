@@ -14,9 +14,9 @@ namespace TiedanSouls.EditorTool {
         [Header("子弹名称")] public string bulletName;
 
         [Header("碰撞器")] public CollisionTriggerEM collisionTriggerEM;
+        [Header("死亡效果器(类型ID)")] public int deathEffectorTypeID;
 
-        [Header("打击效果器")] public EffectorEM hitEffectorEM;
-        [Header("死亡效果器")] public EffectorEM deathEffectorEM;
+        [Header("额外穿透次数")] public int extraPenetrateCount;
 
         [Header("子弹特效")] public GameObject vfxPrefab;
 
@@ -50,8 +50,9 @@ namespace TiedanSouls.EditorTool {
             this.bulletName = tm.bulletName;
 
             this.collisionTriggerEM = TM2EMUtil.GetEM_CollisionTrigger(tm.collisionTriggerTM);
-            this.hitEffectorEM = TM2EMUtil.GetEM_Effector(tm.hitEffectorTM);
-            this.deathEffectorEM = TM2EMUtil.GetEM_Effector(tm.deathEffectorTM);
+            this.deathEffectorTypeID = tm.deathEffectorTypeID;
+
+            this.extraPenetrateCount = tm.extraPenetrateCount;
 
             var vfxGUI = tm.vfxPrefab_GUID;
             this.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;

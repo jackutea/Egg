@@ -102,7 +102,7 @@ namespace TiedanSouls.Client {
             model.damageModel = GetModel_Damage(tm.damageTM);
             model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
             model.knockUpPowerModel = GetModel_KnockUp(tm.knockUpPowerTM);
-            model.hitEffectorModel = GetModel_Effector(tm.hitEffectorTM);
+            model.hitEffectorTypeID = tm.hitEffectorTypeID;
             model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
             model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.targetGroupType);

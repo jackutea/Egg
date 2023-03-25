@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TiedanSouls.Template {
 
+    /// <summary>
+    /// 碰撞触发器模型
+    /// </summary>
     [Serializable]
     public struct CollisionTriggerTM {
 
@@ -18,8 +21,8 @@ namespace TiedanSouls.Template {
         [Header("模型: 伤害")] public DamageTM damageTM;
         [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;
         [Header("模型: 击飞力度")] public KnockUpTM knockUpPowerTM;
-        [Header("模型: 效果器")] public EffectorTM hitEffectorTM;
-        [Header("模型: 状态影响")] public StateEffectTM stateEffectTM;
+        [Header("模型: 状态影响")] public StateEffectTM stateEffectTM;  // TODO ID
+        [Header("模型: 效果器(类型ID)")] public int hitEffectorTypeID;
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
 

@@ -10,8 +10,9 @@ namespace TiedanSouls.Template {
         [Header("子弹名称")] public string bulletName;
 
         [Header("碰撞器")] public CollisionTriggerTM collisionTriggerTM;
-        [Header("打击效果器")] public EffectorTM hitEffectorTM;
-        [Header("死亡效果器")] public EffectorTM deathEffectorTM;
+        [Header("死亡效果器")] public int deathEffectorTypeID;
+
+        [Header("额外穿透次数")] public int extraPenetrateCount;
 
         [Header("仅用于编辑时: 位移(cm)")] public int moveDistance_cm;
         [Header("仅用于编辑时: 位移时间(帧)")] public int moveTotalFrame;

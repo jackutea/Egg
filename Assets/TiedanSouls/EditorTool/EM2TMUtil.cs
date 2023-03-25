@@ -57,9 +57,9 @@ namespace TiedanSouls.EditorTool {
             tm.bulletName = editorGO.bulletName;
 
             tm.collisionTriggerTM = GetTM_CollisionTrigger<BulletEditorGO>(editorGO.collisionTriggerEM);
+            tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
 
-            tm.hitEffectorTM = GetTM_Effector(editorGO.hitEffectorEM);
-            tm.deathEffectorTM = GetTM_Effector(editorGO.deathEffectorEM);
+            tm.extraPenetrateCount = editorGO.extraPenetrateCount;
 
             var moveTotalFrame = editorGO.moveTotalFrame;
             var disCurve = editorGO.disCurve;
@@ -250,7 +250,7 @@ namespace TiedanSouls.EditorTool {
             tm.damageTM = GetTM_Damage(em.damageEM, totalFrame);
             tm.knockBackPowerTM = GetTM_KnockBack(em.knockBackPowerEM);
             tm.knockUpPowerTM = GetTM_KnockUp(em.knockUpPowerEM);
-            tm.hitEffectorTM = GetTM_Effector(em.hitEffectorEM);
+            tm.hitEffectorTypeID = em.hitEffectorTypeID;
             tm.stateEffectTM = GetTM_StateEffect(em.stateEffectEM);
 
             tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);

@@ -9,8 +9,11 @@ namespace TiedanSouls.Client {
 
         Dictionary<int, BulletEntity> all;
 
+        List<int> removeList;
+
         public BulletRepo() {
             all = new Dictionary<int, BulletEntity>();
+            removeList = new List<int>();
         }
 
         public bool TryGet(int id, out BulletEntity bullet) {
@@ -25,6 +28,10 @@ namespace TiedanSouls.Client {
 
         public void Remove(BulletEntity bullet) {
             all.Remove(bullet.IDCom.EntityID);
+        }
+
+        public void Remove(int entityID) {
+            all.Remove(entityID);
         }
 
         public void Foreach(int curFieldTypeID, Action<BulletEntity> action) {
@@ -42,6 +49,33 @@ namespace TiedanSouls.Client {
                     }
                 }
             }
+        }
+
+        public List<int> ForeachAndGetRemoveList(int curFieldTypeID, Action<BulletEntity> action) {
+            removeList.Clear();
+
+            var e = all.Values.GetEnumerator();
+            if (curFieldTypeID == -1) {
+                while (e.MoveNext()) {
+                    var bullet = e.Current;
+                    action(bullet);
+                    if (bullet.FSMCom.IsExiting) {
+                        removeList.Add(bullet.IDCom.EntityID);
+                    }
+                }
+                return removeList;
+            }
+
+            while (e.MoveNext()) {
+                var bullet = e.Current;
+                if (bullet.IDCom.FromFieldTypeID == curFieldTypeID) {
+                    action(bullet);
+                    if (bullet.FSMCom.IsExiting) {
+                        removeList.Add(bullet.IDCom.EntityID);
+                    }
+                }
+            }
+            return removeList;
         }
 
     }

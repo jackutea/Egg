@@ -18,7 +18,7 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public bool TryGetEffectorModel(int typeID, out EffectorModel effectorModel) {
+        public bool TrySpawnEffectorModel(int typeID, out EffectorModel effectorModel) {
             effectorModel = default;
 
             var effectorTemplate = infraContext.TemplateCore.EffectorTemplate;

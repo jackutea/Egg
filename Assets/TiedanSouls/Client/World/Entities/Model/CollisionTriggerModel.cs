@@ -4,6 +4,9 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
+    /// <summary>
+    /// 碰撞触发器模型
+    /// </summary>
     public struct CollisionTriggerModel {
 
         public bool isEnabled;
@@ -22,7 +25,7 @@ namespace TiedanSouls.Client.Entities {
         // 模型: 击飞力度
         public KnockUpModel knockUpPowerModel;
         // 模型: 击中效果器
-        public EffectorModel hitEffectorModel;
+        public int hitEffectorTypeID;
         // 模型: 状态影响
         public StateEffectModel stateEffectModel;
 

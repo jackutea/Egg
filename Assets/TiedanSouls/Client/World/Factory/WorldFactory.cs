@@ -329,15 +329,13 @@ namespace TiedanSouls.Client {
             idCom.SetEntityName(tm.bulletName);
 
             bullet.SetMoveTotalFrame(tm.moveTotalFrame);
-
-            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
-            bullet.SetHitEffectorModel(TM2ModelUtil.GetModel_Effector(tm.hitEffectorTM));
-            bullet.SetDeathEffectorModel(TM2ModelUtil.GetModel_Effector(tm.deathEffectorTM));
-
             bullet.SetMoveSpeedArray(TM2ModelUtil.GetFloatArray_Shrink100(tm.moveSpeedArray_cm));
             bullet.SetMoveDirArray(TM2ModelUtil.GetVector3Array_Normalized(TM2ModelUtil.GetVector3Array_Shrink100(tm.moveDirArray)));
+            
+            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
 
-            // 表现层
+            bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
+
             var assetCore = infraContext.AssetCore;
             var vfxAsset = assetCore.VFXAsset;
             if (!vfxAsset.TryGet(tm.vfxPrefabName, out GameObject vfxGO)) {
