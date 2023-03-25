@@ -1,4 +1,4 @@
-namespace TiedanSouls.Generic {
+namespace TiedanSouls.Client {
 
     public enum WorldFSMState {
 

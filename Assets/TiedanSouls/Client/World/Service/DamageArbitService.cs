@@ -24,20 +24,6 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log("Add DamageArbitService: " + casterKey);
         }
 
-        public bool IsInArbit(EntityType casterEntityType, int casterID, EntityType victimEntityType, int victimID) {
-            ulong casterKey = (ulong)casterEntityType << 32 | (uint)casterID;
-            ulong victimKey = (ulong)victimEntityType << 32 | (uint)victimID;
-            if (all.ContainsKey(casterKey)) {
-                return all[casterKey].Contains(victimKey);
-            }
-            return false;
-        }
-
-        public void Remove(EntityType casterEntityType, int casterID) {
-            ulong casterKey = (ulong)casterEntityType << 32 | (uint)casterID;
-            all.Remove(casterKey);
-        }
-
     }
 
 }
