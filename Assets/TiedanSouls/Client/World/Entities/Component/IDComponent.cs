@@ -42,14 +42,23 @@ namespace TiedanSouls.Client.Entities {
         public bool HasFather => hasFather;
 
         public IDComponent() {
+            Reset();
+        }
+
+        public void Reset() {
             hasFather = false;
         }
 
+        /// <summary>
+        /// 设置父级
+        /// </summary>
         public void SetFather(in IDArgs args) {
             this.hasFather = true;
             this.father = args;
+
             this.allyType = args.allyType;
             this.fromFieldTypeID = args.fromFieldTypeID;
+            
             TDLog.Log($"设置父级:\n{this}\n{args}");
         }
 

@@ -17,7 +17,15 @@ namespace TiedanSouls.Generic {
         }
 
         public static bool IsEnemy(this AllyType self, AllyType other) {
-            return self != other && self != AllyType.Neutral && other != AllyType.Neutral;
+            if (self == AllyType.Neutral || other == AllyType.Neutral) {
+                return false;
+            }
+
+            if (self == AllyType.None || other == AllyType.None) {
+                return false;
+            }
+
+            return self != other;
         }
 
     }

@@ -39,18 +39,17 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
-                if (!bulletDomain.TrySpawnBullet(bulletTypeID, out var bullet)) {
+                if (!bulletDomain.TrySpawnBullet(bulletTypeID, projectileIDCom.ToArgs(), out var bullet)) {
                     TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }
 
-                // 子弹设置 父级 & 位置 & 旋转
-                var bulletIDCom = bullet.IDCom;
-                bulletIDCom.SetFather(projectileIDCom.ToArgs());
+                // 子弹设置 位置 & 旋转
                 var finalRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
                 bullet.SetPos(finalRot * projectileBulletModel.localPos + summonPos);
                 bullet.SetRot(finalRot);
 
+                var bulletIDCom = bullet.IDCom;
                 projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
                 projectileBulletModelArray[i] = projectileBulletModel;
 

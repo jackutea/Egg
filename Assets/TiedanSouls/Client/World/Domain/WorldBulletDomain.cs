@@ -23,7 +23,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据类型ID生成子弹
         /// </summary>
-        public bool TrySpawnBullet(int typeID, out BulletEntity bullet) {
+        public bool TrySpawnBullet(int typeID, in IDArgs father, out BulletEntity bullet) {
             bullet = null;
 
             var factory = worldContext.WorldFactory;
@@ -35,6 +35,7 @@ namespace TiedanSouls.Client.Domain {
             // 1. 子弹 ID
             var idCom = bullet.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickBulletID());
+            idCom.SetFather(father);
 
             // 2. 子弹 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
@@ -67,8 +68,8 @@ namespace TiedanSouls.Client.Domain {
             var idCom = bullet.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickBulletID());
             idCom.SetFromFieldTypeID(fromFieldTypeID);
-            idCom.SetControlType(controlType);
             idCom.SetAllyType(allyType);
+            idCom.SetControlType(controlType);
 
             // 2. 子弹 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
