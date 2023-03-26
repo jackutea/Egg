@@ -75,6 +75,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 如果是追踪类型，需要设置追踪目标
             if (bullet.TrajectoryType == TrajectoryType.Track) {
+                bullet.entityTrackModel.target = default;
                 this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
             }
 

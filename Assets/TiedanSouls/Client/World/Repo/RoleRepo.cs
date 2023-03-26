@@ -29,6 +29,8 @@ namespace TiedanSouls.Client {
             playerRole = role;
         }
 
+        #region [增]
+
         public void Add_ToAI(RoleEntity role) {
             var fromFieldTypeID = role.IDCom.FromFieldTypeID;
             if (!allAIRoles_Sorted.TryGetValue(fromFieldTypeID, out var list)) {
@@ -41,23 +43,9 @@ namespace TiedanSouls.Client {
             TDLog.Log($"添加角色: {role.IDCom.EntityName} ");
         }
 
-        public bool TryGet_FromAll(int entityID, out RoleEntity role) {
-            role = null;
-            if (playerRole != null && playerRole.IDCom.EntityID == entityID) {
-                role = playerRole;
-                return true;
-            }
+        #endregion
 
-            var len = allAIRoles.Count;
-            for (int i = 0; i < len; i++) {
-                var r = allAIRoles[i];
-                if (r.IDCom.EntityID == entityID) {
-                    role = r;
-                    return true;
-                }
-            }
-            return false;
-        }
+        #region [删]
 
         public bool TryRemove_FromAll(RoleEntity role) {
             var roleIDCom = role.IDCom;
@@ -105,11 +93,56 @@ namespace TiedanSouls.Client {
             });
         }
 
+        #endregion
+
+        #region [改]
+
         public void ResetAll_AIs(int fieldTypeID, bool isShow) {
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 role.Reset();
                 if (isShow) role.Show();
             });
+        }
+
+        #endregion
+
+        #region [查]
+
+        public bool TryGet_EntityTrackOne(int fieldTypeID,
+                               RelativeTargetGroupType relativeTargetGroupType,
+                               in IDArgs compareIDArgs,
+                               in AttributeSelectorModel attributeSelectorModel
+                               , out RoleEntity role) {
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
+            var count = list.Count;
+            for (int i = 0; i < count; i++) {
+                var r = list[i];
+                if (r.FSMCom.IsExited) continue;                                    // 状态过滤 - 已经退出
+                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
+                role = r;
+                return true;
+            }
+
+            role = null;
+            return false;
+        }
+
+        public bool TryGet_FromAll(int entityID, out RoleEntity role) {
+            role = null;
+            if (playerRole != null && playerRole.IDCom.EntityID == entityID) {
+                role = playerRole;
+                return true;
+            }
+
+            var len = allAIRoles.Count;
+            for (int i = 0; i < len; i++) {
+                var r = allAIRoles[i];
+                if (r.IDCom.EntityID == entityID) {
+                    role = r;
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool HasAliveEnemy(int fieldTypeID, AllyType allyType) {
@@ -131,29 +164,6 @@ namespace TiedanSouls.Client {
                 return allAIRoles_Sorted.TryGetValue(fieldTypeID, out var list) && list.Count > 0;
             }
         }
-
-
-        public bool TryGet_EntityTrackOne(int fieldTypeID,
-                               RelativeTargetGroupType relativeTargetGroupType,
-                               in IDArgs compareIDArgs,
-                               in AttributeSelectorModel attributeSelectorModel
-                               , out RoleEntity role) {
-            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
-            var count = list.Count;
-            for (int i = 0; i < count; i++) {
-                var r = list[i];
-                if (r.FSMCom.IsExited) continue;                                    // 状态过滤 - 已经退出
-                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
-                role = r;
-                return true;
-            }
-
-            role = null;
-            return false;
-        }
-
-
-        #region [Foreach]
 
         /// <summary>
         /// 遍历指定关卡的所有角色 -1代表查找范围为所有关卡

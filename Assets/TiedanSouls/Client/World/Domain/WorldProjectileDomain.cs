@@ -47,10 +47,11 @@ namespace TiedanSouls.Client.Domain {
                 }
 
                 // 子弹设置 位置 & 旋转
-                var finalRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
-                bullet.SetLogicPos(finalRot * projectileBulletModel.localPos + summonPos);
+                var worldRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
+                bullet.SetLogicPos(worldRot * projectileBulletModel.localPos + summonPos);
+                bullet.SetLogicRotation(worldRot);
+                bullet.SetBaseRotation(worldRot);
                 bullet.SyncRenderer();
-                bullet.RotateMoveDir(finalRot);
 
                 var bulletIDCom = bullet.IDCom;
                 projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;

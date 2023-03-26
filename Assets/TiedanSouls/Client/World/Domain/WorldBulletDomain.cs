@@ -187,7 +187,13 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain.TryGetEntityPos(entity, out var targetPos);
             var moveCom = bullet.MoveCom;
             var bulletPos = moveCom.Pos;
-            var moveDir = (targetPos - bulletPos).normalized;
+            var posOffset = targetPos - bulletPos;
+            if(posOffset.sqrMagnitude < 0.01f) {
+                // 说明已经到达目标点了
+                return;
+            }
+
+            var moveDir = posOffset.normalized;
             var velocity = moveDir * trackSpeed;
             moveCom.SetVelocity(velocity);
 
@@ -203,11 +209,17 @@ namespace TiedanSouls.Client.Domain {
             // 直线
             if (bullet.TryGetMoveSpeed(curFrame, out var speed)) {
                 _ = bullet.TryGetMoveDir(curFrame, out var moveDir);
-                var velocity = moveDir * speed;
+                var realMoveDir = bullet.BaseRotation * moveDir;
+                var velocity = realMoveDir * speed;
                 moveCom.SetVelocity(velocity);
+
+                var rot = Quaternion.FromToRotation(Vector3.right, realMoveDir);
+                bullet.SetLogicRotation(rot);
+
             } else if (bullet.IsJustPassLastMoveFrame(curFrame)) {
                 moveCom.Stop();
             }
+
         }
 
         #endregion

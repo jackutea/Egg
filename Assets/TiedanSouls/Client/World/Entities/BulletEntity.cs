@@ -44,6 +44,10 @@ namespace TiedanSouls.Client.Entities {
         GameObject rendererRoot;
         public GameObject RendererRoot => rendererRoot;
 
+        Quaternion baseRotation;
+        public Quaternion BaseRotation => baseRotation;
+        public void SetBaseRotation(Quaternion value) => baseRotation = value;
+
         #endregion
 
         #region [表现层]
@@ -100,8 +104,6 @@ namespace TiedanSouls.Client.Entities {
         public TrajectoryType TrajectoryType => trajectoryType;
         public void SetTrajectoryType(TrajectoryType value) => this.trajectoryType = value;
 
-        public EntityTrackModel entityTrackModel;   // 实体跟踪模型
-
         #region [直线]
 
         float[] moveSpeedArray;
@@ -112,7 +114,11 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
+        public EntityTrackModel entityTrackModel;   // 实体跟踪模型
+
         #endregion
+
+
 
         public void Ctor() {
             rootGO = new GameObject("子弹");
@@ -185,14 +191,6 @@ namespace TiedanSouls.Client.Entities {
             logicRoot.transform.rotation = rot;
         }
 
-        public void RotateMoveDir(Quaternion rot) {
-            var len = moveSpeedArray.Length;
-            for (int i = 0; i < len; i++) {
-                var moveDir = moveDirArray[i];
-                moveDirArray[i] = rot * moveDir;
-            }
-        }
-
         public bool CanMove(int frame) {
             var index = frame;
             if (index >= moveSpeedArray.Length) return false;
@@ -258,7 +256,10 @@ namespace TiedanSouls.Client.Entities {
             var rendererPos = rendererRoot.transform.position;
             var logicPos = logicRoot.transform.position;
             var lerpPos = Vector3.Lerp(rendererPos, logicPos, dt * 30);// todo bug
+            var lerRot = Quaternion.Lerp(rendererRoot.transform.rotation, logicRoot.transform.rotation, dt * 30);
             rendererRoot.transform.position = lerpPos;
+            rendererRoot.transform.rotation = lerRot;
+
         }
 
     }
