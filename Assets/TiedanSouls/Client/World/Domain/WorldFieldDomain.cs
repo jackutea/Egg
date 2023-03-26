@@ -40,7 +40,7 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public void HideField(int typeID) {
+        public void RecycleField(int typeID) {
             var fieldRepo = worldContext.FieldRepo;
             if (!fieldRepo.TryGet(typeID, out FieldEntity field)) {
                 return;

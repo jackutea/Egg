@@ -78,7 +78,7 @@ namespace TiedanSouls.Client {
             return false;
         }
 
-        public void HideAllItemsInField(int fromFieldTypeID) {
+        public void RecycleFieldItems(int fromFieldTypeID) {
             if (!all_dic.TryGetValue(fromFieldTypeID, out var list)) {
                 return;
             }

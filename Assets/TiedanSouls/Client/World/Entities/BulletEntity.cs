@@ -138,18 +138,31 @@ namespace TiedanSouls.Client.Entities {
             fsmCom = new BulletFSMComponent();
         }
 
-        public void TearDown() {
-            GameObject.Destroy(rootGO);
-        }
-
         public void Reset() {
-            attributeCom.Reset();
+            // Com Reset
             inputCom.Reset();
+            attributeCom.Reset();
+            moveCom.Reset();
+            fsmCom.Reset();
+
+            // Root Reset
+            rootGO.transform.position = Vector3.zero;
+            rootGO.transform.rotation = Quaternion.identity;
+            logicRoot.transform.position = Vector3.zero;
+            logicRoot.transform.rotation = Quaternion.identity;
+            rendererRoot.transform.position = Vector3.zero;
+            rendererRoot.transform.rotation = Quaternion.identity;
+
+            extraPenetrateCount = 0;
         }
 
         public void SetVFXGO(GameObject value) {
             value.transform.SetParent(rendererRoot.transform, false);
             this.vfxGO = value;
+        }
+
+        public void TearDown() {
+            rootGO.SetActive(false);
         }
 
         public void Activate() {

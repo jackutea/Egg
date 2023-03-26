@@ -17,6 +17,11 @@ namespace TiedanSouls.Client.Entities {
 
         public MoveComponent() { }
 
+        public void Reset() {
+            rb.velocity = Vector3.zero;
+            rb.position = Vector3.zero;
+        }
+
         public void Inject(Rigidbody2D rb) {
             this.rb = rb;
         }

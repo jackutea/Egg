@@ -99,7 +99,7 @@ namespace TiedanSouls.Client {
             }
         }
 
-        public void HideAll_AIs(int fieldTypeID) {
+        public void RecycleFieldAIs(int fieldTypeID) {
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 role.Hide();
             });

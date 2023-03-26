@@ -36,8 +36,8 @@ namespace TiedanSouls.Client.Domain {
                 Apply_Deactivated(projectile, fsm, dt);
             } else if (state == ProjectileFSMState.Activated) {
                 Apply_Activated(projectile, fsm, dt);
-            } else if (state == ProjectileFSMState.Dying) {
-                Apply_Dying(projectile, fsm, dt);
+            } else if (state == ProjectileFSMState.TearDown) {
+                Apply_TearDown(projectile, fsm, dt);
             }
         }
 
@@ -60,18 +60,9 @@ namespace TiedanSouls.Client.Domain {
                     bulletFSM.Enter_Activated();
                 }
             });
-
-            projectile.Foreach_NeedDeactivatedBulletID((bulletID) => {
-                var bulletRepo = worldContext.BulletRepo;
-                if (bulletRepo.TryGet(bulletID, out var bullet)) {
-                    var bulletFSM = bullet.FSMCom;
-                    bulletFSM.Enter_Deactivated();
-                }
-            });
-
         }
 
-        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) { }
+        void Apply_TearDown(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) { }
 
     }
 

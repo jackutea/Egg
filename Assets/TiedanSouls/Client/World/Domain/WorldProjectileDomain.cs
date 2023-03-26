@@ -20,6 +20,8 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain = worldDomain;
         }
 
+        #region [生成]
+
         public bool TrySummonProjectile(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out ProjectileEntity projectile) {
             // 1. 创建弹道
             var typeID = entitySummonModel.typeID;
@@ -39,7 +41,7 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
-                if (!bulletDomain.TrySpawnBullet(bulletTypeID, projectileIDCom.ToArgs(), out var bullet)) {
+                if (!bulletDomain.TrySpawn(bulletTypeID, projectileIDCom.ToArgs(), out var bullet)) {
                     TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }
@@ -68,6 +70,24 @@ namespace TiedanSouls.Client.Domain {
 
             return true;
         }
+
+        #endregion 
+
+        #region [销毁]
+
+        public void TearDownProjectile(ProjectileEntity projectile) {
+            var repo = worldContext.ProjectileRepo;
+            repo.TryRemove(projectile);
+            repo.AddToPool(projectile);
+        }
+
+        public void TearDownFieldProjectiles(int fieldTypeID) {
+            var repo = worldContext.BulletRepo;
+            repo.TearDownToPool(fieldTypeID);
+        }
+
+        #endregion
+
     }
 
 }

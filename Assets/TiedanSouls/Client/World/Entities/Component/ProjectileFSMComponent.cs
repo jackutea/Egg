@@ -48,7 +48,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Enter_Destroyed() {
-            state = ProjectileFSMState.Dying;
+            state = ProjectileFSMState.TearDown;
 
             dyingModel.SetIsEntering(true);
             TDLog.Log($"弹道 -状态机 - 进入 Destroyed");

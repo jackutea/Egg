@@ -2,9 +2,10 @@ namespace TiedanSouls.Client {
 
     public enum BulletFSMState {
 
-        Deactivated,        // 子弹 未激活
-        Activated,          // 子弹 激活
-        TearDown,              // 子弹 被销毁
+        None,               
+        Deactivated,        // 未激活
+        Activated,          // 激活
+        TearDown,           // 被销毁
 
     }
 }

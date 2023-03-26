@@ -4,7 +4,7 @@ namespace TiedanSouls.Client {
 
         Deactivated,        // 弹道 未激活
         Activated,          // 弹道 激活
-        Dying,          // 弹道 被销毁
+        TearDown,          // 弹道 被销毁
 
     }
 }

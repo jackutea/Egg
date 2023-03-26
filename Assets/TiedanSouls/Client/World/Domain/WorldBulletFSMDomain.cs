@@ -24,13 +24,11 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         public void TickFSM(int curFieldTypeID, float dt) {
             var bulletRepo = worldContext.BulletRepo;
-            var removeList = bulletRepo.ForeachAndGetRemoveList(curFieldTypeID, (bullet) => {
+            bulletRepo.Foreach(curFieldTypeID, (bullet) => {
                 TickFSM(bullet, dt);
             });
 
-            removeList.ForEach((entityID) => {
-                bulletRepo.Remove(entityID);
-            });
+            bulletRepo.TearDownToPool_NoneState();
         }
 
         void TickFSM(BulletEntity bullet, float dt) {
@@ -48,14 +46,15 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void Tick_Any(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            if (fsm.State == BulletFSMState.TearDown) return;
+            if (fsm.State == BulletFSMState.None) return;
 
-            if (bullet.ExtraPenetrateCount < 0) fsm.Enter_TearDown(0);
+            // TearDown Check
+            if (fsm.State != BulletFSMState.TearDown) {
+                if (bullet.ExtraPenetrateCount < 0) fsm.Enter_TearDown(0);
+            }
         }
 
         void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            // 这里可能的业务需求
-            // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
             var model = fsm.DeactivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
@@ -69,6 +68,7 @@ namespace TiedanSouls.Client.Domain {
             var model = fsm.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
+                bullet.Activate();
             }
 
             model.curFrame++;
@@ -81,9 +81,19 @@ namespace TiedanSouls.Client.Domain {
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
             var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
-            if (collisionTriggerStatus == TriggerStatus.TriggerEnter) collisionTriggerModel.ActivateAll();
-            else if (collisionTriggerStatus == TriggerStatus.TriggerExit) collisionTriggerModel.DeactivateAll();
-            else if (collisionTriggerStatus == TriggerStatus.None) collisionTriggerModel.DeactivateAll();
+            if (collisionTriggerStatus == TriggerStatus.TriggerEnter) {
+                collisionTriggerModel.ActivateAll();
+            } else if (collisionTriggerStatus == TriggerStatus.TriggerExit) {
+                collisionTriggerModel.DeactivateAll();
+            } else if (collisionTriggerStatus == TriggerStatus.None) {
+                collisionTriggerModel.DeactivateAll();
+            }
+
+            // TODO : 不根据碰撞器的生命周期来控制子弹的生命周期，添加子弹自己的生命周期
+            if (model.curFrame > bullet.CollisionTriggerModel.totalFrame) {
+                fsm.Enter_TearDown(0);
+                return;
+            }
 
             // 移动逻辑(根据轨迹类型)
             var moveCom = bullet.MoveCom;
@@ -113,9 +123,7 @@ namespace TiedanSouls.Client.Domain {
             maintainFrame--;
 
             if (maintainFrame <= 0) {
-                bullet.TearDown();
-                fsm.SetIsExiting(true);
-                TDLog.Log("子弹 TearDown - 设置状态机退出");
+                fsm.Enter_None();
                 return;
             }
 

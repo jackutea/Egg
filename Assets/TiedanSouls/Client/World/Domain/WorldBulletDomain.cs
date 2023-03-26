@@ -20,27 +20,37 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain = worldDomain;
         }
 
+        #region [生成]
+
         /// <summary>
         /// 根据类型ID生成子弹
         /// </summary>
-        public bool TrySpawnBullet(int typeID, in IDArgs father, out BulletEntity bullet) {
+        public bool TrySpawn(int typeID, in IDArgs father, out BulletEntity bullet) {
             bullet = null;
 
-            var factory = worldContext.WorldFactory;
-            if (!factory.TryCreateBullet(typeID, out bullet)) {
-                TDLog.Error($"生成子弹失败 typeID:{typeID}");
-                return false;
+            var bulletRepo = worldContext.BulletRepo;
+            bool isFromPool = bulletRepo.TryGetFromPool(typeID, out bullet);
+            if (!isFromPool) {
+                var factory = worldContext.WorldFactory;
+                if (!factory.TryCreateBullet(typeID, out bullet)) {
+                    TDLog.Error($"实体生成<子弹>失败 类型ID:{typeID}");
+                    return false;
+                }
             }
 
-            // 1. 子弹 ID
+            // ID
             var idCom = bullet.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickBulletID());
+            if (isFromPool) {
+                bullet.Reset();
+            } else {
+                var entityID = worldContext.IDService.PickBulletID();
+                idCom.SetEntityID(entityID);
+            }
             idCom.SetFather(father);
 
-            // 2. 子弹 碰撞盒关联
+            // 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
 
-            // 3. 添加至仓库
             var repo = worldContext.BulletRepo;
             repo.Add(bullet);
 
@@ -50,7 +60,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体生成模型 生成子弹
         /// </summary>
-        public bool TrySpawnBullet_BySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BulletEntity bullet) {
+        public bool TrySpawn_BySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BulletEntity bullet) {
             bullet = null;
 
             var typeID = entitySpawnModel.typeID;
@@ -80,10 +90,29 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
+        #endregion 
+
+        #region [销毁]
+
+        public void TearDownBullet(BulletEntity bullet) {
+            var repo = worldContext.BulletRepo;
+            repo.TryRemove(bullet);
+            repo.AddToPool(bullet);
+        }
+
+        public void TearDownFieldBullets(int fieldTypeID) {
+            var repo = worldContext.BulletRepo;
+            repo.TearDownToPool(fieldTypeID);
+        }
+
+        #endregion
+
+        #region [击中 & 受击]
+
         /// <summary>
-        /// 子弹击中时触发的逻辑
+        /// 子弹 击中 逻辑
         /// </summary>
-        public void HandleBeHit(BulletEntity bullet) {
+        public void HandleHit(BulletEntity bullet) {
             if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
@@ -93,7 +122,20 @@ namespace TiedanSouls.Client.Domain {
         }
 
         /// <summary>
-        /// 触发子弹的 击中效果器
+        /// 子弹 受击 逻辑
+        /// </summary>
+        public void HandleBeHit(BulletEntity bullet) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
+        }
+
+        #endregion
+
+        #region [效果器触发]
+
+        /// <summary>
+        /// 子弹击中效果器触发
         /// </summary>
         public void TriggerHitEffector(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel) {
             var effectorTypeID = collisionTriggerModel.hitEffectorTypeID;
@@ -101,7 +143,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         /// <summary>
-        /// 触发子弹的 死亡效果器
+        /// 子弹死亡效果器触发
         /// </summary>
         public void TriggerDeathEffector(BulletEntity bullet) {
             var effectorTypeID = bullet.DeathEffectorTypeID;
@@ -122,12 +164,9 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
         }
 
-        /// <summary>
-        /// 子弹受击处理
-        /// </summary>
-        public void HandleBeHit(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+        #endregion
 
-        }
+        #region [子弹移动]
 
         /// <summary>
         /// 子弹追踪目标
@@ -170,6 +209,8 @@ namespace TiedanSouls.Client.Domain {
                 moveCom.Stop();
             }
         }
+
+        #endregion
 
     }
 

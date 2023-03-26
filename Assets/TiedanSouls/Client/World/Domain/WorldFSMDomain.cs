@@ -176,25 +176,25 @@ namespace TiedanSouls.Client.Domain {
                     return;
                 }
 
-                // 隐藏当前关卡
+                // TearDown 当前关卡 
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
-                fieldDomain.HideField(curFieldTypeID);
+                fieldDomain.RecycleField(curFieldTypeID);
 
-                // 隐藏当前关卡所有物件
+                // TearDown 当前关卡 物件
                 var itemRepo = worldContext.ItemRepo;
-                itemRepo.HideAllItemsInField(curFieldTypeID);
+                itemRepo.RecycleFieldItems(curFieldTypeID);
 
-                // 隐藏当前关卡所有AI角色
+                // TearDown 当前关卡 AI角色
                 var roleRepo = worldContext.RoleRepo;
-                roleRepo.HideAll_AIs(curFieldTypeID);
+                roleRepo.RecycleFieldAIs(curFieldTypeID);
 
-                // 隐藏当前关卡所有子弹
-                var bulletRepo = worldContext.BulletRepo;
-                bulletRepo.DeactivateAllBulletsInField(curFieldTypeID);
+                // TearDown 当前关卡 子弹
+                var bulletDomain = worldContext.RootDomain.BulletDomain;
+                bulletDomain.TearDownFieldBullets(curFieldTypeID);
 
-                // 隐藏当前关卡所有弹道
-                var projectileRepo = worldContext.ProjectileRepo;
-                projectileRepo.DeactivateAllProjectilesInField(curFieldTypeID);
+                // TearDown 当前关卡 弹道
+                var projectileDomain = worldContext.RootDomain.ProjectileDomain;
+                projectileDomain.TearDownFieldProjectiles(curFieldTypeID);
 
                 // 显示下一关卡
                 _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);
@@ -221,7 +221,7 @@ namespace TiedanSouls.Client.Domain {
         void TickAllFSM(float dt) {
             var stateEntity = worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
- 
+
             // 刷新 关卡 状态机
             var fieldFSMDomain = worldDomain.FieldFSMDomain;
             fieldFSMDomain.TickFSM(dt);

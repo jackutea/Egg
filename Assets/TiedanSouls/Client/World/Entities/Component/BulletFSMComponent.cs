@@ -7,10 +7,6 @@ namespace TiedanSouls.Client.Entities {
         BulletFSMState state;
         public BulletFSMState State => state;
 
-        bool isExiting;
-        public bool IsExiting => isExiting;
-        public void SetIsExiting(bool value) => isExiting = value;
-
         // Model
         BulletFSMModel_Activated activatedModel;
         public BulletFSMModel_Activated ActivatedModel => activatedModel;
@@ -22,15 +18,16 @@ namespace TiedanSouls.Client.Entities {
         public BulletFSMModel_TearDown TearDownModel => tearDownModel;
 
         public BulletFSMComponent() {
-            isExiting = false;
             activatedModel = new BulletFSMModel_Activated();
             deactivatedModel = new BulletFSMModel_Deactivated();
             tearDownModel = new BulletFSMModel_TearDown();
         }
 
         public void Reset() {
-            isExiting = false;
             state = BulletFSMState.Deactivated;
+            activatedModel.Reset();
+            deactivatedModel.Reset();
+            tearDownModel.Reset();
         }
 
         public void Enter_Deactivated() {
@@ -51,6 +48,11 @@ namespace TiedanSouls.Client.Entities {
             tearDownModel.SetIsEntering(true);
 
             tearDownModel.maintainFrame = maintainFrame;
+        }
+
+        public void Enter_None() {
+            TDLog.Log($"子弹 -状态机 - 进入 None");
+            state = BulletFSMState.None;
         }
 
     }
