@@ -318,8 +318,9 @@ namespace TiedanSouls.Client.Entities {
 
         public int Attribute_DecreaseHP(int atk) {
             TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
+            var decrease = attributeCom.DecreaseHP(atk);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-            return attributeCom.DecreaseHP(atk);
+            return decrease;
         }
 
         #endregion
