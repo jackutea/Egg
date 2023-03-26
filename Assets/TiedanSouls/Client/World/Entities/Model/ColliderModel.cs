@@ -42,9 +42,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetLocalRot(Quaternion localRot) => this.localRot = localRot;
 
         // 碰撞检测事件
-        public event CollisionEventHandler onTriggerEnter2D;
-        public event CollisionEventHandler onTriggerStay2D;
-        public event CollisionEventHandler onTriggerExit2D;
+        public CollisionEventHandler onTriggerEnter2D;
+        public CollisionEventHandler onTriggerStay2D;
+        public CollisionEventHandler onTriggerExit2D;
         public delegate void CollisionEventHandler(in CollisionEventArgs args);
 
         public bool IsActivated => gameObject.activeSelf;

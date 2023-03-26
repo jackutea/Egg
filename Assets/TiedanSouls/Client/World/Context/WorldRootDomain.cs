@@ -203,8 +203,8 @@ namespace TiedanSouls.Client.Facades {
             for (int i = 0; i < len; i++) {
                 var colliderModel = colliderModelArray[i];
                 colliderModel.SetFather(father);
-                colliderModel.onTriggerEnter2D += AddToCollisionEventRepo_TriggerEnter;
-                colliderModel.onTriggerExit2D += AddToCollisionEventRepo_TriggerExit;
+                colliderModel.onTriggerEnter2D = AddToCollisionEventRepo_TriggerEnter;
+                colliderModel.onTriggerExit2D = AddToCollisionEventRepo_TriggerExit;
             }
         }
 

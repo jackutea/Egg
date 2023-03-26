@@ -17,12 +17,12 @@ namespace TiedanSouls.Client {
         // todo ： 重复事件
         public void Add_TriggerEnter(in CollisionEventArgs args) {
             events_triggerEnter.Add(args);
-            TDLog.Log($"碰撞事件<Trigger:Enter>\n{args} ");
+            TDLog.Log($"碰撞事件仓库 添加 <Trigger:Enter>\n{args} ");
         }
 
         public void Add_TriggerExit(in CollisionEventArgs args) {
             events_triggerExit.Add(args);
-            TDLog.Log($"碰撞事件<Trigger:Exit>\n{args} ");
+            TDLog.Log($"碰撞事件仓库 添加 <Trigger:Exit>\n{args} ");
         }
 
         public bool TryPick_Enter(out CollisionEventArgs args) {

@@ -10,7 +10,7 @@ namespace TiedanSouls.EditorTool {
 
         [Header("绑定配置文件")] public ProjectileSO so;
 
-        [Header("类型ID")] public int typeID;
+        [Header("类型ID")] public int typeID; 
         [Header("名称")] public string projectileName;
         [Header("弹道子弹(组)")] public ProjectileBulletEM[] projectileBulletEMArray;
 

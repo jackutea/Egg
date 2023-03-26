@@ -31,6 +31,7 @@ namespace TiedanSouls.Client.Domain {
                 _ = rootDomain.TryGetEntityObj(idArgs1, out var entity1);
                 _ = rootDomain.TryGetEntityObj(idArgs2, out var entity2);
                 HandleTriggerEnter(entity1, entity2);
+                TDLog.Log($"idArgs1 = {idArgs1}, idArgs2 = {idArgs2}");
             }
 
             while (collisionEventRepo.TryPick_Exit(out var ev)) {
