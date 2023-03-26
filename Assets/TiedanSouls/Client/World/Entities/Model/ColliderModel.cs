@@ -67,7 +67,7 @@ namespace TiedanSouls.Client.Entities {
             var otherFather = otherColliderModel.father;
             if (!IsRightHitTarget(otherFather)) return;
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather);
+            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
             onTriggerEnter2D?.Invoke(args);
         }
 
@@ -78,7 +78,7 @@ namespace TiedanSouls.Client.Entities {
                 return;
             }
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather);
+            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
             onTriggerStay2D?.Invoke(args);
         }
 
@@ -89,7 +89,7 @@ namespace TiedanSouls.Client.Entities {
                 return;
             }
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather);
+            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
             onTriggerExit2D?.Invoke(args);
         }
 

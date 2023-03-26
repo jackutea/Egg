@@ -36,10 +36,11 @@ namespace TiedanSouls.Client.Entities {
 
         GameObject logicRoot;
         public GameObject LogicRoot => logicRoot;
-
         public Vector3 LogicPos => logicRoot.transform.position;
         public Quaternion LogicRotation => logicRoot.transform.rotation;
         public float LogicAngleZ => logicRoot.transform.rotation.z;
+        public void SetLogicPos(Vector3 pos) => logicRoot.transform.position = pos;
+        public void SetLogicRotation(Quaternion rot) => logicRoot.transform.rotation = rot;
 
         GameObject rendererRoot;
         public GameObject RendererRoot => rendererRoot;
@@ -118,8 +119,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-
-
         public void Ctor() {
             rootGO = new GameObject("子弹");
             logicRoot = new GameObject("Logic_Root");
@@ -167,6 +166,10 @@ namespace TiedanSouls.Client.Entities {
             this.vfxGO = value;
         }
 
+        public void SetFromFieldTypeID(int fieldTypeID) {
+            idCom.SetFromFieldTypeID(fieldTypeID);
+        }
+
         public void TearDown() {
             rootGO.SetActive(false);
         }
@@ -181,14 +184,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void Attribute_HP_Decrease(int atk) {
             attributeCom.DecreaseHP(atk);
-        }
-
-        public void SetLogicPos(Vector3 pos) {
-            logicRoot.transform.position = pos;
-        }
-
-        public void SetLogicRotation(Quaternion rot) {
-            logicRoot.transform.rotation = rot;
         }
 
         public bool CanMove(int frame) {

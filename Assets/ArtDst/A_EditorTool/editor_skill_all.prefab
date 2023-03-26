@@ -123,7 +123,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorTypeID: 0
+    hitEffectorTypeID: 9999
     stateEffectEM:
       addStateFlag: 0
       effectStateValue: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
     colliderGOArray:
     - {fileID: 2146176807690415295}
   skillEffectorEMArray:
-  - effectorTypeID: 9999
+  - effectorTypeID: 0
     triggerFrame: 10
     offsetPos: {x: 2, y: 0, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}

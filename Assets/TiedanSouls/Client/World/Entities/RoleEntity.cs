@@ -52,6 +52,7 @@ namespace TiedanSouls.Client.Entities {
         public Vector3 LogicPos => logicRoot.position;
         public float LogicAngleZ => logicRoot.rotation.z;
         public Quaternion LogicRotation => logicRoot.rotation;
+        public void SetLogicPos(Vector2 pos) => logicRoot.position = pos;
 
         Transform rendererRoot;
         public Transform RendererRoot => rendererRoot;
@@ -195,6 +196,10 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"显示角色: {idCom.EntityName} ");
         }
 
+        public void SetMod(GameObject mod) {
+            rendererModCom.SetMod(mod);
+        }
+
         public void Hide() {
             logicRoot.gameObject.SetActive(false);
             rendererRoot.gameObject.SetActive(false);
@@ -207,14 +212,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void DeactivateCollider() {
             coll_logicRoot.enabled = false;
-        }
-
-        public void SetMod(GameObject mod) {
-            rendererModCom.SetMod(mod);
-        }
-
-        public void SetPos_Logic(Vector2 pos) {
-            logicRoot.position = pos;
         }
 
         public void FaceTo(sbyte dirX) {
@@ -231,6 +228,16 @@ namespace TiedanSouls.Client.Entities {
             }
 
             logicRoot.localRotation = rot;
+        }
+
+        public void SetFromFieldTypeID(int fieldTypeID) {
+            idCom.SetFromFieldTypeID(fieldTypeID);
+            skillSlotCom.Foreach_Origin((skill) => {
+                skill.IDCom.SetFromFieldTypeID(fieldTypeID);
+            });
+            skillSlotCom.Foreach_Combo((skill) => {
+                skill.IDCom.SetFromFieldTypeID(fieldTypeID);
+            });
         }
 
         #region [Locomotion]

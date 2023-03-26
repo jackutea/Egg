@@ -147,6 +147,7 @@ namespace TiedanSouls.Client.Entities {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
+                    if(model.hitEffectorTypeID == 0) continue;
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus != TriggerStatus.None) {
                         collisionTriggerModel = model;

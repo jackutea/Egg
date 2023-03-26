@@ -86,7 +86,7 @@ MonoBehaviour:
       colliderRelativePathArray:
       - collider
     deathEffectorTypeID: 0
-    extraPenetrateCount: 0
+    extraPenetrateCount: 1
     trajectoryType: 1
     moveDistance_cm: 5000
     moveTotalFrame: 30

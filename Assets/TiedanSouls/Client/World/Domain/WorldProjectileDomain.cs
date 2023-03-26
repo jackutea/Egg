@@ -41,7 +41,8 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
-                if (!bulletDomain.TrySpawn(bulletTypeID, projectileIDCom.ToArgs(), out var bullet)) {
+                var bulletFather = projectileIDCom.ToArgs();
+                if (!bulletDomain.TrySpawn(bulletTypeID,bulletFather, out var bullet)) {
                     TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }

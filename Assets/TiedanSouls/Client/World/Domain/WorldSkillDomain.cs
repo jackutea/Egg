@@ -106,10 +106,35 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [技能受击处理]
+        #region [击中 & 受击]
 
         /// <summary>
-        /// 技能受击处理
+        /// 技能 击中 处理
+        /// </summary>
+        public void HandleHit(SkillEntity skill, Vector3 skillColliderPos) {
+            if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
+
+            var hitEffectorTypeID = collisionTriggerModel.hitEffectorTypeID;
+            var effectorDomain = rootDomain.EffectorDomain;
+            if (!effectorDomain.TrySpawnEffectorModel(hitEffectorTypeID, out var effectorModel)) {
+                return;
+            }
+
+            var summonPos = skillColliderPos;
+            var baseRot = Quaternion.identity;
+            var summoner = skill.IDCom.ToArgs();
+            var entitySummonModelArray = effectorModel.entitySummonModelArray;
+            var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
+            this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
+            this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
+            TDLog.Log($"击中效果 - {hitEffectorTypeID}");
+        }
+
+
+        /// <summary>
+        /// 技能 受击 处理
         /// </summary>
         public void HandleBeHit(SkillEntity skill, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
 

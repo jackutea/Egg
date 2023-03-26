@@ -108,7 +108,7 @@ namespace TiedanSouls.Client.Facades {
                 _ = RoleDomain.TrySummonRole(summonPos, baseRot, summoner, entitySummonModel, out var role);
                 role.name = $"角色(召唤)_{role.IDCom}";
             } else if (entityType == EntityType.Projectile) {
-                _ = ProjectileDomain.TrySummonProjectile(summonPos, baseRot, summoner, entitySummonModel, out _);
+                _ = ProjectileDomain.TrySummonProjectile(summonPos, baseRot, summoner, entitySummonModel, out var projectile);
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }

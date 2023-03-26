@@ -288,7 +288,7 @@ MonoBehaviour:
     colliderGOArray:
     - {fileID: 285879737727348702}
   deathEffectorTypeID: 0
-  extraPenetrateCount: 0
+  extraPenetrateCount: 1
   vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
   trajectoryType: 1
   moveDistance: 50

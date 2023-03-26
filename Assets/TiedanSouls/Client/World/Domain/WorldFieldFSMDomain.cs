@@ -47,9 +47,9 @@ namespace TiedanSouls.Client.Domain {
                 var doorPos = door.pos;
                 var playerRole = worldContext.RoleRepo.PlayerRole;
                 doorPos.y = playerRole.LogicPos.y;
-                playerRole.SetPos_Logic(doorPos);
+                playerRole.SetFromFieldTypeID(field.IDCom.TypeID);
+                playerRole.SetLogicPos(doorPos);
                 playerRole.Renderer_Sync();
-                playerRole.IDCom.SetFromFieldTypeID(field.IDCom.TypeID);
                 playerRole.name = $"主角_{playerRole.IDCom}";
             }
 
@@ -129,7 +129,7 @@ namespace TiedanSouls.Client.Domain {
                     ai.Reset();
                     ai.Show();
                     ai.HudSlotCom.ShowHUD();
-                    ai.SetPos_Logic(ai.BornPos);
+                    ai.SetLogicPos(ai.BornPos);
                 }));
                 fsm.Enter_Finished();
                 return;

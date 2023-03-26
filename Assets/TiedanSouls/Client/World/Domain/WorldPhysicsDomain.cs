@@ -30,7 +30,7 @@ namespace TiedanSouls.Client.Domain {
                 var idArgs2 = ev.B;
                 _ = rootDomain.TryGetEntityObj(idArgs1, out var entity1);
                 _ = rootDomain.TryGetEntityObj(idArgs2, out var entity2);
-                HandleTriggerEnter(entity1, entity2);
+                HandleTriggerEnter(entity1, entity2, ev);
             }
 
             while (collisionEventRepo.TryPick_Exit(out var ev)) {
@@ -38,7 +38,7 @@ namespace TiedanSouls.Client.Domain {
                 var idArgs2 = ev.B;
                 if (rootDomain.TryGetEntityObj(idArgs1, out var entity1)) continue;
                 if (rootDomain.TryGetEntityObj(idArgs2, out var entity2)) continue;
-                HandleTriggerExit(entity1, entity2);
+                HandleTriggerExit(entity1, entity2, ev);
             }
         }
 
@@ -49,14 +49,14 @@ namespace TiedanSouls.Client.Domain {
 
         #region [碰撞事件处理 Enter]
 
-        void HandleTriggerEnter(IEntity entityA, IEntity entityB) {
+        void HandleTriggerEnter(IEntity entityA, IEntity entityB, in CollisionEventArgs collisionEventArgs) {
             // 技能 & 角色 
             if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
-                HandleTriggerEnter_Skill_Role(skillEntity, roleEntity);
+                HandleTriggerEnter_Skill_Role(skillEntity, roleEntity, collisionEventArgs.PosA);
                 return;
             }
             if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
-                HandleTriggerEnter_Skill_Role(skillEntity2, roleEntity2);
+                HandleTriggerEnter_Skill_Role(skillEntity2, roleEntity2, collisionEventArgs.PosB);
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace TiedanSouls.Client.Domain {
             TDLog.Error($"未处理的碰撞事件<Trigger - Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        void HandleTriggerEnter_Skill_Role(SkillEntity skill, RoleEntity role) {
+        void HandleTriggerEnter_Skill_Role(SkillEntity skill, RoleEntity role, Vector3 skillColliderPos) {
             if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
@@ -107,9 +107,13 @@ namespace TiedanSouls.Client.Domain {
             var beHitDir = rolePos - casterPos;
             beHitDir.Normalize();
 
-            // 角色受击
+            // 角色 受击
             var roleDomain = rootDomain.RoleDomain;
             roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom.ToArgs(), collisionTriggerModel);
+
+            // 技能 打击
+            var skillDomain = rootDomain.SkillDomain;
+            skillDomain.HandleHit(skill, skillColliderPos);
         }
 
         void HandleTriggerEnter_Bullet_Role(BulletEntity bullet, RoleEntity role) {
@@ -121,12 +125,12 @@ namespace TiedanSouls.Client.Domain {
             var beHitDir = rolePos - bullet.LogicPos;
             beHitDir.Normalize();
 
-            // 角色撞击事件
+            // 角色 受击
             var roleDomain = rootDomain.RoleDomain;
             var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
             roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
 
-            // 子弹撞击事件
+            // 子弹 打击
             var bulletDomain = rootDomain.BulletDomain;
             bulletDomain.HandleHit(bullet);
         }
@@ -156,7 +160,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [碰撞事件处理 Exit]
 
-        void HandleTriggerExit(IEntity entityA, IEntity entityB) {
+        void HandleTriggerExit(IEntity entityA, IEntity entityB, in CollisionEventArgs collisionEventArgs) {
             // 技能 & 角色
             if (entityA is SkillEntity skillEntity3 && entityB is RoleEntity roleEntity) {
                 HandleTriggerExit_Skill_Role(skillEntity3, roleEntity);

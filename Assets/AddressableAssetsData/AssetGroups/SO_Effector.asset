@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Effector
-  - m_GUID: d46ccc64ae6d61b4bb12ce3dd499098c
-    m_Address: so_effector_test1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SO_Effector
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

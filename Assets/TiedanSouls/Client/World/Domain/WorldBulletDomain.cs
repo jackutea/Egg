@@ -69,17 +69,17 @@ namespace TiedanSouls.Client.Domain {
                 TDLog.Error($"生成子弹失败 typeID:{typeID}");
                 return false;
             }
+            bullet.SetFromFieldTypeID(fromFieldTypeID);
 
-            var controlType = entitySpawnModel.controlType;
-            var allyType = entitySpawnModel.allyType;
-            var pos = entitySpawnModel.spawnPos;
+            var spawnPos = entitySpawnModel.spawnPos;
+            var spawnControlType = entitySpawnModel.controlType;
+            var spawnAllyType = entitySpawnModel.allyType;
 
             // 1. 子弹 ID
             var idCom = bullet.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickBulletID());
-            idCom.SetFromFieldTypeID(fromFieldTypeID);
-            idCom.SetAllyType(allyType);
-            idCom.SetControlType(controlType);
+            idCom.SetAllyType(spawnAllyType);
+            idCom.SetControlType(spawnControlType);
 
             // 2. 子弹 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
@@ -188,7 +188,7 @@ namespace TiedanSouls.Client.Domain {
             var moveCom = bullet.MoveCom;
             var bulletPos = moveCom.Pos;
             var posOffset = targetPos - bulletPos;
-            if(posOffset.sqrMagnitude < 0.01f) {
+            if (posOffset.sqrMagnitude < 0.01f) {
                 // 说明已经到达目标点了
                 return;
             }

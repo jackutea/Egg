@@ -36,11 +36,11 @@ namespace TiedanSouls.Client.Domain {
 
             BaseSetRole(role, typeID, pos, allyType, controlType);
 
-            var idCom = role.IDCom;
-            idCom.SetFromFieldTypeID(fromFieldTypeID);
+            role.SetFromFieldTypeID(fromFieldTypeID);
             role.SetIsBoss(entitySpawnModel.isBoss);
 
             var repo = worldContext.RoleRepo;
+            var idCom = role.IDCom;
             if (idCom.ControlType == ControlType.Player) {
                 repo.Set_Player(role);
             } else if (idCom.ControlType == ControlType.AI) {
@@ -86,7 +86,7 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, AllyType allyType, ControlType controlType) {
             // Pos
-            role.SetPos_Logic(pos);
+            role.SetLogicPos(pos);
             role.Renderer_Sync();
 
             // ID

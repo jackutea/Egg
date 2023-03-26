@@ -118,20 +118,21 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能效果器
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
-                var triggerFrame = skillEffectorModel.triggerFrame;
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
-                var effectorDomain = this.rootDomain.EffectorDomain;
-                if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
-                    Debug.LogError($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
-                    return;
+                if (effectorTypeID != 0) {
+                    var effectorDomain = this.rootDomain.EffectorDomain;
+                    if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
+                        Debug.LogWarning($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
+                        return;
+                    }
+
+                    var summoner = role.IDCom.ToArgs();
+                    var baseRot = role.LogicRotation;
+                    var summonPos = role.LogicPos + baseRot * skillEffectorModel.offsetPos;
+
+                    this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
+                    this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
                 }
-
-                var summoner = role.IDCom.ToArgs();
-                var baseRot = role.LogicRotation;
-                var summonPos = role.LogicPos + baseRot * skillEffectorModel.offsetPos;
-
-                this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
-                this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
             }
 
             // 技能逻辑迭代
