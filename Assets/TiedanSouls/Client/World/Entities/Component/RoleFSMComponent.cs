@@ -11,8 +11,11 @@ namespace TiedanSouls.Client.Entities {
         RoleFSMModel_Idle idleModel;
         public RoleFSMModel_Idle IdleModel => idleModel;
 
-        RoleFSMModel_Casting castingModel;
-        public RoleFSMModel_Casting CastingModel => castingModel;
+        RoleFSMModel_Cast castingModel;
+        public RoleFSMModel_Cast CastingModel => castingModel;
+
+        RoleFSMModel_SkillMove skillMoveModel;
+        public RoleFSMModel_SkillMove SkillMoveModel => skillMoveModel;
 
         RoleFSMModel_KnockBack knockBackModel;
         public RoleFSMModel_KnockBack KnockBackModel => knockBackModel;
@@ -29,7 +32,8 @@ namespace TiedanSouls.Client.Entities {
 
         public RoleFSMComponent() {
             idleModel = new RoleFSMModel_Idle();
-            castingModel = new RoleFSMModel_Casting();
+            castingModel = new RoleFSMModel_Cast();
+            skillMoveModel = new RoleFSMModel_SkillMove();
             knockBackModel = new RoleFSMModel_KnockBack();
             knockUpModel = new RoleFSMModel_KnockUp();
             dyingModel = new RoleFSMModel_Dying();
@@ -59,16 +63,31 @@ namespace TiedanSouls.Client.Entities {
         public void AddCast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingModel;
             stateModel.Reset();
+            stateModel.SetIsEntering(true);
 
             stateModel.SetCastingSkillTypeID(skillTypeID);
             stateModel.SetIsCombo(isCombo);
             stateModel.SetChosedPoint(chosedPoint);
-            stateModel.SetIsEntering(true);
 
             stateFlag = stateFlag.AddStateFlag(StateFlag.Cast);
             stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
 
             TDLog.Log($"角色状态机 - 添加  {StateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void AddSkillMove(SkillMoveCurveModel skilMoveCurveModel) {
+            var stateModel = skillMoveModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+            stateModel.SetIsFaceTo(skilMoveCurveModel.isFaceTo);
+            var moveCurveModel = skilMoveCurveModel.moveCurveModel;
+            stateModel.SetMoveSpeedArray(moveCurveModel.moveSpeedArray.Clone() as float[]);
+            stateModel.SetMoveDirArray(moveCurveModel.moveDirArray.Clone() as Vector3[]);
+
+            stateFlag = stateFlag.AddStateFlag(StateFlag.SkillMove);
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+
+            TDLog.Log($"角色状态机 - 添加  '{StateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
         }
 
         public void AddKnockBack(Vector2 beHitDir, in KnockBackModel model) {
@@ -134,6 +153,11 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"角色状态机 - 移除  '{StateFlag.Cast}'\n{stateFlag.ToString_AllFlags()}");
         }
 
+        public void RemoveSkillMove() {
+            stateFlag = stateFlag.RemoveStateFlag(StateFlag.SkillMove);
+            TDLog.Log($"角色状态机 - 移除  '{StateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
         public void RemoveKnockBack() {
             stateFlag = stateFlag.RemoveStateFlag(StateFlag.KnockBack);
             TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockBack}'\n{stateFlag.ToString_AllFlags()}");
@@ -152,6 +176,18 @@ namespace TiedanSouls.Client.Entities {
         /// 当前状态 是否可以移动
         /// </summary>
         public bool CanMove() {
+            return !stateFlag.Contains(StateFlag.Dying)
+                && !stateFlag.Contains(StateFlag.SkillMove)
+                && !stateFlag.Contains(StateFlag.KnockBack)
+                && !stateFlag.Contains(StateFlag.KnockUp)
+                && !stateFlag.Contains(StateFlag.Root)
+                && !stateFlag.Contains(StateFlag.Stun);
+        }
+
+        /// <summary>
+        /// 当前状态 是否可以旋转
+        /// </summary>
+        public bool CanSkillMove() {
             return !stateFlag.Contains(StateFlag.Dying)
                 && !stateFlag.Contains(StateFlag.KnockBack)
                 && !stateFlag.Contains(StateFlag.KnockUp)

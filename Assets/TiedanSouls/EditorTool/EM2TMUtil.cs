@@ -68,7 +68,7 @@ namespace TiedanSouls.EditorTool {
             var moveDistance_cm = GetInt_Expand100(moveCurveEM.moveDistance);
 
             tm.trajectoryType = editorGO.trajectoryType;
-            
+
             tm.entityTrackTM = GetTM_EntityTrack(editorGO.entityTrackingEM);
             tm.moveCurveTM = GetTM_MoveCurve(moveCurveEM);
 
@@ -116,13 +116,38 @@ namespace TiedanSouls.EditorTool {
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
-
             tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger<SkillEditorGO>(editorGo.colliderTriggerEMArray);
+
+            tm.skillMoveCurveTMArray = GetTMArray_MoveCurve(editorGo.skillMoveCurveEMArray);
 
             return tm;
         }
 
-        static SkillCancelTM[] GetTM_SkillCancel(SkillCancelEM[] ems) {
+        public static SkillMoveCurveTM[] GetTMArray_MoveCurve(SkillMoveCurveEM[] emArray) {
+            SkillMoveCurveTM[] tmArray = new SkillMoveCurveTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tmArray[i] = GetTM_MoveCurve(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static SkillMoveCurveTM GetTM_MoveCurve(SkillMoveCurveEM em) {
+            SkillMoveCurveTM tm;
+            tm.startFrame = em.startFrame;
+            tm.isFaceTo = em.isFaceTo;
+            tm.moveCurveTM = GetTM_MoveCurve(em.moveCurveEM);
+            return tm;
+        }
+
+        public static SkillTM[] GetTMArray_Skill(SkillEditorGO[] editorGoArray) {
+            SkillTM[] tmArray = new SkillTM[editorGoArray.Length];
+            for (int i = 0; i < editorGoArray.Length; i++) {
+                tmArray[i] = GetTM_Skill(editorGoArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static SkillCancelTM[] GetTM_SkillCancel(SkillCancelEM[] ems) {
             SkillCancelTM[] tms = new SkillCancelTM[ems.Length];
             for (int i = 0; i < ems.Length; i++) {
                 tms[i] = GetTM_SkillCancel(ems[i]);
@@ -130,7 +155,7 @@ namespace TiedanSouls.EditorTool {
             return tms;
         }
 
-        static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
+        public static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
             SkillCancelTM tm;
             tm.skillTypeID = em.skillTypeID;
             tm.startFrame = em.startFrame;
@@ -138,7 +163,7 @@ namespace TiedanSouls.EditorTool {
             return tm;
         }
 
-        static SkillEffectorTM[] GetTMArray_SkillEffector(SkillEffectorEM[] ems) {
+        public static SkillEffectorTM[] GetTMArray_SkillEffector(SkillEffectorEM[] ems) {
             SkillEffectorTM[] tms = new SkillEffectorTM[ems.Length];
             for (int i = 0; i < ems.Length; i++) {
                 tms[i] = GetTM_SkillEffector(ems[i]);
@@ -146,7 +171,7 @@ namespace TiedanSouls.EditorTool {
             return tms;
         }
 
-        static SkillEffectorTM GetTM_SkillEffector(SkillEffectorEM em) {
+        public static SkillEffectorTM GetTM_SkillEffector(SkillEffectorEM em) {
             SkillEffectorTM tm;
             tm.triggerFrame = em.triggerFrame;
             tm.effectorTypeID = em.effectorTypeID;

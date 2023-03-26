@@ -97,7 +97,7 @@ namespace TiedanSouls.Client.Entities {
         public TrajectoryType TrajectoryType => trajectoryType;
         public void SetTrajectoryType(TrajectoryType value) => this.trajectoryType = value;
 
-        public MoveCurveModel moveCurveModel;       // 移动曲线模型
+        public MoveCurveModel moveCurveModel;       // 位移曲线模型
         public EntityTrackModel entityTrackModel;   // 实体跟踪模型
 
         #endregion

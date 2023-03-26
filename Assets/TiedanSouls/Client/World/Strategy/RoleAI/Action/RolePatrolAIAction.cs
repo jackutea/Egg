@@ -88,7 +88,7 @@ namespace TiedanSouls.Client.Entities {
             }
             var input = role.InputCom;
             dir = (targetPos - pos_role).normalized;
-            input.SetInput_Locomotion_Move(dir);
+            input.SetMoveAxis(dir);
 
             return true;
         }

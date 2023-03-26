@@ -3,17 +3,19 @@ namespace TiedanSouls.Generic {
     /// <summary>
     /// 状态标记 (状态标记是一个32位的整数，每一位代表一个状态，可以同时存在多个状态)
     /// </summary>
+    [System.Flags]
     public enum StateFlag : int {
 
         None = 0,               // 无状态
         Idle = 1 << 0,          // 待机
         Dying = 1 << 1,         // 死亡
         Cast = 1 << 2,          // 施法
-        KnockBack = 1 << 3,     // 击退
-        KnockUp = 1 << 4,       // 击飞
-        Root = 1 << 5,          // 禁锢
-        Stun = 1 << 6,          // 眩晕
-        Silence = 1 << 7,       // 沉默
+        SkillMove = 1 << 3,     // 技能移动
+        KnockBack = 1 << 4,     // 击退
+        KnockUp = 1 << 5,       // 击飞
+        Root = 1 << 6,          // 禁锢
+        Stun = 1 << 7,          // 眩晕
+        Silence = 1 << 8,       // 沉默
 
     }
 

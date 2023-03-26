@@ -46,7 +46,7 @@ namespace TiedanSouls.Client.Entities {
             //Follow
             var input = role.InputCom;
             dir = (pos_target - pos_role).normalized;
-            input.SetInput_Locomotion_Move(dir);
+            input.SetMoveAxis(dir);
             return (Vector2.Distance(pos_role, pos_target) > attackRange);
         }
 

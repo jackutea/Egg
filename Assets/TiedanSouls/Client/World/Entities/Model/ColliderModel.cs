@@ -9,7 +9,7 @@ namespace TiedanSouls.Client.Entities {
     /// </summary>
     public class ColliderModel : MonoBehaviour {
 
-        IDArgs father;
+        [SerializeField] IDArgs father;
         public IDArgs Father => father;
 
         ColliderType colliderType;

@@ -21,6 +21,7 @@ namespace TiedanSouls.EditorTool {
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
         [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
         [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
+        [Header("模型: 技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
 
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
@@ -58,6 +59,7 @@ namespace TiedanSouls.EditorTool {
             this.cancelSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.cancelSkillCancelTMArray);
             this.colliderTriggerEMArray = TM2EMUtil.GetEMArray_CollisionTrigger(skillTM.collisionTriggerTMArray);
             this.skillEffectorEMArray = TM2EMUtil.GetEMArray_SkillEffector(skillTM.skillEffectorTMArray);
+            this.skillMoveCurveEMArray = TM2EMUtil.GetEMArray_SkillMoveCurve(skillTM.skillMoveCurveTMArray);
 
             this.weaponAnimClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GUIDToAssetPath(skillTM.weaponAnimClip_GUID));
         }

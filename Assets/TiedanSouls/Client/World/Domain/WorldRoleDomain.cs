@@ -223,59 +223,67 @@ namespace TiedanSouls.Client.Domain {
                 moveAxis.x = -1;
             } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
                 moveAxis.x = 1;
-            } else {
-                moveAxis.x = 0;
             }
-
             if (inputGetter.GetPressing(InputKeyCollection.MOVE_DOWN)) {
                 moveAxis.y = -1;
             } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
                 moveAxis.y = 1;
-            } else {
-                moveAxis.y = 0;
             }
-            moveAxis.Normalize();
-            inputCom.SetInput_Locomotion_Move(moveAxis);
+            bool hasPressMove = moveAxis != Vector2.zero;
+            if (hasPressMove) {
+                moveAxis.Normalize();
+                inputCom.SetMoveAxis(moveAxis);
+                inputCom.SetHasMoveOpt(true);
+            } else {
+                bool hasLooseMove = inputGetter.GetUp(InputKeyCollection.MOVE_LEFT)
+                                    || inputGetter.GetUp(InputKeyCollection.MOVE_RIGHT)
+                                    || inputGetter.GetUp(InputKeyCollection.MOVE_UP)
+                                    || inputGetter.GetUp(InputKeyCollection.MOVE_DOWN);
+                if (hasLooseMove) {
+                    inputCom.SetHasMoveOpt(true);
+                    inputCom.SetMoveAxis(Vector2.zero);
+                }
+            }
 
             // - Jump
             if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
-                inputCom.SetInput_Locomotion_Jump(true);
+                inputCom.SetPressJump(true);
             }
 
             // - Skill Melee && HoldMelee
             if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
-                inputCom.SetInput_Skill__Melee(true);
+                inputCom.SetPressSkillMelee(true);
             }
 
             // - Skill SpecMelee
             if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
-                inputCom.SetInput_Skill_SpecMelee(true);
+                inputCom.SetPressSkillSpecMelee(true);
             }
 
             // - Skill BoomMelee
             if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
-                inputCom.SetInput_Skill_BoomMelee(true);
+                inputCom.SetPressSkillBoomMelee(true);
             }
 
             // - Skill Infinity
             if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
-                inputCom.SetInput_Skill_Infinity(true);
+                inputCom.SetPressSkillInfinity(true);
             }
 
             // - Skill Dash
             if (inputGetter.GetDown(InputKeyCollection.DASH)) {
-                inputCom.SetInput_Skill_Dash(true);
+                inputCom.SetPressSkillDash(true);
             }
 
             // - Pick
             if (inputGetter.GetDown(InputKeyCollection.PICK)) {
-                inputCom.SetInput_Basic_Pick(true);
+                inputCom.SetPressPick(true);
             }
 
             // - Choose Point
             if (inputGetter.GetDown(InputKeyCollection.CHOOSE_POINT)) {
                 var chosenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                inputCom.SetInput_Basic_ChosenPoint(chosenPoint);
+                inputCom.SetChosenPoint(chosenPoint);
             }
         }
 
@@ -291,16 +299,14 @@ namespace TiedanSouls.Client.Domain {
             if (point != Vector2.zero) {
                 var rolePos = role.LogicPos;
                 var xDiff = point.x - rolePos.x;
-                var dirX = (sbyte)(xDiff > 0 ? 1 : xDiff == 0 ? 0 : -1);
-                role.FaceTo(dirX);
+                role.SetLogicFaceTo(xDiff);
             }
         }
 
         public void FaceToMoveDir(RoleEntity role) {
             var inputCom = role.InputCom;
             var x = inputCom.MoveAxis.x;
-            var dirX = (sbyte)(x > 0 ? 1 : x == 0 ? 0 : -1);
-            role.FaceTo(dirX);
+            role.SetLogicFaceTo(x);
         }
 
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {

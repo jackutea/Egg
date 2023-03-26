@@ -48,6 +48,7 @@ namespace TiedanSouls.Client.Domain {
             var stateFlag = fsm.StateFlag;
             if (stateFlag.Contains(StateFlag.Idle)) Tick_Idle(role, fsm, dt);
             if (stateFlag.Contains(StateFlag.Cast)) Tick_Cast(role, fsm, dt);
+            if (stateFlag.Contains(StateFlag.SkillMove)) Tick_SkillMove(role, fsm, dt);
             if (stateFlag.Contains(StateFlag.KnockUp)) Tick_KnockUp(role, fsm, dt);
             if (stateFlag.Contains(StateFlag.KnockBack)) Tick_KnockBack(role, fsm, dt);
             if (stateFlag.Contains(StateFlag.Dying)) Tick_Dying(role, fsm, dt);
@@ -91,7 +92,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 拾取武器
             var inputCom = role.InputCom;
-            if (inputCom.HasInput_Basic_Pick) {
+            if (inputCom.PressPick) {
                 roleDomain.TryPickUpSomethingFromField(role);
             }
 
@@ -116,6 +117,11 @@ namespace TiedanSouls.Client.Domain {
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
 
+            // 技能逻辑迭代
+            if (!castingSkill.TryMoveNext(role.LogicPos, role.LogicRotation)) {
+                fsm.RemoveCast();
+            }
+
             // 技能效果器
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
@@ -135,9 +141,43 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
-            // 技能逻辑迭代
-            if (!castingSkill.TryMoveNext(role.LogicPos, role.LogicRotation)) {
-                fsm.RemoveCast();
+            // 技能位移
+            if (castingSkill.TryGet_ValidSkillMoveCurveModel(out var skillMoveCurveModel)) {
+                fsm.AddSkillMove(skillMoveCurveModel);
+            }
+        }
+
+        /// <summary>
+        /// 技能位移状态
+        /// </summary>
+        void Tick_SkillMove(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var stateModel = fsm.SkillMoveModel;
+            var moveDirArray = stateModel.MoveDirArray;
+            var moveSpeedArray = stateModel.MoveSpeedArray;
+            var len = moveSpeedArray.Length;
+
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
+                // 位移方向 初始化
+                var baseRot = role.LogicRotation;
+                for (int i = 0; i < len; i++) {
+                    var moveDir = moveDirArray[i];
+                    moveDirArray[i] = baseRot * moveDir;
+                }
+            }
+
+            stateModel.curFrame++;
+
+            var moveCom = role.MoveCom;
+            if (stateModel.curFrame < len) {
+                var speed = moveSpeedArray[stateModel.curFrame];
+                var moveDir = moveDirArray[stateModel.curFrame];
+                var vel = moveDir * speed;
+                moveCom.SetVelocity(moveDir * speed);
+                role.SetLogicFaceTo(vel.x);
+            } else if (stateModel.curFrame == len) {
+                moveCom.Stop();
+                fsm.RemoveSkillMove();
             }
         }
 

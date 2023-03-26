@@ -33,8 +33,10 @@ namespace TiedanSouls.Client.Controller {
 
         float resTime;
         public void Tick(float dt) {
+            // ==== Input ====
             worldDomain.RoleDomain.BackPlayerInput();
 
+            // ==== Logic ====
             resTime += dt;
             var logicIntervalTime = GameCollection.LOGIC_INTERVAL_TIME;
             while (resTime >= logicIntervalTime) {
@@ -43,6 +45,7 @@ namespace TiedanSouls.Client.Controller {
                 resTime = resTime < 0 ? 0 : resTime;
             }
 
+            // ==== Render ====
             worldDomain.WorldRendererDomain.Tick(dt);
         }
 

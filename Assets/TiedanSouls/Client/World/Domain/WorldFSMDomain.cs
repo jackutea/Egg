@@ -246,7 +246,7 @@ namespace TiedanSouls.Client.Domain {
             var fieldRepo = worldContext.FieldRepo;
             var playerRole = worldContext.RoleRepo.PlayerRole;
             var inputCom = playerRole.InputCom;
-            if (inputCom.HasInput_Basic_Pick) {
+            if (inputCom.PressPick) {
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 if (!fieldRepo.TryGet(curFieldTypeID, out var curField)) {
                     TDLog.Error($"请检查配置! 当前关卡不存在! FieldTypeID: {stateEntity.CurFieldTypeID}");

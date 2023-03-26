@@ -183,7 +183,7 @@ namespace TiedanSouls.Client.Entities {
             inputCom.Reset();
 
             // - Movement
-            LeaveGround();
+            moveCom.Reset();
 
             // - HUD
             hudSlotCom.Reset();
@@ -214,35 +214,32 @@ namespace TiedanSouls.Client.Entities {
             coll_logicRoot.enabled = false;
         }
 
-        public void FaceTo(sbyte dirX) {
-            if (dirX == 0) {
-                return;
-            }
+        public void SetLogicFaceTo(float dirX) {
+            if (Mathf.Abs(dirX) < 0.01f) return;
 
-            this.faceDirX = dirX;
             var rot = logicRoot.localRotation;
-            if (dirX > 0) {
-                rot.y = 0;
-            } else {
-                rot.y = 180;
-            }
-
+            bool isRight = dirX > 0;
+            if (isRight) rot.y = 0;
+            else rot.y = 180;
             logicRoot.localRotation = rot;
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
             idCom.SetFromFieldTypeID(fieldTypeID);
             skillSlotCom.Foreach_Origin((skill) => {
-                skill.IDCom.SetFromFieldTypeID(fieldTypeID);
+                skill.SetFromFieldTypeID(fieldTypeID);
             });
             skillSlotCom.Foreach_Combo((skill) => {
-                skill.IDCom.SetFromFieldTypeID(fieldTypeID);
+                skill.SetFromFieldTypeID(fieldTypeID);
             });
+            var colliderModel = coll_logicRoot.GetComponent<ColliderModel>();
+            colliderModel.SetFather(idCom.ToArgs());
         }
 
         #region [Locomotion]
 
         public void MoveByInput() {
+            if (!inputCom.HasMoveOpt) return;
             Vector2 moveAxis = inputCom.MoveAxis;
             moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
@@ -252,7 +249,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void JumpByInput() {
-            bool isJumpPress = inputCom.HasInput_Locomotion_JumpDown;
+            bool isJumpPress = inputCom.PressJump;
             if (!isJumpPress) return;
             if (isJumping) return;
             if (!isGrounded) return;

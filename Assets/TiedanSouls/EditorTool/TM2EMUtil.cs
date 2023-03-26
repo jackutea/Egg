@@ -35,6 +35,24 @@ namespace TiedanSouls.EditorTool {
 
         #region [Skill]
 
+        public static SkillMoveCurveEM[] GetEMArray_SkillMoveCurve(SkillMoveCurveTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            SkillMoveCurveEM[] emArray = new SkillMoveCurveEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_SkillMoveCurve(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static SkillMoveCurveEM GetEM_SkillMoveCurve(SkillMoveCurveTM tm) {
+            SkillMoveCurveEM em;
+            em.startFrame = tm.startFrame;
+            em.isFaceTo = tm.isFaceTo;
+            em.moveCurveEM = GetEM_MoveCurve(tm.moveCurveTM);
+            return em;
+        }
+
         public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
@@ -317,8 +335,8 @@ namespace TiedanSouls.EditorTool {
 
         public static MoveCurveEM GetEM_MoveCurve(MoveCurveTM tm) {
             MoveCurveEM em;
-            em.moveDistance = tm.moveDistance_cm;
-            em.moveTotalFrame =  tm.moveTotalFrame;
+            em.moveDistance = GetFloat_Shrink100(tm.moveDistance_cm);
+            em.moveTotalFrame = tm.moveTotalFrame;
             em.disCurve = GetAnimationCurve(tm.disCurve_KeyframeTMArray);
             return em;
         }

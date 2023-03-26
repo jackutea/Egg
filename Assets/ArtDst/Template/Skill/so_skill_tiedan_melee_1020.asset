@@ -48,7 +48,7 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: 3a020000fe010000c2010000860100004a0100000e010000d2000000960000005a0000001e000000
+        knockBackSpeedArray_cm: 
         knockBackDisCurve_KeyframeTMArray:
         - time: 0
           value: 0
@@ -62,13 +62,25 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockBackCostFrame: 10
-        knockBackDistance_cm: 100
+        knockBackCostFrame: 0
+        knockBackDistance_cm: 0
       knockUpPowerTM:
-        knockUpSpeedArray_cm: 
-        knockUpDisCurve_KeyframeTMArray: []
-        knockUpCostFrame: 0
-        knockUpHeight_cm: 0
+        knockUpSpeedArray_cm: 3804000048030000580200006801000078000000
+        knockUpDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockUpCostFrame: 5
+        knockUpHeight_cm: 100
       stateEffectTM:
         addStateFlag: 0
         effectStateValue: 0
@@ -82,5 +94,66 @@ MonoBehaviour:
       colliderRelativePathArray:
       - colliders_0/b1
     skillEffectorTMArray: []
+    skillMoveCurveTMArray:
+    - startFrame: 5
+      isFaceTo: 1
+      moveCurveTM:
+        moveDistance_cm: 500
+        moveTotalFrame: 10
+        disCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        moveSpeedArray: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+        moveDirArray:
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+    - startFrame: 15
+      isFaceTo: 1
+      moveCurveTM:
+        moveDistance_cm: -500
+        moveTotalFrame: 10
+        disCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        moveSpeedArray: def4ffff0af6ffff36f7ffff62f8ffff8ef9ffffbafaffffe6fbffff12fdffff3efeffff6affffff
+        moveDirArray:
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
     weaponAnimName: anim_spear_melee_1020
     weaponAnimClip_GUID: b4189be50390e1a4b9fb109d58662c73

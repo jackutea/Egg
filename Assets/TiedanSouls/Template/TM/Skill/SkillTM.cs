@@ -19,6 +19,7 @@ namespace TiedanSouls.Template {
         [Header("碰撞器(组)")] public CollisionTriggerTM[] collisionTriggerTMArray;
 
         [Header("技能效果器(组)")] public SkillEffectorTM[] skillEffectorTMArray;
+        [Header("模型: 技能位移曲线(组)")] public SkillMoveCurveTM[] skillMoveCurveTMArray;
 
         [Header("武器动画名")] public string weaponAnimName;
         [Header("仅用于编辑时: 武器动画文件GUID")] public string weaponAnimClip_GUID;

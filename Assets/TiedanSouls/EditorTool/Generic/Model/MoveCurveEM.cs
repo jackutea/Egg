@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.EditorTool {
 
     /// <summary>
-    /// 移动曲线模型
+    /// 位移曲线模型
     /// </summary>
     [Serializable]
     public struct MoveCurveEM {

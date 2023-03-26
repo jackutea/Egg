@@ -264,6 +264,8 @@ namespace TiedanSouls.Client {
             skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
             // 技能效果器
             skill.SetSkillEffectorModelArray(TM2ModelUtil.GetModelArray_SkillEffector(skillTM.skillEffectorTMArray));
+            // 技能位移曲线
+            skill.SetSkillMoveCurveModelArray(TM2ModelUtil.GetModelArray_SkillMoveCurve(skillTM.skillMoveCurveTMArray));
             // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 
@@ -330,7 +332,7 @@ namespace TiedanSouls.Client {
 
             bullet.SetTrajectoryType(tm.trajectoryType);
             bullet.entityTrackModel = TM2ModelUtil.GetModel_EntityTrack(tm.entityTrackTM);// 实体追踪模型
-            bullet.moveCurveModel = TM2ModelUtil.GetModel_MoveCurve(tm.moveCurveTM);// 移动曲线模型
+            bullet.moveCurveModel = TM2ModelUtil.GetModel_MoveCurve(tm.moveCurveTM);// 位移曲线模型
 
             bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
 

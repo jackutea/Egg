@@ -36,6 +36,24 @@ namespace TiedanSouls.Client {
 
         #region [Skill]
 
+        public static SkillMoveCurveModel[] GetModelArray_SkillMoveCurve(SkillMoveCurveTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            SkillMoveCurveModel[] modelArray = new SkillMoveCurveModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetModel_SkillMoveCurve(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static SkillMoveCurveModel GetModel_SkillMoveCurve(SkillMoveCurveTM tm) {
+            SkillMoveCurveModel model;
+            model.startFrame = tm.startFrame;
+            model.isFaceTo = tm.isFaceTo;
+            model.moveCurveModel = GetModel_MoveCurve(tm.moveCurveTM);
+            return model;
+        }
+
         public static SkillCancelModel[] GetModelArray_SkillCancel(SkillCancelTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;

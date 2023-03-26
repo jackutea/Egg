@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 移动曲线模型
+    /// 位移曲线模型
     /// </summary>
     [Serializable]
     public struct MoveCurveModel {

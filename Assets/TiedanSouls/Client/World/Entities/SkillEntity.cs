@@ -36,8 +36,24 @@ namespace TiedanSouls.Client.Entities {
 
         // - 技能效果器
         SkillEffectorModel[] skillEffectorModelArray;
-        public SkillEffectorModel[] SkillEffectorModelArray => this.skillEffectorModelArray;
         public void SetSkillEffectorModelArray(SkillEffectorModel[] value) => this.skillEffectorModelArray = value;
+
+        // - 位移曲线模型
+        SkillMoveCurveModel[] skillMoveCurveModelArray;
+        public void SetSkillMoveCurveModelArray(SkillMoveCurveModel[] value) => this.skillMoveCurveModelArray = value;
+        public bool TryGet_ValidSkillMoveCurveModel(out SkillMoveCurveModel skillMoveCurveModel) {
+            skillMoveCurveModel = default;
+            if (curFrame < 0) return false;
+            var len = skillMoveCurveModelArray?.Length;
+            for (int i = 0; i < len; i++) {
+                var model = skillMoveCurveModelArray[i];
+                if (model.startFrame != curFrame) continue;
+                skillMoveCurveModel = model;
+                return true;
+            }
+
+            return false;
+        }
 
         // - 表现层
         string weaponAnimName;
@@ -74,6 +90,21 @@ namespace TiedanSouls.Client.Entities {
                     var size = colliderModel.Size;
                     colliderModel.transform.localScale = size;
                     colliderModel.Deactivate();
+                }
+            }
+        }
+
+        public void SetFromFieldTypeID(int fieldTypeID) {
+            idCom.SetFromFieldTypeID(fieldTypeID);
+            var len = collisionTriggerArray.Length;
+            var idArgs = idCom.ToArgs();
+            for (int i = 0; i < len; i++) {
+                var triggerModel = collisionTriggerArray[i];
+                var colliderModelArray = triggerModel.colliderModelArray;
+                var colliderCount = colliderModelArray.Length;
+                for (int j = 0; j < colliderCount; j++) {
+                    var colliderModel = colliderModelArray[j];
+                    colliderModel.SetFather(idArgs);
                 }
             }
         }
@@ -147,7 +178,6 @@ namespace TiedanSouls.Client.Entities {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
-                    if(model.hitEffectorTypeID == 0) continue;
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus != TriggerStatus.None) {
                         collisionTriggerModel = model;
@@ -163,6 +193,7 @@ namespace TiedanSouls.Client.Entities {
             if (skillEffectorModelArray != null) {
                 for (int i = 0; i < skillEffectorModelArray.Length; i++) {
                     SkillEffectorModel model = skillEffectorModelArray[i];
+                    if (model.effectorTypeID == 0) continue;
                     if (model.triggerFrame == curFrame) {
                         effectorModel = model;
                         return true;

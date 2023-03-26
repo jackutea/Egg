@@ -43,12 +43,13 @@ namespace TiedanSouls.Client.Domain {
             if (readyModel.IsEntering) {
                 readyModel.SetIsEntering(false);
 
+                var playerRole = worldContext.RoleRepo.PlayerRole;
+                playerRole.Reset();
                 var door = readyModel.EnterDoorModel;
                 var doorPos = door.pos;
-                var playerRole = worldContext.RoleRepo.PlayerRole;
                 doorPos.y = playerRole.LogicPos.y;
-                playerRole.SetFromFieldTypeID(field.IDCom.TypeID);
                 playerRole.SetLogicPos(doorPos);
+                playerRole.SetFromFieldTypeID(field.IDCom.TypeID);
                 playerRole.Renderer_Sync();
                 playerRole.name = $"主角_{playerRole.IDCom}";
             }

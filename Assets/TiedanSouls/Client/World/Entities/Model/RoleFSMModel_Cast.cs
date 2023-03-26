@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace TiedanSouls.Generic {
+namespace TiedanSouls.Client.Entities  {
 
-    public class RoleFSMModel_Casting {
+    public class RoleFSMModel_Cast {
 
         bool isEntering;
         public bool IsEntering => isEntering;
@@ -22,7 +22,7 @@ namespace TiedanSouls.Generic {
 
         public int maintainFrame;
 
-        public RoleFSMModel_Casting() { }
+        public RoleFSMModel_Cast() { }
 
         public void Reset() {
             isEntering = false;

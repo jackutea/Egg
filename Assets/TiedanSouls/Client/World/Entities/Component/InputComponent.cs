@@ -7,68 +7,73 @@ namespace TiedanSouls.Client.Entities {
 
         Vector2 moveAxis;
         public Vector2 MoveAxis => moveAxis;
-        public void SetInput_Locomotion_Move(Vector2 value) => this.moveAxis = value;
+        public void SetMoveAxis(Vector2 value) => this.moveAxis = value;
 
-        bool hasInput_Locomotion_Jump;
-        public bool HasInput_Locomotion_JumpDown => hasInput_Locomotion_Jump;
-        public void SetInput_Locomotion_Jump(bool value) => this.hasInput_Locomotion_Jump = value;
+        bool hasMoveOpt;
+        public bool HasMoveOpt => hasMoveOpt;
+        public void SetHasMoveOpt(bool value) => this.hasMoveOpt = value;
 
-        bool hasInput_Skill_Melee;
-        public bool HasInput_Skill_Melee => hasInput_Skill_Melee;
-        public void SetInput_Skill__Melee(bool value) => this.hasInput_Skill_Melee = value;
+        bool pressJump;
+        public bool PressJump => pressJump;
+        public void SetPressJump(bool value) => this.pressJump = value;
 
-        bool hasInput_Skill_SpecMelee;
-        public bool HasInput_Skill_SpecMelee => hasInput_Skill_SpecMelee;
-        public void SetInput_Skill_SpecMelee(bool value) => this.hasInput_Skill_SpecMelee = value;
+        bool pressSkillMelee;
+        public bool PressSkillMelee => pressSkillMelee;
+        public void SetPressSkillMelee(bool value) => this.pressSkillMelee = value;
 
-        bool hasInpout_Skill_BoomMelee;
-        public bool HasInpout_BoomMelee => hasInpout_Skill_BoomMelee;
-        public void SetInput_Skill_BoomMelee(bool value) => this.hasInpout_Skill_BoomMelee = value;
+        bool pressSkillSpecMelee;
+        public bool PressSkillSpecMelee => pressSkillSpecMelee;
+        public void SetPressSkillSpecMelee(bool value) => this.pressSkillSpecMelee = value;
 
-        bool hasInput_Skill_Infinity;
-        public bool HasInput_Skill_Infinity => hasInput_Skill_Infinity;
-        public void SetInput_Skill_Infinity(bool value) => this.hasInput_Skill_Infinity = value;
+        bool pressSkillBoomMelee;
+        public bool PressSkillBoomMelee => pressSkillBoomMelee;
+        public void SetPressSkillBoomMelee(bool value) => this.pressSkillBoomMelee = value;
 
-        bool hasInput_Skill_Dash;
-        public bool HasInput_Skill_Dash => hasInput_Skill_Dash;
-        public void SetInput_Skill_Dash(bool value) => this.hasInput_Skill_Dash = value;
+        bool pressSkillInfinity;
+        public bool PressSkillInfinity => pressSkillInfinity;
+        public void SetPressSkillInfinity(bool value) => this.pressSkillInfinity = value;
 
-        bool hasInput_Basic_Pick;
-        public bool HasInput_Basic_Pick => hasInput_Basic_Pick;
-        public void SetInput_Basic_Pick(bool value) => this.hasInput_Basic_Pick = value;
+        bool pressSkillDash;
+        public bool PressSkillDash => pressSkillDash;
+        public void SetPressSkillDash(bool value) => this.pressSkillDash = value;
+
+        bool pressPick;
+        public bool PressPick => pressPick;
+        public void SetPressPick(bool value) => this.pressPick = value;
 
         Vector2 chosenPoint;
         public Vector2 ChosenPoint => chosenPoint;
-        public void SetInput_Basic_ChosenPoint(Vector2 value) => this.chosenPoint = value;
+        public void SetChosenPoint(Vector2 value) => this.chosenPoint = value;
 
         public InputComponent() { }
 
         public void Reset() {
             moveAxis = Vector2.zero;
-            hasInput_Locomotion_Jump = false;
-            hasInput_Skill_Melee = false;
-            hasInput_Skill_SpecMelee = false;
-            hasInpout_Skill_BoomMelee = false;
-            hasInput_Skill_Infinity = false;
-            hasInput_Skill_Dash = false;
-            hasInput_Basic_Pick = false;
+            hasMoveOpt = false;
+            pressJump = false;
+            pressSkillMelee = false;
+            pressSkillSpecMelee = false;
+            pressSkillBoomMelee = false;
+            pressSkillInfinity = false;
+            pressSkillDash = false;
+            pressPick = false;
             chosenPoint = Vector2.zero;
         }
 
         public SkillType GetSkillType() {
-            if (hasInput_Skill_Melee) {
+            if (pressSkillMelee) {
                 return SkillType.Melee;
             }
-            if (hasInput_Skill_SpecMelee) {
+            if (pressSkillSpecMelee) {
                 return SkillType.SpecMelee;
             }
-            if (hasInpout_Skill_BoomMelee) {
+            if (pressSkillBoomMelee) {
                 return SkillType.BoomMelee;
             }
-            if (hasInput_Skill_Infinity) {
+            if (pressSkillInfinity) {
                 return SkillType.Infinity;
             }
-            if (hasInput_Skill_Dash) {
+            if (pressSkillDash) {
                 return SkillType.Dash;
             }
             return SkillType.None;
