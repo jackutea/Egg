@@ -25,7 +25,7 @@ namespace TiedanSouls.EditorTool {
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
             em.extraHitTimes = tm.extraHitTimes;
-            em.localPos_cm = tm.localPos_cm;
+            em.localPos = GetVector3_Shrink100(tm.localPos_cm);
             em.localEulerAngles = tm.localEulerAngles;
             em.bulletTypeID = tm.bulletTypeID;
             return em;
@@ -138,7 +138,7 @@ namespace TiedanSouls.EditorTool {
             KnockBackEM em;
 
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
-            em.knockBackDistance_cm = tm.knockBackDistance_cm;
+            em.knockBackDistance = GetFloat_Shrink100(tm.knockBackDistance_cm);
             em.knockBackCostFrame = tm.knockBackCostFrame;
 
             return em;
@@ -148,7 +148,7 @@ namespace TiedanSouls.EditorTool {
             KnockUpEM em;
 
             em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
-            em.knockUpHeight_cm = tm.knockUpCostFrame;
+            em.knockUpHeight = GetFloat_Shrink100(tm.knockUpHeight_cm);
             em.knockUpCostFrame = tm.knockUpCostFrame;
 
             return em;
@@ -317,6 +317,10 @@ namespace TiedanSouls.EditorTool {
 
         public static float GetFloat_Shrink100(int value) {
             return value / 100f;
+        }
+
+        public static Vector3 GetVector3_Shrink100(Vector3Int value) {
+            return new Vector3(value.x / 100f, value.y / 100f, value.z / 100f);
         }
 
         #endregion

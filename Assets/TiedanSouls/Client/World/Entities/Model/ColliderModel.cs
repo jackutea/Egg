@@ -73,9 +73,10 @@ namespace TiedanSouls.Client.Entities {
 
         void OnTriggerStay2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
-
             var otherFather = otherColliderModel.father;
-            if (!IsRightHitTarget(otherFather)) return;
+            if (!IsRightHitTarget(otherFather)) {
+                return;
+            }
 
             CollisionEventArgs args = new CollisionEventArgs(father, otherFather);
             onTriggerStay2D?.Invoke(args);
@@ -83,9 +84,10 @@ namespace TiedanSouls.Client.Entities {
 
         void OnTriggerExit2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
-
             var otherFather = otherColliderModel.father;
-            if (!IsRightHitTarget(otherFather)) return;
+            if (!IsRightHitTarget(otherFather)) {
+                return;
+            }
 
             CollisionEventArgs args = new CollisionEventArgs(father, otherFather);
             onTriggerExit2D?.Invoke(args);

@@ -10,7 +10,7 @@ namespace TiedanSouls.EditorTool {
     public struct KnockUpEM {
 
         // 击飞
-        [Header("击飞高度")] public int knockUpHeight_cm;
+        [Header("击飞高度(m)")] public float knockUpHeight;
         [Header("击飞帧数")] public int knockUpCostFrame;
         [Header("击飞位移曲线")] public AnimationCurve knockUpDisCurve;
 

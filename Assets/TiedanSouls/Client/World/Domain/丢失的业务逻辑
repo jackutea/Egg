@@ -1,4 +1,0 @@
-// 受击技能打断 需要重置
-var skillSlotCom = role.SkillSlotCom;
-_ = skillSlotCom.TryGet(castingSkillTypeID, out var castingSkill);
-castingSkill.Reset();

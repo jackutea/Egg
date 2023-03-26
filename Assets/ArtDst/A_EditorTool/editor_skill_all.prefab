@@ -54,12 +54,12 @@ MonoBehaviour:
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   colliderTriggerEMArray:
-  - isEnabled: 0
-    totalFrame: 0
-    delayFrame: 0
+  - isEnabled: 1
+    totalFrame: 999
+    delayFrame: 7
     intervalFrame: 0
     maintainFrame: 0
-    relativeTargetGroupType: 0
+    relativeTargetGroupType: 4
     damageEM:
       damageType: 3
       damageBase: 10
@@ -88,8 +88,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 1500
-      knockBackCostFrame: 10
+      knockBackDistance: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -115,7 +115,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 0
+      knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
@@ -133,7 +133,7 @@ MonoBehaviour:
   skillEffectorEMArray:
   - effectorTypeID: 9999
     triggerFrame: 10
-    offsetPos: {x: 2, y: 1.5, z: 0}
+    offsetPos: {x: 2, y: 0, z: 0}
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
 GameObject:
@@ -339,11 +339,11 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 0
-    delayFrame: 0
+    totalFrame: 999
+    delayFrame: 7
     intervalFrame: 0
     maintainFrame: 0
-    relativeTargetGroupType: 0
+    relativeTargetGroupType: 4
     damageEM:
       damageType: 3
       damageBase: 50
@@ -372,7 +372,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 500
+      knockBackDistance: 1
       knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
@@ -399,7 +399,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 0
+      knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
@@ -1003,11 +1003,11 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 0
-    delayFrame: 0
+    totalFrame: 999
+    delayFrame: 7
     intervalFrame: 0
     maintainFrame: 0
-    relativeTargetGroupType: 0
+    relativeTargetGroupType: 4
     damageEM:
       damageType: 3
       damageBase: 60
@@ -1036,7 +1036,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 500
+      knockBackDistance: 1
       knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
@@ -1063,7 +1063,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 0
+      knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
@@ -1138,11 +1138,11 @@ MonoBehaviour:
     endFrame: 20
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 0
-    delayFrame: 0
+    totalFrame: 999
+    delayFrame: 7
     intervalFrame: 0
     maintainFrame: 0
-    relativeTargetGroupType: 0
+    relativeTargetGroupType: 4
     damageEM:
       damageType: 3
       damageBase: 70
@@ -1171,7 +1171,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 1000
+      knockBackDistance: 1
       knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
@@ -1198,7 +1198,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 0
+      knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2

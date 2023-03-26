@@ -39,7 +39,7 @@ namespace TiedanSouls.EditorTool {
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
             tm.extraHitTimes = em.extraHitTimes;
-            tm.localPos_cm = em.localPos_cm;
+            tm.localPos_cm = GetVector3Int_Expand100(em.localPos);
             tm.localEulerAngles = em.localEulerAngles;
             tm.bulletTypeID = em.bulletTypeID;
 
@@ -167,8 +167,7 @@ namespace TiedanSouls.EditorTool {
         /// </summary>
         public static KnockBackTM GetTM_KnockBack(KnockBackEM em) {
             KnockBackTM tm;
-            // 
-            var knockBackDistance_cm = em.knockBackDistance_cm;
+            var knockBackDistance_cm = GetInt_Expand100(em.knockBackDistance);
             var knockBackCostFrame = em.knockBackCostFrame;
             var knockBackDisCurve = em.knockBackDisCurve;
             var knockBackSpeedArray_cm = GetSpeedArray_AnimationCurve(knockBackDistance_cm, knockBackCostFrame, knockBackDisCurve);
@@ -184,7 +183,7 @@ namespace TiedanSouls.EditorTool {
         /// </summary>
         public static KnockUpTM GetTM_KnockUp(KnockUpEM em) {
             KnockUpTM tm;
-            var knockUpHeight_cm = em.knockUpHeight_cm;
+            var knockUpHeight_cm = GetInt_Expand100(em.knockUpHeight);
             var knockUpCostFrame = em.knockUpCostFrame;
             var knockUpDisCurve = em.knockUpDisCurve;
             var knockUpSpeedArray_cm = GetSpeedArray_AnimationCurve(knockUpHeight_cm, knockUpCostFrame, knockUpDisCurve);
@@ -498,6 +497,10 @@ namespace TiedanSouls.EditorTool {
 
         static int GetInt_Expand100(float v) {
             return Mathf.RoundToInt(v * 100);
+        }
+
+        static Vector3Int GetVector3Int_Expand100(Vector3 v) {
+            return new Vector3Int(Mathf.RoundToInt(v.x * 100), Mathf.RoundToInt(v.y * 100), Mathf.RoundToInt(v.z * 100));
         }
 
         #endregion

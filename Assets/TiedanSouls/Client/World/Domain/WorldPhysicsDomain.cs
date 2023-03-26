@@ -31,7 +31,6 @@ namespace TiedanSouls.Client.Domain {
                 _ = rootDomain.TryGetEntityObj(idArgs1, out var entity1);
                 _ = rootDomain.TryGetEntityObj(idArgs2, out var entity2);
                 HandleTriggerEnter(entity1, entity2);
-                TDLog.Log($"idArgs1 = {idArgs1}, idArgs2 = {idArgs2}");
             }
 
             while (collisionEventRepo.TryPick_Exit(out var ev)) {
@@ -142,7 +141,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void HandleTriggerEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
-            TDLog.Log($"碰撞事件<Trigger - Enter>:\n{role1.IDCom}\n{role2.IDCom}");
+            // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{role1.IDCom}\n{role2.IDCom}");
         }
 
         void HandleTriggerEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {

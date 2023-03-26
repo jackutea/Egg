@@ -55,11 +55,8 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
+            // 技能碰撞盒关联
             skillSlotCom.Foreach_Origin((skill) => {
-                var skillIDArgs = skill.IDCom.ToArgs();
-                rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
-            });
-            skillSlotCom.Foreach_Combo((skill) => {
                 var skillIDArgs = skill.IDCom.ToArgs();
                 rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
             });
@@ -98,6 +95,12 @@ namespace TiedanSouls.Client.Domain {
                         AddComboSkill(skillSlotCom, comboSkill.ComboSkillCancelModelArray, father_lambda);
                     }
                 }
+
+                // 技能碰撞盒关联
+                skillSlotCom.Foreach_Combo((skill) => {
+                    var skillIDArgs = skill.IDCom.ToArgs();
+                    rootDomain.SetFather_CollisionTriggerModelArray(skill.CollisionTriggerArray, skillIDArgs);
+                });
             }
         }
 

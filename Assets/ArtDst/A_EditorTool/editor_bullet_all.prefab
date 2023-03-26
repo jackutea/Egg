@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285879737727348702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.04394201}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -135,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6683752914446885422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4564545, y: 3.935334, z: -0.04394201}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -227,7 +227,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 300
+      knockBackDistance: 5
       knockBackCostFrame: 10
       knockBackDisCurve:
         serializedVersion: 2
@@ -254,8 +254,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 10
-      knockUpCostFrame: 10
+      knockUpHeight: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -538,8 +538,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackPowerEM:
-      knockBackDistance_cm: 300
-      knockBackCostFrame: 10
+      knockBackDistance: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -565,8 +565,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpPowerEM:
-      knockUpHeight_cm: 500
-      knockUpCostFrame: 10
+      knockUpHeight: 8
+      knockUpCostFrame: 30
       knockUpDisCurve:
         serializedVersion: 2
         m_Curve:

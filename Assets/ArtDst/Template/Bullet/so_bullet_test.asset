@@ -40,7 +40,7 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: ae060000fa0500004605000092040000de0300002a03000076020000c20100000e0100005a000000
+        knockBackSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
         knockBackDisCurve_KeyframeTMArray:
         - time: 0
           value: 0
@@ -55,9 +55,9 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         knockBackCostFrame: 10
-        knockBackDistance_cm: 300
+        knockBackDistance_cm: 500
       knockUpPowerTM:
-        knockUpSpeedArray_cm: 39000000330000002d00000027000000210000001b000000150000000f0000000900000003000000
+        knockUpSpeedArray_cm: 
         knockUpDisCurve_KeyframeTMArray:
         - time: 0
           value: 0
@@ -71,8 +71,8 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockUpCostFrame: 10
-        knockUpHeight_cm: 10
+        knockUpCostFrame: 0
+        knockUpHeight_cm: 0
       stateEffectTM:
         addStateFlag: 0
         effectStateValue: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
-        localPos: {x: 2.4564545, y: 3.935334, z: 0}
+        localPos: {x: 0, y: 0, z: 0}
         localAngleZ: 0
         size: {x: 2, y: 2, z: 2}
       colliderRelativePathArray:
