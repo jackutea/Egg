@@ -58,14 +58,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [生命周期]
-
-        int moveTotalFrame;
-        public int MoveTotalFrame => moveTotalFrame;
-        public void SetMoveTotalFrame(int value) => moveTotalFrame = value;
-
-        #endregion
-
         #region [碰撞器]
 
         CollisionTriggerModel collisionTriggerModel;
@@ -99,22 +91,13 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [子弹轨迹]
+        #region [飞行轨迹]
 
         TrajectoryType trajectoryType;
         public TrajectoryType TrajectoryType => trajectoryType;
         public void SetTrajectoryType(TrajectoryType value) => this.trajectoryType = value;
 
-        #region [直线]
-
-        float[] moveSpeedArray;
-        public void SetMoveSpeedArray(float[] value) => this.moveSpeedArray = value;
-
-        Vector3[] moveDirArray;
-        public void SetMoveDirArray(Vector3[] value) => this.moveDirArray = value;
-
-        #endregion
-
+        public MoveCurveModel moveCurveModel;       // 移动曲线模型
         public EntityTrackModel entityTrackModel;   // 实体跟踪模型
 
         #endregion
@@ -188,6 +171,8 @@ namespace TiedanSouls.Client.Entities {
 
         public bool CanMove(int frame) {
             var index = frame;
+            var moveSpeedArray = moveCurveModel.moveSpeedArray;
+            var moveDirArray = moveCurveModel.moveDirArray;
             if (index >= moveSpeedArray.Length) return false;
             if (index >= moveDirArray.Length) return false;
             return true;
@@ -195,6 +180,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool IsJustPassLastMoveFrame(int frame) {
             var index = frame;
+            var moveSpeedArray = moveCurveModel.moveSpeedArray;
             return index == moveSpeedArray.Length - 1;
         }
 
@@ -212,6 +198,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool TryGetMoveSpeed(int frame, out float speed) {
             speed = 0;
+            var moveSpeedArray = moveCurveModel.moveSpeedArray;
             if (moveSpeedArray == null) {
                 TDLog.Warning("子弹移动 速度 数组为空");
                 return false;
@@ -228,6 +215,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool TryGetMoveDir(int frame, out Vector3 moveDir) {
             moveDir = Vector3.zero;
+            var moveDirArray = moveCurveModel.moveDirArray;
             if (moveDirArray == null) {
                 TDLog.Warning("子弹移动 方向 数组为空");
                 return false;

@@ -15,6 +15,62 @@ MonoBehaviour:
   tm:
     typeID: 9999
     bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+    trajectoryType: 1
+    moveCurveTM:
+      moveDistance_cm: 1000
+      moveTotalFrame: 10
+      disCurve_KeyframeTMArray:
+      - time: 0
+        value: 0
+        inTangent: 1
+        outTangent: 1
+        inWeight: 0
+        outWeight: 0
+      - time: 1
+        value: 1
+        inTangent: 1
+        outTangent: 1
+        inWeight: 0
+        outWeight: 0
+      moveSpeedArray: b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000
+      moveDirArray:
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+    entityTrackTM:
+      trackSpeed_cm: 0
+      trackTargetGroupType: 0
+      entityTrackSelectorTM:
+        entityType: 0
+        isAttributeSelectorEnabled: 0
+        attributeSelectorTM:
+          hp: 0
+          hp_ComparisonType: 0
+          hpMax: 0
+          hpMax_ComparisonType: 0
+          ep: 0
+          ep_ComparisonType: 0
+          epMax: 0
+          epMax_ComparisonType: 0
+          gp: 0
+          gp_ComparisonType: 0
+          gpMax: 0
+          gpMax_ComparisonType: 0
+          moveSpeed: 0
+          moveSpeed_ComparisonType: 0
+          jumpSpeed: 0
+          jumpSpeed_ComparisonType: 0
+          fallingAcceleration: 0
+          fallingAcceleration_ComparisonType: 0
+          fallingSpeedMax: 0
+          fallingSpeedMax_ComparisonType: 0
     collisionTriggerTM:
       isEnabled: 1
       totalFrame: 120
@@ -87,80 +143,5 @@ MonoBehaviour:
       - collider
     deathEffectorTypeID: 0
     extraPenetrateCount: 1
-    trajectoryType: 1
-    moveDistance_cm: 5000
-    moveTotalFrame: 30
-    moveSpeedArray_cm: 881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000881300008813000088130000
-    moveDirArray:
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    entityTrackTM:
-      trackSpeed_cm: 0
-      trackTargetGroupType: 0
-      entityTrackSelectorTM:
-        entityType: 0
-        isAttributeSelectorEnabled: 0
-        attributeSelectorTM:
-          hp: 0
-          hp_ComparisonType: 0
-          hpMax: 0
-          hpMax_ComparisonType: 0
-          ep: 0
-          ep_ComparisonType: 0
-          epMax: 0
-          epMax_ComparisonType: 0
-          gp: 0
-          gp_ComparisonType: 0
-          gpMax: 0
-          gpMax_ComparisonType: 0
-          moveSpeed: 0
-          moveSpeed_ComparisonType: 0
-          jumpSpeed: 0
-          jumpSpeed_ComparisonType: 0
-          fallingAcceleration: 0
-          fallingAcceleration_ComparisonType: 0
-          fallingSpeedMax: 0
-          fallingSpeedMax_ComparisonType: 0
-    disCurve_KeyframeTMArray:
-    - time: 0
-      value: 0
-      inTangent: 1
-      outTangent: 1
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inTangent: 1
-      outTangent: 1
-      inWeight: 0
-      outWeight: 0
     vfxPrefabName: vfx_test_bullet
     vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595

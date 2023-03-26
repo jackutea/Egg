@@ -61,20 +61,16 @@ namespace TiedanSouls.EditorTool {
 
             tm.extraPenetrateCount = editorGO.extraPenetrateCount;
 
-            var moveTotalFrame = editorGO.moveTotalFrame;
-            var disCurve = editorGO.disCurve;
-            var moveDistance_cm = GetInt_Expand100(editorGO.moveDistance);
+            var moveCurveEM = editorGO.moveCurveEM;
+
+            var moveTotalFrame = moveCurveEM.moveTotalFrame;
+            var disCurve = moveCurveEM.disCurve;
+            var moveDistance_cm = GetInt_Expand100(moveCurveEM.moveDistance);
 
             tm.trajectoryType = editorGO.trajectoryType;
-
+            
             tm.entityTrackTM = GetTM_EntityTrack(editorGO.entityTrackingEM);
-
-            tm.moveTotalFrame = moveTotalFrame;
-            tm.moveDistance_cm = moveDistance_cm;
-            tm.moveSpeedArray_cm = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
-            tm.moveDirArray = GetDirectionArray_AnimationCurve(moveTotalFrame, null);
-            tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
-
+            tm.moveCurveTM = GetTM_MoveCurve(moveCurveEM);
 
             var vfxPrefab = editorGO.vfxPrefab;
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
@@ -455,6 +451,25 @@ namespace TiedanSouls.EditorTool {
                 keyFrameArray[i] = new KeyframeTM(keyframeArray[i]);
             }
             return keyFrameArray;
+        }
+
+        #endregion
+
+        #region [MoveCurve]
+
+        public static MoveCurveTM GetTM_MoveCurve(MoveCurveEM em) {
+            var moveDistance_cm = GetInt_Expand100(em.moveDistance);
+            var moveTotalFrame = em.moveTotalFrame;
+            var disCurve = em.disCurve;
+
+            MoveCurveTM tm;
+            tm.moveDistance_cm = moveDistance_cm;
+            tm.moveTotalFrame = moveTotalFrame;
+            tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
+            tm.moveSpeedArray = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
+            tm.moveDirArray = GetDirectionArray_AnimationCurve(em.moveTotalFrame, disCurve);
+
+            return tm;
         }
 
         #endregion

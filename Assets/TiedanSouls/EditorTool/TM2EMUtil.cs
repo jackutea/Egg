@@ -313,6 +313,18 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
+        #region [MoveCurve]
+
+        public static MoveCurveEM GetEM_MoveCurve(MoveCurveTM tm) {
+            MoveCurveEM em;
+            em.moveDistance = tm.moveDistance_cm;
+            em.moveTotalFrame =  tm.moveTotalFrame;
+            em.disCurve = GetAnimationCurve(tm.disCurve_KeyframeTMArray);
+            return em;
+        }
+
+        #endregion
+
         #region [Misc]
 
         public static float GetFloat_Shrink100(int value) {

@@ -309,6 +309,17 @@ namespace TiedanSouls.Client {
 
         #endregion
 
+        #region [MoveCurve]
+
+        public static MoveCurveModel GetModel_MoveCurve(MoveCurveTM tm) {
+            MoveCurveModel model;
+            model.moveSpeedArray = GetFloatArray_Shrink100(tm.moveSpeedArray);
+            model.moveDirArray = GetVector3Array_Normalized(GetVector3Array_Shrink100(tm.moveDirArray));
+            return model;
+        }
+
+        #endregion
+
         #region [Selector]
 
         public static AttributeSelectorModel[] GetModelArray_AttributeSelector(AttributeSelectorTM[] tmArray) {

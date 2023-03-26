@@ -102,15 +102,10 @@ namespace TiedanSouls.Client.Domain {
             var bulletDomain = this.rootDomain.BulletDomain;
             if (trajectoryType == TrajectoryType.Track) {
                 bulletDomain.MoveToTrackingTarget(bullet);
-            } else if (trajectoryType == TrajectoryType.Straight) {
+            } else if (trajectoryType == TrajectoryType.Curve) {
                 bulletDomain.MoveStraight(bullet);
             } else {
                 TDLog.Error($"未处理的移动轨迹类型 {trajectoryType}");
-            }
-
-            if (model.curFrame == bullet.MoveTotalFrame - 1) {
-                moveCom.Stop();
-                // TODO: 业务逻辑：子弹到达终点后，不一定立马消失，有可能进入未激活状态，等待 某一事件 or 固定事件 继续激活
             }
         }
 

@@ -192,6 +192,61 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: e48d156f05bc7704392b8859a0b618d1, type: 2}
   typeID: 9999
   bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+  trajectoryType: 1
+  moveCurveEM:
+    moveDistance: 10
+    moveTotalFrame: 10
+    disCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  entityTrackingEM:
+    trackSpeed: 0
+    trackTargetGroupType: 0
+    entityTrackSelectorEM:
+      entityType: 0
+      isAttributeSelectorEnabled: 0
+      attributeSelectorEM:
+        hp: 0
+        hp_ComparisonType: 0
+        hpMax: 0
+        hpMax_ComparisonType: 0
+        ep: 0
+        ep_ComparisonType: 0
+        epMax: 0
+        epMax_ComparisonType: 0
+        gp: 0
+        gp_ComparisonType: 0
+        gpMax: 0
+        gpMax_ComparisonType: 0
+        moveSpeed: 0
+        moveSpeed_ComparisonType: 0
+        jumpSpeed: 0
+        jumpSpeed_ComparisonType: 0
+        fallingAcceleration: 0
+        fallingAcceleration_ComparisonType: 0
+        fallingSpeedMax: 0
+        fallingSpeedMax_ComparisonType: 0
   collisionTriggerEM:
     isEnabled: 1
     totalFrame: 120
@@ -287,63 +342,9 @@ MonoBehaviour:
       effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 285879737727348702}
-  deathEffectorTypeID: 0
   extraPenetrateCount: 1
+  deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
-  trajectoryType: 1
-  moveDistance: 50
-  moveTotalFrame: 30
-  disCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  entityTrackingEM:
-    trackSpeed: 0
-    trackTargetGroupType: 0
-    entityTrackSelectorEM:
-      entityType: 0
-      isAttributeSelectorEnabled: 0
-      attributeSelectorEM:
-        hp: 0
-        hp_ComparisonType: 0
-        hpMax: 0
-        hpMax_ComparisonType: 0
-        ep: 0
-        ep_ComparisonType: 0
-        epMax: 0
-        epMax_ComparisonType: 0
-        gp: 0
-        gp_ComparisonType: 0
-        gpMax: 0
-        gpMax_ComparisonType: 0
-        moveSpeed: 0
-        moveSpeed_ComparisonType: 0
-        jumpSpeed: 0
-        jumpSpeed_ComparisonType: 0
-        fallingAcceleration: 0
-        fallingAcceleration_ComparisonType: 0
-        fallingSpeedMax: 0
-        fallingSpeedMax_ComparisonType: 0
 --- !u!1 &8766878982541236908
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +504,43 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 2f6b8c99cb353d2499a5974f834ba7ad, type: 2}
   typeID: 99991
   bulletName: "\u8DDF\u8E2A\u5B50\u5F39"
+  trajectoryType: 2
+  moveCurveEM:
+    moveDistance: 0
+    moveTotalFrame: 0
+    disCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  entityTrackingEM:
+    trackSpeed: 10
+    trackTargetGroupType: 4
+    entityTrackSelectorEM:
+      entityType: 1
+      isAttributeSelectorEnabled: 0
+      attributeSelectorEM:
+        hp: 0
+        hp_ComparisonType: 0
+        hpMax: 0
+        hpMax_ComparisonType: 0
+        ep: 0
+        ep_ComparisonType: 0
+        epMax: 0
+        epMax_ComparisonType: 0
+        gp: 0
+        gp_ComparisonType: 0
+        gpMax: 0
+        gpMax_ComparisonType: 0
+        moveSpeed: 0
+        moveSpeed_ComparisonType: 0
+        jumpSpeed: 0
+        jumpSpeed_ComparisonType: 0
+        fallingAcceleration: 0
+        fallingAcceleration_ComparisonType: 0
+        fallingSpeedMax: 0
+        fallingSpeedMax_ComparisonType: 0
   collisionTriggerEM:
     isEnabled: 1
     totalFrame: 120
@@ -598,60 +636,6 @@ MonoBehaviour:
       effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 8766878982541236908}
-  deathEffectorTypeID: 0
   extraPenetrateCount: 0
+  deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: c57b42eb162926d45b358a9f0055727a, type: 3}
-  trajectoryType: 2
-  moveDistance: 50
-  moveTotalFrame: 30
-  disCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  entityTrackingEM:
-    trackSpeed: 10
-    trackTargetGroupType: 4
-    entityTrackSelectorEM:
-      entityType: 1
-      isAttributeSelectorEnabled: 0
-      attributeSelectorEM:
-        hp: 0
-        hp_ComparisonType: 0
-        hpMax: 0
-        hpMax_ComparisonType: 0
-        ep: 0
-        ep_ComparisonType: 0
-        epMax: 0
-        epMax_ComparisonType: 0
-        gp: 0
-        gp_ComparisonType: 0
-        gpMax: 0
-        gpMax_ComparisonType: 0
-        moveSpeed: 0
-        moveSpeed_ComparisonType: 0
-        jumpSpeed: 0
-        jumpSpeed_ComparisonType: 0
-        fallingAcceleration: 0
-        fallingAcceleration_ComparisonType: 0
-        fallingSpeedMax: 0
-        fallingSpeedMax_ComparisonType: 0

@@ -219,7 +219,6 @@ namespace TiedanSouls.Client.Domain {
             } else if (bullet.IsJustPassLastMoveFrame(curFrame)) {
                 moveCom.Stop();
             }
-
         }
 
         #endregion
