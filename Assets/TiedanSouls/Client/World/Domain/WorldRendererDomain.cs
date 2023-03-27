@@ -19,9 +19,10 @@ namespace TiedanSouls.Client.Domain {
 
         public void Tick(float dt) {
             // 角色
+            var roleDomain = worldContext.RootDomain.RoleDomain;
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_All((role) => {
-                role.Renderer_Easing(dt);
+                roleDomain.Renderer_Easing(role, dt);
                 role.HudSlotCom.HpBarHUD.Tick(dt);
             });
 

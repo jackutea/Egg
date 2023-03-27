@@ -121,7 +121,7 @@ namespace TiedanSouls.Client {
             model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
             model.knockUpPowerModel = GetModel_KnockUp(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
-            model.stateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
+            model.roleStateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
             model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.relativeTargetGroupType);
 
@@ -238,11 +238,11 @@ namespace TiedanSouls.Client {
 
         #region [StateEffect]
 
-        public static StateEffectModel GetModel_StateEffect(StateEffectTM tm) {
-            StateEffectModel model;
+        public static RoleStateEffectModel GetModel_StateEffect(RoleStateEffectTM tm) {
+            RoleStateEffectModel model;
             model.effectStateType = tm.addStateFlag;
-            model.effectStateValue = tm.effectStateValue;
-            model.effectMaintainFrame = tm.effectMaintainFrame;
+            model.knockUpModel = GetModel_KnockUp(tm.knockUpTM);
+            model.knockBackModel = GetModel_KnockBack(tm.knockBackTM);
             return model;
         }
 
@@ -299,7 +299,7 @@ namespace TiedanSouls.Client {
             EntityDestroyModel model;
             model.entityType = tm.entityType;
             model.relativeTargetGroupType = tm.relativeTargetGroupType;
-            model.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
+            model.isEnabled_attributeSelector = tm.attributeSelector_IsEnabled;
             model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
             return model;
         }

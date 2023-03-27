@@ -87,7 +87,7 @@ namespace TiedanSouls.Client.Domain {
         void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, AllyType allyType, ControlType controlType) {
             // Pos
             role.SetLogicPos(pos);
-            role.Renderer_Sync();
+            Renderer_Sync(role);
 
             // ID
             var idService = worldContext.IDService;
@@ -97,9 +97,13 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetControlType(controlType);
             idCom.SetAllyType(allyType);
 
-            // Physics
-            role.FootTriggerEnterAction += OnFootTriggerEnter;
-            role.FootTriggerExit += OnFootTriggerExit;
+            // 物理事件绑定
+            role.OnStandInGround = this.OnStandInGround;
+            role.OnStandInPlatform = this.OnStandInPlatform;
+            role.OnStandInWater = this.OnStandInWater;
+            role.OnLeaveGround = this.OnLeaveGround;
+            role.OnLeavePlatform = this.OnLeavePlatform;
+            role.OnLeaveWater = this.OnLeaveWater;
 
             // Collider Model
             var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
@@ -291,10 +295,6 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Locomotion]
 
-        public void MoveByInput(RoleEntity role) {
-            role.MoveByInput();
-        }
-
         public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
             if (point != Vector2.zero) {
                 var rolePos = role.LogicPos;
@@ -309,24 +309,97 @@ namespace TiedanSouls.Client.Domain {
             role.SetLogicFaceTo(x);
         }
 
-        public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
-            role.Dash(dir, force);
+        public void Fall(RoleEntity role, float dt) {
+            var attributeCom = role.AttributeCom;
+            var fallingAcceleration = attributeCom.FallingAcceleration;
+            var fallingSpeedMax = attributeCom.FallingSpeedMax;
+
+            var moveCom = role.MoveCom;
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            var offset = fallingAcceleration * dt;
+
+            velo.y -= offset;
+            if (velo.y < -fallingSpeedMax) {
+                velo.y = -fallingSpeedMax;
+            }
+            moveCom.SetVelocity(velo);
+        }
+
+        public void MoveByInput(RoleEntity role) {
+            var inputCom = role.InputCom;
+            if (!inputCom.HasMoveOpt) return;
+
+            Vector2 moveAxis = inputCom.MoveAxis;
+            var moveCom = role.MoveCom;
+            var attributeCom = role.AttributeCom;
+            moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
 
         public void JumpByInput(RoleEntity role) {
-            role.JumpByInput();
+            var inputCom = role.InputCom;
+            if (!inputCom.PressJump) return;
+
+            var moveCom = role.MoveCom;
+            var attributeCom = role.AttributeCom;
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            var jumpSpeed = attributeCom.JumpSpeed;
+            velo.y = jumpSpeed;
+            moveCom.SetVelocity(velo);
         }
 
-        public void CrossDown(RoleEntity role) {
-            role.TryCrossDown();
+        public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
+            var moveCom = role.MoveCom;
+            moveCom.Dash(dir, force);
         }
 
-        public void Fall(RoleEntity role, float dt) {
-            if (role.IsGrounded) {
-                return;
-            }
+        void OnStandInGround(RoleEntity role, Collider2D collider2D) {
+            var moveCom = role.MoveCom;
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            velo.y = 0;
+            moveCom.SetVelocity(velo);
+        }
 
-            role.Falling(dt);
+        void OnStandInPlatform(RoleEntity role, Collider2D collider2D) {
+            var moveCom = role.MoveCom;
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            velo.y = 0;
+            moveCom.SetVelocity(velo);
+        }
+
+        void OnStandInWater(RoleEntity role, Collider2D collider2D) {
+            // TODO 站在水中的逻辑
+        }
+
+        void OnLeaveGround(RoleEntity role, Collider2D collider2D) {
+            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
+            roleFSMDomain.Enter_LeaveGround(role);
+        }
+
+        void OnLeavePlatform(RoleEntity role, Collider2D collider2D) {
+            // TODO 离开平台的逻辑
+        }
+
+        void OnLeaveWater(RoleEntity role, Collider2D collider2D) {
+            // TODO 离开水中的逻辑
+        }
+
+        #endregion
+
+        #region [Attribute]
+
+        public int DreaseHP(RoleEntity role, int atk) {
+            var attributeCom = role.AttributeCom;
+            var hudSlotCom = role.HudSlotCom;
+
+            var decrease = attributeCom.DecreaseHP(atk);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
+
+            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 atk-{atk} decrease-{decrease}");
+            return decrease;
         }
 
         #endregion
@@ -356,13 +429,13 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsm = role.FSMCom;
-            if (fsm.StateFlag == StateFlag.Idle) {
+            if (fsm.StateFlag == RoleStateFlag.Idle) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
 
             // 连招
-            if (fsm.StateFlag.Contains(StateFlag.Cast)) {
+            if (fsm.StateFlag.Contains(RoleStateFlag.Cast)) {
                 var stateModel = fsm.CastingModel;
                 var castingSkillTypeID = stateModel.CastingSkillTypeID;
                 SkillEntity castingSkill;
@@ -424,12 +497,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.AddCast(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.Add_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.AddCast(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.Add_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion
@@ -440,20 +513,21 @@ namespace TiedanSouls.Client.Domain {
         /// 角色受击的统一处理方式
         /// </summary>
         public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in IDArgs hitter, in CollisionTriggerModel collisionTriggerModel) {
-            var fsm = role.FSMCom;
+            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
+            var roleDomain = worldContext.RootDomain.RoleDomain;
 
             // 击退
-            var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
-            fsm.AddKnockBack(beHitDir, knockBackPowerModel);
+            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel);
             // 击飞
-            var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
-            fsm.AddKnockUp(knockUpPowerModel);
-            /// TODO:  StateEffectModel的逻辑，如 禁锢 等
+            roleFSMDomain.EnterKnockUp(role, beHitDir, collisionTriggerModel);
+
+            /// 其余状态影响效果(如眩晕、冰冻等)
+            roleFSMDomain.HandleRoleStateEffect(role, collisionTriggerModel.roleStateEffectModel);
 
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
             var hitDamage = damageModel.GetDamage(hitFrame);
-            role.Attribute_DecreaseHP(hitDamage);
+            roleDomain.DreaseHP(role, hitDamage);
 
             // 伤害记录
             var damageService = worldContext.DamageArbitService;
@@ -468,8 +542,8 @@ namespace TiedanSouls.Client.Domain {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.SetIsExited(true);
             role.AttributeCom.ClearHP();
-            role.Hide();
-            role.DeactivateCollider();
+            Hide(role);
+            DeactivateCollider(role);
         }
 
         public bool IsRoleDead(RoleEntity role) {
@@ -479,26 +553,76 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [角色物理事件]
+        #region [表现层]
 
-        void OnFootTriggerEnter(RoleEntity role, Collider2D other) {
-            if (other.gameObject.layer == LayerCollection.GROUND) {
-                role.EnterGround();
-            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
-                role.EnterCrossPlatform();
-            }
+        public void Renderer_Sync(RoleEntity role) {
+            var logicRoot = role.LogicRoot;
+            var rendererRoot = role.RendererRoot;
+            var weaponRoot = role.WeaponRoot;
+
+            var logicPos = logicRoot.position;
+            rendererRoot.position = logicPos;
+            weaponRoot.position = logicPos;
+
+            var rendererModCom = role.RendererModCom;
+            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
+            weaponRoot.rotation = logicRoot.rotation;
         }
 
-        void OnFootTriggerExit(RoleEntity role, Collider2D other) {
-            if (other.gameObject.layer == LayerCollection.GROUND) {
-                role.LeaveGround();
-            } else if (other.gameObject.layer == LayerCollection.CROSS_PLATFORM) {
-                role.LeaveCrossPlatform();
-            }
+        public void Renderer_Easing(RoleEntity role, float dt) {
+            var logicRoot = role.LogicRoot;
+            var rendererRoot = role.RendererRoot;
+            var weaponRoot = role.WeaponRoot;
+            var rendererModCom = role.RendererModCom;
+
+            var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
+            rendererRoot.position = lerpPos;
+            weaponRoot.position = lerpPos;
+
+            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
+            weaponRoot.rotation = logicRoot.rotation;
         }
 
         #endregion
 
+        #region [显示 & 隐藏]
+
+        public void Show(RoleEntity role) {
+            role.LogicRoot.gameObject.SetActive(true);
+            role.RendererRoot.gameObject.SetActive(true);
+            TDLog.Log($"显示角色: {role.IDCom.EntityName} ");
+        }
+
+        public void Hide(RoleEntity role) {
+            role.LogicRoot.gameObject.SetActive(false);
+            role.RendererRoot.gameObject.SetActive(false);
+            TDLog.Log($"隐藏角色: {role.IDCom.EntityName} ");
+        }
+
+        public void ActivateCollider(RoleEntity role) {
+            role.Coll_LogicRoot.enabled = true;
+        }
+
+        public void DeactivateCollider(RoleEntity role) {
+            role.Coll_LogicRoot.enabled = false;
+        }
+
+        #endregion
+
+        public void RecycleFieldRoles(int fieldTypeID) {
+            var roleRepo = worldContext.RoleRepo;
+            roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
+                Hide(role);
+            });
+        }
+
+        public void ResetAllAIs(int fieldTypeID, bool isShow) {
+            var roleRepo = worldContext.RoleRepo;
+            roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
+                role.Reset();
+                if (isShow) Show(role);
+            });
+        }
     }
 
 }

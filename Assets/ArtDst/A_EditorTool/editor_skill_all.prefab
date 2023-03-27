@@ -1083,7 +1083,7 @@ MonoBehaviour:
     - {fileID: 946612889277224407}
   skillEffectorEMArray: []
   skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,7 +1158,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -1167,7 +1167,7 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -1237,11 +1237,11 @@ MonoBehaviour:
     - {fileID: 6432408507379964416}
   skillEffectorEMArray: []
   skillMoveCurveEMArray:
-  - startFrame: 5
-    isFaceTo: 1
+  - startFrame: 10
+    isFaceTo: 0
     moveCurveEM:
-      moveDistance: 5
-      moveTotalFrame: 10
+      moveDistance: 10
+      moveTotalFrame: 5
       disCurve:
         serializedVersion: 2
         m_Curve:
@@ -1265,12 +1265,12 @@ MonoBehaviour:
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   - startFrame: 15
-    isFaceTo: 1
+    isFaceTo: 0
     moveCurveEM:
-      moveDistance: -5
-      moveTotalFrame: 10
+      moveDistance: -10
+      moveTotalFrame: 5
       disCurve:
         serializedVersion: 2
         m_Curve:
@@ -1294,7 +1294,7 @@ MonoBehaviour:
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
 --- !u!1 &8336571590214725402
 GameObject:

@@ -5,27 +5,33 @@ namespace TiedanSouls.Client.Entities {
 
     public class FootComponent : MonoBehaviour {
 
-        Collider2D footColl;
+        Collider2D footCollider;
 
-        public event Action<Collider2D> FootTriggerEnter;
-        public event Action<Collider2D> FootTriggerExit;
+        public Action<Collider2D> footTriggerEnter;
+        public Action<Collider2D> footTriggerExit;
 
         public void Ctor() {
-            footColl = GetComponent<Collider2D>();
+            footCollider = GetComponent<Collider2D>();
+        }
+
+        public void Reset() {
+
         }
 
         void OnTriggerEnter2D(Collider2D other) {
-            FootTriggerEnter.Invoke(other);
+            footTriggerEnter.Invoke(other);
         }
         void OnTriggerExit2D(Collider2D other) {
-            FootTriggerExit.Invoke(other);
+            footTriggerExit.Invoke(other);
         }
 
-        public void SetTrigger(bool isTrigger) {
-            footColl.isTrigger = isTrigger;
+        public void TurnOnTrigger() {
+            footCollider.isTrigger = true;
         }
 
-        public void Reset(){}
+        public void TurnOffTrigger() {
+            footCollider.isTrigger = false;
+        }
 
     }
 

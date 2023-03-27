@@ -12,78 +12,41 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Component]
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
-
-        InputComponent inputCom;
-        public InputComponent InputCom => inputCom;
-
-        AttributeComponent attributeCom;
-        public AttributeComponent AttributeCom => attributeCom;
-
-        SkillSlotComponent skillSlotCom;
-        public SkillSlotComponent SkillSlotCom => skillSlotCom;
-
-        MoveComponent moveCom;
-        public MoveComponent MoveCom => moveCom;
-
-        WeaponSlotComponent weaponSlotCom;
-        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
-
-        RoleFSMComponent fsmCom;
-        public RoleFSMComponent FSMCom => fsmCom;
-
-        RoleRendererModComponent rendererModCom;
-        public RoleRendererModComponent RendererModCom => rendererModCom;
-
-        HUDSlotComponent hudSlotCom;
-        public HUDSlotComponent HudSlotCom => hudSlotCom;
-
-        FootComponent footCom;
-        BodyComponent bodyCom;
+        public IDComponent IDCom { get; private set; }
+        public InputComponent InputCom { get; private set; }
+        public AttributeComponent AttributeCom { get; private set; }
+        public SkillSlotComponent SkillSlotCom { get; private set; }
+        public MoveComponent MoveCom { get; private set; }
+        public WeaponSlotComponent WeaponSlotCom { get; private set; }
+        public RoleFSMComponent FSMCom { get; private set; }
+        public RoleRendererComponent RendererModCom { get; private set; }
+        public HUDSlotComponent HudSlotCom { get; private set; }
+        public FootComponent FootCom { get; private set; }
+        public BodyComponent BodyCom { get; private set; }
 
         #endregion
 
         #region [Root]
 
-        Transform logicRoot;
-        public Transform LogicRoot => logicRoot;
+        public Transform LogicRoot { get; private set; }
+        public Transform RendererRoot { get; private set; }
 
-        public Vector3 LogicPos => logicRoot.position;
-        public float LogicAngleZ => logicRoot.rotation.z;
-        public Quaternion LogicRotation => logicRoot.rotation;
-        public void SetLogicPos(Vector2 pos) => logicRoot.position = pos;
+        public Vector3 LogicPos => LogicRoot.position;
+        public float LogicAngleZ => LogicRoot.rotation.z;
+        public Quaternion LogicRotation => LogicRoot.rotation;
+        public void SetLogicPos(Vector2 pos) => LogicRoot.position = pos;
 
-        Transform rendererRoot;
-        public Transform RendererRoot => rendererRoot;
-        public Vector2 GetPos_RendererRoot() => rendererRoot.position;
+        public Vector2 RendererPos => RendererRoot.position;
 
-        Transform weaponRoot;
-        public Transform WeaponRoot => weaponRoot;
-        public Vector2 GetPos_WeaponRoot() => weaponRoot.position;
+        public Transform WeaponRoot { get; private set; }
+        public Vector2 GetPos_WeaponRoot() => WeaponRoot.position;
 
-        Rigidbody2D rb_logicRoot;
-        CapsuleCollider2D coll_logicRoot;
-
-        #endregion
-
-        #region [Event]
-
-        public event Action<RoleEntity, Collider2D> FootTriggerEnterAction;
-        public event Action<RoleEntity, Collider2D> FootTriggerExit;
-        public event Action<RoleEntity, Collider2D> BodyTriggerExitAction;
+        public Rigidbody2D RB_LogicRoot { get; private set; }
+        public CapsuleCollider2D Coll_LogicRoot { get; private set; }
 
         #endregion
 
         #region [Locomotion]
-
-        bool isJumping;
-
-        bool isGrounded;
-        public bool IsGrounded => isGrounded;
-
-        bool isStandCrossPlatform;
-        public bool IsStandCrossPlatform => isStandCrossPlatform;
 
         sbyte faceDirX;
         public sbyte FaceDirX => faceDirX;
@@ -106,257 +69,130 @@ namespace TiedanSouls.Client.Entities {
             faceDirX = 1;
 
             // - Root
-            logicRoot = transform.Find("logic_root");
-            rendererRoot = transform.Find("renderer_root");
+            LogicRoot = transform.Find("logic_root");
+            RendererRoot = transform.Find("renderer_root");
 
-            rb_logicRoot = logicRoot.GetComponent<Rigidbody2D>();
-            TDLog.Assert(rb_logicRoot != null);
-            moveCom = new MoveComponent();
-            moveCom.Inject(rb_logicRoot);
+            RB_LogicRoot = LogicRoot.GetComponent<Rigidbody2D>();
+            TDLog.Assert(RB_LogicRoot != null);
+            MoveCom = new MoveComponent();
+            MoveCom.Inject(RB_LogicRoot);
 
-            coll_logicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
-            TDLog.Assert(coll_logicRoot != null);
+            Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
+            TDLog.Assert(Coll_LogicRoot != null);
 
             // - Foot
-            footCom = logicRoot.Find("foot").GetComponent<FootComponent>();
-            footCom.Ctor();
+            FootCom = LogicRoot.Find("foot").GetComponent<FootComponent>();
+            FootCom.Ctor();
 
             // - Body
-            bodyCom = logicRoot.Find("body").GetComponent<BodyComponent>();
-            bodyCom.Ctor();
+            BodyCom = LogicRoot.Find("body").GetComponent<BodyComponent>();
+            BodyCom.Ctor();
 
             // - Weapon
-            weaponRoot = logicRoot.Find("weapon_root");
-            weaponSlotCom = new WeaponSlotComponent();
-            weaponSlotCom.Inject(weaponRoot);
+            WeaponRoot = LogicRoot.Find("weapon_root");
+            WeaponSlotCom = new WeaponSlotComponent();
+            WeaponSlotCom.Inject(WeaponRoot);
 
             // - HUD
-            var hudRoot = rendererRoot.Find("hud_root");
+            var hudRoot = RendererRoot.Find("hud_root");
             TDLog.Assert(hudRoot != null);
 
-            hudSlotCom = new HUDSlotComponent();
-            hudSlotCom.Inject(hudRoot);
+            HudSlotCom = new HUDSlotComponent();
+            HudSlotCom.Inject(hudRoot);
 
             // - Attribute
-            attributeCom = new AttributeComponent();
+            AttributeCom = new AttributeComponent();
 
             // - Component
-            idCom = new IDComponent();
-            idCom.SetEntityType(EntityType.Role);
-            rendererModCom = new RoleRendererModComponent();
-            fsmCom = new RoleFSMComponent();
-            inputCom = new InputComponent();
-            skillSlotCom = new SkillSlotComponent();
+            IDCom = new IDComponent();
+            IDCom.SetEntityType(EntityType.Role);
+            RendererModCom = new RoleRendererComponent();
+            FSMCom = new RoleFSMComponent();
+            InputCom = new InputComponent();
+            SkillSlotCom = new SkillSlotComponent();
 
-            // - Locomotion
-            isJumping = false;
-            isGrounded = false;
-
-            // - Bind Event
-            footCom.FootTriggerEnter += OnFootTriggerEnter;
-            footCom.FootTriggerExit += OnFootCollisionExit;
+            // - Event
+            FootCom.footTriggerEnter = OnFootTriggerEnter;
+            FootCom.footTriggerExit = OnFootTriggerExit;
         }
 
         public void TearDown() {
-            footCom.FootTriggerEnter -= OnFootTriggerEnter;
-            footCom.FootTriggerExit -= OnFootCollisionExit;
             GameObject.Destroy(gameObject);
         }
 
         public void Reset() {
             // - Foot
-            footCom.Reset();
-
+            FootCom.Reset();
             // - Body
-            bodyCom.Reset();
-
+            BodyCom.Reset();
             // - Weapon
-            weaponSlotCom.Reset();
-
+            WeaponSlotCom.Reset();
             // - Attribute
-            attributeCom.Reset();
-
+            AttributeCom.Reset();
             // - FSM
-            fsmCom.Reset();
-
+            FSMCom.Reset();
             // - Input
-            inputCom.Reset();
-
+            InputCom.Reset();
             // - Movement
-            moveCom.Reset();
-
+            MoveCom.Reset();
             // - HUD
-            hudSlotCom.Reset();
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-        }
-
-        public void Show() {
-            logicRoot.gameObject.SetActive(true);
-            rendererRoot.gameObject.SetActive(true);
-            TDLog.Log($"显示角色: {idCom.EntityName} ");
+            HudSlotCom.Reset();
+            HudSlotCom.HpBarHUD.SetHpBar(AttributeCom.HP, AttributeCom.HPMax);
         }
 
         public void SetMod(GameObject mod) {
-            rendererModCom.SetMod(mod);
-        }
-
-        public void Hide() {
-            logicRoot.gameObject.SetActive(false);
-            rendererRoot.gameObject.SetActive(false);
-            TDLog.Log($"隐藏角色: {idCom.EntityName} ");
-        }
-
-        public void ActivateCollider() {
-            coll_logicRoot.enabled = true;
-        }
-
-        public void DeactivateCollider() {
-            coll_logicRoot.enabled = false;
+            RendererModCom.SetMod(mod);
         }
 
         public void SetLogicFaceTo(float dirX) {
             if (Mathf.Abs(dirX) < 0.01f) return;
 
-            var rot = logicRoot.localRotation;
+            var rot = LogicRoot.localRotation;
             bool isRight = dirX > 0;
             if (isRight) rot.y = 0;
             else rot.y = 180;
-            logicRoot.localRotation = rot;
+            LogicRoot.localRotation = rot;
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
-            idCom.SetFromFieldTypeID(fieldTypeID);
-            skillSlotCom.Foreach_Origin((skill) => {
+            IDCom.SetFromFieldTypeID(fieldTypeID);
+            SkillSlotCom.Foreach_Origin((skill) => {
                 skill.SetFromFieldTypeID(fieldTypeID);
             });
-            skillSlotCom.Foreach_Combo((skill) => {
+            SkillSlotCom.Foreach_Combo((skill) => {
                 skill.SetFromFieldTypeID(fieldTypeID);
             });
-            var colliderModel = coll_logicRoot.GetComponent<ColliderModel>();
-            colliderModel.SetFather(idCom.ToArgs());
+            var colliderModel = Coll_LogicRoot.GetComponent<ColliderModel>();
+            colliderModel.SetFather(IDCom.ToArgs());
         }
 
-        #region [Locomotion]
+        #region [角色物理事件]
 
-        public void MoveByInput() {
-            if (!inputCom.HasMoveOpt) return;
-            Vector2 moveAxis = inputCom.MoveAxis;
-            moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
-        }
+        public Action<RoleEntity, Collider2D> OnStandInGround;
+        public Action<RoleEntity, Collider2D> OnStandInPlatform;
+        public Action<RoleEntity, Collider2D> OnStandInWater;
 
-        public void Dash(Vector2 dir, Vector2 force) {
-            moveCom.Dash(dir, force);
-        }
-
-        public void JumpByInput() {
-            bool isJumpPress = inputCom.PressJump;
-            if (!isJumpPress) return;
-            if (isJumping) return;
-            if (!isGrounded) return;
-
-            this.isJumping = true;
-            this.isGrounded = false;
-
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            var jumpSpeed = attributeCom.JumpSpeed;
-            velo.y = jumpSpeed;
-            moveCom.SetVelocity(velo);
-        }
-
-        public void TryCrossDown() {
-            if (inputCom.MoveAxis.y < 0 && isStandCrossPlatform) {
-                LeaveCrossPlatform();
-            }
-        }
-
-        public void Falling(float dt) {
-            if (isGrounded) return;
-
-            var fallingAcceleration = attributeCom.FallingAcceleration;
-            var fallingSpeedMax = attributeCom.FallingSpeedMax;
-
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            var offset = fallingAcceleration * dt;
-
-            velo.y -= offset;
-            if (velo.y < -fallingSpeedMax) {
-                velo.y = -fallingSpeedMax;
-            }
-            moveCom.SetVelocity(velo);
-        }
-
-        public void EnterGround() {
-            coll_logicRoot.isTrigger = false;
-            isGrounded = true;
-            isJumping = false;
-
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            velo.y = 0;
-            moveCom.SetVelocity(velo);
-        }
-
-        public void LeaveGround() {
-            isGrounded = false;
-            isStandCrossPlatform = false;
-        }
-
-        public void EnterCrossPlatform() {
-            isStandCrossPlatform = true;
-        }
-
-        public void LeaveCrossPlatform() {
-            LeaveGround();
-            coll_logicRoot.isTrigger = true;
-        }
-
-        #endregion
-
-        #region [Attribute]
-
-        public int Attribute_DecreaseHP(int atk) {
-            TDLog.Log($"{idCom.EntityName} 受到伤害 - {atk}");
-            var decrease = attributeCom.DecreaseHP(atk);
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-            return decrease;
-        }
-
-        #endregion
-
-        #region [Foot]
+        public Action<RoleEntity, Collider2D> OnLeaveGround;
+        public Action<RoleEntity, Collider2D> OnLeavePlatform;
+        public Action<RoleEntity, Collider2D> OnLeaveWater;
 
         void OnFootTriggerEnter(Collider2D other) {
-            FootTriggerEnterAction.Invoke(this, other);
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.GROUND)) {
+                OnStandInGround.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.PLATFORM)) {
+                OnStandInPlatform.Invoke(this, other);
+            }
         }
 
-        void OnFootCollisionExit(Collider2D other) {
-            FootTriggerExit.Invoke(this, other);
+        void OnFootTriggerExit(Collider2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.GROUND)) {
+                OnLeaveGround.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.PLATFORM)) {
+                OnLeavePlatform.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.WATER)) {
+                OnLeaveWater.Invoke(this, other);
+            }
         }
-
-        #endregion
-
-        #region [Renderer]
-
-        public void Renderer_Sync() {
-            var logicPos = logicRoot.position;
-            rendererRoot.position = logicPos;
-            weaponRoot.position = logicPos;
-
-            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
-            weaponRoot.rotation = logicRoot.rotation;
-        }
-
-        public void Renderer_Easing(float dt) {
-            var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
-            rendererRoot.position = lerpPos;
-            weaponRoot.position = lerpPos;
-
-            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
-            weaponRoot.rotation = logicRoot.rotation;
-        }
-
         #endregion
 
     }

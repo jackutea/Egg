@@ -45,8 +45,8 @@ namespace TiedanSouls.Client.Entities {
             }
 
             //Check State
-            Vector2 pos_role = role.GetPos_RendererRoot();
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.GetPos_RendererRoot();
+            Vector2 pos_role = role.RendererPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RendererPos;
             if (Vector2.Distance(pos_role, pos_target) < sight) {
                 return false;
             }
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Entities {
 
             //Get Original Pos
             if (bfPos == Vector2.zero) {
-                bfPos = role.GetPos_RendererRoot();
+                bfPos = role.RendererPos;
             }
 
             //Set Patrol Pos
@@ -74,13 +74,13 @@ namespace TiedanSouls.Client.Entities {
                     patrolPos1 = bfPos + dir;
                     patrolPos2 = bfPos - dir;
                 }
-                bool patrol = Vector2.Distance(role.GetPos_RendererRoot(), patrolPos1) >= Vector2.Distance(role.GetPos_RendererRoot(), patrolPos2);
+                bool patrol = Vector2.Distance(role.RendererPos, patrolPos1) >= Vector2.Distance(role.RendererPos, patrolPos2);
                 targetPos = patrol ? patrolPos1 : patrolPos2;             
                 //TDLog.Log($"dir:{dir},targetPos1:{patrolPos1},targetPos2:{patrolPos2}");
             }
 
             //Patrol
-            var distance = Vector2.Distance(role.GetPos_RendererRoot(), targetPos);
+            var distance = Vector2.Distance(role.RendererPos, targetPos);
             if (distance <= 0.1f) {
                 isCD = true;
                 targetPos = Vector2.zero;

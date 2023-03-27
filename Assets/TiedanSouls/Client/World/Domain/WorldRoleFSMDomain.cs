@@ -25,7 +25,7 @@ namespace TiedanSouls.Client.Domain {
                 var fsm = role.FSMCom;
                 if (fsm.IsExited) return;
 
-                if (fsm.StateFlag != StateFlag.Dying) {
+                if (fsm.StateFlag != RoleStateFlag.Dying) {
                     role.AIStrategy.Tick(dt);
                 }
 
@@ -46,12 +46,12 @@ namespace TiedanSouls.Client.Domain {
 
             // - 1. Tick 状态
             var stateFlag = fsm.StateFlag;
-            if (stateFlag.Contains(StateFlag.Idle)) Tick_Idle(role, fsm, dt);
-            if (stateFlag.Contains(StateFlag.Cast)) Tick_Cast(role, fsm, dt);
-            if (stateFlag.Contains(StateFlag.SkillMove)) Tick_SkillMove(role, fsm, dt);
-            if (stateFlag.Contains(StateFlag.KnockUp)) Tick_KnockUp(role, fsm, dt);
-            if (stateFlag.Contains(StateFlag.KnockBack)) Tick_KnockBack(role, fsm, dt);
-            if (stateFlag.Contains(StateFlag.Dying)) Tick_Dying(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.Idle)) Tick_Idle(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.Cast)) Tick_Cast(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.SkillMove)) Tick_SkillMove(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.KnockUp)) Tick_KnockUp(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.KnockBack)) Tick_KnockBack(role, fsm, dt);
+            if (stateFlag.Contains(RoleStateFlag.Dying)) Tick_Dying(role, fsm, dt);
             Tick_AnyState(role, fsm, dt);
 
             // - 2. Apply 各项处理
@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Domain {
         /// 任意状态
         /// </summary>
         void Tick_AnyState(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            if (fsm.StateFlag == StateFlag.Dying) return;
+            if (fsm.StateFlag == RoleStateFlag.Dying) return;
 
             var roleDomain = rootDomain.RoleDomain;
 
@@ -119,7 +119,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能逻辑迭代
             if (!castingSkill.TryMoveNext(role.LogicPos, role.LogicRotation)) {
-                fsm.RemoveCast();
+                fsm.Remove_Cast();
             }
 
             // 技能效果器
@@ -143,7 +143,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能位移
             if (castingSkill.TryGet_ValidSkillMoveCurveModel(out var skillMoveCurveModel)) {
-                fsm.AddSkillMove(skillMoveCurveModel);
+                fsm.Add_SkillMove(skillMoveCurveModel);
             }
         }
 
@@ -174,10 +174,10 @@ namespace TiedanSouls.Client.Domain {
                 var moveDir = moveDirArray[stateModel.curFrame];
                 var vel = moveDir * speed;
                 moveCom.SetVelocity(moveDir * speed);
-                role.SetLogicFaceTo(vel.x);
+                if (stateModel.IsFaceTo) role.SetLogicFaceTo(vel.x);
             } else if (stateModel.curFrame == len) {
                 moveCom.Stop();
-                fsm.RemoveSkillMove();
+                fsm.Remove_SkillMove();
             }
         }
 
@@ -203,7 +203,7 @@ namespace TiedanSouls.Client.Domain {
                 moveCom.Set_Horizontal(beHitDir * knockBackSpeedArray[curFrame]);
             } else if (curFrame == len) {
                 moveCom.Stop_Horizontal();
-                fsm.RemoveKnockBack();
+                fsm.Remove_KnockBack();
             }
         }
 
@@ -231,7 +231,7 @@ namespace TiedanSouls.Client.Domain {
                 moveCom.Set_Vertical(newV);
             } else if (curFrame == len) {
                 moveCom.Stop_Vertical();
-                fsm.RemoveKnockUp();
+                fsm.Remove_KnockUp();
             } else {
                 roleDomain.Fall(role, dt);
             }
@@ -270,9 +270,9 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         void Apply_Locomotion(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var roleDomain = rootDomain.RoleDomain;
-            if (fsm.CanMove()) roleDomain.MoveByInput(role);
-            if (fsm.CanJump()) roleDomain.JumpByInput(role);
-            if (fsm.CanFall()) roleDomain.Fall(role, dt);
+            if (fsm.Can_Move()) roleDomain.MoveByInput(role);
+            if (fsm.Can_Jump()) roleDomain.JumpByInput(role);
+            if (fsm.Can_Fall()) roleDomain.Fall(role, dt);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = rootDomain.RoleDomain;
 
             // 普通技能
-            if (fsm.CanCast_NormalSkill()) {
+            if (fsm.Can_CastNormalSkill()) {
                 _ = roleDomain.TryCastSkillByInput(role);
             }
 
@@ -291,12 +291,65 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [角色状态 - 进入]
+        #region [角色状态 切换]
 
-        public void Role_EnterDying(RoleEntity role) {
+        public void Enter_Dying(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
-            fsm.AddDying(30);
+            fsm.Add_Dying(30);
+        }
+
+        public void Enter_KnockBack(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
+            var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
+            var fsm = role.FSMCom;
+            fsm.Add_KnockBack(beHitDir, knockBackPowerModel);
+        }
+
+        public void EnterKnockUp(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
+            var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
+            var fsm = role.FSMCom;
+            fsm.Add_KnockUp(knockUpPowerModel);
+        }
+
+        public void Enter_StandInGround(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_StandInGround();
+            fsm.Remove_StandInGround();
+        }
+
+        public void Enter_StandInPlatform(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_StandInGround();
+            fsm.Remove_StandInGround();
+        }
+
+        public void Enter_StandInWater(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_StandInWater();
+            fsm.Remove_StandInWater();
+        }
+
+        public void Enter_LeaveGround(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_LeaveGround();
+            fsm.Remove_StandInGround();
+        }
+
+        public void Enter_LeavePlatform(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_LeavePlatform();
+            fsm.Remove_StandInPlatform();
+        }
+
+        public void Enter_LeaveWater(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.Add_LeaveWater();
+            fsm.Remove_StandInWater();
+        }
+        /// <summary>
+        /// 处理 角色状态效果
+        /// </summary>
+        public void HandleRoleStateEffect(RoleEntity role, in RoleStateEffectModel collisionTriggerModel) {
         }
 
         #endregion

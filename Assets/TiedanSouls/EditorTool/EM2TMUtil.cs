@@ -236,11 +236,11 @@ namespace TiedanSouls.EditorTool {
 
         #region [StateEffect]
 
-        public static StateEffectTM GetTM_StateEffect(RoleStateEffectEM em) {
-            StateEffectTM tm;
+        public static RoleStateEffectTM GetTM_StateEffect(RoleStateEffectEM em) {
+            RoleStateEffectTM tm;
             tm.addStateFlag = em.addStateFlag;
-            tm.effectStateValue = em.effectStateValue;
-            tm.effectMaintainFrame = em.effectMaintainFrame;
+            tm.knockUpTM = GetTM_KnockUp(em.knockUpEM);
+            tm.knockBackTM = GetTM_KnockBack(em.knockBackEM);
             return tm;
         }
 
@@ -364,7 +364,7 @@ namespace TiedanSouls.EditorTool {
             EntityDestroyTM tm;
             tm.entityType = em.entityType;
             tm.relativeTargetGroupType = em.relativeTargetGroupType;
-            tm.isEnabled_attributeSelector = em.isEnabled_attributeSelector;
+            tm.attributeSelector_IsEnabled = em.attributeSelector_IsEnabled;
             tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
             return tm;
         }
@@ -463,10 +463,6 @@ namespace TiedanSouls.EditorTool {
             }
             return moveDirArray;
         }
-
-        #endregion
-
-        #region [KeyFrame]
 
         public static KeyframeTM[] GetTMArray_Keyframe(AnimationCurve curve) {
             var keyframeArray = curve.keys;

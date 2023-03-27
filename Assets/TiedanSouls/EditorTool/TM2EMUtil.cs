@@ -142,11 +142,10 @@ namespace TiedanSouls.EditorTool {
             em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
             em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
-            em.stateEffectEM = GetEM_StateEffect(tm.stateEffectTM);
+            em.stateEffectEM = GetEM_RoleStateEffect(tm.stateEffectTM);
 
             return em;
         }
-
 
         #endregion
 
@@ -188,11 +187,11 @@ namespace TiedanSouls.EditorTool {
 
         #region [StateEffect]
 
-        public static RoleStateEffectEM GetEM_StateEffect(StateEffectTM tm) {
+        public static RoleStateEffectEM GetEM_RoleStateEffect(RoleStateEffectTM tm) {
             RoleStateEffectEM em;
             em.addStateFlag = tm.addStateFlag;
-            em.effectStateValue = tm.effectStateValue;
-            em.effectMaintainFrame = tm.effectMaintainFrame;
+            em.knockUpEM = GetEM_KnockUp(tm.knockUpTM);
+            em.knockBackEM = GetEM_KnockBack(tm.knockBackTM);
             return em;
         }
 
@@ -266,7 +265,7 @@ namespace TiedanSouls.EditorTool {
             EntityDestroyEM em;
             em.entityType = tm.entityType;
             em.relativeTargetGroupType = tm.relativeTargetGroupType;
-            em.isEnabled_attributeSelector = tm.isEnabled_attributeSelector;
+            em.attributeSelector_IsEnabled = tm.attributeSelector_IsEnabled;
             em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
             return em;
         }

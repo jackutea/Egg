@@ -87,23 +87,6 @@ namespace TiedanSouls.Client {
             }
         }
 
-        public void RecycleFieldAIs(int fieldTypeID) {
-            Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                role.Hide();
-            });
-        }
-
-        #endregion
-
-        #region [改]
-
-        public void ResetAll_AIs(int fieldTypeID, bool isShow) {
-            Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                role.Reset();
-                if (isShow) role.Show();
-            });
-        }
-
         #endregion
 
         #region [查]
@@ -151,7 +134,7 @@ namespace TiedanSouls.Client {
                 var idCom = role.IDCom;
                 var roleAllyType = idCom.AllyType;
                 if (!roleAllyType.IsEnemy(allyType)) return;
-                if (role.FSMCom.StateFlag != StateFlag.Dying) hasAliveEnemy = true;
+                if (role.FSMCom.StateFlag != RoleStateFlag.Dying) hasAliveEnemy = true;
             });
 
             return hasAliveEnemy;
@@ -349,7 +332,7 @@ namespace TiedanSouls.Client {
         /// <summary>
         ///  根据fieldTypeID遍历角色 -1代表查找范围为所有关卡
         /// </summary>
-        void Foreach_ByFieldTypeID(int fieldTypeID, Action<RoleEntity> action) {
+        public void Foreach_ByFieldTypeID(int fieldTypeID, Action<RoleEntity> action) {
             if (fieldTypeID == -1) {
                 Foreach_List(action);
             } else {

@@ -95,11 +95,11 @@ MonoBehaviour:
       - colliders_0/b1
     skillEffectorTMArray: []
     skillMoveCurveTMArray:
-    - startFrame: 5
-      isFaceTo: 1
+    - startFrame: 10
+      isFaceTo: 0
       moveCurveTM:
-        moveDistance_cm: 500
-        moveTotalFrame: 10
+        moveDistance_cm: 1000
+        moveTotalFrame: 5
         disCurve_KeyframeTMArray:
         - time: 0
           value: 0
@@ -113,23 +113,18 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        moveSpeedArray: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
+        moveSpeedArray: 302a0000d020000070170000100e0000b0040000
         moveDirArray:
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
     - startFrame: 15
-      isFaceTo: 1
+      isFaceTo: 0
       moveCurveTM:
-        moveDistance_cm: -500
-        moveTotalFrame: 10
+        moveDistance_cm: -1000
+        moveTotalFrame: 5
         disCurve_KeyframeTMArray:
         - time: 0
           value: 0
@@ -143,13 +138,8 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        moveSpeedArray: def4ffff0af6ffff36f7ffff62f8ffff8ef9ffffbafaffffe6fbffff12fdffff3efeffff6affffff
+        moveSpeedArray: d0d5ffff30dfffff90e8fffff0f1ffff50fbffff
         moveDirArray:
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
-        - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}

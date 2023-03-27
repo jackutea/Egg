@@ -18,6 +18,8 @@ namespace TiedanSouls.Client.Entities {
 
         // 作用目标
         public RelativeTargetGroupType relativeTargetGroupType;
+        // 模型: 状态影响
+        public RoleStateEffectModel roleStateEffectModel;
         // 模型: 伤害
         public DamageModel damageModel;
         // 模型: 击退力度
@@ -26,8 +28,7 @@ namespace TiedanSouls.Client.Entities {
         public KnockUpModel knockUpPowerModel;
         // 模型: 击中效果器
         public int hitEffectorTypeID;
-        // 模型: 状态影响
-        public StateEffectModel stateEffectModel;
+
 
         public ColliderModel[] colliderModelArray;
 

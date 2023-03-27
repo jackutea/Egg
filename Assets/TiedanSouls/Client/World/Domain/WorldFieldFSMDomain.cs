@@ -50,8 +50,10 @@ namespace TiedanSouls.Client.Domain {
                 doorPos.y = playerRole.LogicPos.y;
                 playerRole.SetLogicPos(doorPos);
                 playerRole.SetFromFieldTypeID(field.IDCom.TypeID);
-                playerRole.Renderer_Sync();
                 playerRole.name = $"主角_{playerRole.IDCom}";
+
+                var roleDomain = worldContext.RootDomain.RoleDomain;
+                roleDomain.Renderer_Sync(playerRole);
             }
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......
@@ -72,8 +74,10 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
 
                 // 判断前置条件: 是否是重复加载关卡
+
                 if (roleRepo.HasAI(fieldTypeID)) {
-                    roleRepo.ResetAll_AIs(fieldTypeID, false);
+                    var roleDomain = worldContext.RootDomain.RoleDomain;
+                    roleDomain.ResetAllAIs(fieldTypeID, false);
                     stateModel.SetIsRespawning(true);
                 }
 
@@ -126,9 +130,10 @@ namespace TiedanSouls.Client.Domain {
 
             // 关卡 是否为重复加载
             if (stateModel.IsRespawning) {
+                var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
-                    ai.Show();
+                    roleDomain.Show(ai);
                     ai.HudSlotCom.ShowHUD();
                     ai.SetLogicPos(ai.BornPos);
                 }));

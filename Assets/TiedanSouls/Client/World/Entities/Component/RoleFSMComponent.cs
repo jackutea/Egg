@@ -5,8 +5,8 @@ namespace TiedanSouls.Client.Entities {
 
     public class RoleFSMComponent {
 
-        StateFlag stateFlag;
-        public StateFlag StateFlag => stateFlag;
+        RoleStateFlag stateFlag;
+        public RoleStateFlag StateFlag => stateFlag;
 
         RoleFSMModel_Idle idleModel;
         public RoleFSMModel_Idle IdleModel => idleModel;
@@ -26,6 +26,24 @@ namespace TiedanSouls.Client.Entities {
         RoleFSMModel_Dying dyingModel;
         public RoleFSMModel_Dying DyingModel => dyingModel;
 
+        RoleFSMModel_StandInGround standInGroundModel;
+        public RoleFSMModel_StandInGround StandInGroundModel => standInGroundModel;
+
+        RoleFSMModel_StandInPlatform standInPlatformModel;
+        public RoleFSMModel_StandInPlatform StandInPlatformModel => standInPlatformModel;
+
+        RoleFSMModel_StandInWater standInWaterModel;
+        public RoleFSMModel_StandInWater StandInWaterModel => standInWaterModel;
+
+        RoleFSMModel_LeaveGround leaveGroundModel;
+        public RoleFSMModel_LeaveGround LeaveGroundModel => leaveGroundModel;
+
+        RoleFSMModel_LeavePlatform leavePlatformModel;
+        public RoleFSMModel_LeavePlatform LeavePlatformModel => leavePlatformModel;
+
+        RoleFSMModel_LeaveWater leaveWaterModel;
+        public RoleFSMModel_LeaveWater LeaveWaterModel => leaveWaterModel;
+
         bool isExited;
         public bool IsExited => isExited;
         public void SetIsExited(bool value) => isExited = value;
@@ -37,6 +55,14 @@ namespace TiedanSouls.Client.Entities {
             knockBackModel = new RoleFSMModel_KnockBack();
             knockUpModel = new RoleFSMModel_KnockUp();
             dyingModel = new RoleFSMModel_Dying();
+
+            standInGroundModel = new RoleFSMModel_StandInGround();
+            standInPlatformModel = new RoleFSMModel_StandInPlatform();
+            standInWaterModel = new RoleFSMModel_StandInWater();
+            leaveGroundModel = new RoleFSMModel_LeaveGround();
+            leavePlatformModel = new RoleFSMModel_LeavePlatform();
+            leaveWaterModel = new RoleFSMModel_LeaveWater();
+
             SetIdle();
         }
 
@@ -54,13 +80,13 @@ namespace TiedanSouls.Client.Entities {
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            stateFlag = StateFlag.Idle;
+            stateFlag = RoleStateFlag.Idle;
             TDLog.Log($"角色状态机 - 设置 '{stateFlag}'");
         }
 
         #region [添加 状态标记]
 
-        public void AddCast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
+        public void Add_Cast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -69,13 +95,13 @@ namespace TiedanSouls.Client.Entities {
             stateModel.SetIsCombo(isCombo);
             stateModel.SetChosedPoint(chosedPoint);
 
-            stateFlag = stateFlag.AddStateFlag(StateFlag.Cast);
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            stateFlag = stateFlag.AddStateFlag(RoleStateFlag.Cast);
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
 
-            TDLog.Log($"角色状态机 - 添加  {StateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag.ToString_AllFlags()}");
+            TDLog.Log($"角色状态机 - 添加  {RoleStateFlag.Cast} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddSkillMove(SkillMoveCurveModel skilMoveCurveModel) {
+        public void Add_SkillMove(SkillMoveCurveModel skilMoveCurveModel) {
             var stateModel = skillMoveModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -84,13 +110,13 @@ namespace TiedanSouls.Client.Entities {
             stateModel.SetMoveSpeedArray(moveCurveModel.moveSpeedArray.Clone() as float[]);
             stateModel.SetMoveDirArray(moveCurveModel.moveDirArray.Clone() as Vector3[]);
 
-            stateFlag = stateFlag.AddStateFlag(StateFlag.SkillMove);
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            stateFlag = stateFlag.AddStateFlag(RoleStateFlag.SkillMove);
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
 
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddKnockBack(Vector2 beHitDir, in KnockBackModel model) {
+        public void Add_KnockBack(Vector2 beHitDir, in KnockBackModel model) {
             var knockBackSpeedArray = model.knockBackSpeedArray;
             if (knockBackSpeedArray == null || knockBackSpeedArray.Length == 0) {
                 return;
@@ -102,13 +128,13 @@ namespace TiedanSouls.Client.Entities {
             stateModel.beHitDir = beHitDir;
             stateModel.knockBackSpeedArray = knockBackSpeedArray;
 
-            stateFlag = stateFlag.AddStateFlag(StateFlag.KnockBack);
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            stateFlag = stateFlag.AddStateFlag(RoleStateFlag.KnockBack);
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
 
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockBack}'  \n{stateFlag.ToString_AllFlags()}");
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.KnockBack}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddKnockUp(in KnockUpModel model) {
+        public void Add_KnockUp(in KnockUpModel model) {
             var knockUpSpeedArray = model.knockUpSpeedArray;
             if (knockUpSpeedArray == null || knockUpSpeedArray.Length == 0) {
                 return;
@@ -120,52 +146,130 @@ namespace TiedanSouls.Client.Entities {
 
             stateModel.knockUpSpeedArray = knockUpSpeedArray;
 
-            stateFlag = stateFlag.AddStateFlag(StateFlag.KnockUp);
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            stateFlag = stateFlag.AddStateFlag(RoleStateFlag.KnockUp);
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
 
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.KnockUp}'  \n{stateFlag.ToString_AllFlags()}");
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.KnockUp}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void AddDying(int maintainFrame) {
+        public void Add_Dying(int maintainFrame) {
             var stateModel = this.dyingModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
             stateModel.maintainFrame = maintainFrame;
 
-            stateFlag = stateFlag.AddStateFlag(StateFlag.Dying);
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
+            stateFlag = stateFlag.AddStateFlag(RoleStateFlag.Dying);
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
 
-            TDLog.Log($"角色状态机 - 添加  '{StateFlag.Dying}'  \n{stateFlag.ToString_AllFlags()}");
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.Dying}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_StandInGround() {
+            var stateModel = standInGroundModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.StandInGround}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_StandInPlatform() {
+            var stateModel = standInPlatformModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.StandInPlatform}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_StandInWater() {
+            var stateModel = standInWaterModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.StandInWater}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_LeaveGround() {
+            var stateModel = leaveGroundModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.LeaveGround}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_LeavePlatform() {
+            var stateModel = leavePlatformModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.LeavePlatform}'  \n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Add_LeaveWater() {
+            var stateModel = leaveWaterModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+
+            TDLog.Log($"角色状态机 - 添加  '{RoleStateFlag.LeaveWater}'  \n{stateFlag.ToString_AllFlags()}");
         }
 
         #endregion
 
         #region [移除 状态标记]
 
-        public void RemoveIdle() {
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Idle);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Idle}'\n{stateFlag.ToString_AllFlags()}");
+        public void Remove_Idle() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.Idle}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void RemoveCast() {
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.Cast);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.Cast}'\n{stateFlag.ToString_AllFlags()}");
+        public void Remove_Cast() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Cast);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.Cast}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void RemoveSkillMove() {
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.SkillMove);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
+        public void Remove_SkillMove() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.SkillMove);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.SkillMove}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void RemoveKnockBack() {
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.KnockBack);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockBack}'\n{stateFlag.ToString_AllFlags()}");
+        public void Remove_KnockBack() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.KnockBack);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.KnockBack}'\n{stateFlag.ToString_AllFlags()}");
         }
 
-        public void RemoveKnockUp() {
-            stateFlag = stateFlag.RemoveStateFlag(StateFlag.KnockUp);
-            TDLog.Log($"角色状态机 - 移除  '{StateFlag.KnockUp}'\n{stateFlag.ToString_AllFlags()}");
+        public void Remove_KnockUp() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.KnockUp);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.KnockUp}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_StandInGround() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.StandInGround);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.StandInGround}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_StandInPlatform() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.StandInPlatform);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.StandInPlatform}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_StandInWater() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.StandInWater);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.StandInWater}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_LeaveGround() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.LeaveGround);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.LeaveGround}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_LeavePlatform() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.LeavePlatform);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.LeavePlatform}'\n{stateFlag.ToString_AllFlags()}");
+        }
+
+        public void Remove_LeaveWater() {
+            stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.LeaveWater);
+            TDLog.Log($"角色状态机 - 移除  '{RoleStateFlag.LeaveWater}'\n{stateFlag.ToString_AllFlags()}");
         }
 
         #endregion
@@ -175,44 +279,46 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 当前状态 是否可以移动
         /// </summary>
-        public bool CanMove() {
-            return !stateFlag.Contains(StateFlag.Dying)
-                && !stateFlag.Contains(StateFlag.SkillMove)
-                && !stateFlag.Contains(StateFlag.KnockBack)
-                && !stateFlag.Contains(StateFlag.KnockUp)
-                && !stateFlag.Contains(StateFlag.Root)
-                && !stateFlag.Contains(StateFlag.Stun);
+        public bool Can_Move() {
+            return !stateFlag.Contains(RoleStateFlag.Dying)
+                && !stateFlag.Contains(RoleStateFlag.SkillMove)
+                && !stateFlag.Contains(RoleStateFlag.KnockBack)
+                && !stateFlag.Contains(RoleStateFlag.KnockUp)
+                && !stateFlag.Contains(RoleStateFlag.Root)
+                && !stateFlag.Contains(RoleStateFlag.Stun);
         }
 
         /// <summary>
         /// 当前状态 是否可以旋转
         /// </summary>
-        public bool CanSkillMove() {
-            return !stateFlag.Contains(StateFlag.Dying)
-                && !stateFlag.Contains(StateFlag.KnockBack)
-                && !stateFlag.Contains(StateFlag.KnockUp)
-                && !stateFlag.Contains(StateFlag.Root)
-                && !stateFlag.Contains(StateFlag.Stun);
+        public bool Can_SkillMove() {
+            return !stateFlag.Contains(RoleStateFlag.Dying)
+                && !stateFlag.Contains(RoleStateFlag.KnockBack)
+                && !stateFlag.Contains(RoleStateFlag.KnockUp)
+                && !stateFlag.Contains(RoleStateFlag.Root)
+                && !stateFlag.Contains(RoleStateFlag.Stun);
         }
 
         /// <summary>
         /// 当前状态 是否可以跳跃
         /// </summary>
-        public bool CanJump() {
-            return !stateFlag.Contains(StateFlag.Dying)
-                && !stateFlag.Contains(StateFlag.KnockBack)
-                && !stateFlag.Contains(StateFlag.KnockUp)
-                && !stateFlag.Contains(StateFlag.Root)
-                && !stateFlag.Contains(StateFlag.Stun);
+        public bool Can_Jump() {
+            return !stateFlag.Contains(RoleStateFlag.Dying)
+                && !stateFlag.Contains(RoleStateFlag.KnockBack)
+                && !stateFlag.Contains(RoleStateFlag.KnockUp)
+                && !stateFlag.Contains(RoleStateFlag.Root)
+                && !stateFlag.Contains(RoleStateFlag.Stun);
         }
 
         /// <summary>
         /// 当前状态 是否会下落
         /// </summary>
-        public bool CanFall() {
-            return !stateFlag.Contains(StateFlag.KnockBack)
-                && !stateFlag.Contains(StateFlag.KnockUp)
-                && !stateFlag.Contains(StateFlag.Stun);
+        public bool Can_Fall() {
+            return !stateFlag.Contains(RoleStateFlag.KnockBack)
+                && !stateFlag.Contains(RoleStateFlag.KnockUp)
+                && !stateFlag.Contains(RoleStateFlag.Stun)
+                && !stateFlag.Contains(RoleStateFlag.StandInGround)
+                && !stateFlag.Contains(RoleStateFlag.StandInPlatform);
         }
 
         #endregion
@@ -222,11 +328,11 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 当前状态 是否可以释放 普通技能
         /// </summary>
-        public bool CanCast_NormalSkill() {
-            return !stateFlag.Contains(StateFlag.Dying)
-                && !stateFlag.Contains(StateFlag.Root)
-                && !stateFlag.Contains(StateFlag.Stun)
-                && !stateFlag.Contains(StateFlag.Silence);
+        public bool Can_CastNormalSkill() {
+            return !stateFlag.Contains(RoleStateFlag.Dying)
+                && !stateFlag.Contains(RoleStateFlag.Root)
+                && !stateFlag.Contains(RoleStateFlag.Stun)
+                && !stateFlag.Contains(RoleStateFlag.Silence);
         }
 
         #endregion

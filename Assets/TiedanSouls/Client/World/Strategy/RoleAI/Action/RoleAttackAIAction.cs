@@ -33,13 +33,13 @@ namespace TiedanSouls.Client.Entities {
 
         public bool Execute() {
             var fsm = role.FSMCom;
-            if (fsm.StateFlag.Contains(StateFlag.KnockBack)
-                || fsm.StateFlag.Contains(StateFlag.KnockUp)) {
+            if (fsm.StateFlag.Contains(RoleStateFlag.KnockBack)
+                || fsm.StateFlag.Contains(RoleStateFlag.KnockUp)) {
                 return false;
             }
 
-            Vector2 pos_role = role.GetPos_RendererRoot();
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.GetPos_RendererRoot();
+            Vector2 pos_role = role.RendererPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RendererPos;
             time += Time.deltaTime;
             //Attack CD
             if (time < attackCD) {
@@ -57,7 +57,8 @@ namespace TiedanSouls.Client.Entities {
             }
 
             //TODO:攻击方式后续修改，暂时先凑合一下        
-            worldContext.RoleRepo.PlayerRole.Attribute_DecreaseHP(30);
+            var playRole = worldContext.RoleRepo.PlayerRole;
+            worldContext.RootDomain.RoleDomain.DreaseHP(playRole, 30);
             time = 0;
             return true;
 

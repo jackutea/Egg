@@ -10,7 +10,7 @@ namespace TiedanSouls.EditorTool {
         [Header("销毁实体类型")] public EntityType entityType;
         [Header("目标类型")] public RelativeTargetGroupType relativeTargetGroupType;
 
-        [Header("启用/关闭 属性选择器")] public bool isEnabled_attributeSelector;
+        [Header("启用/关闭 属性选择器")] public bool attributeSelector_IsEnabled;
         [Header("属性选择器")] public AttributeSelectorEM attributeSelectorEM;
 
     }

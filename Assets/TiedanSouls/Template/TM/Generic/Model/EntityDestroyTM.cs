@@ -12,8 +12,7 @@ namespace TiedanSouls.Template {
         [Header("销毁实体类型")] public EntityType entityType;
         [Header("目标类型")] public RelativeTargetGroupType relativeTargetGroupType;
 
-        public bool isEnabled_attributeSelector;
-
+        public bool attributeSelector_IsEnabled;
         public AttributeSelectorTM attributeSelectorTM;
 
     }

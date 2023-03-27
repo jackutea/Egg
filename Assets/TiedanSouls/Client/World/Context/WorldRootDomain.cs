@@ -170,7 +170,7 @@ namespace TiedanSouls.Client.Facades {
                         relativeTargetGroupType,
                         summoner,
                         attributeSelectorModel,
-                        roleFSMDomain.Role_EnterDying
+                        roleFSMDomain.Enter_Dying
                     );
                 }
             } else {

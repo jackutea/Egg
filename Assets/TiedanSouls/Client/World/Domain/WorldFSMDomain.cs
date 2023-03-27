@@ -76,7 +76,7 @@ namespace TiedanSouls.Client.Domain {
                 }
                 playerRole.Reset();
 
-                playerRole.Show();
+                roleDomain.Show(playerRole);
                 playerRole.HudSlotCom.ShowHUD();
 
                 // 设置相机 
@@ -185,8 +185,8 @@ namespace TiedanSouls.Client.Domain {
                 itemRepo.RecycleFieldItems(curFieldTypeID);
 
                 // TearDown 当前关卡 AI角色
-                var roleRepo = worldContext.RoleRepo;
-                roleRepo.RecycleFieldAIs(curFieldTypeID);
+                var roleDomain = worldDomain.RoleDomain;
+                roleDomain.RecycleFieldRoles(curFieldTypeID);
 
                 // TearDown 当前关卡 子弹
                 var bulletDomain = worldContext.RootDomain.BulletDomain;
