@@ -22,6 +22,7 @@ namespace TiedanSouls.Client.Facades {
         public WorldProjectileFSMDomain ProjectileFSMDomain { get; private set; }
         public WorldBulletDomain BulletDomain { get; private set; }
         public WorldBulletFSMDomain BulletFSMDomain { get; private set; }
+        public WorldBuffDomain BuffDomain { get; private set; }
 
         #endregion
 
@@ -56,6 +57,7 @@ namespace TiedanSouls.Client.Facades {
             ProjectileFSMDomain = new WorldProjectileFSMDomain();
             BulletDomain = new WorldBulletDomain();
             BulletFSMDomain = new WorldBulletFSMDomain();
+            BuffDomain = new WorldBuffDomain();
 
             PhysicsDomain = new WorldPhysicsDomain();
             EffectorDomain = new WorldEffectorDomain();
@@ -77,6 +79,7 @@ namespace TiedanSouls.Client.Facades {
             this.ProjectileFSMDomain.Inject(infraContext, worldContext, this);
             this.BulletDomain.Inject(infraContext, worldContext, this);
             this.BulletFSMDomain.Inject(infraContext, worldContext, this);
+            this.BuffDomain.Inject(infraContext, worldContext, this);
 
             this.PhysicsDomain.Inject(infraContext, worldContext, this);
             this.EffectorDomain.Inject(infraContext, worldContext);

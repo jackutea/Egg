@@ -15,14 +15,15 @@ namespace TiedanSouls.Client.Entities {
         public IDComponent IDCom { get; private set; }
         public InputComponent InputCom { get; private set; }
         public AttributeComponent AttributeCom { get; private set; }
-        public SkillSlotComponent SkillSlotCom { get; private set; }
         public MoveComponent MoveCom { get; private set; }
-        public WeaponSlotComponent WeaponSlotCom { get; private set; }
         public RoleFSMComponent FSMCom { get; private set; }
-        public RoleRendererComponent RendererModCom { get; private set; }
+        public WeaponSlotComponent WeaponSlotCom { get; private set; }
+        public SkillSlotComponent SkillSlotCom { get; private set; }
+        public BuffSlotComponent BuffSlotCom { get; private set; }
         public HUDSlotComponent HudSlotCom { get; private set; }
         public FootComponent FootCom { get; private set; }
         public BodyComponent BodyCom { get; private set; }
+        public RoleRendererComponent RendererModCom { get; private set; }
 
         #endregion
 
@@ -71,49 +72,56 @@ namespace TiedanSouls.Client.Entities {
             // - Root
             LogicRoot = transform.Find("logic_root");
             RendererRoot = transform.Find("renderer_root");
-
             RB_LogicRoot = LogicRoot.GetComponent<Rigidbody2D>();
+            Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
             TDLog.Assert(RB_LogicRoot != null);
+            TDLog.Assert(Coll_LogicRoot != null);
+
+            // - Move
             MoveCom = new MoveComponent();
             MoveCom.Inject(RB_LogicRoot);
 
-            Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
-            TDLog.Assert(Coll_LogicRoot != null);
+            // - ID
+            IDCom = new IDComponent();
+            IDCom.SetEntityType(EntityType.Role);
 
-            // - Foot
-            FootCom = LogicRoot.Find("foot").GetComponent<FootComponent>();
-            FootCom.Ctor();
-
-            // - Body
-            BodyCom = LogicRoot.Find("body").GetComponent<BodyComponent>();
-            BodyCom.Ctor();
+            // - Input
+            InputCom = new InputComponent();
 
             // - Weapon
             WeaponRoot = LogicRoot.Find("weapon_root");
             WeaponSlotCom = new WeaponSlotComponent();
             WeaponSlotCom.Inject(WeaponRoot);
 
-            // - HUD
-            var hudRoot = RendererRoot.Find("hud_root");
-            TDLog.Assert(hudRoot != null);
-
-            HudSlotCom = new HUDSlotComponent();
-            HudSlotCom.Inject(hudRoot);
-
             // - Attribute
             AttributeCom = new AttributeComponent();
 
-            // - Component
-            IDCom = new IDComponent();
-            IDCom.SetEntityType(EntityType.Role);
-            RendererModCom = new RoleRendererComponent();
+            // - FSM
             FSMCom = new RoleFSMComponent();
-            InputCom = new InputComponent();
+
+            // - Skill
             SkillSlotCom = new SkillSlotComponent();
 
-            // - Event
+            // - Buff
+            BuffSlotCom = new BuffSlotComponent();
+
+            // - HUD
+            var hudRoot = RendererRoot.Find("hud_root");
+            TDLog.Assert(hudRoot != null);
+            HudSlotCom = new HUDSlotComponent();
+            HudSlotCom.Inject(hudRoot);
+
+            RendererModCom = new RoleRendererComponent();
+
+            // - Foot
+            FootCom = LogicRoot.Find("foot").GetComponent<FootComponent>();
+            FootCom.Ctor();
             FootCom.footTriggerEnter = OnFootTriggerEnter;
             FootCom.footTriggerExit = OnFootTriggerExit;
+
+            // - Body
+            BodyCom = LogicRoot.Find("body").GetComponent<BodyComponent>();
+            BodyCom.Ctor();
         }
 
         public void TearDown() {

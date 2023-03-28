@@ -8,6 +8,7 @@ namespace TiedanSouls.Client.Service {
         int fieldIDRecord;
         int projectileIDRecord;
         int bulletIDRecord;
+        int buffIDRecord;
 
         public IDService() { }
 
@@ -18,6 +19,7 @@ namespace TiedanSouls.Client.Service {
             fieldIDRecord = 0;
             projectileIDRecord = 0;
             bulletIDRecord = 0;
+            buffIDRecord = 0;
         }
 
         public int PickRoleID() {
@@ -48,6 +50,11 @@ namespace TiedanSouls.Client.Service {
         public int PickBulletID() {
             bulletIDRecord += 1;
             return bulletIDRecord;
+        }
+
+        public int PickBuffID() {
+            buffIDRecord += 1;
+            return buffIDRecord;
         }
 
     }

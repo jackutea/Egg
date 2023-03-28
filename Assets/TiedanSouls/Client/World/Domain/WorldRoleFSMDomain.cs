@@ -44,8 +44,12 @@ namespace TiedanSouls.Client.Domain {
             var fsm = role.FSMCom;
             if (fsm.IsExited) return;
 
-            // - 1. Tick 状态
             var stateFlag = fsm.StateFlag;
+
+            // - Tick Buff
+            if (!stateFlag.Contains(RoleStateFlag.Dying)) Tick_Buff(role, fsm, dt);
+
+            // - Tick 状态
             if (stateFlag.Contains(RoleStateFlag.Idle)) Tick_Idle(role, fsm, dt);
             if (stateFlag.Contains(RoleStateFlag.Cast)) Tick_Cast(role, fsm, dt);
             if (stateFlag.Contains(RoleStateFlag.SkillMove)) Tick_SkillMove(role, fsm, dt);
@@ -54,9 +58,22 @@ namespace TiedanSouls.Client.Domain {
             if (stateFlag.Contains(RoleStateFlag.Dying)) Tick_Dying(role, fsm, dt);
             Tick_AnyState(role, fsm, dt);
 
-            // - 2. Apply 各项处理
+            // - Apply 各项处理
             Apply_Locomotion(role, fsm, dt);    // 移动
             Apply_RealseSkill(role, fsm, dt);   // 释放技能
+        }
+
+        void Tick_Buff(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var buffDomain = rootDomain.BuffDomain;
+            var buffSlotCom = role.BuffSlotCom;
+            var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
+                buff.curFrame++;
+                buffDomain.TryTriggerEffector(buff);
+            });
+
+            removeList.ForEach((buff) => {
+                buffDomain.TearDownBuff(buff);
+            });
         }
 
         /// <summary>
@@ -350,5 +367,5 @@ namespace TiedanSouls.Client.Domain {
         #endregion
 
     }
-    
+
 }

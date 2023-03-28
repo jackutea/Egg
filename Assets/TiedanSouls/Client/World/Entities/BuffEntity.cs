@@ -38,12 +38,27 @@ namespace TiedanSouls.Client.Entities {
         public int EffectorTypeID => effectorTypeID;
         public void SetEffectorTypeID(int value) => effectorTypeID = value;
 
+        public int curFrame;
+
         public void Ctor() {
             IDCom = new IDComponent();
             IDCom.SetEntityType(EntityType.Buff);
+            curFrame = -1;
         }
 
         public void TearDown() {
+        }
+
+        public void Reset() {
+            curFrame = -1;
+        }
+
+        public bool IsFinished() {
+            return curFrame >= durationFrame;
+        }
+
+        public bool IsTriggerFrame() {
+            return curFrame >= delayFrame && (curFrame - delayFrame) % (intervalFrame + 1) == 0;
         }
 
     }

@@ -44,8 +44,12 @@ namespace TiedanSouls.Client {
             return all.Remove(buff.IDCom.EntityID);
         }
 
-        public bool TryRemove(int entityID) {
-            return all.Remove(entityID);
+        public bool TryRemove(int entityID,out BuffEntity buff) {
+            if (all.TryGetValue(entityID, out buff)) {
+                all.Remove(entityID);
+                return true;
+            }
+            return false;
         }
 
         #endregion
