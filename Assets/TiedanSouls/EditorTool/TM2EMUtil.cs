@@ -9,17 +9,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static AttributeEffectEM[] GetEMArray_AttributeEffect(AttributeEffectTM[] tmArray) {
+        public static AttributeEffectEM[] GetAttributeEffectEMArray(AttributeEffectTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             AttributeEffectEM[] emArray = new AttributeEffectEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_AttributeEffect(tmArray[i]);
+                emArray[i] = GetAttributeEffectEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeEffectEM GetEM_AttributeEffect(AttributeEffectTM tm) {
+        public static AttributeEffectEM GetAttributeEffectEM(AttributeEffectTM tm) {
             AttributeEffectEM em;
             em.hpNCT = tm.hpNCT;
             em.hpEV = tm.hpEV;
@@ -38,18 +38,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [ProjectileBullet]
 
-        public static ProjectileBulletEM[] GetEMArray_ProjectileBullet(ProjectileBulletTM[] tmArray) {
+        public static ProjectileBulletEM[] GetProjectileBulletEMArray(ProjectileBulletTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ProjectileBulletEM[] emArray = new ProjectileBulletEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_ProjectileBullet(tmArray[i]);
+                emArray[i] = GetProjectileBulletEM(tmArray[i]);
             }
             return emArray;
         }
 
 
-        public static ProjectileBulletEM GetEM_ProjectileBullet(ProjectileBulletTM tm) {
+        public static ProjectileBulletEM GetProjectileBulletEM(ProjectileBulletTM tm) {
             ProjectileBulletEM em;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
@@ -64,35 +64,35 @@ namespace TiedanSouls.EditorTool {
 
         #region [Skill]
 
-        public static SkillMoveCurveEM[] GetEMArray_SkillMoveCurve(SkillMoveCurveTM[] tmArray) {
+        public static SkillMoveCurveEM[] GetSkillMoveCurveEMArray(SkillMoveCurveTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillMoveCurveEM[] emArray = new SkillMoveCurveEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_SkillMoveCurve(tmArray[i]);
+                emArray[i] = GetSkillMoveCurveEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static SkillMoveCurveEM GetEM_SkillMoveCurve(SkillMoveCurveTM tm) {
+        public static SkillMoveCurveEM GetSkillMoveCurveEM(SkillMoveCurveTM tm) {
             SkillMoveCurveEM em;
             em.startFrame = tm.startFrame;
             em.isFaceTo = tm.isFaceTo;
-            em.moveCurveEM = GetEM_MoveCurve(tm.moveCurveTM);
+            em.moveCurveEM = GetMoveCurveEM(tm.moveCurveTM);
             return em;
         }
 
-        public static SkillCancelEM[] GetEM_SkillCancel(SkillCancelTM[] tmArray) {
+        public static SkillCancelEM[] GetSkillCancelEM(SkillCancelTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillCancelEM[] emArray = new SkillCancelEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_SkillCancel(tmArray[i]);
+                emArray[i] = GetSkillCancelEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static SkillCancelEM GetEM_SkillCancel(SkillCancelTM tm) {
+        public static SkillCancelEM GetSkillCancelEM(SkillCancelTM tm) {
             SkillCancelEM em;
             em.skillTypeID = tm.skillTypeID;
             em.startFrame = tm.startFrame;
@@ -100,17 +100,17 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
-        public static SkillEffectorEM[] GetEMArray_SkillEffector(SkillEffectorTM[] tmArray) {
+        public static SkillEffectorEM[] GetSkillEffectorEMArray(SkillEffectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillEffectorEM[] emArray = new SkillEffectorEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_SkillEffector(tmArray[i]);
+                emArray[i] = GetSkillEffectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static SkillEffectorEM GetEM_SkillEffector(SkillEffectorTM tm) {
+        public static SkillEffectorEM GetSkillEffectorEM(SkillEffectorTM tm) {
             SkillEffectorEM em;
             em.effectorTypeID = tm.effectorTypeID;
             em.triggerFrame = tm.triggerFrame;
@@ -122,12 +122,12 @@ namespace TiedanSouls.EditorTool {
 
         #region [Effector]
 
-        public static EffectorEM GetEM_Effector(EffectorTM tm) {
+        public static EffectorEM GetEffectorEM(EffectorTM tm) {
             EffectorEM em;
             em.typeID = tm.typeID;
             em.effectorName = tm.effectorName;
-            em.entitySummonEMArray = GetEMArray_EntitySummon(tm.entitySummonTMArray);
-            em.entityDestroyEMArray = GetEMArray_EntityDestroy(tm.entityDestroyTMArray);
+            em.entitySummonEMArray = GetEntitySummonEMArray(tm.entitySummonTMArray);
+            em.entityDestroyEMArray = GetEntityDestroyEMArray(tm.entityDestroyTMArray);
             return em;
         }
 
@@ -135,16 +135,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [CollisionTrigger]
 
-        public static CollisionTriggerEM[] GetEMArray_CollisionTrigger(CollisionTriggerTM[] tmArray) {
+        public static CollisionTriggerEM[] GetCollisionTriggerEMArray(CollisionTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             CollisionTriggerEM[] emArray = new CollisionTriggerEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
-                emArray[i] = GetEM_CollisionTrigger(tmArray[i]);
+                emArray[i] = GetCollisionTriggerEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static CollisionTriggerEM GetEM_CollisionTrigger(CollisionTriggerTM tm) {
+        public static CollisionTriggerEM GetCollisionTriggerEM(CollisionTriggerTM tm) {
             CollisionTriggerEM em;
 
             em.isEnabled = tm.isEnabled;
@@ -167,9 +167,9 @@ namespace TiedanSouls.EditorTool {
             em.colliderGOArray = colliderGOArray;
 
             em.relativeTargetGroupType = tm.relativeTargetGroupType;
-            em.damageEM = GetEM_Damage(tm.damageTM);
-            em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
-            em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
+            em.damageEM = GetDamageEM(tm.damageTM);
+            em.knockBackPowerEM = GetKnockBackEM(tm.knockBackPowerTM);
+            em.knockUpPowerEM = GetKnockUpEM(tm.knockUpPowerTM);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
 
             return em;
@@ -179,7 +179,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [PhysicsPower]
 
-        public static KnockBackEM GetEM_KnockBack(this KnockBackTM tm) {
+        public static KnockBackEM GetKnockBackEM(this KnockBackTM tm) {
             KnockBackEM em;
 
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
@@ -189,7 +189,7 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
-        public static KnockUpEM GetEM_KnockUp(this KnockUpTM tm) {
+        public static KnockUpEM GetKnockUpEM(this KnockUpTM tm) {
             KnockUpEM em;
 
             em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
@@ -203,7 +203,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [Damage]
 
-        public static DamageEM GetEM_Damage(DamageTM tm) {
+        public static DamageEM GetDamageEM(DamageTM tm) {
             DamageEM em;
             em.damageType = tm.damageType;
             em.damageBase = tm.damageBase;
@@ -245,17 +245,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [EntitySummon]
 
-        public static EntitySummonEM[] GetEMArray_EntitySummon(EntitySummonTM[] tmArray) {
+        public static EntitySummonEM[] GetEntitySummonEMArray(EntitySummonTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntitySummonEM[] emArray = new EntitySummonEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_EffectorSummon(tmArray[i]);
+                emArray[i] = GetEffectorSummonEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static EntitySummonEM GetEM_EffectorSummon(EntitySummonTM tm) {
+        public static EntitySummonEM GetEffectorSummonEM(EntitySummonTM tm) {
             EntitySummonEM em;
             em.entityType = tm.entityType;
             em.typeID = tm.typeID;
@@ -267,22 +267,22 @@ namespace TiedanSouls.EditorTool {
 
         #region [EntityDestroy]
 
-        public static EntityDestroyEM[] GetEMArray_EntityDestroy(EntityDestroyTM[] tmArray) {
+        public static EntityDestroyEM[] GetEntityDestroyEMArray(EntityDestroyTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntityDestroyEM[] emArray = new EntityDestroyEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEM_EntityDestroy(tmArray[i]);
+                emArray[i] = GetEntityDestroyEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static EntityDestroyEM GetEM_EntityDestroy(EntityDestroyTM tm) {
+        public static EntityDestroyEM GetEntityDestroyEM(EntityDestroyTM tm) {
             EntityDestroyEM em;
             em.entityType = tm.entityType;
             em.relativeTargetGroupType = tm.relativeTargetGroupType;
             em.attributeSelector_IsEnabled = tm.attributeSelector_IsEnabled;
-            em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
+            em.attributeSelectorEM = GetAttributeSelectorEM(tm.attributeSelectorTM);
             return em;
         }
 
@@ -290,19 +290,19 @@ namespace TiedanSouls.EditorTool {
 
         #region [EntityTracking]
 
-        public static EntityTrackEM GetEM_EntityTrack(EntityTrackTM tm) {
+        public static EntityTrackEM GetEntityTrackEM(EntityTrackTM tm) {
             EntityTrackEM em;
             em.trackSpeed = GetFloat_Shrink100(tm.trackSpeed_cm);
             em.trackTargetGroupType = tm.trackTargetGroupType;
-            em.entityTrackSelectorEM = GetEM_EntityTrackSelector(tm.entityTrackSelectorTM);
+            em.entityTrackSelectorEM = GetEntityTrackSelectorEM(tm.entityTrackSelectorTM);
             return em;
         }
 
-        public static EntityTrackSelectorEM GetEM_EntityTrackSelector(EntityTrackSelectorTM tm) {
+        public static EntityTrackSelectorEM GetEntityTrackSelectorEM(EntityTrackSelectorTM tm) {
             EntityTrackSelectorEM em;
             em.entityType = tm.entityType;
             em.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
-            em.attributeSelectorEM = GetEM_AttributeSelector(tm.attributeSelectorTM);
+            em.attributeSelectorEM = GetAttributeSelectorEM(tm.attributeSelectorTM);
             return em;
         }
 
@@ -310,16 +310,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static AttributeSelectorEM[] GetEMArray_AttributeSelector(AttributeSelectorTM[] tmArray) {
+        public static AttributeSelectorEM[] GetAttributeSelectorEMArray(AttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
             AttributeSelectorEM[] emArray = new AttributeSelectorEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
-                emArray[i] = GetEM_AttributeSelector(tmArray[i]);
+                emArray[i] = GetAttributeSelectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeSelectorEM GetEM_AttributeSelector(AttributeSelectorTM tm) {
+        public static AttributeSelectorEM GetAttributeSelectorEM(AttributeSelectorTM tm) {
             AttributeSelectorEM em;
             em.hp = tm.hp;
             em.hp_ComparisonType = tm.hp_ComparisonType;
@@ -348,7 +348,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [MoveCurve]
 
-        public static MoveCurveEM GetEM_MoveCurve(MoveCurveTM tm) {
+        public static MoveCurveEM GetMoveCurveEM(MoveCurveTM tm) {
             MoveCurveEM em;
             em.moveDistance = GetFloat_Shrink100(tm.moveDistance_cm);
             em.moveTotalFrame = tm.moveTotalFrame;

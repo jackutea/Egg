@@ -10,7 +10,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [Buff]
 
-        public static BuffTM GetTM_Buff(BuffEditorGO editorGo) {
+        public static BuffTM GetBuffTM(BuffEditorGO editorGo) {
             BuffTM tm;
 
             tm.typeID = editorGo.typeID;
@@ -24,7 +24,7 @@ namespace TiedanSouls.EditorTool {
             tm.durationFrame = editorGo.durationFrame;
             tm.triggerTimes = editorGo.triggerTimes;
 
-            tm.attributeEffectTMArray = GetTMArray_AttributeEffect(editorGo.attributeEffectEMArray);
+            tm.attributeEffectTMArray = GetAttributeEffectTMArray(editorGo.attributeEffectEMArray);
 
             return tm;
         }
@@ -33,15 +33,15 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static AttributeEffectTM[] GetTMArray_AttributeEffect(AttributeEffectEM[] emArray) {
+        public static AttributeEffectTM[] GetAttributeEffectTMArray(AttributeEffectEM[] emArray) {
             AttributeEffectTM[] tmArray = new AttributeEffectTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
-                tmArray[i] = GetTM_AttributeEffect(emArray[i]);
+                tmArray[i] = GetAttributeEffectTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static AttributeEffectTM GetTM_AttributeEffect(AttributeEffectEM em) {
+        public static AttributeEffectTM GetAttributeEffectTM(AttributeEffectEM em) {
             AttributeEffectTM tm;
 
             tm.hpNCT = em.hpNCT;
@@ -66,12 +66,12 @@ namespace TiedanSouls.EditorTool {
 
         #region [Projectile]
 
-        public static ProjectileTM GetTM_Projectile(ProjectileEditorGO editorGo) {
+        public static ProjectileTM GetProjectileTM(ProjectileEditorGO editorGo) {
             ProjectileTM tm;
 
             tm.typeID = editorGo.typeID;
             tm.projectileName = editorGo.projectileName;
-            tm.projetileBulletTMArray = GetTMArray_ProjectleBullet(editorGo.projectileBulletEMArray);
+            tm.projetileBulletTMArray = GetProjectleBulletTMArray(editorGo.projectileBulletEMArray);
 
             return tm;
         }
@@ -81,15 +81,15 @@ namespace TiedanSouls.EditorTool {
 
         #region [ProjectileBullet]
 
-        public static ProjectileBulletTM[] GetTMArray_ProjectleBullet(ProjectileBulletEM[] emArray) {
+        public static ProjectileBulletTM[] GetProjectleBulletTMArray(ProjectileBulletEM[] emArray) {
             var tmArray = new ProjectileBulletTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
-                tmArray[i] = GetTM_ProjectleBullet(emArray[i]);
+                tmArray[i] = GetProjectleBulletTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static ProjectileBulletTM GetTM_ProjectleBullet(ProjectileBulletEM em) {
+        public static ProjectileBulletTM GetProjectleBulletTM(ProjectileBulletEM em) {
             ProjectileBulletTM tm;
 
             tm.startFrame = em.startFrame;
@@ -106,13 +106,13 @@ namespace TiedanSouls.EditorTool {
 
         #region [Bullet]
 
-        public static BulletTM GetTM_Bullet(BulletEditorGO editorGO) {
+        public static BulletTM GetBulletTM(BulletEditorGO editorGO) {
             BulletTM tm;
 
             tm.typeID = editorGO.typeID;
             tm.bulletName = editorGO.bulletName;
 
-            tm.collisionTriggerTM = GetTM_CollisionTrigger<BulletEditorGO>(editorGO.collisionTriggerEM);
+            tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
 
             tm.extraPenetrateCount = editorGO.extraPenetrateCount;
@@ -125,8 +125,8 @@ namespace TiedanSouls.EditorTool {
 
             tm.trajectoryType = editorGO.trajectoryType;
 
-            tm.entityTrackTM = GetTM_EntityTrack(editorGO.entityTrackingEM);
-            tm.moveCurveTM = GetTM_MoveCurve(moveCurveEM);
+            tm.entityTrackTM = GetEntityTrackTM(editorGO.entityTrackingEM);
+            tm.moveCurveTM = GetMoveCurveTM(moveCurveEM);
 
             var vfxPrefab = editorGO.vfxPrefab;
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
@@ -142,7 +142,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [Skill]
 
-        public static SkillTM GetTM_Skill(SkillEditorGO editorGo) {
+        public static SkillTM GetSkillTM(SkillEditorGO editorGo) {
             SkillTM tm;
 
             tm.typeID = editorGo.typeID;
@@ -151,54 +151,54 @@ namespace TiedanSouls.EditorTool {
             tm.maintainFrame = editorGo.maintainFrame;
 
             tm.originSkillTypeID = editorGo.originSkillTypeID;
-            tm.comboSkillCancelTMArray = GetTM_SkillCancel(editorGo.comboSkillCancelEMArray);
-            tm.cancelSkillCancelTMArray = GetTM_SkillCancel(editorGo.cancelSkillCancelEMArray);
+            tm.comboSkillCancelTMArray = GetSkillCancelTM(editorGo.comboSkillCancelEMArray);
+            tm.cancelSkillCancelTMArray = GetSkillCancelTM(editorGo.cancelSkillCancelEMArray);
 
-            tm.skillEffectorTMArray = GetTMArray_SkillEffector(editorGo.skillEffectorEMArray);
+            tm.skillEffectorTMArray = GetSkillEffectorTMArray(editorGo.skillEffectorEMArray);
 
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
-            tm.collisionTriggerTMArray = GetTMArray_CollisionTrigger<SkillEditorGO>(editorGo.colliderTriggerEMArray);
+            tm.collisionTriggerTMArray = GetCollisionTriggerTMArray<SkillEditorGO>(editorGo.colliderTriggerEMArray);
 
-            tm.skillMoveCurveTMArray = GetTMArray_MoveCurve(editorGo.skillMoveCurveEMArray);
+            tm.skillMoveCurveTMArray = GetMoveCurveTMArray(editorGo.skillMoveCurveEMArray);
 
             return tm;
         }
 
-        public static SkillMoveCurveTM[] GetTMArray_MoveCurve(SkillMoveCurveEM[] emArray) {
+        public static SkillMoveCurveTM[] GetMoveCurveTMArray(SkillMoveCurveEM[] emArray) {
             SkillMoveCurveTM[] tmArray = new SkillMoveCurveTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
-                tmArray[i] = GetTM_MoveCurve(emArray[i]);
+                tmArray[i] = GetMoveCurveTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static SkillMoveCurveTM GetTM_MoveCurve(SkillMoveCurveEM em) {
+        public static SkillMoveCurveTM GetMoveCurveTM(SkillMoveCurveEM em) {
             SkillMoveCurveTM tm;
             tm.startFrame = em.startFrame;
             tm.isFaceTo = em.isFaceTo;
-            tm.moveCurveTM = GetTM_MoveCurve(em.moveCurveEM);
+            tm.moveCurveTM = GetMoveCurveTM(em.moveCurveEM);
             return tm;
         }
 
-        public static SkillTM[] GetTMArray_Skill(SkillEditorGO[] editorGoArray) {
+        public static SkillTM[] GetSkillTMArray(SkillEditorGO[] editorGoArray) {
             SkillTM[] tmArray = new SkillTM[editorGoArray.Length];
             for (int i = 0; i < editorGoArray.Length; i++) {
-                tmArray[i] = GetTM_Skill(editorGoArray[i]);
+                tmArray[i] = GetSkillTM(editorGoArray[i]);
             }
             return tmArray;
         }
 
-        public static SkillCancelTM[] GetTM_SkillCancel(SkillCancelEM[] ems) {
+        public static SkillCancelTM[] GetSkillCancelTM(SkillCancelEM[] ems) {
             SkillCancelTM[] tms = new SkillCancelTM[ems.Length];
             for (int i = 0; i < ems.Length; i++) {
-                tms[i] = GetTM_SkillCancel(ems[i]);
+                tms[i] = GetSkillCancelTM(ems[i]);
             }
             return tms;
         }
 
-        public static SkillCancelTM GetTM_SkillCancel(SkillCancelEM em) {
+        public static SkillCancelTM GetSkillCancelTM(SkillCancelEM em) {
             SkillCancelTM tm;
             tm.skillTypeID = em.skillTypeID;
             tm.startFrame = em.startFrame;
@@ -206,15 +206,15 @@ namespace TiedanSouls.EditorTool {
             return tm;
         }
 
-        public static SkillEffectorTM[] GetTMArray_SkillEffector(SkillEffectorEM[] ems) {
+        public static SkillEffectorTM[] GetSkillEffectorTMArray(SkillEffectorEM[] ems) {
             SkillEffectorTM[] tms = new SkillEffectorTM[ems.Length];
             for (int i = 0; i < ems.Length; i++) {
-                tms[i] = GetTM_SkillEffector(ems[i]);
+                tms[i] = GetSkillEffectorTM(ems[i]);
             }
             return tms;
         }
 
-        public static SkillEffectorTM GetTM_SkillEffector(SkillEffectorEM em) {
+        public static SkillEffectorTM GetSkillEffectorTM(SkillEffectorEM em) {
             SkillEffectorTM tm;
             tm.triggerFrame = em.triggerFrame;
             tm.effectorTypeID = em.effectorTypeID;
@@ -226,12 +226,12 @@ namespace TiedanSouls.EditorTool {
 
         #region [Effector]
 
-        public static EffectorTM GetTM_Effector(EffectorEM em) {
+        public static EffectorTM GetEffectorTM(EffectorEM em) {
             EffectorTM tm;
             tm.typeID = em.typeID;
             tm.effectorName = em.effectorName;
-            tm.entitySummonTMArray = GetTMArray_EntitySummon(em.entitySummonEMArray);
-            tm.entityDestroyTMArray = GetTMArray_EntityDestroy(em.entityDestroyEMArray);
+            tm.entitySummonTMArray = GetEntitySummonTMArray(em.entitySummonEMArray);
+            tm.entityDestroyTMArray = GetEntityDestroyTMArray(em.entityDestroyEMArray);
             return tm;
         }
 
@@ -242,7 +242,7 @@ namespace TiedanSouls.EditorTool {
         /// <summary>
         /// 击退 根据曲线计算每一帧的速度
         /// </summary>
-        public static KnockBackTM GetTM_KnockBack(KnockBackEM em) {
+        public static KnockBackTM GetKnockBackTM(KnockBackEM em) {
             KnockBackTM tm;
             var knockBackDistance_cm = GetInt_Expand100(em.knockBackDistance);
             var knockBackCostFrame = em.knockBackCostFrame;
@@ -251,14 +251,14 @@ namespace TiedanSouls.EditorTool {
             tm.knockBackCostFrame = knockBackCostFrame;
             tm.knockBackDistance_cm = knockBackDistance_cm;
             tm.knockBackSpeedArray_cm = knockBackSpeedArray_cm;
-            tm.knockBackDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockBackDisCurve);
+            tm.knockBackDisCurve_KeyframeTMArray = GetKeyframeTMArray(knockBackDisCurve);
             return tm;
         }
 
         /// <summary>
         /// 击飞 根据曲线计算每一帧的速度
         /// </summary>
-        public static KnockUpTM GetTM_KnockUp(KnockUpEM em) {
+        public static KnockUpTM GetKnockUpTM(KnockUpEM em) {
             KnockUpTM tm;
             var knockUpHeight_cm = GetInt_Expand100(em.knockUpHeight);
             var knockUpCostFrame = em.knockUpCostFrame;
@@ -267,7 +267,7 @@ namespace TiedanSouls.EditorTool {
             tm.knockUpCostFrame = knockUpCostFrame;
             tm.knockUpHeight_cm = knockUpHeight_cm;
             tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
-            tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve);
+            tm.knockUpDisCurve_KeyframeTMArray = GetKeyframeTMArray(knockUpDisCurve);
             return tm;
         }
 
@@ -275,7 +275,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [Damage]
 
-        public static DamageTM GetTM_Damage(DamageEM em, int totalFrame) {
+        public static DamageTM GetDamageTM(DamageEM em, int totalFrame) {
             var damageBase = em.damageBase;
             var damageCurve = em.damageCurve;
 
@@ -283,7 +283,7 @@ namespace TiedanSouls.EditorTool {
             tm.damageType = em.damageType;
             tm.damageBase = damageBase;
             tm.damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame, damageCurve);
-            tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve);
+            tm.damageCurve_KeyframeTMArray = GetKeyframeTMArray(damageCurve);
 
             return tm;
         }
@@ -292,16 +292,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [ColliderTrigger]
 
-        public static CollisionTriggerTM[] GetTMArray_CollisionTrigger<T>(CollisionTriggerEM[] emArray) {
+        public static CollisionTriggerTM[] GetCollisionTriggerTMArray<T>(CollisionTriggerEM[] emArray) {
             var len = emArray.Length;
             var tmArray = new CollisionTriggerTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetTM_CollisionTrigger<T>(emArray[i]);
+                tmArray[i] = GetCollisionTriggerTM<T>(emArray[i]);
             }
             return tmArray;
         }
 
-        public static CollisionTriggerTM GetTM_CollisionTrigger<T>(CollisionTriggerEM em) {
+        public static CollisionTriggerTM GetCollisionTriggerTM<T>(CollisionTriggerEM em) {
             var totalFrame = em.totalFrame;
 
             CollisionTriggerTM tm;
@@ -314,12 +314,12 @@ namespace TiedanSouls.EditorTool {
             tm.intervalFrame = em.intervalFrame;
             tm.maintainFrame = em.maintainFrame;
 
-            tm.colliderTMArray = GetTMArray_Collider(em.colliderGOArray);
+            tm.colliderTMArray = GetColliderTMArray(em.colliderGOArray);
 
             tm.relativeTargetGroupType = em.relativeTargetGroupType;
-            tm.damageTM = GetTM_Damage(em.damageEM, totalFrame);
-            tm.knockBackPowerTM = GetTM_KnockBack(em.knockBackPowerEM);
-            tm.knockUpPowerTM = GetTM_KnockUp(em.knockUpPowerEM);
+            tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
+            tm.knockBackPowerTM = GetKnockBackTM(em.knockBackPowerEM);
+            tm.knockUpPowerTM = GetKnockUpTM(em.knockUpPowerEM);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
             tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);
@@ -331,16 +331,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [Collider]
 
-        public static ColliderTM[] GetTMArray_Collider(GameObject[] colliderGOArray) {
+        public static ColliderTM[] GetColliderTMArray(GameObject[] colliderGOArray) {
             var len = colliderGOArray.Length;
             var colliderTMArray = new ColliderTM[len];
             for (int i = 0; i < len; i++) {
-                colliderTMArray[i] = GetTM_Collider(colliderGOArray[i]);
+                colliderTMArray[i] = GetColliderTM(colliderGOArray[i]);
             }
             return colliderTMArray;
         }
 
-        public static ColliderTM GetTM_Collider(GameObject colliderGO) {
+        public static ColliderTM GetColliderTM(GameObject colliderGO) {
             if (colliderGO == null) {
                 Debug.LogWarning("碰撞器为空");
                 return default;
@@ -373,16 +373,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [Entity Summon]
 
-        public static EntitySummonTM[] GetTMArray_EntitySummon(EntitySummonEM[] emArray) {
+        public static EntitySummonTM[] GetEntitySummonTMArray(EntitySummonEM[] emArray) {
             var len = emArray.Length;
             var tmArray = new EntitySummonTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetTM_EntitySummon(emArray[i]);
+                tmArray[i] = GetEntitySummonTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static EntitySummonTM GetTM_EntitySummon(EntitySummonEM em) {
+        public static EntitySummonTM GetEntitySummonTM(EntitySummonEM em) {
             EntitySummonTM tm;
             tm.entityType = em.entityType;
             tm.typeID = em.typeID;
@@ -394,21 +394,21 @@ namespace TiedanSouls.EditorTool {
 
         #region [Entity Destroy]
 
-        public static EntityDestroyTM[] GetTMArray_EntityDestroy(EntityDestroyEM[] emArray) {
+        public static EntityDestroyTM[] GetEntityDestroyTMArray(EntityDestroyEM[] emArray) {
             var len = emArray.Length;
             var tmArray = new EntityDestroyTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetTM_EntityDestroy(emArray[i]);
+                tmArray[i] = GetEntityDestroyTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static EntityDestroyTM GetTM_EntityDestroy(EntityDestroyEM em) {
+        public static EntityDestroyTM GetEntityDestroyTM(EntityDestroyEM em) {
             EntityDestroyTM tm;
             tm.entityType = em.entityType;
             tm.relativeTargetGroupType = em.relativeTargetGroupType;
             tm.attributeSelector_IsEnabled = em.attributeSelector_IsEnabled;
-            tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
+            tm.attributeSelectorTM = GetAttributeSelectorTM(em.attributeSelectorEM);
             return tm;
         }
 
@@ -416,19 +416,19 @@ namespace TiedanSouls.EditorTool {
 
         #region [EntityTrack]
 
-        public static EntityTrackTM GetTM_EntityTrack(EntityTrackEM em) {
+        public static EntityTrackTM GetEntityTrackTM(EntityTrackEM em) {
             EntityTrackTM tm;
             tm.trackSpeed_cm = GetInt_Expand100(em.trackSpeed);
             tm.trackTargetGroupType = em.trackTargetGroupType;
-            tm.entityTrackSelectorTM = GetTM_EntityTrackSelector(em.entityTrackSelectorEM);
+            tm.entityTrackSelectorTM = GetEntityTrackSelectorTM(em.entityTrackSelectorEM);
             return tm;
         }
 
-        public static EntityTrackSelectorTM GetTM_EntityTrackSelector(EntityTrackSelectorEM em) {
+        public static EntityTrackSelectorTM GetEntityTrackSelectorTM(EntityTrackSelectorEM em) {
             EntityTrackSelectorTM tm;
             tm.entityType = em.entityType;
             tm.isAttributeSelectorEnabled = em.isAttributeSelectorEnabled;
-            tm.attributeSelectorTM = GetTM_AttributeSelector(em.attributeSelectorEM);
+            tm.attributeSelectorTM = GetAttributeSelectorTM(em.attributeSelectorEM);
             return tm;
         }
 
@@ -436,16 +436,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static AttributeSelectorTM[] GetTMArray_AttributeSelector(AttributeSelectorEM[] emArray) {
+        public static AttributeSelectorTM[] GetAttributeSelectorTMArray(AttributeSelectorEM[] emArray) {
             var len = emArray.Length;
             var tmArray = new AttributeSelectorTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetTM_AttributeSelector(emArray[i]);
+                tmArray[i] = GetAttributeSelectorTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static AttributeSelectorTM GetTM_AttributeSelector(AttributeSelectorEM em) {
+        public static AttributeSelectorTM GetAttributeSelectorTM(AttributeSelectorEM em) {
             AttributeSelectorTM tm;
             tm.hp = em.hp;
             tm.hp_ComparisonType = em.hp_ComparisonType;
@@ -507,7 +507,7 @@ namespace TiedanSouls.EditorTool {
             return moveDirArray;
         }
 
-        public static KeyframeTM[] GetTMArray_Keyframe(AnimationCurve curve) {
+        public static KeyframeTM[] GetKeyframeTMArray(AnimationCurve curve) {
             var keyframeArray = curve.keys;
             var len = keyframeArray.Length;
             var keyFrameArray = new KeyframeTM[len];
@@ -521,7 +521,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [MoveCurve]
 
-        public static MoveCurveTM GetTM_MoveCurve(MoveCurveEM em) {
+        public static MoveCurveTM GetMoveCurveTM(MoveCurveEM em) {
             var moveDistance_cm = GetInt_Expand100(em.moveDistance);
             var moveTotalFrame = em.moveTotalFrame;
             var disCurve = em.disCurve;
@@ -529,7 +529,7 @@ namespace TiedanSouls.EditorTool {
             MoveCurveTM tm;
             tm.moveDistance_cm = moveDistance_cm;
             tm.moveTotalFrame = moveTotalFrame;
-            tm.disCurve_KeyframeTMArray = GetTMArray_Keyframe(disCurve);
+            tm.disCurve_KeyframeTMArray = GetKeyframeTMArray(disCurve);
             tm.moveSpeedArray = GetSpeedArray_AnimationCurve(moveDistance_cm, moveTotalFrame, disCurve);
             tm.moveDirArray = GetDirectionArray_AnimationCurve(em.moveTotalFrame, disCurve);
 

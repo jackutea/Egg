@@ -30,7 +30,7 @@ namespace TiedanSouls.EditorTool {
                 Debug.LogWarning("配置文件为空!");
                 return;
             }
-            var skillTM = EM2TMUtil.GetTM_Skill(this);
+            var skillTM = EM2TMUtil.GetSkillTM(this);
             so.tm = skillTM;
 
             EditorUtility.SetDirty(so);
@@ -55,11 +55,11 @@ namespace TiedanSouls.EditorTool {
 
             this.originSkillTypeID = skillTM.originSkillTypeID;
 
-            this.comboSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.comboSkillCancelTMArray);
-            this.cancelSkillCancelEMArray = TM2EMUtil.GetEM_SkillCancel(skillTM.cancelSkillCancelTMArray);
-            this.colliderTriggerEMArray = TM2EMUtil.GetEMArray_CollisionTrigger(skillTM.collisionTriggerTMArray);
-            this.skillEffectorEMArray = TM2EMUtil.GetEMArray_SkillEffector(skillTM.skillEffectorTMArray);
-            this.skillMoveCurveEMArray = TM2EMUtil.GetEMArray_SkillMoveCurve(skillTM.skillMoveCurveTMArray);
+            this.comboSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.comboSkillCancelTMArray);
+            this.cancelSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.cancelSkillCancelTMArray);
+            this.colliderTriggerEMArray = TM2EMUtil.GetCollisionTriggerEMArray(skillTM.collisionTriggerTMArray);
+            this.skillEffectorEMArray = TM2EMUtil.GetSkillEffectorEMArray(skillTM.skillEffectorTMArray);
+            this.skillMoveCurveEMArray = TM2EMUtil.GetSkillMoveCurveEMArray(skillTM.skillMoveCurveTMArray);
 
             this.weaponAnimClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GUIDToAssetPath(skillTM.weaponAnimClip_GUID));
         }

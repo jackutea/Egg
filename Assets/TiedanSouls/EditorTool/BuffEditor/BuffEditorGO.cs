@@ -28,7 +28,7 @@ namespace TiedanSouls.EditorTool {
                 return;
             }
 
-            var tm = EM2TMUtil.GetTM_Buff(this);
+            var tm = EM2TMUtil.GetBuffTM(this);
             so.tm = tm;
 
             var labelName = AssetLabelCollection.SO_BUFF;
@@ -57,7 +57,7 @@ namespace TiedanSouls.EditorTool {
             this.durationFrame = tm.durationFrame;
             this.triggerTimes = tm.triggerTimes;
 
-            this.attributeEffectEMArray = TM2EMUtil.GetEMArray_AttributeEffect(tm.attributeEffectTMArray);
+            this.attributeEffectEMArray = TM2EMUtil.GetAttributeEffectEMArray(tm.attributeEffectTMArray);
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);

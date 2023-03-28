@@ -20,7 +20,7 @@ namespace TiedanSouls.EditorTool {
                 return;
             }
 
-            so.tm = EM2TMUtil.GetTM_Projectile(this);
+            so.tm = EM2TMUtil.GetProjectileTM(this);
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
@@ -38,7 +38,7 @@ namespace TiedanSouls.EditorTool {
             var tm = so.tm;
             this.typeID = tm.typeID;
             this.projectileName = tm.projectileName;
-            this.projectileBulletEMArray = TM2EMUtil.GetEMArray_ProjectileBullet(tm.projetileBulletTMArray);
+            this.projectileBulletEMArray = TM2EMUtil.GetProjectileBulletEMArray(tm.projetileBulletTMArray);
         }
 
     }

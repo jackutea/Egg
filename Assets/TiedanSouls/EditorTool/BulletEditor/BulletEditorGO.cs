@@ -31,7 +31,7 @@ namespace TiedanSouls.EditorTool {
                 return;
             }
 
-            so.tm = EM2TMUtil.GetTM_Bullet(this);
+            so.tm = EM2TMUtil.GetBulletTM(this);
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
@@ -50,7 +50,7 @@ namespace TiedanSouls.EditorTool {
             this.typeID = tm.typeID;
             this.bulletName = tm.bulletName;
 
-            this.collisionTriggerEM = TM2EMUtil.GetEM_CollisionTrigger(tm.collisionTriggerTM);
+            this.collisionTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.collisionTriggerTM);
             this.deathEffectorTypeID = tm.deathEffectorTypeID;
 
             this.extraPenetrateCount = tm.extraPenetrateCount;
@@ -60,8 +60,8 @@ namespace TiedanSouls.EditorTool {
 
             this.trajectoryType = tm.trajectoryType;
 
-            this.moveCurveEM = TM2EMUtil.GetEM_MoveCurve(tm.moveCurveTM);
-            this.entityTrackingEM = TM2EMUtil.GetEM_EntityTrack(tm.entityTrackTM);
+            this.moveCurveEM = TM2EMUtil.GetMoveCurveEM(tm.moveCurveTM);
+            this.entityTrackingEM = TM2EMUtil.GetEntityTrackEM(tm.entityTrackTM);
 
         }
 

@@ -48,7 +48,7 @@ namespace TiedanSouls.Client {
             idCom.SetEntityID(service.PickFieldID());
             idCom.SetTypeID(typeID);
 
-            field.SetEntitySpawnCtrlModelArray(GetModelArray_EntitySpawnCtrl(fieldTM.entitySpawnCtrlTMArray));
+            field.SetEntitySpawnCtrlModelArray(GetEntitySpawnCtrlModelArray(fieldTM.entitySpawnCtrlTMArray));
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
@@ -257,15 +257,15 @@ namespace TiedanSouls.Client {
             // 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
             // 组合技能清单
-            skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.comboSkillCancelTMArray));
+            skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.comboSkillCancelTMArray));
             // 连招技能清单
-            skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetModelArray_SkillCancel(skillTM.cancelSkillCancelTMArray));
+            skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.cancelSkillCancelTMArray));
             // 碰撞器
-            skill.SetCollisionTriggerArray(TM2ModelUtil.GetModelArray_CollisionTrigger(skillTM.collisionTriggerTMArray));
+            skill.SetCollisionTriggerArray(TM2ModelUtil.GetCollisionTriggerModelArray(skillTM.collisionTriggerTMArray));
             // 技能效果器
-            skill.SetSkillEffectorModelArray(TM2ModelUtil.GetModelArray_SkillEffector(skillTM.skillEffectorTMArray));
+            skill.SetSkillEffectorModelArray(TM2ModelUtil.GetSkillEffectorModelArray(skillTM.skillEffectorTMArray));
             // 技能位移曲线
-            skill.SetSkillMoveCurveModelArray(TM2ModelUtil.GetModelArray_SkillMoveCurve(skillTM.skillMoveCurveTMArray));
+            skill.SetSkillMoveCurveModelArray(TM2ModelUtil.GetSkillMoveCurveModelArray(skillTM.skillMoveCurveTMArray));
             // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 
@@ -300,7 +300,7 @@ namespace TiedanSouls.Client {
                 ProjectileBulletModel[] projetileBulletModelArray = new ProjectileBulletModel[len];
                 for (int i = 0; i < len; i++) {
                     var tm = projetileBulletTMArray[i];
-                    var model = TM2ModelUtil.GetModel_ProjectileBullet(tm);
+                    var model = TM2ModelUtil.GetProjectileBulletModel(tm);
                     projetileBulletModelArray[i] = model;
                 }
                 projectile.SetProjectileBulletModelArray(projetileBulletModelArray);
@@ -331,10 +331,10 @@ namespace TiedanSouls.Client {
             idCom.SetEntityName(tm.bulletName);
 
             bullet.SetTrajectoryType(tm.trajectoryType);
-            bullet.entityTrackModel = TM2ModelUtil.GetModel_EntityTrack(tm.entityTrackTM);// 实体追踪模型
-            bullet.moveCurveModel = TM2ModelUtil.GetModel_MoveCurve(tm.moveCurveTM);// 位移曲线模型
+            bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
+            bullet.moveCurveModel = TM2ModelUtil.GetMoveCurveModel(tm.moveCurveTM);// 位移曲线模型
 
-            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetModel_CollisionTrigger(tm.collisionTriggerTM));
+            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetCollisionTriggerModel(tm.collisionTriggerTM));
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
 
@@ -353,28 +353,28 @@ namespace TiedanSouls.Client {
 
         #region [EntitySpawnCtrl]
 
-        public EntitySpawnCtrlModel[] GetModelArray_EntitySpawnCtrl(EntitySpawnCtrlTM[] tmArray) {
+        public EntitySpawnCtrlModel[] GetEntitySpawnCtrlModelArray(EntitySpawnCtrlTM[] tmArray) {
             var len = tmArray.Length;
             var modelArray = new EntitySpawnCtrlModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
-                var model = GetModel_EntitySpawnCtrl(tm);
+                var model = GetEntitySpawnCtrlModel(tm);
                 modelArray[i] = model;
             }
             return modelArray;
         }
 
-        public EntitySpawnCtrlModel GetModel_EntitySpawnCtrl(EntitySpawnCtrlTM tm) {
+        public EntitySpawnCtrlModel GetEntitySpawnCtrlModel(EntitySpawnCtrlTM tm) {
             EntitySpawnCtrlModel model;
             model.spawnFrame = tm.spawnFrame;
             model.isBreakPoint = tm.isBreakPoint;
-            model.entitySpawnModel = GetModel_EntitySpawn(tm.entitySpawnTM);
+            model.entitySpawnModel = GetEntitySpawnModel(tm.entitySpawnTM);
             return model;
         }
 
         #region [EntitySpawn]
 
-        public EntitySpawnModel GetModel_EntitySpawn(EntitySpawnTM tm) {
+        public EntitySpawnModel GetEntitySpawnModel(EntitySpawnTM tm) {
             EntitySpawnModel model;
             model.entityType = tm.entityType;
             model.typeID = tm.typeID;

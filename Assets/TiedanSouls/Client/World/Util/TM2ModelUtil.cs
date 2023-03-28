@@ -10,17 +10,17 @@ namespace TiedanSouls.Client {
 
         #region [ProjectileBullet]
 
-        public static ProjectileBulletModel[] GetModelArray_ProjectileBullet(ProjectileBulletTM[] tmArray) {
+        public static ProjectileBulletModel[] GetProjectileBulletModelArray(ProjectileBulletTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ProjectileBulletModel[] modelArray = new ProjectileBulletModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_ProjectileBullet(tmArray[i]);
+                modelArray[i] = GetProjectileBulletModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static ProjectileBulletModel GetModel_ProjectileBullet(ProjectileBulletTM tm) {
+        public static ProjectileBulletModel GetProjectileBulletModel(ProjectileBulletTM tm) {
             ProjectileBulletModel model;
             model.startFrame = tm.startFrame;
             model.endFrame = tm.endFrame;
@@ -36,35 +36,35 @@ namespace TiedanSouls.Client {
 
         #region [Skill]
 
-        public static SkillMoveCurveModel[] GetModelArray_SkillMoveCurve(SkillMoveCurveTM[] tmArray) {
+        public static SkillMoveCurveModel[] GetSkillMoveCurveModelArray(SkillMoveCurveTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillMoveCurveModel[] modelArray = new SkillMoveCurveModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_SkillMoveCurve(tmArray[i]);
+                modelArray[i] = GetSkillMoveCurveModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static SkillMoveCurveModel GetModel_SkillMoveCurve(SkillMoveCurveTM tm) {
+        public static SkillMoveCurveModel GetSkillMoveCurveModel(SkillMoveCurveTM tm) {
             SkillMoveCurveModel model;
             model.startFrame = tm.startFrame;
             model.isFaceTo = tm.isFaceTo;
-            model.moveCurveModel = GetModel_MoveCurve(tm.moveCurveTM);
+            model.moveCurveModel = GetMoveCurveModel(tm.moveCurveTM);
             return model;
         }
 
-        public static SkillCancelModel[] GetModelArray_SkillCancel(SkillCancelTM[] tmArray) {
+        public static SkillCancelModel[] GetSkillCancelModelArray(SkillCancelTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillCancelModel[] modelArray = new SkillCancelModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_SkillCancel(tmArray[i]);
+                modelArray[i] = GetSkillCancelModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static SkillCancelModel GetModel_SkillCancel(SkillCancelTM tm) {
+        public static SkillCancelModel GetSkillCancelModel(SkillCancelTM tm) {
             SkillCancelModel model;
             model.skillTypeID = tm.skillTypeID;
             model.startFrame = tm.startFrame;
@@ -72,17 +72,17 @@ namespace TiedanSouls.Client {
             return model;
         }
 
-        public static SkillEffectorModel[] GetModelArray_SkillEffector(SkillEffectorTM[] tmArray) {
+        public static SkillEffectorModel[] GetSkillEffectorModelArray(SkillEffectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillEffectorModel[] modelArray = new SkillEffectorModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_SkillEffector(tmArray[i]);
+                modelArray[i] = GetSkillEffectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static SkillEffectorModel GetModel_SkillEffector(SkillEffectorTM tm) {
+        public static SkillEffectorModel GetSkillEffectorModel(SkillEffectorTM tm) {
             SkillEffectorModel model;
             model.triggerFrame = tm.triggerFrame;
             model.effectorTypeID = tm.effectorTypeID;
@@ -94,18 +94,18 @@ namespace TiedanSouls.Client {
 
         #region [CollisionTrigger]
 
-        public static CollisionTriggerModel[] GetModelArray_CollisionTrigger(CollisionTriggerTM[] tmArray) {
+        public static CollisionTriggerModel[] GetCollisionTriggerModelArray(CollisionTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
-                modelArray[i] = GetModel_CollisionTrigger(tm);
+                modelArray[i] = GetCollisionTriggerModel(tm);
             }
             return modelArray;
         }
 
-        public static CollisionTriggerModel GetModel_CollisionTrigger(CollisionTriggerTM tm) {
+        public static CollisionTriggerModel GetCollisionTriggerModel(CollisionTriggerTM tm) {
             CollisionTriggerModel model;
 
             var totalFrame = tm.totalFrame;
@@ -117,12 +117,12 @@ namespace TiedanSouls.Client {
             model.triggerStatusDic = GetDic_TriggerStatus(totalFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
             model.relativeTargetGroupType = tm.relativeTargetGroupType;
 
-            model.damageModel = GetModel_Damage(tm.damageTM);
-            model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
-            model.knockUpPowerModel = GetModel_KnockUp(tm.knockUpPowerTM);
+            model.damageModel = GetDamageModel(tm.damageTM);
+            model.knockBackPowerModel = GetKnockBackModel(tm.knockBackPowerTM);
+            model.knockUpPowerModel = GetKnockUpModel(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
 
-            model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.relativeTargetGroupType);
+            model.colliderModelArray = GetColliderModelArray(tm.colliderTMArray, tm.relativeTargetGroupType);
 
             return model;
         }
@@ -162,17 +162,17 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetModelArray_Collider(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static ColliderModel[] GetColliderModelArray(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderModel[] modelArray = new ColliderModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_Collider(tmArray[i], hitRelativeTargetGroupType);
+                modelArray[i] = GetColliderModel(tmArray[i], hitRelativeTargetGroupType);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetModel_Collider(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static ColliderModel GetColliderModel(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model = go.AddComponent<ColliderModel>();
             model.SetColliderType(tm.colliderType);
@@ -210,13 +210,13 @@ namespace TiedanSouls.Client {
 
         #region [KnockBack]
 
-        public static KnockBackModel GetModel_KnockBack(KnockBackTM tm) {
+        public static KnockBackModel GetKnockBackModel(KnockBackTM tm) {
             KnockBackModel model;
             model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
             return model;
         }
 
-        public static KnockUpModel GetModel_KnockUp(KnockUpTM tm) {
+        public static KnockUpModel GetKnockUpModel(KnockUpTM tm) {
             KnockUpModel model;
             model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             return model;
@@ -226,7 +226,7 @@ namespace TiedanSouls.Client {
 
         #region [Damage]
 
-        public static DamageModel GetModel_Damage(DamageTM tm) {
+        public static DamageModel GetDamageModel(DamageTM tm) {
             DamageModel model;
             model.damageType = tm.damageType;
             model.damageArray = tm.damageArray?.Clone() as int[];
@@ -237,12 +237,12 @@ namespace TiedanSouls.Client {
 
         #region [Effector]
 
-        public static EffectorModel GetModel_Effector(EffectorTM tm) {
+        public static EffectorModel GetEffectorModel(EffectorTM tm) {
             EffectorModel model;
             model.typeID = tm.typeID;
             model.effectorName = tm.effectorName;
-            model.entitySummonModelArray = GetModelArray_EntitySummon(tm.entitySummonTMArray);
-            model.entityDestroyModelArray = GetModelArray_EntityDestroy(tm.entityDestroyTMArray);
+            model.entitySummonModelArray = GetEntitySummonModelArray(tm.entitySummonTMArray);
+            model.entityDestroyModelArray = GetEntityDestroyModelArray(tm.entityDestroyTMArray);
             return model;
         }
 
@@ -250,17 +250,17 @@ namespace TiedanSouls.Client {
 
         #region [EntitySummon]
 
-        public static EntitySummonModel[] GetModelArray_EntitySummon(EntitySummonTM[] tmArray) {
+        public static EntitySummonModel[] GetEntitySummonModelArray(EntitySummonTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntitySummonModel[] modelArray = new EntitySummonModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_EntitySummon(tmArray[i]);
+                modelArray[i] = GetEntitySummonModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static EntitySummonModel GetModel_EntitySummon(EntitySummonTM tm) {
+        public static EntitySummonModel GetEntitySummonModel(EntitySummonTM tm) {
             EntitySummonModel model;
             model.entityType = tm.entityType;
             model.typeID = tm.typeID;
@@ -272,22 +272,22 @@ namespace TiedanSouls.Client {
 
         #region [EntityDestroy]
 
-        public static EntityDestroyModel[] GetModelArray_EntityDestroy(EntityDestroyTM[] tmArray) {
+        public static EntityDestroyModel[] GetEntityDestroyModelArray(EntityDestroyTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntityDestroyModel[] modelArray = new EntityDestroyModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_EntityDestroy(tmArray[i]);
+                modelArray[i] = GetEntityDestroyModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static EntityDestroyModel GetModel_EntityDestroy(EntityDestroyTM tm) {
+        public static EntityDestroyModel GetEntityDestroyModel(EntityDestroyTM tm) {
             EntityDestroyModel model;
             model.entityType = tm.entityType;
             model.relativeTargetGroupType = tm.relativeTargetGroupType;
             model.isEnabled_attributeSelector = tm.attributeSelector_IsEnabled;
-            model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
+            model.attributeSelectorModel = GetAttributeSelectorModel(tm.attributeSelectorTM);
             return model;
         }
 
@@ -295,20 +295,20 @@ namespace TiedanSouls.Client {
 
         #region [EntityTrack]
 
-        public static EntityTrackModel GetModel_EntityTrack(EntityTrackTM tm) {
+        public static EntityTrackModel GetEntityTrackModel(EntityTrackTM tm) {
             EntityTrackModel model;
             model.trackSpeed = GetFloat_Shrink100(tm.trackSpeed_cm);
             model.relativeTrackTargetGroupType = tm.trackTargetGroupType;
-            model.entityTrackSelectorModel = GetModel_EntityTrackSelector(tm.entityTrackSelectorTM);
+            model.entityTrackSelectorModel = GetEntityTrackSelectorModel(tm.entityTrackSelectorTM);
             model.target = default;
             return model;
         }
 
-        public static EntityTrackSelectorModel GetModel_EntityTrackSelector(EntityTrackSelectorTM tm) {
+        public static EntityTrackSelectorModel GetEntityTrackSelectorModel(EntityTrackSelectorTM tm) {
             EntityTrackSelectorModel model;
             model.entityType = tm.entityType;
             model.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
-            model.attributeSelectorModel = GetModel_AttributeSelector(tm.attributeSelectorTM);
+            model.attributeSelectorModel = GetAttributeSelectorModel(tm.attributeSelectorTM);
             return model;
         }
 
@@ -316,7 +316,7 @@ namespace TiedanSouls.Client {
 
         #region [MoveCurve]
 
-        public static MoveCurveModel GetModel_MoveCurve(MoveCurveTM tm) {
+        public static MoveCurveModel GetMoveCurveModel(MoveCurveTM tm) {
             MoveCurveModel model;
             model.moveSpeedArray = GetFloatArray_Shrink100(tm.moveSpeedArray);
             model.moveDirArray = GetVector3Array_Normalized(GetVector3Array_Shrink100(tm.moveDirArray));
@@ -327,17 +327,17 @@ namespace TiedanSouls.Client {
 
         #region [Selector]
 
-        public static AttributeSelectorModel[] GetModelArray_AttributeSelector(AttributeSelectorTM[] tmArray) {
+        public static AttributeSelectorModel[] GetAttributeSelectorModelArray(AttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             AttributeSelectorModel[] modelArray = new AttributeSelectorModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetModel_AttributeSelector(tmArray[i]);
+                modelArray[i] = GetAttributeSelectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static AttributeSelectorModel GetModel_AttributeSelector(AttributeSelectorTM tm) {
+        public static AttributeSelectorModel GetAttributeSelectorModel(AttributeSelectorTM tm) {
             AttributeSelectorModel model;
             model.hp = tm.hp;
             model.hp_ComparisonType = tm.hp_ComparisonType;

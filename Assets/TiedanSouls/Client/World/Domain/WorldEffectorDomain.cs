@@ -26,7 +26,7 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            effectorModel = TM2ModelUtil.GetModel_Effector(tm);
+            effectorModel = TM2ModelUtil.GetEffectorModel(tm);
             // TODO: 把EffectorModel用Repo存储起来，避免每次都要重新创建
             return true;
         }
