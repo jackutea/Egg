@@ -65,10 +65,13 @@ namespace TiedanSouls.Client.Domain {
 
         void Tick_Buff(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var buffDomain = rootDomain.BuffDomain;
+
             var buffSlotCom = role.BuffSlotCom;
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
                 buff.curFrame++;
                 buffDomain.TryTriggerEffector(buff);
+                buffDomain.TryEffectAttribute(role.AttributeCom, buff);
+                role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
             });
 
             removeList.ForEach((buff) => {

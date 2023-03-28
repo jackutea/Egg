@@ -134,6 +134,45 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
+        public bool TryEffectAttribute(AttributeComponent attributeComponent, BuffEntity buff) {
+            if (!buff.IsTriggerFrame()) {
+                return false;
+            }
+            var attributeEffectModel = buff.AttributeEffectModel;
+
+            var curHP = attributeComponent.HP;
+            var hpEV = attributeEffectModel.hpEV;
+            var hpNCT = attributeEffectModel.hpNCT;
+            if (hpNCT != NumCalculationType.None) {
+                if (hpNCT == NumCalculationType.PercentageAdd) {
+                    curHP += Mathf.RoundToInt(curHP * (hpEV / 100f));
+                } else if (hpNCT == NumCalculationType.PercentageMul) {
+                    curHP *= Mathf.RoundToInt(curHP * (hpEV / 100f));
+                } else if (hpNCT == NumCalculationType.AbsoluteAdd) {
+                    curHP += hpEV;
+                }
+                attributeComponent.SetHP(curHP);
+                TDLog.Log($"Buff Effect --> HP: {curHP}");
+            }
+
+            var curHPMax = attributeComponent.HPMax;
+            var hpMaxEV = attributeEffectModel.hpMaxEV;
+            var hpMaxNCT = attributeEffectModel.hpMaxNCT;
+            if (hpMaxNCT != NumCalculationType.None) {
+                if (hpMaxNCT == NumCalculationType.PercentageAdd) {
+                    curHPMax += Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
+                } else if (hpMaxNCT == NumCalculationType.PercentageMul) {
+                    curHPMax *= Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
+                } else if (hpMaxNCT == NumCalculationType.AbsoluteAdd) {
+                    curHPMax += hpMaxEV;
+                }
+                attributeComponent.SetHPMax(curHPMax);
+                TDLog.Log($"Buff Effect --> HPMax: {curHPMax}");
+            }
+
+            return true;
+        }
+
         #endregion
 
     }

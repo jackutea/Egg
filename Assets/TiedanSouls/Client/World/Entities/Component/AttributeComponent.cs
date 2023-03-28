@@ -69,7 +69,45 @@ namespace TiedanSouls.Client.Entities {
             this.fallingSpeedMax = fallingSpeedMax;
         }
 
+        public int SetHP(int hp) {
+            if (hp < 0) {
+                TDLog.Warning("HP < 0");
+                return 0;
+            }
+            if (hp > hpMax) {
+                TDLog.Warning("HP > HPMax");
+                return 0;
+            }
+            this.hp = hp;
+            return hp;
+        }
+
+        public void SetHPMax(int hpMax) {
+            if (hpMax < 0) {
+                TDLog.Warning("HPMax < 0");
+                return;
+            }
+            this.hpMax = hpMax;
+        }
+
+        public int AddHP(int heal) {
+            if (heal < 0) {
+                TDLog.Warning("HP恢复值 < 0");
+                return 0;
+            }
+            var newHP = hp + heal;
+            if (newHP > hpMax) {
+                newHP = hpMax;
+            }
+            hp = newHP;
+            return newHP;
+        }
+
         public int DecreaseHP(int damage) {
+            if (damage < 0) {
+                TDLog.Warning("HP伤害值 < 0");
+                return 0;
+            }
             int realDamage = 0;
             var newHP = hp - damage;
             if (newHP < 0) {
@@ -78,7 +116,7 @@ namespace TiedanSouls.Client.Entities {
             } else {
                 realDamage = damage;
             }
-            
+
             hp = newHP;
 
             return realDamage;

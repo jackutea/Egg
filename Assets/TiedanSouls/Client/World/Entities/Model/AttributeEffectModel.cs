@@ -10,19 +10,19 @@ namespace TiedanSouls.Client.Entities {
     public struct AttributeEffectModel {
 
         public NumCalculationType hpNCT;
-        public float hpEV;
+        public int hpEV;
 
-        public NumCalculationType maxHPNCT;
-        public float maxHPEV;
+        public NumCalculationType hpMaxNCT;
+        public int hpMaxEV;
 
         public NumCalculationType atkPowerNCT;
-        public float atkPowerEV;
+        public int atkPowerEV;
 
         public NumCalculationType atkSpeedNCT;
-        public float atkSpeedEV;
+        public int atkSpeedEV;
 
         public NumCalculationType moveSpeedNCT;
-        public float moveSpeedEV;
+        public int moveSpeedEV;
 
     }
 

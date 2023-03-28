@@ -241,8 +241,8 @@ namespace TiedanSouls.Client {
             AttributeEffectModel model;
             model.hpNCT = tm.hpNCT;
             model.hpEV = tm.hpEV;
-            model.maxHPNCT = tm.maxHPNCT;
-            model.maxHPEV = tm.maxHPEV;
+            model.hpMaxNCT = tm.maxHPNCT;
+            model.hpMaxEV = tm.maxHPEV;
             model.atkPowerNCT = tm.atkPowerNCT;
             model.atkPowerEV = tm.atkPowerEV;
             model.atkSpeedNCT = tm.atkSpeedNCT;
