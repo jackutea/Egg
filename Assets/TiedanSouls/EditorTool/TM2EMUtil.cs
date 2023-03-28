@@ -142,7 +142,6 @@ namespace TiedanSouls.EditorTool {
             em.knockBackPowerEM = GetEM_KnockBack(tm.knockBackPowerTM);
             em.knockUpPowerEM = GetEM_KnockUp(tm.knockUpPowerTM);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
-            em.stateEffectEM = GetEM_RoleStateEffect(tm.stateEffectTM);
 
             return em;
         }
@@ -180,18 +179,6 @@ namespace TiedanSouls.EditorTool {
             em.damageType = tm.damageType;
             em.damageBase = tm.damageBase;
             em.damageCurve = GetAnimationCurve(tm.damageCurve_KeyframeTMArray);
-            return em;
-        }
-
-        #endregion
-
-        #region [StateEffect]
-
-        public static RoleStateEffectEM GetEM_RoleStateEffect(RoleStateEffectTM tm) {
-            RoleStateEffectEM em;
-            em.addStateFlag = tm.addStateFlag;
-            em.knockUpEM = GetEM_KnockUp(tm.knockUpTM);
-            em.knockBackEM = GetEM_KnockBack(tm.knockBackTM);
             return em;
         }
 

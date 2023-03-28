@@ -521,9 +521,6 @@ namespace TiedanSouls.Client.Domain {
             // 击飞
             roleFSMDomain.EnterKnockUp(role, beHitDir, collisionTriggerModel);
 
-            /// 其余状态影响效果(如眩晕、冰冻等)
-            roleFSMDomain.HandleRoleStateEffect(role, collisionTriggerModel.roleStateEffectModel);
-
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
             var hitDamage = damageModel.GetDamage(hitFrame);

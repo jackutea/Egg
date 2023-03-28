@@ -24,7 +24,6 @@ namespace TiedanSouls.EditorTool {
         [Header("模型: 击退力度")] public KnockBackEM knockBackPowerEM;
         [Header("模型: 击飞力度")] public KnockUpEM knockUpPowerEM;
         [Header("模型: 击中效果器")] public int hitEffectorTypeID;
-        [Header("模型: 状态影响")] public RoleStateEffectEM stateEffectEM;
 
         [Header("碰撞盒(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;
 

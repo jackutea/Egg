@@ -84,19 +84,6 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [Effector]
-
-        public static EffectorTM GetTM_Effector(EffectorEM em) {
-            EffectorTM tm;
-            tm.typeID = em.typeID;
-            tm.effectorName = em.effectorName;
-            tm.entitySummonTMArray = GetTMArray_EntitySummon(em.entitySummonEMArray);
-            tm.entityDestroyTMArray = GetTMArray_EntityDestroy(em.entityDestroyEMArray);
-            return tm;
-        }
-
-        #endregion
-
         #region [Skill]
 
         public static SkillTM GetTM_Skill(SkillEditorGO editorGo) {
@@ -181,6 +168,19 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
+        #region [Effector]
+
+        public static EffectorTM GetTM_Effector(EffectorEM em) {
+            EffectorTM tm;
+            tm.typeID = em.typeID;
+            tm.effectorName = em.effectorName;
+            tm.entitySummonTMArray = GetTMArray_EntitySummon(em.entitySummonEMArray);
+            tm.entityDestroyTMArray = GetTMArray_EntityDestroy(em.entityDestroyEMArray);
+            return tm;
+        }
+
+        #endregion
+
         #region [PhysicsPower]
 
         /// <summary>
@@ -217,6 +217,31 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
+        #region [AttributeEffect]
+
+        public static AttributeEffectTM GetTM_AttributeEffect(AttributeEffectEM em) {
+            AttributeEffectTM tm;
+
+            tm.hpNCT = em.hpNCT;
+            tm.hpEV = em.hpEV;
+
+            tm.maxHpNCT = em.maxHpNCT;
+            tm.maxHpEV = em.maxHpEV;
+
+            tm.atkSpeedNCT = em.atkSpeedNCT;
+            tm.atkSpeedEV = em.atkSpeedEV;
+
+            tm.atkPowerNCT = em.atkPowerNCT;
+            tm.atkPowerEV = em.atkPowerEV;
+
+            tm.moveSpeedNCT = em.moveSpeedNCT;
+            tm.moveSpeedEV = em.moveSpeedEV;
+
+            return tm;
+        }
+
+        #endregion
+
         #region [Damage]
 
         public static DamageTM GetTM_Damage(DamageEM em, int totalFrame) {
@@ -229,18 +254,6 @@ namespace TiedanSouls.EditorTool {
             tm.damageArray = GetValueArray_AnimationCurve(damageBase, totalFrame, damageCurve);
             tm.damageCurve_KeyframeTMArray = GetTMArray_Keyframe(damageCurve);
 
-            return tm;
-        }
-
-        #endregion
-
-        #region [StateEffect]
-
-        public static RoleStateEffectTM GetTM_StateEffect(RoleStateEffectEM em) {
-            RoleStateEffectTM tm;
-            tm.addStateFlag = em.addStateFlag;
-            tm.knockUpTM = GetTM_KnockUp(em.knockUpEM);
-            tm.knockBackTM = GetTM_KnockBack(em.knockBackEM);
             return tm;
         }
 
@@ -277,7 +290,6 @@ namespace TiedanSouls.EditorTool {
             tm.knockBackPowerTM = GetTM_KnockBack(em.knockBackPowerEM);
             tm.knockUpPowerTM = GetTM_KnockUp(em.knockUpPowerEM);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
-            tm.stateEffectTM = GetTM_StateEffect(em.stateEffectEM);
 
             tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);
 

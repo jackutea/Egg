@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac78f50a39eef0346a71b60b1c59cc6d, type: 3}
+  m_Name: so_buff_test
+  m_EditorClassIdentifier: 
+  tm:
+    typeID: 0
+    buffName: 
+    des: 
+    icon: {fileID: 0}
+    roleStateFlag: 0
+    knockUpTM:
+      knockUpSpeedArray_cm: 
+      knockUpDisCurve_KeyframeTMArray: []
+      knockUpCostFrame: 0
+      knockUpHeight_cm: 0
+    knockBackTM:
+      knockBackSpeedArray_cm: 
+      knockBackDisCurve_KeyframeTMArray: []
+      knockBackCostFrame: 0
+      knockBackDistance_cm: 0
+    delayFrame: 0
+    intervalFrame: 0

@@ -21,7 +21,6 @@ namespace TiedanSouls.Template {
         [Header("模型: 伤害")] public DamageTM damageTM;
         [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;
         [Header("模型: 击飞力度")] public KnockUpTM knockUpPowerTM;
-        [Header("模型: 状态影响")] public RoleStateEffectTM stateEffectTM;  // TODO ID
         [Header("模型: 效果器(类型ID)")] public int hitEffectorTypeID;
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;

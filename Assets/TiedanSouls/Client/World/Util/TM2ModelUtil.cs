@@ -121,7 +121,6 @@ namespace TiedanSouls.Client {
             model.knockBackPowerModel = GetModel_KnockBack(tm.knockBackPowerTM);
             model.knockUpPowerModel = GetModel_KnockUp(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
-            model.roleStateEffectModel = GetModel_StateEffect(tm.stateEffectTM);
 
             model.colliderModelArray = GetModelArray_Collider(tm.colliderTMArray, tm.relativeTargetGroupType);
 
@@ -231,18 +230,6 @@ namespace TiedanSouls.Client {
             DamageModel model;
             model.damageType = tm.damageType;
             model.damageArray = tm.damageArray?.Clone() as int[];
-            return model;
-        }
-
-        #endregion
-
-        #region [StateEffect]
-
-        public static RoleStateEffectModel GetModel_StateEffect(RoleStateEffectTM tm) {
-            RoleStateEffectModel model;
-            model.effectStateType = tm.addStateFlag;
-            model.knockUpModel = GetModel_KnockUp(tm.knockUpTM);
-            model.knockBackModel = GetModel_KnockBack(tm.knockBackTM);
             return model;
         }
 

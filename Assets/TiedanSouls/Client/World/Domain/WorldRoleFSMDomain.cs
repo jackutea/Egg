@@ -346,13 +346,9 @@ namespace TiedanSouls.Client.Domain {
             fsm.Add_LeaveWater();
             fsm.Remove_StandInWater();
         }
-        /// <summary>
-        /// 处理 角色状态效果
-        /// </summary>
-        public void HandleRoleStateEffect(RoleEntity role, in RoleStateEffectModel collisionTriggerModel) {
-        }
 
         #endregion
 
     }
+    
 }

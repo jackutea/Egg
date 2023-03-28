@@ -16,6 +16,11 @@ namespace TiedanSouls.Generic {
         Root = 1 << 6,          // 禁锢
         Stun = 1 << 7,          // 眩晕
         Silence = 1 << 8,       // 沉默
+        Rage = 1 << 9,          // 暴怒
+
+
+
+
 
         StandInGround = 1 << 20,    // 站在地面上
         LeaveGround = 1 << 21,      // 离开地面
