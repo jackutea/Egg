@@ -18,7 +18,8 @@ namespace TiedanSouls.Template {
         [Header("持续时间(帧)")] public int durationFrame;
         [Header("次数")] public int triggerTimes;
 
-        [Header("属性影响(组)")] public AttributeEffectTM[] attributeEffectTMArray;
+        [Header("属性影响")] public AttributeEffectTM attributeEffectTM;
+        [Header("效果器")] public int effectorTypeID;
 
     }
 

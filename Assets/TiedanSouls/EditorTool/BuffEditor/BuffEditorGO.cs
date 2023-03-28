@@ -20,7 +20,8 @@ namespace TiedanSouls.EditorTool {
         [Header("持续时间(帧)")] public int durationFrame;
         [Header("次数")] public int triggerTimes;
 
-        [Header("属性影响(组)")] public AttributeEffectEM[] attributeEffectEMArray;
+        [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
+        [Header("效果器")] public int effectorTypeID;
 
         public void Save() {
             if (so == null) {
@@ -57,11 +58,12 @@ namespace TiedanSouls.EditorTool {
             this.durationFrame = tm.durationFrame;
             this.triggerTimes = tm.triggerTimes;
 
-            this.attributeEffectEMArray = TM2EMUtil.GetAttributeEffectEMArray(tm.attributeEffectTMArray);
+            this.attributeEffectEM = TM2EMUtil.GetAttributeEffectEM(tm.attributeEffectTM);
+            this.effectorTypeID = tm.effectorTypeID;
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
-            
+
             AssetDatabase.Refresh();
         }
 

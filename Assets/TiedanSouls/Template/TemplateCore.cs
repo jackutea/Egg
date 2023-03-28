@@ -29,6 +29,9 @@ namespace TiedanSouls.Template {
         BulletTemplate bulletTemplate;
         public BulletTemplate BulletTemplate => bulletTemplate;
 
+        BuffTemplate buffTemplate;
+        public BuffTemplate BuffTemplate => buffTemplate;
+
         #endregion
 
         #region [Misc]
@@ -52,6 +55,7 @@ namespace TiedanSouls.Template {
             itemTemplate = new ItemTemplate();
             projectileTemplate = new ProjectileTemplate();
             bulletTemplate = new BulletTemplate();
+            buffTemplate = new BuffTemplate();
 
             aiTemplate = new AITemplate();
             effectorTemplate = new EffectorTemplate();
@@ -65,7 +69,8 @@ namespace TiedanSouls.Template {
             await itemTemplate.LoadAll();
             await projectileTemplate.LoadAll();
             await bulletTemplate.LoadAll();
-            
+            await buffTemplate.LoadAll();
+
             await aiTemplate.LoadAll();
             await effectorTemplate.LoadAll();
 

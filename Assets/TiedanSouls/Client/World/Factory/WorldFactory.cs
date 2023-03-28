@@ -351,6 +351,41 @@ namespace TiedanSouls.Client {
 
         #endregion
 
+        #region [Buff]
+
+        public bool TryCreateBuff(int buffTypeID, out BuffEntity buff) {
+            buff = null;
+
+            var templateCore = infraContext.TemplateCore;
+            var buffTemplate = templateCore.BuffTemplate;
+            if (!buffTemplate.TryGet(buffTypeID, out BuffTM tm)) {
+                TDLog.Error($"配置出错! 未找到 Buff 模板数据: TypeID {buffTypeID}");
+                return false;
+            }
+
+            buff = new BuffEntity();
+            buff.Ctor();
+
+            var idCom = buff.IDCom;
+            idCom.SetTypeID(tm.typeID);
+            idCom.SetEntityName(tm.buffName);
+
+            buff.SetDescription(tm.description);
+            buff.SetIconName(tm.iconName);
+
+            buff.SetDelayFrame(tm.delayFrame);
+            buff.SetIntervalFrame(tm.intervalFrame);
+            buff.SetDurationFrame(tm.durationFrame);
+            buff.SetTriggerTimes(tm.triggerTimes);
+
+            buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
+            buff.SetEffectorTypeID(tm.effectorTypeID);
+
+            return true;
+        }
+
+        #endregion
+
         #region [EntitySpawnCtrl]
 
         public EntitySpawnCtrlModel[] GetEntitySpawnCtrlModelArray(EntitySpawnCtrlTM[] tmArray) {

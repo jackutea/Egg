@@ -7,5 +7,4 @@ public struct EffectorModel {
     public EntitySummonModel[] entitySummonModelArray;
     public EntityDestroyModel[] entityDestroyModelArray;
 
-
 }

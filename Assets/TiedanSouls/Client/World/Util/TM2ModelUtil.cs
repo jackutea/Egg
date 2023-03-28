@@ -235,6 +235,25 @@ namespace TiedanSouls.Client {
 
         #endregion
 
+        #region [AttributeEffect]
+
+        public static AttributeEffectModel GetAttributeEffectModel(AttributeEffectTM tm) {
+            AttributeEffectModel model;
+            model.hpNCT = tm.hpNCT;
+            model.hpEV = tm.hpEV;
+            model.maxHPNCT = tm.maxHPNCT;
+            model.maxHPEV = tm.maxHPEV;
+            model.atkPowerNCT = tm.atkPowerNCT;
+            model.atkPowerEV = tm.atkPowerEV;
+            model.atkSpeedNCT = tm.atkSpeedNCT;
+            model.atkSpeedEV = tm.atkSpeedEV;
+            model.moveSpeedNCT = tm.moveSpeedNCT;
+            model.moveSpeedEV = tm.moveSpeedEV;
+            return model;
+        }
+
+        #endregion
+
         #region [Effector]
 
         public static EffectorModel GetEffectorModel(EffectorTM tm) {

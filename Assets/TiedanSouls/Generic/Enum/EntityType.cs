@@ -7,7 +7,8 @@ namespace TiedanSouls.Generic {
         Bullet = 3,
         Projectile = 4,
         Field = 5,
-        Item = 6
+        Item = 6,
+        Buff = 7
     }
 
 }

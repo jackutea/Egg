@@ -22,14 +22,15 @@ MonoBehaviour:
     intervalFrame: 150
     durationFrame: 99999
     triggerTimes: 99999
-    attributeEffectTMArray:
-    - hpNCT: 3
-      hpEV: 100
+    attributeEffectTM:
+      hpNCT: 0
+      hpEV: 0
       maxHpNCT: 0
       maxHpEV: 0
-      atkPowerNCT: 1
-      atkPowerEV: 0.1
+      atkPowerNCT: 0
+      atkPowerEV: 0
       atkSpeedNCT: 0
       atkSpeedEV: 0
       moveSpeedNCT: 0
       moveSpeedEV: 0
+    effectorTypeID: 0

@@ -24,7 +24,8 @@ namespace TiedanSouls.EditorTool {
             tm.durationFrame = editorGo.durationFrame;
             tm.triggerTimes = editorGo.triggerTimes;
 
-            tm.attributeEffectTMArray = GetAttributeEffectTMArray(editorGo.attributeEffectEMArray);
+            tm.attributeEffectTM = GetAttributeEffectTM(editorGo.attributeEffectEM);
+            tm.effectorTypeID = editorGo.effectorTypeID;
 
             return tm;
         }
@@ -47,8 +48,8 @@ namespace TiedanSouls.EditorTool {
             tm.hpNCT = em.hpNCT;
             tm.hpEV = em.hpEV;
 
-            tm.maxHpNCT = em.maxHpNCT;
-            tm.maxHpEV = em.maxHpEV;
+            tm.maxHPNCT = em.maxHpNCT;
+            tm.maxHPEV = em.maxHpEV;
 
             tm.atkSpeedNCT = em.atkSpeedNCT;
             tm.atkSpeedEV = em.atkSpeedEV;

@@ -23,8 +23,8 @@ namespace TiedanSouls.EditorTool {
             AttributeEffectEM em;
             em.hpNCT = tm.hpNCT;
             em.hpEV = tm.hpEV;
-            em.maxHpNCT = tm.maxHpNCT;
-            em.maxHpEV = tm.maxHpEV;
+            em.maxHpNCT = tm.maxHPNCT;
+            em.maxHpEV = tm.maxHPEV;
             em.atkPowerNCT = tm.atkPowerNCT;
             em.atkPowerEV = tm.atkPowerEV;
             em.atkSpeedNCT = tm.atkSpeedNCT;
