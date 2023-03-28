@@ -78,15 +78,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 37add4e776a186e499b537dc3a6d41f0, type: 2}
   typeID: 9999
-  buffName: "\u6C14\u8C61\u4E3B\u64ADBuff"
-  des: "\u6BCF\u4E94\u79D2 \u8840\u91CF+100\u3001\u653B\u51FB\u529B+10%,\u6301\u7EED\u5230\u6218\u6597\u7ED3\u675F"
-  icon: {fileID: 0}
+  buffName: "\u6218\u9F13Buff"
+  description: "\u6BCF\u4E94\u79D2 \u8840\u91CF +100 \u653B\u51FB\u529B+10%"
+  icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
+  delayFrame: 150
+  intervalFrame: 150
+  durationFrame: 99999
+  triggerTimes: 99999
   attributeEffectEMArray:
-  - delayFrame: 150
-    intervalFrame: 150
-    durationFrame: 30000
-    triggerCount: 30000
-    hpNCT: 3
+  - hpNCT: 3
     hpEV: 100
-    atkNCT: 1
-    atkEV: 0.1
+    maxHpNCT: 0
+    maxHpEV: 0
+    atkPowerNCT: 1
+    atkPowerEV: 0.1
+    atkSpeedNCT: 0
+    atkSpeedEV: 0
+    moveSpeedNCT: 0
+    moveSpeedEV: 0

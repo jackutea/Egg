@@ -7,6 +7,35 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
+        #region [AttributeEffect]
+
+        public static AttributeEffectEM[] GetEMArray_AttributeEffect(AttributeEffectTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            AttributeEffectEM[] emArray = new AttributeEffectEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetEM_AttributeEffect(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static AttributeEffectEM GetEM_AttributeEffect(AttributeEffectTM tm) {
+            AttributeEffectEM em;
+            em.hpNCT = tm.hpNCT;
+            em.hpEV = tm.hpEV;
+            em.maxHpNCT = tm.maxHpNCT;
+            em.maxHpEV = tm.maxHpEV;
+            em.atkPowerNCT = tm.atkPowerNCT;
+            em.atkPowerEV = tm.atkPowerEV;
+            em.atkSpeedNCT = tm.atkSpeedNCT;
+            em.atkSpeedEV = tm.atkSpeedEV;
+            em.moveSpeedNCT = tm.moveSpeedNCT;
+            em.moveSpeedEV = tm.moveSpeedEV;
+            return em;
+        }
+
+        #endregion
+
         #region [ProjectileBullet]
 
         public static ProjectileBulletEM[] GetEMArray_ProjectileBullet(ProjectileBulletTM[] tmArray) {

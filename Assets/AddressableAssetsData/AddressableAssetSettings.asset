@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bb8b3a82cdcff84f99d65f9b58597a4, type: 2}
   - {fileID: 11400000, guid: 50a5fc3a6e916df44870485004c686d4, type: 2}
   - {fileID: 11400000, guid: c14560c64a670764d9150ad259be202a, type: 2}
+  - {fileID: 11400000, guid: b1eb5d5c958d8f449be442beaa49d653, type: 2}
   - {fileID: 11400000, guid: 8dab66ab4193d72409c4596bd7566eef, type: 2}
   - {fileID: 11400000, guid: 00855b0d1e4955d4e9c0d2851723e193, type: 2}
   - {fileID: 11400000, guid: 29d949483566fbe4185ffe52d06c1c7f, type: 2}
@@ -102,6 +103,7 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
+    - SO_Buff
     - SO_Bullet
     - SO_Projectile
     - SO_Skill

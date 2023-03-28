@@ -16,7 +16,7 @@ namespace TiedanSouls.Asset {
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.MOD_ROLE;
+            label.labelString = AssetLabelCollection.MOD_ROLE;
             var list = await Addressables.LoadAssetsAsync<GameObject>(label, null).Task;
             foreach (var go in list) {
                 all.Add(go.name, go);

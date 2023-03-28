@@ -8,6 +8,62 @@ namespace TiedanSouls.EditorTool {
 
     public static class EM2TMUtil {
 
+        #region [Buff]
+
+        public static BuffTM GetTM_Buff(BuffEditorGO editorGo) {
+            BuffTM tm;
+
+            tm.typeID = editorGo.typeID;
+            tm.buffName = editorGo.buffName;
+            tm.description = editorGo.description;
+            tm.iconName = editorGo.icon.name;
+            tm.iconGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.icon));
+
+            tm.delayFrame = editorGo.delayFrame;
+            tm.intervalFrame = editorGo.intervalFrame;
+            tm.durationFrame = editorGo.durationFrame;
+            tm.triggerTimes = editorGo.triggerTimes;
+
+            tm.attributeEffectTMArray = GetTMArray_AttributeEffect(editorGo.attributeEffectEMArray);
+
+            return tm;
+        }
+
+        #endregion
+
+        #region [AttributeEffect]
+
+        public static AttributeEffectTM[] GetTMArray_AttributeEffect(AttributeEffectEM[] emArray) {
+            AttributeEffectTM[] tmArray = new AttributeEffectTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tmArray[i] = GetTM_AttributeEffect(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static AttributeEffectTM GetTM_AttributeEffect(AttributeEffectEM em) {
+            AttributeEffectTM tm;
+
+            tm.hpNCT = em.hpNCT;
+            tm.hpEV = em.hpEV;
+
+            tm.maxHpNCT = em.maxHpNCT;
+            tm.maxHpEV = em.maxHpEV;
+
+            tm.atkSpeedNCT = em.atkSpeedNCT;
+            tm.atkSpeedEV = em.atkSpeedEV;
+
+            tm.atkPowerNCT = em.atkPowerNCT;
+            tm.atkPowerEV = em.atkPowerEV;
+
+            tm.moveSpeedNCT = em.moveSpeedNCT;
+            tm.moveSpeedEV = em.moveSpeedEV;
+
+            return tm;
+        }
+
+        #endregion
+
         #region [Projectile]
 
         public static ProjectileTM GetTM_Projectile(ProjectileEditorGO editorGo) {
@@ -76,7 +132,7 @@ namespace TiedanSouls.EditorTool {
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
             tm.vfxPrefab_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(vfxPrefab));
 
-            var labelName = AssetsLabelCollection.VFX;
+            var labelName = AssetLabelCollection.VFX;
             AddressableHelper.SetAddressable(vfxPrefab, labelName, labelName);
 
             return tm;
@@ -212,31 +268,6 @@ namespace TiedanSouls.EditorTool {
             tm.knockUpHeight_cm = knockUpHeight_cm;
             tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
             tm.knockUpDisCurve_KeyframeTMArray = GetTMArray_Keyframe(knockUpDisCurve);
-            return tm;
-        }
-
-        #endregion
-
-        #region [AttributeEffect]
-
-        public static AttributeEffectTM GetTM_AttributeEffect(AttributeEffectEM em) {
-            AttributeEffectTM tm;
-
-            tm.hpNCT = em.hpNCT;
-            tm.hpEV = em.hpEV;
-
-            tm.maxHpNCT = em.maxHpNCT;
-            tm.maxHpEV = em.maxHpEV;
-
-            tm.atkSpeedNCT = em.atkSpeedNCT;
-            tm.atkSpeedEV = em.atkSpeedEV;
-
-            tm.atkPowerNCT = em.atkPowerNCT;
-            tm.atkPowerEV = em.atkPowerEV;
-
-            tm.moveSpeedNCT = em.moveSpeedNCT;
-            tm.moveSpeedEV = em.moveSpeedEV;
-
             return tm;
         }
 

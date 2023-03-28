@@ -36,7 +36,7 @@ namespace TiedanSouls.EditorTool {
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);
 
-            var labelName = AssetsLabelCollection.SO_BULLET;
+            var labelName = AssetLabelCollection.SO_BULLET;
             AddressableHelper.SetAddressable(so, labelName, labelName);
         }
 

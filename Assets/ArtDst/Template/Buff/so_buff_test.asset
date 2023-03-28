@@ -13,20 +13,23 @@ MonoBehaviour:
   m_Name: so_buff_test
   m_EditorClassIdentifier: 
   tm:
-    typeID: 0
-    buffName: 
-    des: 
-    icon: {fileID: 0}
-    roleStateFlag: 0
-    knockUpTM:
-      knockUpSpeedArray_cm: 
-      knockUpDisCurve_KeyframeTMArray: []
-      knockUpCostFrame: 0
-      knockUpHeight_cm: 0
-    knockBackTM:
-      knockBackSpeedArray_cm: 
-      knockBackDisCurve_KeyframeTMArray: []
-      knockBackCostFrame: 0
-      knockBackDistance_cm: 0
-    delayFrame: 0
-    intervalFrame: 0
+    typeID: 9999
+    buffName: "\u6218\u9F13Buff"
+    description: "\u6BCF\u4E94\u79D2 \u8840\u91CF +100 \u653B\u51FB\u529B+10%"
+    iconName: item_
+    iconGUID: 31b48c583b66f1249a9f1c0126e7273d
+    delayFrame: 150
+    intervalFrame: 150
+    durationFrame: 99999
+    triggerTimes: 99999
+    attributeEffectTMArray:
+    - hpNCT: 3
+      hpEV: 100
+      maxHpNCT: 0
+      maxHpEV: 0
+      atkPowerNCT: 1
+      atkPowerEV: 0.1
+      atkSpeedNCT: 0
+      atkSpeedEV: 0
+      moveSpeedNCT: 0
+      moveSpeedEV: 0

@@ -16,7 +16,7 @@ namespace TiedanSouls.Asset {
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.SPRITE;
+            label.labelString = AssetLabelCollection.SPRITE;
             var list = await Addressables.LoadAssetsAsync<Sprite>(label, null).Task;
             foreach (var item in list) {
                 all.Add(item.name, item);

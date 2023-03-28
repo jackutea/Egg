@@ -16,7 +16,7 @@ namespace TiedanSouls.Template {
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.SO_EFFECTOR;
+            label.labelString = AssetLabelCollection.SO_EFFECTOR;
             var list = await Addressables.LoadAssetsAsync<EffectorSO>(label, null).Task;
             foreach (var item in list) {
                 var tm = item.tm;

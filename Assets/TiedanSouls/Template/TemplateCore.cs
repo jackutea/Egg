@@ -71,7 +71,7 @@ namespace TiedanSouls.Template {
 
             // GameConfig
             AssetLabelReference label = new AssetLabelReference();
-            label.labelString = AssetsLabelCollection.SO_CONFIG;
+            label.labelString = AssetLabelCollection.SO_CONFIG;
             var gameConfigSO = await Addressables.LoadAssetAsync<GameConfigSO>(label).Task;
             this.gameConfigTM = gameConfigSO.tm;
         }
