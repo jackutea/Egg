@@ -144,15 +144,6 @@ namespace TiedanSouls.Client.Entities {
             extraPenetrateCount = 0;
         }
 
-        public void SetVFXGO(GameObject value) {
-            value.transform.SetParent(rendererRoot.transform, false);
-            this.vfxGO = value;
-        }
-
-        public void SetFromFieldTypeID(int fieldTypeID) {
-            idCom.SetFromFieldTypeID(fieldTypeID);
-        }
-
         public void TearDown() {
             rootGO.SetActive(false);
         }
@@ -165,8 +156,13 @@ namespace TiedanSouls.Client.Entities {
             rootGO.SetActive(false);
         }
 
-        public void Attribute_HP_Decrease(int atk) {
-            attributeCom.DecreaseHP(atk);
+        public void SetVFXGO(GameObject value) {
+            value.transform.SetParent(rendererRoot.transform, false);
+            this.vfxGO = value;
+        }
+
+        public void SetFromFieldTypeID(int fieldTypeID) {
+            idCom.SetFromFieldTypeID(fieldTypeID);
         }
 
         public bool CanMove(int frame) {

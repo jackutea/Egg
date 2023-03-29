@@ -95,7 +95,7 @@ namespace TiedanSouls.EditorTool {
 
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
-            tm.extraHitTimes = em.extraHitTimes;
+            tm.extraPenetrateCount = em.extraPenetrateCount;
             tm.localPos_cm = GetVector3Int_Expand100(em.localPos);
             tm.localEulerAngles = em.localEulerAngles;
             tm.bulletTypeID = em.bulletTypeID;
@@ -115,8 +115,6 @@ namespace TiedanSouls.EditorTool {
 
             tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
-
-            tm.extraPenetrateCount = editorGO.extraPenetrateCount;
 
             var moveCurveEM = editorGO.moveCurveEM;
 

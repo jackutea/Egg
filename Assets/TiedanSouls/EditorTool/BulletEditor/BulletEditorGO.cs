@@ -18,7 +18,6 @@ namespace TiedanSouls.EditorTool {
         [Header("模型: 实体追踪")] public EntityTrackEM entityTrackingEM;
         [Header("碰撞器")] public CollisionTriggerEM collisionTriggerEM;
 
-        [Header("额外穿透次数")] public int extraPenetrateCount;
         [Header("死亡效果器(类型ID)")] public int deathEffectorTypeID;
 
         [Header("子弹特效")] public GameObject vfxPrefab;
@@ -53,10 +52,8 @@ namespace TiedanSouls.EditorTool {
             this.collisionTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.collisionTriggerTM);
             this.deathEffectorTypeID = tm.deathEffectorTypeID;
 
-            this.extraPenetrateCount = tm.extraPenetrateCount;
-
-            var vfxGUI = tm.vfxPrefab_GUID;
-            this.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUI), typeof(GameObject)) as GameObject;
+            var vfxGUID = tm.vfxPrefab_GUID;
+            this.vfxPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(vfxGUID), typeof(GameObject)) as GameObject;
 
             this.trajectoryType = tm.trajectoryType;
 

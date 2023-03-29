@@ -1,4 +1,3 @@
-using TiedanSouls.EditorTool.EffectorEditor;
 using TiedanSouls.Template;
 using UnityEditor;
 using UnityEngine;
@@ -71,7 +70,7 @@ namespace TiedanSouls.EditorTool {
             ProjectileBulletEM em;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
-            em.extraHitTimes = tm.extraHitTimes;
+            em.extraPenetrateCount = tm.extraPenetrateCount;
             em.localPos = GetVector3_Shrink100(tm.localPos_cm);
             em.localEulerAngles = tm.localEulerAngles;
             em.bulletTypeID = tm.bulletTypeID;

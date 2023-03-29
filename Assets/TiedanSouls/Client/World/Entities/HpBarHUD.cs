@@ -31,8 +31,8 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void SetHpBar(int hpCurrent, int hpMax) {
-            percent = (float)hpCurrent / hpMax;
+        public void SetHpBar(float hpCurrent, float hpMax) {
+            percent = hpCurrent / hpMax;
             hpBarCurrent.fillAmount = percent;
         }
 

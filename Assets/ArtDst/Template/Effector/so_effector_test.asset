@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 9999
-    effectorName: "\u6D4B\u8BD5\u6548\u679C\u5668"
+    effectorName: "\u5F39\u90539999\u53EC\u5524"
     entitySummonTMArray:
     - entityType: 4
       typeID: 9999

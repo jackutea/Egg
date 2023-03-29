@@ -220,9 +220,9 @@ namespace TiedanSouls.Client.Domain {
             bool canKnockBack = curFrame < len;
             if (canKnockBack) {
                 beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
-                moveCom.Set_Horizontal(beHitDir * knockBackSpeedArray[curFrame]);
+                moveCom.SetHorizontalVelocity(beHitDir * knockBackSpeedArray[curFrame]);
             } else if (curFrame == len) {
-                moveCom.Stop_Horizontal();
+                moveCom.StopHorizontalVelocity();
                 fsm.Remove_KnockBack();
             }
         }
@@ -248,9 +248,9 @@ namespace TiedanSouls.Client.Domain {
             if (canKnockUp) {
                 var newV = moveCom.Velocity;
                 newV.y = knockUpSpeedArray[curFrame];
-                moveCom.Set_Vertical(newV);
+                moveCom.SetVerticalVelocity(newV);
             } else if (curFrame == len) {
-                moveCom.Stop_Vertical();
+                moveCom.StopVerticalVelocity();
                 fsm.Remove_KnockUp();
             } else {
                 roleDomain.Fall(role, dt);

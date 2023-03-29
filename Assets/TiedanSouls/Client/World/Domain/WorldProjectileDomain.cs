@@ -26,7 +26,7 @@ namespace TiedanSouls.Client.Domain {
             // 1. 创建弹道
             var typeID = entitySummonModel.typeID;
             var factory = worldContext.WorldFactory;
-            if (!factory.TryCreateProjectile(typeID, summonPos, baseRot, out projectile)) {
+            if (!factory.TryCreateProjectile(typeID, out projectile)) {
                 TDLog.Error($"创建实体 '弹道' 失败! - {typeID}");
                 return false;
             }
@@ -42,24 +42,30 @@ namespace TiedanSouls.Client.Domain {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
                 var bulletFather = projectileIDCom.ToArgs();
-                if (!bulletDomain.TrySpawn(bulletTypeID,bulletFather, out var bullet)) {
+                if (!bulletDomain.TryGetOrCreate(bulletTypeID, bulletFather, out var bullet)) {
                     TDLog.Error($"创建实体弹道的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }
 
-                // 子弹设置 位置 & 旋转
+                // Pos & Rot
                 var worldRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
-                bullet.SetLogicPos(worldRot * projectileBulletModel.localPos + summonPos);
+                var worldPos = worldRot * projectileBulletModel.localPos + summonPos;
+                bullet.SetLogicPos(worldPos);
                 bullet.SetLogicRotation(worldRot);
                 bullet.SetBaseRotation(worldRot);
                 bullet.SyncRenderer();
 
+                // ID
                 var bulletIDCom = bullet.IDCom;
                 projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
                 projectileBulletModelArray[i] = projectileBulletModel;
 
-                // 为了方便调试，这里给子弹加上名字
-                bullet.RootGO.name = $"子弹_{bulletIDCom}";
+                // Bullet FSM
+                bullet.FSMCom.Enter_Deactivated();
+
+                bullet.SetExtraPenetrateCount(projectileBulletModel.extraPenetrateCount);   // 子弹的额外穿透次数
+
+                bullet.RootGO.name = $"子弹_{bulletIDCom}"; // 为了方便调试，这里给子弹加上名字
             }
 
             // 3. 激活弹道 TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足

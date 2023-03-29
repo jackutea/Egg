@@ -15,11 +15,11 @@ MonoBehaviour:
   tm:
     typeID: 1000
     roleName: "\u65E0\u654C\u94C1\u86CB"
-    hpMax: 2000
-    gpMax: 10
-    epMax: 100
-    moveSpeed: 10
-    jumpSpeed: 15
-    fallingAcceleration: 30
-    fallingSpeedMax: 50
+    hpMax_Expanded: 10000
+    gpMax_Expanded: 10000
+    epMax_Expanded: 10000
+    moveSpeed_Expanded: 1000
+    jumpSpeed_Expanded: 1000
+    fallSpeed_Expanded: 3000
+    fallSpeedMax_Expanded: 3000
     modName: mod_role_tiedan_1000

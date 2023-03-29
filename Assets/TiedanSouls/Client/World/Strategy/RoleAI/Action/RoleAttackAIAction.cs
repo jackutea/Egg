@@ -58,7 +58,7 @@ namespace TiedanSouls.Client.Entities {
 
             //TODO:攻击方式后续修改，暂时先凑合一下        
             var playRole = worldContext.RoleRepo.PlayerRole;
-            worldContext.RootDomain.RoleDomain.DreaseHP(playRole, 30);
+            worldContext.RootDomain.RoleDomain.ReduceHP(playRole, 30);
             time = 0;
             return true;
 

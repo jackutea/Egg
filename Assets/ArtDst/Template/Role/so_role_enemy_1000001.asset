@@ -15,11 +15,11 @@ MonoBehaviour:
   tm:
     typeID: 1000001
     roleName: Boss
-    hpMax: 2000
-    gpMax: 10
-    epMax: 100
-    moveSpeed: 4
-    jumpSpeed: 15
-    fallingAcceleration: 30
-    fallingSpeedMax: 50
+    hpMax_Expanded: 10000
+    gpMax_Expanded: 10000
+    epMax_Expanded: 10000
+    moveSpeed_Expanded: 1000
+    jumpSpeed_Expanded: 1000
+    fallSpeed_Expanded: 1000
+    fallSpeedMax_Expanded: 1000
     modName: mod_role_enemy_1000001

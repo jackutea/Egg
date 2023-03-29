@@ -17,7 +17,6 @@ namespace TiedanSouls.Template {
         [Header("碰撞器")] public CollisionTriggerTM collisionTriggerTM;
 
         [Header("死亡效果器")] public int deathEffectorTypeID;
-        [Header("额外穿透次数")] public int extraPenetrateCount;
 
         [Header("子弹特效")] public string vfxPrefabName;
         [Header("仅用于编辑时: 子弹特效文件GUID")] public string vfxPrefab_GUID;

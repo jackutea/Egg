@@ -1,4 +1,3 @@
-using System;
 using TiedanSouls.Generic;
 using UnityEngine;
 
@@ -6,70 +5,55 @@ namespace TiedanSouls.Client.Entities {
 
     public class AttributeComponent {
 
-        int hp;
-        public int HP => hp;
+        float hp;
+        public float HP => hp;
 
-        int hpMax;
-        public int HPMax => hpMax;
+        float hpMax;
+        public float HPMax => hpMax;
 
-        int ep;
-        public int EP => ep;
+        float ep;
+        public float EP => ep;
 
-        int epMax;
-        public int EPMax => epMax;
+        float epMax;
+        public float EPMax => epMax;
 
-        int gp;
-        public int GP => gp;
+        float gp;
+        public float GP => gp;
 
-        int gpMax;
-        public int GPMax => gpMax;
+        float gpMax;
+        public float GPMax => gpMax;
 
-        [SerializeField] float moveSpeed;
+        float moveSpeed;
         public float MoveSpeed => moveSpeed;
 
-        [SerializeField] float jumpSpeed;
+        float jumpSpeed;
         public float JumpSpeed => jumpSpeed;
 
-        [SerializeField] float fallingAcceleration;
-        public float FallingAcceleration => fallingAcceleration;
+        float fallSpeed;
+        public float FallSpeed => fallSpeed;
 
-        [SerializeField] float fallingSpeedMax;
-        public float FallingSpeedMax => fallingSpeedMax;
+        float fallSpeedMax;
+        public float FallSpeedMax => fallSpeedMax;
 
-        public AttributeComponent() {
-            moveSpeed = 4f;
-            jumpSpeed = 15f;
-            fallingAcceleration = 30f;
-            fallingSpeedMax = 50f;
-        }
+        float damageBonus;
+        public float DamageBonus => damageBonus;
+
+        public AttributeComponent() { }
 
         public void Reset() {
             hp = hpMax;
             ep = epMax;
             gp = gpMax;
+            damageBonus = 0;
         }
+
+        #region [HP]
 
         public void ClearHP() {
             hp = 0;
         }
 
-        public void InitializeHealth(int hp, int hpMax, int ep, int epMax, int gp, int gpMax) {
-            this.hp = hp;
-            this.hpMax = hpMax;
-            this.ep = ep;
-            this.epMax = epMax;
-            this.gp = gp;
-            this.gpMax = gpMax;
-        }
-
-        public void InitializeLocomotion(float moveSpeed, float jumpSpeed, float fallingAcceleration, float fallingSpeedMax) {
-            this.moveSpeed = moveSpeed;
-            this.jumpSpeed = jumpSpeed;
-            this.fallingAcceleration = fallingAcceleration;
-            this.fallingSpeedMax = fallingSpeedMax;
-        }
-
-        public int SetHP(int hp) {
+        public float SetHP(float hp) {
             if (hp < 0) {
                 TDLog.Warning("HP < 0");
                 return 0;
@@ -82,7 +66,7 @@ namespace TiedanSouls.Client.Entities {
             return hp;
         }
 
-        public void SetHPMax(int hpMax) {
+        public void SetHPMax(float hpMax) {
             if (hpMax < 0) {
                 TDLog.Warning("HPMax < 0");
                 return;
@@ -90,7 +74,7 @@ namespace TiedanSouls.Client.Entities {
             this.hpMax = hpMax;
         }
 
-        public int AddHP(int heal) {
+        public float AddHP(float heal) {
             if (heal < 0) {
                 TDLog.Warning("HP恢复值 < 0");
                 return 0;
@@ -103,12 +87,12 @@ namespace TiedanSouls.Client.Entities {
             return newHP;
         }
 
-        public int DecreaseHP(int damage) {
+        public float ReduceHP(float damage) {
             if (damage < 0) {
                 TDLog.Warning("HP伤害值 < 0");
                 return 0;
             }
-            int realDamage = 0;
+            float realDamage = 0;
             var newHP = hp - damage;
             if (newHP < 0) {
                 realDamage = hp;
@@ -121,6 +105,234 @@ namespace TiedanSouls.Client.Entities {
 
             return realDamage;
         }
+
+        #endregion
+
+        #region [EP]
+
+        public void ClearEP() {
+            ep = 0;
+        }
+
+        public float SetEP(float ep) {
+            if (ep < 0) {
+                TDLog.Warning("EP < 0");
+                return 0;
+            }
+            if (ep > epMax) {
+                TDLog.Warning("EP > EPMax");
+                return 0;
+            }
+            this.ep = ep;
+            return ep;
+        }
+
+        public void SetEPMax(float epMax) {
+            if (epMax < 0) {
+                TDLog.Warning("EPMax < 0");
+                return;
+            }
+            this.epMax = epMax;
+        }
+
+        public float AddEP(float ep) {
+            if (ep < 0) {
+                TDLog.Warning("EP恢复值 < 0");
+                return 0;
+            }
+            var newEP = this.ep + ep;
+            if (newEP > epMax) {
+                newEP = epMax;
+            }
+            this.ep = newEP;
+            return newEP;
+        }
+
+        public float ReduceEP(float ep) {
+            if (ep < 0) {
+                TDLog.Warning("EP消耗值 < 0");
+                return 0;
+            }
+            float realEP = 0;
+            var newEP = this.ep - ep;
+            if (newEP < 0) {
+                realEP = this.ep;
+                newEP = 0;
+            } else {
+                realEP = ep;
+            }
+
+            this.ep = newEP;
+
+            return realEP;
+        }
+
+        #endregion
+
+        #region [GP]
+
+        public void ClearGP() {
+            gp = 0;
+        }
+
+        public float SetGP(float gp) {
+            if (gp < 0) {
+                TDLog.Warning("GP < 0");
+                return 0;
+            }
+            if (gp > gpMax) {
+                TDLog.Warning("GP > GPMax");
+                return 0;
+            }
+            this.gp = gp;
+            return gp;
+        }
+
+        public void SetGPMax(float gpMax) {
+            if (gpMax < 0) {
+                TDLog.Warning("GPMax < 0");
+                return;
+            }
+            this.gpMax = gpMax;
+        }
+
+        public float AddGP(float gp) {
+            if (gp < 0) {
+                TDLog.Warning("GP恢复值 < 0");
+                return 0;
+            }
+            var newGP = this.gp + gp;
+            if (newGP > gpMax) {
+                newGP = gpMax;
+            }
+            this.gp = newGP;
+            return newGP;
+        }
+
+        public float ReduceGP(float gp) {
+            if (gp < 0) {
+                TDLog.Warning("GP消耗值 < 0");
+                return 0;
+            }
+            float realGP = 0;
+            var newGP = this.gp - gp;
+            if (newGP < 0) {
+                realGP = this.gp;
+                newGP = 0;
+            } else {
+                realGP = gp;
+            }
+
+            this.gp = newGP;
+
+            return realGP;
+        }
+
+        #endregion
+
+        #region [MoveSpeed]
+
+        public void SetMoveSpeed(float moveSpeed) {
+            if (moveSpeed < 0) {
+                TDLog.Warning("MoveSpeed < 0");
+                return;
+            }
+            this.moveSpeed = moveSpeed;
+        }
+
+        public void AddMoveSpeed(float moveSpeed) {
+            if (moveSpeed < 0) {
+                TDLog.Warning("MoveSpeed < 0");
+                return;
+            }
+            this.moveSpeed += moveSpeed;
+        }
+
+        public void ReduceMoveSpeed(float moveSpeed) {
+            if (moveSpeed < 0) {
+                TDLog.Warning("MoveSpeed < 0");
+                return;
+            }
+            this.moveSpeed -= moveSpeed;
+        }
+
+        #endregion
+
+        #region [JumpSpeed]
+
+        public void SetJumpSpeed(float jumpSpeed) {
+            if (jumpSpeed < 0) {
+                TDLog.Warning("JumpSpeed < 0");
+                return;
+            }
+            this.jumpSpeed = jumpSpeed;
+        }
+
+        public void AddJumpSpeed(float jumpSpeed) {
+            if (jumpSpeed < 0) {
+                TDLog.Warning("JumpSpeed < 0");
+                return;
+            }
+            this.jumpSpeed += jumpSpeed;
+        }
+
+        public void ReduceJumpSpeed(float jumpSpeed) {
+            if (jumpSpeed < 0) {
+                TDLog.Warning("JumpSpeed < 0");
+                return;
+            }
+            this.jumpSpeed -= jumpSpeed;
+        }
+
+        #endregion
+
+        #region [FallSpeed]
+
+        public void SetFallSpeed(float fallSpeed) {
+            if (fallSpeed < 0) {
+                TDLog.Warning("FallSpeed < 0");
+                return;
+            }
+            this.fallSpeed = fallSpeed;
+        }
+
+        public void AddFallSpeed(float fallSpeed) {
+            if (fallSpeed < 0) {
+                TDLog.Warning("FallSpeed < 0");
+                return;
+            }
+            this.fallSpeed += fallSpeed;
+        }
+
+        public void ReduceFallSpeed(float fallSpeed) {
+            if (fallSpeed < 0) {
+                TDLog.Warning("FallSpeed < 0");
+                return;
+            }
+            this.fallSpeed -= fallSpeed;
+        }
+
+        public void SetFallSpeedMax(float fallSpeedMax) {
+            if (fallSpeedMax < 0) {
+                TDLog.Warning("FallSpeedMax < 0");
+                return;
+            }
+            this.fallSpeedMax = fallSpeedMax;
+        }
+
+        #endregion
+
+        #region [DamageBonus]
+
+        public void SetDamageBonus(float damageBonus) {
+            this.damageBonus = damageBonus;
+        }
+
+        public void AddDamageBonus(float damageBonus) {
+            this.damageBonus += damageBonus;
+        }
+
+        #endregion
 
         public bool IsDead() {
             return hp <= 0;
@@ -159,8 +371,8 @@ namespace TiedanSouls.Client.Entities {
             && gpMax_ComparisonType.IsMatch(attributeCom.GPMax, gpMax)
             && moveSpeed_ComparisonType.IsMatch(attributeCom.MoveSpeed, moveSpeed)
             && jumpSpeed_ComparisonType.IsMatch(attributeCom.JumpSpeed, jumpSpeed)
-            && fallingAcceleration_ComparisonType.IsMatch(attributeCom.FallingAcceleration, fallingAcceleration)
-            && fallingSpeedMax_ComparisonType.IsMatch(attributeCom.FallingSpeedMax, fallingSpeedMax);
+            && fallingAcceleration_ComparisonType.IsMatch(attributeCom.FallSpeed, fallingAcceleration)
+            && fallingSpeedMax_ComparisonType.IsMatch(attributeCom.FallSpeedMax, fallingSpeedMax);
         }
 
     }

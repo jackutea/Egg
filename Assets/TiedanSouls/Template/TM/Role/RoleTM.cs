@@ -10,15 +10,15 @@ namespace TiedanSouls.Template {
         public string roleName;
 
         // - Health
-        public int hpMax;
-        public int gpMax;
-        public int epMax;
+        public int hpMax_Expanded;
+        public int gpMax_Expanded;
+        public int epMax_Expanded;
 
         // - Move
-        public float moveSpeed;
-        public float jumpSpeed;
-        public float fallingAcceleration;
-        public float fallingSpeedMax;
+        public int moveSpeed_Expanded;
+        public int jumpSpeed_Expanded;
+        public int fallSpeed_Expanded;
+        public int fallSpeedMax_Expanded;
 
         // - Renderer
         public string modName;

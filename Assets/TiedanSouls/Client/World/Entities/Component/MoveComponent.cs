@@ -31,7 +31,7 @@ namespace TiedanSouls.Client.Entities {
             rb.velocity = dir * moveSpeed;
         }
 
-        public void Move_Horizontal(float x, float moveSpeed) {
+        public void MoveHorizontal(float x, float moveSpeed) {
             var velo = rb.velocity;
             velo.x = x * moveSpeed;
             rb.velocity = velo;
@@ -54,7 +54,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 仅设置水平方向的速度
         /// </summary>
-        public void Set_Horizontal(Vector3 velo) {
+        public void SetHorizontalVelocity(Vector3 velo) {
             var v = rb.velocity;
             v.x = velo.x;
             rb.velocity = v;
@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 仅设置垂直方向的速度
         /// </summary>
-        public void Set_Vertical(Vector3 velo) {
+        public void SetVerticalVelocity(Vector3 velo) {
             var v = rb.velocity;
             v.y = velo.y;
             rb.velocity = v;
@@ -79,7 +79,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 停止水平方向的速度
         /// </summary>
-        public void Stop_Horizontal() {
+        public void StopHorizontalVelocity() {
             var velo = rb.velocity;
             velo.x = 0;
             rb.velocity = velo;
@@ -88,7 +88,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 停止垂直方向的速度
         /// </summary>
-        public void Stop_Vertical() {
+        public void StopVerticalVelocity() {
             var velo = rb.velocity;
             velo.y = 0;
             rb.velocity = velo;

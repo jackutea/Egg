@@ -158,10 +158,9 @@ namespace TiedanSouls.Client {
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
             role.SetMod(roleMod);
 
-            // Attr
+            // Attribute
             var attrCom = role.AttributeCom;
-            attrCom.InitializeHealth(roleTM.hpMax, roleTM.hpMax, roleTM.epMax, roleTM.epMax, roleTM.gpMax, roleTM.gpMax);
-            attrCom.InitializeLocomotion(roleTM.moveSpeed, roleTM.jumpSpeed, roleTM.fallingAcceleration, roleTM.fallingSpeedMax);
+            SetAttributeComponent(attrCom, roleTM);
 
             // HUD
             var hpBar = CreateHpBarHUD();
@@ -276,7 +275,7 @@ namespace TiedanSouls.Client {
 
         #region [Projectile]
 
-        public bool TryCreateProjectile(int typeID, Vector3 basePos, Quaternion baseRot, out ProjectileEntity projectile) {
+        public bool TryCreateProjectile(int typeID, out ProjectileEntity projectile) {
             projectile = null;
 
             var template = infraContext.TemplateCore.ProjectileTemplate;
@@ -407,6 +406,8 @@ namespace TiedanSouls.Client {
             return model;
         }
 
+        #endregion
+
         #region [EntitySpawn]
 
         public EntitySpawnModel GetEntitySpawnModel(EntitySpawnTM tm) {
@@ -421,6 +422,21 @@ namespace TiedanSouls.Client {
         }
 
         #endregion
+
+        #region [Component]
+
+        public static void SetAttributeComponent(AttributeComponent attributeComponent, RoleTM tm) {
+            attributeComponent.SetHPMax(TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded));
+            attributeComponent.SetHP(TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded));
+            attributeComponent.SetEPMax(TM2ModelUtil.GetFloat_Shrink100(tm.epMax_Expanded));
+            attributeComponent.SetEP(TM2ModelUtil.GetFloat_Shrink100(tm.epMax_Expanded));
+            attributeComponent.SetGPMax(TM2ModelUtil.GetFloat_Shrink100(tm.gpMax_Expanded));
+            attributeComponent.SetGP(TM2ModelUtil.GetFloat_Shrink100(tm.gpMax_Expanded));
+            attributeComponent.SetMoveSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.moveSpeed_Expanded));
+            attributeComponent.SetJumpSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.jumpSpeed_Expanded));
+            attributeComponent.SetFallSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.fallSpeed_Expanded));
+            attributeComponent.SetFallSpeedMax(TM2ModelUtil.GetFloat_Shrink100(tm.fallSpeedMax_Expanded));
+        }
 
         #endregion
 

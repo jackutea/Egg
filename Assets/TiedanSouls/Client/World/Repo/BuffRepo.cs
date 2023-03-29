@@ -22,7 +22,7 @@ namespace TiedanSouls.Client {
             var idCom = buff.IDCom;
             var key = idCom.EntityID;
             all.Add(key, buff);
-            TDLog.Log($"buff仓库 添加 {idCom}");
+            TDLog.Log($"buff仓库 添加 {idCom.EntityName}\n{buff.Description}");
         }
 
         public void AddToPool(BuffEntity buff) {
@@ -33,7 +33,7 @@ namespace TiedanSouls.Client {
                 pool.Add(key, list);
             }
             list.Add(buff);
-            TDLog.Log($"buff仓库 添加到池 {idCom}");
+            TDLog.Log($"buff仓库 添加到池 {idCom.EntityName}\n{buff.Description}");
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace TiedanSouls.Client {
             return all.Remove(buff.IDCom.EntityID);
         }
 
-        public bool TryRemove(int entityID,out BuffEntity buff) {
+        public bool TryRemove(int entityID, out BuffEntity buff) {
             if (all.TryGetValue(entityID, out buff)) {
                 all.Remove(entityID);
                 return true;

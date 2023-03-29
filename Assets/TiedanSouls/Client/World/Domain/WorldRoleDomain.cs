@@ -311,19 +311,13 @@ namespace TiedanSouls.Client.Domain {
 
         public void Fall(RoleEntity role, float dt) {
             var attributeCom = role.AttributeCom;
-            var fallingAcceleration = attributeCom.FallingAcceleration;
-            var fallingSpeedMax = attributeCom.FallingSpeedMax;
+            var fallSpeed = attributeCom.FallSpeed;
+            var fallSpeedMax = attributeCom.FallSpeedMax;
 
             var moveCom = role.MoveCom;
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            var offset = fallingAcceleration * dt;
-
-            velo.y -= offset;
-            if (velo.y < -fallingSpeedMax) {
-                velo.y = -fallingSpeedMax;
-            }
-            moveCom.SetVelocity(velo);
+            var vel = moveCom.Velocity;
+            vel.y = Mathf.Max(vel.y - fallSpeed * dt, -fallSpeedMax);
+            moveCom.SetVerticalVelocity(vel);
         }
 
         public void MoveByInput(RoleEntity role) {
@@ -333,7 +327,7 @@ namespace TiedanSouls.Client.Domain {
             Vector2 moveAxis = inputCom.MoveAxis;
             var moveCom = role.MoveCom;
             var attributeCom = role.AttributeCom;
-            moveCom.Move_Horizontal(moveAxis.x, attributeCom.MoveSpeed);
+            moveCom.MoveHorizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
 
         public void JumpByInput(RoleEntity role) {
@@ -391,14 +385,14 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Attribute]
 
-        public int DreaseHP(RoleEntity role, int atk) {
+        public float ReduceHP(RoleEntity role, int atkPower) {
             var attributeCom = role.AttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var decrease = attributeCom.DecreaseHP(atk);
+            var decrease = attributeCom.ReduceHP(atkPower);
             hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
 
-            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 atk-{atk} decrease-{decrease}");
+            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 攻击力: {atkPower} HP减少: {decrease}");
             return decrease;
         }
 
@@ -524,7 +518,7 @@ namespace TiedanSouls.Client.Domain {
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;
             var hitDamage = damageModel.GetDamage(hitFrame);
-            roleDomain.DreaseHP(role, hitDamage);
+            roleDomain.ReduceHP(role, hitDamage);
 
             // 伤害记录
             var damageService = worldContext.DamageArbitService;

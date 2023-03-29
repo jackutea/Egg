@@ -25,7 +25,7 @@ namespace TiedanSouls.Client {
             model.startFrame = tm.startFrame;
             model.endFrame = tm.endFrame;
             model.bulletTypeID = tm.bulletTypeID;
-            model.extraHitTimes = tm.extraHitTimes;
+            model.extraPenetrateCount = tm.extraPenetrateCount;
             model.localPos = GetVector3_Shrink100(tm.localPos_cm);
             model.localEulerAngles = tm.localEulerAngles;
             model.bulletEntityID = -1;
