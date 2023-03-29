@@ -4,7 +4,7 @@ namespace TiedanSouls.Client.Entities {
 
     public class BuffEntity : IEntity {
 
-        public IDComponent IDCom { get; private set; }
+        public EntityIDComponent IDCom { get; private set; }
 
         string description;
         public string Description => description;
@@ -41,7 +41,7 @@ namespace TiedanSouls.Client.Entities {
         public int curFrame;
 
         public void Ctor() {
-            IDCom = new IDComponent();
+            IDCom = new EntityIDComponent();
             IDCom.SetEntityType(EntityType.Buff);
             curFrame = -1;
         }

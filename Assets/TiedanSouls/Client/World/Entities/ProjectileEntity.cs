@@ -10,8 +10,8 @@ namespace TiedanSouls.Client.Entities {
 
         #region [组件]
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         ProjectileFSMComponent fsmCom;
         public ProjectileFSMComponent FSMCom => fsmCom;
@@ -35,7 +35,7 @@ namespace TiedanSouls.Client.Entities {
         #endregion
 
         public void Ctor() {
-            idCom = new IDComponent();
+            idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Projectile);
             fsmCom = new ProjectileFSMComponent();
             curFrame = -1;

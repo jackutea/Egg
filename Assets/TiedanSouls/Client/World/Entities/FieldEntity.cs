@@ -8,8 +8,8 @@ namespace TiedanSouls.Client.Entities {
 
         #region [组件]
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         FieldFSMComponent fsmComponent;
         public FieldFSMComponent FSMComponent => fsmComponent;
@@ -53,7 +53,7 @@ namespace TiedanSouls.Client.Entities {
             confiner = transform.Find("confiner").GetComponent<BoxCollider2D>();
             TDLog.Assert(confiner != null);
 
-            idCom = new IDComponent();
+            idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Field);
             fsmComponent = new FieldFSMComponent();
         }

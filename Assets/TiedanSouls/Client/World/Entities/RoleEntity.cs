@@ -12,7 +12,7 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Component]
 
-        public IDComponent IDCom { get; private set; }
+        public EntityIDComponent IDCom { get; private set; }
         public InputComponent InputCom { get; private set; }
         public AttributeComponent AttributeCom { get; private set; }
         public MoveComponent MoveCom { get; private set; }
@@ -82,7 +82,7 @@ namespace TiedanSouls.Client.Entities {
             MoveCom.Inject(RB_LogicRoot);
 
             // - ID
-            IDCom = new IDComponent();
+            IDCom = new EntityIDComponent();
             IDCom.SetEntityType(EntityType.Role);
 
             // - Input

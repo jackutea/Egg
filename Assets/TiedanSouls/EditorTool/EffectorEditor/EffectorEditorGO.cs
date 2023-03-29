@@ -4,7 +4,7 @@ using GameArki.AddressableHelper;
 using TiedanSouls.Template;
 using TiedanSouls.Generic;
 
-namespace TiedanSouls.EditorTool.EffectorEditor {
+namespace TiedanSouls.EditorTool {
 
     public class EffectorEditorGO : MonoBehaviour {
 

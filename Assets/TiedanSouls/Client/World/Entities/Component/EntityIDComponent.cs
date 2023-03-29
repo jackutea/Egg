@@ -5,7 +5,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 实体ID组件
     /// </summary>
-    public class IDComponent {
+    public class EntityIDComponent {
 
         EntityType entityType;
         public EntityType EntityType => entityType;
@@ -41,7 +41,7 @@ namespace TiedanSouls.Client.Entities {
         bool hasFather;
         public bool HasFather => hasFather;
 
-        public IDComponent() {
+        public EntityIDComponent() {
             Reset();
         }
 

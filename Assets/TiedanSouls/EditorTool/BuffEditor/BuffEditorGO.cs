@@ -47,19 +47,7 @@ namespace TiedanSouls.EditorTool {
                 return;
             }
 
-            var tm = so.tm;
-            this.typeID = tm.typeID;
-            this.buffName = tm.buffName;
-            this.description = tm.description;
-            this.icon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(tm.iconGUID));
-
-            this.delayFrame = tm.delayFrame;
-            this.intervalFrame = tm.intervalFrame;
-            this.durationFrame = tm.durationFrame;
-            this.triggerTimes = tm.triggerTimes;
-
-            this.attributeEffectEM = TM2EMUtil.GetAttributeEffectEM(tm.attributeEffectTM);
-            this.effectorTypeID = tm.effectorTypeID;
+            TM2EMUtil.LoadToBuffEditorGO(this, so.tm);
 
             EditorUtility.SetDirty(so);
             EditorUtility.SetDirty(gameObject);

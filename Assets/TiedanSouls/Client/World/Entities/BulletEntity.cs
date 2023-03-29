@@ -10,8 +10,8 @@ namespace TiedanSouls.Client.Entities {
 
         #region [组件]
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         InputComponent inputCom;
         public InputComponent InputCom => inputCom;
@@ -113,7 +113,7 @@ namespace TiedanSouls.Client.Entities {
             rb = logicRoot.AddComponent<Rigidbody2D>();
             rb.gravityScale = 0;
 
-            idCom = new IDComponent();
+            idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Bullet);
 
             inputCom = new InputComponent();

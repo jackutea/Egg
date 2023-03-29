@@ -6,8 +6,8 @@ namespace TiedanSouls.Client.Entities {
 
     public class SkillEntity : IEntity {
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         // - 技能类型
         SkillType skillType;
@@ -68,7 +68,7 @@ namespace TiedanSouls.Client.Entities {
         public int CurFrame => this.curFrame;
 
         public SkillEntity() {
-            idCom = new IDComponent();
+            idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Skill);
         }
 

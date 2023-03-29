@@ -6,8 +6,8 @@ namespace TiedanSouls.Client.Entities {
     // TODO: 去除 Mono
     public class ItemEntity : MonoBehaviour, IEntity {
 
-        IDComponent idCom;
-        public IDComponent IDCom => idCom;
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         ItemType itemType;
         public ItemType ItemType => itemType;
@@ -22,7 +22,7 @@ namespace TiedanSouls.Client.Entities {
 
         public void Ctor() {
             body = transform.Find("body").gameObject;
-            idCom = new IDComponent();
+            idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Item);
         }
 

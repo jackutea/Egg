@@ -7,6 +7,25 @@ namespace TiedanSouls.EditorTool {
 
     public static class TM2EMUtil {
 
+        #region [Buff]
+
+        public static void LoadToBuffEditorGO(BuffEditorGO editorGO, in BuffTM tm) {
+            editorGO.typeID = tm.typeID;
+            editorGO.buffName = tm.buffName;
+            editorGO.description = tm.description;
+            editorGO.icon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(tm.iconGUID));
+
+            editorGO.delayFrame = tm.delayFrame;
+            editorGO.intervalFrame = tm.intervalFrame;
+            editorGO.durationFrame = tm.durationFrame;
+            editorGO.triggerTimes = tm.triggerTimes;
+
+            editorGO.attributeEffectEM = GetAttributeEffectEM(tm.attributeEffectTM);
+            editorGO.effectorTypeID = tm.effectorTypeID;
+        }
+
+        #endregion
+
         #region [AttributeEffect]
 
         public static AttributeEffectEM[] GetAttributeEffectEMArray(AttributeEffectTM[] tmArray) {
@@ -47,7 +66,6 @@ namespace TiedanSouls.EditorTool {
             }
             return emArray;
         }
-
 
         public static ProjectileBulletEM GetProjectileBulletEM(ProjectileBulletTM tm) {
             ProjectileBulletEM em;

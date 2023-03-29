@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace TiedanSouls.EditorTool.EffectorEditor {
+namespace TiedanSouls.EditorTool {
 
     [CustomEditor(typeof(EffectorEditorGO))]
     public class EffectorEditorInspector : Editor {

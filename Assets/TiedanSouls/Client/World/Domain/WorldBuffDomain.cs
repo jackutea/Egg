@@ -71,14 +71,13 @@ namespace TiedanSouls.Client.Domain {
             var spawnControlType = entitySpawnModel.controlType;
             var spawnAllyType = entitySpawnModel.allyType;
 
-            // 1. Buff ID
+            // Buff ID
             var idCom = buff.IDCom;
             idCom.SetEntityID(worldContext.IDService.PickBuffID());
             idCom.SetAllyType(spawnAllyType);
             idCom.SetControlType(spawnControlType);
 
-
-            // 3. 添加至仓库
+            // 添加至仓库
             var repo = worldContext.BuffRepo;
             repo.Add(buff);
             return true;
