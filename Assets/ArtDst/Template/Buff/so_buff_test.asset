@@ -15,11 +15,11 @@ MonoBehaviour:
   tm:
     typeID: 9999
     buffName: "\u4E07\u7BAD\u7A7F\u5FC3buff"
-    description: "\u6BCF2\u79D2\u89E6\u53D1\u4E00\u4E2A\u6548\u679C\u5668"
+    description: "\u6BCF5\u79D2\u89E6\u53D1\u4E00\u4E2A\u6548\u679C\u5668"
     iconName: spr_weapon_spear
     iconGUID: 65194cec925008246becf609f68110f7
-    delayFrame: 60
-    intervalFrame: 60
+    delayFrame: 150
+    intervalFrame: 150
     durationFrame: 99999
     triggerTimes: 99999
     attributeEffectTM:

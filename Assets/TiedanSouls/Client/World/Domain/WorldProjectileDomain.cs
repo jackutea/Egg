@@ -60,9 +60,6 @@ namespace TiedanSouls.Client.Domain {
                 projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
                 projectileBulletModelArray[i] = projectileBulletModel;
 
-                // Bullet FSM
-                bullet.FSMCom.Enter_Deactivated();
-
                 bullet.SetExtraPenetrateCount(projectileBulletModel.extraPenetrateCount);   // 子弹的额外穿透次数
 
                 bullet.RootGO.name = $"子弹_{bulletIDCom}"; // 为了方便调试，这里给子弹加上名字
@@ -89,9 +86,9 @@ namespace TiedanSouls.Client.Domain {
             repo.AddToPool(projectile);
         }
 
-        public void TearDownFieldProjectiles(int fieldTypeID) {
+        public void RecycleProjectiles(int fieldTypeID) {
             var repo = worldContext.BulletRepo;
-            repo.TearDownToPool(fieldTypeID);
+            repo.RecycleToPool(fieldTypeID);
         }
 
         #endregion

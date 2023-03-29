@@ -140,12 +140,10 @@ namespace TiedanSouls.Client.Entities {
             logicRoot.transform.rotation = Quaternion.identity;
             rendererRoot.transform.position = Vector3.zero;
             rendererRoot.transform.rotation = Quaternion.identity;
+            
+            rootGO.SetActive(false);
 
             extraPenetrateCount = 0;
-        }
-
-        public void TearDown() {
-            rootGO.SetActive(false);
         }
 
         public void Activate() {

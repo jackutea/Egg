@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Domain {
                 TickFSM(bullet, dt);
             });
 
-            bulletRepo.TearDownToPool_NoneState();
+            bulletRepo.ReclycleToPool_NoneState();
         }
 
         void TickFSM(BulletEntity bullet, float dt) {

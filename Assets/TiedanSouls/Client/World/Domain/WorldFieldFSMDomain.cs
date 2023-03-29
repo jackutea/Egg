@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Domain {
                 if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out buff)) {
                     var buffSlotCom = playerRole.BuffSlotCom;
                     buffSlotCom.Add(buff);
-                    roleDomain.ReduceHP(playerRole, 90);
+                    roleDomain.ReduceHP_Percentage(playerRole, 0.9f);
                 }
             }
 

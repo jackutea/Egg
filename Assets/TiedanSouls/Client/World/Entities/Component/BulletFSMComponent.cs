@@ -21,11 +21,11 @@ namespace TiedanSouls.Client.Entities {
             activatedModel = new BulletFSMModel_Activated();
             deactivatedModel = new BulletFSMModel_Deactivated();
             tearDownModel = new BulletFSMModel_TearDown();
-            state = BulletFSMState.None;
+            state = BulletFSMState.Deactivated;
         }
 
         public void Reset() {
-            state = BulletFSMState.None;
+            state = BulletFSMState.Deactivated;
             activatedModel.Reset();
             deactivatedModel.Reset();
             tearDownModel.Reset();

@@ -176,25 +176,25 @@ namespace TiedanSouls.Client.Domain {
                     return;
                 }
 
-                // TearDown 当前关卡 
+                // Recycle 当前关卡 
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 fieldDomain.RecycleField(curFieldTypeID);
 
-                // TearDown 当前关卡 物件
+                // Recycle 当前关卡 物件
                 var itemRepo = worldContext.ItemRepo;
                 itemRepo.RecycleFieldItems(curFieldTypeID);
 
-                // TearDown 当前关卡 AI角色
+                // Recycle 当前关卡 AI角色
                 var roleDomain = worldDomain.RoleDomain;
                 roleDomain.RecycleFieldRoles(curFieldTypeID);
 
-                // TearDown 当前关卡 子弹
+                // Recycle 当前关卡 子弹
                 var bulletDomain = worldContext.RootDomain.BulletDomain;
-                bulletDomain.TearDownFieldBullets(curFieldTypeID);
+                bulletDomain.RecycleFieldBullets(curFieldTypeID);
 
-                // TearDown 当前关卡 弹道
+                // Recycle 当前关卡 弹道
                 var projectileDomain = worldContext.RootDomain.ProjectileDomain;
-                projectileDomain.TearDownFieldProjectiles(curFieldTypeID);
+                projectileDomain.RecycleProjectiles(curFieldTypeID);
 
                 // 显示下一关卡
                 _ = worldContext.FieldRepo.TryGet(loadingFieldTypeID, out var field);

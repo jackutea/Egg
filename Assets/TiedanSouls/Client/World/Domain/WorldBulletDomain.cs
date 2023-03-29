@@ -29,7 +29,7 @@ namespace TiedanSouls.Client.Domain {
             bullet = null;
 
             var bulletRepo = worldContext.BulletRepo;
-            bool isFromPool = bulletRepo.TryGetFromPool(typeID, out bullet);
+            bool isFromPool = bulletRepo.TryFetchFromPool(typeID, out bullet);
             if (!isFromPool) {
                 var factory = worldContext.WorldFactory;
                 if (!factory.TryCreateBullet(typeID, out bullet)) {
@@ -51,8 +51,7 @@ namespace TiedanSouls.Client.Domain {
             // 碰撞盒关联
             this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
 
-            var repo = worldContext.BulletRepo;
-            repo.Add(bullet);
+            bulletRepo.Add(bullet);
 
             return true;
         }
@@ -92,17 +91,11 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion 
 
-        #region [销毁]
+        #region [回收]
 
-        public void TearDownBullet(BulletEntity bullet) {
+        public void RecycleFieldBullets(int fieldTypeID) {
             var repo = worldContext.BulletRepo;
-            repo.TryRemove(bullet);
-            repo.AddToPool(bullet);
-        }
-
-        public void TearDownFieldBullets(int fieldTypeID) {
-            var repo = worldContext.BulletRepo;
-            repo.TearDownToPool(fieldTypeID);
+            repo.RecycleToPool(fieldTypeID);
         }
 
         #endregion

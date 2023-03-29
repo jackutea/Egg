@@ -26,7 +26,7 @@ namespace TiedanSouls.Client {
             TDLog.Log($"子弹仓库 添加 {idCom}");
         }
 
-        public void AddToPool(BulletEntity bullet) {
+        void AddToPool(BulletEntity bullet) {
             var idCom = bullet.IDCom;
             var key = idCom.TypeID;
             if (!pool.TryGetValue(key, out var list)) {
@@ -34,7 +34,7 @@ namespace TiedanSouls.Client {
                 pool.Add(key, list);
             }
             list.Add(bullet);
-            TDLog.Log($"子弹仓库 添加到池 {idCom}");
+            TDLog.Log($"子弹池 添加 类型{key}  ====> 剩余数量 {list.Count} ");
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 移除某个关卡的子弹到池中
         /// </summary>
-        public void TearDownToPool(int fieldTypeID) {
+        public void RecycleToPool(int fieldTypeID) {
             tempList.Clear();
             var e = all.Values.GetEnumerator();
             while (e.MoveNext()) {
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client {
                 var idCom = bullet.IDCom;
                 var fromFieldTypeID = idCom.FromFieldTypeID;
                 if (fromFieldTypeID == fieldTypeID) {
-                    bullet.TearDown();
+                    bullet.Reset();
                     this.AddToPool(bullet);
                     tempList.Add(bullet.IDCom.EntityID);
                 }
@@ -75,14 +75,14 @@ namespace TiedanSouls.Client {
             });
         }
 
-        public void TearDownToPool_NoneState() {
+        public void ReclycleToPool_NoneState() {
             tempList.Clear();
             var e = all.Values.GetEnumerator();
             while (e.MoveNext()) {
                 var bullet = e.Current;
                 var fsm = bullet.FSMCom;
                 if (fsm.State == BulletFSMState.None) {
-                    bullet.TearDown();
+                    bullet.Reset();
                     this.AddToPool(bullet);
                     tempList.Add(bullet.IDCom.EntityID);
                 }
@@ -101,13 +101,13 @@ namespace TiedanSouls.Client {
             return all.TryGetValue(entityID, out bullet);
         }
 
-        public bool TryGetFromPool(int typeID, out BulletEntity bullet) {
+        public bool TryFetchFromPool(int typeID, out BulletEntity bullet) {
             if (pool.TryGetValue(typeID, out var list)) {
                 var index = list.Count - 1;
                 if (index >= 0) {
                     bullet = list[index];
                     list.RemoveAt(index);
-                    TDLog.Log($"子弹仓库 从池中取出子弹 类型ID {typeID}");
+                    TDLog.Log($"子弹池 从池中取出子弹 类型ID {typeID} ====> 剩余数量 {list.Count}");
                     return true;
                 }
             }

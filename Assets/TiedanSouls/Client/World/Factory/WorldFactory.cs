@@ -345,6 +345,7 @@ namespace TiedanSouls.Client {
             }
             bullet.SetVFXGO(GameObject.Instantiate(vfxGO));
 
+            TDLog.Log($"创建子弹 {bulletTypeID}");
             return true;
         }
 

@@ -396,6 +396,18 @@ namespace TiedanSouls.Client.Domain {
             return decrease;
         }
 
+        public float ReduceHP_Percentage(RoleEntity role, float percentage) {
+            var attributeCom = role.AttributeCom;
+            var hudSlotCom = role.HudSlotCom;
+
+            var curHP = attributeCom.HP;
+            var decrease = curHP * percentage;
+            decrease = attributeCom.ReduceHP(decrease);
+
+            TDLog.Log($"{role.IDCom.EntityName} 受到百分比伤害 百分比: {percentage} HP减少: {decrease}");
+            return decrease;
+        }
+
         #endregion
 
         #region [角色释放技能]
