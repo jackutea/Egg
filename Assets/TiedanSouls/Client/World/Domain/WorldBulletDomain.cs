@@ -25,7 +25,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据类型ID生成子弹
         /// </summary>
-        public bool TryGetOrCreate(int typeID, in IDArgs father, out BulletEntity bullet) {
+        public bool TryGetOrCreate(int typeID, in EntityIDArgs father, out BulletEntity bullet) {
             bullet = null;
 
             var bulletRepo = worldContext.BulletRepo;

@@ -14,7 +14,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 添加伤害记录
         /// </summary>s
-        public void Add(DamageType damageType, int damage, in IDArgs victim, in IDArgs attacker) {
+        public void Add(DamageType damageType, int damage, in EntityIDArgs victim, in EntityIDArgs attacker) {
             var key = GetKey(attacker, victim);
             if (!all.TryGetValue(key, out var list)) {
                 list = new List<DamageRecordModel>();
@@ -33,7 +33,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 获取键值. 保证key1 > key2
         /// </summary>
-        public ulong GetKey(in IDArgs attacker, in IDArgs victim) {
+        public ulong GetKey(in EntityIDArgs attacker, in EntityIDArgs victim) {
             var key1 = ComineToKey(attacker.entityType, attacker.entityID);
             var key2 = ComineToKey(victim.entityType, victim.entityID);
             if (key1 < key2) {

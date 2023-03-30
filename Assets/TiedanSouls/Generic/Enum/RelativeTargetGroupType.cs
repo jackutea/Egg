@@ -1,28 +1,25 @@
+using System;
+
 namespace TiedanSouls.Generic {
 
-    // 相对群体类型
+    // 相对目标群体类型
+    [Flags]
     public enum RelativeTargetGroupType {
 
-        None = 0b0000_0000,
+        None = 0,
 
-        All = 0b1111_1111,
-        AllExceptSelf = 0b1111_1110,
-        AllExceptAlly = 0b1111_1101,
-        AllExceptEnemy = 0b1111_1011,
-        AllExceptNeutral = 0b1111_0111,
+        Self = 1 << 0,                      // 自身
+        Ally = 1 << 1,                      // 友军
+        Enemy = 1 << 2,                     // 敌军
+        Neutral = 1 << 3,                   // 中立
 
-        OnlySelf = 0b0000_0001,
-        OnlyAlly = 0b0000_0010,
-        OnlyEnemy = 0b0000_0100,
-        OnlyNeutral = 0b0000_1000,
+    }
 
-        SelfAndAlly = OnlyAlly | OnlySelf,
-        SelfAndEnemy = OnlyEnemy | OnlySelf,
-        SelfAndNeutral = OnlyNeutral | OnlySelf,
+    public static class RelativeTargetGroupTypeExtension {
 
-        AllyAndEnemy = OnlyAlly | OnlyEnemy,
-        AllyAndNeutral = OnlyAlly | OnlyNeutral,
-        EnemyAndNeutral = OnlyEnemy | OnlyNeutral,
+        public static bool Contains(this RelativeTargetGroupType self, RelativeTargetGroupType other) {
+            return (self & other) == other;
+        }
 
     }
 

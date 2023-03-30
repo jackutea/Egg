@@ -31,7 +31,7 @@ namespace TiedanSouls.Client.Domain {
 
             // Father
             var idCom = field.IDCom;
-            idCom.SetFather(new IDArgs { entityType = EntityType.Field, fromFieldTypeID = typeID });
+            idCom.SetFather(new EntityIDArgs { entityType = EntityType.Field, fromFieldTypeID = typeID });
 
             field.Show();
 

@@ -55,7 +55,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型 召唤角色
         /// </summary>
-        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in IDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
+        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
             var typeID = entitySummonModel.typeID;
             var controlType = entitySummonModel.controlType;
             var factory = worldContext.WorldFactory;
@@ -518,14 +518,14 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 角色受击的统一处理方式
         /// </summary>
-        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in IDArgs hitter, in CollisionTriggerModel collisionTriggerModel) {
+        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in CollisionTriggerModel collisionTriggerModel) {
             var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
             // 击退
             roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel);
             // 击飞
-            roleFSMDomain.EnterKnockUp(role, beHitDir, collisionTriggerModel);
+            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel);
 
             // 伤害结算
             var damageModel = collisionTriggerModel.damageModel;

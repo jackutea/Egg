@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public struct CollisionEventArgs {
+    public struct CollisionEventModel {
 
-        IDArgs a;
-        public IDArgs A => a;
+        EntityIDArgs a;
+        public EntityIDArgs A => a;
 
-        IDArgs b;
-        public IDArgs B => b;
+        EntityIDArgs b;
+        public EntityIDArgs B => b;
 
         Vector3 posA;
         public Vector3 PosA => posA;
@@ -16,7 +16,7 @@ namespace TiedanSouls.Client.Entities {
         Vector3 posB;
         public Vector3 PosB => posB;
 
-        public CollisionEventArgs(in IDArgs a, in IDArgs b, in Vector3 posA, in Vector3 posB) {
+        public CollisionEventModel(in EntityIDArgs a, in EntityIDArgs b, in Vector3 posA, in Vector3 posB) {
             this.a = a;
             this.b = b;
             this.posA = posA;

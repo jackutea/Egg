@@ -42,21 +42,16 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        #region [物理方法]
-
-
-        #endregion
-
         #region [碰撞事件处理 Enter]
 
-        void HandleTriggerEnter(IEntity entityA, IEntity entityB, in CollisionEventArgs collisionEventArgs) {
+        void HandleTriggerEnter(IEntity entityA, IEntity entityB, in CollisionEventModel collisionEventModel) {
             // 技能 & 角色 
             if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
-                HandleTriggerEnter_Skill_Role(skillEntity, roleEntity, collisionEventArgs.PosA);
+                HandleTriggerEnter_Skill_Role(skillEntity, roleEntity, collisionEventModel.PosA);
                 return;
             }
             if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
-                HandleTriggerEnter_Skill_Role(skillEntity2, roleEntity2, collisionEventArgs.PosB);
+                HandleTriggerEnter_Skill_Role(skillEntity2, roleEntity2, collisionEventModel.PosB);
                 return;
             }
 
@@ -160,7 +155,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [碰撞事件处理 Exit]
 
-        void HandleTriggerExit(IEntity entityA, IEntity entityB, in CollisionEventArgs collisionEventArgs) {
+        void HandleTriggerExit(IEntity entityA, IEntity entityB, in CollisionEventModel collisionEventModel) {
             // 技能 & 角色
             if (entityA is SkillEntity skillEntity3 && entityB is RoleEntity roleEntity) {
                 HandleTriggerExit_Skill_Role(skillEntity3, roleEntity);

@@ -8,8 +8,8 @@ namespace TiedanSouls.Client.Entities {
     /// </summary>
     public class ColliderModel : MonoBehaviour {
 
-        [SerializeField] IDArgs father;
-        public IDArgs Father => father;
+        [SerializeField] EntityIDArgs father;
+        public EntityIDArgs Father => father;
 
         ColliderType colliderType;
         public ColliderType ColliderType => colliderType;
@@ -44,7 +44,7 @@ namespace TiedanSouls.Client.Entities {
         public CollisionEventHandler onTriggerEnter2D;
         public CollisionEventHandler onTriggerStay2D;
         public CollisionEventHandler onTriggerExit2D;
-        public delegate void CollisionEventHandler(in CollisionEventArgs args);
+        public delegate void CollisionEventHandler(in CollisionEventModel args);
 
         public bool IsActivated => gameObject.activeSelf;
 
@@ -56,7 +56,7 @@ namespace TiedanSouls.Client.Entities {
             gameObject.SetActive(false);
         }
 
-        public void SetFather(IDArgs father) {
+        public void SetFather(EntityIDArgs father) {
             this.father = father;
         }
 
@@ -64,58 +64,57 @@ namespace TiedanSouls.Client.Entities {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
 
             var otherFather = otherColliderModel.father;
-            if (!IsRightHitTarget(otherFather)) return;
+            if (!IsInRightRelativeTargetGroup(otherFather)) return;
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
+            CollisionEventModel args = new CollisionEventModel(father, otherFather, transform.position, other.transform.position);
             onTriggerEnter2D?.Invoke(args);
         }
 
         void OnTriggerStay2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
             var otherFather = otherColliderModel.father;
-            if (!IsRightHitTarget(otherFather)) {
+            if (!IsInRightRelativeTargetGroup(otherFather)) {
                 return;
             }
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
+            CollisionEventModel args = new CollisionEventModel(father, otherFather, transform.position, other.transform.position);
             onTriggerStay2D?.Invoke(args);
         }
 
         void OnTriggerExit2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
             var otherFather = otherColliderModel.father;
-            if (!IsRightHitTarget(otherFather)) {
+            if (!IsInRightRelativeTargetGroup(otherFather)) {
                 return;
             }
 
-            CollisionEventArgs args = new CollisionEventArgs(father, otherFather, transform.position, other.transform.position);
+            CollisionEventModel args = new CollisionEventModel(father, otherFather, transform.position, other.transform.position);
             onTriggerExit2D?.Invoke(args);
         }
 
-        bool IsRightHitTarget(in IDArgs otherFather) {
-            var selfFatherAllyType = father.allyType;
-            var otherFatherAllyType = otherFather.allyType;
-            bool isSelf = father.IsTheSame(otherFather);
+        public bool IsInRightRelativeTargetGroup(in EntityIDArgs other) {
+            var self = father;
+            var selfAllyType = self.allyType;
+            var otherAllyType = other.allyType;
+            bool isSelf = self.IsTheSame(other);
+            bool isAlly = selfAllyType.IsAlly(otherAllyType);
+            bool isEnemy = selfAllyType.IsEnemy(otherAllyType);
+            bool isOtherNeutral = otherAllyType == AllyType.Neutral;
 
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.None) return false;
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.All) return true;
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllExceptSelf) return !isSelf;
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllExceptAlly) return !selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllExceptEnemy) return !selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllExceptNeutral) return selfFatherAllyType != AllyType.Neutral;
+            if (hitRelativeTargetGroupType == RelativeTargetGroupType.None)
+                return false;
 
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.OnlySelf) return isSelf;
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.OnlyAlly) return selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.OnlyEnemy) return selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.OnlyNeutral) return selfFatherAllyType == AllyType.Neutral;
+            if (hitRelativeTargetGroupType.Contains(RelativeTargetGroupType.Self) && isSelf)
+                return true;
 
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.SelfAndAlly) return isSelf || selfFatherAllyType.IsAlly(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.SelfAndEnemy) return isSelf || selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.SelfAndNeutral) return isSelf || selfFatherAllyType == AllyType.Neutral;
+            if (hitRelativeTargetGroupType.Contains(RelativeTargetGroupType.Ally) && isAlly)
+                return true;
 
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllyAndEnemy) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType.IsEnemy(otherFatherAllyType);
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.AllyAndNeutral) return selfFatherAllyType.IsAlly(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
-            if (hitRelativeTargetGroupType == RelativeTargetGroupType.EnemyAndNeutral) return selfFatherAllyType.IsEnemy(otherFatherAllyType) || selfFatherAllyType == AllyType.Neutral;
+            if (hitRelativeTargetGroupType.Contains(RelativeTargetGroupType.Enemy) && isEnemy)
+                return true;
+
+            if (hitRelativeTargetGroupType.Contains(RelativeTargetGroupType.Neutral) && isOtherNeutral)
+                return true;
 
             return false;
         }

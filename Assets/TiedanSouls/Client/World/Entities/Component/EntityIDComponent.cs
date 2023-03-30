@@ -35,8 +35,8 @@ namespace TiedanSouls.Client.Entities {
         public int FromFieldTypeID => fromFieldTypeID;
         public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
-        IDArgs father;
-        public IDArgs Father => father;
+        EntityIDArgs father;
+        public EntityIDArgs Father => father;
 
         bool hasFather;
         public bool HasFather => hasFather;
@@ -52,7 +52,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 设置父级
         /// </summary>
-        public void SetFather(in IDArgs args) {
+        public void SetFather(in EntityIDArgs args) {
             this.hasFather = true;
             this.father = args;
 
@@ -62,8 +62,8 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"设置父级:\n{this}\n{args}");
         }
 
-        public IDArgs ToArgs() {
-            IDArgs args = new IDArgs();
+        public EntityIDArgs ToArgs() {
+            EntityIDArgs args = new EntityIDArgs();
             args.entityType = entityType;
             args.typeID = typeID;
             args.entityID = entityID;
@@ -77,30 +77,6 @@ namespace TiedanSouls.Client.Entities {
 
         public override string ToString() {
             return $"IDComponent: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
-        }
-
-    }
-
-    [System.Serializable]
-    public struct IDArgs {
-
-        public EntityType entityType;
-        public int entityID;
-        public int typeID;
-        public string entityName;
-        public AllyType allyType;
-        public ControlType controlType;
-
-        public int fromFieldTypeID;
-
-        public bool IsTheSame(in IDArgs other) {
-            return entityType == other.entityType
-                && typeID == other.typeID
-                && entityID == other.entityID;
-        }
-
-        public override string ToString() {
-            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
         }
 
     }

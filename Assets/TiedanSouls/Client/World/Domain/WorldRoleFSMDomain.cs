@@ -325,7 +325,7 @@ namespace TiedanSouls.Client.Domain {
             fsm.Add_KnockBack(beHitDir, knockBackPowerModel);
         }
 
-        public void EnterKnockUp(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
+        public void Enter_KnockUp(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
             var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
             var fsm = role.FSMCom;
             fsm.Add_KnockUp(knockUpPowerModel);

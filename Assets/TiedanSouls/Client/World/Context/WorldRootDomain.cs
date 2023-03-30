@@ -94,7 +94,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体召唤模型 生成多个实体
         /// </summary>
-        public void SpawnBy_EntitySummonModelArray(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel[] entitySummonModel) {
+        public void SpawnBy_EntitySummonModelArray(Vector3 summonPos, Quaternion baseRot, in EntityIDArgs summoner, in EntitySummonModel[] entitySummonModel) {
             var len = entitySummonModel.Length;
             for (int i = 0; i < len; i++) {
                 SpawnBy_EntitySummonModel(summonPos, baseRot, summoner, entitySummonModel[i]);
@@ -104,7 +104,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体召唤模型 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySummonModel(Vector3 summonPos, Quaternion baseRot, in IDArgs summoner, in EntitySummonModel entitySummonModel) {
+        public void SpawnBy_EntitySummonModel(Vector3 summonPos, Quaternion baseRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel) {
             var entityType = entitySummonModel.entityType;
 
             if (entityType == EntityType.Role) {
@@ -145,7 +145,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体销毁模型 销毁多个实体
         /// </summary>
-        public void DestroyBy_EntityDestroyModelArray(in IDArgs summoner, EntityDestroyModel[] entityDestroyModel) {
+        public void DestroyBy_EntityDestroyModelArray(in EntityIDArgs summoner, EntityDestroyModel[] entityDestroyModel) {
             var len = entityDestroyModel.Length;
             for (int i = 0; i < len; i++) {
                 DestroyBy_EntityDestroyModel(summoner, entityDestroyModel[i]);
@@ -155,7 +155,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体销毁模型 销毁一个实体  
         /// </summary>
-        public void DestroyBy_EntityDestroyModel(in IDArgs summoner, in EntityDestroyModel entityDestroyModel) {
+        public void DestroyBy_EntityDestroyModel(in EntityIDArgs summoner, in EntityDestroyModel entityDestroyModel) {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 
@@ -188,7 +188,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 设置 碰撞触发器模型 的父级(为了在碰撞事件触发时找到父级实体)
         /// </summary>
-        public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in IDArgs father) {
+        public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
             var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerModelArray[i];
@@ -196,12 +196,12 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
-        public void SetFather_CollisionTriggerModel(in CollisionTriggerModel triggerModel, in IDArgs father) {
+        public void SetFather_CollisionTriggerModel(in CollisionTriggerModel triggerModel, in EntityIDArgs father) {
             var array = triggerModel.colliderModelArray;
             SetFather_ColliderModel(array, father);
         }
 
-        public void SetFather_ColliderModel(ColliderModel[] colliderModelArray, in IDArgs father) {
+        public void SetFather_ColliderModel(ColliderModel[] colliderModelArray, in EntityIDArgs father) {
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var colliderModel = colliderModelArray[i];
@@ -211,12 +211,12 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
-        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventArgs args) {
+        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventModel args) {
             var evRepo = worldContext.CollisionEventRepo;
             evRepo.Add_TriggerEnter(args);
         }
 
-        void AddToCollisionEventRepo_TriggerExit(in CollisionEventArgs args) {
+        void AddToCollisionEventRepo_TriggerExit(in CollisionEventModel args) {
             var evRepo = worldContext.CollisionEventRepo;
             evRepo.Add_TriggerExit(args);
         }
@@ -225,7 +225,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [获取实体信息]
 
-        public bool TryGetEntityObj(in IDArgs idArgs, out IEntity entity) {
+        public bool TryGetEntityObj(in EntityIDArgs idArgs, out IEntity entity) {
             entity = null;
 
             var entityType = idArgs.entityType;
@@ -288,7 +288,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体追踪模型 设置 第一个满足条件的实体目标
         /// </summary>
-        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in IDArgs self) {
+        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in EntityIDArgs self) {
             var stateEntity = this.worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
 
@@ -317,6 +317,32 @@ namespace TiedanSouls.Client.Facades {
         }
 
         #endregion
+
+        public bool IsInRightRelativeTargetGroup(RelativeTargetGroupType relativeTargetGroupType, in EntityIDArgs self, in EntityIDArgs other) {
+            var selfAllyType = self.allyType;
+            var otherAllyType = other.allyType;
+            bool isSelf = self.IsTheSame(other);
+            bool isAlly = selfAllyType.IsAlly(otherAllyType);
+            bool isEnemy = selfAllyType.IsEnemy(otherAllyType);
+            bool isOtherNeutral = otherAllyType == AllyType.Neutral;
+
+            if (relativeTargetGroupType == RelativeTargetGroupType.None)
+                return false;
+
+            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Self) && isSelf)
+                return true;
+
+            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Ally) && isAlly)
+                return true;
+
+            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Enemy) && isEnemy)
+                return true;
+
+            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Neutral) && isOtherNeutral)
+                return true;
+
+            return false;
+        }
 
     }
 

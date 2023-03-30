@@ -25,7 +25,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据类型ID生成Buff
         /// </summary>
-        public bool TrySpawn(int typeID, in IDArgs father, out BuffEntity buff) {
+        public bool TrySpawn(int typeID, in EntityIDArgs father, out BuffEntity buff) {
             buff = null;
 
             var buffRepo = worldContext.BuffRepo;
@@ -113,7 +113,7 @@ namespace TiedanSouls.Client.Domain {
             var father = idCom.Father;
             Vector3 summonPos = Vector3.zero;
             Quaternion baseRot = Quaternion.identity;
-            IDArgs summoner = father;
+            EntityIDArgs summoner = father;
 
             if (this.rootDomain.TryGetEntityObj(idCom.Father, out var entity)) {
                 if (entity is RoleEntity role) {

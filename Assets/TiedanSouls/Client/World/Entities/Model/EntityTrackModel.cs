@@ -8,7 +8,7 @@ namespace TiedanSouls.Client.Entities {
         public RelativeTargetGroupType relativeTrackTargetGroupType;
         public EntityTrackSelectorModel entityTrackSelectorModel;
 
-        public IDArgs target;
+        public EntityIDArgs target;
 
     }
 

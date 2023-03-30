@@ -8,8 +8,8 @@ namespace TiedanSouls.Client {
     /// </summary>
     public struct DamageRecordModel {
 
-        public IDArgs attacker;         // 攻击者
-        public IDArgs victim;           // 受害者
+        public EntityIDArgs attacker;         // 攻击者
+        public EntityIDArgs victim;           // 受害者
 
         public DamageType damageType;   // 伤害类型
         public int damage;              // 伤害值

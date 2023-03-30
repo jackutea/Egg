@@ -23,7 +23,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [添加技能]
 
-        public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in IDArgs father) {
+        public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in EntityIDArgs father) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
             var factory = worldContext.WorldFactory;
@@ -62,14 +62,14 @@ namespace TiedanSouls.Client.Domain {
             });
         }
 
-        public void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in IDArgs father) {
-            IDArgs father_lambda = father;
+        public void AddAllSkillToSlot_Combo(SkillSlotComponent skillSlotCom, in EntityIDArgs father) {
+            EntityIDArgs father_lambda = father;
             skillSlotCom.Foreach_Origin((skill) => {
                 var cancelModelArray = skill.ComboSkillCancelModelArray;
                 AddComboSkill(skillSlotCom, cancelModelArray, father_lambda);
             });
 
-            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray, in IDArgs father) {
+            void AddComboSkill(SkillSlotComponent skillSlotCom, SkillCancelModel[] cancelModelArray, in EntityIDArgs father) {
                 var len = cancelModelArray?.Length;
                 for (int i = 0; i < len; i++) {
                     var cancelModel = cancelModelArray[i];
@@ -131,7 +131,6 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
             TDLog.Log($"击中效果 - {hitEffectorTypeID}");
         }
-
 
         /// <summary>
         /// 技能 受击 处理

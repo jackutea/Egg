@@ -19,7 +19,7 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void SpawnItemEntity(int itemTypeID, Vector2 pos, in IDArgs father) {
+        public void SpawnItemEntity(int itemTypeID, Vector2 pos, in EntityIDArgs father) {
             var factory = worldContext.WorldFactory;
             if (!factory.TryCreateItemEntity(itemTypeID, out var item)) {
                 TDLog.Error($"创建物品失败! - {itemTypeID}");
