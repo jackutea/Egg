@@ -164,14 +164,11 @@ namespace TiedanSouls.Client.Entities {
 
         public void SetFromFieldTypeID(int fieldTypeID) {
             IDCom.SetFromFieldTypeID(fieldTypeID);
-            SkillSlotCom.Foreach_Origin((skill) => {
-                skill.SetFromFieldTypeID(fieldTypeID);
-            });
-            SkillSlotCom.Foreach_Combo((skill) => {
-                skill.SetFromFieldTypeID(fieldTypeID);
-            });
-            var colliderModel = Coll_LogicRoot.GetComponent<ColliderModel>();
-            colliderModel.SetFather(IDCom.ToArgs());
+
+            var idArgs = IDCom.ToArgs();
+            SkillSlotCom.SetFather(idArgs);
+            BuffSlotCom.SetFather(idArgs);
+            Coll_LogicRoot.GetComponent<ColliderModel>().SetFather(idArgs);
         }
 
         #region [角色物理事件]

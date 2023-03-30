@@ -53,6 +53,14 @@ namespace TiedanSouls.Client.Entities {
             curFrame = -1;
         }
 
+        #region [Component Wrapper]
+
+        public void SetFather(in EntityIDArgs father) {
+            IDCom.SetFather(father);
+        }
+
+        #endregion
+
         public bool IsFinished() {
             return curFrame >= durationFrame;
         }

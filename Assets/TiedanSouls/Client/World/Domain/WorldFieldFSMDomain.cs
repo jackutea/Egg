@@ -43,28 +43,39 @@ namespace TiedanSouls.Client.Domain {
             if (readyModel.IsEntering) {
                 readyModel.SetIsEntering(false);
 
+                // 关卡切换时 角色相关刷新
+                var curFieldTypeID = field.IDCom.TypeID;
                 var playerRole = worldContext.RoleRepo.PlayerRole;
-                playerRole.Reset();
+
+                // - FromFieldTypeID
+                playerRole.SetFromFieldTypeID(curFieldTypeID);
+
+                // - 位置
                 var door = readyModel.EnterDoorModel;
                 var doorPos = door.pos;
                 doorPos.y = playerRole.LogicPos.y;
                 playerRole.SetLogicPos(doorPos);
-                playerRole.SetFromFieldTypeID(field.IDCom.TypeID);
+
+                // - GO Name
                 playerRole.name = $"主角_{playerRole.IDCom}";
 
+                // - 表现层同步当前位置
                 var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleDomain.Renderer_Sync(playerRole);
 
                 // - 测试buff
+                var buffSlotCom = playerRole.BuffSlotCom;
                 var buffDomain = worldContext.RootDomain.BuffDomain;
-                if (buffDomain.TrySpawn(9999, playerRole.IDCom.ToArgs(), out var buff)) {
-                    var buffSlotCom = playerRole.BuffSlotCom;
-                    buffSlotCom.Add(buff);
+                if (!buffSlotCom.HasSameTypeBuff(9999)) {
+                    if (buffDomain.TrySpawn(9999, playerRole.IDCom.ToArgs(), out var buff)) {
+                        buffSlotCom.Add(buff);
+                    }
                 }
-                if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out buff)) {
-                    var buffSlotCom = playerRole.BuffSlotCom;
-                    buffSlotCom.Add(buff);
-                    roleDomain.ReduceHP_Percentage(playerRole, 0.9f);
+                if (!buffSlotCom.HasSameTypeBuff(99991)) {
+                    if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out var buff)) {
+                        buffSlotCom.Add(buff);
+                        roleDomain.ReduceHP_Percentage(playerRole, 0.9f);
+                    }
                 }
             }
 

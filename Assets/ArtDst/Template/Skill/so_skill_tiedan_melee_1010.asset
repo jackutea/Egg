@@ -72,10 +72,6 @@ MonoBehaviour:
         knockUpDisCurve_KeyframeTMArray: []
         knockUpCostFrame: 0
         knockUpHeight_cm: 0
-      stateEffectTM:
-        addStateFlag: 0
-        effectStateValue: 0
-        effectMaintainFrame: 0
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
@@ -87,4 +83,4 @@ MonoBehaviour:
     skillEffectorTMArray: []
     skillMoveCurveTMArray: []
     weaponAnimName: anim_spear_melee_1010
-    weaponAnimClip_GUID: 706030e999e63134b8e0d6ccbf6e3288
+    weaponAnimClip_GUID: 84dd15d653dd41049994690039901695

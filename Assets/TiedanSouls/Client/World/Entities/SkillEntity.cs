@@ -6,8 +6,7 @@ namespace TiedanSouls.Client.Entities {
 
     public class SkillEntity : IEntity {
 
-        EntityIDComponent idCom;
-        public EntityIDComponent IDCom => idCom;
+        public EntityIDComponent IDCom { get; private set; }
 
         // - 技能类型
         SkillType skillType;
@@ -68,8 +67,8 @@ namespace TiedanSouls.Client.Entities {
         public int CurFrame => this.curFrame;
 
         public SkillEntity() {
-            idCom = new EntityIDComponent();
-            idCom.SetEntityType(EntityType.Skill);
+            IDCom = new EntityIDComponent();
+            IDCom.SetEntityType(EntityType.Skill);
         }
 
         public void Reset() {
@@ -94,10 +93,12 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void SetFromFieldTypeID(int fieldTypeID) {
-            idCom.SetFromFieldTypeID(fieldTypeID);
+        #region [Component Wrapper]
+
+        public void SetFather(in EntityIDArgs father) {
+            IDCom.SetFather(father);
             var len = collisionTriggerArray.Length;
-            var idArgs = idCom.ToArgs();
+            var idArgs = IDCom.ToArgs();
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerArray[i];
                 var colliderModelArray = triggerModel.colliderModelArray;
@@ -108,6 +109,8 @@ namespace TiedanSouls.Client.Entities {
                 }
             }
         }
+
+        #endregion
 
         // TODO: 重构 实体内不做过多逻辑处理
         public bool TryMoveNext(Vector3 rootPos, Quaternion rootRot) {

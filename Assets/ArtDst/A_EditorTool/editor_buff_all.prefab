@@ -82,8 +82,8 @@ MonoBehaviour:
   buffName: "\u4E07\u7BAD\u7A7F\u5FC3buff"
   description: "\u6BCF5\u79D2\u89E6\u53D1\u4E00\u4E2A\u6548\u679C\u5668"
   icon: {fileID: 21300000, guid: 65194cec925008246becf609f68110f7, type: 3}
-  delayFrame: 150
-  intervalFrame: 150
+  delayFrame: 30
+  intervalFrame: 30
   durationFrame: 99999
   triggerTimes: 99999
   attributeEffectEM:
@@ -145,7 +145,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: b0446eef64d7c5444bcdeec26001bba3, type: 2}
   typeID: 99991
   buffName: "\u56DE\u8840buff"
-  description: "\u6BCF1\u79D2\u56DE\u590D2\u751F\u547D\u503C"
+  description: "\u6BCF1\u79D2\u56DE\u590D5\u751F\u547D\u503C"
   icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
   delayFrame: 30
   intervalFrame: 30
@@ -153,7 +153,7 @@ MonoBehaviour:
   triggerTimes: 999999
   attributeEffectEM:
     hpNCT: 3
-    hpEV: 2
+    hpEV: 5
     maxHpNCT: 0
     maxHpEV: 0
     atkPowerNCT: 0

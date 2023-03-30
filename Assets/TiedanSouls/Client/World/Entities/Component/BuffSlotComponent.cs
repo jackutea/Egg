@@ -46,7 +46,32 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
+        #region [改]
+
+        public void SetFather(EntityIDArgs father) {
+            var e = buffDic.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var buffList = e.Current;
+                buffList.ForEach((buff) => {
+                    buff.IDCom.SetFather(father);
+                });
+            }
+        }
+
+
+        #endregion
+
         #region [查询]
+
+        public void Foreach(Action<BuffEntity> action) {
+            var e = buffDic.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var buffList = e.Current;
+                buffList.ForEach((buff) => {
+                    action(buff);
+                });
+            }
+        }
 
         public List<int> ForeachAndGetRemoveList(Action<BuffEntity> action) {
             removeList.Clear();

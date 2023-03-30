@@ -17,7 +17,7 @@ namespace TiedanSouls.Client.Entities {
             skillDic_combo = new Dictionary<int, SkillEntity>();
         }
 
-        #region [增加]
+        #region [增]
 
         public bool TryAdd_Origin(in SkillEntity skillEntity) {
             var idCom = skillEntity.IDCom;
@@ -41,7 +41,7 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [删除]
+        #region [删]
 
         public bool TryRemove_Origin(in SkillEntity skillEntity) {
             var idCom = skillEntity.IDCom;
@@ -65,7 +65,24 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [查询]
+        #region [改]
+
+        public void SetFather(EntityIDArgs father) {
+            var e = skillDic_origin.Values.GetEnumerator(); 
+            while (e.MoveNext()) {
+                var skill = e.Current;
+                skill.SetFather(father);
+            }
+            e = skillDic_combo.Values.GetEnumerator();
+            while (e.MoveNext()) {
+                var skill = e.Current;
+                skill.SetFather(father);
+            }
+        }
+
+        #endregion
+
+        #region [查]
 
         public bool TryGet(int skillTypeID, out SkillEntity skillEntity) {
             if (skillDic_origin.TryGetValue(skillTypeID, out skillEntity)) return true;

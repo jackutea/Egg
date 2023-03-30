@@ -124,10 +124,6 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
-    stateEffectEM:
-      addStateFlag: 0
-      effectStateValue: 0
-      effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 2146176807690415295}
   skillEffectorEMArray:
@@ -409,10 +405,6 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
-    stateEffectEM:
-      addStateFlag: 0
-      effectStateValue: 0
-      effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 6032330349393271052}
   skillEffectorEMArray: []
@@ -1075,15 +1067,11 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
-    stateEffectEM:
-      addStateFlag: 0
-      effectStateValue: 0
-      effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 946612889277224407}
   skillEffectorEMArray: []
   skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 706030e999e63134b8e0d6ccbf6e3288, type: 2}
+  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,10 +1217,6 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
-    stateEffectEM:
-      addStateFlag: 0
-      effectStateValue: 0
-      effectMaintainFrame: 0
     colliderGOArray:
     - {fileID: 6432408507379964416}
   skillEffectorEMArray: []

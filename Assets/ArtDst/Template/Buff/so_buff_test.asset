@@ -18,8 +18,8 @@ MonoBehaviour:
     description: "\u6BCF5\u79D2\u89E6\u53D1\u4E00\u4E2A\u6548\u679C\u5668"
     iconName: spr_weapon_spear
     iconGUID: 65194cec925008246becf609f68110f7
-    delayFrame: 150
-    intervalFrame: 150
+    delayFrame: 30
+    intervalFrame: 30
     durationFrame: 99999
     triggerTimes: 99999
     attributeEffectTM:
