@@ -21,16 +21,25 @@ MonoBehaviour:
     delayFrame: 30
     intervalFrame: 30
     durationFrame: 99999
-    triggerTimes: 99999
     attributeEffectTM:
       hpNCT: 0
       hpEV: 0
-      maxHPNCT: 0
-      maxHPEV: 0
+      needRevokeHPEV: 0
+      hpEffectTimes: 0
+      hpMaxNCT: 0
+      hpMAXEV: 0
+      needRevokeHPMaxEV: 0
+      hpMaxEffectTimes: 0
       atkPowerNCT: 0
       atkPowerEV: 0
+      needRevokeAtkPowerEV: 0
+      atkPowerEffectTimes: 0
       atkSpeedNCT: 0
       atkSpeedEV: 0
-      moveSpeedNCT: 1
+      needRevokeAtkSpeedEV: 0
+      atkSpeedEffectTimes: 0
+      moveSpeedNCT: 0
       moveSpeedEV: 0
+      needRevokeMoveSpeedEV: 0
+      moveSpeedEffectTimes: 0
     effectorTypeID: 9999

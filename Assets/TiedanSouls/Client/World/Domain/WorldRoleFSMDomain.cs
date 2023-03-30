@@ -75,7 +75,7 @@ namespace TiedanSouls.Client.Domain {
             });
 
             removeList.ForEach((buff) => {
-                buffDomain.TearDownBuff(buff);
+                buffDomain.TearDownBuff(buff, role.AttributeCom);
             });
         }
 

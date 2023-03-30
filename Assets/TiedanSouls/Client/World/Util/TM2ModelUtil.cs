@@ -239,16 +239,27 @@ namespace TiedanSouls.Client {
 
         public static AttributeEffectModel GetAttributeEffectModel(AttributeEffectTM tm) {
             AttributeEffectModel model;
+
             model.hpNCT = tm.hpNCT;
             model.hpEV = tm.hpEV;
-            model.hpMaxNCT = tm.maxHPNCT;
-            model.hpMaxEV = tm.maxHPEV;
+            model.needRevokeHPEV = tm.needRevokeHPEV;
+
+            model.hpMaxNCT = tm.hpMaxNCT;
+            model.hpMaxEV = tm.hpMAXEV;
+            model.needRevokeHPMaxEV = tm.needRevokeHPMaxEV;
+
             model.atkPowerNCT = tm.atkPowerNCT;
             model.atkPowerEV = tm.atkPowerEV;
+            model.needRevokeAtkPowerEV = tm.needRevokeAtkPowerEV;
+
             model.atkSpeedNCT = tm.atkSpeedNCT;
             model.atkSpeedEV = tm.atkSpeedEV;
+            model.needRevokeAtkSpeedEV = tm.needRevokeAtkSpeedEV;
+
             model.moveSpeedNCT = tm.moveSpeedNCT;
             model.moveSpeedEV = tm.moveSpeedEV;
+            model.needRevokeMoveSpeedEV = tm.needRevokeMoveSpeedEV;
+
             return model;
         }
 

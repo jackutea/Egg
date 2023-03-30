@@ -22,7 +22,6 @@ namespace TiedanSouls.EditorTool {
             tm.delayFrame = editorGo.delayFrame;
             tm.intervalFrame = editorGo.intervalFrame;
             tm.durationFrame = editorGo.durationFrame;
-            tm.triggerTimes = editorGo.triggerTimes;
 
             tm.attributeEffectTM = GetAttributeEffectTM(editorGo.attributeEffectEM);
             tm.effectorTypeID = editorGo.effectorTypeID;
@@ -47,18 +46,28 @@ namespace TiedanSouls.EditorTool {
 
             tm.hpNCT = em.hpNCT;
             tm.hpEV = em.hpEV;
+            tm.needRevokeHPEV = em.needRevokeHPEV;
+            tm.hpEffectTimes = em.hpEffectTimes;
 
-            tm.maxHPNCT = em.maxHpNCT;
-            tm.maxHPEV = em.maxHpEV;
+            tm.hpMaxNCT = em.hpMaxNCT;
+            tm.hpMAXEV = em.hpMaxEV;
+            tm.needRevokeHPMaxEV = em.needRevokeHPMaxEV;
+            tm.hpMaxEffectTimes = em.hpMaxEffectTimes;
 
             tm.atkSpeedNCT = em.atkSpeedNCT;
             tm.atkSpeedEV = em.atkSpeedEV;
+            tm.needRevokeAtkSpeedEV = em.needRevokeAtkSpeedEV;
+            tm.atkSpeedEffectTimes = em.atkSpeedEffectTimes;
 
             tm.atkPowerNCT = em.atkPowerNCT;
             tm.atkPowerEV = em.atkPowerEV;
+            tm.needRevokeAtkPowerEV = em.needRevokeAtkPowerEV;
+            tm.atkPowerEffectTimes = em.atkPowerEffectTimes;
 
             tm.moveSpeedNCT = em.moveSpeedNCT;
             tm.moveSpeedEV = em.moveSpeedEV;
+            tm.needRevokeMoveSpeedEV = em.needRevokeMoveSpeedEV;
+            tm.moveSpeedEffectTimes = em.moveSpeedEffectTimes;
 
             return tm;
         }

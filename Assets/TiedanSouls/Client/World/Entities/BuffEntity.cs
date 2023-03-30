@@ -26,10 +26,6 @@ namespace TiedanSouls.Client.Entities {
         public int DurationFrame => durationFrame;
         public void SetDurationFrame(int value) => durationFrame = value;
 
-        int triggerTimes;
-        public int TriggerTimes => triggerTimes;
-        public void SetTriggerTimes(int value) => triggerTimes = value;
-
         AttributeEffectModel attributeEffectModel;
         public AttributeEffectModel AttributeEffectModel => attributeEffectModel;
         public void SetAttributeEffectModel(in AttributeEffectModel value) => attributeEffectModel = value;

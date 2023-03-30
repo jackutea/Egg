@@ -376,7 +376,6 @@ namespace TiedanSouls.Client {
             buff.SetDelayFrame(tm.delayFrame);
             buff.SetIntervalFrame(tm.intervalFrame);
             buff.SetDurationFrame(tm.durationFrame);
-            buff.SetTriggerTimes(tm.triggerTimes);
 
             buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);

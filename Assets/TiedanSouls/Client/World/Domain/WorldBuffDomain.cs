@@ -83,13 +83,23 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        #endregion 
+        #endregion
 
         #region [TearDown]
 
-        public void TearDownBuff(int buffEntityID) {
+        /// <summary>
+        /// 撤销对属性值的影响,并回收Buff
+        /// </summary>
+        public void TearDownBuff(int buffEntityID, AttributeComponent attributeComponent) {
             var repo = worldContext.BuffRepo;
             if (repo.TryRemove(buffEntityID, out var buff)) {
+                // - 撤销影响
+                var attributeEffectModel = buff.AttributeEffectModel;
+                if(attributeEffectModel.needRevokeHPEV){
+                }
+                if(attributeEffectModel.needRevokeHPMaxEV){
+                }
+                // - 放回池子
                 repo.AddToPool(buff);
             }
         }

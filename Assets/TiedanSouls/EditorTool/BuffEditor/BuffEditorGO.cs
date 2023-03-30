@@ -18,7 +18,6 @@ namespace TiedanSouls.EditorTool {
         [Header("延时(帧)")] public int delayFrame;
         [Header("间隔(帧)")] public int intervalFrame;
         [Header("持续时间(帧)")] public int durationFrame;
-        [Header("次数")] public int triggerTimes;
 
         [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
         [Header("效果器")] public int effectorTypeID;
