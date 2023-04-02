@@ -90,14 +90,14 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 撤销对属性值的影响,并回收Buff
         /// </summary>
-        public void TearDownBuff(int buffEntityID, AttributeComponent attributeComponent) {
+        public void TearDownBuff(int buffEntityID, RoleAttributeComponent attributeComponent) {
             var repo = worldContext.BuffRepo;
             if (repo.TryRemove(buffEntityID, out var buff)) {
                 // - 撤销影响
-                var attributeEffectModel = buff.AttributeEffectModel;
-                if(attributeEffectModel.needRevokeHPEV){
+                var attributeEffectModel = buff.RoleAttributeEffectModel;
+                if (attributeEffectModel.needRevoke_HPEV) {
                 }
-                if(attributeEffectModel.needRevokeHPMaxEV){
+                if (attributeEffectModel.needRevoke_HPMaxEV) {
                 }
                 // - 放回池子
                 repo.AddToPool(buff);
@@ -143,20 +143,23 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public bool TryEffectAttribute(AttributeComponent attributeComponent, BuffEntity buff) {
+        public bool TryEffectAttribute(RoleAttributeComponent attributeComponent, BuffEntity buff) {
             if (!buff.IsTriggerFrame()) {
                 return false;
             }
-            var attributeEffectModel = buff.AttributeEffectModel;
 
-            var curHP = attributeComponent.HP;
+            var attributeEffectModel = buff.RoleAttributeEffectModel;
+            var curHPMax = attributeComponent.HPMax;
+
+            // - HP
             var hpEV = attributeEffectModel.hpEV;
             var hpNCT = attributeEffectModel.hpNCT;
             if (hpNCT != NumCalculationType.None) {
+                var curHP = attributeComponent.HP;
                 if (hpNCT == NumCalculationType.PercentageAdd) {
-                    curHP += Mathf.RoundToInt(curHP * (hpEV / 100f));
+                    curHP += Mathf.RoundToInt(curHPMax * (hpEV / 100f));
                 } else if (hpNCT == NumCalculationType.PercentageMul) {
-                    curHP *= Mathf.RoundToInt(curHP * (hpEV / 100f));
+                    curHP += Mathf.RoundToInt(curHP * (hpEV / 100f));
                 } else if (hpNCT == NumCalculationType.AbsoluteAdd) {
                     curHP += hpEV;
                 }
@@ -164,20 +167,25 @@ namespace TiedanSouls.Client.Domain {
                 TDLog.Log($"Buff Effect --> HP: {curHP}");
             }
 
-            var curHPMax = attributeComponent.HPMax;
+            // - HPMax
             var hpMaxEV = attributeEffectModel.hpMaxEV;
             var hpMaxNCT = attributeEffectModel.hpMaxNCT;
             if (hpMaxNCT != NumCalculationType.None) {
                 if (hpMaxNCT == NumCalculationType.PercentageAdd) {
-                    curHPMax += Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
+                    var hpMaxBase = attributeComponent.HPMaxBase;
+                    curHPMax += Mathf.RoundToInt(hpMaxBase * (hpMaxEV / 100f));
                 } else if (hpMaxNCT == NumCalculationType.PercentageMul) {
-                    curHPMax *= Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
+                    curHPMax += Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
                 } else if (hpMaxNCT == NumCalculationType.AbsoluteAdd) {
                     curHPMax += hpMaxEV;
                 }
                 attributeComponent.SetHPMax(curHPMax);
                 TDLog.Log($"Buff Effect --> HPMax: {curHPMax}");
             }
+
+            // - Physics Damage
+            var physicsDamageEV = attributeEffectModel.physicsDamageEV;
+
 
             return true;
         }

@@ -26,9 +26,9 @@ namespace TiedanSouls.Client.Entities {
         public int DurationFrame => durationFrame;
         public void SetDurationFrame(int value) => durationFrame = value;
 
-        AttributeEffectModel attributeEffectModel;
-        public AttributeEffectModel AttributeEffectModel => attributeEffectModel;
-        public void SetAttributeEffectModel(in AttributeEffectModel value) => attributeEffectModel = value;
+        RoleAttributeEffectModel attributeEffectModel;
+        public RoleAttributeEffectModel RoleAttributeEffectModel => attributeEffectModel;
+        public void SetAttributeEffectModel(in RoleAttributeEffectModel value) => attributeEffectModel = value;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;

@@ -16,8 +16,8 @@ namespace TiedanSouls.Client.Entities {
         InputComponent inputCom;
         public InputComponent InputCom => inputCom;
 
-        AttributeComponent attributeCom;
-        public AttributeComponent AttributeCom => attributeCom;
+        RoleAttributeComponent roleAttributeCom;
+        public RoleAttributeComponent RoleAttributeCom => roleAttributeCom;
 
         MoveComponent moveCom;
         public MoveComponent MoveCom => moveCom;
@@ -125,7 +125,7 @@ namespace TiedanSouls.Client.Entities {
             moveCom = new MoveComponent();
             moveCom.Inject(rb);
 
-            attributeCom = new AttributeComponent();
+            roleAttributeCom = new RoleAttributeComponent();
 
             fsmCom = new BulletFSMComponent();
         }
@@ -133,7 +133,7 @@ namespace TiedanSouls.Client.Entities {
         public void Reset() {
             // Com Reset
             inputCom.Reset();
-            attributeCom.Reset();
+            roleAttributeCom.Reset();
             moveCom.Reset();
             fsmCom.Reset();
 

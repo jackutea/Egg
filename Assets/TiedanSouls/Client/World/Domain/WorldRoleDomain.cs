@@ -162,7 +162,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void SetWeaponSlotComponent(RoleEntity role, int weaponTypeID) {
-            var weaponModel = SpawnWeaponModel(weaponTypeID);
+            var weaponModel = SpawnWeapon(weaponTypeID);
             if (weaponModel == null) {
                 TDLog.Error($"武器生成失败 - {weaponTypeID}");
                 return;
@@ -173,7 +173,7 @@ namespace TiedanSouls.Client.Domain {
             role.WeaponSlotCom.SetWeapon(weaponModel);
         }
 
-        public WeaponEntity SpawnWeaponModel(int typeID) {
+        public WeaponEntity SpawnWeapon(int typeID) {
             WeaponEntity weapon = new WeaponEntity();
 
             var assetCore = infraContext.AssetCore;
@@ -310,9 +310,9 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Fall(RoleEntity role, float dt) {
-            var attributeCom = role.AttributeCom;
-            var fallSpeed = attributeCom.FallSpeed;
-            var fallSpeedMax = attributeCom.FallSpeedMax;
+            var roleAttributeCom = role.RoleAttributeCom;
+            var fallSpeed = roleAttributeCom.FallSpeed;
+            var fallSpeedMax = roleAttributeCom.FallSpeedMax;
 
             var moveCom = role.MoveCom;
             var vel = moveCom.Velocity;
@@ -326,8 +326,8 @@ namespace TiedanSouls.Client.Domain {
 
             Vector2 moveAxis = inputCom.MoveAxis;
             var moveCom = role.MoveCom;
-            var attributeCom = role.AttributeCom;
-            moveCom.MoveHorizontal(moveAxis.x, attributeCom.MoveSpeed);
+            var roleAttributeCom = role.RoleAttributeCom;
+            moveCom.MoveHorizontal(moveAxis.x, roleAttributeCom.MoveSpeed);
         }
 
         public void JumpByInput(RoleEntity role) {
@@ -335,10 +335,10 @@ namespace TiedanSouls.Client.Domain {
             if (!inputCom.PressJump) return;
 
             var moveCom = role.MoveCom;
-            var attributeCom = role.AttributeCom;
+            var roleAttributeCom = role.RoleAttributeCom;
             var rb = moveCom.RB;
             var velo = rb.velocity;
-            var jumpSpeed = attributeCom.JumpSpeed;
+            var jumpSpeed = roleAttributeCom.JumpSpeed;
             velo.y = jumpSpeed;
             moveCom.SetVelocity(velo);
         }
@@ -386,23 +386,23 @@ namespace TiedanSouls.Client.Domain {
         #region [Attribute]
 
         public float ReduceHP(RoleEntity role, int atkPower) {
-            var attributeCom = role.AttributeCom;
+            var roleAttributeCom = role.RoleAttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var decrease = attributeCom.ReduceHP(atkPower);
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
+            var decrease = roleAttributeCom.ReduceHP(atkPower);
+            hudSlotCom.HpBarHUD.SetHpBar(roleAttributeCom.HP, roleAttributeCom.HPMax);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到伤害 攻击力: {atkPower} HP减少: {decrease}");
             return decrease;
         }
 
         public float ReduceHP_Percentage(RoleEntity role, float percentage) {
-            var attributeCom = role.AttributeCom;
+            var roleAttributeCom = role.RoleAttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var curHP = attributeCom.HP;
+            var curHP = roleAttributeCom.HP;
             var decrease = curHP * percentage;
-            decrease = attributeCom.ReduceHP(decrease);
+            decrease = roleAttributeCom.ReduceHP(decrease);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到百分比伤害 百分比: {percentage} HP减少: {decrease}");
             return decrease;
@@ -544,13 +544,13 @@ namespace TiedanSouls.Client.Domain {
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.SetIsExited(true);
-            role.AttributeCom.ClearHP();
+            role.RoleAttributeCom.ClearHP();
             Hide(role);
             DeactivateCollider(role);
         }
 
         public bool IsRoleDead(RoleEntity role) {
-            var attrCom = role.AttributeCom;
+            var attrCom = role.RoleAttributeCom;
             return attrCom.HP <= 0;
         }
 

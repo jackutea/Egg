@@ -11,7 +11,7 @@ namespace TiedanSouls.Generic {
         public RelativeTargetGroupType relativeTargetGroupType;
 
         public bool isEnabled_attributeSelector;
-        public AttributeSelectorModel attributeSelectorModel;
+        public RoleAttributeSelectorModel attributeSelectorModel;
 
     }
 

@@ -158,8 +158,8 @@ namespace TiedanSouls.Client {
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
             role.SetMod(roleMod);
 
-            // Attribute
-            var attrCom = role.AttributeCom;
+            // RoleAttribute
+            var attrCom = role.RoleAttributeCom;
             SetAttributeComponent(attrCom, roleTM);
 
             // HUD
@@ -427,15 +427,27 @@ namespace TiedanSouls.Client {
 
         #region [Component]
 
-        public static void SetAttributeComponent(AttributeComponent attributeComponent, RoleTM tm) {
-            attributeComponent.SetHPMax(TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded));
-            attributeComponent.SetHP(TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded));
-            attributeComponent.SetEPMax(TM2ModelUtil.GetFloat_Shrink100(tm.epMax_Expanded));
-            attributeComponent.SetEP(TM2ModelUtil.GetFloat_Shrink100(tm.epMax_Expanded));
-            attributeComponent.SetGPMax(TM2ModelUtil.GetFloat_Shrink100(tm.gpMax_Expanded));
-            attributeComponent.SetGP(TM2ModelUtil.GetFloat_Shrink100(tm.gpMax_Expanded));
-            attributeComponent.SetMoveSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.moveSpeed_Expanded));
-            attributeComponent.SetJumpSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.jumpSpeed_Expanded));
+        public static void SetAttributeComponent(RoleAttributeComponent attributeComponent, RoleTM tm) {
+            // TODO: 天赋系统的初始属性加成
+            var hpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded);
+            var mpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.mpMax_Expanded);
+            var gpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.gpMax_Expanded);
+            var moveSpeed_base = TM2ModelUtil.GetFloat_Shrink100(tm.moveSpeed_Expanded);
+            var jumpSpeed_base = TM2ModelUtil.GetFloat_Shrink100(tm.jumpSpeed_Expanded);
+
+            attributeComponent.SetHPMaxBase(hpMax_base);
+            attributeComponent.SetHPMax(hpMax_base);
+            attributeComponent.SetHP(hpMax_base);
+            attributeComponent.SetMPMaxBase(mpMax_base);
+            attributeComponent.SetMPMax(mpMax_base);
+            attributeComponent.SetMP(mpMax_base);
+            attributeComponent.SetGPMaxBase(gpMax_base);
+            attributeComponent.SetGPMax(gpMax_base);
+            attributeComponent.SetGP(gpMax_base);
+            attributeComponent.SetMoveSpeedBase(moveSpeed_base);
+            attributeComponent.SetMoveSpeed(moveSpeed_base);
+            attributeComponent.SetJumpSpeedBase(jumpSpeed_base);
+            attributeComponent.SetJumpSpeed(jumpSpeed_base);
             attributeComponent.SetFallSpeed(TM2ModelUtil.GetFloat_Shrink100(tm.fallSpeed_Expanded));
             attributeComponent.SetFallSpeedMax(TM2ModelUtil.GetFloat_Shrink100(tm.fallSpeedMax_Expanded));
         }

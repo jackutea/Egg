@@ -7,7 +7,7 @@ namespace TiedanSouls.Template {
     /// ComparisonType 为 None 时，不进行对比,即不在条件中
     /// </summary>
     [Serializable]
-    public struct AttributeSelectorTM {
+    public struct RoleAttributeSelectorTM {
 
         public int hp;
         public ComparisonType hp_ComparisonType;
@@ -15,11 +15,11 @@ namespace TiedanSouls.Template {
         public int hpMax;
         public ComparisonType hpMax_ComparisonType;
 
-        public int ep;
+        public int mp;
         public ComparisonType ep_ComparisonType;
 
-        public int epMax;
-        public ComparisonType epMax_ComparisonType;
+        public int mpMax;
+        public ComparisonType mpMax_ComparisonType;
 
         public int gp;
         public ComparisonType gp_ComparisonType;

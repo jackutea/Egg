@@ -70,12 +70,12 @@ namespace TiedanSouls.Client.Domain {
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
                 buff.curFrame++;
                 buffDomain.TryTriggerEffector(buff);
-                buffDomain.TryEffectAttribute(role.AttributeCom, buff);
-                role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
+                buffDomain.TryEffectAttribute(role.RoleAttributeCom, buff);
+                role.HudSlotCom.HpBarHUD.SetHpBar(role.RoleAttributeCom.HP, role.RoleAttributeCom.HPMax);
             });
 
             removeList.ForEach((buff) => {
-                buffDomain.TearDownBuff(buff, role.AttributeCom);
+                buffDomain.TearDownBuff(buff, role.RoleAttributeCom);
             });
         }
 

@@ -133,7 +133,7 @@ namespace TiedanSouls.Client.Domain {
             int aliveBossCount = 0;
             roleRepo.Foreach_EnemyOfPlayer(curFieldTypeID,
             (enemy) => {
-                if (!enemy.AttributeCom.IsDead()) {
+                if (!enemy.RoleAttributeCom.IsDead()) {
                     aliveEnemyCount++;
                     if (enemy.IsBoss) aliveBossCount++;
                 }

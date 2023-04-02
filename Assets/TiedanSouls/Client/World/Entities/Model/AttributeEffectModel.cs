@@ -7,27 +7,35 @@ namespace TiedanSouls.Client.Entities {
     /// 属性影响模型
     /// </summary>
     [Serializable]
-    public struct AttributeEffectModel {
+    public struct RoleAttributeEffectModel {
 
         public NumCalculationType hpNCT;
         public int hpEV;
-        public bool needRevokeHPEV;
+        public int hpEffectTimes;
+        public bool needRevoke_HPEV;
 
         public NumCalculationType hpMaxNCT;
         public int hpMaxEV;
-        public bool needRevokeHPMaxEV;
+        public int hpMaxEffectTimes;
+        public bool needRevoke_HPMaxEV;
 
-        public NumCalculationType atkPowerNCT;
-        public int atkPowerEV;
-        public bool needRevokeAtkPowerEV;
+        public int physicsDamageEV;
+        public int physicsDamageEffectTimes;
+        public bool needRevoke_PhysicsDamageEV;
+
+        public int magicDamageEV;
+        public int magicDamageEffectTimes;
+        public bool needRevoke_MagicPowerEV;
 
         public NumCalculationType atkSpeedNCT;
         public int atkSpeedEV;
-        public bool needRevokeAtkSpeedEV;
+        public int atkSpeedEffectTimes;
+        public bool needRevoke_AtkSpeedEV;
 
         public NumCalculationType moveSpeedNCT;
         public int moveSpeedEV;
-        public bool needRevokeMoveSpeedEV;
+        public int moveSpeedEffectTimes;
+        public bool needRevoke_MoveSpeedEV;
 
     }
 

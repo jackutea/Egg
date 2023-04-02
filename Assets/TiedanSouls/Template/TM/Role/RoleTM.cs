@@ -12,7 +12,7 @@ namespace TiedanSouls.Template {
         // - Health
         public int hpMax_Expanded;
         public int gpMax_Expanded;
-        public int epMax_Expanded;
+        public int mpMax_Expanded;
 
         // - Move
         public int moveSpeed_Expanded;

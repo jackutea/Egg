@@ -234,28 +234,28 @@ namespace TiedanSouls.Client {
 
         #region [AttributeEffect]
 
-        public static AttributeEffectModel GetAttributeEffectModel(AttributeEffectTM tm) {
-            AttributeEffectModel model;
+        public static RoleAttributeEffectModel GetAttributeEffectModel(RoleAttributeEffectTM tm) {
+            RoleAttributeEffectModel model;
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = tm.hpEV;
-            model.needRevokeHPEV = tm.needRevokeHPEV;
+            model.needRevoke_HPEV = tm.needRevoke_HPEV;
 
             model.hpMaxNCT = tm.hpMaxNCT;
             model.hpMaxEV = tm.hpMAXEV;
-            model.needRevokeHPMaxEV = tm.needRevokeHPMaxEV;
+            model.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
 
             model.atkPowerNCT = tm.atkPowerNCT;
-            model.atkPowerEV = tm.atkPowerEV;
-            model.needRevokeAtkPowerEV = tm.needRevokeAtkPowerEV;
+            model.physicsDamageEV = tm.physicsDamageEV;
+            model.needRevoke_PhysicsDamageEV = tm.needRevoke_PhysicsDamageEV;
 
             model.atkSpeedNCT = tm.atkSpeedNCT;
             model.atkSpeedEV = tm.atkSpeedEV;
-            model.needRevokeAtkSpeedEV = tm.needRevokeAtkSpeedEV;
+            model.needRevoke_AtkSpeedEV = tm.needRevoke_AtkSpeedEV;
 
             model.moveSpeedNCT = tm.moveSpeedNCT;
             model.moveSpeedEV = tm.moveSpeedEV;
-            model.needRevokeMoveSpeedEV = tm.needRevokeMoveSpeedEV;
+            model.needRevoke_MoveSpeedEV = tm.needRevoke_MoveSpeedEV;
 
             return model;
         }
@@ -354,26 +354,26 @@ namespace TiedanSouls.Client {
 
         #region [Selector]
 
-        public static AttributeSelectorModel[] GetAttributeSelectorModelArray(AttributeSelectorTM[] tmArray) {
+        public static RoleAttributeSelectorModel[] GetAttributeSelectorModelArray(RoleAttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            AttributeSelectorModel[] modelArray = new AttributeSelectorModel[len];
+            RoleAttributeSelectorModel[] modelArray = new RoleAttributeSelectorModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetAttributeSelectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static AttributeSelectorModel GetAttributeSelectorModel(AttributeSelectorTM tm) {
-            AttributeSelectorModel model;
+        public static RoleAttributeSelectorModel GetAttributeSelectorModel(RoleAttributeSelectorTM tm) {
+            RoleAttributeSelectorModel model;
             model.hp = tm.hp;
             model.hp_ComparisonType = tm.hp_ComparisonType;
             model.hpMax = tm.hpMax;
             model.hpMax_ComparisonType = tm.hpMax_ComparisonType;
-            model.ep = tm.ep;
+            model.mp = tm.mp;
             model.ep_ComparisonType = tm.ep_ComparisonType;
-            model.epMax = tm.epMax;
-            model.epMax_ComparisonType = tm.epMax_ComparisonType;
+            model.mpMax = tm.mpMax;
+            model.mpMax_ComparisonType = tm.mpMax_ComparisonType;
             model.gp = tm.gp;
             model.gp_ComparisonType = tm.gp_ComparisonType;
             model.gpMax = tm.gpMax;

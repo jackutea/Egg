@@ -26,42 +26,42 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static AttributeEffectEM[] GetAttributeEffectEMArray(AttributeEffectTM[] tmArray) {
+        public static RoleAttributeEffectEM[] GetAttributeEffectEMArray(RoleAttributeEffectTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            AttributeEffectEM[] emArray = new AttributeEffectEM[len];
+            RoleAttributeEffectEM[] emArray = new RoleAttributeEffectEM[len];
             for (int i = 0; i < len; i++) {
                 emArray[i] = GetAttributeEffectEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeEffectEM GetAttributeEffectEM(AttributeEffectTM tm) {
-            AttributeEffectEM em;
+        public static RoleAttributeEffectEM GetAttributeEffectEM(RoleAttributeEffectTM tm) {
+            RoleAttributeEffectEM em;
 
             em.hpNCT = tm.hpNCT;
             em.hpEV = tm.hpEV;
-            em.needRevokeHPEV = tm.needRevokeHPEV;
+            em.needRevoke_HPEV = tm.needRevoke_HPEV;
             em.hpEffectTimes = tm.hpEffectTimes;
 
             em.hpMaxNCT = tm.hpMaxNCT;
             em.hpMaxEV = tm.hpMAXEV;
-            em.needRevokeHPMaxEV = tm.needRevokeHPMaxEV;
+            em.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
             em.hpMaxEffectTimes = tm.hpMaxEffectTimes;
 
             em.atkPowerNCT = tm.atkPowerNCT;
-            em.atkPowerEV = tm.atkPowerEV;
-            em.needRevokeAtkPowerEV = tm.needRevokeAtkPowerEV;
+            em.physicsDamageEV = tm.physicsDamageEV;
+            em.needRevoke_PhysicsDamageEV = tm.needRevoke_PhysicsDamageEV;
             em.atkPowerEffectTimes = tm.atkPowerEffectTimes;
 
             em.atkSpeedNCT = tm.atkSpeedNCT;
             em.atkSpeedEV = tm.atkSpeedEV;
-            em.needRevokeAtkSpeedEV = tm.needRevokeAtkSpeedEV;
+            em.needRevoke_AtkSpeedEV = tm.needRevoke_AtkSpeedEV;
             em.atkSpeedEffectTimes = tm.atkSpeedEffectTimes;
 
             em.moveSpeedNCT = tm.moveSpeedNCT;
             em.moveSpeedEV = tm.moveSpeedEV;
-            em.needRevokeMoveSpeedEV = tm.needRevokeMoveSpeedEV;
+            em.needRevoke_MoveSpeedEV = tm.needRevoke_MoveSpeedEV;
             em.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
 
             return em;
@@ -354,25 +354,25 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static AttributeSelectorEM[] GetAttributeSelectorEMArray(AttributeSelectorTM[] tmArray) {
+        public static RoleAttributeSelectorEM[] GetAttributeSelectorEMArray(RoleAttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
-            AttributeSelectorEM[] emArray = new AttributeSelectorEM[tmArray.Length];
+            RoleAttributeSelectorEM[] emArray = new RoleAttributeSelectorEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
                 emArray[i] = GetAttributeSelectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeSelectorEM GetAttributeSelectorEM(AttributeSelectorTM tm) {
-            AttributeSelectorEM em;
+        public static RoleAttributeSelectorEM GetAttributeSelectorEM(RoleAttributeSelectorTM tm) {
+            RoleAttributeSelectorEM em;
             em.hp = tm.hp;
             em.hp_ComparisonType = tm.hp_ComparisonType;
             em.hpMax = tm.hpMax;
             em.hpMax_ComparisonType = tm.hpMax_ComparisonType;
-            em.ep = tm.ep;
+            em.mp = tm.mp;
             em.ep_ComparisonType = tm.ep_ComparisonType;
-            em.epMax = tm.epMax;
-            em.epMax_ComparisonType = tm.epMax_ComparisonType;
+            em.mpMax = tm.mpMax;
+            em.mpMax_ComparisonType = tm.mpMax_ComparisonType;
             em.gp = tm.gp;
             em.gp_ComparisonType = tm.gp_ComparisonType;
             em.gpMax = tm.gpMax;
