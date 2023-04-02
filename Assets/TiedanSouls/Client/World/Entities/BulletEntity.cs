@@ -167,6 +167,8 @@ namespace TiedanSouls.Client.Entities {
             idCom.SetFromFieldTypeID(fieldTypeID);
         }
 
+        #region [查]
+
         public bool CanMove(int frame) {
             var index = frame;
             var moveSpeedArray = moveCurveModel.moveSpeedArray;
@@ -227,6 +229,8 @@ namespace TiedanSouls.Client.Entities {
             moveDir = Vector3.zero;
             return false;
         }
+
+        #endregion
 
         public void SyncRenderer() {
             rendererRoot.transform.position = logicRoot.transform.position;

@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 遍历当前帧需要取消激活的子弹ID
         /// </summary>
-        public void Foreach_NeedDeactivatedBulletID(Action<int> action) {
+        public void Foreach_BulletID(Action<int> action) {
             var len = projectileBulletModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var model = projectileBulletModelArray[i];

@@ -59,7 +59,7 @@ namespace TiedanSouls.Client.Entities {
             this.allyType = args.allyType;
             this.fromFieldTypeID = args.fromFieldTypeID;
 
-            TDLog.Log($"设置父级:\n{this}\n{args}");
+            // TDLog.Log($"设置父级:\n{this}\n{args}");
         }
 
         public EntityIDArgs ToArgs() {

@@ -2,9 +2,10 @@ namespace TiedanSouls.Client.Entities {
 
     public enum ProjectileFSMState {
 
-        Deactivated,        // 弹道 未激活
-        Activated,          // 弹道 激活
-        TearDown,          // 弹道 被销毁
+        None,               // 无
+        Deactivated,        // 未激活
+        Activated,          // 激活
+        Dying,              // 死亡
 
     }
 }

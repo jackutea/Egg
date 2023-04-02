@@ -35,8 +35,8 @@ namespace TiedanSouls.Client.Domain {
                 Apply_Deactivated(projectile, fsm, dt);
             } else if (state == ProjectileFSMState.Activated) {
                 Apply_Activated(projectile, fsm, dt);
-            } else if (state == ProjectileFSMState.TearDown) {
-                Apply_TearDown(projectile, fsm, dt);
+            } else if (state == ProjectileFSMState.Dying) {
+                Apply_Dying(projectile, fsm, dt);
             }
         }
 
@@ -59,9 +59,31 @@ namespace TiedanSouls.Client.Domain {
                     bulletFSM.Enter_Activated();
                 }
             });
+
+            // 当所有子弹生命周期结束，弹道也结束
+            bool isOver = true;
+            projectile.Foreach_BulletID((bulletID) => {
+                var bulletRepo = worldContext.BulletRepo;
+                if (bulletRepo.TryGet(bulletID, out var bullet)) {
+                    var bulletFSM = bullet.FSMCom;
+                    if (bulletFSM.State != BulletFSMState.TearDown && bulletFSM.State != BulletFSMState.None) {
+                        isOver = false;
+                    }
+                }
+            });
+            if (isOver) {
+                fsm.Enter_Dying(0);
+            }
         }
 
-        void Apply_TearDown(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) { }
+        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
+            var model = fsm.DyingModel;
+            if (model.IsEntering) {
+                model.SetIsEntering(false);
+            }
+
+            fsm.Enter_None();
+        }
 
     }
 
