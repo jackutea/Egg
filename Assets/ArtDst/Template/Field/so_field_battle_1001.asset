@@ -18,52 +18,48 @@ MonoBehaviour:
     fieldType: 2
     chapter: 1
     level: 2
-    spawnModelArray:
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 20, y: 5}
-      spawnFrame: 90
+    entitySpawnCtrlTMArray:
+    - spawnFrame: 30
       isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 25, y: 5}
-      spawnFrame: 180
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 20, y: 10, z: 0}
+    - spawnFrame: 30
+      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 25, y: 10, z: 0}
+    - spawnFrame: 30
       isBreakPoint: 1
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 30, y: 5}
-      spawnFrame: 270
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 25, y: 5}
-      spawnFrame: 270
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 23, y: 5}
-      spawnFrame: 270
-      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 30, y: 10, z: 0}
+    - spawnFrame: 60
+      isBreakPoint: 1
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000001
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 20, y: 20, z: 0}
     itemSpawnPosArray: []
     fieldDoorArray:
     - fieldTypeID: 1000
-      pos: {x: 2, y: 2.5}
-      doorIndex: 1
-    - fieldTypeID: 1002
-      pos: {x: 35, y: 2.5}
+      pos: {x: 2, y: 2.5, z: 0}
       doorIndex: 0
+    - fieldTypeID: 1002
+      pos: {x: 35, y: 2.5, z: 0}
+      doorIndex: 1

@@ -18,89 +18,63 @@ MonoBehaviour:
     fieldType: 2
     chapter: 1
     level: 3
-    spawnModelArray:
-    - isBoss: 1
-      entityType: 1
-      typeID: 1000001
-      controlType: 1
-      allyType: 2
-      pos: {x: 33, y: 20}
-      spawnFrame: 0
+    entitySpawnCtrlTMArray:
+    - spawnFrame: 30
       isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 25, y: 20}
-      spawnFrame: 180
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 20, y: 10, z: 0}
+    - spawnFrame: 30
+      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 25, y: 10, z: 0}
+    - spawnFrame: 30
       isBreakPoint: 1
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 23, y: 20}
-      spawnFrame: 270
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 30, y: 10, z: 0}
+    - spawnFrame: 60
       isBreakPoint: 1
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 21, y: 20}
-      spawnFrame: 360
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 23, y: 20}
-      spawnFrame: 360
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 25, y: 20}
-      spawnFrame: 360
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000001
+        controlType: 2
+        allyType: 2
+        isBoss: 1
+        spawnPos: {x: 15, y: 20, z: 0}
+    - spawnFrame: 60
       isBreakPoint: 1
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 20, y: 20}
-      spawnFrame: 400
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 22, y: 20}
-      spawnFrame: 400
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 24, y: 20}
-      spawnFrame: 400
-      isBreakPoint: 0
-    - isBoss: 0
-      entityType: 1
-      typeID: 1000000
-      controlType: 1
-      allyType: 2
-      pos: {x: 26, y: 20}
-      spawnFrame: 400
-      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000001
+        controlType: 2
+        allyType: 2
+        isBoss: 1
+        spawnPos: {x: 20, y: 20, z: 0}
+    - spawnFrame: 60
+      isBreakPoint: 1
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000001
+        controlType: 2
+        allyType: 2
+        isBoss: 1
+        spawnPos: {x: 25, y: 20, z: 0}
     itemSpawnPosArray: []
     fieldDoorArray:
     - fieldTypeID: 1001
-      pos: {x: 2, y: 2.5}
+      pos: {x: 2, y: 2.5, z: 0}
       doorIndex: 1

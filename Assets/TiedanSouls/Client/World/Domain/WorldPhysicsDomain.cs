@@ -6,13 +6,13 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
-    public class WorldPhysicsDomain {
+    public class WorldPhysicalDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldRootDomain rootDomain;
 
-        public WorldPhysicsDomain() {
+        public WorldPhysicalDomain() {
         }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {

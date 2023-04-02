@@ -37,11 +37,29 @@ MonoBehaviour:
         allyType: 2
         isBoss: 0
         spawnPos: {x: 25, y: 10, z: 0}
+    - spawnFrame: 30
+      isBreakPoint: 1
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 30, y: 10, z: 0}
+    - spawnFrame: 60
+      isBreakPoint: 1
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000001
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 20, y: 20, z: 0}
     itemSpawnPosArray: []
     fieldDoorArray:
-    - fieldTypeID: 1
-      pos: {x: 35, y: 2.5, z: 0}
-      doorIndex: 0
     - fieldTypeID: 1001
       pos: {x: 2, y: 2.5, z: 0}
+      doorIndex: 0
+    - fieldTypeID: 1
+      pos: {x: 35, y: 2.5, z: 0}
       doorIndex: 1

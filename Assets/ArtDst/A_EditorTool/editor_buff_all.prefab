@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2444663458513310256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8720357659671665136}
+  - component: {fileID: 229945696703458784}
+  m_Layer: 0
+  m_Name: editor_buff_99992
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8720357659671665136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444663458513310256}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7242303559924722033}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &229945696703458784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444663458513310256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b51a5daf7390cf44a87e20ed5855b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: cbe69b84042b5da4a880fce65531d519, type: 2}
+  typeID: 99992
+  buffName: "\u79FB\u901Fbuff"
+  description: "\u7ACB\u5373\u83B7\u5F97\u79FB\u901F+100%\uFF0C\u6301\u7EED2\u79D2"
+  icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
+  delayFrame: 0
+  intervalFrame: 60
+  durationFrame: 60
+  attributeEffectEM:
+    hpNCT: 0
+    hpEV: 0
+    needRevoke_HPEV: 0
+    hpEffectTimes: 0
+    hpMaxNCT: 0
+    hpMaxEV: 0
+    needRevoke_HPMaxEV: 0
+    hpMaxEffectTimes: 0
+    moveSpeedNCT: 1
+    moveSpeedEV: 1
+    needRevoke_MoveSpeedEV: 1
+    moveSpeedEffectTimes: 1
+    physicalDamageBonusEV: 0
+    physicalDamageBonusEffectTimes: 0
+    needRevokePhysicalDamageBonus: 0
+    magicalDamageBonusEV: 0
+    magicalDamageBonusEffectTimes: 0
+    needRevokemagicalDamageBonus: 0
+    physicalDefenseBonusEV: 0
+    physicalDefenseBonusEffectTimes: 0
+    needRevokePhysicalDefenseBonus: 0
+    magicalDefenseBonusEV: 0
+    magicalDefenseBonusEffectTimes: 0
+    needRevokemagicalDefenseBonus: 0
+  effectorTypeID: 0
 --- !u!1 &6683752914446885422
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,6 +108,7 @@ Transform:
   m_Children:
   - {fileID: 2118739567234550776}
   - {fileID: 6573163255934418420}
+  - {fileID: 8720357659671665136}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -44,7 +123,7 @@ GameObject:
   - component: {fileID: 2118739567234550776}
   - component: {fileID: 6502376089263393616}
   m_Layer: 0
-  m_Name: editor_buff_test
+  m_Name: editor_buff_9999
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +164,8 @@ MonoBehaviour:
   delayFrame: 30
   intervalFrame: 30
   durationFrame: 99999
-  roleAttributeEffectEM:
-    hpNCT: 3
+  attributeEffectEM:
+    hpNCT: 0
     hpEV: 0
     needRevoke_HPEV: 0
     hpEffectTimes: 0
@@ -98,19 +177,18 @@ MonoBehaviour:
     moveSpeedEV: 0
     needRevoke_MoveSpeedEV: 0
     moveSpeedEffectTimes: 0
-  weaponAttributeEffectEM:
-    physicsDamageIncreaseNCT: 0
-    physicsDamageIncreaseEV: 0
-    physicsDamageIncreaseEffectTimes: 0
-    needRevokePhysicsDamageIncreaseEV: 0
-    magicDamageIncreaseNCT: 0
-    magicDamageIncreaseEV: 0
-    magicDamageIncreaseEffectTimes: 0
-    needRevokeMagicDamageIncreaseEV: 0
-    atkSpeedNCT: 0
-    atkSpeedEV: 0
-    atkSpeedEffectTimes: 0
-    needRevokeAtkSpeedEV: 0
+    physicalDamageBonusEV: 0
+    physicalDamageBonusEffectTimes: 0
+    needRevokePhysicalDamageBonus: 0
+    magicalDamageBonusEV: 0
+    magicalDamageBonusEffectTimes: 0
+    needRevokemagicalDamageBonus: 0
+    physicalDefenseBonusEV: 0
+    physicalDefenseBonusEffectTimes: 0
+    needRevokePhysicalDefenseBonus: 0
+    magicalDefenseBonusEV: 0
+    magicalDefenseBonusEffectTimes: 0
+    needRevokemagicalDefenseBonus: 0
   effectorTypeID: 9999
 --- !u!1 &8508007409812613183
 GameObject:
@@ -123,7 +201,7 @@ GameObject:
   - component: {fileID: 6573163255934418420}
   - component: {fileID: 6553633033795822004}
   m_Layer: 0
-  m_Name: editor_buff_test1
+  m_Name: editor_buff_99991
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,16 +237,16 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: b0446eef64d7c5444bcdeec26001bba3, type: 2}
   typeID: 99991
   buffName: "\u56DE\u8840buff"
-  description: "\u6BCF1\u79D2\u56DE\u590D5\u751F\u547D\u503C"
+  description: "\u7ACB\u5373\u83B7\u5F97\u7269\u7406\u4F24\u5BB3+50%\uFF0C\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D5\u751F\u547D\u503C\uFF0C\u6301\u7EED\u8D85\u7EA7\u4E45"
   icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
   delayFrame: 30
   intervalFrame: 30
   durationFrame: 999999
-  roleAttributeEffectEM:
-    hpNCT: 0
-    hpEV: 0
+  attributeEffectEM:
+    hpNCT: 3
+    hpEV: 5
     needRevoke_HPEV: 0
-    hpEffectTimes: 0
+    hpEffectTimes: 999999
     hpMaxNCT: 0
     hpMaxEV: 0
     needRevoke_HPMaxEV: 0
@@ -177,17 +255,16 @@ MonoBehaviour:
     moveSpeedEV: 0
     needRevoke_MoveSpeedEV: 0
     moveSpeedEffectTimes: 0
-  weaponAttributeEffectEM:
-    physicsDamageIncreaseNCT: 0
-    physicsDamageIncreaseEV: 0
-    physicsDamageIncreaseEffectTimes: 0
-    needRevokePhysicsDamageIncreaseEV: 0
-    magicDamageIncreaseNCT: 0
-    magicDamageIncreaseEV: 0
-    magicDamageIncreaseEffectTimes: 0
-    needRevokeMagicDamageIncreaseEV: 0
-    atkSpeedNCT: 0
-    atkSpeedEV: 0
-    atkSpeedEffectTimes: 0
-    needRevokeAtkSpeedEV: 0
+    physicalDamageBonusEV: 0.5
+    physicalDamageBonusEffectTimes: 1
+    needRevokePhysicalDamageBonus: 1
+    magicalDamageBonusEV: 0
+    magicalDamageBonusEffectTimes: 0
+    needRevokemagicalDamageBonus: 0
+    physicalDefenseBonusEV: 0
+    physicalDefenseBonusEffectTimes: 0
+    needRevokePhysicalDefenseBonus: 0
+    magicalDefenseBonusEV: 0
+    magicalDefenseBonusEffectTimes: 0
+    needRevokemagicalDefenseBonus: 0
   effectorTypeID: 0

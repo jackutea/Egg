@@ -18,12 +18,17 @@ MonoBehaviour:
   m_GUID: aec680043b9b0c34fbb23b6bc4dfd9f4
   m_SerializeEntries:
   - m_GUID: 37add4e776a186e499b537dc3a6d41f0
-    m_Address: so_buff_test
+    m_Address: so_buff_9999
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Buff
   - m_GUID: b0446eef64d7c5444bcdeec26001bba3
-    m_Address: so_buff_test1
+    m_Address: so_buff_99991
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Buff
+  - m_GUID: cbe69b84042b5da4a880fce65531d519
+    m_Address: so_buff_99992
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Buff

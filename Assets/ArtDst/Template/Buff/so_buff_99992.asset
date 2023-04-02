@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac78f50a39eef0346a71b60b1c59cc6d, type: 3}
+  m_Name: so_buff_99992
+  m_EditorClassIdentifier: 
+  tm:
+    typeID: 99992
+    buffName: "\u79FB\u901Fbuff"
+    description: "\u7ACB\u5373\u83B7\u5F97\u79FB\u901F+100%\uFF0C\u6301\u7EED2\u79D2"
+    iconName: item_
+    iconGUID: 31b48c583b66f1249a9f1c0126e7273d
+    delayFrame: 0
+    intervalFrame: 60
+    durationFrame: 60
+    attributeEffectTM:
+      hpNCT: 0
+      hpEV_Expanded: 0
+      needRevokeHP: 0
+      hpEffectTimes: 0
+      hpMaxNCT: 0
+      hpMaxEV_Expanded: 0
+      needRevokeHPMax: 0
+      hpMaxEffectTimes: 0
+      moveSpeedNCT: 1
+      moveSpeedEV_Expanded: 100
+      needRevokeMoveSpeed: 1
+      moveSpeedEffectTimes: 1
+      physicalDamageBonusEV_Expanded: 0
+      physicalDamageBonusEffectTimes: 0
+      needRevokePhysicalDamageBonus: 0
+      magicalDamageBonusEV_Expanded: 0
+      magicalDamageBonusEffectTimes: 0
+      needRevokemagicalDamageBonus: 0
+      physicalDefenseBonusEV_Expanded: 0
+      physicalDefenseBonusEffectTimes: 0
+      needRevokePhysicalDefenseBonus: 0
+      magicalDefenseBonusEV_Expanded: 0
+      magicalDefenseBonusEffectTimes: 0
+      needRevokemagicalDefenseBonus: 0
+    effectorTypeID: 0

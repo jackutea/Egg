@@ -74,8 +74,9 @@ namespace TiedanSouls.Client.Domain {
                 role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
             });
 
-            removeList.ForEach((buff) => {
-                buffDomain.RevokeBuffFromAttribute(buff, role.AttributeCom);
+            removeList.ForEach((buffEntityID) => {
+                buffSlotCom.RemoveByEntityID(buffEntityID);
+                buffDomain.RevokeBuffByEntityID(buffEntityID, role.AttributeCom);
             });
         }
 

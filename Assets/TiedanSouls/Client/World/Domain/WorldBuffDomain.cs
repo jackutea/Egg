@@ -3,6 +3,7 @@ using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
 using TiedanSouls.Generic;
+using System;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -23,6 +24,57 @@ namespace TiedanSouls.Client.Domain {
         #region [生成]
 
         /// <summary>
+        /// 根据实体召唤模型
+        /// </summary>
+        public bool TrySummon(in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out BuffEntity buff) {
+            buff = null;
+            RoleEntity roleFather = null;
+            if (!rootDomain.TryFindRoleFather(summoner, ref roleFather)) {
+                TDLog.Error($"召唤Buff失败, 召唤者角色找不到:{summoner}");
+                return false;
+            }
+
+            var buffTypeID = entitySummonModel.typeID;
+            if (!TrySpawn(buffTypeID, summoner, out buff)) {
+                TDLog.Error($"召唤Buff失败, 生成Buff失败:{buffTypeID}");
+                return false;
+            }
+
+            // TODO: Buff叠加和替换的业务逻辑
+            buff.SetFather(roleFather.IDCom.ToArgs());
+            roleFather.BuffSlotCom.Add(buff);
+            return true;
+        }
+
+        /// <summary>
+        /// 根据实体生成模型 生成Buff
+        /// </summary>
+        public bool TrySpawnBySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BuffEntity buff) {
+            buff = null;
+
+            var typeID = entitySpawnModel.typeID;
+            var factory = worldContext.WorldFactory;
+            if (!factory.TryCreateBuff(typeID, out buff)) {
+                return false;
+            }
+
+            var spawnPos = entitySpawnModel.spawnPos;
+            var spawnControlType = entitySpawnModel.controlType;
+            var spawnAllyType = entitySpawnModel.allyType;
+
+            // Buff ID
+            var idCom = buff.IDCom;
+            idCom.SetEntityID(worldContext.IDService.PickBuffID());
+            idCom.SetAllyType(spawnAllyType);
+            idCom.SetControlType(spawnControlType);
+
+            // 添加至仓库
+            var repo = worldContext.BuffRepo;
+            repo.Add(buff);
+            return true;
+        }
+
+        /// <summary>
         /// 根据类型ID生成Buff
         /// </summary>
         public bool TrySpawn(int typeID, in EntityIDArgs father, out BuffEntity buff) {
@@ -33,7 +85,6 @@ namespace TiedanSouls.Client.Domain {
             if (!isFromPool) {
                 var factory = worldContext.WorldFactory;
                 if (!factory.TryCreateBuff(typeID, out buff)) {
-                    TDLog.Error($"实体生成<Buff>失败 类型ID:{typeID}");
                     return false;
                 }
             }
@@ -54,35 +105,6 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        /// <summary>
-        /// 根据实体生成模型 生成Buff
-        /// </summary>
-        public bool TrySpawn_BySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BuffEntity buff) {
-            buff = null;
-
-            var typeID = entitySpawnModel.typeID;
-            var factory = worldContext.WorldFactory;
-            if (!factory.TryCreateBuff(typeID, out buff)) {
-                TDLog.Error($"生成Buff失败 typeID:{typeID}");
-                return false;
-            }
-
-            var spawnPos = entitySpawnModel.spawnPos;
-            var spawnControlType = entitySpawnModel.controlType;
-            var spawnAllyType = entitySpawnModel.allyType;
-
-            // Buff ID
-            var idCom = buff.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickBuffID());
-            idCom.SetAllyType(spawnAllyType);
-            idCom.SetControlType(spawnControlType);
-
-            // 添加至仓库
-            var repo = worldContext.BuffRepo;
-            repo.Add(buff);
-            return true;
-        }
-
         #endregion
 
         #region [撤销]
@@ -90,20 +112,52 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 撤销对属性值的影响,并回收Buff
         /// </summary>
-        public void RevokeBuffFromAttribute(int buffEntityID, AttributeComponent attributeComponent) {
+        public void RevokeBuffByEntityID(int buffEntityID, AttributeComponent attributeCom) {
             var repo = worldContext.BuffRepo;
             if (repo.TryRemove(buffEntityID, out var buff)) {
-                // - 撤销影响
-                var attributeEffectModel = buff.AttributeEffectModel;
+                var attributeEffectModel = buff.attributeEffectModel;
                 if (attributeEffectModel.needRevoke_HPEV) {
+                    var hp = attributeCom.HP;
+                    var offset = attributeEffectModel.hpOffset;
+                    hp = Math.Min(1, hp - offset);
+                    attributeCom.SetHP(hp);
+                    TDLog.Log($"Buff 撤销 HP --> 变化 {offset} => 当前 {attributeCom.HP}");
                 }
                 if (attributeEffectModel.needRevoke_HPMaxEV) {
+                    var hpMax = attributeCom.HPMax;
+                    var offset = attributeEffectModel.hpMaxOffset;
+                    attributeCom.SetHPMax(hpMax - offset);
+                    TDLog.Log($"Buff 撤销 HPMax --> 变化 {offset} => 当前 {attributeCom.HPMax}");
                 }
-                if (attributeEffectModel.needRevokePhysicsDamageBonusEV) {
-
+                if (attributeEffectModel.needRevokePhysicalDamageBonusEV) {
+                    var physicalDamageBonus = attributeCom.PhysicalDamageBonus;
+                    var offset = attributeEffectModel.physicalDamageBonusOffset;
+                    attributeCom.SetPhysicalDamageBonus(physicalDamageBonus - offset);
+                    TDLog.Log($"撤销Buff, 物理加伤 => -{offset}=> 当前 {attributeCom.PhysicalDamageBonus}");
                 }
-                if (attributeEffectModel.needRevokeMagicDamageBonus) {
-
+                if (attributeEffectModel.needRevokemagicalDamageBonus) {
+                    var magicDamageBonus = attributeCom.MagicalDamageBonus;
+                    var offset = attributeEffectModel.magicalDamageBonusOffset;
+                    attributeCom.SetmagicalDamageBonus(magicDamageBonus - offset);
+                    TDLog.Log($"撤销Buff, 魔法加伤 => -{offset}=> 当前 {attributeCom.MagicalDamageBonus}");
+                }
+                if (attributeEffectModel.needRevokePhysicalDefenseBonus) {
+                    var physicalDefenseBonus = attributeCom.PhysicalDefenseBonus;
+                    var offset = attributeEffectModel.physicalDefenseBonusOffset;
+                    attributeCom.SetPhysicalDefenseBonus(physicalDefenseBonus - offset);
+                    TDLog.Log($"撤销Buff, 物理减伤 => -{offset}=> 当前 {attributeCom.PhysicalDefenseBonus}");
+                }
+                if (attributeEffectModel.needRevokemagicalDefenseBonus) {
+                    var magicDefenseBonus = attributeCom.MagicalDefenseBonus;
+                    var offset = attributeEffectModel.magicalDefenseBonusOffset;
+                    attributeCom.SetMagicalDefenseBonus(magicDefenseBonus - offset);
+                    TDLog.Log($"撤销Buff, 魔法减伤 => -{offset} => 当前 {attributeCom.MagicalDefenseBonus}");
+                }
+                if (attributeEffectModel.needRevoke_MoveSpeedEV) {
+                    var moveSpeed = attributeCom.MoveSpeed;
+                    var offset = attributeEffectModel.moveSpeedOffset;
+                    attributeCom.SetMoveSpeed(moveSpeed - offset);
+                    TDLog.Log($"撤销Buff, 移动速度 => -{offset} => 当前 {attributeCom.MoveSpeed}");
                 }
                 // - 放回池子
                 repo.AddToPool(buff);
@@ -156,24 +210,29 @@ namespace TiedanSouls.Client.Domain {
 
             buff.triggerTimes++;
 
-            var attributeEffectModel = buff.AttributeEffectModel;
-            var curHPMax = attributeCom.HPMax;
-
             // - HP
+            var attributeEffectModel = buff.attributeEffectModel;
+            var curHPMax = attributeCom.HPMax;
+            var hpMaxBase = attributeCom.HPMaxBase;
             var hpEV = attributeEffectModel.hpEV;
             var hpNCT = attributeEffectModel.hpNCT;
             var hpEffectTimes = attributeEffectModel.hpEffectTimes;
             if (hpNCT != NumCalculationType.None && buff.triggerTimes <= hpEffectTimes) {
+                var offset = 0f;
                 var curHP = attributeCom.HP;
                 if (hpNCT == NumCalculationType.PercentageAdd) {
-                    curHP += Mathf.RoundToInt(curHPMax * (hpEV / 100f));
+                    offset = Mathf.RoundToInt(hpMaxBase * hpEV);
+                    curHP += offset;
                 } else if (hpNCT == NumCalculationType.PercentageMul) {
-                    curHP += Mathf.RoundToInt(curHP * (hpEV / 100f));
+                    offset = Mathf.RoundToInt(curHPMax * hpEV);
+                    curHP += offset;
                 } else if (hpNCT == NumCalculationType.AbsoluteAdd) {
-                    curHP += hpEV;
+                    offset = hpEV;
+                    curHP += offset;
                 }
+                buff.attributeEffectModel.hpOffset += offset;
                 attributeCom.SetHP(curHP);
-                TDLog.Log($"Buff 影响 属性 --> HP: {curHP}");
+                TDLog.Log($"Buff 影响 HP ---> 变化 {offset} => 当前 {attributeCom.HP}");
             }
 
             // - HPMax
@@ -181,48 +240,85 @@ namespace TiedanSouls.Client.Domain {
             var hpMaxNCT = attributeEffectModel.hpMaxNCT;
             var hpMaxEffectTimes = attributeEffectModel.hpMaxEffectTimes;
             if (hpMaxNCT != NumCalculationType.None && buff.triggerTimes <= hpMaxEffectTimes) {
+                var offset = 0f;
                 if (hpMaxNCT == NumCalculationType.PercentageAdd) {
-                    var hpMaxBase = attributeCom.HPMaxBase;
-                    curHPMax += Mathf.RoundToInt(hpMaxBase * (hpMaxEV / 100f));
+                    offset = Mathf.RoundToInt(hpMaxBase * hpMaxEV);
+                    curHPMax += offset;
                 } else if (hpMaxNCT == NumCalculationType.PercentageMul) {
-                    curHPMax += Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
+                    offset = Mathf.RoundToInt(curHPMax * hpMaxEV);
+                    curHPMax += offset;
                 } else if (hpMaxNCT == NumCalculationType.AbsoluteAdd) {
-                    curHPMax += hpMaxEV;
+                    offset = hpMaxEV;
+                    curHPMax += offset;
                 }
+                buff.attributeEffectModel.hpMaxOffset += offset;
                 attributeCom.SetHPMax(curHPMax);
-                TDLog.Log($"Buff 影响 属性 --> HPMax: {curHPMax}");
+                TDLog.Log($"Buff 影响 HPMax --> 变化 {offset} => 当前 {attributeCom.HPMax}");
             }
 
-            // - Physics Damage Bonus
-            var physicsDamageBonusEffectTimes = attributeEffectModel.physicsDamageBonusEffectTimes;
-            if (buff.triggerTimes <= physicsDamageBonusEffectTimes) {
-                var physicsDamageBonusEV = attributeEffectModel.physicsDamageBonusEV;
-                attributeCom.AddPhysicalDamageBonus(physicsDamageBonusEV / 100f);
-                TDLog.Log($"Buff 影响 属性 --> Physics Damage Bonus Increase: {physicsDamageBonusEV}");
+            // Damage Bonus
+            var physicalDamageBonusEffectTimes = attributeEffectModel.physicalDamageBonusEffectTimes;
+            if (buff.triggerTimes <= physicalDamageBonusEffectTimes) {
+                var ev = attributeEffectModel.physicalDamageBonusEV;
+                var offset = ev;
+                var curBonus = attributeCom.PhysicalDamageBonus + offset;
+                buff.attributeEffectModel.physicalDamageBonusOffset += offset;
+                attributeCom.SetPhysicalDamageBonus(curBonus);
+                TDLog.Log($"Buff 影响 物理伤害加成 --> 变化 {offset} => 当前 {attributeCom.PhysicalDamageBonus}");
+            }
+            var magicalDamageBonusEffectTimes = attributeEffectModel.magicalDamageBonusEffectTimes;
+            if (buff.triggerTimes <= magicalDamageBonusEffectTimes) {
+                var ev = attributeEffectModel.magicalDamageBonusEV;
+                var offset = ev;
+                var curBonus = attributeCom.MagicalDamageBonus + offset;
+                buff.attributeEffectModel.magicalDamageBonusOffset += offset;
+                attributeCom.SetmagicalDamageBonus(curBonus);
+                TDLog.Log($"Buff 影响 魔法伤害加成 --> 变化 {offset} => 当前 {attributeCom.MagicalDamageBonus}");
             }
 
-            // - Physics Defence Bonus
-            var physicsDefenseBonusEffectTimes = attributeEffectModel.physicsDefenseBonusEffectTimes;
-            if (buff.triggerTimes <= physicsDefenseBonusEffectTimes) {
-                var magicDamageBonusEV = attributeEffectModel.magicDamageBonusEV;
-                attributeCom.AddMagicDamageBonus(magicDamageBonusEV / 100f);
-                TDLog.Log($"Buff 影响 属性 --> Physics Damage Bonus Increase: {magicDamageBonusEV}");
+            //  Defence Bonus
+            var physicalDefenseBonusEffectTimes = attributeEffectModel.physicalDefenseBonusEffectTimes;
+            if (buff.triggerTimes <= physicalDefenseBonusEffectTimes) {
+                var ev = attributeEffectModel.physicalDefenseBonusEV;
+                var offset = ev;
+                var curBonus = attributeCom.PhysicalDefenseBonus + offset;
+                buff.attributeEffectModel.physicalDefenseBonusOffset += offset;
+                attributeCom.SetPhysicalDefenseBonus(curBonus);
+                TDLog.Log($"Buff 影响 物理减伤 --> 变化 {offset} => 当前 {attributeCom.PhysicalDefenseBonus}");
+            }
+            var magicalDefenseBonusEffectTimes = attributeEffectModel.magicalDefenseBonusEffectTimes;
+            if (buff.triggerTimes <= magicalDefenseBonusEffectTimes) {
+                var ev = attributeEffectModel.magicalDefenseBonusEV;
+                var offset = ev;
+                var curBonus = attributeCom.MagicalDefenseBonus + offset;
+                buff.attributeEffectModel.magicalDefenseBonusOffset += offset;
+                attributeCom.SetMagicalDefenseBonus(curBonus);
+                TDLog.Log($"Buff 影响 魔法减伤 --> 变化 {offset} => 当前 {attributeCom.MagicalDefenseBonus}");
             }
 
-            // - Magic Damage Bonus
-            var magicDamageBonusEffectTimes = attributeEffectModel.magicDamageBonusEffectTimes;
-            if (buff.triggerTimes <= magicDamageBonusEffectTimes) {
-                var magicDamageBonusEV = attributeEffectModel.magicDamageBonusEV;
-                attributeCom.AddMagicDamageBonus(magicDamageBonusEV / 100f);
-                TDLog.Log($"Buff 影响 属性 --> Magic Damage Bonus Increase: {magicDamageBonusEV}");
-            }
+            // Move Speed
+            var moveSpeedEffectTimes = attributeEffectModel.moveSpeedEffectTimes;
+            if (buff.triggerTimes <= moveSpeedEffectTimes) {
+                var moveSpeedBase = attributeCom.MoveSpeedBase;
+                var curMoveSpeed = attributeCom.MoveSpeed;
+                var finalMoveSpeed = curMoveSpeed;
+                var offset = 0f;
 
-            // - Magic Defence Bonus
-            var magicDefenseBonusEffectTimes = attributeEffectModel.magicDefenseBonusEffectTimes;
-            if (buff.triggerTimes <= magicDefenseBonusEffectTimes) {
-                var magicDefenseBonusEV = attributeEffectModel.magicDefenseBonusEV;
-                attributeCom.AddMagicDefenseBonus(magicDefenseBonusEV / 100f);
-                TDLog.Log($"Buff 影响 属性 --> Magic Defence Bonus Increase: {magicDefenseBonusEV}");
+                var moveSpeedEV = attributeEffectModel.moveSpeedEV;
+                var moveSpeedNCT = attributeEffectModel.moveSpeedNCT;
+                if (moveSpeedNCT == NumCalculationType.PercentageAdd) {
+                    offset = Mathf.RoundToInt(moveSpeedBase * (moveSpeedEV));
+                    finalMoveSpeed += offset;
+                } else if (moveSpeedNCT == NumCalculationType.PercentageMul) {
+                    offset = Mathf.RoundToInt(curMoveSpeed * (moveSpeedEV));
+                    finalMoveSpeed += offset;
+                } else if (moveSpeedNCT == NumCalculationType.AbsoluteAdd) {
+                    offset = moveSpeedEV;
+                    finalMoveSpeed += offset;
+                }
+                buff.attributeEffectModel.moveSpeedOffset += offset;
+                attributeCom.SetMoveSpeed(finalMoveSpeed);
+                TDLog.Log($"Buff 影响 移动速度 --> 变化 {offset} => 当前 {attributeCom.MoveSpeed}");
             }
 
             return true;

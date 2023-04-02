@@ -55,7 +55,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型 召唤角色
         /// </summary>
-        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
+        public bool TrySummon(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
             var typeID = entitySummonModel.typeID;
             var controlType = entitySummonModel.controlType;
             var factory = worldContext.WorldFactory;
@@ -535,7 +535,7 @@ namespace TiedanSouls.Client.Domain {
 
             RoleEntity roleFather = null;
             var rootDomain = worldContext.RootDomain;
-            if (rootDomain.TryGetRoleFather(hitter, ref roleFather)) {
+            if (rootDomain.TryFindRoleFather(hitter, ref roleFather)) {
                 realDamage = damageArbitService.ArbitrateDamage(damageType, baseDamage, roleFather.AttributeCom, role.AttributeCom);
             }
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac78f50a39eef0346a71b60b1c59cc6d, type: 3}
-  m_Name: so_buff_test
+  m_Name: so_buff_9999
   m_EditorClassIdentifier: 
   tm:
     typeID: 9999
@@ -21,24 +21,29 @@ MonoBehaviour:
     delayFrame: 30
     intervalFrame: 30
     durationFrame: 99999
-    roleAttributeEffectTM:
-      hpNCT: 3
-      hpEV: 0
-      needRevoke_HPEV: 0
+    attributeEffectTM:
+      hpNCT: 0
+      hpEV_Expanded: 0
+      needRevokeHP: 0
       hpEffectTimes: 0
       hpMaxNCT: 0
-      hpMAXEV: 0
-      needRevoke_HPMaxEV: 0
+      hpMaxEV_Expanded: 0
+      needRevokeHPMax: 0
       hpMaxEffectTimes: 0
       moveSpeedNCT: 0
-      moveSpeedEV: 0
-      needRevoke_MoveSpeedEV: 0
+      moveSpeedEV_Expanded: 0
+      needRevokeMoveSpeed: 0
       moveSpeedEffectTimes: 0
-    weaponAttributeEffectTM:
-      physicsDamageIncreaseEV: 0
-      physicsDamageIncreaseEffectTimes: 0
-      needRevokePhysicsDamageIncreaseEV: 0
-      magicDamageIncreaseEV: 0
-      magicDamageIncreaseEffectTimes: 0
-      needRevokeMagicDamageIncreaseEV: 0
+      physicalDamageBonusEV_Expanded: 0
+      physicalDamageBonusEffectTimes: 0
+      needRevokePhysicalDamageBonus: 0
+      magicalDamageBonusEV_Expanded: 0
+      magicalDamageBonusEffectTimes: 0
+      needRevokemagicalDamageBonus: 0
+      physicalDefenseBonusEV_Expanded: 0
+      physicalDefenseBonusEffectTimes: 0
+      needRevokePhysicalDefenseBonus: 0
+      magicalDefenseBonusEV_Expanded: 0
+      magicalDefenseBonusEffectTimes: 0
+      needRevokemagicalDefenseBonus: 0
     effectorTypeID: 9999

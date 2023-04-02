@@ -25,7 +25,7 @@ MonoBehaviour:
       endFrame: 20
     collisionTriggerTMArray:
     - isEnabled: 1
-      frameRange: {x: 0, y: 15}
+      frameRange: {x: 3, y: 15}
       triggerMode: 1
       triggerFixedIntervalTM:
         delayFrame: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
       relativeTargetGroupType: 4
       damageTM:
         damageType: 3
-        damageArray: 46000000460000004600000046000000460000004600000046000000460000004600000046000000460000004600000046000000460000004600000046000000
+        damageArray: 46000000460000004600000046000000460000004600000046000000460000004600000046000000460000004600000046000000
         damageBase: 70
         damageCurve_KeyframeTMArray:
         - time: 0
@@ -53,15 +53,39 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: 
-        knockBackDisCurve_KeyframeTMArray: []
-        knockBackCostFrame: 0
-        knockBackDistance_cm: 0
+        knockBackSpeedArray_cm: 88130000b80b0000e8030000
+        knockBackDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockBackCostFrame: 3
+        knockBackDistance_cm: 300
       knockUpPowerTM:
-        knockUpSpeedArray_cm: 
-        knockUpDisCurve_KeyframeTMArray: []
-        knockUpCostFrame: 0
-        knockUpHeight_cm: 0
+        knockUpSpeedArray_cm: 88130000b80b0000e8030000
+        knockUpDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockUpCostFrame: 3
+        knockUpHeight_cm: 300
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
@@ -70,9 +94,12 @@ MonoBehaviour:
         size: {x: 5.408878, y: 1.7378125, z: 1}
       colliderRelativePathArray:
       - colliders_0/b1
-    skillEffectorTMArray: []
+    skillEffectorTMArray:
+    - triggerFrame: 15
+      effectorTypeID: 99992
+      offsetPos: {x: 0, y: 0, z: 0}
     skillMoveCurveTMArray:
-    - startFrame: 10
+    - startFrame: 5
       isFaceTo: 0
       moveCurveTM:
         moveDistance_cm: 1000
@@ -97,7 +124,7 @@ MonoBehaviour:
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
-    - startFrame: 15
+    - startFrame: 10
       isFaceTo: 0
       moveCurveTM:
         moveDistance_cm: -1000

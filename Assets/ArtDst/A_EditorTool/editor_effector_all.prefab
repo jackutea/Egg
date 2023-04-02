@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &340301597720184767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 355674839727102795}
+  - component: {fileID: 2194927138635562772}
+  m_Layer: 0
+  m_Name: editor_effector_99992
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &355674839727102795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340301597720184767}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7242303559924722033}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2194927138635562772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340301597720184767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: a2a3216d351c7764e9d477a8665d51de, type: 2}
+  effectorEM:
+    typeID: 99992
+    effectorName: "Buff\u6548\u679C\u5668\uFF1A\u52A0\u79FB\u901F"
+    entitySummonEMArray:
+    - entityType: 8
+      typeID: 99992
+      controlType: 0
+    entityDestroyEMArray: []
 --- !u!1 &6683752914446885422
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,6 +82,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2118739567234550776}
+  - {fileID: 2871660758283258345}
+  - {fileID: 355674839727102795}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,7 +98,7 @@ GameObject:
   - component: {fileID: 2118739567234550776}
   - component: {fileID: 5227255365386564716}
   m_Layer: 0
-  m_Name: editor_effector_test
+  m_Name: editor_effector_9999
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,9 +134,62 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 8e642aad100456a408d16bcaaab5efd3, type: 2}
   effectorEM:
     typeID: 9999
-    effectorName: "\u5F39\u90539999\u53EC\u5524"
+    effectorName: "\u5F39\u9053\u6548\u679C\u5668\uFF1A\u4E07\u7BAD\u7A7F\u5FC3"
     entitySummonEMArray:
     - entityType: 5
       typeID: 9999
+      controlType: 0
+    entityDestroyEMArray: []
+--- !u!1 &8885283600807962991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2871660758283258345}
+  - component: {fileID: 4131671301290289980}
+  m_Layer: 0
+  m_Name: editor_effector_99991
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2871660758283258345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8885283600807962991}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7242303559924722033}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4131671301290289980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8885283600807962991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: 1ec73eef17d85ea449be6580384d0b19, type: 2}
+  effectorEM:
+    typeID: 99991
+    effectorName: "Buff\u6548\u679C\u5668\uFF1A\u56DE\u8840"
+    entitySummonEMArray:
+    - entityType: 8
+      typeID: 99991
       controlType: 0
     entityDestroyEMArray: []

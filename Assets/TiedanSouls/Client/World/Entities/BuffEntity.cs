@@ -26,8 +26,7 @@ namespace TiedanSouls.Client.Entities {
         public int DurationFrame => durationFrame;
         public void SetDurationFrame(int value) => durationFrame = value;
 
-        AttributeEffectModel roleAttributeEffectModel;
-        public AttributeEffectModel AttributeEffectModel => roleAttributeEffectModel;
+        public AttributeEffectModel attributeEffectModel;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;
@@ -48,10 +47,18 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() {
             curFrame = -1;
+            triggerTimes = 0;
+            attributeEffectModel.hpOffset = 0;
+            attributeEffectModel.hpMaxOffset = 0;
+            attributeEffectModel.moveSpeedOffset = 0;
+            attributeEffectModel.physicalDamageBonusOffset = 0;
+            attributeEffectModel.magicalDamageBonusOffset = 0;
+            attributeEffectModel.physicalDefenseBonusOffset = 0;
+            attributeEffectModel.magicalDefenseBonusOffset = 0;
         }
 
         public void SetAttributeEffectModel(in AttributeEffectModel value) {
-            this.roleAttributeEffectModel = value;
+            this.attributeEffectModel = value;
         }
 
         #region [Component Wrapper]

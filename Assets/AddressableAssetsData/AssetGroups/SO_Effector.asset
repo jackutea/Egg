@@ -18,7 +18,17 @@ MonoBehaviour:
   m_GUID: 7b20e4c39c1bc1f4cbc3d848ea2f5de7
   m_SerializeEntries:
   - m_GUID: 8e642aad100456a408d16bcaaab5efd3
-    m_Address: so_effector_test
+    m_Address: so_effector_9999
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Effector
+  - m_GUID: 1ec73eef17d85ea449be6580384d0b19
+    m_Address: so_effector_99991
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Effector
+  - m_GUID: a2a3216d351c7764e9d477a8665d51de
+    m_Address: so_effector_99992
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Effector

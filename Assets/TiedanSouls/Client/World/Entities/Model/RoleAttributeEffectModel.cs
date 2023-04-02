@@ -10,35 +10,42 @@ namespace TiedanSouls.Client.Entities {
     public struct AttributeEffectModel {
 
         public NumCalculationType hpNCT;
-        public int hpEV;
-        public int hpEffectTimes;
+        public float hpEV;
+        public float hpEffectTimes;
         public bool needRevoke_HPEV;
+        public float hpOffset;
 
         public NumCalculationType hpMaxNCT;
-        public int hpMaxEV;
-        public int hpMaxEffectTimes;
+        public float hpMaxEV;
+        public float hpMaxEffectTimes;
         public bool needRevoke_HPMaxEV;
+        public float hpMaxOffset;
 
         public NumCalculationType moveSpeedNCT;
-        public int moveSpeedEV;
-        public int moveSpeedEffectTimes;
+        public float moveSpeedEV;
+        public float moveSpeedEffectTimes;
         public bool needRevoke_MoveSpeedEV;
+        public float moveSpeedOffset;
 
-        public int physicsDamageBonusEV;
-        public int physicsDamageBonusEffectTimes;
-        public bool needRevokePhysicsDamageBonusEV;
+        public float physicalDamageBonusEV;
+        public float physicalDamageBonusEffectTimes;
+        public bool needRevokePhysicalDamageBonusEV;
+        public float physicalDamageBonusOffset;
 
-        public int magicDamageBonusEV;
-        public int magicDamageBonusEffectTimes;
-        public bool needRevokeMagicDamageBonus;
+        public float magicalDamageBonusEV;
+        public float magicalDamageBonusEffectTimes;
+        public bool needRevokemagicalDamageBonus;
+        public float magicalDamageBonusOffset;
 
-        public int physicsDefenseBonusEV;
-        public int physicsDefenseBonusEffectTimes;
-        public bool needRevokePhysicsDefenseBonus;
+        public float physicalDefenseBonusEV;
+        public float physicalDefenseBonusEffectTimes;
+        public bool needRevokePhysicalDefenseBonus;
+        public float physicalDefenseBonusOffset;
 
-        public int magicDefenseBonusEV;
-        public int magicDefenseBonusEffectTimes;
-        public bool needRevokeMagicDefenseBonus;
+        public float magicalDefenseBonusEV;
+        public float magicalDefenseBonusEffectTimes;
+        public bool needRevokemagicalDefenseBonus;
+        public float magicalDefenseBonusOffset;
 
     }
 

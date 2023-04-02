@@ -45,35 +45,35 @@ namespace TiedanSouls.EditorTool {
             AttributeEffectTM tm;
 
             tm.hpNCT = em.hpNCT;
-            tm.hpEV = em.hpEV;
+            tm.hpEV_Expanded = GetInt_Expand100(em.hpEV);
             tm.needRevokeHP = em.needRevoke_HPEV;
             tm.hpEffectTimes = em.hpEffectTimes;
 
             tm.hpMaxNCT = em.hpMaxNCT;
-            tm.hpMAXEV = em.hpMaxEV;
+            tm.hpMaxEV_Expanded = GetInt_Expand100(em.hpMaxEV);
             tm.needRevokeHPMax = em.needRevoke_HPMaxEV;
             tm.hpMaxEffectTimes = em.hpMaxEffectTimes;
 
             tm.moveSpeedNCT = em.moveSpeedNCT;
-            tm.moveSpeedEV = em.moveSpeedEV;
+            tm.moveSpeedEV_Expanded = GetInt_Expand100(em.moveSpeedEV);
             tm.needRevokeMoveSpeed = em.needRevoke_MoveSpeedEV;
             tm.moveSpeedEffectTimes = em.moveSpeedEffectTimes;
 
-            tm.physicsDamageBonusEV = em.physicsDamageBonusEV;
-            tm.physicsDamageBonusEffectTimes = em.physicsDamageBonusEffectTimes;
-            tm.needRevokePhysicsDamageBonus = em.needRevokePhysicsDamageBonus;
+            tm.physicalDamageBonusEV_Expanded = GetInt_Expand100(em.physicalDamageBonusEV);
+            tm.physicalDamageBonusEffectTimes = em.physicalDamageBonusEffectTimes;
+            tm.needRevokePhysicalDamageBonus = em.needRevokePhysicalDamageBonus;
 
-            tm.magicDamageBonusEV = em.magicDamageBonusEV;
-            tm.magicDamageBonusEffectTimes = em.magicDamageBonusEffectTimes;
-            tm.needRevokeMagicDamageBonus = em.needRevokeMagicDamageBonus;
+            tm.magicalDamageBonusEV_Expanded = GetInt_Expand100(em.magicalDamageBonusEV);
+            tm.magicalDamageBonusEffectTimes = em.magicalDamageBonusEffectTimes;
+            tm.needRevokemagicalDamageBonus = em.needRevokemagicalDamageBonus;
 
-            tm.physicsDefenseBonusEV = em.physicsDefenseBonusEV;
-            tm.physicsDefenseBonusEffectTimes = em.physicsDefenseBonusEffectTimes;
-            tm.needRevokePhysicsDefenseBonus = em.needRevokePhysicsDefenseBonus;
+            tm.physicalDefenseBonusEV_Expanded = GetInt_Expand100(em.physicalDefenseBonusEV);
+            tm.physicalDefenseBonusEffectTimes = em.physicalDefenseBonusEffectTimes;
+            tm.needRevokePhysicalDefenseBonus = em.needRevokePhysicalDefenseBonus;
 
-            tm.magicDefenseBonusEV = em.magicDefenseBonusEV;
-            tm.magicDefenseBonusEffectTimes = em.magicDefenseBonusEffectTimes;
-            tm.needRevokeMagicDefenseBonus = em.needRevokeMagicDefenseBonus;
+            tm.magicalDefenseBonusEV_Expanded = GetInt_Expand100(em.magicalDefenseBonusEV);
+            tm.magicalDefenseBonusEffectTimes = em.magicalDefenseBonusEffectTimes;
+            tm.needRevokemagicalDefenseBonus = em.needRevokemagicalDefenseBonus;
 
             return tm;
         }

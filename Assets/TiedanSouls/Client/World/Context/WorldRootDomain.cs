@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [杂项 Domain]
 
-        public WorldPhysicsDomain PhysicsDomain { get; private set; }
+        public WorldPhysicalDomain PhysicalDomain { get; private set; }
         public WorldEffectorDomain EffectorDomain { get; private set; }
 
         #endregion
@@ -59,7 +59,7 @@ namespace TiedanSouls.Client.Facades {
             BulletFSMDomain = new WorldBulletFSMDomain();
             BuffDomain = new WorldBuffDomain();
 
-            PhysicsDomain = new WorldPhysicsDomain();
+            PhysicalDomain = new WorldPhysicalDomain();
             EffectorDomain = new WorldEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
@@ -81,7 +81,7 @@ namespace TiedanSouls.Client.Facades {
             this.BulletFSMDomain.Inject(infraContext, worldContext, this);
             this.BuffDomain.Inject(infraContext, worldContext, this);
 
-            this.PhysicsDomain.Inject(infraContext, worldContext, this);
+            this.PhysicalDomain.Inject(infraContext, worldContext, this);
             this.EffectorDomain.Inject(infraContext, worldContext);
 
             this.WorldRendererDomain.Inject(infraContext, worldContext, this);
@@ -108,10 +108,12 @@ namespace TiedanSouls.Client.Facades {
             var entityType = entitySummonModel.entityType;
 
             if (entityType == EntityType.Role) {
-                _ = RoleDomain.TrySummonRole(summonPos, baseRot, summoner, entitySummonModel, out var role);
+                _ = RoleDomain.TrySummon(summonPos, baseRot, summoner, entitySummonModel, out var role);
                 role.name = $"角色(召唤)_{role.IDCom}";
             } else if (entityType == EntityType.Projectile) {
-                _ = ProjectileDomain.TrySummonProjectile(summonPos, baseRot, summoner, entitySummonModel, out var projectile);
+                _ = ProjectileDomain.TrySummon(summonPos, baseRot, summoner, entitySummonModel, out var projectile);
+            } else if (entityType == EntityType.Buff) {
+                _ = BuffDomain.TrySummon(summoner, entitySummonModel, out var buff);
             } else {
                 TDLog.Error($"未知的实体类型 {entityType}");
             }
@@ -225,7 +227,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [获取实体信息]
 
-        public bool TryGetRoleFather(in EntityIDArgs idArgs, ref RoleEntity role) {
+        public bool TryFindRoleFather(in EntityIDArgs idArgs, ref RoleEntity role) {
             if (!TryGetEntityObj(idArgs, out var entity)) return false;
 
             if (entity is RoleEntity roleEntity) {
@@ -236,19 +238,19 @@ namespace TiedanSouls.Client.Facades {
             if (entity is SkillEntity skillEntity) {
                 var idCom = skillEntity.IDCom;
                 var father = idCom.Father;
-                return TryGetRoleFather(father, ref role);
+                return TryFindRoleFather(father, ref role);
             }
 
             if (entity is BulletEntity bulletEntity) {
                 var idCom = bulletEntity.IDCom;
                 var father = idCom.Father;
-                return TryGetRoleFather(father, ref role);
+                return TryFindRoleFather(father, ref role);
             }
 
             if (entity is ProjectileEntity projectileEntity) {
                 var idCom = projectileEntity.IDCom;
                 var father = idCom.Father;
-                return TryGetRoleFather(father, ref role);
+                return TryFindRoleFather(father, ref role);
             }
 
             TDLog.Error($"未知的实体类型\n{idArgs}");

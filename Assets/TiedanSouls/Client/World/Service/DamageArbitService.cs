@@ -19,7 +19,7 @@ namespace TiedanSouls.Client.Entities {
         /// </summary>
         public float ArbitrateDamage(DamageType damageType,
                                     int damage,
-                                    AttributeComponent atkAttributeCom,
+                                    AttributeComponent atkerAttributeCom,
                                     AttributeComponent victimAttributeCom) {
             if (damageType == DamageType.True) {
                 return damage;
@@ -27,18 +27,18 @@ namespace TiedanSouls.Client.Entities {
 
             // 伤害 加成 & 减免
             if (damageType == DamageType.Physical) {
-                var physicsDamageBonus = atkAttributeCom.PhysicalDamageBonus;
-                var physicDamage = damage * (1 + physicsDamageBonus);
-                var physicsDefenseBonus = victimAttributeCom.PhysicsDefenseBonus;
-                var realDamage = physicDamage * (1 - physicsDefenseBonus);
+                var physicalDamageBonus = atkerAttributeCom.PhysicalDamageBonus;
+                var physicDamage = damage * (1 + physicalDamageBonus);
+                var physicalDefenseBonus = victimAttributeCom.PhysicalDefenseBonus;
+                var realDamage = physicDamage * (1 - physicalDefenseBonus);
                 return realDamage;
             }
 
             if (damageType == DamageType.Magic) {
-                var magicDamageBonus = atkAttributeCom.MagicDamageBonus;
-                var magicDamage = damage * (1 + magicDamageBonus);
-                var magicDefenseBonus = victimAttributeCom.MagicDefenseBonus;
-                var realDamage = magicDamage * (1 - magicDefenseBonus);
+                var magicalDamageBonus = atkerAttributeCom.MagicalDamageBonus;
+                var magicalDamage = damage * (1 + magicalDamageBonus);
+                var magicalDefenseBonus = victimAttributeCom.MagicalDefenseBonus;
+                var realDamage = magicalDamage * (1 - magicalDefenseBonus);
                 return realDamage;
             }
 

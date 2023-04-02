@@ -63,18 +63,12 @@ namespace TiedanSouls.Client.Domain {
                 var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleDomain.Renderer_Sync(playerRole);
 
-                // - 测试buff
+                // - 测试buff 
                 var buffSlotCom = playerRole.BuffSlotCom;
                 var buffDomain = worldContext.RootDomain.BuffDomain;
-                if (!buffSlotCom.HasSameTypeBuff(9999)) {
-                    if (buffDomain.TrySpawn(9999, playerRole.IDCom.ToArgs(), out var buff)) {
-                        buffSlotCom.Add(buff);
-                    }
-                }
                 if (!buffSlotCom.HasSameTypeBuff(99991)) {
                     if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out var buff)) {
                         buffSlotCom.Add(buff);
-                        roleDomain.ReduceHP_Percentage(playerRole, 0.3f);
                     }
                 }
             }

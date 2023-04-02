@@ -238,35 +238,42 @@ namespace TiedanSouls.Client {
             AttributeEffectModel model;
 
             model.hpNCT = tm.hpNCT;
-            model.hpEV = tm.hpEV;
+            model.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
             model.hpEffectTimes = tm.hpEffectTimes;
             model.needRevoke_HPEV = tm.needRevokeHP;
+            model.hpOffset= 0;
 
             model.hpMaxNCT = tm.hpMaxNCT;
-            model.hpMaxEV = tm.hpMAXEV;
+            model.hpMaxEV = GetFloat_Shrink100(tm.hpMaxEV_Expanded);
             model.hpMaxEffectTimes = tm.hpMaxEffectTimes;
             model.needRevoke_HPMaxEV = tm.needRevokeHPMax;
+            model.hpMaxOffset = 0;
 
             model.moveSpeedNCT = tm.moveSpeedNCT;
-            model.moveSpeedEV = tm.moveSpeedEV;
+            model.moveSpeedEV = GetFloat_Shrink100(tm.moveSpeedEV_Expanded);
             model.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
             model.needRevoke_MoveSpeedEV = tm.needRevokeMoveSpeed;
+            model.moveSpeedOffset = 0;
 
-            model.physicsDamageBonusEV = tm.physicsDamageBonusEV;
-            model.physicsDamageBonusEffectTimes = tm.physicsDamageBonusEffectTimes;
-            model.needRevokePhysicsDamageBonusEV = tm.needRevokePhysicsDamageBonus;
+            model.physicalDamageBonusEV = GetFloat_Shrink100(tm.physicalDamageBonusEV_Expanded);
+            model.physicalDamageBonusEffectTimes = tm.physicalDamageBonusEffectTimes;
+            model.needRevokePhysicalDamageBonusEV = tm.needRevokePhysicalDamageBonus;
+            model.physicalDamageBonusOffset = 0;
 
-            model.magicDamageBonusEV = tm.magicDamageBonusEV;
-            model.magicDamageBonusEffectTimes = tm.magicDamageBonusEffectTimes;
-            model.needRevokeMagicDamageBonus = tm.needRevokePhysicsDamageBonus;
+            model.magicalDamageBonusEV = GetFloat_Shrink100(tm.magicalDamageBonusEV_Expanded);
+            model.magicalDamageBonusEffectTimes = tm.magicalDamageBonusEffectTimes;
+            model.needRevokemagicalDamageBonus = tm.needRevokePhysicalDamageBonus;
+            model.magicalDamageBonusOffset = 0;
 
-            model.physicsDefenseBonusEV = tm.physicsDefenseBonusEV;
-            model.physicsDefenseBonusEffectTimes = tm.physicsDefenseBonusEffectTimes;
-            model.needRevokePhysicsDefenseBonus = tm.needRevokePhysicsDefenseBonus;
+            model.physicalDefenseBonusEV = GetFloat_Shrink100(tm.physicalDefenseBonusEV_Expanded);
+            model.physicalDefenseBonusEffectTimes = tm.physicalDefenseBonusEffectTimes;
+            model.needRevokePhysicalDefenseBonus = tm.needRevokePhysicalDefenseBonus;
+            model.physicalDefenseBonusOffset = 0;
 
-            model.magicDefenseBonusEV = tm.magicDefenseBonusEV;
-            model.magicDefenseBonusEffectTimes = tm.magicDefenseBonusEffectTimes;
-            model.needRevokeMagicDefenseBonus = tm.needRevokeMagicDefenseBonus;
+            model.magicalDefenseBonusEV = GetFloat_Shrink100(tm.magicalDefenseBonusEV_Expanded);
+            model.magicalDefenseBonusEffectTimes = tm.magicalDefenseBonusEffectTimes;
+            model.needRevokemagicalDefenseBonus = tm.needRevokemagicalDefenseBonus;
+            model.magicalDefenseBonusOffset = 0;
 
             return model;
         }

@@ -86,7 +86,7 @@ namespace TiedanSouls.Client.Domain {
                 cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
             }
 
-            var phxDomain = worldDomain.PhysicsDomain;
+            var phxDomain = worldDomain.PhysicalDomain;
             phxDomain.Tick(dt);
 
             TickAllFSM(dt);
@@ -120,7 +120,7 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
 
-            var phxDomain = worldDomain.PhysicsDomain;
+            var phxDomain = worldDomain.PhysicalDomain;
             phxDomain.Tick(dt);
 
             TickAllFSM(dt);
