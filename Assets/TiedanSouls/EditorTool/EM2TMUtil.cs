@@ -122,6 +122,8 @@ namespace TiedanSouls.EditorTool {
             tm.typeID = editorGO.typeID;
             tm.bulletName = editorGO.bulletName;
 
+            tm.frameRange = editorGO.frameRange;
+
             tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
 
@@ -344,7 +346,7 @@ namespace TiedanSouls.EditorTool {
 
         public static TriggerCustomTM GetTriggerCustomTM(TriggerCustomEM em) {
             TriggerCustomTM tm;
-            tm.frameRangeArray = em.frameRangeArray.Clone() as Vector2Int[];
+            tm.frameRangeArray = em.frameRangeArray?.Clone() as Vector2Int[];
             return tm;
         }
 

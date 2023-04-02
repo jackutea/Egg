@@ -309,10 +309,11 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: e48d156f05bc7704392b8859a0b618d1, type: 2}
   typeID: 9999
   bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+  frameRange: {x: 0, y: 30}
   trajectoryType: 1
   moveCurveEM:
-    moveDistance: 10
-    moveTotalFrame: 10
+    moveDistance: 30
+    moveTotalFrame: 30
     disCurve:
       serializedVersion: 2
       m_Curve:
@@ -321,7 +322,7 @@ MonoBehaviour:
         value: 0
         inSlope: 1
         outSlope: 1
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -330,7 +331,7 @@ MonoBehaviour:
         value: 1
         inSlope: 1
         outSlope: 1
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -366,10 +367,15 @@ MonoBehaviour:
         fallingSpeedMax_ComparisonType: 0
   collisionTriggerEM:
     isEnabled: 1
-    totalFrame: 120
-    delayFrame: 0
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 30}
+    triggerMode: 2
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 1
+      maintainFrame: 1
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 0, y: 20}
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -398,64 +404,27 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
-      knockBackDistance: 5
-      knockBackCostFrame: 10
+    knockBackEM:
+      knockBackDistance: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
+    knockUpEM:
       knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 285879737727348702}
-  extraPenetrateCount: 1
   deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
 --- !u!1 &8766878982541236908
@@ -618,6 +587,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 2f6b8c99cb353d2499a5974f834ba7ad, type: 2}
   typeID: 99991
   bulletName: "\u8DDF\u8E2A\u5B50\u5F39"
+  frameRange: {x: 0, y: 0}
   trajectoryType: 2
   moveCurveEM:
     moveDistance: 0
@@ -657,10 +627,14 @@ MonoBehaviour:
         fallingSpeedMax_ComparisonType: 0
   collisionTriggerEM:
     isEnabled: 1
-    totalFrame: 120
-    delayFrame: 0
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 0}
+    triggerMode: 0
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+    triggerCustomEM:
+      frameRangeArray: []
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -689,64 +663,27 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
+    knockBackEM:
       knockBackDistance: 0
       knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
-      knockUpHeight: 8
-      knockUpCostFrame: 30
+    knockUpEM:
+      knockUpHeight: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 8766878982541236908}
-  extraPenetrateCount: 0
   deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: c57b42eb162926d45b358a9f0055727a, type: 3}
 --- !u!1001 &8325092907075036684

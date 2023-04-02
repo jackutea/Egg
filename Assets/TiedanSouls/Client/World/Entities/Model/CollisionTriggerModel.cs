@@ -44,8 +44,11 @@ namespace TiedanSouls.Client.Entities {
                 if (frame < delayFrame) return TriggerState.None;
                 if (frame == delayFrame) return TriggerState.TriggerEnter;
 
-                var mod = (frame - delayFrame) % intervalFrame;
-                return mod == 0 ? TriggerState.TriggerStay : TriggerState.None;
+                var mod = (frame - delayFrame) % (intervalFrame + maintainFrame);
+                if (mod == 0) return TriggerState.TriggerEnter;
+                if (mod < intervalFrame) return TriggerState.TriggerStay;
+                if (mod == intervalFrame) return TriggerState.TriggerExit;
+                if (mod > intervalFrame) return TriggerState.None;
             }
 
             return TriggerState.None;

@@ -1,6 +1,6 @@
 namespace TiedanSouls.Generic {
 
-    public enum TriggerMode : byte {
+    public enum TriggerMode {
 
         None,           // 无
         Custom,         // 自定义

@@ -329,6 +329,8 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(tm.typeID);
             idCom.SetEntityName(tm.bulletName);
 
+            bullet.SetFrameRange(tm.frameRange);
+
             bullet.SetTrajectoryType(tm.trajectoryType);
             bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
             bullet.moveCurveModel = TM2ModelUtil.GetMoveCurveModel(tm.moveCurveTM);// 位移曲线模型

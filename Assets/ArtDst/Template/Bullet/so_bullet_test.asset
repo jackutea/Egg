@@ -15,10 +15,11 @@ MonoBehaviour:
   tm:
     typeID: 9999
     bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+    frameRange: {x: 0, y: 30}
     trajectoryType: 1
     moveCurveTM:
-      moveDistance_cm: 1000
-      moveTotalFrame: 10
+      moveDistance_cm: 3000
+      moveTotalFrame: 30
       disCurve_KeyframeTMArray:
       - time: 0
         value: 0
@@ -32,8 +33,28 @@ MonoBehaviour:
         outTangent: 1
         inWeight: 0
         outWeight: 0
-      moveSpeedArray: b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000
+      moveSpeedArray: b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000b80b0000
       moveDirArray:
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
+      - {x: 1, y: 0, z: 0}
       - {x: 1, y: 0, z: 0}
       - {x: 1, y: 0, z: 0}
       - {x: 1, y: 0, z: 0}
@@ -73,14 +94,19 @@ MonoBehaviour:
           fallingSpeedMax_ComparisonType: 0
     collisionTriggerTM:
       isEnabled: 1
-      totalFrame: 120
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
+      frameRange: {x: 0, y: 30}
+      triggerMode: 2
+      triggerFixedIntervalTM:
+        delayFrame: 0
+        intervalFrame: 1
+        maintainFrame: 1
+      triggerCustomTM:
+        frameRangeArray:
+        - {x: 0, y: 20}
       relativeTargetGroupType: 4
       damageTM:
         damageType: 3
-        damageArray: 210000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000
+        damageArray: 21000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000
         damageBase: 33
         damageCurve_KeyframeTMArray:
         - time: 0
@@ -96,43 +122,15 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
       knockBackPowerTM:
-        knockBackSpeedArray_cm: 220b0000f6090000ca0800009e07000072060000460500001a040000ee020000c201000096000000
-        knockBackDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        knockBackCostFrame: 10
-        knockBackDistance_cm: 500
+        knockBackSpeedArray_cm: 
+        knockBackDisCurve_KeyframeTMArray: []
+        knockBackCostFrame: 0
+        knockBackDistance_cm: 0
       knockUpPowerTM:
         knockUpSpeedArray_cm: 
-        knockUpDisCurve_KeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
+        knockUpDisCurve_KeyframeTMArray: []
         knockUpCostFrame: 0
         knockUpHeight_cm: 0
-      stateEffectTM:
-        addStateFlag: 0
-        effectStateValue: 0
-        effectMaintainFrame: 0
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
@@ -142,6 +140,5 @@ MonoBehaviour:
       colliderRelativePathArray:
       - collider
     deathEffectorTypeID: 0
-    extraPenetrateCount: 1
     vfxPrefabName: vfx_test_bullet
     vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595

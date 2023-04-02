@@ -91,7 +91,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // TODO : 不根据碰撞器的生命周期来控制子弹的生命周期，添加子弹自己的生命周期
-            if (model.curFrame > bullet.CollisionTriggerModel.totalFrame) {
+            if (model.curFrame > bullet.FrameRange.y) {
                 fsm.Enter_TearDown(0);
                 return;
             }

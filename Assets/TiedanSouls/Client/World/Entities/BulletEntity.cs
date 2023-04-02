@@ -102,6 +102,10 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
+        Vector2Int frameRange;
+        public Vector2Int FrameRange => frameRange;
+        public void SetFrameRange(Vector2Int value) => this.frameRange = value;
+
         public void Ctor() {
             rootGO = new GameObject("子弹");
             logicRoot = new GameObject("Logic_Root");
@@ -140,7 +144,7 @@ namespace TiedanSouls.Client.Entities {
             logicRoot.transform.rotation = Quaternion.identity;
             rendererRoot.transform.position = Vector3.zero;
             rendererRoot.transform.rotation = Quaternion.identity;
-            
+
             rootGO.SetActive(false);
 
             extraPenetrateCount = 0;

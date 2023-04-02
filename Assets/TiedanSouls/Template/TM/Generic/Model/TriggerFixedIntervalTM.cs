@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 
 namespace TiedanSouls.Template {
-
+    
+    [Serializable]
     public struct TriggerFixedIntervalTM {
 
         [Header("延迟帧")] public int delayFrame;

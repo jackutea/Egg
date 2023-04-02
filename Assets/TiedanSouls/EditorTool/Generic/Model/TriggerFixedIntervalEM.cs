@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace TiedanSouls.EditorTool {
 
+    [Serializable]
     public struct TriggerFixedIntervalEM {
 
         [Header("延迟帧")] public int delayFrame;

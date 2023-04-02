@@ -10,6 +10,8 @@ namespace TiedanSouls.Template {
         [Header("类型ID")] public int typeID;
         [Header("子弹名称")] public string bulletName;
 
+        [Header("帧区间")] public Vector2Int frameRange;
+
         [Header("轨迹类型")] public TrajectoryType trajectoryType;
 
         [Header("模型: 位移曲线")] public MoveCurveTM moveCurveTM;
