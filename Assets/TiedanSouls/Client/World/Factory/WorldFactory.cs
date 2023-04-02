@@ -379,7 +379,8 @@ namespace TiedanSouls.Client {
             buff.SetIntervalFrame(tm.intervalFrame);
             buff.SetDurationFrame(tm.durationFrame);
 
-            buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
+            buff.SetRoleAttributeEffectModel(TM2ModelUtil.GetRoleAttributeEffectModel(tm.roleAttributeEffectTM));
+            buff.SetWeaponAttributeEffectModel(TM2ModelUtil.GetWeaponAttributeEffectModel(tm.weaponAttributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);
 
             return true;

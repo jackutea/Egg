@@ -16,7 +16,7 @@ MonoBehaviour:
     typeID: 9999
     effectorName: "\u5F39\u90539999\u53EC\u5524"
     entitySummonTMArray:
-    - entityType: 4
+    - entityType: 5
       typeID: 9999
       controlType: 0
     entityDestroyTMArray: []

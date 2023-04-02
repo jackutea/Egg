@@ -23,7 +23,7 @@ namespace TiedanSouls.Client {
             var idCom = bullet.IDCom;
             var key = idCom.EntityID;
             all.Add(key, bullet);
-            TDLog.Log($"子弹仓库 添加 {idCom}");
+            // TDLog.Log($"子弹仓库 添加 {idCom}");
         }
 
         void AddToPool(BulletEntity bullet) {
@@ -34,7 +34,7 @@ namespace TiedanSouls.Client {
                 pool.Add(key, list);
             }
             list.Add(bullet);
-            TDLog.Log($"子弹池 添加 类型{key}  ====> 剩余数量 {list.Count} ");
+            // TDLog.Log($"子弹池 添加 类型{key}  ====> 剩余数量 {list.Count} ");
         }
 
         #endregion
@@ -107,7 +107,6 @@ namespace TiedanSouls.Client {
                 if (index >= 0) {
                     bullet = list[index];
                     list.RemoveAt(index);
-                    TDLog.Log($"子弹池 从池中取出子弹 类型ID {typeID} ====> 剩余数量 {list.Count}");
                     return true;
                 }
             }

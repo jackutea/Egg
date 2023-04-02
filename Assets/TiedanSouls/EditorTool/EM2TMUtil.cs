@@ -23,7 +23,8 @@ namespace TiedanSouls.EditorTool {
             tm.intervalFrame = editorGo.intervalFrame;
             tm.durationFrame = editorGo.durationFrame;
 
-            tm.attributeEffectTM = GetAttributeEffectTM(editorGo.attributeEffectEM);
+            tm.roleAttributeEffectTM = GetAttributeEffectTM(editorGo.roleAttributeEffectEM);
+            tm.weaponAttributeEffectTM = GetWeaponAttributeEffectTM(editorGo.weaponAttributeEffectEM);
             tm.effectorTypeID = editorGo.effectorTypeID;
 
             return tm;
@@ -54,20 +55,24 @@ namespace TiedanSouls.EditorTool {
             tm.needRevoke_HPMaxEV = em.needRevoke_HPMaxEV;
             tm.hpMaxEffectTimes = em.hpMaxEffectTimes;
 
-            tm.atkSpeedNCT = em.atkSpeedNCT;
-            tm.atkSpeedEV = em.atkSpeedEV;
-            tm.needRevoke_AtkSpeedEV = em.needRevoke_AtkSpeedEV;
-            tm.atkSpeedEffectTimes = em.atkSpeedEffectTimes;
-
-            tm.atkPowerNCT = em.atkPowerNCT;
-            tm.physicsDamageEV = em.physicsDamageEV;
-            tm.needRevoke_PhysicsDamageEV = em.needRevoke_PhysicsDamageEV;
-            tm.atkPowerEffectTimes = em.atkPowerEffectTimes;
-
             tm.moveSpeedNCT = em.moveSpeedNCT;
             tm.moveSpeedEV = em.moveSpeedEV;
             tm.needRevoke_MoveSpeedEV = em.needRevoke_MoveSpeedEV;
             tm.moveSpeedEffectTimes = em.moveSpeedEffectTimes;
+
+            return tm;
+        }
+
+        public static WeaponAttributeEffectTM GetWeaponAttributeEffectTM(WeaponAttributeEffectEM em) {
+            WeaponAttributeEffectTM tm;
+
+            tm.physicsDamageIncreaseEV = em.physicsDamageIncreaseEV;
+            tm.physicsDamageIncreaseEffectTimes = em.physicsDamageIncreaseEffectTimes;
+            tm.needRevokePhysicsDamageIncreaseEV = em.needRevokePhysicsDamageIncreaseEV;
+
+            tm.magicDamageIncreaseEV = em.magicDamageIncreaseEV;
+            tm.magicDamageIncreaseEffectTimes = em.magicDamageIncreaseEffectTimes;
+            tm.needRevokeMagicDamageIncreaseEV = em.needRevokeMagicDamageIncreaseEV;
 
             return tm;
         }

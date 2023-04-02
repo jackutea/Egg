@@ -234,28 +234,37 @@ namespace TiedanSouls.Client {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectModel GetAttributeEffectModel(RoleAttributeEffectTM tm) {
+        public static RoleAttributeEffectModel GetRoleAttributeEffectModel(RoleAttributeEffectTM tm) {
             RoleAttributeEffectModel model;
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = tm.hpEV;
+            model.hpEffectTimes = tm.hpEffectTimes;
             model.needRevoke_HPEV = tm.needRevoke_HPEV;
 
             model.hpMaxNCT = tm.hpMaxNCT;
             model.hpMaxEV = tm.hpMAXEV;
+            model.hpMaxEffectTimes = tm.hpMaxEffectTimes;
             model.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
-
-            model.atkPowerNCT = tm.atkPowerNCT;
-            model.physicsDamageEV = tm.physicsDamageEV;
-            model.needRevoke_PhysicsDamageEV = tm.needRevoke_PhysicsDamageEV;
-
-            model.atkSpeedNCT = tm.atkSpeedNCT;
-            model.atkSpeedEV = tm.atkSpeedEV;
-            model.needRevoke_AtkSpeedEV = tm.needRevoke_AtkSpeedEV;
 
             model.moveSpeedNCT = tm.moveSpeedNCT;
             model.moveSpeedEV = tm.moveSpeedEV;
+            model.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
             model.needRevoke_MoveSpeedEV = tm.needRevoke_MoveSpeedEV;
+
+            return model;
+        }
+
+        public static WeaponAttributeEffectModel GetWeaponAttributeEffectModel(WeaponAttributeEffectTM tm) {
+            WeaponAttributeEffectModel model;
+
+            model.physicsDamageIncreaseEV = tm.physicsDamageIncreaseEV;
+            model.physicsDamageIncreaseEffectTimes = tm.physicsDamageIncreaseEffectTimes;
+            model.needRevokePhysicsDamageIncreaseEV = tm.needRevokePhysicsDamageIncreaseEV;
+
+            model.magicDamageIncreaseEV = tm.magicDamageIncreaseEV;
+            model.magicDamageIncreaseEffectTimes = tm.magicDamageIncreaseEffectTimes;
+            model.needRevokeMagicDamageIncrease = tm.needRevokePhysicsDamageIncreaseEV;
 
             return model;
         }

@@ -55,10 +55,15 @@ MonoBehaviour:
   cancelSkillCancelEMArray: []
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 999
-    delayFrame: 7
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 15}
+    triggerMode: 1
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 5, y: 10}
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -87,34 +92,16 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
+    knockBackEM:
       knockBackDistance: 0
       knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
+    knockUpEM:
       knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
@@ -336,10 +323,15 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 999
-    delayFrame: 7
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 15}
+    triggerMode: 1
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 5, y: 10}
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -368,34 +360,16 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
-      knockBackDistance: 1
-      knockBackCostFrame: 10
+    knockBackEM:
+      knockBackDistance: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
+    knockUpEM:
       knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
@@ -998,10 +972,15 @@ MonoBehaviour:
     endFrame: 15
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 999
-    delayFrame: 7
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 15}
+    triggerMode: 1
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 5, y: 10}
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -1030,34 +1009,16 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
-      knockBackDistance: 1
-      knockBackCostFrame: 10
+    knockBackEM:
+      knockBackDistance: 0
+      knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
+    knockUpEM:
       knockUpHeight: 0
       knockUpCostFrame: 0
       knockUpDisCurve:
@@ -1130,10 +1091,15 @@ MonoBehaviour:
     endFrame: 20
   colliderTriggerEMArray:
   - isEnabled: 1
-    totalFrame: 999
-    delayFrame: 7
-    intervalFrame: 0
-    maintainFrame: 0
+    frameRange: {x: 0, y: 15}
+    triggerMode: 1
+    triggerFixedIntervalEM:
+      delayFrame: 0
+      intervalFrame: 0
+      maintainFrame: 0
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 5, y: 10}
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -1162,57 +1128,21 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockBackPowerEM:
+    knockBackEM:
       knockBackDistance: 0
       knockBackCostFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    knockUpPowerEM:
-      knockUpHeight: 1
-      knockUpCostFrame: 5
+    knockUpEM:
+      knockUpHeight: 0
+      knockUpCostFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4

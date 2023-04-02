@@ -3,23 +3,32 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class WeaponEntity {
+    public class WeaponEntity : IEntity {
+
+        #region [组件]
+
+        public EntityIDComponent IDCom { get; private set; }
+        public WeaponAttributeComponent AttributeCom { get; private set; }
+        public WeaponFSMComponent FSMCom { get; private set; }
+        public BuffSlotComponent BuffSlotCom { get; private set; }
+
+        #endregion
 
         WeaponType weaponType;
         public WeaponType WeaponType => weaponType;
         public void SetWeaponType(WeaponType weaponType) => this.weaponType = weaponType;
 
-        int typeID;
-        public int TypeID => typeID;
-        public void SetTypeID(int typeID) => this.typeID = typeID;
+        int skillMeleeTypeID;
+        public int SkillMeleeTypeID => skillMeleeTypeID;
+        public void SetSkillMeleeTypeID(int skillMeleeTypeID) => this.skillMeleeTypeID = skillMeleeTypeID;
 
-        public int atk;
-        public int def;
-        public int crit;
+        int skillHoldMeleeTypeID;
+        public int SkillHoldMeleeTypeID => skillHoldMeleeTypeID;
+        public void SetSkillHoldMeleeTypeID(int skillHoldMeleeTypeID) => this.skillHoldMeleeTypeID = skillHoldMeleeTypeID;
 
-        public int skillMeleeTypeID;
-        public int skillHoldMeleeTypeID;
-        public int skillSpecMeleeTypeID;
+        int skillSpecMeleeTypeID;
+        public int SkillSpecMeleeTypeID => skillSpecMeleeTypeID;
+        public void SetSkillSpecMeleeTypeID(int skillSpecMeleeTypeID) => this.skillSpecMeleeTypeID = skillSpecMeleeTypeID;
 
         // ==== Renderer ====
         GameObject mod;
@@ -27,7 +36,13 @@ namespace TiedanSouls.Client.Entities {
 
         Animator animator;
 
-        public WeaponEntity() { }
+        public WeaponEntity() {
+            this.IDCom = new EntityIDComponent();
+            this.IDCom.SetEntityType(EntityType.Weapon);
+            this.AttributeCom = new WeaponAttributeComponent();
+            this.FSMCom = new WeaponFSMComponent();
+            this.BuffSlotCom = new BuffSlotComponent();
+        }
 
         // ==== Renderer ====
         public void SetMod(GameObject mod) {

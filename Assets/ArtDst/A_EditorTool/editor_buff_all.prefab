@@ -85,27 +85,32 @@ MonoBehaviour:
   delayFrame: 30
   intervalFrame: 30
   durationFrame: 99999
-  attributeEffectEM:
-    hpNCT: 0
+  roleAttributeEffectEM:
+    hpNCT: 3
     hpEV: 0
-    needRevokeHPEV: 0
+    needRevoke_HPEV: 0
     hpEffectTimes: 0
     hpMaxNCT: 0
     hpMaxEV: 0
-    needRevokeHPMaxEV: 0
+    needRevoke_HPMaxEV: 0
     hpMaxEffectTimes: 0
-    atkPowerNCT: 0
-    atkPowerEV: 0
-    needRevokeAtkPowerEV: 0
-    atkPowerEffectTimes: 0
-    atkSpeedNCT: 0
-    atkSpeedEV: 0
-    needRevokeAtkSpeedEV: 0
-    atkSpeedEffectTimes: 0
     moveSpeedNCT: 0
     moveSpeedEV: 0
-    needRevokeMoveSpeedEV: 0
+    needRevoke_MoveSpeedEV: 0
     moveSpeedEffectTimes: 0
+  weaponAttributeEffectEM:
+    physicsDamageIncreaseNCT: 0
+    physicsDamageIncreaseEV: 0
+    physicsDamageIncreaseEffectTimes: 0
+    needRevokePhysicsDamageIncreaseEV: 0
+    magicDamageIncreaseNCT: 0
+    magicDamageIncreaseEV: 0
+    magicDamageIncreaseEffectTimes: 0
+    needRevokeMagicDamageIncreaseEV: 0
+    atkSpeedNCT: 0
+    atkSpeedEV: 0
+    atkSpeedEffectTimes: 0
+    needRevokeAtkSpeedEV: 0
   effectorTypeID: 9999
 --- !u!1 &8508007409812613183
 GameObject:
@@ -159,25 +164,30 @@ MonoBehaviour:
   delayFrame: 30
   intervalFrame: 30
   durationFrame: 999999
-  attributeEffectEM:
-    hpNCT: 3
-    hpEV: 5
-    needRevokeHPEV: 0
+  roleAttributeEffectEM:
+    hpNCT: 0
+    hpEV: 0
+    needRevoke_HPEV: 0
     hpEffectTimes: 0
     hpMaxNCT: 0
     hpMaxEV: 0
-    needRevokeHPMaxEV: 0
+    needRevoke_HPMaxEV: 0
     hpMaxEffectTimes: 0
-    atkPowerNCT: 0
-    atkPowerEV: 0
-    needRevokeAtkPowerEV: 0
-    atkPowerEffectTimes: 0
-    atkSpeedNCT: 0
-    atkSpeedEV: 0
-    needRevokeAtkSpeedEV: 0
-    atkSpeedEffectTimes: 0
     moveSpeedNCT: 0
     moveSpeedEV: 0
-    needRevokeMoveSpeedEV: 0
+    needRevoke_MoveSpeedEV: 0
     moveSpeedEffectTimes: 0
+  weaponAttributeEffectEM:
+    physicsDamageIncreaseNCT: 0
+    physicsDamageIncreaseEV: 0
+    physicsDamageIncreaseEffectTimes: 0
+    needRevokePhysicsDamageIncreaseEV: 0
+    magicDamageIncreaseNCT: 0
+    magicDamageIncreaseEV: 0
+    magicDamageIncreaseEffectTimes: 0
+    needRevokeMagicDamageIncreaseEV: 0
+    atkSpeedNCT: 0
+    atkSpeedEV: 0
+    atkSpeedEffectTimes: 0
+    needRevokeAtkSpeedEV: 0
   effectorTypeID: 0

@@ -17,7 +17,8 @@ namespace TiedanSouls.Template {
         [Header("间隔(帧)")] public int intervalFrame;
         [Header("持续时间(帧)")] public int durationFrame;
 
-        [Header("属性影响")] public RoleAttributeEffectTM attributeEffectTM;
+        [Header("角色属性影响")] public RoleAttributeEffectTM roleAttributeEffectTM;
+        [Header("武器属性影响")] public WeaponAttributeEffectTM weaponAttributeEffectTM;
         [Header("效果器")] public int effectorTypeID;
 
     }

@@ -85,12 +85,12 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [TearDown]
+        #region [撤销]
 
         /// <summary>
-        /// 撤销对属性值的影响,并回收Buff
+        /// 撤销对角色属性值的影响,并回收Buff
         /// </summary>
-        public void TearDownBuff(int buffEntityID, RoleAttributeComponent attributeComponent) {
+        public void RevokeBuffFromRoleAttribute(int buffEntityID, RoleAttributeComponent attributeComponent) {
             var repo = worldContext.BuffRepo;
             if (repo.TryRemove(buffEntityID, out var buff)) {
                 // - 撤销影响
@@ -98,6 +98,22 @@ namespace TiedanSouls.Client.Domain {
                 if (attributeEffectModel.needRevoke_HPEV) {
                 }
                 if (attributeEffectModel.needRevoke_HPMaxEV) {
+                }
+                // - 放回池子
+                repo.AddToPool(buff);
+            }
+        }
+
+        public void RevokeBuffFromWeaponttribute(int buffEntityID, WeaponAttributeComponent attributeComponent) {
+            var repo = worldContext.BuffRepo;
+            if (repo.TryRemove(buffEntityID, out var buff)) {
+                // - 撤销影响
+                var attributeEffectModel = buff.WeaponAttributeEffectModel;
+                if (attributeEffectModel.needRevokePhysicsDamageIncreaseEV) {
+
+                }
+                if (attributeEffectModel.needRevokeMagicDamageIncrease) {
+
                 }
                 // - 放回池子
                 repo.AddToPool(buff);
@@ -143,19 +159,19 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public bool TryEffectAttribute(RoleAttributeComponent attributeComponent, BuffEntity buff) {
+        public bool TryEffectRoleAttribute(RoleAttributeComponent attributeCom, BuffEntity buff) {
             if (!buff.IsTriggerFrame()) {
                 return false;
             }
 
             var attributeEffectModel = buff.RoleAttributeEffectModel;
-            var curHPMax = attributeComponent.HPMax;
+            var curHPMax = attributeCom.HPMax;
 
             // - HP
             var hpEV = attributeEffectModel.hpEV;
             var hpNCT = attributeEffectModel.hpNCT;
             if (hpNCT != NumCalculationType.None) {
-                var curHP = attributeComponent.HP;
+                var curHP = attributeCom.HP;
                 if (hpNCT == NumCalculationType.PercentageAdd) {
                     curHP += Mathf.RoundToInt(curHPMax * (hpEV / 100f));
                 } else if (hpNCT == NumCalculationType.PercentageMul) {
@@ -163,8 +179,8 @@ namespace TiedanSouls.Client.Domain {
                 } else if (hpNCT == NumCalculationType.AbsoluteAdd) {
                     curHP += hpEV;
                 }
-                attributeComponent.SetHP(curHP);
-                TDLog.Log($"Buff Effect --> HP: {curHP}");
+                attributeCom.SetHP(curHP);
+                TDLog.Log($"Buff 影响 角色属性 --> HP: {curHP}");
             }
 
             // - HPMax
@@ -172,20 +188,34 @@ namespace TiedanSouls.Client.Domain {
             var hpMaxNCT = attributeEffectModel.hpMaxNCT;
             if (hpMaxNCT != NumCalculationType.None) {
                 if (hpMaxNCT == NumCalculationType.PercentageAdd) {
-                    var hpMaxBase = attributeComponent.HPMaxBase;
+                    var hpMaxBase = attributeCom.HPMaxBase;
                     curHPMax += Mathf.RoundToInt(hpMaxBase * (hpMaxEV / 100f));
                 } else if (hpMaxNCT == NumCalculationType.PercentageMul) {
                     curHPMax += Mathf.RoundToInt(curHPMax * (hpMaxEV / 100f));
                 } else if (hpMaxNCT == NumCalculationType.AbsoluteAdd) {
                     curHPMax += hpMaxEV;
                 }
-                attributeComponent.SetHPMax(curHPMax);
-                TDLog.Log($"Buff Effect --> HPMax: {curHPMax}");
+                attributeCom.SetHPMax(curHPMax);
+                TDLog.Log($"Buff 影响 角色属性 --> HPMax: {curHPMax}");
             }
 
-            // - Physics Damage
-            var physicsDamageEV = attributeEffectModel.physicsDamageEV;
+            return true;
+        }
 
+        public bool TryEffectWeaponAttribute(WeaponAttributeComponent weaponAttributeCom, BuffEntity buff) {
+            if (!buff.IsTriggerFrame()) {
+                return false;
+            }
+
+            var weaponAttributeEffectModel = buff.WeaponAttributeEffectModel;
+
+            // - Physics Damage Increase
+            var physicsDamageIncreaseEV = weaponAttributeEffectModel.physicsDamageIncreaseEV;
+            weaponAttributeCom.AddPhysicalDamageIncrease(physicsDamageIncreaseEV);
+
+            // - Magic Damage Increase
+            var magicDamageIncreaseEV = weaponAttributeEffectModel.magicDamageIncreaseEV;
+            weaponAttributeCom.AddMagicDamageIncrease(magicDamageIncreaseEV);
 
             return true;
         }

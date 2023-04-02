@@ -20,16 +20,6 @@ namespace TiedanSouls.EditorTool {
         [Header("结束时撤销")] public bool needRevoke_HPMaxEV;
         [Header("影响次数")] public int hpMaxEffectTimes;
 
-        [Header("攻击力 数值计算类型")] public NumCalculationType atkPowerNCT;
-        [Header("攻击力 影响值")] public int physicsDamageEV;
-        [Header("是否需要撤销 攻击力影响值")] public bool needRevoke_PhysicsDamageEV;
-        [Header("影响次数")] public int atkPowerEffectTimes;
-
-        [Header("攻击速度 数值计算类型")] public NumCalculationType atkSpeedNCT;
-        [Header("攻击速度 影响值")] public int atkSpeedEV;
-        [Header("结束时撤销")] public bool needRevoke_AtkSpeedEV;
-        [Header("影响次数")] public int atkSpeedEffectTimes;
-
         [Header("移动速度 数值计算类型")] public NumCalculationType moveSpeedNCT;
         [Header("移动速度 影响值")] public int moveSpeedEV;
         [Header("结束时撤销")] public bool needRevoke_MoveSpeedEV;

@@ -4,7 +4,7 @@ using TiedanSouls.Generic;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 属性影响模型
+    /// 角色属性影响模型
     /// </summary>
     [Serializable]
     public struct RoleAttributeEffectModel {
@@ -18,19 +18,6 @@ namespace TiedanSouls.Client.Entities {
         public int hpMaxEV;
         public int hpMaxEffectTimes;
         public bool needRevoke_HPMaxEV;
-
-        public int physicsDamageEV;
-        public int physicsDamageEffectTimes;
-        public bool needRevoke_PhysicsDamageEV;
-
-        public int magicDamageEV;
-        public int magicDamageEffectTimes;
-        public bool needRevoke_MagicPowerEV;
-
-        public NumCalculationType atkSpeedNCT;
-        public int atkSpeedEV;
-        public int atkSpeedEffectTimes;
-        public bool needRevoke_AtkSpeedEV;
 
         public NumCalculationType moveSpeedNCT;
         public int moveSpeedEV;

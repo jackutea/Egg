@@ -18,7 +18,7 @@ namespace TiedanSouls.EditorTool {
             editorGO.intervalFrame = tm.intervalFrame;
             editorGO.durationFrame = tm.durationFrame;
 
-            editorGO.attributeEffectEM = GetAttributeEffectEM(tm.attributeEffectTM);
+            editorGO.roleAttributeEffectEM = GetAttributeEffectEM(tm.roleAttributeEffectTM);
             editorGO.effectorTypeID = tm.effectorTypeID;
         }
 
@@ -48,16 +48,6 @@ namespace TiedanSouls.EditorTool {
             em.hpMaxEV = tm.hpMAXEV;
             em.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
             em.hpMaxEffectTimes = tm.hpMaxEffectTimes;
-
-            em.atkPowerNCT = tm.atkPowerNCT;
-            em.physicsDamageEV = tm.physicsDamageEV;
-            em.needRevoke_PhysicsDamageEV = tm.needRevoke_PhysicsDamageEV;
-            em.atkPowerEffectTimes = tm.atkPowerEffectTimes;
-
-            em.atkSpeedNCT = tm.atkSpeedNCT;
-            em.atkSpeedEV = tm.atkSpeedEV;
-            em.needRevoke_AtkSpeedEV = tm.needRevoke_AtkSpeedEV;
-            em.atkSpeedEffectTimes = tm.atkSpeedEffectTimes;
 
             em.moveSpeedNCT = tm.moveSpeedNCT;
             em.moveSpeedEV = tm.moveSpeedEV;

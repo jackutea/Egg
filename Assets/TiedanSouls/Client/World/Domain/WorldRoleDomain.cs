@@ -151,7 +151,7 @@ namespace TiedanSouls.Client.Domain {
             // Skill Slot
             var skillSlotCom = role.SkillSlotCom;
             var curWeapon = role.WeaponSlotCom.Weapon;
-            var skillTypeIDArray = new int[] { curWeapon.skillMeleeTypeID, curWeapon.skillHoldMeleeTypeID, curWeapon.skillSpecMeleeTypeID };
+            var skillTypeIDArray = new int[] { curWeapon.SkillMeleeTypeID, curWeapon.SkillHoldMeleeTypeID, curWeapon.SkillSpecMeleeTypeID };
 
             var rootDomain = worldContext.RootDomain;
 
@@ -193,14 +193,13 @@ namespace TiedanSouls.Client.Domain {
                 return null;
             }
 
+            var idCom = weapon.IDCom;
+            idCom.SetTypeID(weaponTM.typeID);
+
             weapon.SetWeaponType(weaponTM.weaponType);
-            weapon.SetTypeID(weaponTM.typeID);
-            weapon.atk = weaponTM.atk;
-            weapon.def = weaponTM.def;
-            weapon.crit = weaponTM.crit;
-            weapon.skillMeleeTypeID = weaponTM.skillMeleeTypeID;
-            weapon.skillHoldMeleeTypeID = weaponTM.skillHoldMeleeTypeID;
-            weapon.skillSpecMeleeTypeID = weaponTM.skillSpecMeleeTypeID;
+            weapon.SetSkillMeleeTypeID(weaponTM.skillMeleeTypeID);
+            weapon.SetSkillHoldMeleeTypeID(weaponTM.skillHoldMeleeTypeID);
+            weapon.SetSkillSpecMeleeTypeID(weaponTM.skillSpecMeleeTypeID);
 
             var go = GameObject.Instantiate(weaponModPrefab);
             weapon.SetMod(go);
