@@ -1,4 +1,4 @@
-namespace TiedanSouls.Client {
+namespace TiedanSouls.Client.Entities {
 
     public enum ProjectileFSMState {
 

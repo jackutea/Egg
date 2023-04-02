@@ -82,11 +82,11 @@ namespace TiedanSouls.Client.Domain {
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
             var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
-            if (collisionTriggerStatus == TriggerStatus.TriggerEnter) {
+            if (collisionTriggerStatus == TriggerState.TriggerEnter) {
                 collisionTriggerModel.ActivateAll();
-            } else if (collisionTriggerStatus == TriggerStatus.TriggerExit) {
+            } else if (collisionTriggerStatus == TriggerState.TriggerExit) {
                 collisionTriggerModel.DeactivateAll();
-            } else if (collisionTriggerStatus == TriggerStatus.None) {
+            } else if (collisionTriggerStatus == TriggerState.None) {
                 collisionTriggerModel.DeactivateAll();
             }
 

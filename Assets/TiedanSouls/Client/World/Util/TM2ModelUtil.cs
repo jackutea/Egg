@@ -106,57 +106,54 @@ namespace TiedanSouls.Client {
         }
 
         public static CollisionTriggerModel GetCollisionTriggerModel(CollisionTriggerTM tm) {
+            var frameRange = tm.frameRange;
+            var totalFrame = frameRange.y - frameRange.x + 1;
+            var triggerMode = tm.triggerMode;
+
             CollisionTriggerModel model;
-
-            var totalFrame = tm.totalFrame;
-
             model.isEnabled = tm.isEnabled;
+            model.triggerMode = triggerMode;
+            model.triggerFixedIntervalModel = GetTriggerFixedIntervalModel(tm.triggerFixedIntervalTM);
+            model.triggerCustomModel = GetTriggerCustomModel(tm.triggerCustomTM);
 
-            model.totalFrame = totalFrame;
-
-            model.triggerStatusDic = GetDic_TriggerStatus(totalFrame, tm.delayFrame, tm.intervalFrame, tm.maintainFrame);
             model.relativeTargetGroupType = tm.relativeTargetGroupType;
-
             model.damageModel = GetDamageModel(tm.damageTM);
             model.knockBackPowerModel = GetKnockBackModel(tm.knockBackPowerTM);
             model.knockUpPowerModel = GetKnockUpModel(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
-
             model.colliderModelArray = GetColliderModelArray(tm.colliderTMArray, tm.relativeTargetGroupType);
 
             return model;
         }
 
-        public static Dictionary<int, TriggerStatus> GetDic_TriggerStatus(int totalFrame,
-                                                                          int delayFrame,
-                                                                          int intervalFrame,
-                                                                          int maintainFrame) {
-            var dic = new Dictionary<int, TriggerStatus>();
-
-            if (intervalFrame == 0) {
-                dic.TryAdd(delayFrame, TriggerStatus.TriggerEnter);
-                for (int i = delayFrame + 1; i < totalFrame; i++) {
-                    dic.TryAdd(i, TriggerStatus.Triggering);
-                }
-                dic.TryAdd(totalFrame, TriggerStatus.TriggerExit);
-                return dic;
-            }
-
-            if (maintainFrame == 0) return dic;
-
-            var T = intervalFrame + maintainFrame;
-            for (int i = delayFrame; i < totalFrame; i += T) {
-                dic.TryAdd(i, TriggerStatus.TriggerEnter);
-                var end = i + intervalFrame;
-                for (int j = i + 1; j < end; j++) {
-                    dic.TryAdd(j, TriggerStatus.Triggering);
-                }
-                dic.TryAdd(end, TriggerStatus.TriggerExit);
-            }
-
-            return dic;
+        public static TriggerFixedIntervalModel GetTriggerFixedIntervalModel(TriggerFixedIntervalTM tm) {
+            TriggerFixedIntervalModel model;
+            model.delayFrame = tm.delayFrame;
+            model.intervalFrame = tm.intervalFrame;
+            model.maintainFrame = tm.maintainFrame;
+            return model;
         }
 
+        public static TriggerCustomModel GetTriggerCustomModel(TriggerCustomTM tm) {
+            TriggerCustomModel model;
+
+            Dictionary<int,TriggerState> triggerStatusDic = new Dictionary<int, TriggerState>();
+            var frameRangeArray = tm.frameRangeArray;
+            var len = frameRangeArray.Length;
+            for (int i = 0; i < len; i++) {
+                var frameRange = frameRangeArray[i];
+                var startFrame = frameRange.x;
+                var endFrame = frameRange.y;
+                triggerStatusDic.Add(startFrame, TriggerState.TriggerEnter);
+                triggerStatusDic.Add(endFrame, TriggerState.TriggerExit);
+                for (int j = startFrame + 1; j < endFrame; j++) {
+                    triggerStatusDic.Add(j, TriggerState.TriggerStay);
+                }
+            }
+            model.triggerStateDic = triggerStatusDic;
+
+            return model;
+        }
 
         #endregion
 

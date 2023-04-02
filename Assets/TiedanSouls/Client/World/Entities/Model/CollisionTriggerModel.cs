@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
@@ -11,10 +9,12 @@ namespace TiedanSouls.Client.Entities {
 
         public bool isEnabled;
 
-        public int totalFrame;
-
-        // 触发状态字典
-        public Dictionary<int, TriggerStatus> triggerStatusDic;
+        // 触发模式
+        public TriggerMode triggerMode;
+        // 固定间隔
+        public TriggerFixedIntervalModel triggerFixedIntervalModel;
+        // 自定义
+        public TriggerCustomModel triggerCustomModel;
 
         // 作用目标
         public RelativeTargetGroupType relativeTargetGroupType;
@@ -29,9 +29,26 @@ namespace TiedanSouls.Client.Entities {
 
         public ColliderModel[] colliderModelArray;
 
-        public TriggerStatus GetTriggerStatus(int frame) {
-            if (!isEnabled) return TriggerStatus.None;
-            return triggerStatusDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : TriggerStatus.None;
+        public TriggerState GetTriggerStatus(int frame) {
+            if (!isEnabled) return TriggerState.None;
+
+            if (triggerMode == TriggerMode.Custom) {
+                var triggerStateDic = triggerCustomModel.triggerStateDic;
+                return triggerStateDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : TriggerState.None;
+            }
+
+            if (triggerMode == TriggerMode.FixedInterval) {
+                var delayFrame = triggerFixedIntervalModel.delayFrame;
+                var intervalFrame = triggerFixedIntervalModel.intervalFrame;
+                var maintainFrame = triggerFixedIntervalModel.maintainFrame;
+                if (frame < delayFrame) return TriggerState.None;
+                if (frame == delayFrame) return TriggerState.TriggerEnter;
+
+                var mod = (frame - delayFrame) % intervalFrame;
+                return mod == 0 ? TriggerState.TriggerStay : TriggerState.None;
+            }
+
+            return TriggerState.None;
         }
 
         public void ActivateAll() {

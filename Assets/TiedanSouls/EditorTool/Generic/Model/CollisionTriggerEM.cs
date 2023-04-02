@@ -12,17 +12,16 @@ namespace TiedanSouls.EditorTool {
 
         [Header("启用/关闭")] public bool isEnabled;
 
-        [Header("总时间(帧)")] public int totalFrame;
+        [Header("帧区间")] public Vector2Int frameRange;
 
-        // TODO: 添加自定义设置触发帧
-        [Header("延时触发(帧)")] public int delayFrame;
-        [Header("触发间隔(帧)")] public int intervalFrame;
-        [Header("单次触发时间(帧)")] public int maintainFrame;
+        [Header("触发模式")] public TriggerMode triggerMode;
+        [Header("模型: 固定间隔触发")] public TriggerFixedIntervalEM triggerFixedIntervalEM;
+        [Header("模型: 自定义触发")] public TriggerCustomEM triggerCustomEM;
 
         [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
         [Header("模型: 伤害")] public DamageEM damageEM;
-        [Header("模型: 击退力度")] public KnockBackEM knockBackPowerEM;
-        [Header("模型: 击飞力度")] public KnockUpEM knockUpPowerEM;
+        [Header("模型: 击退")] public KnockBackEM knockBackEM;
+        [Header("模型: 击飞")] public KnockUpEM knockUpEM;
         [Header("模型: 击中效果器")] public int hitEffectorTypeID;
 
         [Header("碰撞盒(组) 注: 相对路径不能重复!")] public GameObject[] colliderGOArray;

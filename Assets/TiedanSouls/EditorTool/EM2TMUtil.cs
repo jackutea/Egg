@@ -310,28 +310,41 @@ namespace TiedanSouls.EditorTool {
         }
 
         public static CollisionTriggerTM GetCollisionTriggerTM<T>(CollisionTriggerEM em) {
-            var totalFrame = em.totalFrame;
+            var frameRange = em.frameRange;
+            var totalFrame = frameRange.y - frameRange.x + 1;
 
             CollisionTriggerTM tm;
-
             tm.isEnabled = em.isEnabled;
+            tm.frameRange = frameRange;
 
-            tm.totalFrame = totalFrame;
-
-            tm.delayFrame = em.delayFrame;
-            tm.intervalFrame = em.intervalFrame;
-            tm.maintainFrame = em.maintainFrame;
+            tm.triggerMode = em.triggerMode;
+            tm.triggerFixedIntervalTM = GetTriggerFixedIntervalTM(em.triggerFixedIntervalEM);
+            tm.triggerCustomTM = GetTriggerCustomTM(em.triggerCustomEM);
 
             tm.colliderTMArray = GetColliderTMArray(em.colliderGOArray);
 
             tm.relativeTargetGroupType = em.relativeTargetGroupType;
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
-            tm.knockBackPowerTM = GetKnockBackTM(em.knockBackPowerEM);
-            tm.knockUpPowerTM = GetKnockUpTM(em.knockUpPowerEM);
+            tm.knockBackPowerTM = GetKnockBackTM(em.knockBackEM);
+            tm.knockUpPowerTM = GetKnockUpTM(em.knockUpEM);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
             tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);
 
+            return tm;
+        }
+
+        public static TriggerFixedIntervalTM GetTriggerFixedIntervalTM(TriggerFixedIntervalEM em) {
+            TriggerFixedIntervalTM tm;
+            tm.delayFrame = em.delayFrame;
+            tm.intervalFrame = em.intervalFrame;
+            tm.maintainFrame = em.maintainFrame;
+            return tm;
+        }
+
+        public static TriggerCustomTM GetTriggerCustomTM(TriggerCustomEM em) {
+            TriggerCustomTM tm;
+            tm.frameRangeArray = em.frameRangeArray.Clone() as Vector2Int[];
             return tm;
         }
 

@@ -182,7 +182,7 @@ namespace TiedanSouls.Client.Entities {
             triggerModel = default;
             var model = fsmCom.ActivatedModel;
             var triggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
-            if (triggerStatus != TriggerStatus.None) {
+            if (triggerStatus != TriggerState.None) {
                 triggerModel = collisionTriggerModel;
                 return true;
             }

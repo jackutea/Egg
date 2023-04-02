@@ -63,7 +63,7 @@ namespace TiedanSouls.EditorTool {
             em.moveSpeedEV = tm.moveSpeedEV;
             em.needRevokeMoveSpeedEV = tm.needRevokeMoveSpeedEV;
             em.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
-            
+
             return em;
         }
 
@@ -178,13 +178,11 @@ namespace TiedanSouls.EditorTool {
 
         public static CollisionTriggerEM GetCollisionTriggerEM(CollisionTriggerTM tm) {
             CollisionTriggerEM em;
-
             em.isEnabled = tm.isEnabled;
-
-            em.totalFrame = tm.totalFrame;
-            em.delayFrame = tm.delayFrame;
-            em.intervalFrame = tm.intervalFrame;
-            em.maintainFrame = tm.maintainFrame;
+            em.frameRange = tm.frameRange;
+            em.triggerMode = tm.triggerMode;
+            em.triggerFixedIntervalEM = GetTriggerFixedIntervalEM(tm.triggerFixedIntervalTM);
+            em.triggerCustomEM = GetTriggerCustomEM(tm.triggerCustomTM);
 
             var editorTrans = Selection.activeGameObject.transform;
             var colliderRelativePathArray = tm.colliderRelativePathArray;
@@ -200,10 +198,24 @@ namespace TiedanSouls.EditorTool {
 
             em.relativeTargetGroupType = tm.relativeTargetGroupType;
             em.damageEM = GetDamageEM(tm.damageTM);
-            em.knockBackPowerEM = GetKnockBackEM(tm.knockBackPowerTM);
-            em.knockUpPowerEM = GetKnockUpEM(tm.knockUpPowerTM);
+            em.knockBackEM = GetKnockBackEM(tm.knockBackPowerTM);
+            em.knockUpEM = GetKnockUpEM(tm.knockUpPowerTM);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
 
+            return em;
+        }
+
+        public static TriggerFixedIntervalEM GetTriggerFixedIntervalEM(TriggerFixedIntervalTM tm) {
+            TriggerFixedIntervalEM em;
+            em.delayFrame = tm.delayFrame;
+            em.intervalFrame = tm.intervalFrame;
+            em.maintainFrame = tm.maintainFrame;
+            return em;
+        }
+
+        public static TriggerCustomEM GetTriggerCustomEM(TriggerCustomTM tm) {
+            TriggerCustomEM em;
+            em.frameRangeArray = tm.frameRangeArray.Clone() as Vector2Int[];
             return em;
         }
 

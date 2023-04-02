@@ -22,8 +22,6 @@ namespace TiedanSouls.EditorTool {
 
         [Header("子弹特效")] public GameObject vfxPrefab;
 
-        // todo： 死亡周期
-
         public void Save() {
             if (so == null) {
                 Debug.LogWarning("配置文件为空!");

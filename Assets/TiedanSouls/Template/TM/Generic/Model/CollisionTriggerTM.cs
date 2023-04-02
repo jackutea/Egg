@@ -12,10 +12,11 @@ namespace TiedanSouls.Template {
 
         [Header("启用/关闭")] public bool isEnabled;
 
-        [Header("总时间(帧)")] public int totalFrame;
-        [Header("延时触发(帧)")] public int delayFrame;
-        [Header("触发间隔(帧)")] public int intervalFrame;
-        [Header("单次触发时间(帧)")] public int maintainFrame;
+        [Header("帧区间")] public Vector2Int frameRange;
+
+        [Header("触发模式")] public TriggerMode triggerMode;
+        [Header("模型: 固定间隔")] public TriggerFixedIntervalTM triggerFixedIntervalTM;
+        [Header("模型: 自定义")] public TriggerCustomTM triggerCustomTM;
 
         [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
         [Header("模型: 伤害")] public DamageTM damageTM;

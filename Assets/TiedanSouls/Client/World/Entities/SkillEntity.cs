@@ -151,10 +151,10 @@ namespace TiedanSouls.Client.Entities {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
-                    if (triggerStatus == TriggerStatus.None) continue;
-                    if (triggerStatus == TriggerStatus.TriggerEnter) action_triggerBegin(model);
-                    else if (triggerStatus == TriggerStatus.Triggering) action_triggering(model);
-                    else if (triggerStatus == TriggerStatus.TriggerExit) action_triggerEnd(model);
+                    if (triggerStatus == TriggerState.None) continue;
+                    if (triggerStatus == TriggerState.TriggerEnter) action_triggerBegin(model);
+                    else if (triggerStatus == TriggerState.TriggerStay) action_triggering(model);
+                    else if (triggerStatus == TriggerState.TriggerExit) action_triggerEnd(model);
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace TiedanSouls.Client.Entities {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
                     CollisionTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
-                    if (triggerStatus != TriggerStatus.None) {
+                    if (triggerStatus != TriggerState.None) {
                         collisionTriggerModel = model;
                         return true;
                     }
