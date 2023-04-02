@@ -40,7 +40,7 @@ namespace TiedanSouls.Client.Entities {
 
         bool IBTTreeAction.Execute() {
             //OnDeath
-            if (role.RoleAttributeCom.HP <=0) {
+            if (role.AttributeCom.HP <=0) {
                 return false;
             }
 

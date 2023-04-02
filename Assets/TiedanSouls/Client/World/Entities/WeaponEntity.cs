@@ -8,7 +8,6 @@ namespace TiedanSouls.Client.Entities {
         #region [组件]
 
         public EntityIDComponent IDCom { get; private set; }
-        public WeaponAttributeComponent AttributeCom { get; private set; }
         public WeaponFSMComponent FSMCom { get; private set; }
         public BuffSlotComponent BuffSlotCom { get; private set; }
 
@@ -39,7 +38,6 @@ namespace TiedanSouls.Client.Entities {
         public WeaponEntity() {
             this.IDCom = new EntityIDComponent();
             this.IDCom.SetEntityType(EntityType.Weapon);
-            this.AttributeCom = new WeaponAttributeComponent();
             this.FSMCom = new WeaponFSMComponent();
             this.BuffSlotCom = new BuffSlotComponent();
         }

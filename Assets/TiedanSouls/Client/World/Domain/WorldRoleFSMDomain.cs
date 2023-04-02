@@ -70,12 +70,12 @@ namespace TiedanSouls.Client.Domain {
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
                 buff.curFrame++;
                 buffDomain.TryTriggerEffector(buff);
-                buffDomain.TryEffectRoleAttribute(role.RoleAttributeCom, buff);
-                role.HudSlotCom.HpBarHUD.SetHpBar(role.RoleAttributeCom.HP, role.RoleAttributeCom.HPMax);
+                buffDomain.TryTriggerAttributeEffect(role.AttributeCom, buff);
+                role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
             });
 
             removeList.ForEach((buff) => {
-                buffDomain.RevokeBuffFromRoleAttribute(buff, role.RoleAttributeCom);
+                buffDomain.RevokeBuffFromAttribute(buff, role.AttributeCom);
             });
         }
 
@@ -319,16 +319,22 @@ namespace TiedanSouls.Client.Domain {
             fsm.Add_Dying(30);
         }
 
-        public void Enter_KnockBack(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
-            var knockBackPowerModel = collisionTriggerModel.knockBackPowerModel;
+        public void Enter_KnockBack(RoleEntity role, Vector3 beHitDir, in KnockBackModel knockBackModel) {
+            var knockBackSpeedArray = knockBackModel.knockBackSpeedArray;
+            if (knockBackSpeedArray == null || knockBackSpeedArray.Length == 0) {
+                return;
+            }
             var fsm = role.FSMCom;
-            fsm.Add_KnockBack(beHitDir, knockBackPowerModel);
+            fsm.Add_KnockBack(beHitDir, knockBackModel);
         }
 
-        public void Enter_KnockUp(RoleEntity role, Vector3 beHitDir, in CollisionTriggerModel collisionTriggerModel) {
-            var knockUpPowerModel = collisionTriggerModel.knockUpPowerModel;
+        public void Enter_KnockUp(RoleEntity role, Vector3 beHitDir, in KnockUpModel knockUpModel) {
+            var knockUpSpeedArray = knockUpModel.knockUpSpeedArray;
+            if (knockUpSpeedArray == null || knockUpSpeedArray.Length == 0) {
+                return;
+            }
             var fsm = role.FSMCom;
-            fsm.Add_KnockUp(knockUpPowerModel);
+            fsm.Add_KnockUp(knockUpModel);
         }
 
         public void Enter_StandInGround(RoleEntity role) {

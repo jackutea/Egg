@@ -74,7 +74,7 @@ namespace TiedanSouls.Client.Domain {
                 if (!buffSlotCom.HasSameTypeBuff(99991)) {
                     if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out var buff)) {
                         buffSlotCom.Add(buff);
-                        roleDomain.ReduceHP_Percentage(playerRole, 0.9f);
+                        roleDomain.ReduceHP_Percentage(playerRole, 0.3f);
                     }
                 }
             }
@@ -133,7 +133,7 @@ namespace TiedanSouls.Client.Domain {
             int aliveBossCount = 0;
             roleRepo.Foreach_EnemyOfPlayer(curFieldTypeID,
             (enemy) => {
-                if (!enemy.RoleAttributeCom.IsDead()) {
+                if (!enemy.AttributeCom.IsDead()) {
                     aliveEnemyCount++;
                     if (enemy.IsBoss) aliveBossCount++;
                 }

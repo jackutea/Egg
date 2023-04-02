@@ -18,7 +18,25 @@ MonoBehaviour:
     fieldType: 2
     chapter: 1
     level: 1
-    entitySpawnCtrlTMArray: []
+    entitySpawnCtrlTMArray:
+    - spawnFrame: 30
+      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 20, y: 10, z: 0}
+    - spawnFrame: 30
+      isBreakPoint: 0
+      entitySpawnTM:
+        entityType: 1
+        typeID: 1000000
+        controlType: 2
+        allyType: 2
+        isBoss: 0
+        spawnPos: {x: 25, y: 10, z: 0}
     itemSpawnPosArray: []
     fieldDoorArray:
     - fieldTypeID: 1

@@ -21,26 +21,6 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickFSM(WeaponEntity weapon, float dt) {
-            var fsm = weapon.FSMCom;
-            if (fsm.State == WeaponFSMState.None) return;
-
-            var state = fsm.State;
-            if (state == WeaponFSMState.Activated) Tick_Buff(weapon, fsm, dt);
-        }
-
-        void Tick_Buff(WeaponEntity weapon, WeaponFSMComponent fsm, float dt) {
-            var buffDomain = rootDomain.BuffDomain;
-
-            var buffSlotCom = weapon.BuffSlotCom;
-            var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
-                buff.curFrame++;
-                buffDomain.TryTriggerEffector(buff);
-                buffDomain.TryEffectWeaponAttribute(weapon.AttributeCom, buff);
-            });
-
-            removeList.ForEach((buff) => {
-                buffDomain.RevokeBuffFromWeaponttribute(buff, weapon.AttributeCom);
-            });
         }
 
     }

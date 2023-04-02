@@ -158,8 +158,8 @@ namespace TiedanSouls.Client {
             GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
             role.SetMod(roleMod);
 
-            // RoleAttribute
-            var attrCom = role.RoleAttributeCom;
+            // Attribute
+            var attrCom = role.AttributeCom;
             SetAttributeComponent(attrCom, roleTM);
 
             // HUD
@@ -379,8 +379,7 @@ namespace TiedanSouls.Client {
             buff.SetIntervalFrame(tm.intervalFrame);
             buff.SetDurationFrame(tm.durationFrame);
 
-            buff.SetRoleAttributeEffectModel(TM2ModelUtil.GetRoleAttributeEffectModel(tm.roleAttributeEffectTM));
-            buff.SetWeaponAttributeEffectModel(TM2ModelUtil.GetWeaponAttributeEffectModel(tm.weaponAttributeEffectTM));
+            buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);
 
             return true;
@@ -428,7 +427,7 @@ namespace TiedanSouls.Client {
 
         #region [Component]
 
-        public static void SetAttributeComponent(RoleAttributeComponent attributeComponent, RoleTM tm) {
+        public static void SetAttributeComponent(AttributeComponent attributeComponent, RoleTM tm) {
             // TODO: 天赋系统的初始属性加成
             var hpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded);
             var mpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.mpMax_Expanded);

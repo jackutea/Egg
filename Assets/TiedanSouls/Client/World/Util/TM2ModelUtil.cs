@@ -137,7 +137,7 @@ namespace TiedanSouls.Client {
         public static TriggerCustomModel GetTriggerCustomModel(TriggerCustomTM tm) {
             TriggerCustomModel model;
 
-            Dictionary<int,TriggerState> triggerStatusDic = new Dictionary<int, TriggerState>();
+            Dictionary<int, TriggerState> triggerStatusDic = new Dictionary<int, TriggerState>();
             var frameRangeArray = tm.frameRangeArray;
             var len = frameRangeArray.Length;
             for (int i = 0; i < len; i++) {
@@ -234,37 +234,39 @@ namespace TiedanSouls.Client {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectModel GetRoleAttributeEffectModel(RoleAttributeEffectTM tm) {
-            RoleAttributeEffectModel model;
+        public static AttributeEffectModel GetAttributeEffectModel(AttributeEffectTM tm) {
+            AttributeEffectModel model;
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = tm.hpEV;
             model.hpEffectTimes = tm.hpEffectTimes;
-            model.needRevoke_HPEV = tm.needRevoke_HPEV;
+            model.needRevoke_HPEV = tm.needRevokeHP;
 
             model.hpMaxNCT = tm.hpMaxNCT;
             model.hpMaxEV = tm.hpMAXEV;
             model.hpMaxEffectTimes = tm.hpMaxEffectTimes;
-            model.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
+            model.needRevoke_HPMaxEV = tm.needRevokeHPMax;
 
             model.moveSpeedNCT = tm.moveSpeedNCT;
             model.moveSpeedEV = tm.moveSpeedEV;
             model.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
-            model.needRevoke_MoveSpeedEV = tm.needRevoke_MoveSpeedEV;
+            model.needRevoke_MoveSpeedEV = tm.needRevokeMoveSpeed;
 
-            return model;
-        }
+            model.physicsDamageBonusEV = tm.physicsDamageBonusEV;
+            model.physicsDamageBonusEffectTimes = tm.physicsDamageBonusEffectTimes;
+            model.needRevokePhysicsDamageBonusEV = tm.needRevokePhysicsDamageBonus;
 
-        public static WeaponAttributeEffectModel GetWeaponAttributeEffectModel(WeaponAttributeEffectTM tm) {
-            WeaponAttributeEffectModel model;
+            model.magicDamageBonusEV = tm.magicDamageBonusEV;
+            model.magicDamageBonusEffectTimes = tm.magicDamageBonusEffectTimes;
+            model.needRevokeMagicDamageBonus = tm.needRevokePhysicsDamageBonus;
 
-            model.physicsDamageIncreaseEV = tm.physicsDamageIncreaseEV;
-            model.physicsDamageIncreaseEffectTimes = tm.physicsDamageIncreaseEffectTimes;
-            model.needRevokePhysicsDamageIncreaseEV = tm.needRevokePhysicsDamageIncreaseEV;
+            model.physicsDefenseBonusEV = tm.physicsDefenseBonusEV;
+            model.physicsDefenseBonusEffectTimes = tm.physicsDefenseBonusEffectTimes;
+            model.needRevokePhysicsDefenseBonus = tm.needRevokePhysicsDefenseBonus;
 
-            model.magicDamageIncreaseEV = tm.magicDamageIncreaseEV;
-            model.magicDamageIncreaseEffectTimes = tm.magicDamageIncreaseEffectTimes;
-            model.needRevokeMagicDamageIncrease = tm.needRevokePhysicsDamageIncreaseEV;
+            model.magicDefenseBonusEV = tm.magicDefenseBonusEV;
+            model.magicDefenseBonusEffectTimes = tm.magicDefenseBonusEffectTimes;
+            model.needRevokeMagicDefenseBonus = tm.needRevokeMagicDefenseBonus;
 
             return model;
         }
@@ -363,18 +365,18 @@ namespace TiedanSouls.Client {
 
         #region [Selector]
 
-        public static RoleAttributeSelectorModel[] GetAttributeSelectorModelArray(RoleAttributeSelectorTM[] tmArray) {
+        public static AttributeSelectorModel[] GetAttributeSelectorModelArray(AttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            RoleAttributeSelectorModel[] modelArray = new RoleAttributeSelectorModel[len];
+            AttributeSelectorModel[] modelArray = new AttributeSelectorModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetAttributeSelectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static RoleAttributeSelectorModel GetAttributeSelectorModel(RoleAttributeSelectorTM tm) {
-            RoleAttributeSelectorModel model;
+        public static AttributeSelectorModel GetAttributeSelectorModel(AttributeSelectorTM tm) {
+            AttributeSelectorModel model;
             model.hp = tm.hp;
             model.hp_ComparisonType = tm.hp_ComparisonType;
             model.hpMax = tm.hpMax;

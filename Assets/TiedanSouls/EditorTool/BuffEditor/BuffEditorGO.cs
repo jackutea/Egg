@@ -19,8 +19,7 @@ namespace TiedanSouls.EditorTool {
         [Header("间隔(帧)")] public int intervalFrame;
         [Header("持续时间(帧)")] public int durationFrame;
 
-        [Header("角色属性影响")] public RoleAttributeEffectEM roleAttributeEffectEM;
-        [Header("武器属性影响")] public WeaponAttributeEffectEM weaponAttributeEffectEM;
+        [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
         [Header("效果器")] public int effectorTypeID;
 
         public void Save() {

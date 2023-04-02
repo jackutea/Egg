@@ -13,7 +13,7 @@ namespace TiedanSouls.EditorTool {
         [Header("实体类型")] public EntityType entityType;
 
         [Header("属性选择器是否启用")] public bool isAttributeSelectorEnabled;
-        [Header("属性选择器")] public RoleAttributeSelectorEM attributeSelectorEM;
+        [Header("属性选择器")] public AttributeSelectorEM attributeSelectorEM;
 
     }
 

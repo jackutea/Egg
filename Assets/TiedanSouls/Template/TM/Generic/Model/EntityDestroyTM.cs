@@ -13,7 +13,7 @@ namespace TiedanSouls.Template {
         [Header("目标类型")] public RelativeTargetGroupType relativeTargetGroupType;
 
         public bool attributeSelector_IsEnabled;
-        public RoleAttributeSelectorTM attributeSelectorTM;
+        public AttributeSelectorTM attributeSelectorTM;
 
     }
 

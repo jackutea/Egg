@@ -23,8 +23,7 @@ namespace TiedanSouls.EditorTool {
             tm.intervalFrame = editorGo.intervalFrame;
             tm.durationFrame = editorGo.durationFrame;
 
-            tm.roleAttributeEffectTM = GetAttributeEffectTM(editorGo.roleAttributeEffectEM);
-            tm.weaponAttributeEffectTM = GetWeaponAttributeEffectTM(editorGo.weaponAttributeEffectEM);
+            tm.attributeEffectTM = GetAttributeEffectTM(editorGo.attributeEffectEM);
             tm.effectorTypeID = editorGo.effectorTypeID;
 
             return tm;
@@ -34,45 +33,47 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectTM[] GetAttributeEffectTMArray(RoleAttributeEffectEM[] emArray) {
-            RoleAttributeEffectTM[] tmArray = new RoleAttributeEffectTM[emArray.Length];
+        public static AttributeEffectTM[] GetAttributeEffectTMArray(AttributeEffectEM[] emArray) {
+            AttributeEffectTM[] tmArray = new AttributeEffectTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
                 tmArray[i] = GetAttributeEffectTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static RoleAttributeEffectTM GetAttributeEffectTM(RoleAttributeEffectEM em) {
-            RoleAttributeEffectTM tm;
+        public static AttributeEffectTM GetAttributeEffectTM(AttributeEffectEM em) {
+            AttributeEffectTM tm;
 
             tm.hpNCT = em.hpNCT;
             tm.hpEV = em.hpEV;
-            tm.needRevoke_HPEV = em.needRevoke_HPEV;
+            tm.needRevokeHP = em.needRevoke_HPEV;
             tm.hpEffectTimes = em.hpEffectTimes;
 
             tm.hpMaxNCT = em.hpMaxNCT;
             tm.hpMAXEV = em.hpMaxEV;
-            tm.needRevoke_HPMaxEV = em.needRevoke_HPMaxEV;
+            tm.needRevokeHPMax = em.needRevoke_HPMaxEV;
             tm.hpMaxEffectTimes = em.hpMaxEffectTimes;
 
             tm.moveSpeedNCT = em.moveSpeedNCT;
             tm.moveSpeedEV = em.moveSpeedEV;
-            tm.needRevoke_MoveSpeedEV = em.needRevoke_MoveSpeedEV;
+            tm.needRevokeMoveSpeed = em.needRevoke_MoveSpeedEV;
             tm.moveSpeedEffectTimes = em.moveSpeedEffectTimes;
 
-            return tm;
-        }
+            tm.physicsDamageBonusEV = em.physicsDamageBonusEV;
+            tm.physicsDamageBonusEffectTimes = em.physicsDamageBonusEffectTimes;
+            tm.needRevokePhysicsDamageBonus = em.needRevokePhysicsDamageBonus;
 
-        public static WeaponAttributeEffectTM GetWeaponAttributeEffectTM(WeaponAttributeEffectEM em) {
-            WeaponAttributeEffectTM tm;
+            tm.magicDamageBonusEV = em.magicDamageBonusEV;
+            tm.magicDamageBonusEffectTimes = em.magicDamageBonusEffectTimes;
+            tm.needRevokeMagicDamageBonus = em.needRevokeMagicDamageBonus;
 
-            tm.physicsDamageIncreaseEV = em.physicsDamageIncreaseEV;
-            tm.physicsDamageIncreaseEffectTimes = em.physicsDamageIncreaseEffectTimes;
-            tm.needRevokePhysicsDamageIncreaseEV = em.needRevokePhysicsDamageIncreaseEV;
+            tm.physicsDefenseBonusEV = em.physicsDefenseBonusEV;
+            tm.physicsDefenseBonusEffectTimes = em.physicsDefenseBonusEffectTimes;
+            tm.needRevokePhysicsDefenseBonus = em.needRevokePhysicsDefenseBonus;
 
-            tm.magicDamageIncreaseEV = em.magicDamageIncreaseEV;
-            tm.magicDamageIncreaseEffectTimes = em.magicDamageIncreaseEffectTimes;
-            tm.needRevokeMagicDamageIncreaseEV = em.needRevokeMagicDamageIncreaseEV;
+            tm.magicDefenseBonusEV = em.magicDefenseBonusEV;
+            tm.magicDefenseBonusEffectTimes = em.magicDefenseBonusEffectTimes;
+            tm.needRevokeMagicDefenseBonus = em.needRevokeMagicDefenseBonus;
 
             return tm;
         }
@@ -464,17 +465,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static RoleAttributeSelectorTM[] GetAttributeSelectorTMArray(RoleAttributeSelectorEM[] emArray) {
+        public static AttributeSelectorTM[] GetAttributeSelectorTMArray(AttributeSelectorEM[] emArray) {
             var len = emArray.Length;
-            var tmArray = new RoleAttributeSelectorTM[len];
+            var tmArray = new AttributeSelectorTM[len];
             for (int i = 0; i < len; i++) {
                 tmArray[i] = GetAttributeSelectorTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static RoleAttributeSelectorTM GetAttributeSelectorTM(RoleAttributeSelectorEM em) {
-            RoleAttributeSelectorTM tm;
+        public static AttributeSelectorTM GetAttributeSelectorTM(AttributeSelectorEM em) {
+            AttributeSelectorTM tm;
             tm.hp = em.hp;
             tm.hp_ComparisonType = em.hp_ComparisonType;
             tm.hpMax = em.hpMax;

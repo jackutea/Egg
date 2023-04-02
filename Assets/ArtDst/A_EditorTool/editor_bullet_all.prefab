@@ -308,7 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: e48d156f05bc7704392b8859a0b618d1, type: 2}
   typeID: 9999
-  bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+  bulletName: "\u6807\u67AA\u98DE\u77DB"
   frameRange: {x: 0, y: 30}
   trajectoryType: 1
   moveCurveEM:
@@ -349,10 +349,10 @@ MonoBehaviour:
         hp_ComparisonType: 0
         hpMax: 0
         hpMax_ComparisonType: 0
-        ep: 0
+        mp: 0
         ep_ComparisonType: 0
-        epMax: 0
-        epMax_ComparisonType: 0
+        mpMax: 0
+        mpMax_ComparisonType: 0
         gp: 0
         gp_ComparisonType: 0
         gpMax: 0
@@ -368,17 +368,17 @@ MonoBehaviour:
   collisionTriggerEM:
     isEnabled: 1
     frameRange: {x: 0, y: 30}
-    triggerMode: 2
+    triggerMode: 1
     triggerFixedIntervalEM:
       delayFrame: 0
-      intervalFrame: 1
-      maintainFrame: 1
+      intervalFrame: 0
+      maintainFrame: 0
     triggerCustomEM:
       frameRangeArray:
-      - {x: 0, y: 20}
+      - {x: 0, y: 30}
     relativeTargetGroupType: 4
     damageEM:
-      damageType: 3
+      damageType: 1
       damageBase: 33
       damageCurve:
         serializedVersion: 2
@@ -388,16 +388,16 @@ MonoBehaviour:
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 0
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 2
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -405,20 +405,56 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockBackEM:
-      knockBackDistance: 0
-      knockBackCostFrame: 0
+      knockBackDistance: 3
+      knockBackCostFrame: 3
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     knockUpEM:
-      knockUpHeight: 0
-      knockUpCostFrame: 0
+      knockUpHeight: 3
+      knockUpCostFrame: 3
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -609,10 +645,10 @@ MonoBehaviour:
         hp_ComparisonType: 0
         hpMax: 0
         hpMax_ComparisonType: 0
-        ep: 0
+        mp: 0
         ep_ComparisonType: 0
-        epMax: 0
-        epMax_ComparisonType: 0
+        mpMax: 0
+        mpMax_ComparisonType: 0
         gp: 0
         gp_ComparisonType: 0
         gpMax: 0

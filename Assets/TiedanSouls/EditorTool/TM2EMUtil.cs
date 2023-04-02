@@ -18,7 +18,7 @@ namespace TiedanSouls.EditorTool {
             editorGO.intervalFrame = tm.intervalFrame;
             editorGO.durationFrame = tm.durationFrame;
 
-            editorGO.roleAttributeEffectEM = GetAttributeEffectEM(tm.roleAttributeEffectTM);
+            editorGO.attributeEffectEM = GetAttributeEffectEM(tm.attributeEffectTM);
             editorGO.effectorTypeID = tm.effectorTypeID;
         }
 
@@ -26,33 +26,49 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectEM[] GetAttributeEffectEMArray(RoleAttributeEffectTM[] tmArray) {
+        public static AttributeEffectEM[] GetAttributeEffectEMArray(AttributeEffectTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            RoleAttributeEffectEM[] emArray = new RoleAttributeEffectEM[len];
+            AttributeEffectEM[] emArray = new AttributeEffectEM[len];
             for (int i = 0; i < len; i++) {
                 emArray[i] = GetAttributeEffectEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static RoleAttributeEffectEM GetAttributeEffectEM(RoleAttributeEffectTM tm) {
-            RoleAttributeEffectEM em;
+        public static AttributeEffectEM GetAttributeEffectEM(AttributeEffectTM tm) {
+            AttributeEffectEM em;
 
             em.hpNCT = tm.hpNCT;
             em.hpEV = tm.hpEV;
-            em.needRevoke_HPEV = tm.needRevoke_HPEV;
+            em.needRevoke_HPEV = tm.needRevokeHP;
             em.hpEffectTimes = tm.hpEffectTimes;
 
             em.hpMaxNCT = tm.hpMaxNCT;
             em.hpMaxEV = tm.hpMAXEV;
-            em.needRevoke_HPMaxEV = tm.needRevoke_HPMaxEV;
+            em.needRevoke_HPMaxEV = tm.needRevokeHPMax;
             em.hpMaxEffectTimes = tm.hpMaxEffectTimes;
 
             em.moveSpeedNCT = tm.moveSpeedNCT;
             em.moveSpeedEV = tm.moveSpeedEV;
-            em.needRevoke_MoveSpeedEV = tm.needRevoke_MoveSpeedEV;
+            em.needRevoke_MoveSpeedEV = tm.needRevokeMoveSpeed;
             em.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
+
+            em.physicsDamageBonusEV = tm.physicsDamageBonusEV;
+            em.physicsDamageBonusEffectTimes = tm.physicsDamageBonusEffectTimes;
+            em.needRevokePhysicsDamageBonus = tm.needRevokePhysicsDamageBonus;
+
+            em.magicDamageBonusEV = tm.magicDamageBonusEV;
+            em.magicDamageBonusEffectTimes = tm.magicDamageBonusEffectTimes;
+            em.needRevokeMagicDamageBonus = tm.needRevokeMagicDamageBonus;
+
+            em.physicsDefenseBonusEV = tm.physicsDefenseBonusEV;
+            em.physicsDefenseBonusEffectTimes = tm.physicsDefenseBonusEffectTimes;
+            em.needRevokePhysicsDefenseBonus = tm.needRevokePhysicsDefenseBonus;
+
+            em.magicDefenseBonusEV = tm.magicDefenseBonusEV;
+            em.magicDefenseBonusEffectTimes = tm.magicDefenseBonusEffectTimes;
+            em.needRevokeMagicDefenseBonus = tm.needRevokeMagicDefenseBonus;
 
             return em;
         }
@@ -344,17 +360,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static RoleAttributeSelectorEM[] GetAttributeSelectorEMArray(RoleAttributeSelectorTM[] tmArray) {
+        public static AttributeSelectorEM[] GetAttributeSelectorEMArray(AttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
-            RoleAttributeSelectorEM[] emArray = new RoleAttributeSelectorEM[tmArray.Length];
+            AttributeSelectorEM[] emArray = new AttributeSelectorEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
                 emArray[i] = GetAttributeSelectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static RoleAttributeSelectorEM GetAttributeSelectorEM(RoleAttributeSelectorTM tm) {
-            RoleAttributeSelectorEM em;
+        public static AttributeSelectorEM GetAttributeSelectorEM(AttributeSelectorTM tm) {
+            AttributeSelectorEM em;
             em.hp = tm.hp;
             em.hp_ComparisonType = tm.hp_ComparisonType;
             em.hpMax = tm.hpMax;

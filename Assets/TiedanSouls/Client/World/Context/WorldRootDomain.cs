@@ -225,6 +225,36 @@ namespace TiedanSouls.Client.Facades {
 
         #region [获取实体信息]
 
+        public bool TryGetRoleFather(in EntityIDArgs idArgs, ref RoleEntity role) {
+            if (!TryGetEntityObj(idArgs, out var entity)) return false;
+
+            if (entity is RoleEntity roleEntity) {
+                role = roleEntity;
+                return true;
+            }
+
+            if (entity is SkillEntity skillEntity) {
+                var idCom = skillEntity.IDCom;
+                var father = idCom.Father;
+                return TryGetRoleFather(father, ref role);
+            }
+
+            if (entity is BulletEntity bulletEntity) {
+                var idCom = bulletEntity.IDCom;
+                var father = idCom.Father;
+                return TryGetRoleFather(father, ref role);
+            }
+
+            if (entity is ProjectileEntity projectileEntity) {
+                var idCom = projectileEntity.IDCom;
+                var father = idCom.Father;
+                return TryGetRoleFather(father, ref role);
+            }
+
+            TDLog.Error($"未知的实体类型\n{idArgs}");
+            return false;
+        }
+
         public bool TryGetEntityObj(in EntityIDArgs idArgs, out IEntity entity) {
             entity = null;
 
@@ -249,6 +279,13 @@ namespace TiedanSouls.Client.Facades {
                 var bulletRepo = worldContext.BulletRepo;
                 if (!bulletRepo.TryGet(entityID, out var bullet)) return false;
                 entity = bullet;
+                return true;
+            }
+
+            if (entityType == EntityType.Projectile) {
+                var projectileRepo = worldContext.ProjectileRepo;
+                if (!projectileRepo.TryGet(entityID, out var projectile)) return false;
+                entity = projectile;
                 return true;
             }
 

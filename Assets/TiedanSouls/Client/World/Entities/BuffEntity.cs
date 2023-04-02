@@ -26,24 +26,21 @@ namespace TiedanSouls.Client.Entities {
         public int DurationFrame => durationFrame;
         public void SetDurationFrame(int value) => durationFrame = value;
 
-        RoleAttributeEffectModel roleAttributeEffectModel;
-        public RoleAttributeEffectModel RoleAttributeEffectModel => roleAttributeEffectModel;
-        public void SetRoleAttributeEffectModel(in RoleAttributeEffectModel value) => roleAttributeEffectModel = value;
-
-        WeaponAttributeEffectModel weaponAttributeEffectModel;
-        public WeaponAttributeEffectModel WeaponAttributeEffectModel => weaponAttributeEffectModel;
-        public void SetWeaponAttributeEffectModel(in WeaponAttributeEffectModel value) => weaponAttributeEffectModel = value;
+        AttributeEffectModel roleAttributeEffectModel;
+        public AttributeEffectModel AttributeEffectModel => roleAttributeEffectModel;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;
         public void SetEffectorTypeID(int value) => effectorTypeID = value;
 
         public int curFrame;
+        public int triggerTimes;
 
         public void Ctor() {
             IDCom = new EntityIDComponent();
             IDCom.SetEntityType(EntityType.Buff);
             curFrame = -1;
+            triggerTimes = 0;
         }
 
         public void TearDown() {
@@ -51,6 +48,10 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() {
             curFrame = -1;
+        }
+
+        public void SetAttributeEffectModel(in AttributeEffectModel value) {
+            this.roleAttributeEffectModel = value;
         }
 
         #region [Component Wrapper]

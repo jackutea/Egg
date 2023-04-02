@@ -2,9 +2,9 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleAttributeComponent {
+    public class AttributeComponent {
 
-        public RoleAttributeComponent() { }
+        public AttributeComponent() { }
 
         public void Reset() {
             hp = hpMax;
@@ -265,7 +265,7 @@ namespace TiedanSouls.Client.Entities {
             }
             this.moveSpeed = moveSpeed;
         }
-        
+
         public void SetMoveSpeedBase(float moveSpeedBase) {
             if (moveSpeedBase < 0) {
                 TDLog.Warning("MoveSpeedBase < 0");
@@ -378,125 +378,109 @@ namespace TiedanSouls.Client.Entities {
 
         #region [伤害加成]
 
-        float physicalDamageIncrease;
-        public float PhysicalDamageIncrease => physicalDamageIncrease;
+        float physicalDamageBonus;
+        public float PhysicalDamageBonus => physicalDamageBonus;
 
-        float magicDamageIncrease;
-        public float MagicDamageIncrease => magicDamageIncrease;
+        float magicDamageBonus;
+        public float MagicDamageBonus => magicDamageBonus;
 
-        public void SetPhysicalDamageIncrease(float physicalDamageIncrease) {
-            if (physicalDamageIncrease < 0) {
-                TDLog.Warning("PhysicalDamageIncrease < 0");
+        public void AddPhysicalDamageBonus(float physicalDamageBonus) {
+            if (physicalDamageBonus < 0) {
+                TDLog.Warning("PhysicalDamageBonus < 0");
                 return;
             }
-            this.physicalDamageIncrease = physicalDamageIncrease;
+            this.physicalDamageBonus += physicalDamageBonus;
         }
 
-        public void SetMagicDamageIncrease(float magicDamageIncrease) {
-            if (magicDamageIncrease < 0) {
-                TDLog.Warning("MagicDamageIncrease < 0");
+        public void AddMagicDamageBonus(float magicDamageBonus) {
+            if (magicDamageBonus < 0) {
+                TDLog.Warning("MagicDamageBonus < 0");
                 return;
             }
-            this.magicDamageIncrease = magicDamageIncrease;
+            this.magicDamageBonus += magicDamageBonus;
         }
 
-        public void AddPhysicalDamageIncrease(float physicalDamageIncrease) {
-            if (physicalDamageIncrease < 0) {
-                TDLog.Warning("PhysicalDamageIncrease < 0");
+        public void ReducePhysicalDamageBonus(float physicalDamageBonus) {
+            if (physicalDamageBonus < 0) {
+                TDLog.Warning("PhysicalDamageBonus < 0");
                 return;
             }
-            this.physicalDamageIncrease += physicalDamageIncrease;
+            this.physicalDamageBonus -= physicalDamageBonus;
         }
 
-        public void AddMagicDamageIncrease(float magicDamageIncrease) {
-            if (magicDamageIncrease < 0) {
-                TDLog.Warning("MagicDamageIncrease < 0");
+        public void ReduceMagicDamageBonus(float magicDamageBonus) {
+            if (magicDamageBonus < 0) {
+                TDLog.Warning("MagicDamageBonus < 0");
                 return;
             }
-            this.magicDamageIncrease += magicDamageIncrease;
-        }
-
-        public void ReducePhysicalDamageIncrease(float physicalDamageIncrease) {
-            if (physicalDamageIncrease < 0) {
-                TDLog.Warning("PhysicalDamageIncrease < 0");
-                return;
-            }
-            this.physicalDamageIncrease -= physicalDamageIncrease;
-        }
-
-        public void ReduceMagicDamageIncrease(float magicDamageIncrease) {
-            if (magicDamageIncrease < 0) {
-                TDLog.Warning("MagicDamageIncrease < 0");
-                return;
-            }
-            this.magicDamageIncrease -= magicDamageIncrease;
+            this.magicDamageBonus -= magicDamageBonus;
         }
 
         #endregion
 
-        #region [防御加成]
+        #region [伤害减免]
 
-        float physicsDefenseIncrease;
-        public float PhysicsDefenseIncrease => physicsDefenseIncrease;
+        float physicsDefenseBonus;
+        public float PhysicsDefenseBonus => physicsDefenseBonus;
 
-        float magicDefenseIncrease;
-        public float MagicDefenseIncrease => magicDefenseIncrease;
+        float magicDefenseBonus;
+        public float MagicDefenseBonus => magicDefenseBonus;
 
-        public void SetPhysicsDefenseIncrease(float physicsDefenseIncrease) {
-            if (physicsDefenseIncrease < 0) {
-                TDLog.Warning("PhysicsDefenseIncrease < 0");
+        public void SetPhysicsDefenseBonus(float physicsDefenseBonus) {
+            if (physicsDefenseBonus < 0) {
+                TDLog.Warning("PhysicsDefenseBonus < 0");
                 return;
             }
-            this.physicsDefenseIncrease = physicsDefenseIncrease;
+            this.physicsDefenseBonus = physicsDefenseBonus;
         }
 
-        public void SetMagicDefenseIncrease(float magicDefenseIncrease) {
-            if (magicDefenseIncrease < 0) {
-                TDLog.Warning("MagicDefenseIncrease < 0");
+        public void SetMagicDefenseBonus(float magicDefenseBonus) {
+            if (magicDefenseBonus < 0) {
+                TDLog.Warning("MagicDefenseBonus < 0");
                 return;
             }
-            this.magicDefenseIncrease = magicDefenseIncrease;
+            this.magicDefenseBonus = magicDefenseBonus;
         }
 
-        public void AddPhysicsDefenseIncrease(float physicsDefenseIncrease) {
-            if (physicsDefenseIncrease < 0) {
-                TDLog.Warning("PhysicsDefenseIncrease < 0");
+        public void AddPhysicsDefenseBonus(float physicsDefenseBonus) {
+            if (physicsDefenseBonus < 0) {
+                TDLog.Warning("PhysicsDefenseBonus < 0");
                 return;
             }
-            this.physicsDefenseIncrease += physicsDefenseIncrease;
+            this.physicsDefenseBonus += physicsDefenseBonus;
         }
 
-        public void AddMagicDefenseIncrease(float magicDefenseIncrease) {
-            if (magicDefenseIncrease < 0) {
-                TDLog.Warning("MagicDefenseIncrease < 0");
+        public void AddMagicDefenseBonus(float magicDefenseBonus) {
+            if (magicDefenseBonus < 0) {
+                TDLog.Warning("MagicDefenseBonus < 0");
                 return;
             }
-            this.magicDefenseIncrease += magicDefenseIncrease;
+            this.magicDefenseBonus += magicDefenseBonus;
         }
 
-        public void ReducePhysicsDefenseIncrease(float physicsDefenseIncrease) {
-            if (physicsDefenseIncrease < 0) {
-                TDLog.Warning("PhysicsDefenseIncrease < 0");
+        public void ReducePhysicsDefenseBonus(float physicsDefenseBonus) {
+            if (physicsDefenseBonus < 0) {
+                TDLog.Warning("PhysicsDefenseBonus < 0");
                 return;
             }
-            this.physicsDefenseIncrease -= physicsDefenseIncrease;
+            this.physicsDefenseBonus -= physicsDefenseBonus;
         }
 
-        public void ReduceMagicDefenseIncrease(float magicDefenseIncrease) {
-            if (magicDefenseIncrease < 0) {
-                TDLog.Warning("MagicDefenseIncrease < 0");
+        public void ReduceMagicDefenseBonus(float magicDefenseBonus) {
+            if (magicDefenseBonus < 0) {
+                TDLog.Warning("MagicDefenseBonus < 0");
                 return;
             }
-            this.magicDefenseIncrease -= magicDefenseIncrease;
+            this.magicDefenseBonus -= magicDefenseBonus;
         }
 
         #endregion
 
     }
 
-    public static class RoleAttributeComponentExtension {
+    public static class AttributeComponentExtension {
 
-        public static bool IsMatch(this RoleAttributeComponent roleAttributeCom, in RoleAttributeSelectorModel selectorModel) {
+        public static bool IsMatch(this AttributeComponent roleAttributeCom, in AttributeSelectorModel selectorModel) {
             var hp = selectorModel.hp;
             var hp_ComparisonType = selectorModel.hp_ComparisonType;
             var hpMax = selectorModel.hpMax;

@@ -13,7 +13,7 @@ namespace TiedanSouls.Template {
         [Header("实体类型")] public EntityType entityType;
 
         [Header("属性选择器是否启用")] public bool isAttributeSelectorEnabled;
-        [Header("属性选择器")] public RoleAttributeSelectorTM attributeSelectorTM;
+        [Header("属性选择器")] public AttributeSelectorTM attributeSelectorTM;
 
     }
 

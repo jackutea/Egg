@@ -14,7 +14,7 @@ namespace TiedanSouls.Client.Entities {
 
         public EntityIDComponent IDCom { get; private set; }
         public InputComponent InputCom { get; private set; }
-        public RoleAttributeComponent RoleAttributeCom { get; private set; }
+        public AttributeComponent AttributeCom { get; private set; }
         public MoveComponent MoveCom { get; private set; }
         public RoleFSMComponent FSMCom { get; private set; }
         public WeaponSlotComponent WeaponSlotCom { get; private set; }
@@ -93,8 +93,8 @@ namespace TiedanSouls.Client.Entities {
             WeaponSlotCom = new WeaponSlotComponent();
             WeaponSlotCom.Inject(WeaponRoot);
 
-            // - RoleAttribute
-            RoleAttributeCom = new RoleAttributeComponent();
+            // - Attribute
+            AttributeCom = new AttributeComponent();
 
             // - FSM
             FSMCom = new RoleFSMComponent();
@@ -135,8 +135,8 @@ namespace TiedanSouls.Client.Entities {
             BodyCom.Reset();
             // - Weapon
             WeaponSlotCom.Reset();
-            // - RoleAttribute
-            RoleAttributeCom.Reset();
+            // - Attribute
+            AttributeCom.Reset();
             // - FSM
             FSMCom.Reset();
             // - Input
@@ -145,7 +145,7 @@ namespace TiedanSouls.Client.Entities {
             MoveCom.Reset();
             // - HUD
             HudSlotCom.Reset();
-            HudSlotCom.HpBarHUD.SetHpBar(RoleAttributeCom.HP, RoleAttributeCom.HPMax);
+            HudSlotCom.HpBarHUD.SetHpBar(AttributeCom.HP, AttributeCom.HPMax);
         }
 
         public void SetMod(GameObject mod) {

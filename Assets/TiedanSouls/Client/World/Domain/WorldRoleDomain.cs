@@ -309,7 +309,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Fall(RoleEntity role, float dt) {
-            var roleAttributeCom = role.RoleAttributeCom;
+            var roleAttributeCom = role.AttributeCom;
             var fallSpeed = roleAttributeCom.FallSpeed;
             var fallSpeedMax = roleAttributeCom.FallSpeedMax;
 
@@ -325,7 +325,7 @@ namespace TiedanSouls.Client.Domain {
 
             Vector2 moveAxis = inputCom.MoveAxis;
             var moveCom = role.MoveCom;
-            var roleAttributeCom = role.RoleAttributeCom;
+            var roleAttributeCom = role.AttributeCom;
             moveCom.MoveHorizontal(moveAxis.x, roleAttributeCom.MoveSpeed);
         }
 
@@ -334,7 +334,7 @@ namespace TiedanSouls.Client.Domain {
             if (!inputCom.PressJump) return;
 
             var moveCom = role.MoveCom;
-            var roleAttributeCom = role.RoleAttributeCom;
+            var roleAttributeCom = role.AttributeCom;
             var rb = moveCom.RB;
             var velo = rb.velocity;
             var jumpSpeed = roleAttributeCom.JumpSpeed;
@@ -384,19 +384,19 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Attribute]
 
-        public float ReduceHP(RoleEntity role, int atkPower) {
-            var roleAttributeCom = role.RoleAttributeCom;
+        public float ReduceHP(RoleEntity role, float damage) {
+            var roleAttributeCom = role.AttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var decrease = roleAttributeCom.ReduceHP(atkPower);
+            var decrease = roleAttributeCom.ReduceHP(damage);
             hudSlotCom.HpBarHUD.SetHpBar(roleAttributeCom.HP, roleAttributeCom.HPMax);
 
-            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 攻击力: {atkPower} HP减少: {decrease}");
+            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
             return decrease;
         }
 
         public float ReduceHP_Percentage(RoleEntity role, float percentage) {
-            var roleAttributeCom = role.RoleAttributeCom;
+            var roleAttributeCom = role.AttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
             var curHP = roleAttributeCom.HP;
@@ -522,18 +522,26 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
             // 击退
-            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel);
+            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel.knockBackPowerModel);
             // 击飞
-            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel);
+            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel.knockUpPowerModel);
+
+            // 伤害 仲裁
+            var damageArbitService = worldContext.DamageArbitService;
+            var damageModel = collisionTriggerModel.damageModel;
+            var baseDamage = damageModel.GetDamage(hitFrame);
+            var damageType = damageModel.damageType;
+            float realDamage = baseDamage;
+
+            RoleEntity roleFather = null;
+            var rootDomain = worldContext.RootDomain;
+            if (rootDomain.TryGetRoleFather(hitter, ref roleFather)) {
+                realDamage = damageArbitService.ArbitrateDamage(damageType, baseDamage, roleFather.AttributeCom, role.AttributeCom);
+            }
 
             // 伤害结算
-            var damageModel = collisionTriggerModel.damageModel;
-            var hitDamage = damageModel.GetDamage(hitFrame);
-            roleDomain.ReduceHP(role, hitDamage);
-
-            // 伤害记录
-            var damageService = worldContext.DamageArbitService;
-            damageService.Add(damageModel.damageType, hitDamage, role.IDCom.ToArgs(), hitter);
+            roleDomain.ReduceHP(role, realDamage);
+            damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
         }
 
         #endregion
@@ -543,13 +551,13 @@ namespace TiedanSouls.Client.Domain {
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.SetIsExited(true);
-            role.RoleAttributeCom.ClearHP();
+            role.AttributeCom.ClearHP();
             Hide(role);
             DeactivateCollider(role);
         }
 
         public bool IsRoleDead(RoleEntity role) {
-            var attrCom = role.RoleAttributeCom;
+            var attrCom = role.AttributeCom;
             return attrCom.HP <= 0;
         }
 

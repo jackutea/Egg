@@ -117,16 +117,12 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Add_KnockBack(Vector2 beHitDir, in KnockBackModel model) {
-            var knockBackSpeedArray = model.knockBackSpeedArray;
-            if (knockBackSpeedArray == null || knockBackSpeedArray.Length == 0) {
-                return;
-            }
             var stateModel = this.knockBackModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
             stateModel.beHitDir = beHitDir;
-            stateModel.knockBackSpeedArray = knockBackSpeedArray;
+            stateModel.knockBackSpeedArray = model.knockBackSpeedArray;
 
             stateFlag = stateFlag.AddStateFlag(RoleStateFlag.KnockBack);
             stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);
@@ -135,16 +131,11 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Add_KnockUp(in KnockUpModel model) {
-            var knockUpSpeedArray = model.knockUpSpeedArray;
-            if (knockUpSpeedArray == null || knockUpSpeedArray.Length == 0) {
-                return;
-            }
-
             var stateModel = this.knockUpModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            stateModel.knockUpSpeedArray = knockUpSpeedArray;
+            stateModel.knockUpSpeedArray = model.knockUpSpeedArray;
 
             stateFlag = stateFlag.AddStateFlag(RoleStateFlag.KnockUp);
             stateFlag = stateFlag.RemoveStateFlag(RoleStateFlag.Idle);

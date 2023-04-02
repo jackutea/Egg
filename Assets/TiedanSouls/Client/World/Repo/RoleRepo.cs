@@ -94,14 +94,14 @@ namespace TiedanSouls.Client {
         public bool TryGet_EntityTrackOne(int fieldTypeID,
                                RelativeTargetGroupType relativeTargetGroupType,
                                in EntityIDArgs compareIDArgs,
-                               in RoleAttributeSelectorModel attributeSelectorModel
+                               in AttributeSelectorModel attributeSelectorModel
                                , out RoleEntity role) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var r = list[i];
                 if (r.FSMCom.IsExited) continue;                                    // 状态过滤 - 已经退出
-                if (!r.RoleAttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
+                if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
                 role = r;
                 return true;
             }
@@ -284,13 +284,13 @@ namespace TiedanSouls.Client {
         public void Foreach_AttributeSelector(int fieldTypeID,
                                               RelativeTargetGroupType relativeTargetGroupType,
                                               in EntityIDArgs self,
-                                              in RoleAttributeSelectorModel attributeSelectorModel,
+                                              in AttributeSelectorModel attributeSelectorModel,
                                               Action<RoleEntity> action) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, self);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var role = list[i];
-                if (!role.RoleAttributeCom.IsMatch(attributeSelectorModel)) continue;   // 选择器过滤 - 属性
+                if (!role.AttributeCom.IsMatch(attributeSelectorModel)) continue;   // 选择器过滤 - 属性
                 action.Invoke(role);
             }
         }

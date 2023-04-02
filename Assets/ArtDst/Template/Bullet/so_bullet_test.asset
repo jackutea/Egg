@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 9999
-    bulletName: "\u76F4\u7EBF\u5B50\u5F39"
+    bulletName: "\u6807\u67AA\u98DE\u77DB"
     frameRange: {x: 0, y: 30}
     trajectoryType: 1
     moveCurveTM:
@@ -76,10 +76,10 @@ MonoBehaviour:
           hp_ComparisonType: 0
           hpMax: 0
           hpMax_ComparisonType: 0
-          ep: 0
+          mp: 0
           ep_ComparisonType: 0
-          epMax: 0
-          epMax_ComparisonType: 0
+          mpMax: 0
+          mpMax_ComparisonType: 0
           gp: 0
           gp_ComparisonType: 0
           gpMax: 0
@@ -95,18 +95,18 @@ MonoBehaviour:
     collisionTriggerTM:
       isEnabled: 1
       frameRange: {x: 0, y: 30}
-      triggerMode: 2
+      triggerMode: 1
       triggerFixedIntervalTM:
         delayFrame: 0
-        intervalFrame: 1
-        maintainFrame: 1
+        intervalFrame: 0
+        maintainFrame: 0
       triggerCustomTM:
         frameRangeArray:
-        - {x: 0, y: 20}
+        - {x: 0, y: 30}
       relativeTargetGroupType: 4
       damageTM:
-        damageType: 3
-        damageArray: 21000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000
+        damageType: 1
+        damageArray: 21000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000
         damageBase: 33
         damageCurve_KeyframeTMArray:
         - time: 0
@@ -116,21 +116,45 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - time: 1
-          value: 2
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+      knockBackPowerTM:
+        knockBackSpeedArray_cm: 88130000b80b0000e8030000
+        knockBackDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
           inTangent: 2
           outTangent: 2
           inWeight: 0
           outWeight: 0
-      knockBackPowerTM:
-        knockBackSpeedArray_cm: 
-        knockBackDisCurve_KeyframeTMArray: []
-        knockBackCostFrame: 0
-        knockBackDistance_cm: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockBackCostFrame: 3
+        knockBackDistance_cm: 300
       knockUpPowerTM:
-        knockUpSpeedArray_cm: 
-        knockUpDisCurve_KeyframeTMArray: []
-        knockUpCostFrame: 0
-        knockUpHeight_cm: 0
+        knockUpSpeedArray_cm: 88130000b80b0000e8030000
+        knockUpDisCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockUpCostFrame: 3
+        knockUpHeight_cm: 300
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0

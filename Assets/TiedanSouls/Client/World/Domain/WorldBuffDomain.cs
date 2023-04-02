@@ -88,31 +88,21 @@ namespace TiedanSouls.Client.Domain {
         #region [撤销]
 
         /// <summary>
-        /// 撤销对角色属性值的影响,并回收Buff
+        /// 撤销对属性值的影响,并回收Buff
         /// </summary>
-        public void RevokeBuffFromRoleAttribute(int buffEntityID, RoleAttributeComponent attributeComponent) {
+        public void RevokeBuffFromAttribute(int buffEntityID, AttributeComponent attributeComponent) {
             var repo = worldContext.BuffRepo;
             if (repo.TryRemove(buffEntityID, out var buff)) {
                 // - 撤销影响
-                var attributeEffectModel = buff.RoleAttributeEffectModel;
+                var attributeEffectModel = buff.AttributeEffectModel;
                 if (attributeEffectModel.needRevoke_HPEV) {
                 }
                 if (attributeEffectModel.needRevoke_HPMaxEV) {
                 }
-                // - 放回池子
-                repo.AddToPool(buff);
-            }
-        }
-
-        public void RevokeBuffFromWeaponttribute(int buffEntityID, WeaponAttributeComponent attributeComponent) {
-            var repo = worldContext.BuffRepo;
-            if (repo.TryRemove(buffEntityID, out var buff)) {
-                // - 撤销影响
-                var attributeEffectModel = buff.WeaponAttributeEffectModel;
-                if (attributeEffectModel.needRevokePhysicsDamageIncreaseEV) {
+                if (attributeEffectModel.needRevokePhysicsDamageBonusEV) {
 
                 }
-                if (attributeEffectModel.needRevokeMagicDamageIncrease) {
+                if (attributeEffectModel.needRevokeMagicDamageBonus) {
 
                 }
                 // - 放回池子
@@ -159,18 +149,21 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public bool TryEffectRoleAttribute(RoleAttributeComponent attributeCom, BuffEntity buff) {
+        public bool TryTriggerAttributeEffect(AttributeComponent attributeCom, BuffEntity buff) {
             if (!buff.IsTriggerFrame()) {
                 return false;
             }
 
-            var attributeEffectModel = buff.RoleAttributeEffectModel;
+            buff.triggerTimes++;
+
+            var attributeEffectModel = buff.AttributeEffectModel;
             var curHPMax = attributeCom.HPMax;
 
             // - HP
             var hpEV = attributeEffectModel.hpEV;
             var hpNCT = attributeEffectModel.hpNCT;
-            if (hpNCT != NumCalculationType.None) {
+            var hpEffectTimes = attributeEffectModel.hpEffectTimes;
+            if (hpNCT != NumCalculationType.None && buff.triggerTimes <= hpEffectTimes) {
                 var curHP = attributeCom.HP;
                 if (hpNCT == NumCalculationType.PercentageAdd) {
                     curHP += Mathf.RoundToInt(curHPMax * (hpEV / 100f));
@@ -180,13 +173,14 @@ namespace TiedanSouls.Client.Domain {
                     curHP += hpEV;
                 }
                 attributeCom.SetHP(curHP);
-                TDLog.Log($"Buff 影响 角色属性 --> HP: {curHP}");
+                TDLog.Log($"Buff 影响 属性 --> HP: {curHP}");
             }
 
             // - HPMax
             var hpMaxEV = attributeEffectModel.hpMaxEV;
             var hpMaxNCT = attributeEffectModel.hpMaxNCT;
-            if (hpMaxNCT != NumCalculationType.None) {
+            var hpMaxEffectTimes = attributeEffectModel.hpMaxEffectTimes;
+            if (hpMaxNCT != NumCalculationType.None && buff.triggerTimes <= hpMaxEffectTimes) {
                 if (hpMaxNCT == NumCalculationType.PercentageAdd) {
                     var hpMaxBase = attributeCom.HPMaxBase;
                     curHPMax += Mathf.RoundToInt(hpMaxBase * (hpMaxEV / 100f));
@@ -196,26 +190,40 @@ namespace TiedanSouls.Client.Domain {
                     curHPMax += hpMaxEV;
                 }
                 attributeCom.SetHPMax(curHPMax);
-                TDLog.Log($"Buff 影响 角色属性 --> HPMax: {curHPMax}");
+                TDLog.Log($"Buff 影响 属性 --> HPMax: {curHPMax}");
             }
 
-            return true;
-        }
-
-        public bool TryEffectWeaponAttribute(WeaponAttributeComponent weaponAttributeCom, BuffEntity buff) {
-            if (!buff.IsTriggerFrame()) {
-                return false;
+            // - Physics Damage Bonus
+            var physicsDamageBonusEffectTimes = attributeEffectModel.physicsDamageBonusEffectTimes;
+            if (buff.triggerTimes <= physicsDamageBonusEffectTimes) {
+                var physicsDamageBonusEV = attributeEffectModel.physicsDamageBonusEV;
+                attributeCom.AddPhysicalDamageBonus(physicsDamageBonusEV / 100f);
+                TDLog.Log($"Buff 影响 属性 --> Physics Damage Bonus Increase: {physicsDamageBonusEV}");
             }
 
-            var weaponAttributeEffectModel = buff.WeaponAttributeEffectModel;
+            // - Physics Defence Bonus
+            var physicsDefenseBonusEffectTimes = attributeEffectModel.physicsDefenseBonusEffectTimes;
+            if (buff.triggerTimes <= physicsDefenseBonusEffectTimes) {
+                var magicDamageBonusEV = attributeEffectModel.magicDamageBonusEV;
+                attributeCom.AddMagicDamageBonus(magicDamageBonusEV / 100f);
+                TDLog.Log($"Buff 影响 属性 --> Physics Damage Bonus Increase: {magicDamageBonusEV}");
+            }
 
-            // - Physics Damage Increase
-            var physicsDamageIncreaseEV = weaponAttributeEffectModel.physicsDamageIncreaseEV;
-            weaponAttributeCom.AddPhysicalDamageIncrease(physicsDamageIncreaseEV);
+            // - Magic Damage Bonus
+            var magicDamageBonusEffectTimes = attributeEffectModel.magicDamageBonusEffectTimes;
+            if (buff.triggerTimes <= magicDamageBonusEffectTimes) {
+                var magicDamageBonusEV = attributeEffectModel.magicDamageBonusEV;
+                attributeCom.AddMagicDamageBonus(magicDamageBonusEV / 100f);
+                TDLog.Log($"Buff 影响 属性 --> Magic Damage Bonus Increase: {magicDamageBonusEV}");
+            }
 
-            // - Magic Damage Increase
-            var magicDamageIncreaseEV = weaponAttributeEffectModel.magicDamageIncreaseEV;
-            weaponAttributeCom.AddMagicDamageIncrease(magicDamageIncreaseEV);
+            // - Magic Defence Bonus
+            var magicDefenseBonusEffectTimes = attributeEffectModel.magicDefenseBonusEffectTimes;
+            if (buff.triggerTimes <= magicDefenseBonusEffectTimes) {
+                var magicDefenseBonusEV = attributeEffectModel.magicDefenseBonusEV;
+                attributeCom.AddMagicDefenseBonus(magicDefenseBonusEV / 100f);
+                TDLog.Log($"Buff 影响 属性 --> Magic Defence Bonus Increase: {magicDefenseBonusEV}");
+            }
 
             return true;
         }

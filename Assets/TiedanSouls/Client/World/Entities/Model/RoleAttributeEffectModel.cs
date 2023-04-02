@@ -4,10 +4,10 @@ using TiedanSouls.Generic;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 角色属性影响模型
+    /// 属性影响模型
     /// </summary>
     [Serializable]
-    public struct RoleAttributeEffectModel {
+    public struct AttributeEffectModel {
 
         public NumCalculationType hpNCT;
         public int hpEV;
@@ -23,6 +23,22 @@ namespace TiedanSouls.Client.Entities {
         public int moveSpeedEV;
         public int moveSpeedEffectTimes;
         public bool needRevoke_MoveSpeedEV;
+
+        public int physicsDamageBonusEV;
+        public int physicsDamageBonusEffectTimes;
+        public bool needRevokePhysicsDamageBonusEV;
+
+        public int magicDamageBonusEV;
+        public int magicDamageBonusEffectTimes;
+        public bool needRevokeMagicDamageBonus;
+
+        public int physicsDefenseBonusEV;
+        public int physicsDefenseBonusEffectTimes;
+        public bool needRevokePhysicsDefenseBonus;
+
+        public int magicDefenseBonusEV;
+        public int magicDefenseBonusEffectTimes;
+        public bool needRevokeMagicDefenseBonus;
 
     }
 
