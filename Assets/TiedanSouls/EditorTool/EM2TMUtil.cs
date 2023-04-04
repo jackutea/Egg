@@ -331,13 +331,15 @@ namespace TiedanSouls.EditorTool {
 
             tm.colliderTMArray = GetColliderTMArray(em.colliderGOArray);
 
+            tm.targetEntityType = em.targetEntityType;
             tm.relativeTargetGroupType = em.relativeTargetGroupType;
+
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
             tm.knockBackPowerTM = GetKnockBackTM(em.knockBackEM);
             tm.knockUpPowerTM = GetKnockUpTM(em.knockUpEM);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
-            tm.colliderRelativePathArray = GetRelativePathArray_SkillEditor<T>(em.colliderGOArray);
+            tm.colliderRelativePathArray = GetRelativePathArray<T>(em.colliderGOArray);
 
             return tm;
         }
@@ -569,18 +571,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [Misc]
 
-        static string[] GetRelativePathArray_SkillEditor<T>(GameObject[] goArray) {
+        static string[] GetRelativePathArray<T>(GameObject[] goArray) {
             var len = goArray.Length;
             var pathArray = new string[len];
             for (int i = 0; i < len; i++) {
                 var go = goArray[i];
                 if (go == null) continue;
-                pathArray[i] = GetRelativePath_SkillEditor<T>(go.transform);
+                pathArray[i] = GetRelativePath<T>(go.transform);
             }
             return pathArray;
         }
 
-        static string GetRelativePath_SkillEditor<T>(Transform begin) {
+        static string GetRelativePath<T>(Transform begin) {
             if (begin == null) return "";
 
             string path = begin.name;

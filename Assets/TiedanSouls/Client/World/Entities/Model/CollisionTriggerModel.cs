@@ -16,14 +16,17 @@ namespace TiedanSouls.Client.Entities {
         // 自定义
         public TriggerCustomModel triggerCustomModel;
 
+        // 作用实体类型
+        public EntityType targetEntityType;
         // 作用目标
         public RelativeTargetGroupType relativeTargetGroupType;
+
         // 模型: 伤害
         public DamageModel damageModel;
-        // 模型: 击退力度
-        public KnockBackModel knockBackPowerModel;
-        // 模型: 击飞力度
-        public KnockUpModel knockUpPowerModel;
+        // 模型: 击退
+        public KnockBackModel knockBackModel;
+        // 模型: 击飞
+        public KnockUpModel knockUpModel;
         // 模型: 击中效果器
         public int hitEffectorTypeID;
 
@@ -42,12 +45,12 @@ namespace TiedanSouls.Client.Entities {
                 var intervalFrame = triggerFixedIntervalModel.intervalFrame;
                 var maintainFrame = triggerFixedIntervalModel.maintainFrame;
                 if (frame < delayFrame) return TriggerState.None;
-                if (frame == delayFrame) return TriggerState.TriggerEnter;
+                if (frame == delayFrame) return TriggerState.Enter;
 
                 var mod = (frame - delayFrame) % (intervalFrame + maintainFrame);
-                if (mod == 0) return TriggerState.TriggerEnter;
-                if (mod < intervalFrame) return TriggerState.TriggerStay;
-                if (mod == intervalFrame) return TriggerState.TriggerExit;
+                if (mod == 0) return TriggerState.Enter;
+                if (mod < intervalFrame) return TriggerState.Stay;
+                if (mod == intervalFrame) return TriggerState.Exit;
                 if (mod > intervalFrame) return TriggerState.None;
             }
 

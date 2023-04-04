@@ -24,7 +24,7 @@ namespace TiedanSouls.Client.Entities {
         public void SetEntityName(string name) => this.entityName = name;
 
         AllyType allyType;
-        public AllyType AllyType => allyType;
+        public AllyType AllyStatus => allyType;
         public void SetAllyType(AllyType value) => this.allyType = value;
 
         ControlType controlType;

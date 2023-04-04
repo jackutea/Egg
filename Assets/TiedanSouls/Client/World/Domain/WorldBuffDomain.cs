@@ -53,7 +53,7 @@ namespace TiedanSouls.Client.Domain {
             buff = null;
 
             var typeID = entitySpawnModel.typeID;
-            var factory = worldContext.WorldFactory;
+            var factory = worldContext.Factory;
             if (!factory.TryCreateBuff(typeID, out buff)) {
                 return false;
             }
@@ -83,7 +83,7 @@ namespace TiedanSouls.Client.Domain {
             var buffRepo = worldContext.BuffRepo;
             bool isFromPool = buffRepo.TryGetFromPool(typeID, out buff);
             if (!isFromPool) {
-                var factory = worldContext.WorldFactory;
+                var factory = worldContext.Factory;
                 if (!factory.TryCreateBuff(typeID, out buff)) {
                     return false;
                 }

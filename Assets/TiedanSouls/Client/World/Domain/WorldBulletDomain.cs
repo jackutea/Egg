@@ -31,7 +31,7 @@ namespace TiedanSouls.Client.Domain {
             var bulletRepo = worldContext.BulletRepo;
             bool isFromPool = bulletRepo.TryFetchFromPool(typeID, out bullet);
             if (!isFromPool) {
-                var factory = worldContext.WorldFactory;
+                var factory = worldContext.Factory;
                 if (!factory.TryCreateBullet(typeID, out bullet)) {
                     TDLog.Error($"实体生成<子弹>失败 类型ID:{typeID}");
                     return false;
@@ -59,11 +59,11 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体生成模型 生成子弹
         /// </summary>
-        public bool TrySpawn_BySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BulletEntity bullet) {
+        public bool TrySpawn(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BulletEntity bullet) {
             bullet = null;
 
             var typeID = entitySpawnModel.typeID;
-            var factory = worldContext.WorldFactory;
+            var factory = worldContext.Factory;
             if (!factory.TryCreateBullet(typeID, out bullet)) {
                 TDLog.Error($"生成子弹失败 typeID:{typeID}");
                 return false;

@@ -9,7 +9,7 @@ namespace TiedanSouls.Client.Facades {
         public WorldStateEntity StateEntity { get; private set; }
 
         // ==== Factory ====
-        public WorldFactory WorldFactory { get; private set; }
+        public WorldFactory Factory { get; private set; }
 
         // ==== Services ====
         public IDService IDService { get; private set; }
@@ -31,7 +31,7 @@ namespace TiedanSouls.Client.Facades {
         public WorldContext() {
             StateEntity = new WorldStateEntity();
 
-            WorldFactory = new WorldFactory();
+            Factory = new WorldFactory();
 
             IDService = new IDService();
             DamageArbitService = new DamageArbitService();

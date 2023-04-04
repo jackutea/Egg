@@ -202,7 +202,9 @@ namespace TiedanSouls.EditorTool {
 
             em.colliderGOArray = colliderGOArray;
 
+            em.targetEntityType = tm.targetEntityType;
             em.relativeTargetGroupType = tm.relativeTargetGroupType;
+
             em.damageEM = GetDamageEM(tm.damageTM);
             em.knockBackEM = GetKnockBackEM(tm.knockBackPowerTM);
             em.knockUpEM = GetKnockUpEM(tm.knockUpPowerTM);

@@ -116,10 +116,12 @@ namespace TiedanSouls.Client {
             model.triggerFixedIntervalModel = GetTriggerFixedIntervalModel(tm.triggerFixedIntervalTM);
             model.triggerCustomModel = GetTriggerCustomModel(tm.triggerCustomTM);
 
+            model.targetEntityType = tm.targetEntityType;
             model.relativeTargetGroupType = tm.relativeTargetGroupType;
+
             model.damageModel = GetDamageModel(tm.damageTM);
-            model.knockBackPowerModel = GetKnockBackModel(tm.knockBackPowerTM);
-            model.knockUpPowerModel = GetKnockUpModel(tm.knockUpPowerTM);
+            model.knockBackModel = GetKnockBackModel(tm.knockBackPowerTM);
+            model.knockUpModel = GetKnockUpModel(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
             model.colliderModelArray = GetColliderModelArray(tm.colliderTMArray, tm.relativeTargetGroupType);
 
@@ -144,10 +146,10 @@ namespace TiedanSouls.Client {
                 var frameRange = frameRangeArray[i];
                 var startFrame = frameRange.x;
                 var endFrame = frameRange.y;
-                triggerStatusDic.Add(startFrame, TriggerState.TriggerEnter);
-                triggerStatusDic.Add(endFrame, TriggerState.TriggerExit);
+                triggerStatusDic.Add(startFrame, TriggerState.Enter);
+                triggerStatusDic.Add(endFrame, TriggerState.Exit);
                 for (int j = startFrame + 1; j < endFrame; j++) {
-                    triggerStatusDic.Add(j, TriggerState.TriggerStay);
+                    triggerStatusDic.Add(j, TriggerState.Stay);
                 }
             }
             model.triggerStateDic = triggerStatusDic;

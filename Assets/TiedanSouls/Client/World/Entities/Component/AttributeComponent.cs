@@ -418,7 +418,7 @@ namespace TiedanSouls.Client.Entities {
 
     public static class AttributeComponentExtension {
 
-        public static bool IsMatch(this AttributeComponent roleAttributeCom, in AttributeSelectorModel selectorModel) {
+        public static bool IsMatch(this AttributeComponent attributeCom, in AttributeSelectorModel selectorModel) {
             var hp = selectorModel.hp;
             var hp_ComparisonType = selectorModel.hp_ComparisonType;
             var hpMax = selectorModel.hpMax;
@@ -439,16 +439,16 @@ namespace TiedanSouls.Client.Entities {
             var fallingAcceleration_ComparisonType = selectorModel.fallingAcceleration_ComparisonType;
             var fallingSpeedMax = selectorModel.fallingSpeedMax;
             var fallingSpeedMax_ComparisonType = selectorModel.fallingSpeedMax_ComparisonType;
-            return hp_ComparisonType.IsMatch(roleAttributeCom.HP, hp)
-            && hpMax_ComparisonType.IsMatch(roleAttributeCom.HPMax, hpMax)
-            && ep_ComparisonType.IsMatch(roleAttributeCom.MP, mp)
-            && mpMax_ComparisonType.IsMatch(roleAttributeCom.MPMax, mpMax)
-            && gp_ComparisonType.IsMatch(roleAttributeCom.GP, gp)
-            && gpMax_ComparisonType.IsMatch(roleAttributeCom.GPMax, gpMax)
-            && moveSpeed_ComparisonType.IsMatch(roleAttributeCom.MoveSpeed, moveSpeed)
-            && jumpSpeed_ComparisonType.IsMatch(roleAttributeCom.JumpSpeed, jumpSpeed)
-            && fallingAcceleration_ComparisonType.IsMatch(roleAttributeCom.FallSpeed, fallingAcceleration)
-            && fallingSpeedMax_ComparisonType.IsMatch(roleAttributeCom.FallSpeedMax, fallingSpeedMax);
+            return hp_ComparisonType.IsMatch(attributeCom.HP, hp)
+            && hpMax_ComparisonType.IsMatch(attributeCom.HPMax, hpMax)
+            && ep_ComparisonType.IsMatch(attributeCom.MP, mp)
+            && mpMax_ComparisonType.IsMatch(attributeCom.MPMax, mpMax)
+            && gp_ComparisonType.IsMatch(attributeCom.GP, gp)
+            && gpMax_ComparisonType.IsMatch(attributeCom.GPMax, gpMax)
+            && moveSpeed_ComparisonType.IsMatch(attributeCom.MoveSpeed, moveSpeed)
+            && jumpSpeed_ComparisonType.IsMatch(attributeCom.JumpSpeed, jumpSpeed)
+            && fallingAcceleration_ComparisonType.IsMatch(attributeCom.FallSpeed, fallingAcceleration)
+            && fallingSpeedMax_ComparisonType.IsMatch(attributeCom.FallSpeedMax, fallingSpeedMax);
         }
 
     }

@@ -26,7 +26,7 @@ namespace TiedanSouls.Client.Domain {
         public void AddAllSkillToSlot_Origin(SkillSlotComponent skillSlotCom, int[] typeIDArray, in EntityIDArgs father) {
             var templateCore = infraContext.TemplateCore;
             var idService = worldContext.IDService;
-            var factory = worldContext.WorldFactory;
+            var factory = worldContext.Factory;
 
             var len = typeIDArray.Length;
             for (int i = 0; i < len; i++) {
@@ -74,7 +74,7 @@ namespace TiedanSouls.Client.Domain {
                 for (int i = 0; i < len; i++) {
                     var cancelModel = cancelModelArray[i];
                     var comboTypeID = cancelModel.skillTypeID;
-                    if (!worldContext.WorldFactory.TryCreateSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
+                    if (!worldContext.Factory.TryCreateSkillEntity(comboTypeID, out SkillEntity comboSkill)) {
                         continue;
                     }
 

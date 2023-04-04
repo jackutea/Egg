@@ -202,7 +202,7 @@ namespace TiedanSouls.Client {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            if (role.IDCom.AllyType == AllyType.Two) followRoot.AddChild(attackNode);
+            if (role.IDCom.AllyStatus == AllyType.Two) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 
@@ -285,7 +285,6 @@ namespace TiedanSouls.Client {
             }
 
             projectile = new ProjectileEntity();
-            projectile.Ctor();
 
             // ID
             var idCom = projectile.IDCom;

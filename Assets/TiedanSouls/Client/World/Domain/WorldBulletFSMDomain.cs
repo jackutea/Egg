@@ -73,27 +73,27 @@ namespace TiedanSouls.Client.Domain {
 
             model.curFrame++;
 
-            // 如果是追踪类型，需要设置追踪目标
-            if (bullet.TrajectoryType == TrajectoryType.Track) {
-                bullet.entityTrackModel.target = default;
-                this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
-            }
-
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
             var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
-            if (collisionTriggerStatus == TriggerState.TriggerEnter) {
+            if (collisionTriggerStatus == TriggerState.Enter) {
                 collisionTriggerModel.ActivateAll();
-            } else if (collisionTriggerStatus == TriggerState.TriggerExit) {
+            } else if (collisionTriggerStatus == TriggerState.Exit) {
                 collisionTriggerModel.DeactivateAll();
             } else if (collisionTriggerStatus == TriggerState.None) {
                 collisionTriggerModel.DeactivateAll();
             }
 
-            // TODO : 不根据碰撞器的生命周期来控制子弹的生命周期，添加子弹自己的生命周期
+            // todo frameRange -> maintainframe
             if (model.curFrame > bullet.FrameRange.y) {
                 fsm.Enter_TearDown(0);
                 return;
+            }
+
+            // 如果是追踪类型，需要设置追踪目标
+            if (bullet.TrajectoryType == TrajectoryType.Track) {
+                bullet.entityTrackModel.target = default;
+                this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
             }
 
             // 移动逻辑(根据轨迹类型)

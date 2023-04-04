@@ -18,7 +18,9 @@ namespace TiedanSouls.Template {
         [Header("模型: 固定间隔")] public TriggerFixedIntervalTM triggerFixedIntervalTM;
         [Header("模型: 自定义")] public TriggerCustomTM triggerCustomTM;
 
+        [Header("作用实体类型")] public EntityType targetEntityType;
         [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
+
         [Header("模型: 伤害")] public DamageTM damageTM;
         [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;
         [Header("模型: 击飞力度")] public KnockUpTM knockUpPowerTM;

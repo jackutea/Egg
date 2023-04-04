@@ -337,7 +337,7 @@ namespace TiedanSouls.Client.Facades {
 
             if (trackEntityType == EntityType.Role) {
                 var roleRepo = this.worldContext.RoleRepo;
-                if (roleRepo.TryGet_EntityTrackOne(
+                if (roleRepo.TryGet_TrackEntity(
                     curFieldTypeID,
                     entityTrackModel.relativeTrackTargetGroupType,
                     self,

@@ -19,7 +19,9 @@ namespace TiedanSouls.EditorTool {
         [Header("模型: 固定间隔触发")] public TriggerFixedIntervalEM triggerFixedIntervalEM;
         [Header("模型: 自定义触发")] public TriggerCustomEM triggerCustomEM;
 
-        [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
+        [Header("作用实体类型")] public EntityType targetEntityType;
+        [Header("作用目标群体")] public RelativeTargetGroupType relativeTargetGroupType;
+        
         [Header("模型: 伤害")] public DamageEM damageEM;
         [Header("模型: 击退")] public KnockBackEM knockBackEM;
         [Header("模型: 击飞")] public KnockUpEM knockUpEM;

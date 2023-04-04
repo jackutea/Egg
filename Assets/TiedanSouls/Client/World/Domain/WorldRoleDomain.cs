@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Domain {
             var allyType = entitySpawnModel.allyType;
             var controlType = entitySpawnModel.controlType;
 
-            var factory = worldContext.WorldFactory;
+            var factory = worldContext.Factory;
             if (!factory.TryCreateRoleEntity(typeID, out role)) {
                 TDLog.Error($"创建角色失败! - {typeID}");
                 return false;
@@ -58,7 +58,7 @@ namespace TiedanSouls.Client.Domain {
         public bool TrySummon(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
             var typeID = entitySummonModel.typeID;
             var controlType = entitySummonModel.controlType;
-            var factory = worldContext.WorldFactory;
+            var factory = worldContext.Factory;
             if (!factory.TryCreateRoleEntity(typeID, out role)) {
                 TDLog.Error($"创建角色失败! - {typeID}");
                 return false;
@@ -111,14 +111,14 @@ namespace TiedanSouls.Client.Domain {
 
             // AI
             if (controlType == ControlType.AI) {
-                var factory = worldContext.WorldFactory;
+                var factory = worldContext.Factory;
                 var ai = factory.CreateAIStrategy(role, typeID);
                 role.SetAIStrategy(ai);
             }
 
             // HUD Show
-            if (idCom.AllyType == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-            else if (idCom.AllyType == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+            if (idCom.AllyStatus == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+            else if (idCom.AllyStatus == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
         }
 
         #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -309,9 +309,9 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Fall(RoleEntity role, float dt) {
-            var roleAttributeCom = role.AttributeCom;
-            var fallSpeed = roleAttributeCom.FallSpeed;
-            var fallSpeedMax = roleAttributeCom.FallSpeedMax;
+            var attributeCom = role.AttributeCom;
+            var fallSpeed = attributeCom.FallSpeed;
+            var fallSpeedMax = attributeCom.FallSpeedMax;
 
             var moveCom = role.MoveCom;
             var vel = moveCom.Velocity;
@@ -325,8 +325,8 @@ namespace TiedanSouls.Client.Domain {
 
             Vector2 moveAxis = inputCom.MoveAxis;
             var moveCom = role.MoveCom;
-            var roleAttributeCom = role.AttributeCom;
-            moveCom.MoveHorizontal(moveAxis.x, roleAttributeCom.MoveSpeed);
+            var attributeCom = role.AttributeCom;
+            moveCom.MoveHorizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
 
         public void JumpByInput(RoleEntity role) {
@@ -334,10 +334,10 @@ namespace TiedanSouls.Client.Domain {
             if (!inputCom.PressJump) return;
 
             var moveCom = role.MoveCom;
-            var roleAttributeCom = role.AttributeCom;
+            var attributeCom = role.AttributeCom;
             var rb = moveCom.RB;
             var velo = rb.velocity;
-            var jumpSpeed = roleAttributeCom.JumpSpeed;
+            var jumpSpeed = attributeCom.JumpSpeed;
             velo.y = jumpSpeed;
             moveCom.SetVelocity(velo);
         }
@@ -385,23 +385,23 @@ namespace TiedanSouls.Client.Domain {
         #region [Attribute]
 
         public float ReduceHP(RoleEntity role, float damage) {
-            var roleAttributeCom = role.AttributeCom;
+            var attributeCom = role.AttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var decrease = roleAttributeCom.ReduceHP(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(roleAttributeCom.HP, roleAttributeCom.HPMax);
+            var decrease = attributeCom.ReduceHP(damage);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
             return decrease;
         }
 
         public float ReduceHP_Percentage(RoleEntity role, float percentage) {
-            var roleAttributeCom = role.AttributeCom;
+            var attributeCom = role.AttributeCom;
             var hudSlotCom = role.HudSlotCom;
 
-            var curHP = roleAttributeCom.HP;
+            var curHP = attributeCom.HP;
             var decrease = curHP * percentage;
-            decrease = roleAttributeCom.ReduceHP(decrease);
+            decrease = attributeCom.ReduceHP(decrease);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到百分比伤害 百分比: {percentage} HP减少: {decrease}");
             return decrease;
@@ -522,9 +522,9 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
             // 击退
-            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel.knockBackPowerModel);
+            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel.knockBackModel);
             // 击飞
-            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel.knockUpPowerModel);
+            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel.knockUpModel);
 
             // 伤害 仲裁
             var damageArbitService = worldContext.DamageArbitService;

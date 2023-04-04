@@ -34,7 +34,7 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        public void Ctor() {
+        public ProjectileEntity() {
             idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Projectile);
             fsmCom = new ProjectileFSMComponent();

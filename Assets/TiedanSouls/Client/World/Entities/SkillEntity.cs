@@ -152,9 +152,9 @@ namespace TiedanSouls.Client.Entities {
                     CollisionTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus == TriggerState.None) continue;
-                    if (triggerStatus == TriggerState.TriggerEnter) action_triggerBegin(model);
-                    else if (triggerStatus == TriggerState.TriggerStay) action_triggering(model);
-                    else if (triggerStatus == TriggerState.TriggerExit) action_triggerEnd(model);
+                    if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
+                    else if (triggerStatus == TriggerState.Stay) action_triggering(model);
+                    else if (triggerStatus == TriggerState.Exit) action_triggerEnd(model);
                 }
             }
         }

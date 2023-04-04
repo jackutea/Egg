@@ -13,7 +13,7 @@ namespace TiedanSouls.Client {
         RoleEntity playerRole;
         public RoleEntity PlayerRole => playerRole;
 
-        List<RoleEntity> roleList_temp; // 临时角色列表(目前用于销毁实体)
+        List<RoleEntity> roleList_temp;
 
         public RoleRepo() {
             allAIRoles_Sorted = new Dictionary<int, List<RoleEntity>>();
@@ -91,11 +91,11 @@ namespace TiedanSouls.Client {
 
         #region [查]
 
-        public bool TryGet_EntityTrackOne(int fieldTypeID,
-                               RelativeTargetGroupType relativeTargetGroupType,
-                               in EntityIDArgs compareIDArgs,
-                               in AttributeSelectorModel attributeSelectorModel
-                               , out RoleEntity role) {
+        public bool TryGet_TrackEntity(int fieldTypeID,
+                                       RelativeTargetGroupType relativeTargetGroupType,
+                                       in EntityIDArgs compareIDArgs,
+                                       in AttributeSelectorModel attributeSelectorModel,
+                                       out RoleEntity role) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
@@ -132,7 +132,7 @@ namespace TiedanSouls.Client {
             bool hasAliveEnemy = false;
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 var idCom = role.IDCom;
-                var roleAllyType = idCom.AllyType;
+                var roleAllyType = idCom.AllyStatus;
                 if (!roleAllyType.IsEnemy(allyType)) return;
                 if (role.FSMCom.StateFlag != RoleStateFlag.Dying) hasAliveEnemy = true;
             });
@@ -177,10 +177,10 @@ namespace TiedanSouls.Client {
         public void Foreach_Ally(int fieldTypeID, in EntityIDArgs iDArgs, Action<RoleEntity> action) {
             var selfEntityID = iDArgs.entityID;
             if (TryGet_FromAll(selfEntityID, out var selfRole)) return;
-            var selfAllyType = selfRole.IDCom.AllyType;
+            var selfAllyType = selfRole.IDCom.AllyStatus;
 
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                var roleAllyType = role.IDCom.AllyType;
+                var roleAllyType = role.IDCom.AllyStatus;
                 if (roleAllyType.IsAlly(selfAllyType)) action.Invoke(role);
             });
         }
@@ -189,7 +189,7 @@ namespace TiedanSouls.Client {
         /// 遍历玩家角色的敌对角色 -1代表查找范围为所有关卡
         /// </summary>
         public void Foreach_EnemyOfPlayer(int fieldTypeID, Action<RoleEntity> action) {
-            var playerAllyType = playerRole.IDCom.AllyType;
+            var playerAllyType = playerRole.IDCom.AllyStatus;
             Foreach_Enemy(fieldTypeID, playerAllyType, action);
         }
 
@@ -199,7 +199,7 @@ namespace TiedanSouls.Client {
         public void Foreach_Enemy(int fieldTypeID, AllyType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID,
             (role) => {
-                var roleAllyType = role.IDCom.AllyType;
+                var roleAllyType = role.IDCom.AllyStatus;
                 if (roleAllyType.IsEnemy(selfAllyType)) action.Invoke(role);
             });
         }
@@ -209,7 +209,7 @@ namespace TiedanSouls.Client {
         /// </summary>
         public void Foreach_Neutral(int fieldTypeID, AllyType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                var roleAllyType = role.IDCom.AllyType;
+                var roleAllyType = role.IDCom.AllyStatus;
                 if (roleAllyType == AllyType.Neutral) action.Invoke(role);
             });
         }
