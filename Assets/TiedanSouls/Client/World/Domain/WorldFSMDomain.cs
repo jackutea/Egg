@@ -84,7 +84,7 @@ namespace TiedanSouls.Client.Domain {
                 _ = worldContext.FieldRepo.TryGet(curFieldTypeID, out var field);
                 var cameraSetter = infraContext.CameraCore.SetterAPI;
                 cameraSetter.Follow_Current(playerRole.transform, new Vector3(0, 0, -10), EasingType.Immediate, 1f, EasingType.Linear, 1f);
-                cameraSetter.Confiner_Set_Current(true, field.transform.position, (Vector2)field.transform.position + field.ConfinerSize);
+                cameraSetter.Confiner_Set_Current(true, field.ModGO.transform.position, (Vector2)field.ModGO.transform.position + field.ConfinerSize);
             }
 
             var phxDomain = worldDomain.PhysicalDomain;

@@ -40,20 +40,23 @@ namespace TiedanSouls.Client {
                 return false;
             }
 
-            field = GameObject.Instantiate(go).GetComponent<FieldEntity>();
-            field.Ctor();
+            field = new FieldEntity();
 
             var idCom = field.IDCom;
             var service = worldContext.IDService;
             idCom.SetEntityID(service.PickFieldID());
             idCom.SetTypeID(typeID);
 
+            var fieldGO = GameObject.Instantiate(go);
+            fieldGO.transform.position = Vector3.zero;
+            field.SetFieldMod(fieldGO);
+
             field.SetEntitySpawnCtrlModelArray(GetEntitySpawnCtrlModelArray(fieldTM.entitySpawnCtrlTMArray));
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
             field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
 
-            return field;
+            return true;
         }
 
         #endregion
@@ -341,7 +344,7 @@ namespace TiedanSouls.Client {
             bullet.SetCollisionTriggerModel(TM2ModelUtil.GetCollisionTriggerModel(tm.collisionTriggerTM));
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
-            
+
             bullet.SetExtraPenetrateCount(tm.extraPenetrateCount);
 
             var assetCore = infraContext.AssetCore;

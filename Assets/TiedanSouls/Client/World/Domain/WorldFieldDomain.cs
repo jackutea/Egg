@@ -35,7 +35,7 @@ namespace TiedanSouls.Client.Domain {
 
             field.Show();
 
-            field.name = $"关卡_{field.IDCom}";
+            field.ModGO.name = $"关卡_{field.IDCom}";
             
             return true;
         }

@@ -391,13 +391,8 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
-            var normal = collision2D.contacts[0].normal;
-            var isStand = normal.y > 0.01f;
-
-            if (isStand) {
-                var fsmCom = role.FSMCom;
-                fsmCom.RemovePositionStatus_StandInGround();
-            }
+            var fsmCom = role.FSMCom;
+            fsmCom.RemovePositionStatus_StandInGround();
         }
 
         void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {

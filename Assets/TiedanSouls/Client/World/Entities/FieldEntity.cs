@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class FieldEntity : MonoBehaviour {
+    public class FieldEntity : IEntity {
 
 
         #region [组件]
@@ -46,26 +46,32 @@ namespace TiedanSouls.Client.Entities {
         public FieldDoorModel[] FieldDoorArray => fieldDoorArray;
         public void SetFieldDoorArray(FieldDoorModel[] v) => fieldDoorArray = v;
 
-        BoxCollider2D confiner;
-        public Vector2 ConfinerSize => confiner.size;
+        public GameObject ModGO { get; private set; }
+        public GameObject ConfinerGO { get; private set; }
+        public BoxCollider2D Confiner { get; private set; }
+        public Vector2 ConfinerSize { get; private set; }
 
-        public void Ctor() {
-            confiner = transform.Find("confiner").GetComponent<BoxCollider2D>();
-            TDLog.Assert(confiner != null);
-
+        public FieldEntity() {
             idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Field);
             fsmComponent = new FieldFSMComponent();
         }
 
+        public void SetFieldMod(GameObject v) {
+            this.ModGO = v;
+            this.ConfinerGO = ModGO.transform.Find("confiner").gameObject;
+            this.Confiner = ConfinerGO.GetComponent<BoxCollider2D>();
+            this.ConfinerSize = Confiner.size;
+        }
+
         public void Hide() {
-            TDLog.Log($"隐藏关卡: {name}");
-            gameObject.SetActive(false);
+            TDLog.Log($"隐藏关卡: {ModGO.name}");
+            ModGO.SetActive(false);
         }
 
         public void Show() {
-            TDLog.Log($"显示关卡: {name}");
-            gameObject.SetActive(true);
+            TDLog.Log($"显示关卡: {ModGO.name}");
+            ModGO.SetActive(true);
         }
 
         public bool TryFindDoorByIndex(int doorIndex, out FieldDoorModel door) {
