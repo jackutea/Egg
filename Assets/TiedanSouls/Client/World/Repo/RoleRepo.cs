@@ -92,11 +92,11 @@ namespace TiedanSouls.Client {
         #region [查]
 
         public bool TryGet_TrackEntity(int fieldTypeID,
-                                       RelativeTargetGroupType relativeTargetGroupType,
+                                       TargetGroupType hitTargetGroupType,
                                        in EntityIDArgs compareIDArgs,
                                        in AttributeSelectorModel attributeSelectorModel,
                                        out RoleEntity role) {
-            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs);
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, compareIDArgs);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var r = list[i];
@@ -217,9 +217,9 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 获取所有指定相对阵营类型的角色
         /// </summary>
-        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in EntityIDArgs compareIDArgs) {
+        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, TargetGroupType hitTargetGroupType, in EntityIDArgs compareIDArgs) {
             roleList_temp.Clear();
-            Foreach_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, compareIDArgs, (role) => {
+            Foreach_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, compareIDArgs, (role) => {
                 roleList_temp.Add(role);
             });
             return roleList_temp;
@@ -228,8 +228,8 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历所有指定相对阵营类型的角色
         /// </summary>
-        public void Foreach_RelativeTargetGroupType(int fieldTypeID, RelativeTargetGroupType relativeTargetGroupType, in EntityIDArgs compareIDArgs, Action<RoleEntity> action) {
-            if (relativeTargetGroupType == RelativeTargetGroupType.None) return;
+        public void Foreach_RelativeTargetGroupType(int fieldTypeID, TargetGroupType hitTargetGroupType, in EntityIDArgs compareIDArgs, Action<RoleEntity> action) {
+            if (hitTargetGroupType == TargetGroupType.None) return;
 
             var compareEntityType = compareIDArgs.entityType;
             var compareAllyType = compareIDArgs.allyType;
@@ -241,19 +241,19 @@ namespace TiedanSouls.Client {
                 return;
             }
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Self)) {
+            if (hitTargetGroupType.Contains(TargetGroupType.Self)) {
                 if (isCompareRole) action.Invoke(selfRole);
             }
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Ally)) {
+            if (hitTargetGroupType.Contains(TargetGroupType.Ally)) {
                 Foreach_Ally(fieldTypeID, compareIDArgs, action);
             }
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Enemy)) {
+            if (hitTargetGroupType.Contains(TargetGroupType.Enemy)) {
                 Foreach_Enemy(fieldTypeID, compareAllyType, action);
             }
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Neutral)) {
+            if (hitTargetGroupType.Contains(TargetGroupType.Neutral)) {
                 Foreach_Neutral(fieldTypeID, compareAllyType, action);
             }
         }
@@ -282,11 +282,11 @@ namespace TiedanSouls.Client {
         /// 遍历所有相对目标组角色, 根据'属性'选择器过滤
         /// </summary>sd
         public void Foreach_AttributeSelector(int fieldTypeID,
-                                              RelativeTargetGroupType relativeTargetGroupType,
+                                              TargetGroupType hitTargetGroupType,
                                               in EntityIDArgs self,
                                               in AttributeSelectorModel attributeSelectorModel,
                                               Action<RoleEntity> action) {
-            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, relativeTargetGroupType, self);
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, self);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var role = list[i];

@@ -92,18 +92,18 @@ namespace TiedanSouls.Client {
 
         #region [CollisionTrigger]
 
-        public static EntityColliderTriggerModel[] GetCollisionTriggerModelArray(CollisionTriggerTM[] tmArray) {
+        public static EntityColliderTriggerModel[] GetEntityColliderTriggerModelArray(CollisionTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntityColliderTriggerModel[] modelArray = new EntityColliderTriggerModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
-                modelArray[i] = GetCollisionTriggerModel(tm);
+                modelArray[i] = GetEntityColliderTriggerModel(tm);
             }
             return modelArray;
         }
 
-        public static EntityColliderTriggerModel GetCollisionTriggerModel(CollisionTriggerTM tm) {
+        public static EntityColliderTriggerModel GetEntityColliderTriggerModel(CollisionTriggerTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;
@@ -115,13 +115,13 @@ namespace TiedanSouls.Client {
             model.triggerCustomModel = GetTriggerCustomModel(tm.triggerCustomTM);
 
             model.targetEntityType = tm.targetEntityType;
-            model.relativeTargetGroupType = tm.relativeTargetGroupType;
+            model.hitTargetGroupType = tm.hitTargetGroupType;
 
             model.damageModel = GetDamageModel(tm.damageTM);
             model.knockBackModel = GetKnockBackModel(tm.knockBackPowerTM);
             model.knockUpModel = GetKnockUpModel(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
-            model.colliderModelArray = GetColliderModelArray(tm.colliderTMArray, tm.relativeTargetGroupType);
+            model.entityColliderModelArray = GetEntityColliderModelArray(tm.colliderTMArray, tm.hitTargetGroupType);
 
             return model;
         }
@@ -159,25 +159,27 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static EntityColliderModel[] GetColliderModelArray(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static EntityCollider[] GetEntityColliderModelArray(ColliderTM[] tmArray, TargetGroupType hitTargetGroupType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntityColliderModel[] modelArray = new EntityColliderModel[len];
+            EntityCollider[] modelArray = new EntityCollider[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetColliderModel(tmArray[i], hitRelativeTargetGroupType);
+                var colliderModel = GetColliderModel(tmArray[i]);
+                EntityCollider model = new EntityCollider();
+                model.SetColliderModel(colliderModel);
+                model.SetHitTargetGroupType(hitTargetGroupType);
+                modelArray[i] = model;
             }
             return modelArray;
         }
 
-        public static EntityColliderModel GetColliderModel(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static ColliderModel GetColliderModel(ColliderTM tm) {
             var go = GetGO_Collider(tm, true);
-            EntityColliderModel model = go.AddComponent<EntityColliderModel>();
-            model.SetColliderType(tm.colliderType);
-            model.SetSize(tm.size);
-            model.SetLocalPos(tm.localPos);
-            model.SetLocalAngleZ(tm.localAngleZ);
-            model.SetLocalRot(Quaternion.Euler(0, 0, tm.localAngleZ));
-            model.SetHitRelativeTargetGroupType(hitRelativeTargetGroupType);
+            ColliderModel model;
+            model.colliderType = tm.colliderType;
+            model.localPos = tm.localPos;
+            model.localAngleZ = tm.localAngleZ;
+            model.localScale = tm.localScale;
             return model;
         }
 
@@ -185,7 +187,7 @@ namespace TiedanSouls.Client {
             GameObject colliderGO = new GameObject();
 
             var colliderType = tm.colliderType;
-            var colliderSize = tm.size;
+            var colliderSize = tm.localScale;
             var localPos = tm.localPos;
             var localAngleZ = tm.localAngleZ;
 
@@ -241,7 +243,7 @@ namespace TiedanSouls.Client {
             model.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
             model.hpEffectTimes = tm.hpEffectTimes;
             model.needRevoke_HPEV = tm.needRevokeHP;
-            model.hpOffset= 0;
+            model.hpOffset = 0;
 
             model.hpMaxNCT = tm.hpMaxNCT;
             model.hpMaxEV = GetFloat_Shrink100(tm.hpMaxEV_Expanded);
@@ -330,7 +332,7 @@ namespace TiedanSouls.Client {
         public static EntityDestroyModel GetEntityDestroyModel(EntityDestroyTM tm) {
             EntityDestroyModel model;
             model.entityType = tm.entityType;
-            model.relativeTargetGroupType = tm.relativeTargetGroupType;
+            model.hitTargetGroupType = tm.hitTargetGroupType;
             model.isEnabled_attributeSelector = tm.attributeSelector_IsEnabled;
             model.attributeSelectorModel = GetAttributeSelectorModel(tm.attributeSelectorTM);
             return model;

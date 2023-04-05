@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Entities {
         EntityColliderTriggerModel collisionTriggerModel;
         public EntityColliderTriggerModel CollisionTriggerModel => collisionTriggerModel;
         public void SetCollisionTriggerModel(in EntityColliderTriggerModel value) {
-            var colliderModelArray = value.colliderModelArray;
+            var colliderModelArray = value.entityColliderModelArray;
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var colliderModel = colliderModelArray[i];

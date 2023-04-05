@@ -8,7 +8,7 @@ namespace TiedanSouls.Generic {
     public struct EntityDestroyModel {
 
         public EntityType entityType;
-        public RelativeTargetGroupType relativeTargetGroupType;
+        public TargetGroupType hitTargetGroupType;
 
         public bool isEnabled_attributeSelector;
         public AttributeSelectorModel attributeSelectorModel;

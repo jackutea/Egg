@@ -161,7 +161,7 @@ namespace TiedanSouls.Client.Facades {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 
-            var relativeTargetGroupType = entityDestroyModel.relativeTargetGroupType;
+            var hitTargetGroupType = entityDestroyModel.hitTargetGroupType;
             var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
             var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
             var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
@@ -172,10 +172,10 @@ namespace TiedanSouls.Client.Facades {
                 if (isEnabled_attributeSelector) {
                     roleRepo.Foreach_AttributeSelector(
                         curFieldTypeID,
-                        relativeTargetGroupType,
+                        hitTargetGroupType,
                         summoner,
                         attributeSelectorModel,
-                        roleFSMDomain.Enter_Dying
+                        roleFSMDomain.EnterActionState_Dying
                     );
                 }
             } else {
@@ -187,40 +187,91 @@ namespace TiedanSouls.Client.Facades {
 
         #region [碰撞器]
 
-        /// <summary>
-        /// 设置 碰撞触发器模型 的父级(为了在碰撞事件触发时找到父级实体)
-        /// </summary>
-        public void SetFather_CollisionTriggerModelArray(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
+        public void SetEntityColliderTriggerModelFathers(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
             var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerModelArray[i];
-                SetFather_CollisionTriggerModel(triggerModel, father);
+                SetEntityColliderTriggerModelFather(triggerModel, father);
             }
         }
 
-        public void SetFather_CollisionTriggerModel(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
-            var array = triggerModel.colliderModelArray;
-            SetFather_ColliderModel(array, father);
+        public void SetEntityColliderTriggerModelFather(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
+            var array = triggerModel.entityColliderModelArray;
+            SetEntityColliderFathers(array, father);
         }
 
-        public void SetFather_ColliderModel(EntityColliderModel[] colliderModelArray, in EntityIDArgs father) {
+        public void SetEntityColliderFathers(EntityCollider[] colliderModelArray, in EntityIDArgs father) {
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
-                var colliderModel = colliderModelArray[i];
-                colliderModel.SetFather(father);
-                colliderModel.onTriggerEnter2D = AddToCollisionEventRepo_TriggerEnter;
-                colliderModel.onTriggerExit2D = AddToCollisionEventRepo_TriggerExit;
+                SetEntityColliderFather(colliderModelArray[i], father);
             }
         }
 
-        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventModel args) {
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerEnter(args);
+        /// <summary>
+        /// 设置 碰撞器模型 的父级(为了在碰撞事件触发时找到父级实体)
+        /// </summary>
+        public void SetEntityColliderFather(EntityCollider colliderModel, in EntityIDArgs father) {
+            colliderModel.SetFather(father);
+            colliderModel.onTriggerEnter2D = AddToCollisionEventRepo_TriggerEnter;
+            colliderModel.onTriggerStay2D = AddToCollisionEventRepo_TriggerStay;
+            colliderModel.onTriggerExit2D = AddToCollisionEventRepo_TriggerExit;
+            colliderModel.onCollisionEnter2D = AddToCollisionEventRepo_CollisionEnter;
+            colliderModel.onCollisionStay2D = AddToCollisionEventRepo_CollisionStay;
+            colliderModel.onCollisionExit2D = AddToCollisionEventRepo_CollisionExit;
         }
 
-        void AddToCollisionEventRepo_TriggerExit(in CollisionEventModel args) {
+        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerExit(args);
+            evRepo.Add_TriggerEnter(evModel);
+        }
+
+        void AddToCollisionEventRepo_TriggerStay(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerStay(evModel);
+        }
+
+        void AddToCollisionEventRepo_TriggerExit(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerExit(evModel);
+        }
+
+        void AddToCollisionEventRepo_CollisionEnter(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionEnter(evModel);
+        }
+
+        void AddToCollisionEventRepo_CollisionStay(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionStay(evModel);
+        }
+
+        void AddToCollisionEventRepo_CollisionExit(in CollisionEventModel evModel) {
+            if (!IsValidCollisionEvent(evModel)) {
+                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionExit(evModel);
         }
 
         #endregion
@@ -291,6 +342,13 @@ namespace TiedanSouls.Client.Facades {
                 return true;
             }
 
+            if (entityType == EntityType.Field) {
+                var fieldRepo = worldContext.FieldRepo;
+                if (!fieldRepo.TryGet(entityID, out var field)) return false;
+                entity = field;
+                return true;
+            }
+
             TDLog.Error($"尚未处理的实体!\n{idArgs}");
             return false;
         }
@@ -357,27 +415,48 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        public bool IsInRightRelativeTargetGroup(RelativeTargetGroupType relativeTargetGroupType, in EntityIDArgs self, in EntityIDArgs other) {
+        public bool IsValidCollisionEvent(in CollisionEventModel evModel) {
+            var entityColliderModelA = evModel.entityColliderModelA;
+            var entityColliderModelB = evModel.entityColliderModelB;
+            var fatherA = entityColliderModelA.Father;
+            var fatherB = entityColliderModelB.Father;
+            var hitTargetGroupTypeA = entityColliderModelA.HitTargetGroupType;
+            var hitTargetGroupTypeB = entityColliderModelB.HitTargetGroupType;
+
+            if (!IsInRightTargetGroup(hitTargetGroupTypeA, fatherA, fatherB)
+            && !IsInRightTargetGroup(hitTargetGroupTypeB, fatherB, fatherA)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool IsInRightTargetGroup(TargetGroupType hitTargetGroupType, in EntityIDArgs self, in EntityIDArgs other) {
+            if (self.entityType == EntityType.Field || other.entityType == EntityType.Field) {
+                // TODO: 移除这里对Field的特殊处理
+                return true;
+            }
+
             var selfAllyType = self.allyType;
             var otherAllyType = other.allyType;
-            bool isSelf = self.IsTheSame(other);
+            bool isSelf = self.IsTheSameAs(other);
             bool isAlly = selfAllyType.IsAlly(otherAllyType);
             bool isEnemy = selfAllyType.IsEnemy(otherAllyType);
             bool isOtherNeutral = otherAllyType == AllyType.Neutral;
 
-            if (relativeTargetGroupType == RelativeTargetGroupType.None)
+            if (hitTargetGroupType == TargetGroupType.None)
                 return false;
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Self) && isSelf)
+            if (hitTargetGroupType.Contains(TargetGroupType.Self) && isSelf)
                 return true;
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Ally) && isAlly)
+            if (hitTargetGroupType.Contains(TargetGroupType.Ally) && isAlly)
                 return true;
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Enemy) && isEnemy)
+            if (hitTargetGroupType.Contains(TargetGroupType.Enemy) && isEnemy)
                 return true;
 
-            if (relativeTargetGroupType.Contains(RelativeTargetGroupType.Neutral) && isOtherNeutral)
+            if (hitTargetGroupType.Contains(TargetGroupType.Neutral) && isOtherNeutral)
                 return true;
 
             return false;

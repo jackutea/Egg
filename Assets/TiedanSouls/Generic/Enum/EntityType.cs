@@ -1,6 +1,6 @@
 namespace TiedanSouls.Generic {
 
-    public enum EntityType {
+    public enum EntityType : byte {
 
         None = 0,
         Role = 1,

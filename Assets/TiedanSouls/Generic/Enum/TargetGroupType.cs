@@ -2,9 +2,9 @@ using System;
 
 namespace TiedanSouls.Generic {
 
-    // 相对目标群体类型
+    // 目标群体类型
     [Flags]
-    public enum RelativeTargetGroupType {
+    public enum TargetGroupType : sbyte {
 
         None = 0,
 
@@ -15,10 +15,14 @@ namespace TiedanSouls.Generic {
 
     }
 
-    public static class RelativeTargetGroupTypeExtension {
+    public static class TargetGroupTypeExtension {
 
-        public static bool Contains(this RelativeTargetGroupType self, RelativeTargetGroupType other) {
+        public static bool Contains(this TargetGroupType self, TargetGroupType other) {
             return (self & other) == other;
+        }
+
+        public static TargetGroupType ChooseAll() {
+            return (TargetGroupType)sbyte.MaxValue;
         }
 
     }

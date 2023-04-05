@@ -5,7 +5,7 @@ namespace TiedanSouls.Client.Entities {
     public struct EntityIDArgs {
 
         public EntityType entityType;
-        public int entityID;
+        public short entityID;
         public int typeID;
         public string entityName;
         public AllyType allyType;
@@ -13,7 +13,7 @@ namespace TiedanSouls.Client.Entities {
 
         public int fromFieldTypeID;
 
-        public bool IsTheSame(in EntityIDArgs other) {
+        public bool IsTheSameAs(in EntityIDArgs other) {
             return entityType == other.entityType
                 && typeID == other.typeID
                 && entityID == other.entityID;

@@ -8,7 +8,7 @@ namespace TiedanSouls.Template {
     public struct EntityTrackTM {
 
         [Header("跟踪速度(cm)")] public int trackSpeed_cm;
-        [Header("跟踪目标群体")] public RelativeTargetGroupType trackTargetGroupType;
+        [Header("跟踪目标群体")] public TargetGroupType trackTargetGroupType;
         [Header("实体跟踪 选择器")] public EntityTrackSelectorTM entityTrackSelectorTM;
 
     }

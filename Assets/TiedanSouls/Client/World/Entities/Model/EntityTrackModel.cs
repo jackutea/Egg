@@ -5,7 +5,7 @@ namespace TiedanSouls.Client.Entities {
     public struct EntityTrackModel {
 
         public float trackSpeed;
-        public RelativeTargetGroupType relativeTrackTargetGroupType;
+        public TargetGroupType relativeTrackTargetGroupType;
         public EntityTrackSelectorModel entityTrackSelectorModel;
 
         public EntityIDArgs target;

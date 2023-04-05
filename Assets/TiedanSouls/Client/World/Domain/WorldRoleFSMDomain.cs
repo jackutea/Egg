@@ -307,15 +307,19 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [动作状态 切换]
+        #region [动作状态]
 
-        public void Enter_Dying(RoleEntity role) {
+        public void EnterActionState_Dying(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
             fsm.EnterActionState_Dying(30);
         }
 
-        public void Enter_KnockBack(RoleEntity role, Vector3 beHitDir, in KnockBackModel knockBackModel) {
+        #endregion
+
+        #region [控制状态]
+
+        public void AddCtrlStatus_KnockBack(RoleEntity role, Vector3 beHitDir, in KnockBackModel knockBackModel) {
             var knockBackSpeedArray = knockBackModel.knockBackSpeedArray;
             if (knockBackSpeedArray == null || knockBackSpeedArray.Length == 0) {
                 return;
@@ -324,13 +328,22 @@ namespace TiedanSouls.Client.Domain {
             fsm.AddCtrlStatus_KnockBack(beHitDir, knockBackModel);
         }
 
-        public void Enter_KnockUp(RoleEntity role, Vector3 beHitDir, in KnockUpModel knockUpModel) {
+        public void AddCtrlStatus_KnockUp(RoleEntity role, Vector3 beHitDir, in KnockUpModel knockUpModel) {
             var knockUpSpeedArray = knockUpModel.knockUpSpeedArray;
             if (knockUpSpeedArray == null || knockUpSpeedArray.Length == 0) {
                 return;
             }
             var fsm = role.FSMCom;
             fsm.AddCtrlStatus_KnockUp(knockUpModel);
+        }
+
+        #endregion
+
+        #region [位置状态]
+
+        public void AddPositionStatus_OnGround(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.AddPositionStatus_OnGround();
         }
 
         #endregion

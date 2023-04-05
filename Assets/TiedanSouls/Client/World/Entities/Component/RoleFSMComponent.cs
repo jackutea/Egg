@@ -42,8 +42,8 @@ namespace TiedanSouls.Client.Entities {
         RolePositionStatus positionStatus;
         public RolePositionStatus PositionStatus => positionStatus;
 
-        RoleFSMModel_StandInGround standInGroundModel;
-        public RoleFSMModel_StandInGround StandInGroundModel => standInGroundModel;
+        RoleFSMModel_OnGround onGroundModel;
+        public RoleFSMModel_OnGround OnGroundModel => onGroundModel;
 
         RoleFSMModel_StandInCrossPlatform standInPlatformModel;
         public RoleFSMModel_StandInCrossPlatform StandInCrossPlatformModel => standInPlatformModel;
@@ -61,7 +61,7 @@ namespace TiedanSouls.Client.Entities {
             knockUpModel = new RoleFSMModel_KnockUp();
             dyingModel = new RoleFSMModel_Dying();
 
-            standInGroundModel = new RoleFSMModel_StandInGround();
+            onGroundModel = new RoleFSMModel_OnGround();
             standInPlatformModel = new RoleFSMModel_StandInCrossPlatform();
             standInWaterModel = new RoleFSMModel_StandInWater();
         }
@@ -87,7 +87,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void ResetPositionStatus() {
-            standInGroundModel.Reset();
+            onGroundModel.Reset();
             standInPlatformModel.Reset();
             standInWaterModel.Reset();
             positionStatus = RolePositionStatus.None;
@@ -204,13 +204,13 @@ namespace TiedanSouls.Client.Entities {
 
         #region [位置状态]
 
-        public void AddPositionStatus_StandInGround() {
-            var stateModel = standInGroundModel;
+        public void AddPositionStatus_OnGround() {
+            var stateModel = onGroundModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.StandInGround);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.StandInGround}'\n{positionStatus.GetString()}");
+            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnGround);
+            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnGround}'\n{positionStatus.GetString()}");
         }
 
         public void AddPositionStatus_StandInCrossPlatform() {
@@ -231,9 +231,9 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.StandInWater}'\n{positionStatus.GetString()}");
         }
 
-        public void RemovePositionStatus_StandInGround() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.StandInGround);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.StandInGround}'\n{positionStatus.GetString()}");
+        public void RemovePositionStatus_OnGround() {
+            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnGround);
+            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnGround}'\n{positionStatus.GetString()}");
         }
 
         public void RemovePositionStatus_StandInCrossPlatform() {
@@ -286,7 +286,7 @@ namespace TiedanSouls.Client.Entities {
                 && !ctrlStatus.Contains(RoleCtrlStatus.KnockUp)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Root)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
-                && (positionStatus.Contains(RolePositionStatus.StandInGround)
+                && (positionStatus.Contains(RolePositionStatus.OnGround)
                     || positionStatus.Contains(RolePositionStatus.StandInCrossPlatform)
                     || positionStatus.Contains(RolePositionStatus.StandInWater));
         }
@@ -298,7 +298,7 @@ namespace TiedanSouls.Client.Entities {
             return !ctrlStatus.Contains(RoleCtrlStatus.KnockBack)
                 && !ctrlStatus.Contains(RoleCtrlStatus.KnockUp)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
-                && !positionStatus.Contains(RolePositionStatus.StandInGround)
+                && !positionStatus.Contains(RolePositionStatus.OnGround)
                 && !positionStatus.Contains(RolePositionStatus.StandInCrossPlatform);
         }
 

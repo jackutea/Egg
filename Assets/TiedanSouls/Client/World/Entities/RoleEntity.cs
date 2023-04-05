@@ -51,6 +51,9 @@ namespace TiedanSouls.Client.Entities {
         sbyte faceDirX;
         public sbyte FaceDirX => faceDirX;
 
+        public int groundCount;
+        public bool IsGround => groundCount > 0;
+
         #endregion
 
         #region [出生点 & 是否为Boss]
@@ -75,13 +78,6 @@ namespace TiedanSouls.Client.Entities {
             Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
             TDLog.Assert(RB_LogicRoot != null);
             TDLog.Assert(Coll_LogicRoot != null);
-
-            // - Collider Event
-            var colliderCom = LogicRoot.gameObject.AddComponent<ColliderComponent>();
-            colliderCom.OnCollisionEnter += this.HandleCollisionEnter;
-            colliderCom.OnCollisionExit += this.HandleCollisionExit;
-            colliderCom.OnTriggerEnter += this.HandleTriggerEnter;
-            colliderCom.OnTriggerExit += this.HandleTriggerExit;
 
             // - Move
             MoveCom = new MoveComponent();
@@ -161,56 +157,8 @@ namespace TiedanSouls.Client.Entities {
             var idArgs = IDCom.ToArgs();
             SkillSlotCom.SetFather(idArgs);
             BuffSlotCom.SetFather(idArgs);
-            Coll_LogicRoot.GetComponent<EntityColliderModel>().SetFather(idArgs);
+            Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
         }
-
-        #region [角色物理事件]
-
-        public Action<RoleEntity, Collision2D> OnCollisionEnterField;
-        public Action<RoleEntity, Collision2D> OnCollisionLeaveField;
-        
-        public Action<RoleEntity, Collision2D> OnCollisionEnterCrossPlatform;
-        public Action<RoleEntity, Collision2D> OnCollisionLeavePlatform;
-
-        public Action<RoleEntity, Collider2D> OnTriggerEnterField;
-        public Action<RoleEntity, Collider2D> OnTriggerLeaveField;
-
-        public Action<RoleEntity, Collider2D> OnTriggerEnterCrossPlatform;
-        public Action<RoleEntity, Collider2D> OnTriggerLeaveCrossPlatform;
-
-        void HandleCollisionEnter(Collision2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
-                OnCollisionEnterField?.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
-                OnCollisionEnterCrossPlatform?.Invoke(this, other);
-            }
-        }
-
-        void HandleCollisionExit(Collision2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
-                OnCollisionLeaveField?.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
-                OnCollisionLeavePlatform?.Invoke(this, other);
-            }
-        }
-
-        void HandleTriggerEnter(Collider2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
-                OnTriggerEnterField?.Invoke(this, other);
-            }else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
-                OnTriggerEnterCrossPlatform?.Invoke(this, other);
-            }
-        }
-
-        void HandleTriggerExit(Collider2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
-                OnTriggerLeaveField?.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
-                OnTriggerLeaveCrossPlatform?.Invoke(this, other);
-            }
-        }
-
-        #endregion
 
     }
 

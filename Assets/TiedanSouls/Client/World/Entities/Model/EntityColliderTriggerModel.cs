@@ -19,7 +19,7 @@ namespace TiedanSouls.Client.Entities {
         // 作用实体类型
         public EntityType targetEntityType;
         // 作用目标
-        public RelativeTargetGroupType relativeTargetGroupType;
+        public TargetGroupType hitTargetGroupType;
 
         // 模型: 伤害
         public DamageModel damageModel;
@@ -30,7 +30,7 @@ namespace TiedanSouls.Client.Entities {
         // 模型: 击中效果器
         public int hitEffectorTypeID;
 
-        public EntityColliderModel[] colliderModelArray;
+        public EntityCollider[] entityColliderModelArray;
 
         public TriggerState GetTriggerStatus(int frame) {
             if (!isEnabled) return TriggerState.None;
@@ -58,16 +58,16 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void ActivateAll() {
-            var len = colliderModelArray.Length;
+            var len = entityColliderModelArray.Length;
             for (int i = 0; i < len; i++) {
-                colliderModelArray[i].Activate();
+                entityColliderModelArray[i].Activate();
             }
         }
 
         public void DeactivateAll() {
-            var len = colliderModelArray.Length;
+            var len = entityColliderModelArray.Length;
             for (int i = 0; i < len; i++) {
-                colliderModelArray[i].Deactivate();
+                entityColliderModelArray[i].Deactivate();
             }
         }
 

@@ -267,7 +267,7 @@ namespace TiedanSouls.Client {
             // 连招技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.cancelSkillCancelTMArray));
             // 碰撞器
-            skill.SetCollisionTriggerArray(TM2ModelUtil.GetCollisionTriggerModelArray(skillTM.collisionTriggerTMArray));
+            skill.SetEntityColliderTriggerModelArray(TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray));
             // 技能效果器
             skill.SetSkillEffectorModelArray(TM2ModelUtil.GetSkillEffectorModelArray(skillTM.skillEffectorTMArray));
             // 技能位移曲线
@@ -341,7 +341,7 @@ namespace TiedanSouls.Client {
             bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
             bullet.moveCurveModel = TM2ModelUtil.GetMoveCurveModel(tm.moveCurveTM);// 位移曲线模型
 
-            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetCollisionTriggerModel(tm.collisionTriggerTM));
+            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetEntityColliderTriggerModel(tm.collisionTriggerTM));
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
 

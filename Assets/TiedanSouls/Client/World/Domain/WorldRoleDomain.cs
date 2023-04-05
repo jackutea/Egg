@@ -97,20 +97,10 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetControlType(controlType);
             idCom.SetAllyType(allyType);
 
-            // 物理事件绑定
-            role.OnCollisionEnterField = this.OnCollisionEnterField;
-            role.OnCollisionLeaveField = this.OnCollisionLeaveField;
-            role.OnCollisionEnterCrossPlatform = this.OnCollisionEnterCrossPlatform;
-            role.OnCollisionLeavePlatform = this.OnCollisionLeavePlatform;
-
-            role.OnTriggerEnterField = this.OnTriggerEnterField;
-            role.OnTriggerLeaveField = this.OnTriggerLeaveField;
-            role.OnTriggerEnterCrossPlatform = this.OnTriggerEnterCrossPlatform;
-            role.OnTriggerLeaveCrossPlatform = this.OnTriggerLeaveCrossPlatform;
-
             // Collider Model
-            var colliderModel = role.LogicRoot.gameObject.AddComponent<EntityColliderModel>();
-            colliderModel.SetFather(idCom.ToArgs());
+            var entityCollider = role.LogicRoot.gameObject.AddComponent<EntityCollider>();
+            var rootDomain = worldContext.RootDomain;
+            rootDomain.SetEntityColliderFather(entityCollider, idCom.ToArgs());
 
             // AI
             if (controlType == ControlType.AI) {
@@ -374,25 +364,12 @@ namespace TiedanSouls.Client.Domain {
         #region [Physics Event Handle]
 
         void OnCollisionEnterField(RoleEntity role, Collision2D collision2D) {
-            var normal = collision2D.contacts[0].normal;
-            var isStand = normal.y > 0.01f;
 
-            if (isStand) {
-                var moveCom = role.MoveCom;
-                var rb = moveCom.RB;
-                var velo = rb.velocity;
-                velo.y = 0;
-                moveCom.SetVelocity(velo);
-
-                var fsmCom = role.FSMCom;
-                fsmCom.AddPositionStatus_StandInGround();
-                fsmCom.EnterActionState_Idle();
-            }
         }
 
         void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
             var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_StandInGround();
+            fsmCom.RemovePositionStatus_OnGround();
         }
 
         void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {
@@ -576,9 +553,9 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
             // 击退
-            roleFSMDomain.Enter_KnockBack(role, beHitDir, collisionTriggerModel.knockBackModel);
+            roleFSMDomain.AddCtrlStatus_KnockBack(role, beHitDir, collisionTriggerModel.knockBackModel);
             // 击飞
-            roleFSMDomain.Enter_KnockUp(role, beHitDir, collisionTriggerModel.knockUpModel);
+            roleFSMDomain.AddCtrlStatus_KnockUp(role, beHitDir, collisionTriggerModel.knockUpModel);
 
             // 伤害 仲裁
             var damageArbitService = worldContext.DamageArbitService;

@@ -325,7 +325,7 @@ namespace TiedanSouls.EditorTool {
             tm.colliderTMArray = GetColliderTMArray(em.colliderGOArray);
 
             tm.targetEntityType = em.targetEntityType;
-            tm.relativeTargetGroupType = em.relativeTargetGroupType;
+            tm.hitTargetGroupType = em.hitTargetGroupType;
 
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
             tm.knockBackPowerTM = GetKnockBackTM(em.knockBackEM);
@@ -387,7 +387,7 @@ namespace TiedanSouls.EditorTool {
             ColliderTM tm;
             tm.colliderType = colliderType;
             tm.localPos = localPos;
-            tm.size = size;
+            tm.localScale = size;
             tm.localAngleZ = angleZ;
 
             return tm;
@@ -430,7 +430,7 @@ namespace TiedanSouls.EditorTool {
         public static EntityDestroyTM GetEntityDestroyTM(EntityDestroyEM em) {
             EntityDestroyTM tm;
             tm.entityType = em.entityType;
-            tm.relativeTargetGroupType = em.relativeTargetGroupType;
+            tm.hitTargetGroupType = em.hitTargetGroupType;
             tm.attributeSelector_IsEnabled = em.attributeSelector_IsEnabled;
             tm.attributeSelectorTM = GetAttributeSelectorTM(em.attributeSelectorEM);
             return tm;

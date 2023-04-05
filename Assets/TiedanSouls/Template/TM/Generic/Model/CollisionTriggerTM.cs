@@ -19,7 +19,7 @@ namespace TiedanSouls.Template {
         [Header("模型: 自定义")] public TriggerCustomTM triggerCustomTM;
 
         [Header("作用实体类型")] public EntityType targetEntityType;
-        [Header("作用目标")] public RelativeTargetGroupType relativeTargetGroupType;
+        [Header("作用目标")] public TargetGroupType hitTargetGroupType;
 
         [Header("模型: 伤害")] public DamageTM damageTM;
         [Header("模型: 击退力度")] public KnockBackTM knockBackPowerTM;

@@ -20,7 +20,7 @@ namespace TiedanSouls.EditorTool {
         [Header("模型: 自定义触发")] public TriggerCustomEM triggerCustomEM;
 
         [Header("作用实体类型")] public EntityType targetEntityType;
-        [Header("作用目标群体")] public RelativeTargetGroupType relativeTargetGroupType;
+        [Header("作用目标群体")] public TargetGroupType hitTargetGroupType;
         
         [Header("模型: 伤害")] public DamageEM damageEM;
         [Header("模型: 击退")] public KnockBackEM knockBackEM;

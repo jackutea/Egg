@@ -5,20 +5,19 @@ using TiedanSouls.Generic;
 namespace TiedanSouls.Template {
 
     [Serializable]
-    public class FieldTM {
+    public struct FieldTM {
 
         public string fieldAssetName;
 
         public int typeID;
         public FieldType fieldType;
 
-        public ushort chapter;                              // 章节
-        public ushort level;                                // 关卡
+        [Header("章节")] public ushort chapter;
+        [Header("关卡")] public ushort level;
 
-        public EntitySpawnCtrlTM[] entitySpawnCtrlTMArray;  // 实体生成控制模型(组)
-        public Vector2[] itemSpawnPosArray;                 // 物品生成位置(组) 
-
-        public FieldDoorModel[] fieldDoorArray;             // 场景门模型(组)
+        [Header("实体生成控制模型(组)")] public EntitySpawnCtrlTM[] entitySpawnCtrlTMArray;
+        [Header("物品生成位置(组)")] public Vector2[] itemSpawnPosArray;
+        [Header("场景门模型(组)")] public FieldDoorModel[] fieldDoorArray;
 
     }
 

@@ -49,7 +49,7 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetFather(father);
 
             // 碰撞盒关联
-            this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
+            this.rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
 
             bulletRepo.Add(bullet);
 
@@ -81,7 +81,7 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetControlType(spawnControlType);
 
             // 2. 子弹 碰撞盒关联
-            this.rootDomain.SetFather_CollisionTriggerModel(bullet.CollisionTriggerModel, idCom.ToArgs());
+            this.rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
 
             // 3. 添加至仓库
             var repo = worldContext.BulletRepo;

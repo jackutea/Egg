@@ -1,11 +1,12 @@
-using System;
 using TiedanSouls.Generic;
 using UnityEngine;
 
-namespace TiedanSouls.Template {
+namespace TiedanSouls.Client.Entities {
 
-    [Serializable]
-    public struct ColliderTM {
+    /// <summary>
+    /// 碰撞器模型
+    /// </summary>
+    public struct ColliderModel {
 
         public ColliderType colliderType;
         public Vector3 localPos;
