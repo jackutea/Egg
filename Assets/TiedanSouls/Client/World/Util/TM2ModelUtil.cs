@@ -23,12 +23,9 @@ namespace TiedanSouls.Client {
         public static ProjectileBulletModel GetProjectileBulletModel(ProjectileBulletTM tm) {
             ProjectileBulletModel model;
             model.startFrame = tm.startFrame;
-            model.endFrame = tm.endFrame;
             model.bulletTypeID = tm.bulletTypeID;
-            model.extraPenetrateCount = tm.extraPenetrateCount;
             model.localPos = GetVector3_Shrink100(tm.localPos_cm);
             model.localEulerAngles = tm.localEulerAngles;
-            model.bulletEntityID = -1;
             return model;
         }
 
@@ -50,6 +47,7 @@ namespace TiedanSouls.Client {
             SkillMoveCurveModel model;
             model.startFrame = tm.startFrame;
             model.isFaceTo = tm.isFaceTo;
+            model.needWaitForMoveEnd = tm.needWaitForMoveEnd;
             model.moveCurveModel = GetMoveCurveModel(tm.moveCurveTM);
             return model;
         }
@@ -94,10 +92,10 @@ namespace TiedanSouls.Client {
 
         #region [CollisionTrigger]
 
-        public static CollisionTriggerModel[] GetCollisionTriggerModelArray(CollisionTriggerTM[] tmArray) {
+        public static EntityColliderTriggerModel[] GetCollisionTriggerModelArray(CollisionTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            CollisionTriggerModel[] modelArray = new CollisionTriggerModel[len];
+            EntityColliderTriggerModel[] modelArray = new EntityColliderTriggerModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
                 modelArray[i] = GetCollisionTriggerModel(tm);
@@ -105,12 +103,12 @@ namespace TiedanSouls.Client {
             return modelArray;
         }
 
-        public static CollisionTriggerModel GetCollisionTriggerModel(CollisionTriggerTM tm) {
+        public static EntityColliderTriggerModel GetCollisionTriggerModel(CollisionTriggerTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;
 
-            CollisionTriggerModel model;
+            EntityColliderTriggerModel model;
             model.isEnabled = tm.isEnabled;
             model.triggerMode = triggerMode;
             model.triggerFixedIntervalModel = GetTriggerFixedIntervalModel(tm.triggerFixedIntervalTM);
@@ -161,19 +159,19 @@ namespace TiedanSouls.Client {
 
         #region [Collider]
 
-        public static ColliderModel[] GetColliderModelArray(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static EntityColliderModel[] GetColliderModelArray(ColliderTM[] tmArray, RelativeTargetGroupType hitRelativeTargetGroupType) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            ColliderModel[] modelArray = new ColliderModel[len];
+            EntityColliderModel[] modelArray = new EntityColliderModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetColliderModel(tmArray[i], hitRelativeTargetGroupType);
             }
             return modelArray;
         }
 
-        public static ColliderModel GetColliderModel(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
+        public static EntityColliderModel GetColliderModel(ColliderTM tm, RelativeTargetGroupType hitRelativeTargetGroupType) {
             var go = GetGO_Collider(tm, true);
-            ColliderModel model = go.AddComponent<ColliderModel>();
+            EntityColliderModel model = go.AddComponent<EntityColliderModel>();
             model.SetColliderType(tm.colliderType);
             model.SetSize(tm.size);
             model.SetLocalPos(tm.localPos);

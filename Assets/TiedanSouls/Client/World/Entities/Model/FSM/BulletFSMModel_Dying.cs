@@ -1,16 +1,25 @@
+using UnityEngine;
+
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleFSMModel_LeaveWater {
+    public class BulletFSMModel_Dying {
 
         bool isEntering;
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
-        public RoleFSMModel_LeaveWater() { }
+        public int maintainFrame;
+
+        public BulletFSMModel_Dying() {
+            isEntering = false;
+            maintainFrame = 0;
+        }
 
         public void Reset() {
             isEntering = false;
+            maintainFrame = 0;
         }
 
     }
+
 }

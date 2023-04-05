@@ -22,8 +22,8 @@ public class RoleFollowAIPrecondition  : IBTTreePrecondition {
         }
 
         bool IBTTreePrecondition.CanEnter() {
-            Vector2 pos_role = role.RendererPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RendererPos;
+            Vector2 pos_role = role.LogicRootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
             return (Vector2.Distance(pos_role, pos_target) > attackRange);
         }
 

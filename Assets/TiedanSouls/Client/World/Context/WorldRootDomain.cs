@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [杂项 Domain]
 
-        public WorldPhysicalDomain PhysicalDomain { get; private set; }
+        public WorldPhxDomain PhysicalDomain { get; private set; }
         public WorldEffectorDomain EffectorDomain { get; private set; }
 
         #endregion
@@ -59,7 +59,7 @@ namespace TiedanSouls.Client.Facades {
             BulletFSMDomain = new WorldBulletFSMDomain();
             BuffDomain = new WorldBuffDomain();
 
-            PhysicalDomain = new WorldPhysicalDomain();
+            PhysicalDomain = new WorldPhxDomain();
             EffectorDomain = new WorldEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
@@ -190,7 +190,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 设置 碰撞触发器模型 的父级(为了在碰撞事件触发时找到父级实体)
         /// </summary>
-        public void SetFather_CollisionTriggerModelArray(CollisionTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
+        public void SetFather_CollisionTriggerModelArray(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
             var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerModelArray[i];
@@ -198,12 +198,12 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
-        public void SetFather_CollisionTriggerModel(in CollisionTriggerModel triggerModel, in EntityIDArgs father) {
+        public void SetFather_CollisionTriggerModel(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
             var array = triggerModel.colliderModelArray;
             SetFather_ColliderModel(array, father);
         }
 
-        public void SetFather_ColliderModel(ColliderModel[] colliderModelArray, in EntityIDArgs father) {
+        public void SetFather_ColliderModel(EntityColliderModel[] colliderModelArray, in EntityIDArgs father) {
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var colliderModel = colliderModelArray[i];
@@ -300,7 +300,7 @@ namespace TiedanSouls.Client.Facades {
         /// </summary>
         public bool TryGetEntityPos(IEntity entity, out Vector3 pos) {
             if (entity is RoleEntity role) {
-                pos = role.LogicPos;
+                pos = role.LogicRootPos;
                 return true;
             }
 

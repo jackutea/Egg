@@ -4,9 +4,9 @@ using UnityEngine;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 此脚本通过动态挂载
+    /// 实体碰撞器模型
     /// </summary>
-    public class ColliderModel : MonoBehaviour {
+    public class EntityColliderModel : MonoBehaviour {
 
         [SerializeField] EntityIDArgs father;
         public EntityIDArgs Father => father;
@@ -61,7 +61,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         void OnTriggerEnter2D(Collider2D other) {
-            if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
+            if (!other.gameObject.TryGetComponent<EntityColliderModel>(out var otherColliderModel)) return;
 
             var otherFather = otherColliderModel.father;
             if (!IsInRightRelativeTargetGroup(otherFather)) return;
@@ -71,7 +71,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         void OnTriggerStay2D(Collider2D other) {
-            if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
+            if (!other.gameObject.TryGetComponent<EntityColliderModel>(out var otherColliderModel)) return;
             var otherFather = otherColliderModel.father;
             if (!IsInRightRelativeTargetGroup(otherFather)) {
                 return;
@@ -82,7 +82,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         void OnTriggerExit2D(Collider2D other) {
-            if (!other.gameObject.TryGetComponent<ColliderModel>(out var otherColliderModel)) return;
+            if (!other.gameObject.TryGetComponent<EntityColliderModel>(out var otherColliderModel)) return;
             var otherFather = otherColliderModel.father;
             if (!IsInRightRelativeTargetGroup(otherFather)) {
                 return;

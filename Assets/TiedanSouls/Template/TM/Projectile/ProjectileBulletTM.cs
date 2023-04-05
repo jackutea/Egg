@@ -6,10 +6,10 @@ namespace TiedanSouls.Template {
     [Serializable]
     public struct ProjectileBulletTM {
 
-        [Header("额外穿透次数")] public int extraPenetrateCount;
+        [Header("子弹类型ID")] public int bulletTypeID;
+        [Header("触发帧")] public int startFrame;
         [Header("本地坐标(cm)")] public Vector3Int localPos_cm;
         [Header("本地角度")] public Vector3Int localEulerAngles;
-        [Header("子弹类型ID")] public int bulletTypeID;
 
     }
 

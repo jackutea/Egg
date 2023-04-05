@@ -12,6 +12,10 @@ namespace TiedanSouls.Client.Entities {
         public bool IsFaceTo => isFaceTo;
         public void SetIsFaceTo(bool value) => isFaceTo = value;
 
+        bool needWaitForMoveEnd;
+        public bool NeedWaitForMoveEnd => needWaitForMoveEnd;
+        public void SetNeedWaitForMoveEnd(bool value) => needWaitForMoveEnd = value;
+
         float[] moveSpeedArray;
         public float[] MoveSpeedArray => moveSpeedArray;
         public void SetMoveSpeedArray(float[] value) => moveSpeedArray = value;
@@ -29,6 +33,7 @@ namespace TiedanSouls.Client.Entities {
         public void Reset() {
             isEntering = false;
             isFaceTo = false;
+            needWaitForMoveEnd = false;
             moveSpeedArray = null;
             moveDirArray = null;
             curFrame = -1;

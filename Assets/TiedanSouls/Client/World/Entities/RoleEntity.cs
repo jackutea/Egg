@@ -21,8 +21,6 @@ namespace TiedanSouls.Client.Entities {
         public SkillSlotComponent SkillSlotCom { get; private set; }
         public BuffSlotComponent BuffSlotCom { get; private set; }
         public HUDSlotComponent HudSlotCom { get; private set; }
-        public FootComponent FootCom { get; private set; }
-        public BodyComponent BodyCom { get; private set; }
         public RoleRendererComponent RendererModCom { get; private set; }
 
         #endregion
@@ -30,20 +28,21 @@ namespace TiedanSouls.Client.Entities {
         #region [Root]
 
         public Transform LogicRoot { get; private set; }
-        public Transform RendererRoot { get; private set; }
-
-        public Vector3 LogicPos => LogicRoot.position;
+        public Vector3 LogicRootPos => LogicRoot.position;
         public float LogicAngleZ => LogicRoot.rotation.z;
         public Quaternion LogicRotation => LogicRoot.rotation;
         public void SetLogicPos(Vector2 pos) => LogicRoot.position = pos;
 
-        public Vector2 RendererPos => RendererRoot.position;
+        public Transform RendererRoot { get; private set; }
+        public Vector2 RendererRootPos => RendererRoot.position;
 
         public Transform WeaponRoot { get; private set; }
-        public Vector2 GetPos_WeaponRoot() => WeaponRoot.position;
+        public Vector2 WeaponRootPos() => WeaponRoot.position;
 
         public Rigidbody2D RB_LogicRoot { get; private set; }
         public CapsuleCollider2D Coll_LogicRoot { get; private set; }
+
+        public void SetTrigger(bool isTrigger) => Coll_LogicRoot.isTrigger = isTrigger;
 
         #endregion
 
@@ -77,6 +76,13 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Assert(RB_LogicRoot != null);
             TDLog.Assert(Coll_LogicRoot != null);
 
+            // - Collider Event
+            var colliderCom = LogicRoot.gameObject.AddComponent<ColliderComponent>();
+            colliderCom.OnCollisionEnter += this.HandleCollisionEnter;
+            colliderCom.OnCollisionExit += this.HandleCollisionExit;
+            colliderCom.OnTriggerEnter += this.HandleTriggerEnter;
+            colliderCom.OnTriggerExit += this.HandleTriggerExit;
+
             // - Move
             MoveCom = new MoveComponent();
             MoveCom.Inject(RB_LogicRoot);
@@ -89,7 +95,7 @@ namespace TiedanSouls.Client.Entities {
             InputCom = new InputComponent();
 
             // - Weapon
-            WeaponRoot = LogicRoot.Find("weapon_root");
+            WeaponRoot = RendererRoot.Find("weapon_root");
             WeaponSlotCom = new WeaponSlotComponent();
             WeaponSlotCom.Inject(WeaponRoot);
 
@@ -113,15 +119,6 @@ namespace TiedanSouls.Client.Entities {
 
             RendererModCom = new RoleRendererComponent();
 
-            // - Foot
-            FootCom = LogicRoot.Find("foot").GetComponent<FootComponent>();
-            FootCom.Ctor();
-            FootCom.footTriggerEnter = OnFootTriggerEnter;
-            FootCom.footTriggerExit = OnFootTriggerExit;
-
-            // - Body
-            BodyCom = LogicRoot.Find("body").GetComponent<BodyComponent>();
-            BodyCom.Ctor();
         }
 
         public void TearDown() {
@@ -129,16 +126,12 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Reset() {
-            // - Foot
-            FootCom.Reset();
-            // - Body
-            BodyCom.Reset();
             // - Weapon
             WeaponSlotCom.Reset();
             // - Attribute
             AttributeCom.Reset();
             // - FSM
-            FSMCom.Reset();
+            FSMCom.ResetAll();
             // - Input
             InputCom.Reset();
             // - Movement
@@ -168,36 +161,55 @@ namespace TiedanSouls.Client.Entities {
             var idArgs = IDCom.ToArgs();
             SkillSlotCom.SetFather(idArgs);
             BuffSlotCom.SetFather(idArgs);
-            Coll_LogicRoot.GetComponent<ColliderModel>().SetFather(idArgs);
+            Coll_LogicRoot.GetComponent<EntityColliderModel>().SetFather(idArgs);
         }
 
         #region [角色物理事件]
 
-        public Action<RoleEntity, Collider2D> OnStandInGround;
-        public Action<RoleEntity, Collider2D> OnStandInPlatform;
-        public Action<RoleEntity, Collider2D> OnStandInWater;
+        public Action<RoleEntity, Collision2D> OnCollisionEnterField;
+        public Action<RoleEntity, Collision2D> OnCollisionLeaveField;
+        
+        public Action<RoleEntity, Collision2D> OnCollisionEnterCrossPlatform;
+        public Action<RoleEntity, Collision2D> OnCollisionLeavePlatform;
 
-        public Action<RoleEntity, Collider2D> OnLeaveGround;
-        public Action<RoleEntity, Collider2D> OnLeavePlatform;
-        public Action<RoleEntity, Collider2D> OnLeaveWater;
+        public Action<RoleEntity, Collider2D> OnTriggerEnterField;
+        public Action<RoleEntity, Collider2D> OnTriggerLeaveField;
 
-        void OnFootTriggerEnter(Collider2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.GROUND)) {
-                OnStandInGround.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.PLATFORM)) {
-                OnStandInPlatform.Invoke(this, other);
+        public Action<RoleEntity, Collider2D> OnTriggerEnterCrossPlatform;
+        public Action<RoleEntity, Collider2D> OnTriggerLeaveCrossPlatform;
+
+        void HandleCollisionEnter(Collision2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
+                OnCollisionEnterField?.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
+                OnCollisionEnterCrossPlatform?.Invoke(this, other);
             }
         }
 
-        void OnFootTriggerExit(Collider2D other) {
-            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.GROUND)) {
-                OnLeaveGround.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.PLATFORM)) {
-                OnLeavePlatform.Invoke(this, other);
-            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.WATER)) {
-                OnLeaveWater.Invoke(this, other);
+        void HandleCollisionExit(Collision2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
+                OnCollisionLeaveField?.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
+                OnCollisionLeavePlatform?.Invoke(this, other);
             }
         }
+
+        void HandleTriggerEnter(Collider2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
+                OnTriggerEnterField?.Invoke(this, other);
+            }else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
+                OnTriggerEnterCrossPlatform?.Invoke(this, other);
+            }
+        }
+
+        void HandleTriggerExit(Collider2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.FIELD)) {
+                OnTriggerLeaveField?.Invoke(this, other);
+            } else if (other.gameObject.layer == LayerMask.NameToLayer(LayerCollection.CROSS_PLATFORM)) {
+                OnTriggerLeaveCrossPlatform?.Invoke(this, other);
+            }
+        }
+
         #endregion
 
     }

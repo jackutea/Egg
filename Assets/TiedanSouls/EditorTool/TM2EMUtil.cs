@@ -90,8 +90,6 @@ namespace TiedanSouls.EditorTool {
         public static ProjectileBulletEM GetProjectileBulletEM(ProjectileBulletTM tm) {
             ProjectileBulletEM em;
             em.startFrame = tm.startFrame;
-            em.endFrame = tm.endFrame;
-            em.extraPenetrateCount = tm.extraPenetrateCount;
             em.localPos = GetVector3_Shrink100(tm.localPos_cm);
             em.localEulerAngles = tm.localEulerAngles;
             em.bulletTypeID = tm.bulletTypeID;
@@ -116,6 +114,7 @@ namespace TiedanSouls.EditorTool {
             SkillMoveCurveEM em;
             em.startFrame = tm.startFrame;
             em.isFaceTo = tm.isFaceTo;
+            em.needWaitForMoveEnd = tm.needWaitForMoveEnd;
             em.moveCurveEM = GetMoveCurveEM(tm.moveCurveTM);
             return em;
         }

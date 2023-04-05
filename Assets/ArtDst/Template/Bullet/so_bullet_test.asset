@@ -15,7 +15,7 @@ MonoBehaviour:
   tm:
     typeID: 9999
     bulletName: "\u6807\u67AA\u98DE\u77DB"
-    frameRange: {x: 0, y: 30}
+    maintainFrame: 30
     trajectoryType: 1
     moveCurveTM:
       moveDistance_cm: 3000
@@ -103,6 +103,7 @@ MonoBehaviour:
       triggerCustomTM:
         frameRangeArray:
         - {x: 0, y: 30}
+      targetEntityType: 0
       relativeTargetGroupType: 4
       damageTM:
         damageType: 1
@@ -163,6 +164,7 @@ MonoBehaviour:
         size: {x: 2, y: 2, z: 2}
       colliderRelativePathArray:
       - collider
+    extraPenetrateCount: 0
     deathEffectorTypeID: 0
     vfxPrefabName: vfx_test_bullet
     vfxPrefab_GUID: 255c1b7094df72f4582aa4b9f979e595

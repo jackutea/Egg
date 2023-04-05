@@ -29,9 +29,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetLinkSkillCancelModelArray(SkillCancelModel[] value) => this.linkSkillCancelModelArray = value;
 
         // - 碰撞器
-        CollisionTriggerModel[] collisionTriggerArray;
-        public CollisionTriggerModel[] CollisionTriggerArray => this.collisionTriggerArray;
-        public void SetCollisionTriggerArray(CollisionTriggerModel[] value) => this.collisionTriggerArray = value;
+        EntityColliderTriggerModel[] collisionTriggerArray;
+        public EntityColliderTriggerModel[] CollisionTriggerArray => this.collisionTriggerArray;
+        public void SetCollisionTriggerArray(EntityColliderTriggerModel[] value) => this.collisionTriggerArray = value;
 
         // - 技能效果器
         SkillEffectorModel[] skillEffectorModelArray;
@@ -126,10 +126,10 @@ namespace TiedanSouls.Client.Entities {
             return true;
 
             #region [内部方法]
-            void TriggerBegin(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void Triggering(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void TriggerEnd(CollisionTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
-            void ActivateAllColliderModel(CollisionTriggerModel triggerModel, bool active) {
+            void TriggerBegin(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void Triggering(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
+            void ActivateAllColliderModel(EntityColliderTriggerModel triggerModel, bool active) {
                 var colliderCount = triggerModel.colliderModelArray;
                 var colliderModelArray = triggerModel.colliderModelArray;
                 for (int i = 0; i < colliderCount.Length; i++) {
@@ -144,12 +144,12 @@ namespace TiedanSouls.Client.Entities {
         }
 
         void Foreach_CollisionTrigger(
-            Action<CollisionTriggerModel> action_triggerBegin,
-            Action<CollisionTriggerModel> action_triggering,
-            Action<CollisionTriggerModel> action_triggerEnd) {
+            Action<EntityColliderTriggerModel> action_triggerBegin,
+            Action<EntityColliderTriggerModel> action_triggering,
+            Action<EntityColliderTriggerModel> action_triggerEnd) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
-                    CollisionTriggerModel model = collisionTriggerArray[i];
+                    EntityColliderTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus == TriggerState.None) continue;
                     if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
@@ -177,10 +177,10 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel collisionTriggerModel) {
+        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel collisionTriggerModel) {
             if (collisionTriggerArray != null) {
                 for (int i = 0; i < collisionTriggerArray.Length; i++) {
-                    CollisionTriggerModel model = collisionTriggerArray[i];
+                    EntityColliderTriggerModel model = collisionTriggerArray[i];
                     var triggerStatus = model.GetTriggerStatus(curFrame);
                     if (triggerStatus != TriggerState.None) {
                         collisionTriggerModel = model;

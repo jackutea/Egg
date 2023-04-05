@@ -109,8 +109,6 @@ namespace TiedanSouls.EditorTool {
             ProjectileBulletTM tm;
 
             tm.startFrame = em.startFrame;
-            tm.endFrame = em.endFrame;
-            tm.extraPenetrateCount = em.extraPenetrateCount;
             tm.localPos_cm = GetVector3Int_Expand100(em.localPos);
             tm.localEulerAngles = em.localEulerAngles;
             tm.bulletTypeID = em.bulletTypeID;
@@ -128,21 +126,15 @@ namespace TiedanSouls.EditorTool {
             tm.typeID = editorGO.typeID;
             tm.bulletName = editorGO.bulletName;
 
-            tm.frameRange = editorGO.frameRange;
-
-            tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
+            tm.maintainFrame = editorGO.maintainFrame;
+            tm.extraPenetrateCount = editorGO.extraPenetrateCount;
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
-
-            var moveCurveEM = editorGO.moveCurveEM;
-
-            var moveTotalFrame = moveCurveEM.moveTotalFrame;
-            var disCurve = moveCurveEM.disCurve;
-            var moveDistance_cm = GetInt_Expand100(moveCurveEM.moveDistance);
+            tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
 
             tm.trajectoryType = editorGO.trajectoryType;
 
             tm.entityTrackTM = GetEntityTrackTM(editorGO.entityTrackingEM);
-            tm.moveCurveTM = GetMoveCurveTM(moveCurveEM);
+            tm.moveCurveTM = GetMoveCurveTM(editorGO.moveCurveEM);
 
             var vfxPrefab = editorGO.vfxPrefab;
             tm.vfxPrefabName = vfxPrefab == null ? string.Empty : vfxPrefab.name;
@@ -194,6 +186,7 @@ namespace TiedanSouls.EditorTool {
             SkillMoveCurveTM tm;
             tm.startFrame = em.startFrame;
             tm.isFaceTo = em.isFaceTo;
+            tm.needWaitForMoveEnd = em.needWaitForMoveEnd;
             tm.moveCurveTM = GetMoveCurveTM(em.moveCurveEM);
             return tm;
         }

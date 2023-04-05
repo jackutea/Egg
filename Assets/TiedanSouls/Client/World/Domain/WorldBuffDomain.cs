@@ -187,7 +187,7 @@ namespace TiedanSouls.Client.Domain {
 
             if (this.rootDomain.TryGetEntityObj(idCom.Father, out var entity)) {
                 if (entity is RoleEntity role) {
-                    summonPos = role.LogicPos;
+                    summonPos = role.LogicRootPos;
                     baseRot = role.LogicRotation;
                 } else {
                     TDLog.Error($"Buff 效果器触发失败, 父实体不是角色实体");

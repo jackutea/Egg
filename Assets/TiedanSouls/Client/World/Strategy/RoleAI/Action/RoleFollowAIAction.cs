@@ -30,14 +30,14 @@ namespace TiedanSouls.Client.Entities {
 
         public bool Execute() {
             //OnDisable
-            if (role.FSMCom.StateFlag == RoleStateFlag.Dying) {
+            if (role.FSMCom.ActionState == RoleActionState.Dying) {
                 TDLog.Warning("hp");
                 return false;
             }
 
             //Miss Target
-            Vector2 pos_role = role.RendererPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RendererPos;
+            Vector2 pos_role = role.LogicRootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
             if (Vector2.Distance(pos_role, pos_target) >= sight) {
                 TDLog.Warning("miss target");
                 return false;

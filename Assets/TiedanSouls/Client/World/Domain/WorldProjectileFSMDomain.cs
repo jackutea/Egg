@@ -1,6 +1,7 @@
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Client.Entities;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
@@ -46,32 +47,39 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void Apply_Activated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
-            var model = fsm.ActivatedModel;
-            if (model.IsEntering) {
-                model.SetIsEntering(false);
+            var stateModel = fsm.ActivatedModel;
+            if (stateModel.IsEntering) {
+                stateModel.SetIsEntering(false);
             }
 
             projectile.AddFrame();
-            projectile.Foreach_NeedActivatedBulletID((bulletID) => {
-                var bulletRepo = worldContext.BulletRepo;
-                if (bulletRepo.TryGet(bulletID, out var bullet)) {
-                    var bulletFSM = bullet.FSMCom;
+
+            var curFrame = projectile.CurFrame;
+
+            int aliveCount = 0;
+            var bulletRepo = worldContext.BulletRepo;
+            var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
+            var bulletIDArray = projectile.BulletIDArray;
+            var len = projectileBulletModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                if (!bulletRepo.TryGet(bulletIDArray[i], out var bullet)) {
+                    continue;
+                }
+
+                var bulletFSM = bullet.FSMCom;
+
+                var startFrame = projectileBulletModelArray[i].startFrame;
+                if (curFrame == startFrame) {
                     bulletFSM.Enter_Activated();
                 }
-            });
 
-            // 当所有子弹生命周期结束，弹道也结束
-            bool isOver = true;
-            projectile.Foreach_BulletID((bulletID) => {
-                var bulletRepo = worldContext.BulletRepo;
-                if (bulletRepo.TryGet(bulletID, out var bullet)) {
-                    var bulletFSM = bullet.FSMCom;
-                    if (bulletFSM.State != BulletFSMState.TearDown && bulletFSM.State != BulletFSMState.None) {
-                        isOver = false;
-                    }
+                if (bulletFSM.State != BulletFSMState.None && bulletFSM.State != BulletFSMState.Dying) {
+                    aliveCount++;
                 }
-            });
-            if (isOver) {
+
+            }
+
+            if (aliveCount == 0) {
                 fsm.Enter_Dying(0);
             }
         }

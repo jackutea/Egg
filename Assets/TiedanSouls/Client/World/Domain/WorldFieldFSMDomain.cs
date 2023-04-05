@@ -53,8 +53,8 @@ namespace TiedanSouls.Client.Domain {
                 // - 位置
                 var door = readyModel.EnterDoorModel;
                 var doorPos = door.pos;
-                doorPos.y = playerRole.LogicPos.y;
                 playerRole.SetLogicPos(doorPos);
+                TDLog.Log($"关卡切换,玩家位置刷新: {doorPos}");
 
                 // - GO Name
                 playerRole.name = $"主角_{playerRole.IDCom}";

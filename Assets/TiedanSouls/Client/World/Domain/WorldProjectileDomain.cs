@@ -34,10 +34,11 @@ namespace TiedanSouls.Client.Domain {
             projectileIDCom.SetEntityID(worldContext.IDService.PickProjectileID());
             projectileIDCom.SetFather(summoner);
 
-            // 2. 填充 弹道子弹模型数据 数组
+            // 2. 子弹ID数组
             var bulletDomain = rootDomain.BulletDomain;
             var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
-            var len = projectileBulletModelArray?.Length;
+            var len = projectileBulletModelArray != null ? projectileBulletModelArray.Length : 0;
+            int[] bulletEntityIDArray = new int[len];
             for (int i = 0; i < len; i++) {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
@@ -57,13 +58,10 @@ namespace TiedanSouls.Client.Domain {
 
                 // ID
                 var bulletIDCom = bullet.IDCom;
-                projectileBulletModel.bulletEntityID = bulletIDCom.EntityID;
-                projectileBulletModelArray[i] = projectileBulletModel;
-
-                bullet.SetExtraPenetrateCount(projectileBulletModel.extraPenetrateCount);   // 子弹的额外穿透次数
-
+                bulletEntityIDArray[i] = bulletIDCom.EntityID;
                 bullet.RootGO.name = $"子弹_{bulletIDCom}"; // 为了方便调试，这里给子弹加上名字
             }
+            projectile.SetBulletIDArray(bulletEntityIDArray);
 
             // 3. 激活弹道 TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
             var fsm = projectile.FSMCom;

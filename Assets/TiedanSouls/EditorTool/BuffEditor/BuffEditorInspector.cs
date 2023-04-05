@@ -60,8 +60,8 @@ namespace TiedanSouls.EditorTool {
                     return;
                 }
 
-                if (p.GetType() == typeof(RoleStateFlag) &&
-                !chosenRoleStateFlag.Contains((RoleStateFlag)p.intValue)) {
+                if (p.GetType() == typeof(RoleCtrlStatus) &&
+                !chosenRoleStateFlag.Contains((RoleCtrlStatus)p.intValue)) {
                     return;
                 }
                 
@@ -71,13 +71,13 @@ namespace TiedanSouls.EditorTool {
             serializedObject.ApplyModifiedProperties();
         }
 
-        RoleStateFlag GetRoleStateFlag() {
+        RoleCtrlStatus GetRoleStateFlag() {
             var count = propertyList.Count;
-            var roleStateFlag = RoleStateFlag.None;
+            var roleStateFlag = RoleCtrlStatus.None;
             for (int i = 0; i < count; i++) {
                 var p = propertyList[i];
-                if (p.GetType() == typeof(RoleStateFlag)) {
-                    roleStateFlag = (RoleStateFlag)p.intValue;
+                if (p.GetType() == typeof(RoleCtrlStatus)) {
+                    roleStateFlag = (RoleCtrlStatus)p.intValue;
                     break;
                 }
             }

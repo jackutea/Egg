@@ -60,9 +60,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [碰撞器]
 
-        CollisionTriggerModel collisionTriggerModel;
-        public CollisionTriggerModel CollisionTriggerModel => collisionTriggerModel;
-        public void SetCollisionTriggerModel(in CollisionTriggerModel value) {
+        EntityColliderTriggerModel collisionTriggerModel;
+        public EntityColliderTriggerModel CollisionTriggerModel => collisionTriggerModel;
+        public void SetCollisionTriggerModel(in EntityColliderTriggerModel value) {
             var colliderModelArray = value.colliderModelArray;
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
@@ -102,9 +102,9 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        Vector2Int frameRange;
-        public Vector2Int FrameRange => frameRange;
-        public void SetFrameRange(Vector2Int value) => this.frameRange = value;
+        int maintainFrame;
+        public int MaintainFrame => maintainFrame;
+        public void SetMaintainFrame(int value) => this.maintainFrame = value;
 
         public void Ctor() {
             rootGO = new GameObject("子弹");
@@ -184,7 +184,7 @@ namespace TiedanSouls.Client.Entities {
             return index == moveSpeedArray.Length - 1;
         }
 
-        public bool TryGet_ValidCollisionTriggerModel(out CollisionTriggerModel triggerModel) {
+        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel triggerModel) {
             triggerModel = default;
             var model = fsmCom.ActivatedModel;
             var triggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);

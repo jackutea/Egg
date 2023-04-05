@@ -98,15 +98,18 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetAllyType(allyType);
 
             // 物理事件绑定
-            role.OnStandInGround = this.OnStandInGround;
-            role.OnStandInPlatform = this.OnStandInPlatform;
-            role.OnStandInWater = this.OnStandInWater;
-            role.OnLeaveGround = this.OnLeaveGround;
-            role.OnLeavePlatform = this.OnLeavePlatform;
-            role.OnLeaveWater = this.OnLeaveWater;
+            role.OnCollisionEnterField = this.OnCollisionEnterField;
+            role.OnCollisionLeaveField = this.OnCollisionLeaveField;
+            role.OnCollisionEnterCrossPlatform = this.OnCollisionEnterCrossPlatform;
+            role.OnCollisionLeavePlatform = this.OnCollisionLeavePlatform;
+
+            role.OnTriggerEnterField = this.OnTriggerEnterField;
+            role.OnTriggerLeaveField = this.OnTriggerLeaveField;
+            role.OnTriggerEnterCrossPlatform = this.OnTriggerEnterCrossPlatform;
+            role.OnTriggerLeaveCrossPlatform = this.OnTriggerLeaveCrossPlatform;
 
             // Collider Model
-            var colliderModel = role.LogicRoot.gameObject.AddComponent<ColliderModel>();
+            var colliderModel = role.LogicRoot.gameObject.AddComponent<EntityColliderModel>();
             colliderModel.SetFather(idCom.ToArgs());
 
             // AI
@@ -126,7 +129,7 @@ namespace TiedanSouls.Client.Domain {
         public bool TryPickUpSomethingFromField(RoleEntity role) {
             var repo = worldContext.ItemRepo;
             var fieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-            if (!repo.TryGetOneItemFromField(fieldTypeID, role.LogicPos, 1, out var item)) {
+            if (!repo.TryGetOneItemFromField(fieldTypeID, role.LogicRootPos, 1, out var item)) {
                 return false;
             }
 
@@ -294,9 +297,14 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Locomotion]
 
+        public void StopMove(RoleEntity role) {
+            var moveCom = role.MoveCom;
+            moveCom.Stop();
+        }
+
         public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
             if (point != Vector2.zero) {
-                var rolePos = role.LogicPos;
+                var rolePos = role.LogicRootPos;
                 var xDiff = point.x - rolePos.x;
                 role.SetLogicFaceTo(xDiff);
             }
@@ -319,7 +327,7 @@ namespace TiedanSouls.Client.Domain {
             moveCom.SetVerticalVelocity(vel);
         }
 
-        public void MoveByInput(RoleEntity role) {
+        public void TryMoveByInput(RoleEntity role) {
             var inputCom = role.InputCom;
             if (!inputCom.HasMoveOpt) return;
 
@@ -327,6 +335,19 @@ namespace TiedanSouls.Client.Domain {
             var moveCom = role.MoveCom;
             var attributeCom = role.AttributeCom;
             moveCom.MoveHorizontal(moveAxis.x, attributeCom.MoveSpeed);
+        }
+
+        public void TryCrossDownPlatformByInput(RoleEntity role) {
+            var inputCom = role.InputCom;
+            if (!inputCom.HasMoveOpt) return;
+
+            var wantCrossDown = inputCom.MoveAxis.y < 0;
+            if (wantCrossDown) {
+                role.SetTrigger(true);
+                var fsmCom = role.FSMCom;
+                fsmCom.RemovePositionStatus_StandInCrossPlatform();
+                fsmCom.EnterActionState_JumpingDown();
+            }
         }
 
         public void JumpByInput(RoleEntity role) {
@@ -340,6 +361,9 @@ namespace TiedanSouls.Client.Domain {
             var jumpSpeed = attributeCom.JumpSpeed;
             velo.y = jumpSpeed;
             moveCom.SetVelocity(velo);
+
+            var fsm = role.FSMCom;
+            fsm.EnterActionState_JumpingUp();
         }
 
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
@@ -347,38 +371,73 @@ namespace TiedanSouls.Client.Domain {
             moveCom.Dash(dir, force);
         }
 
-        void OnStandInGround(RoleEntity role, Collider2D collider2D) {
-            var moveCom = role.MoveCom;
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            velo.y = 0;
-            moveCom.SetVelocity(velo);
+        #region [Physics Event Handle]
+
+        void OnCollisionEnterField(RoleEntity role, Collision2D collision2D) {
+            var normal = collision2D.contacts[0].normal;
+            var isStand = normal.y > 0.01f;
+
+            if (isStand) {
+                var moveCom = role.MoveCom;
+                var rb = moveCom.RB;
+                var velo = rb.velocity;
+                velo.y = 0;
+                moveCom.SetVelocity(velo);
+
+                var fsmCom = role.FSMCom;
+                fsmCom.AddPositionStatus_StandInGround();
+                fsmCom.EnterActionState_Idle();
+            }
         }
 
-        void OnStandInPlatform(RoleEntity role, Collider2D collider2D) {
-            var moveCom = role.MoveCom;
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            velo.y = 0;
-            moveCom.SetVelocity(velo);
+        void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
+            var normal = collision2D.contacts[0].normal;
+            var isStand = normal.y > 0.01f;
+
+            if (isStand) {
+                var fsmCom = role.FSMCom;
+                fsmCom.RemovePositionStatus_StandInGround();
+            }
         }
 
-        void OnStandInWater(RoleEntity role, Collider2D collider2D) {
-            // TODO 站在水中的逻辑
+        void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {
+            var normal = collision2D.contacts[0].normal;
+            var isStand = normal.y > 0;
+
+            if (isStand) {
+                var moveCom = role.MoveCom;
+                var rb = moveCom.RB;
+                var velo = rb.velocity;
+                velo.y = 0;
+                moveCom.SetVelocity(velo);
+
+                var fsmCom = role.FSMCom;
+                fsmCom.AddPositionStatus_StandInCrossPlatform();
+                fsmCom.EnterActionState_Idle();
+            }
         }
 
-        void OnLeaveGround(RoleEntity role, Collider2D collider2D) {
-            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
-            roleFSMDomain.Enter_LeaveGround(role);
+        void OnCollisionLeavePlatform(RoleEntity role, Collision2D collision2D) {
+            var fsmCom = role.FSMCom;
+            fsmCom.RemovePositionStatus_StandInCrossPlatform();
         }
 
-        void OnLeavePlatform(RoleEntity role, Collider2D collider2D) {
-            // TODO 离开平台的逻辑
+        void OnTriggerEnterField(RoleEntity role, Collider2D collider2D) {
         }
 
-        void OnLeaveWater(RoleEntity role, Collider2D collider2D) {
-            // TODO 离开水中的逻辑
+        void OnTriggerLeaveField(RoleEntity role, Collider2D collider2D) {
         }
+
+        void OnTriggerEnterCrossPlatform(RoleEntity role, Collider2D collider2D) {
+        }
+
+        void OnTriggerLeaveCrossPlatform(RoleEntity role, Collider2D collider2D) {
+            role.SetTrigger(false);
+            var fsmCom = role.FSMCom;
+            fsmCom.EnterActionState_Falling();
+        }
+
+        #endregion
 
         #endregion
 
@@ -434,13 +493,13 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsm = role.FSMCom;
-            if (fsm.StateFlag == RoleStateFlag.Idle) {
+            if (fsm.ActionState == RoleActionState.Idle) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
 
             // 连招
-            if (fsm.StateFlag.Contains(RoleStateFlag.Cast)) {
+            if (fsm.ActionState == RoleActionState.Casting) {
                 var stateModel = fsm.CastingModel;
                 var castingSkillTypeID = stateModel.CastingSkillTypeID;
                 SkillEntity castingSkill;
@@ -502,12 +561,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Add_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.EnterActionState_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Add_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.EnterActionState_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion
@@ -517,7 +576,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 角色受击的统一处理方式
         /// </summary>
-        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in CollisionTriggerModel collisionTriggerModel) {
+        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in EntityColliderTriggerModel collisionTriggerModel) {
             var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
@@ -550,7 +609,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
-            role.FSMCom.SetIsExited(true);
+            role.FSMCom.ResetAll();
             role.AttributeCom.ClearHP();
             Hide(role);
             DeactivateCollider(role);

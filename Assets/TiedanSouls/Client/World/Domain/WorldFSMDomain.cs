@@ -71,10 +71,11 @@ namespace TiedanSouls.Client.Domain {
                 var roleDomain = worldDomain.RoleDomain;
                 if (playerRole == null) {
                     roleDomain.TrySpawnRole(curFieldTypeID,
-                                            new EntitySpawnModel { allyType = AllyType.One, controlType = ControlType.Player, typeID = tieDanRoleTypeID, spawnPos = new Vector2(5, 5) },
+                                            new EntitySpawnModel { allyType = AllyType.One, controlType = ControlType.Player, typeID = tieDanRoleTypeID },
                                             out playerRole);
                 }
                 playerRole.Reset();
+                playerRole.FSMCom.EnterActionState_Idle();
 
                 roleDomain.Show(playerRole);
                 playerRole.HudSlotCom.ShowHUD();
@@ -259,7 +260,7 @@ namespace TiedanSouls.Client.Domain {
                 for (int i = 0; i < count; i++) {
                     var d = allDoors[i];
                     var pos = d.pos;
-                    var rolePos = playerRole.LogicPos;
+                    var rolePos = playerRole.LogicRootPos;
                     if (Vector3.SqrMagnitude(pos - rolePos) > 1f) {
                         continue;
                     }

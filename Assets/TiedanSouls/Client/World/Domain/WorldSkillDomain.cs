@@ -135,7 +135,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 技能 受击 处理
         /// </summary>
-        public void HandleBeHit(SkillEntity skill, in CollisionTriggerModel collisionTriggerModel, int hitFrame) {
+        public void HandleBeHit(SkillEntity skill, in EntityColliderTriggerModel collisionTriggerModel, int hitFrame) {
 
         }
 

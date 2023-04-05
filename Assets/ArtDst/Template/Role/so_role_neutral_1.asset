@@ -17,9 +17,9 @@ MonoBehaviour:
     roleName: "\u5927\u5385\u89D2\u8272"
     hpMax_Expanded: 10000
     gpMax_Expanded: 10000
-    epMax_Expanded: 10000
+    mpMax_Expanded: 0
     moveSpeed_Expanded: 1000
-    jumpSpeed_Expanded: 1000
-    fallSpeed_Expanded: 1000
-    fallSpeedMax_Expanded: 1000
+    jumpSpeed_Expanded: 1500
+    fallSpeed_Expanded: 3000
+    fallSpeedMax_Expanded: 3000
     modName: mod_role_neutral_1

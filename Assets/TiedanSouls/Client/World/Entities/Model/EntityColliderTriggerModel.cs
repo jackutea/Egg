@@ -3,9 +3,9 @@ using TiedanSouls.Generic;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 碰撞触发器模型
+    /// 实体碰撞器触发器模型
     /// </summary>
-    public struct CollisionTriggerModel {
+    public struct EntityColliderTriggerModel {
 
         public bool isEnabled;
 
@@ -30,7 +30,7 @@ namespace TiedanSouls.Client.Entities {
         // 模型: 击中效果器
         public int hitEffectorTypeID;
 
-        public ColliderModel[] colliderModelArray;
+        public EntityColliderModel[] colliderModelArray;
 
         public TriggerState GetTriggerStatus(int frame) {
             if (!isEnabled) return TriggerState.None;

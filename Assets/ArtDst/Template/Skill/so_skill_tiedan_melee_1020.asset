@@ -34,6 +34,7 @@ MonoBehaviour:
       triggerCustomTM:
         frameRangeArray:
         - {x: 5, y: 10}
+      targetEntityType: 0
       relativeTargetGroupType: 4
       damageTM:
         damageType: 3
@@ -100,7 +101,8 @@ MonoBehaviour:
       offsetPos: {x: 0, y: 0, z: 0}
     skillMoveCurveTMArray:
     - startFrame: 5
-      isFaceTo: 0
+      isFaceTo: 1
+      needWaitForMoveEnd: 0
       moveCurveTM:
         moveDistance_cm: 1000
         moveTotalFrame: 5
@@ -125,7 +127,8 @@ MonoBehaviour:
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
     - startFrame: 10
-      isFaceTo: 0
+      isFaceTo: 1
+      needWaitForMoveEnd: 0
       moveCurveTM:
         moveDistance_cm: -1000
         moveTotalFrame: 5

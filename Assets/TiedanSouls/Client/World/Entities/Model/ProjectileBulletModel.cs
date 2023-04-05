@@ -10,13 +10,9 @@ namespace TiedanSouls.Client.Entities {
     public struct ProjectileBulletModel {
 
         public int startFrame;
-        public int endFrame;
         public int bulletTypeID;
-        public int extraPenetrateCount;
         public Vector3 localPos;
         public Vector3 localEulerAngles;
-
-        public int bulletEntityID;
 
     }
 

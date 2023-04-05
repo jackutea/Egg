@@ -82,84 +82,58 @@ MonoBehaviour:
   typeID: 9999
   projectileName: "\u4E07\u7BAD\u7A7F\u5FC3"
   projectileBulletEMArray:
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 0}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 15}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 30}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 45}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 60}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 75}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 90}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 105}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 120}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 135}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 150}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 165}
-    bulletTypeID: 9999
-  - startFrame: 0
-    endFrame: 30
+  - bulletTypeID: 9999
+    startFrame: 0
     localPos: {x: 0, y: 0, z: 0}
-    extraPenetrateCount: 0
     localEulerAngles: {x: 0, y: 0, z: 180}
-    bulletTypeID: 9999
 --- !u!1 &7905416273524792361
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ MonoBehaviour:
     gpMax_Expanded: 500000
     mpMax_Expanded: 0
     moveSpeed_Expanded: 1000
-    jumpSpeed_Expanded: 1000
-    fallSpeed_Expanded: 1000
-    fallSpeedMax_Expanded: 1000
+    jumpSpeed_Expanded: 1500
+    fallSpeed_Expanded: 3000
+    fallSpeedMax_Expanded: 3000
     modName: mod_role_enemy_1000001

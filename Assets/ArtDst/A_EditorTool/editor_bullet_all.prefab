@@ -309,7 +309,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: e48d156f05bc7704392b8859a0b618d1, type: 2}
   typeID: 9999
   bulletName: "\u6807\u67AA\u98DE\u77DB"
-  frameRange: {x: 0, y: 30}
+  maintainFrame: 30
   trajectoryType: 1
   moveCurveEM:
     moveDistance: 30
@@ -376,6 +376,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 0, y: 30}
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 1
@@ -461,6 +462,7 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 285879737727348702}
+  extraPenetrateCount: 0
   deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
 --- !u!1 &8766878982541236908
@@ -623,7 +625,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 2f6b8c99cb353d2499a5974f834ba7ad, type: 2}
   typeID: 99991
   bulletName: "\u8DDF\u8E2A\u5B50\u5F39"
-  frameRange: {x: 0, y: 0}
+  maintainFrame: 0
   trajectoryType: 2
   moveCurveEM:
     moveDistance: 0
@@ -671,6 +673,7 @@ MonoBehaviour:
       maintainFrame: 0
     triggerCustomEM:
       frameRangeArray: []
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -720,6 +723,7 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 8766878982541236908}
+  extraPenetrateCount: 0
   deathEffectorTypeID: 0
   vfxPrefab: {fileID: 6683752914446885422, guid: c57b42eb162926d45b358a9f0055727a, type: 3}
 --- !u!1001 &8325092907075036684

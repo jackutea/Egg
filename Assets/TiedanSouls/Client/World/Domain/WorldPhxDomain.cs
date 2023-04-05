@@ -6,13 +6,13 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Domain {
 
-    public class WorldPhysicalDomain {
+    public class WorldPhxDomain {
 
         InfraContext infraContext;
         WorldContext worldContext;
         WorldRootDomain rootDomain;
 
-        public WorldPhysicalDomain() {
+        public WorldPhxDomain() {
         }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
@@ -97,8 +97,8 @@ namespace TiedanSouls.Client.Domain {
 
             _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
             var casterRole = fatherEntity as RoleEntity;
-            var casterPos = casterRole.LogicPos;
-            var rolePos = role.LogicPos;
+            var casterPos = casterRole.LogicRootPos;
+            var rolePos = role.LogicRootPos;
             var beHitDir = rolePos - casterPos;
             beHitDir.Normalize();
 
@@ -116,7 +116,7 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            var rolePos = role.LogicPos;
+            var rolePos = role.LogicRootPos;
             var beHitDir = rolePos - bullet.LogicPos;
             beHitDir.Normalize();
 

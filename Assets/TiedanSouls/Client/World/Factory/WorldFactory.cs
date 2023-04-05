@@ -148,6 +148,10 @@ namespace TiedanSouls.Client {
             roleIDCom.SetTypeID(typeID);
             roleIDCom.SetEntityName(roleTM.roleName);
 
+            // FSM
+            var fsmCom = role.FSMCom;
+            fsmCom.EnterActionState_Idle();
+
             // Mod
             var roleModAssets = assetCore.RoleModAsset;
             has = roleModAssets.TryGet(roleTM.modName, out GameObject roleModPrefab);
@@ -328,7 +332,7 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(tm.typeID);
             idCom.SetEntityName(tm.bulletName);
 
-            bullet.SetFrameRange(tm.frameRange);
+            bullet.SetMaintainFrame(tm.maintainFrame);
 
             bullet.SetTrajectoryType(tm.trajectoryType);
             bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
@@ -337,6 +341,8 @@ namespace TiedanSouls.Client {
             bullet.SetCollisionTriggerModel(TM2ModelUtil.GetCollisionTriggerModel(tm.collisionTriggerTM));
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
+            
+            bullet.SetExtraPenetrateCount(tm.extraPenetrateCount);
 
             var assetCore = infraContext.AssetCore;
             var vfxAsset = assetCore.VFXAsset;

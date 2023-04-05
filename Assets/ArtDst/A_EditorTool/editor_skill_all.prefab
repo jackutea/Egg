@@ -64,6 +64,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 5, y: 10}
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -332,6 +333,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 5, y: 10}
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -981,6 +983,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 5, y: 10}
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -1100,6 +1103,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 5, y: 10}
+    targetEntityType: 0
     relativeTargetGroupType: 4
     damageEM:
       damageType: 3
@@ -1191,7 +1195,8 @@ MonoBehaviour:
     offsetPos: {x: 0, y: 0, z: 0}
   skillMoveCurveEMArray:
   - startFrame: 5
-    isFaceTo: 0
+    isFaceTo: 1
+    needWaitForMoveEnd: 0
     moveCurveEM:
       moveDistance: 10
       moveTotalFrame: 5
@@ -1220,7 +1225,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
   - startFrame: 10
-    isFaceTo: 0
+    isFaceTo: 1
+    needWaitForMoveEnd: 0
     moveCurveEM:
       moveDistance: -10
       moveTotalFrame: 5

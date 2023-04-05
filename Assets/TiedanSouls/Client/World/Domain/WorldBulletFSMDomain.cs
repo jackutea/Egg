@@ -38,7 +38,7 @@ namespace TiedanSouls.Client.Domain {
                 Tick_Deactivated(bullet, fsm, dt);
             } else if (state == BulletFSMState.Activated) {
                 Tick_Activated(bullet, fsm, dt);
-            } else if (state == BulletFSMState.TearDown) {
+            } else if (state == BulletFSMState.Dying) {
                 Tick_TearDown(bullet, fsm, dt);
             }
 
@@ -49,8 +49,8 @@ namespace TiedanSouls.Client.Domain {
             if (fsm.State == BulletFSMState.None) return;
 
             // TearDown Check
-            if (fsm.State != BulletFSMState.TearDown) {
-                if (bullet.ExtraPenetrateCount < 0) fsm.Enter_TearDown(0);
+            if (fsm.State != BulletFSMState.Dying) {
+                if (bullet.ExtraPenetrateCount < 0) fsm.Enter_Dying(0);
             }
         }
 
@@ -84,9 +84,8 @@ namespace TiedanSouls.Client.Domain {
                 collisionTriggerModel.DeactivateAll();
             }
 
-            // todo frameRange -> maintainframe
-            if (model.curFrame > bullet.FrameRange.y) {
-                fsm.Enter_TearDown(0);
+            if (model.curFrame >= bullet.MaintainFrame) {
+                fsm.Enter_Dying(0);
                 return;
             }
 

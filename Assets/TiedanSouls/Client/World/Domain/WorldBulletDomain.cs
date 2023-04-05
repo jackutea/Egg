@@ -130,7 +130,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 子弹击中效果器触发
         /// </summary>
-        public void TriggerHitEffector(BulletEntity bullet, in CollisionTriggerModel collisionTriggerModel) {
+        public void TriggerHitEffector(BulletEntity bullet, in EntityColliderTriggerModel collisionTriggerModel) {
             var effectorTypeID = collisionTriggerModel.hitEffectorTypeID;
             TriggerEffector(bullet, effectorTypeID);
         }

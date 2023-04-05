@@ -33,13 +33,13 @@ namespace TiedanSouls.Client.Entities {
 
         public bool Execute() {
             var fsm = role.FSMCom;
-            if (fsm.StateFlag.Contains(RoleStateFlag.KnockBack)
-                || fsm.StateFlag.Contains(RoleStateFlag.KnockUp)) {
+            if (fsm.CtrlStatus.Contains(RoleCtrlStatus.KnockBack)
+                || fsm.CtrlStatus.Contains(RoleCtrlStatus.KnockUp)) {
                 return false;
             }
 
-            Vector2 pos_role = role.RendererPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RendererPos;
+            Vector2 pos_role = role.LogicRootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
             time += Time.deltaTime;
             //Attack CD
             if (time < attackCD) {
