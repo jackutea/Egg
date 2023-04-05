@@ -20,7 +20,7 @@ namespace TiedanSouls.Client.Entities {
         public void SetColliderModel(ColliderModel v) => colliderModel = v;
 
         // 碰撞检测事件
-        public delegate void CollisionEventHandler(in CollisionEventModel args);
+        public delegate void CollisionEventHandler(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA);
         public CollisionEventHandler onTriggerEnter2D;
         public CollisionEventHandler onTriggerStay2D;
         public CollisionEventHandler onTriggerExit2D;
@@ -44,56 +44,32 @@ namespace TiedanSouls.Client.Entities {
 
         void OnTriggerEnter2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = Vector3.zero;
-            onTriggerEnter2D?.Invoke(args);
+            onTriggerEnter2D?.Invoke(this, otherColliderModel, Vector3.zero);
         }
 
         void OnTriggerStay2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = Vector3.zero;
-            onTriggerStay2D?.Invoke(args);
+            onTriggerStay2D?.Invoke(this, otherColliderModel, Vector3.zero);
         }
 
         void OnTriggerExit2D(Collider2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = Vector3.zero;
-            onTriggerExit2D?.Invoke(args);
+            onTriggerExit2D?.Invoke(this, otherColliderModel, Vector3.zero);
         }
 
         void OnCollisionEnter2D(Collision2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = other.GetContact(0).normal;
-            onCollisionEnter2D?.Invoke(args);
+            onCollisionEnter2D?.Invoke(this, otherColliderModel, other.GetContact(0).normal);
         }
 
         void OnCollisionStay2D(Collision2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = other.GetContact(0).normal;
-            onCollisionStay2D?.Invoke(args);
+            onCollisionStay2D?.Invoke(this, otherColliderModel, other.GetContact(0).normal);
         }
 
         void OnCollisionExit2D(Collision2D other) {
             if (!other.gameObject.TryGetComponent<EntityCollider>(out var otherColliderModel)) return;
-            CollisionEventModel args;
-            args.entityColliderModelA = this;
-            args.entityColliderModelB = otherColliderModel;
-            args.normalA = Vector3.zero;
-            onCollisionExit2D?.Invoke(args);
+            onCollisionExit2D?.Invoke(this, otherColliderModel, Vector3.zero);
         }
 
     }

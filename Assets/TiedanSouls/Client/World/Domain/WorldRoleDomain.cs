@@ -91,7 +91,7 @@ namespace TiedanSouls.Client.Domain {
 
             // ID
             var idService = worldContext.IDService;
-            int id = idService.PickRoleID();
+            var id = idService.PickRoleID();
             var idCom = role.IDCom;
             idCom.SetEntityID(id);
             idCom.SetControlType(controlType);

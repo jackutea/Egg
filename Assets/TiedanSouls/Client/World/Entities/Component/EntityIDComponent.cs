@@ -11,9 +11,9 @@ namespace TiedanSouls.Client.Entities {
         public EntityType EntityType => entityType;
         public void SetEntityType(EntityType value) => this.entityType = value;
 
-        int entityID;
-        public int EntityID => entityID;
-        public void SetEntityID(int value) => this.entityID = value;
+        short entityID;
+        public short EntityID => entityID;
+        public void SetEntityID(short value) => this.entityID = value;
 
         int typeID;
         public int TypeID => typeID;

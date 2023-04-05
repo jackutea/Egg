@@ -30,9 +30,9 @@ namespace TiedanSouls.Client.Entities {
         // 模型: 击中效果器
         public int hitEffectorTypeID;
 
-        public EntityCollider[] entityColliderModelArray;
+        public EntityCollider[] entityColliderArray;
 
-        public TriggerState GetTriggerStatus(int frame) {
+        public TriggerState GetTriggerState(int frame) {
             if (!isEnabled) return TriggerState.None;
 
             if (triggerMode == TriggerMode.Custom) {
@@ -58,16 +58,16 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void ActivateAll() {
-            var len = entityColliderModelArray.Length;
+            var len = entityColliderArray.Length;
             for (int i = 0; i < len; i++) {
-                entityColliderModelArray[i].Activate();
+                entityColliderArray[i].Activate();
             }
         }
 
         public void DeactivateAll() {
-            var len = entityColliderModelArray.Length;
+            var len = entityColliderArray.Length;
             for (int i = 0; i < len; i++) {
-                entityColliderModelArray[i].Deactivate();
+                entityColliderArray[i].Deactivate();
             }
         }
 

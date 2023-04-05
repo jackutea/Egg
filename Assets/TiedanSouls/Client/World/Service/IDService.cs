@@ -2,13 +2,13 @@ namespace TiedanSouls.Client.Service {
 
     public class IDService {
 
-        int roleIDRecord;
-        int skillIDRecord;
-        int itemIDRecord;
-        int fieldIDRecord;
-        int projectileIDRecord;
-        int bulletIDRecord;
-        int buffIDRecord;
+        short roleIDRecord;
+        short skillIDRecord;
+        short itemIDRecord;
+        short fieldIDRecord;
+        short projectileIDRecord;
+        short bulletIDRecord;
+        short buffIDRecord;
 
         public IDService() { }
 
@@ -22,37 +22,37 @@ namespace TiedanSouls.Client.Service {
             buffIDRecord = 0;
         }
 
-        public int PickRoleID() {
+        public short PickRoleID() {
             roleIDRecord += 1;
             return roleIDRecord;
         }
 
-        public int PickSkillID() {
+        public short PickSkillID() {
             skillIDRecord += 1;
             return skillIDRecord;
         }
 
-        public int PickItemID() {
+        public short PickItemID() {
             itemIDRecord += 1;
             return itemIDRecord;
         }
 
-        public int PickFieldID() {
+        public short PickFieldID() {
             fieldIDRecord += 1;
             return fieldIDRecord;
         }
 
-        public int PickProjectileID() {
+        public short PickProjectileID() {
             projectileIDRecord += 1;
             return projectileIDRecord;
         }
 
-        public int PickBulletID() {
+        public short PickBulletID() {
             bulletIDRecord += 1;
             return bulletIDRecord;
         }
 
-        public int PickBuffID() {
+        public short PickBuffID() {
             buffIDRecord += 1;
             return buffIDRecord;
         }

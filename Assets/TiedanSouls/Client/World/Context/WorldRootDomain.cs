@@ -196,7 +196,7 @@ namespace TiedanSouls.Client.Facades {
         }
 
         public void SetEntityColliderTriggerModelFather(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
-            var array = triggerModel.entityColliderModelArray;
+            var array = triggerModel.entityColliderArray;
             SetEntityColliderFathers(array, father);
         }
 
@@ -220,58 +220,58 @@ namespace TiedanSouls.Client.Facades {
             colliderModel.onCollisionExit2D = AddToCollisionEventRepo_CollisionExit;
         }
 
-        void AddToCollisionEventRepo_TriggerEnter(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_TriggerEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerEnter(evModel);
+            evRepo.Add_TriggerEnter(entityColliderA, entityColliderB, normalA);
         }
 
-        void AddToCollisionEventRepo_TriggerStay(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_TriggerStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerStay(evModel);
+            evRepo.Add_TriggerStay(entityColliderA, entityColliderB, normalA);
         }
 
-        void AddToCollisionEventRepo_TriggerExit(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_TriggerExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerExit(evModel);
+            evRepo.Add_TriggerExit(entityColliderA, entityColliderB);
         }
 
-        void AddToCollisionEventRepo_CollisionEnter(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_CollisionEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionEnter(evModel);
+            evRepo.Add_CollisionEnter(entityColliderA, entityColliderB, normalA);
         }
 
-        void AddToCollisionEventRepo_CollisionStay(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_CollisionStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionStay(evModel);
+            evRepo.Add_CollisionStay(entityColliderA, entityColliderB, normalA);
         }
 
-        void AddToCollisionEventRepo_CollisionExit(in CollisionEventModel evModel) {
-            if (!IsValidCollisionEvent(evModel)) {
-                TDLog.Warning($"无效的碰撞事件\n{evModel.entityColliderModelA.Father}\n{evModel.entityColliderModelB.Father}");
+        void AddToCollisionEventRepo_CollisionExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionExit(evModel);
+            evRepo.Add_CollisionExit(entityColliderA, entityColliderB);
         }
 
         #endregion
@@ -415,13 +415,11 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        public bool IsValidCollisionEvent(in CollisionEventModel evModel) {
-            var entityColliderModelA = evModel.entityColliderModelA;
-            var entityColliderModelB = evModel.entityColliderModelB;
-            var fatherA = entityColliderModelA.Father;
-            var fatherB = entityColliderModelB.Father;
-            var hitTargetGroupTypeA = entityColliderModelA.HitTargetGroupType;
-            var hitTargetGroupTypeB = entityColliderModelB.HitTargetGroupType;
+        public bool IsValidCollisionEvent(EntityCollider entityColliderA, EntityCollider entityColliderB) {
+            var fatherA = entityColliderA.Father;
+            var fatherB = entityColliderB.Father;
+            var hitTargetGroupTypeA = entityColliderA.HitTargetGroupType;
+            var hitTargetGroupTypeB = entityColliderB.HitTargetGroupType;
 
             if (!IsInRightTargetGroup(hitTargetGroupTypeA, fatherA, fatherB)
             && !IsInRightTargetGroup(hitTargetGroupTypeB, fatherB, fatherA)) {

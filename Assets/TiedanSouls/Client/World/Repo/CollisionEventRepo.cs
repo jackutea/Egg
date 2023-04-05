@@ -1,150 +1,160 @@
+using System;
 using System.Collections.Generic;
 using TiedanSouls.Client.Entities;
 using TiedanSouls.Generic;
+using UnityEngine;
 
 namespace TiedanSouls.Client {
 
     public class CollisionEventRepo {
 
-        Dictionary<long, CollisionEventModel> triggerEvents;
-        Dictionary<long, CollisionEventModel> collisionEvents;
-
-        List<CollisionEventModel> triggerEnterEvents;
-        List<CollisionEventModel> triggerStayEvents;
-        List<CollisionEventModel> triggerExitEvents;
-
-        List<CollisionEventModel> collisionEnterEvents;
-        List<CollisionEventModel> collisionStayEvents;
-        List<CollisionEventModel> collisionExitEvents;
+        Dictionary<ulong, EntityCollisionEvent> triggerEvents;
+        Dictionary<ulong, EntityCollisionEvent> collisionEvents;
 
         public CollisionEventRepo() {
-            triggerEnterEvents = new List<CollisionEventModel>();
-            triggerExitEvents = new List<CollisionEventModel>();
-            triggerStayEvents = new List<CollisionEventModel>();
-            collisionEnterEvents = new List<CollisionEventModel>();
-            collisionExitEvents = new List<CollisionEventModel>();
-            collisionStayEvents = new List<CollisionEventModel>();
+            triggerEvents = new Dictionary<ulong, EntityCollisionEvent>();
+            collisionEvents = new Dictionary<ulong, EntityCollisionEvent>();
         }
 
-        public void Add_TriggerEnter(in CollisionEventModel args) {
-            triggerEnterEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Trigger:Enter>\n{args} ");
+        public void Update() {
+            foreach (var ev in triggerEvents.Values) {
+                ev.triggerState = ev.triggerState == TriggerState.Exit ? TriggerState.None : ev.triggerState;
+                ev.lastTriggerState = ev.triggerState;
+            }
+            foreach (var ev in collisionEvents.Values) {
+                ev.triggerState = ev.triggerState == TriggerState.Exit ? TriggerState.None : ev.triggerState;
+                ev.lastTriggerState = ev.triggerState;
+            }
         }
 
-        public void Add_TriggerStay(in CollisionEventModel args) {
-            triggerStayEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Trigger:Stay>\n{args} ");
+        public void Add_TriggerEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (!triggerEvents.TryGetValue(key, out var eventModel)) {
+                eventModel = new EntityCollisionEvent();
+                eventModel.entityColliderModelA = entityColliderModelA;
+                eventModel.entityColliderModelB = entityColliderModelB;
+                eventModel.normalA = normalA;
+                eventModel.normalB = -normalA;
+                eventModel.triggerState = TriggerState.Enter;
+                triggerEvents.Add(key, eventModel);
+            } else {
+                eventModel.triggerState = eventModel.lastTriggerState == TriggerState.None ? TriggerState.Enter : TriggerState.Stay;
+            }
         }
 
-        public void Add_TriggerExit(in CollisionEventModel args) {
-            triggerExitEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Trigger:Exit>\n{args} ");
+        public void Add_TriggerExit(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (triggerEvents.TryGetValue(key, out var eventModel)) {
+                eventModel.triggerState = TriggerState.Exit;
+            }
         }
 
-        public void Add_CollisionEnter(in CollisionEventModel args) {
-            collisionEnterEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Collision:Enter>\n{args} ");
+        public void Add_TriggerStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (triggerEvents.TryGetValue(key, out var eventModel)) {
+                eventModel.triggerState = TriggerState.Stay;
+            }
         }
 
-        public void Add_CollisionStay(in CollisionEventModel args) {
-            collisionStayEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Collision:Stay>\n{args} ");
+        public void Add_CollisionEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (!collisionEvents.TryGetValue(key, out var eventModel)) {
+                eventModel = new EntityCollisionEvent();
+                eventModel.entityColliderModelA = entityColliderModelA;
+                eventModel.entityColliderModelB = entityColliderModelB;
+                eventModel.normalA = normalA;
+                eventModel.normalB = -normalA;
+                eventModel.triggerState = TriggerState.Enter;
+                collisionEvents.Add(key, eventModel);
+            } else {
+                eventModel.triggerState = eventModel.lastTriggerState == TriggerState.None ? TriggerState.Enter : TriggerState.Stay;
+            }
         }
 
-        public void Add_CollisionExit(in CollisionEventModel args) {
-            collisionExitEvents.Add(args);
-            TDLog.Log($"碰撞事件仓库 添加 <Collision:Exit>\n{args} ");
+        public void Add_CollisionExit(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (collisionEvents.TryGetValue(key, out var eventModel)) {
+                eventModel.triggerState = TriggerState.Exit;
+            }
         }
 
-        public bool TryPick_TriggerEnter(out CollisionEventModel args) {
-            args = default;
-
-            var count = triggerEnterEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = triggerEnterEvents[index];
-            triggerEnterEvents.RemoveAt(index);
-            return true;
+        public void Add_CollisionStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+            var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
+            if (collisionEvents.TryGetValue(key, out var eventModel)) {
+                eventModel.triggerState = TriggerState.Stay;
+            }
         }
 
-        public bool TryPick_TriggerStay(out CollisionEventModel args) {
-            args = default;
-
-            var count = triggerStayEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = triggerStayEvents[index];
-            triggerStayEvents.RemoveAt(index);
-            return true;
+        public void Foreach_TriggerEnter(InAction<EntityCollisionEvent> action) {
+            foreach (var eventModel in triggerEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Enter) {
+                    action(eventModel);
+                }
+            }
         }
 
-        public bool TryPick_TriggerExit(out CollisionEventModel args) {
-            args = default;
-
-            var count = triggerExitEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = triggerExitEvents[index];
-            triggerExitEvents.RemoveAt(index);
-            return true;
+        public void Foreach_TriggerStay(InAction<EntityCollisionEvent> action) {
+            foreach (var eventModel in triggerEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Stay) {
+                    action(eventModel);
+                }
+            }
         }
 
-        public bool TryPick_CollisionEnter(out CollisionEventModel args) {
-            args = default;
-
-            var count = collisionEnterEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = collisionEnterEvents[index];
-            collisionEnterEvents.RemoveAt(index);
-            return true;
+        public void Foreach_TriggerExit(InAction<EntityCollisionEvent> action) {
+            foreach (var eventModel in triggerEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Exit) {
+                    action(eventModel);
+                    eventModel.triggerState = TriggerState.None;
+                }
+            }
         }
 
-        public bool TryPick_CollisionStay(out CollisionEventModel args) {
-            args = default;
-
-            var count = collisionStayEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = collisionStayEvents[index];
-            collisionStayEvents.RemoveAt(index);
-            return true;
+        public void Foreach_CollisionEnter(InAction<EntityCollisionEvent> action) {
+            foreach (var eventModel in collisionEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Enter) {
+                    action(eventModel);
+                }
+            }
         }
 
-        public bool TryPick_CollisionExit(out CollisionEventModel args) {
-            args = default;
-
-            var count = collisionExitEvents.Count;
-            var index = count - 1;
-            if (index < 0) return false;
-
-            args = collisionExitEvents[index];
-            collisionExitEvents.RemoveAt(index);
-            return true;
+        public void Foreach_CollisionStay(InAction<EntityCollisionEvent> action) {
+            foreach (var eventModel in collisionEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Stay) {
+                    action(eventModel);
+                }
+            }
         }
 
-        public long GetKey(in EntityIDArgs args1, in EntityIDArgs args2) {
-            short entityType1 = (short)args1.entityType;
-            short entityID1 = args1.entityID;
-            int key1 = (int)entityType1 << 16;
-            key1 |= (int)entityID1;
+        public void Foreach_CollisionExit(InAction<EntityCollisionEvent> action) {
 
-            short entityType2 = (short)args2.entityType;
-            short entityID2 = args2.entityID;
-            int key2 = (int)entityType2 << 16;
-            key2 |= (int)entityID2;
+            foreach (var eventModel in collisionEvents.Values) {
+                if (eventModel.triggerState == TriggerState.Exit) {
+                    action(eventModel);
+                }
+            }
+        }
+
+        public ulong GetKey(in EntityIDArgs args1, in EntityIDArgs args2) {
+            ushort entityType1 = (ushort)args1.entityType;
+            ushort entityID1 = (ushort)args1.entityID;
+            uint key1 = (uint)entityType1 << 16;
+            key1 |= (uint)entityID1;
+
+            ushort entityType2 = (ushort)args2.entityType;
+            ushort entityID2 = (ushort)args2.entityID;
+            uint key2 = (uint)entityType2 << 16;
+            key2 |= (uint)entityID2;
 
             Swap(ref key1, ref key2);
 
-            return (long)key1 << 32;
+            ulong key = (ulong)key1 << 32;
+            key |= (ulong)key2;
+
+            return key;
         }
 
-        void Swap(ref int key1, ref int key2) {
+        void Swap(ref uint key1, ref uint key2) {
             if (key1 < key2) {
                 key1 = key1 ^ key2;
                 key2 = key1 ^ key2;

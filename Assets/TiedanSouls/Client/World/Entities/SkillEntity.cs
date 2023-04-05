@@ -80,7 +80,7 @@ namespace TiedanSouls.Client.Entities {
             var colliderTriggerCount = entityColliderTriggerModelArray?.Length;
             for (int i = 0; i < colliderTriggerCount; i++) {
                 var entityColliderTriggerModel = entityColliderTriggerModelArray[i];
-                var entityColliderModelArray = entityColliderTriggerModel.entityColliderModelArray;
+                var entityColliderModelArray = entityColliderTriggerModel.entityColliderArray;
                 var colliderCount = entityColliderModelArray.Length;
                 for (int j = 0; j < colliderCount; j++) {
                     var entityColliderModel = entityColliderModelArray[j];
@@ -101,7 +101,7 @@ namespace TiedanSouls.Client.Entities {
             var idArgs = IDCom.ToArgs();
             for (int i = 0; i < len; i++) {
                 var triggerModel = entityColliderTriggerModelArray[i];
-                var colliderModelArray = triggerModel.entityColliderModelArray;
+                var colliderModelArray = triggerModel.entityColliderArray;
                 var colliderCount = colliderModelArray.Length;
                 for (int j = 0; j < colliderCount; j++) {
                     var colliderModel = colliderModelArray[j];
@@ -130,7 +130,7 @@ namespace TiedanSouls.Client.Entities {
             void Triggering(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
             void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
             void ActivateAllColliderModel(EntityColliderTriggerModel triggerModel, bool active) {
-                var entityColliderModelArray = triggerModel.entityColliderModelArray;
+                var entityColliderModelArray = triggerModel.entityColliderArray;
                 for (int i = 0; i < entityColliderModelArray.Length; i++) {
                     var entityColliderModel = entityColliderModelArray[i];
                     entityColliderModel.transform.position = rootPos + rootRot * entityColliderModel.ColliderModel.localPos;
@@ -149,7 +149,7 @@ namespace TiedanSouls.Client.Entities {
             if (entityColliderTriggerModelArray != null) {
                 for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
                     EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                    var triggerStatus = model.GetTriggerStatus(curFrame);
+                    var triggerStatus = model.GetTriggerState(curFrame);
                     if (triggerStatus == TriggerState.None) continue;
                     if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
                     else if (triggerStatus == TriggerState.Stay) action_triggering(model);
@@ -180,7 +180,7 @@ namespace TiedanSouls.Client.Entities {
             if (entityColliderTriggerModelArray != null) {
                 for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
                     EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                    var triggerStatus = model.GetTriggerStatus(curFrame);
+                    var triggerStatus = model.GetTriggerState(curFrame);
                     if (triggerStatus != TriggerState.None) {
                         collisionTriggerModel = model;
                         return true;

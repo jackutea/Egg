@@ -63,7 +63,7 @@ namespace TiedanSouls.Client.Entities {
         EntityColliderTriggerModel collisionTriggerModel;
         public EntityColliderTriggerModel CollisionTriggerModel => collisionTriggerModel;
         public void SetCollisionTriggerModel(in EntityColliderTriggerModel value) {
-            var colliderModelArray = value.entityColliderModelArray;
+            var colliderModelArray = value.entityColliderArray;
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var colliderModel = colliderModelArray[i];
@@ -187,7 +187,7 @@ namespace TiedanSouls.Client.Entities {
         public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel triggerModel) {
             triggerModel = default;
             var model = fsmCom.ActivatedModel;
-            var triggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
+            var triggerStatus = collisionTriggerModel.GetTriggerState(model.curFrame);
             if (triggerStatus != TriggerState.None) {
                 triggerModel = collisionTriggerModel;
                 return true;

@@ -26,14 +26,16 @@ namespace TiedanSouls.Client.Domain {
 
             var collisionEventRepo = worldContext.CollisionEventRepo;
 
-            while (collisionEventRepo.TryPick_TriggerEnter(out var ev)) HandleEnter(ev);
-            while (collisionEventRepo.TryPick_CollisionEnter(out var ev)) HandleEnter(ev);
+            collisionEventRepo.Foreach_TriggerEnter(HandleEnter);
+            collisionEventRepo.Foreach_CollisionEnter(HandleEnter);
 
-            while (collisionEventRepo.TryPick_TriggerExit(out var ev)) HandleExit(ev);
-            while (collisionEventRepo.TryPick_CollisionExit(out var ev)) HandleExit(ev);
+            collisionEventRepo.Foreach_TriggerStay(HandleStay);
+            collisionEventRepo.Foreach_CollisionStay(HandleStay);
 
-            while (collisionEventRepo.TryPick_TriggerStay(out var ev)) HandleStay(ev);
-            while (collisionEventRepo.TryPick_CollisionStay(out var ev)) HandleStay(ev);
+            collisionEventRepo.Foreach_TriggerExit(HandleExit);
+            collisionEventRepo.Foreach_CollisionExit(HandleExit);
+
+            collisionEventRepo.Update();
 
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_All((role) => {
@@ -42,9 +44,6 @@ namespace TiedanSouls.Client.Domain {
                     if (!fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround)) fsmCom.AddPositionStatus_OnGround();
                 } else {
                     if (fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround)) fsmCom.RemovePositionStatus_OnGround();
-                }
-                if (role.IDCom.ControlType == ControlType.Player) {
-                    TDLog.Log($"groundCount {role.groundCount}\n{role.IDCom}\n{role.FSMCom.PositionStatus.GetString()}");
                 }
                 role.groundCount = 0;
             });
@@ -55,7 +54,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Enter]
 
-        void HandleEnter(in CollisionEventModel evModel) {
+        void HandleEnter(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -118,7 +117,7 @@ namespace TiedanSouls.Client.Domain {
             TDLog.Error($"未处理的碰撞事件<Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        void HandleEnter_Skill_Role(SkillEntity skill, RoleEntity role, in CollisionEventModel evModel) {
+        void HandleEnter_Skill_Role(SkillEntity skill, RoleEntity role, in EntityCollisionEvent evModel) {
             if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
@@ -184,7 +183,7 @@ namespace TiedanSouls.Client.Domain {
             bulletDomain.HandleBeHit(bullet2);
         }
 
-        void HandleEnter_Role_Field(RoleEntity role, FieldEntity field, in CollisionEventModel evModel) {
+        void HandleEnter_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
             var entityA = evModel.entityColliderModelA.Father;
             var entityB = evModel.entityColliderModelB.Father;
             var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
@@ -201,13 +200,14 @@ namespace TiedanSouls.Client.Domain {
 
                 role.groundCount++;
             }
+            TDLog.Log($"角色接触地面:\n{evModel}");
         }
 
         #endregion
 
         #region [Exit]
 
-        void HandleExit(in CollisionEventModel evModel) {
+        void HandleExit(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -300,7 +300,7 @@ namespace TiedanSouls.Client.Domain {
             TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet.IDCom}\n{skill.IDCom}");
         }
 
-        void HandleExit_Role_Field(RoleEntity role, FieldEntity field, in CollisionEventModel evModel) {
+        void HandleExit_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
             var entityA = evModel.entityColliderModelA.Father;
             var entityB = evModel.entityColliderModelB.Father;
             var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
@@ -317,7 +317,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [Stay]
 
-        void HandleStay(in CollisionEventModel evModel) {
+        void HandleStay(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -336,7 +336,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void HandleStay_Role_Field(RoleEntity role, FieldEntity field, in CollisionEventModel evModel) {
+        void HandleStay_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
             var entityA = evModel.entityColliderModelA.Father;
             var entityB = evModel.entityColliderModelB.Father;
             var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);

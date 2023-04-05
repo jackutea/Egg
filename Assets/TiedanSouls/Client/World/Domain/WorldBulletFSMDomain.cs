@@ -75,7 +75,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
-            var collisionTriggerStatus = collisionTriggerModel.GetTriggerStatus(model.curFrame);
+            var collisionTriggerStatus = collisionTriggerModel.GetTriggerState(model.curFrame);
             if (collisionTriggerStatus == TriggerState.Enter) {
                 collisionTriggerModel.ActivateAll();
             } else if (collisionTriggerStatus == TriggerState.Exit) {

@@ -121,7 +121,7 @@ namespace TiedanSouls.Client {
             model.knockBackModel = GetKnockBackModel(tm.knockBackPowerTM);
             model.knockUpModel = GetKnockUpModel(tm.knockUpPowerTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
-            model.entityColliderModelArray = GetEntityColliderModelArray(tm.colliderTMArray, tm.hitTargetGroupType);
+            model.entityColliderArray = GetEntityColliderModelArray(tm.colliderTMArray, tm.hitTargetGroupType);
 
             return model;
         }
