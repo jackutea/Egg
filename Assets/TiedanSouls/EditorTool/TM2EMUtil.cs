@@ -172,17 +172,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [CollisionTrigger]
 
-        public static CollisionTriggerEM[] GetCollisionTriggerEMArray(CollisionTriggerTM[] tmArray) {
+        public static EntityColliderTriggerEM[] GetCollisionTriggerEMArray(EntityColliderTriggerTM[] tmArray) {
             if (tmArray == null) return null;
-            CollisionTriggerEM[] emArray = new CollisionTriggerEM[tmArray.Length];
+            EntityColliderTriggerEM[] emArray = new EntityColliderTriggerEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
                 emArray[i] = GetCollisionTriggerEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static CollisionTriggerEM GetCollisionTriggerEM(CollisionTriggerTM tm) {
-            CollisionTriggerEM em;
+        public static EntityColliderTriggerEM GetCollisionTriggerEM(EntityColliderTriggerTM tm) {
+            EntityColliderTriggerEM em;
             em.isEnabled = tm.isEnabled;
             em.frameRange = tm.frameRange;
             em.triggerMode = tm.triggerMode;

@@ -153,7 +153,7 @@ namespace TiedanSouls.Client {
 
             // FSM
             var fsmCom = role.FSMCom;
-            fsmCom.EnterActionState_Idle();
+            fsmCom.Enter_Idle();
 
             // Mod
             var roleModAssets = assetCore.RoleModAsset;

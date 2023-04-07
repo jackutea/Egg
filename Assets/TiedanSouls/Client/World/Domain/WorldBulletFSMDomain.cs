@@ -125,6 +125,11 @@ namespace TiedanSouls.Client.Domain {
             model.maintainFrame = maintainFrame;
         }
 
+        public void Enter_Dying(BulletEntity bullet) {
+            var fsm = bullet.FSMCom;
+            fsm.Enter_Dying(0);
+        }
+
     }
 
 }

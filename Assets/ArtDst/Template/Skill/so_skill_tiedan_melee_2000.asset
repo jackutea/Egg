@@ -17,9 +17,16 @@ MonoBehaviour:
     skillName: "\u7279\u6B8A\u653B\u51FB"
     skillType: 3
     maintainFrame: 15
+    weaponAnimName: anim_spear_melee_2000
+    weaponAnimClip_GUID: 37e9cfbf86e646f4da9e4b48d68e6bd5
     originSkillTypeID: 2000
     comboSkillCancelTMArray: []
     cancelSkillCancelTMArray: []
+    skillEffectorTMArray:
+    - triggerFrame: 10
+      effectorTypeID: 9999
+      offsetPos: {x: 2, y: 0, z: 0}
+    skillMoveCurveTMArray: []
     collisionTriggerTMArray:
     - isEnabled: 1
       frameRange: {x: 0, y: 15}
@@ -31,7 +38,8 @@ MonoBehaviour:
       triggerCustomTM:
         frameRangeArray:
         - {x: 5, y: 10}
-      relativeTargetGroupType: 4
+      targetEntityType: 0
+      hitTargetGroupType: 0
       damageTM:
         damageType: 3
         damageArray: 0a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
@@ -62,15 +70,8 @@ MonoBehaviour:
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
-        localPos: {x: 3.5585, y: 0.94, z: 0}
+        localPosition: {x: 3.5585, y: 0.94, z: 0}
         localAngleZ: 0
-        size: {x: 6.995582, y: 1.7378125, z: 1}
+        localScale: {x: 6.995582, y: 1.7378125, z: 1}
       colliderRelativePathArray:
       - colliders_0/b1
-    skillEffectorTMArray:
-    - triggerFrame: 10
-      effectorTypeID: 9999
-      offsetPos: {x: 2, y: 0, z: 0}
-    skillMoveCurveTMArray: []
-    weaponAnimName: anim_spear_melee_2000
-    weaponAnimClip_GUID: 37e9cfbf86e646f4da9e4b48d68e6bd5

@@ -16,12 +16,12 @@ MonoBehaviour:
     typeID: 1
     skillName: "\u95EA\u73B0 "
     skillType: 6
-    startFrame: 0
-    endFrame: 10
+    maintainFrame: 0
+    weaponAnimName: anim_role_tiedan_idle
+    weaponAnimClip_GUID: 08f51868a53651949b1dd02025f80ffb
     originSkillTypeID: 0
     comboSkillCancelTMArray: []
     cancelSkillCancelTMArray: []
-    weaponAnimName: anim_role_tiedan_idle
-    weaponAnimClip_GUID: 08f51868a53651949b1dd02025f80ffb
-    hitPowerTMArray: []
+    skillEffectorTMArray: []
+    skillMoveCurveTMArray: []
     collisionTriggerTMArray: []

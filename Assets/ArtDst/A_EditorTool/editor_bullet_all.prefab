@@ -376,8 +376,8 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray:
       - {x: 0, y: 30}
-    targetEntityType: 0
-    relativeTargetGroupType: 4
+    targetEntityType: 1
+    hitTargetGroupType: 4
     damageEM:
       damageType: 1
       damageBase: 33
@@ -674,7 +674,7 @@ MonoBehaviour:
     triggerCustomEM:
       frameRangeArray: []
     targetEntityType: 0
-    relativeTargetGroupType: 4
+    hitTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 33

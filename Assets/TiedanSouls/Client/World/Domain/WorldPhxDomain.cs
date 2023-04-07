@@ -38,21 +38,17 @@ namespace TiedanSouls.Client.Domain {
             collisionEventRepo.Update();
 
             var roleRepo = worldContext.RoleRepo;
+            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
             roleRepo.Foreach_All((role) => {
-                var fsmCom = role.FSMCom;
-                if (role.IsGround) {
-                    if (!fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround)) fsmCom.AddPositionStatus_OnGround();
+                if (role.groundCount > 0) {
+                    roleFSMDomain.AddPositionStatus_OnGround(role);
                 } else {
-                    if (fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround)) fsmCom.RemovePositionStatus_OnGround();
+                    roleFSMDomain.RemovePositionStatus_OnGround(role);
                 }
                 role.groundCount = 0;
             });
 
         }
-
-        #region [碰撞事件处理]
-
-        #region [Enter]
 
         void HandleEnter(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
@@ -114,99 +110,36 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            TDLog.Error($"未处理的碰撞事件<Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
-        }
-
-        void HandleEnter_Skill_Role(SkillEntity skill, RoleEntity role, in EntityCollisionEvent evModel) {
-            if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+            // 子弹 & Field
+            if (entityA is BulletEntity bulletEntity7 && entityB is FieldEntity fieldEntity3) {
+                HandleEnter_Bullet_Field(bulletEntity7, fieldEntity3);
+                return;
+            }
+            if (entityA is FieldEntity fieldEntity4 && entityB is BulletEntity bulletEntity8) {
+                HandleEnter_Bullet_Field(bulletEntity8, fieldEntity4);
                 return;
             }
 
+            TDLog.Warning($"未处理的碰撞事件<Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
+        }
+        void HandleStay(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
-            var skillColliderPos = fatherA.IsTheSameAs(skill.IDCom.Father) ? entityColliderModelA.transform.position : entityColliderModelB.transform.position;
+            var fatherB = entityColliderModelB.Father;
+            if (!rootDomain.TryGetEntityObj(fatherA, out var entityA)) return;
+            if (!rootDomain.TryGetEntityObj(fatherB, out var entityB)) return;
 
-            _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
-            var casterRole = fatherEntity as RoleEntity;
-            var casterPos = casterRole.LogicRootPos;
-            var rolePos = role.LogicRootPos;
-            var beHitDir = rolePos - casterPos;
-            beHitDir.Normalize();
-
-            // 角色 受击
-            var roleDomain = rootDomain.RoleDomain;
-            roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom.ToArgs(), collisionTriggerModel);
-
-            // 技能 打击
-            var skillDomain = rootDomain.SkillDomain;
-            skillDomain.HandleHit(skill, skillColliderPos);
-        }
-
-        void HandleTriggerEnter_Bullet_Role(BulletEntity bullet, RoleEntity role) {
-            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+            // 角色 & Field
+            if (entityA is RoleEntity roleEntity && entityB is FieldEntity fieldEntity) {
+                HandleStay_Role_Field(roleEntity, fieldEntity, evModel);
                 return;
             }
-
-            var rolePos = role.LogicRootPos;
-            var beHitDir = rolePos - bullet.LogicPos;
-            beHitDir.Normalize();
-
-            // 角色 受击
-            var roleDomain = rootDomain.RoleDomain;
-            var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
-            roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
-
-            // 子弹 打击
-            var bulletDomain = rootDomain.BulletDomain;
-            bulletDomain.HandleHit(bullet);
-        }
-
-        void HandleEnter_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
-            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+            if (entityA is FieldEntity fieldEntity2 && entityB is RoleEntity roleEntity2) {
+                HandleStay_Role_Field(roleEntity2, fieldEntity2, evModel);
                 return;
             }
-
-            var skillDomain = rootDomain.SkillDomain;
-            skillDomain.HandleBeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
         }
-
-        void HandleEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
-            // TDLog.Log($"碰撞事件<Trigger - Enter>:\n{role1.IDCom}\n{role2.IDCom}");
-        }
-
-        void HandleEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {
-            var bulletDomain = rootDomain.BulletDomain;
-            bulletDomain.HandleHit(bullet1);
-            bulletDomain.HandleHit(bullet2);
-            bulletDomain.HandleBeHit(bullet1);
-            bulletDomain.HandleBeHit(bullet2);
-        }
-
-        void HandleEnter_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
-            var entityA = evModel.entityColliderModelA.Father;
-            var entityB = evModel.entityColliderModelB.Father;
-            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
-            var normal = isRoleA ? evModel.normalA : -evModel.normalA;
-            var isStand = normal.y > 0.01f;
-
-            if (isStand) {
-                // 第一次接触地面
-                var moveCom = role.MoveCom;
-                var rb = moveCom.RB;
-                var velo = rb.velocity;
-                velo.y = 0;
-                moveCom.SetVelocity(velo);
-
-                role.groundCount++;
-            }
-            TDLog.Log($"角色接触地面:\n{evModel}");
-        }
-
-        #endregion
-
-        #region [Exit]
-
         void HandleExit(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
@@ -273,67 +206,116 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            TDLog.Error($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
-        }
-
-        void HandleExit_Bullet_Bullet(BulletEntity bullet1, BulletEntity bullet2) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet1.IDCom}\n{bullet2.IDCom}");
-        }
-
-        void HandleExit_Skill_Skill(SkillEntity skill1, SkillEntity skill2) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{skill1.IDCom}\n{skill2.IDCom}");
-        }
-
-        void HandleExit_Skill_Role(SkillEntity skill, RoleEntity role) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{skill.IDCom}\n{role.IDCom}");
-        }
-
-        void HandleExit_Role_Role(RoleEntity role1, RoleEntity role2) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{role1.IDCom}\n{role2.IDCom}");
-        }
-
-        void HandleExit_Bullet_Role(BulletEntity bullet, RoleEntity role) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet.IDCom}\n{role.IDCom}");
-        }
-
-        void HandleExit_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
-            TDLog.Log($"碰撞事件<Trigger - Exit>:\n{bullet.IDCom}\n{skill.IDCom}");
-        }
-
-        void HandleExit_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
-            var entityA = evModel.entityColliderModelA.Father;
-            var entityB = evModel.entityColliderModelB.Father;
-            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
-            var normal = isRoleA ? evModel.normalA : -evModel.normalA;
-            var isStand = normal.y > 0.01f;
-
-            if (isStand) {
-                var fsmCom = role.FSMCom;
-                fsmCom.RemovePositionStatus_OnGround();
+            // 子弹 & Field
+            if (entityA is BulletEntity bulletEntity7 && entityB is FieldEntity fieldEntity3) {
+                HandleExit_Bullet_Field(bulletEntity7, fieldEntity3);
+                return;
             }
+            if (entityA is FieldEntity fieldEntity4 && entityB is BulletEntity bulletEntity8) {
+                HandleExit_Bullet_Field(bulletEntity8, fieldEntity4);
+                return;
+            }
+
+            TDLog.Warning($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        #endregion
+        // Skill - Role
+        void HandleEnter_Skill_Role(SkillEntity skill, RoleEntity role, in EntityCollisionEvent evModel) {
+            if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+                return;
+            }
 
-        #region [Stay]
-
-        void HandleStay(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
-            var fatherB = entityColliderModelB.Father;
-            if (!rootDomain.TryGetEntityObj(fatherA, out var entityA)) return;
-            if (!rootDomain.TryGetEntityObj(fatherB, out var entityB)) return;
+            var skillColliderPos = fatherA.IsTheSameAs(skill.IDCom.Father) ? entityColliderModelA.transform.position : entityColliderModelB.transform.position;
 
-            // 角色 & Field
-            if (entityA is RoleEntity roleEntity && entityB is FieldEntity fieldEntity) {
-                HandleStay_Role_Field(roleEntity, fieldEntity, evModel);
+            _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
+            var casterRole = fatherEntity as RoleEntity;
+            var casterPos = casterRole.LogicRootPos;
+            var rolePos = role.LogicRootPos;
+            var beHitDir = rolePos - casterPos;
+            beHitDir.Normalize();
+
+            // 角色 受击
+            var roleDomain = rootDomain.RoleDomain;
+            roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom.ToArgs(), collisionTriggerModel);
+
+            // 技能 打击
+            var skillDomain = rootDomain.SkillDomain;
+            skillDomain.HandleHit(skill, skillColliderPos);
+        }
+        void HandleExit_Skill_Role(SkillEntity skill, RoleEntity role) {
+        }
+
+        // Bullet - Role
+        void HandleTriggerEnter_Bullet_Role(BulletEntity bullet, RoleEntity role) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
-            if (entityA is FieldEntity fieldEntity2 && entityB is RoleEntity roleEntity2) {
-                HandleStay_Role_Field(roleEntity2, fieldEntity2, evModel);
+
+            var rolePos = role.LogicRootPos;
+            var beHitDir = rolePos - bullet.LogicPos;
+            beHitDir.Normalize();
+
+            // 角色 受击
+            var roleDomain = rootDomain.RoleDomain;
+            var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
+            roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
+
+            // 子弹 打击
+            var bulletDomain = rootDomain.BulletDomain;
+            bulletDomain.HandleHit(bullet);
+        }
+        void HandleExit_Bullet_Role(BulletEntity bullet, RoleEntity role) {
+        }
+
+        // Bullet - Skill
+        void HandleEnter_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
+            if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
+
+            var skillDomain = rootDomain.SkillDomain;
+            skillDomain.HandleBeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
+        }
+        void HandleExit_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
+        }
+
+        // Bullet - Field
+        void HandleExit_Bullet_Field(BulletEntity bullet, FieldEntity field) {
+        }
+
+        // Bullet - Bullet
+        void HandleEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {
+            var bulletDomain = rootDomain.BulletDomain;
+            bulletDomain.HandleHit(bullet1);
+            bulletDomain.HandleHit(bullet2);
+            bulletDomain.HandleBeHit(bullet1);
+            bulletDomain.HandleBeHit(bullet2);
+        }
+        void HandleExit_Bullet_Bullet(BulletEntity bullet1, BulletEntity bullet2) {
+        }
+
+        // Bullet - Field
+        void HandleEnter_Bullet_Field(BulletEntity bullet, FieldEntity field) {
+            var bulletFSMDomain = rootDomain.BulletFSMDomain;
+            bulletFSMDomain.Enter_Dying(bullet);
+        }
+
+        // Role - Field
+        void HandleEnter_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
+            var entityA = evModel.entityColliderModelA.Father;
+            var entityB = evModel.entityColliderModelB.Father;
+            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
+            var normal = isRoleA ? evModel.normalB : evModel.normalA;
+            // 第一次接触地面
+            var moveCom = role.MoveCom;
+            var rb = moveCom.RB;
+            var velo = rb.velocity;
+            velo.y = 0;
+            moveCom.SetVelocity(velo);
+            role.groundCount++;
         }
 
         void HandleStay_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
@@ -341,14 +323,29 @@ namespace TiedanSouls.Client.Domain {
             var entityB = evModel.entityColliderModelB.Father;
             var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
             var normal = isRoleA ? evModel.normalA : -evModel.normalA;
-            var isStand = normal.y > 0.01f;
-
-            if (isStand) role.groundCount++;
+            role.groundCount++;
         }
 
-        #endregion
+        void HandleExit_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
+            var entityA = evModel.entityColliderModelA.Father;
+            var entityB = evModel.entityColliderModelB.Father;
+            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
+            var normal = isRoleA ? evModel.normalB : evModel.normalA;
+            if (normal.y > 0.01f) {
+                var fsmCom = role.FSMCom;
+                fsmCom.RemovePositionStatus_OnGround();
+            }
+        }
 
-        #endregion
+        // Role - Role
+        void HandleEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
+        }
+        void HandleExit_Role_Role(RoleEntity role1, RoleEntity role2) {
+        }
+
+        // Skill - Skill
+        void HandleExit_Skill_Skill(SkillEntity skill1, SkillEntity skill2) {
+        }
 
     }
 

@@ -336,7 +336,7 @@ namespace TiedanSouls.Client.Domain {
                 role.SetTrigger(true);
                 var fsmCom = role.FSMCom;
                 fsmCom.RemovePositionStatus_StandInCrossPlatform();
-                fsmCom.EnterActionState_JumpingDown();
+                fsmCom.Enter_JumpingDown();
             }
         }
 
@@ -353,7 +353,7 @@ namespace TiedanSouls.Client.Domain {
             moveCom.SetVelocity(velo);
 
             var fsm = role.FSMCom;
-            fsm.EnterActionState_JumpingUp();
+            fsm.Enter_JumpingUp();
         }
 
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
@@ -385,7 +385,7 @@ namespace TiedanSouls.Client.Domain {
 
                 var fsmCom = role.FSMCom;
                 fsmCom.AddPositionStatus_StandInCrossPlatform();
-                fsmCom.EnterActionState_Idle();
+                fsmCom.Enter_Idle();
             }
         }
 
@@ -406,7 +406,7 @@ namespace TiedanSouls.Client.Domain {
         void OnTriggerLeaveCrossPlatform(RoleEntity role, Collider2D collider2D) {
             role.SetTrigger(false);
             var fsmCom = role.FSMCom;
-            fsmCom.EnterActionState_Falling();
+            fsmCom.Enter_Falling();
         }
 
         #endregion
@@ -465,7 +465,9 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsm = role.FSMCom;
-            if (fsm.ActionState == RoleActionState.Idle) {
+            if (fsm.ActionState == RoleActionState.Idle
+            || fsm.ActionState == RoleActionState.Moving
+            || fsm.ActionState == RoleActionState.JumpingUp) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
@@ -533,12 +535,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterActionState_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.Enter_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.EnterActionState_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.Enter_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion

@@ -12,18 +12,16 @@ namespace TiedanSouls.EditorTool {
 
         [Header("类型ID")] public int typeID;
         [Header("技能名称")] public string skillName;
-        [Header("技能类型")] public SkillType skillType;
         [Header("技能持续帧")] public int maintainFrame;
-
+        [Header("技能类型")] public SkillType skillType;
         [Header("原始技能")] public int originSkillTypeID;
+        [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
         [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
-        [Header("碰撞器(组) ===================================")] public CollisionTriggerEM[] colliderTriggerEMArray;
         [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
         [Header("模型: 技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
-
-        [Header("武器动画文件")] public AnimationClip weaponAnimClip;
+        [Header("碰撞器(组) ===================================")] public EntityColliderTriggerEM[] colliderTriggerEMArray;
 
         public void Save() {
             if (so == null) {

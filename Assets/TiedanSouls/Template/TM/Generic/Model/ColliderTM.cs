@@ -8,7 +8,7 @@ namespace TiedanSouls.Template {
     public struct ColliderTM {
 
         public ColliderType colliderType;
-        public Vector3 localPos;
+        public Vector3 localPosition;
         public float localAngleZ;
         public Vector3 localScale;
 

@@ -131,6 +131,7 @@ namespace TiedanSouls.Client.Entities {
             void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
             void ActivateAllColliderModel(EntityColliderTriggerModel triggerModel, bool active) {
                 var entityColliderModelArray = triggerModel.entityColliderArray;
+                if(entityColliderModelArray == null) return;
                 for (int i = 0; i < entityColliderModelArray.Length; i++) {
                     var entityColliderModel = entityColliderModelArray[i];
                     entityColliderModel.transform.position = rootPos + rootRot * entityColliderModel.ColliderModel.localPos;

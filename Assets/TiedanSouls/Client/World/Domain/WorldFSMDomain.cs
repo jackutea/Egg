@@ -75,7 +75,7 @@ namespace TiedanSouls.Client.Domain {
                                             out playerRole);
                 }
                 playerRole.Reset();
-                playerRole.FSMCom.EnterActionState_Idle();
+                playerRole.FSMCom.Enter_Idle();
 
                 roleDomain.Show(playerRole);
                 playerRole.HudSlotCom.ShowHUD();

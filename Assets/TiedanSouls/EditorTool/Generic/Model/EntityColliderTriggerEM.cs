@@ -9,7 +9,7 @@ namespace TiedanSouls.EditorTool {
     /// 碰撞触发器模型
     /// </summary>
     [Serializable]
-    public struct CollisionTriggerEM {
+    public struct EntityColliderTriggerEM {
 
         [Header("启用/关闭")] public bool isEnabled;
 

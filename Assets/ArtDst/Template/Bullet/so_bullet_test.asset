@@ -103,8 +103,8 @@ MonoBehaviour:
       triggerCustomTM:
         frameRangeArray:
         - {x: 0, y: 30}
-      targetEntityType: 0
-      relativeTargetGroupType: 4
+      targetEntityType: 1
+      hitTargetGroupType: 4
       damageTM:
         damageType: 1
         damageArray: 21000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000
@@ -159,9 +159,9 @@ MonoBehaviour:
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0
-        localPos: {x: 0, y: 0, z: 0}
+        localPosition: {x: 0, y: 0, z: 0}
         localAngleZ: 0
-        size: {x: 2, y: 2, z: 2}
+        localScale: {x: 2, y: 2, z: 2}
       colliderRelativePathArray:
       - collider
     extraPenetrateCount: 0

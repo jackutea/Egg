@@ -92,7 +92,7 @@ namespace TiedanSouls.Client {
 
         #region [CollisionTrigger]
 
-        public static EntityColliderTriggerModel[] GetEntityColliderTriggerModelArray(CollisionTriggerTM[] tmArray) {
+        public static EntityColliderTriggerModel[] GetEntityColliderTriggerModelArray(EntityColliderTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             EntityColliderTriggerModel[] modelArray = new EntityColliderTriggerModel[len];
@@ -103,7 +103,7 @@ namespace TiedanSouls.Client {
             return modelArray;
         }
 
-        public static EntityColliderTriggerModel GetEntityColliderTriggerModel(CollisionTriggerTM tm) {
+        public static EntityColliderTriggerModel GetEntityColliderTriggerModel(EntityColliderTriggerTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;
@@ -164,20 +164,35 @@ namespace TiedanSouls.Client {
             var len = tmArray.Length;
             EntityCollider[] modelArray = new EntityCollider[len];
             for (int i = 0; i < len; i++) {
-                var colliderModel = GetColliderModel(tmArray[i]);
-                EntityCollider model = new EntityCollider();
-                model.SetColliderModel(colliderModel);
-                model.SetHitTargetGroupType(hitTargetGroupType);
-                modelArray[i] = model;
+                modelArray[i] = GetEntityColliderModel(tmArray[i], hitTargetGroupType);
             }
             return modelArray;
+        }
+
+        public static EntityCollider GetEntityColliderModel(ColliderTM tm, TargetGroupType hitTargetGroupType) {
+            var colliderModel = GetColliderModel(tm);
+            var go = new GameObject("碰撞体");
+            var colliderType = colliderModel.colliderType;
+            if (colliderType == ColliderType.Cube) {
+                var boxCollider = go.AddComponent<BoxCollider2D>();
+                boxCollider.isTrigger = true;
+                go.transform.localPosition = tm.localPosition;
+                go.transform.localEulerAngles = new Vector3(0, 0, tm.localAngleZ);
+                go.transform.localScale = tm.localScale;
+            } else {
+                TDLog.Error("未知的碰撞体类型");
+            }
+            EntityCollider model = go.AddComponent<EntityCollider>();
+            model.SetColliderModel(colliderModel);
+            model.SetHitTargetGroupType(hitTargetGroupType);
+            return model;
         }
 
         public static ColliderModel GetColliderModel(ColliderTM tm) {
             var go = GetGO_Collider(tm, true);
             ColliderModel model;
             model.colliderType = tm.colliderType;
-            model.localPos = tm.localPos;
+            model.localPos = tm.localPosition;
             model.localAngleZ = tm.localAngleZ;
             model.localScale = tm.localScale;
             return model;
@@ -188,7 +203,7 @@ namespace TiedanSouls.Client {
 
             var colliderType = tm.colliderType;
             var colliderSize = tm.localScale;
-            var localPos = tm.localPos;
+            var localPos = tm.localPosition;
             var localAngleZ = tm.localAngleZ;
 
             if (colliderType == ColliderType.Cube) {

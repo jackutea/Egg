@@ -175,7 +175,7 @@ namespace TiedanSouls.Client.Facades {
                         hitTargetGroupType,
                         summoner,
                         attributeSelectorModel,
-                        roleFSMDomain.EnterActionState_Dying
+                        roleFSMDomain.Enter_Dying
                     );
                 }
             } else {
@@ -220,54 +220,48 @@ namespace TiedanSouls.Client.Facades {
             colliderModel.onCollisionExit2D = AddToCollisionEventRepo_CollisionExit;
         }
 
-        void AddToCollisionEventRepo_TriggerEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_TriggerEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerEnter(entityColliderA, entityColliderB, normalA);
+            evRepo.Add_TriggerEnter(entityColliderA, entityColliderB);
         }
 
-        void AddToCollisionEventRepo_TriggerStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_TriggerStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerStay(entityColliderA, entityColliderB, normalA);
+            evRepo.Add_TriggerStay(entityColliderA, entityColliderB);
         }
 
-        void AddToCollisionEventRepo_TriggerExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_TriggerExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
             evRepo.Add_TriggerExit(entityColliderA, entityColliderB);
         }
 
-        void AddToCollisionEventRepo_CollisionEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_CollisionEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionEnter(entityColliderA, entityColliderB, normalA);
+            evRepo.Add_CollisionEnter(entityColliderA, entityColliderB, normalB);
         }
 
-        void AddToCollisionEventRepo_CollisionStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_CollisionStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionStay(entityColliderA, entityColliderB, normalA);
+            evRepo.Add_CollisionStay(entityColliderA, entityColliderB, normalB);
         }
 
-        void AddToCollisionEventRepo_CollisionExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalA) {
+        void AddToCollisionEventRepo_CollisionExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
             if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                TDLog.Warning($"无效的碰撞事件\n{entityColliderA.Father}\n{entityColliderB.Father}");
                 return;
             }
             var evRepo = worldContext.CollisionEventRepo;

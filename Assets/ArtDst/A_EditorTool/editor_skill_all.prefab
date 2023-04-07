@@ -48,11 +48,17 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: af553f046feb23840b4bc9db23313e5e, type: 2}
   typeID: 2000
   skillName: "\u7279\u6B8A\u653B\u51FB"
-  skillType: 3
   maintainFrame: 15
+  skillType: 3
   originSkillTypeID: 2000
+  weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
+  skillEffectorEMArray:
+  - effectorTypeID: 9999
+    triggerFrame: 10
+    offsetPos: {x: 2, y: 0, z: 0}
+  skillMoveCurveEMArray: []
   colliderTriggerEMArray:
   - isEnabled: 1
     frameRange: {x: 0, y: 15}
@@ -65,7 +71,7 @@ MonoBehaviour:
       frameRangeArray:
       - {x: 5, y: 10}
     targetEntityType: 0
-    relativeTargetGroupType: 4
+    hitTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 10
@@ -114,12 +120,6 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 2146176807690415295}
-  skillEffectorEMArray:
-  - effectorTypeID: 9999
-    triggerFrame: 10
-    offsetPos: {x: 2, y: 0, z: 0}
-  skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
 --- !u!1 &946612889277224407
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,9 +311,10 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: b8ff395c5a8a50c469b584bd08c1d1b0, type: 2}
   typeID: 1000
   skillName: "\u666E\u653B1\u6BB5"
-  skillType: 1
   maintainFrame: 15
+  skillType: 1
   originSkillTypeID: 1000
+  weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
   comboSkillCancelEMArray:
   - skillTypeID: 1010
     startFrame: 10
@@ -322,6 +323,8 @@ MonoBehaviour:
   - skillTypeID: 2000
     startFrame: 10
     endFrame: 15
+  skillEffectorEMArray: []
+  skillMoveCurveEMArray: []
   colliderTriggerEMArray:
   - isEnabled: 1
     frameRange: {x: 0, y: 15}
@@ -334,7 +337,7 @@ MonoBehaviour:
       frameRangeArray:
       - {x: 5, y: 10}
     targetEntityType: 0
-    relativeTargetGroupType: 4
+    hitTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 50
@@ -383,9 +386,6 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 6032330349393271052}
-  skillEffectorEMArray: []
-  skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
 --- !u!1 &2146176807690415295
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,15 +545,15 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 171e8902a0710d24cbfa970170ef60c6, type: 2}
   typeID: 1
   skillName: "\u95EA\u73B0 "
-  skillType: 6
   maintainFrame: 0
+  skillType: 6
   originSkillTypeID: 0
+  weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
-  colliderTriggerEMArray: []
   skillEffectorEMArray: []
   skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
+  colliderTriggerEMArray: []
 --- !u!1 &3083040265302036843
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,9 +961,10 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 66a0b57e05ce1c0479ba63c0ad97c13e, type: 2}
   typeID: 1010
   skillName: "\u666E\u653B2\u6BB5"
-  skillType: 1
   maintainFrame: 15
+  skillType: 1
   originSkillTypeID: 1000
+  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
   comboSkillCancelEMArray:
   - skillTypeID: 1020
     startFrame: 10
@@ -972,6 +973,8 @@ MonoBehaviour:
   - skillTypeID: 2000
     startFrame: 10
     endFrame: 15
+  skillEffectorEMArray: []
+  skillMoveCurveEMArray: []
   colliderTriggerEMArray:
   - isEnabled: 1
     frameRange: {x: 0, y: 15}
@@ -984,7 +987,7 @@ MonoBehaviour:
       frameRangeArray:
       - {x: 5, y: 10}
     targetEntityType: 0
-    relativeTargetGroupType: 4
+    hitTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 60
@@ -1033,9 +1036,6 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 946612889277224407}
-  skillEffectorEMArray: []
-  skillMoveCurveEMArray: []
-  weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,14 +1084,80 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 8994e734922b09049867a9f2643a9188, type: 2}
   typeID: 1020
   skillName: "\u666E\u653B3\u6BB5"
-  skillType: 1
   maintainFrame: 20
+  skillType: 1
   originSkillTypeID: 1000
+  weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray:
   - skillTypeID: 2000
     startFrame: 15
     endFrame: 20
+  skillEffectorEMArray:
+  - effectorTypeID: 99992
+    triggerFrame: 15
+    offsetPos: {x: 0, y: 0, z: 0}
+  skillMoveCurveEMArray:
+  - startFrame: 5
+    isFaceTo: 1
+    needWaitForMoveEnd: 0
+    moveCurveEM:
+      moveDistance: 10
+      moveTotalFrame: 5
+      disCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  - startFrame: 10
+    isFaceTo: 1
+    needWaitForMoveEnd: 0
+    moveCurveEM:
+      moveDistance: -10
+      moveTotalFrame: 5
+      disCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
   colliderTriggerEMArray:
   - isEnabled: 1
     frameRange: {x: 3, y: 15}
@@ -1104,7 +1170,7 @@ MonoBehaviour:
       frameRangeArray:
       - {x: 5, y: 10}
     targetEntityType: 0
-    relativeTargetGroupType: 4
+    hitTargetGroupType: 0
     damageEM:
       damageType: 3
       damageBase: 70
@@ -1189,72 +1255,6 @@ MonoBehaviour:
     hitEffectorTypeID: 0
     colliderGOArray:
     - {fileID: 6432408507379964416}
-  skillEffectorEMArray:
-  - effectorTypeID: 99992
-    triggerFrame: 15
-    offsetPos: {x: 0, y: 0, z: 0}
-  skillMoveCurveEMArray:
-  - startFrame: 5
-    isFaceTo: 1
-    needWaitForMoveEnd: 0
-    moveCurveEM:
-      moveDistance: 10
-      moveTotalFrame: 5
-      disCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-  - startFrame: 10
-    isFaceTo: 1
-    needWaitForMoveEnd: 0
-    moveCurveEM:
-      moveDistance: -10
-      moveTotalFrame: 5
-      disCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-  weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
 --- !u!1 &8336571590214725402
 GameObject:
   m_ObjectHideFlags: 0

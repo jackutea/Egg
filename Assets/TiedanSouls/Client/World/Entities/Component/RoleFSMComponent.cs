@@ -5,13 +5,16 @@ namespace TiedanSouls.Client.Entities {
 
     public class RoleFSMComponent {
 
-        #region [动作状态]
+        #region [状态]
 
         RoleActionState actionState;
         public RoleActionState ActionState => actionState;
 
         RoleFSMModel_Idle idleModel;
         public RoleFSMModel_Idle IdleModel => idleModel;
+
+        RoleFSMModel_JumpingUp jumpingUpModel;
+        public RoleFSMModel_JumpingUp JumpingUpModel => jumpingUpModel;
 
         RoleFSMModel_Casting castingModel;
         public RoleFSMModel_Casting CastingModel => castingModel;
@@ -55,6 +58,7 @@ namespace TiedanSouls.Client.Entities {
 
         public RoleFSMComponent() {
             idleModel = new RoleFSMModel_Idle();
+            jumpingUpModel = new RoleFSMModel_JumpingUp();
             castingModel = new RoleFSMModel_Casting();
             skillMoveModel = new RoleFSMModel_SkillMove();
             knockBackModel = new RoleFSMModel_KnockBack();
@@ -93,19 +97,19 @@ namespace TiedanSouls.Client.Entities {
             positionStatus = RolePositionStatus.None;
         }
 
-        #region [动作状态]
+        #region [状态]
 
-        public void EnterActionState_Idle() {
+        public void Enter_Idle() {
             var stateModel = idleModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
             actionState = RoleActionState.Idle;
-            TDLog.Log($"角色 动作状态 - 设置 '{actionState}'");
+            TDLog.Log($"角色 状态 - 设置 '{actionState}'");
         }
 
 
-        public void EnterActionState_Cast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
+        public void Enter_Cast(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -115,10 +119,10 @@ namespace TiedanSouls.Client.Entities {
             stateModel.SetChosedPoint(chosedPoint);
 
             actionState = RoleActionState.Casting;
-            TDLog.Log($"角色 动作状态 - 添加  {actionState} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{ctrlStatus.GetString()}");
+            TDLog.Log($"角色 状态 - 切换  {actionState} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{ctrlStatus.GetString()}");
         }
 
-        public void EnterActionState_Dying(int maintainFrame) {
+        public void Enter_Dying(int maintainFrame) {
             var stateModel = this.dyingModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
@@ -126,22 +130,25 @@ namespace TiedanSouls.Client.Entities {
             stateModel.maintainFrame = maintainFrame;
 
             actionState = RoleActionState.Dying;
-            TDLog.Log($"角色 动作状态 - 切换 '{actionState}'");
+            TDLog.Log($"角色 状态 - 切换 '{actionState}'");
         }
 
-        public void EnterActionState_JumpingDown() {
+        public void Enter_JumpingDown() {
             actionState = RoleActionState.JumpingDown;
-            TDLog.Log($"角色 动作状态 - 切换 '{actionState}'");
+            TDLog.Log($"角色 状态 - 切换 '{actionState}'");
         }
 
-        public void EnterActionState_JumpingUp() {
+        public void Enter_JumpingUp() {
             actionState = RoleActionState.JumpingUp;
-            TDLog.Log($"角色 动作状态 - 切换 '{actionState}'");
+            var stateModel = this.jumpingUpModel;
+            stateModel.Reset();
+            stateModel.SetIsEntering(true);
+            TDLog.Log($"角色 状态 - 切换 '{actionState}'");
         }
 
-        public void EnterActionState_Falling() {
+        public void Enter_Falling() {
             actionState = RoleActionState.Falling;
-            TDLog.Log($"角色 动作状态 - 切换 '{actionState}'");
+            TDLog.Log($"角色 状态 - 切换 '{actionState}'");
         }
 
         #endregion
@@ -218,8 +225,8 @@ namespace TiedanSouls.Client.Entities {
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.StandInCrossPlatform);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.StandInCrossPlatform}'\n{positionStatus.GetString()}");
+            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnCrossPlatform);
+            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnCrossPlatform}'\n{positionStatus.GetString()}");
         }
 
         public void AddPositionStatus_StandInWater() {
@@ -227,8 +234,8 @@ namespace TiedanSouls.Client.Entities {
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.StandInWater);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.StandInWater}'\n{positionStatus.GetString()}");
+            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnWater);
+            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnWater}'\n{positionStatus.GetString()}");
         }
 
         public void RemovePositionStatus_OnGround() {
@@ -237,13 +244,13 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void RemovePositionStatus_StandInCrossPlatform() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.StandInCrossPlatform);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.StandInCrossPlatform}'\n{positionStatus.GetString()}");
+            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnCrossPlatform);
+            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnCrossPlatform}'\n{positionStatus.GetString()}");
         }
 
         public void RemovePositionStatus_StandInWater() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.StandInWater);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.StandInWater}'\n{positionStatus.GetString()}");
+            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnWater);
+            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnWater}'\n{positionStatus.GetString()}");
         }
 
         #endregion
@@ -273,7 +280,7 @@ namespace TiedanSouls.Client.Entities {
                 && !ctrlStatus.Contains(RoleCtrlStatus.KnockUp)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Root)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
-                && positionStatus.Contains(RolePositionStatus.StandInCrossPlatform);
+                && positionStatus.Contains(RolePositionStatus.OnCrossPlatform);
         }
 
         /// <summary>
@@ -287,8 +294,8 @@ namespace TiedanSouls.Client.Entities {
                 && !ctrlStatus.Contains(RoleCtrlStatus.Root)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
                 && (positionStatus.Contains(RolePositionStatus.OnGround)
-                    || positionStatus.Contains(RolePositionStatus.StandInCrossPlatform)
-                    || positionStatus.Contains(RolePositionStatus.StandInWater));
+                    || positionStatus.Contains(RolePositionStatus.OnCrossPlatform)
+                    || positionStatus.Contains(RolePositionStatus.OnWater));
         }
 
         /// <summary>
@@ -299,7 +306,7 @@ namespace TiedanSouls.Client.Entities {
                 && !ctrlStatus.Contains(RoleCtrlStatus.KnockUp)
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
                 && !positionStatus.Contains(RolePositionStatus.OnGround)
-                && !positionStatus.Contains(RolePositionStatus.StandInCrossPlatform);
+                && !positionStatus.Contains(RolePositionStatus.OnCrossPlatform);
         }
 
         /// <summary>
@@ -315,19 +322,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [施法 判断]
-
-        /// <summary>
-        /// 释放普通技能 状态判断
-        /// </summary>
-        public bool CanCastNormalSkill() {
-            return actionState != RoleActionState.Dying
-                && !ctrlStatus.Contains(RoleCtrlStatus.Root)
-                && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
-                && !ctrlStatus.Contains(RoleCtrlStatus.Silence);
-        }
-
-        #endregion
-
     }
+
 }

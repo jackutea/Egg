@@ -9,8 +9,8 @@ namespace TiedanSouls.Generic {
         None = 0,                   // 无状态
         
         OnGround = 1 << 0,    // 站在地面上
-        StandInCrossPlatform = 1 << 1,  // 站在平台上
-        StandInWater = 1 << 2,     // 站在水面上
+        OnCrossPlatform = 1 << 1,  // 站在平台上
+        OnWater = 1 << 2,     // 站在水面上
 
     }
 
@@ -33,8 +33,8 @@ namespace TiedanSouls.Generic {
 
             string result = "位置状态列表: ";
             if (stateFlag.Contains(RolePositionStatus.OnGround)) result += "站在地面上 ";
-            if (stateFlag.Contains(RolePositionStatus.StandInCrossPlatform)) result += "站在平台上 ";
-            if (stateFlag.Contains(RolePositionStatus.StandInWater)) result += "站在水面上 ";
+            if (stateFlag.Contains(RolePositionStatus.OnCrossPlatform)) result += "站在平台上 ";
+            if (stateFlag.Contains(RolePositionStatus.OnWater)) result += "站在水面上 ";
 
             return result;
         }

@@ -20,8 +20,6 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain = worldDomain;
         }
 
-        #region [生成]
-
         /// <summary>
         /// 根据类型ID生成子弹
         /// </summary>
@@ -89,18 +87,10 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        #endregion 
-
-        #region [回收]
-
         public void RecycleFieldBullets(int fieldTypeID) {
             var repo = worldContext.BulletRepo;
             repo.RecycleToPool(fieldTypeID);
         }
-
-        #endregion
-
-        #region [击中 & 受击]
 
         /// <summary>
         /// 子弹 击中 逻辑
@@ -122,10 +112,6 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
         }
-
-        #endregion
-
-        #region [效果器触发]
 
         /// <summary>
         /// 子弹击中效果器触发
@@ -156,10 +142,6 @@ namespace TiedanSouls.Client.Domain {
             this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
         }
-
-        #endregion
-
-        #region [子弹移动]
 
         /// <summary>
         /// 子弹追踪目标
@@ -213,8 +195,6 @@ namespace TiedanSouls.Client.Domain {
                 moveCom.Stop();
             }
         }
-
-        #endregion
 
     }
 

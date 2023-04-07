@@ -301,20 +301,20 @@ namespace TiedanSouls.EditorTool {
 
         #region [ColliderTrigger]
 
-        public static CollisionTriggerTM[] GetCollisionTriggerTMArray<T>(CollisionTriggerEM[] emArray) {
+        public static EntityColliderTriggerTM[] GetCollisionTriggerTMArray<T>(EntityColliderTriggerEM[] emArray) {
             var len = emArray.Length;
-            var tmArray = new CollisionTriggerTM[len];
+            var tmArray = new EntityColliderTriggerTM[len];
             for (int i = 0; i < len; i++) {
                 tmArray[i] = GetCollisionTriggerTM<T>(emArray[i]);
             }
             return tmArray;
         }
 
-        public static CollisionTriggerTM GetCollisionTriggerTM<T>(CollisionTriggerEM em) {
+        public static EntityColliderTriggerTM GetCollisionTriggerTM<T>(EntityColliderTriggerEM em) {
             var frameRange = em.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
 
-            CollisionTriggerTM tm;
+            EntityColliderTriggerTM tm;
             tm.isEnabled = em.isEnabled;
             tm.frameRange = frameRange;
 
@@ -386,7 +386,7 @@ namespace TiedanSouls.EditorTool {
 
             ColliderTM tm;
             tm.colliderType = colliderType;
-            tm.localPos = localPos;
+            tm.localPosition = localPos;
             tm.localScale = size;
             tm.localAngleZ = angleZ;
 

@@ -27,14 +27,14 @@ namespace TiedanSouls.Client {
             }
         }
 
-        public void Add_TriggerEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+        public void Add_TriggerEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (!triggerEvents.TryGetValue(key, out var eventModel)) {
                 eventModel = new EntityCollisionEvent();
                 eventModel.entityColliderModelA = entityColliderModelA;
                 eventModel.entityColliderModelB = entityColliderModelB;
-                eventModel.normalA = normalA;
-                eventModel.normalB = -normalA;
+                eventModel.normalA = Vector3.zero;
+                eventModel.normalB = Vector3.zero;
                 eventModel.triggerState = TriggerState.Enter;
                 triggerEvents.Add(key, eventModel);
             } else {
@@ -49,21 +49,21 @@ namespace TiedanSouls.Client {
             }
         }
 
-        public void Add_TriggerStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+        public void Add_TriggerStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (triggerEvents.TryGetValue(key, out var eventModel)) {
                 eventModel.triggerState = TriggerState.Stay;
             }
         }
 
-        public void Add_CollisionEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+        public void Add_CollisionEnter(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (!collisionEvents.TryGetValue(key, out var eventModel)) {
                 eventModel = new EntityCollisionEvent();
                 eventModel.entityColliderModelA = entityColliderModelA;
                 eventModel.entityColliderModelB = entityColliderModelB;
-                eventModel.normalA = normalA;
-                eventModel.normalB = -normalA;
+                eventModel.normalA = -normalB;
+                eventModel.normalB = normalB;
                 eventModel.triggerState = TriggerState.Enter;
                 collisionEvents.Add(key, eventModel);
             } else {
@@ -78,9 +78,11 @@ namespace TiedanSouls.Client {
             }
         }
 
-        public void Add_CollisionStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalA) {
+        public void Add_CollisionStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB, Vector3 normalB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (collisionEvents.TryGetValue(key, out var eventModel)) {
+                eventModel.normalA = -normalB;
+                eventModel.normalB = normalB;
                 eventModel.triggerState = TriggerState.Stay;
             }
         }

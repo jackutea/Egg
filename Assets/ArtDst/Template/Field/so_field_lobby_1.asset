@@ -18,16 +18,7 @@ MonoBehaviour:
     fieldType: 1
     chapter: 0
     level: 0
-    entitySpawnCtrlTMArray:
-    - spawnFrame: 0
-      isBreakPoint: 0
-      entitySpawnTM:
-        entityType: 1
-        typeID: 1
-        controlType: 2
-        allyType: 3
-        isBoss: 0
-        spawnPos: {x: 10, y: 5, z: 0}
+    entitySpawnCtrlTMArray: []
     itemSpawnPosArray:
     - {x: 5, y: 2}
     - {x: 7, y: 2}

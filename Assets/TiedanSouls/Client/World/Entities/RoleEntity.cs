@@ -52,7 +52,6 @@ namespace TiedanSouls.Client.Entities {
         public sbyte FaceDirX => faceDirX;
 
         public int groundCount;
-        public bool IsGround => groundCount > 0;
 
         #endregion
 
