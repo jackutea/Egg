@@ -292,39 +292,12 @@ namespace TiedanSouls.Client.Domain {
             moveCom.Stop();
         }
 
-        public void FaceTo_Horizontal(RoleEntity role, Vector2 point) {
+        public void FaceToHorizontalPoint(RoleEntity role, Vector2 point) {
             if (point != Vector2.zero) {
                 var rolePos = role.LogicRootPos;
                 var xDiff = point.x - rolePos.x;
-                role.SetLogicFaceTo(xDiff);
+                role.HorizontalFaceTo(xDiff);
             }
-        }
-
-        public void FaceToMoveDir(RoleEntity role) {
-            var inputCom = role.InputCom;
-            var x = inputCom.MoveAxis.x;
-            role.SetLogicFaceTo(x);
-        }
-
-        public void Fall(RoleEntity role, float dt) {
-            var attributeCom = role.AttributeCom;
-            var fallSpeed = attributeCom.FallSpeed;
-            var fallSpeedMax = attributeCom.FallSpeedMax;
-
-            var moveCom = role.MoveCom;
-            var vel = moveCom.Velocity;
-            vel.y = Mathf.Max(vel.y - fallSpeed * dt, -fallSpeedMax);
-            moveCom.SetVerticalVelocity(vel);
-        }
-
-        public void TryMoveByInput(RoleEntity role) {
-            var inputCom = role.InputCom;
-            if (!inputCom.HasMoveOpt) return;
-
-            Vector2 moveAxis = inputCom.MoveAxis;
-            var moveCom = role.MoveCom;
-            var attributeCom = role.AttributeCom;
-            moveCom.MoveHorizontal(moveAxis.x, attributeCom.MoveSpeed);
         }
 
         public void TryCrossDownPlatformByInput(RoleEntity role) {
@@ -338,22 +311,6 @@ namespace TiedanSouls.Client.Domain {
                 fsmCom.RemovePositionStatus_StandInCrossPlatform();
                 fsmCom.Enter_JumpingDown();
             }
-        }
-
-        public void JumpByInput(RoleEntity role) {
-            var inputCom = role.InputCom;
-            if (!inputCom.PressJump) return;
-
-            var moveCom = role.MoveCom;
-            var attributeCom = role.AttributeCom;
-            var rb = moveCom.RB;
-            var velo = rb.velocity;
-            var jumpSpeed = attributeCom.JumpSpeed;
-            velo.y = jumpSpeed;
-            moveCom.SetVelocity(velo);
-
-            var fsm = role.FSMCom;
-            fsm.Enter_JumpingUp();
         }
 
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {

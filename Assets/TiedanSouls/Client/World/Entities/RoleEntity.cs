@@ -140,7 +140,48 @@ namespace TiedanSouls.Client.Entities {
             RendererModCom.SetMod(mod);
         }
 
-        public void SetLogicFaceTo(float dirX) {
+        public void SetFromFieldTypeID(int fieldTypeID) {
+            IDCom.SetFromFieldTypeID(fieldTypeID);
+
+            var idArgs = IDCom.ToArgs();
+            SkillSlotCom.SetFather(idArgs);
+            BuffSlotCom.SetFather(idArgs);
+            Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
+        }
+
+        #region [Locomotion]
+
+        public void TryMoveByInput() {
+            if (!InputCom.HasMoveOpt) return;
+
+            Vector2 moveAxis = InputCom.MoveAxis;
+            MoveCom.MoveHorizontal(moveAxis.x, AttributeCom.MoveSpeed);
+        }
+
+        public bool TryJumpByInput() {
+            if (!InputCom.PressJump) return false;
+
+            var rb = MoveCom.RB;
+            var velo = rb.velocity;
+            var jumpSpeed = AttributeCom.JumpSpeed;
+            velo.y = jumpSpeed;
+            MoveCom.SetVelocity(velo);
+
+            FSMCom.Enter_JumpingUp();
+
+            return true;
+        }
+
+        public void Fall(float dt) {
+            var fallSpeed = AttributeCom.FallSpeed;
+            var fallSpeedMax = AttributeCom.FallSpeedMax;
+
+            var vel = MoveCom.Velocity;
+            vel.y = Mathf.Max(vel.y - fallSpeed * dt, -fallSpeedMax);
+            MoveCom.SetVerticalVelocity(vel);
+        }
+
+        public void HorizontalFaceTo(float dirX) {
             if (Mathf.Abs(dirX) < 0.01f) return;
 
             var rot = LogicRoot.localRotation;
@@ -150,14 +191,7 @@ namespace TiedanSouls.Client.Entities {
             LogicRoot.localRotation = rot;
         }
 
-        public void SetFromFieldTypeID(int fieldTypeID) {
-            IDCom.SetFromFieldTypeID(fieldTypeID);
-
-            var idArgs = IDCom.ToArgs();
-            SkillSlotCom.SetFather(idArgs);
-            BuffSlotCom.SetFather(idArgs);
-            Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
-        }
+        #endregion
 
     }
 

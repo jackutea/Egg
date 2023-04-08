@@ -104,9 +104,12 @@ namespace TiedanSouls.Client.Domain {
                 roleDomain.TryPickUpSomethingFromField(role);
             }
 
-            roleDomain.TryMoveByInput(role);
-            roleDomain.Fall(role, dt);
-            roleDomain.JumpByInput(role);
+            // Locomotion
+            role.HorizontalFaceTo(inputCom.MoveAxis.x);
+            role.TryJumpByInput();
+            role.TryMoveByInput();
+            role.Fall(dt);
+
             roleDomain.TryCastSkillByInput(role);
         }
 
@@ -126,9 +129,12 @@ namespace TiedanSouls.Client.Domain {
                 fsm.RemovePositionStatus_StandInCrossPlatform();
             }
 
+            // Locomotion
+            role.TryMoveByInput();
+            role.Fall(dt);
+            role.HorizontalFaceTo(role.InputCom.MoveAxis.x);
+
             var roleDomain = rootDomain.RoleDomain;
-            roleDomain.TryMoveByInput(role);
-            roleDomain.Fall(role, dt);
             roleDomain.TryCastSkillByInput(role);
 
             var posStatus = fsm.PositionStatus;
@@ -151,7 +157,7 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-                roleDomain.FaceTo_Horizontal(role, stateModel.ChosedPoint);
+                roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
 
@@ -188,9 +194,12 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsWaitingForMoveEnd(skillMoveCurveModel.needWaitForMoveEnd);
             }
 
-            roleDomain.TryMoveByInput(role);
+            // Locomotion
+            role.TryMoveByInput();
+
+            if (fsm.CtrlStatus != RoleCtrlStatus.SkillMove) role.Fall(dt);
+
             roleDomain.TryCastSkillByInput(role);
-            if (fsm.CtrlStatus != RoleCtrlStatus.SkillMove) roleDomain.Fall(role, dt);
         }
 
         /// <summary>
@@ -220,7 +229,7 @@ namespace TiedanSouls.Client.Domain {
                 var moveDir = moveDirArray[stateModel.curFrame];
                 var vel = moveDir * speed;
                 moveCom.SetVelocity(moveDir * speed);
-                if (stateModel.IsFaceTo) role.SetLogicFaceTo(vel.x);
+                if (stateModel.IsFaceTo) role.HorizontalFaceTo(vel.x);
             } else if (stateModel.curFrame == len) {
                 var roleDomain = rootDomain.RoleDomain;
                 roleDomain.StopMove(role);

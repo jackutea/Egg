@@ -234,8 +234,8 @@ namespace TiedanSouls.Client.Entities {
             stateModel.Reset();
             stateModel.SetIsEntering(true);
 
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnWater);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnWater}'\n{positionStatus.GetString()}");
+            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.InWater);
+            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.InWater}'\n{positionStatus.GetString()}");
         }
 
         public void RemovePositionStatus_OnGround() {
@@ -249,8 +249,8 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void RemovePositionStatus_StandInWater() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnWater);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnWater}'\n{positionStatus.GetString()}");
+            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.InWater);
+            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.InWater}'\n{positionStatus.GetString()}");
         }
 
         #endregion
@@ -295,7 +295,7 @@ namespace TiedanSouls.Client.Entities {
                 && !ctrlStatus.Contains(RoleCtrlStatus.Stun)
                 && (positionStatus.Contains(RolePositionStatus.OnGround)
                     || positionStatus.Contains(RolePositionStatus.OnCrossPlatform)
-                    || positionStatus.Contains(RolePositionStatus.OnWater));
+                    || positionStatus.Contains(RolePositionStatus.InWater));
         }
 
         /// <summary>
