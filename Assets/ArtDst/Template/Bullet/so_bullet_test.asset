@@ -122,9 +122,10 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-      knockBackPowerTM:
-        knockBackSpeedArray_cm: 88130000b80b0000e8030000
-        knockBackDisCurve_KeyframeTMArray:
+      beHitTM:
+        maintainFrame: 20
+        knockBackSpeedArray_cm: 94110000dc050000
+        knockBackKeyframeTMArray:
         - time: 0
           value: 0
           inTangent: 2
@@ -137,11 +138,10 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockBackCostFrame: 3
-        knockBackDistance_cm: 300
-      knockUpPowerTM:
-        knockUpSpeedArray_cm: 88130000b80b0000e8030000
-        knockUpDisCurve_KeyframeTMArray:
+        knockBackTotalFrame: 2
+        knockBackDistance_cm: 200
+        knockUpSpeedArray_cm: f22b0000a60e0000
+        knockUpKeyframeTMArray:
         - time: 0
           value: 0
           inTangent: 2
@@ -154,8 +154,8 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockUpCostFrame: 3
-        knockUpHeight_cm: 300
+        knockUpTotalFrame: 2
+        knockUpDis_cm: 500
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0

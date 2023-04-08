@@ -15,8 +15,8 @@ namespace TiedanSouls.EditorTool {
 
         [Header("持续帧数")] public int maintainFrame;
         [Header("轨迹类型")] public TrajectoryType trajectoryType;
-        [Header("模型: 位移曲线")] public MoveCurveEM moveCurveEM;
-        [Header("模型: 实体追踪")] public EntityTrackEM entityTrackingEM;
+        [Header("位移曲线")] public MoveCurveEM moveCurveEM;
+        [Header("实体追踪")] public EntityTrackEM entityTrackingEM;
         [Header("碰撞器")] public EntityColliderTriggerEM collisionTriggerEM;
         [Header("额外穿透次数")] public int extraPenetrateCount;
 

@@ -100,7 +100,7 @@ namespace TiedanSouls.Client {
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var r = list[i];
-                if (r.FSMCom.ActionState == RoleActionState.Dying) continue;                                    // 状态过滤 - 已经退出
+                if (r.FSMCom.FSMState == RoleFSMState.Dying) continue;                                    // 状态过滤 - 已经退出
                 if (!r.AttributeCom.IsMatch(attributeSelectorModel)) continue;      // 选择器过滤 - 属性
                 role = r;
                 return true;
@@ -134,7 +134,7 @@ namespace TiedanSouls.Client {
                 var idCom = role.IDCom;
                 var roleAllyType = idCom.AllyStatus;
                 if (!roleAllyType.IsEnemy(allyType)) return;
-                if (role.FSMCom.ActionState != RoleActionState.Dying) hasAliveEnemy = true;
+                if (role.FSMCom.FSMState != RoleFSMState.Dying) hasAliveEnemy = true;
             });
 
             return hasAliveEnemy;

@@ -20,7 +20,7 @@ namespace TiedanSouls.Template {
         [Header("连招技名单")] public SkillCancelTM[] cancelSkillCancelTMArray;
 
         [Header("技能效果器(组)")] public SkillEffectorTM[] skillEffectorTMArray;
-        [Header("模型: 技能位移曲线(组)")] public SkillMoveCurveTM[] skillMoveCurveTMArray;
+        [Header("技能位移曲线(组)")] public SkillMoveCurveTM[] skillMoveCurveTMArray;
         [Header("碰撞器(组)")] public EntityColliderTriggerTM[] collisionTriggerTMArray;
 
     }

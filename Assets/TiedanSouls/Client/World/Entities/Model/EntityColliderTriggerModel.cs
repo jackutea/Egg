@@ -21,13 +21,13 @@ namespace TiedanSouls.Client.Entities {
         // 作用目标
         public TargetGroupType hitTargetGroupType;
 
-        // 模型: 伤害
+        // 伤害
         public DamageModel damageModel;
-        // 模型: 击退
-        public KnockBackModel knockBackModel;
-        // 模型: 击飞
-        public KnockUpModel knockUpModel;
-        // 模型: 击中效果器
+
+        // 受击模型
+        public BeHitModel beHitModel;
+
+        // 击中效果器
         public int hitEffectorTypeID;
 
         public EntityCollider[] entityColliderArray;

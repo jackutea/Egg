@@ -41,9 +41,9 @@ namespace TiedanSouls.Client.Domain {
             var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
             roleRepo.Foreach_All((role) => {
                 if (role.groundCount > 0) {
-                    roleFSMDomain.AddPositionStatus_OnGround(role);
+                    if (!role.FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)) roleFSMDomain.AddPositionStatus_OnGround(role);
                 } else {
-                    roleFSMDomain.RemovePositionStatus_OnGround(role);
+                    if (role.FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)) roleFSMDomain.RemovePositionStatus_OnGround(role);
                 }
                 role.groundCount = 0;
             });

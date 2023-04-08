@@ -8,22 +8,22 @@ namespace TiedanSouls.Client.Entities {
         public WorldFSMState State => state;
 
         // ====== FSM Model ======
-        WorldFSMModel_LobbyState lobbyStateModel;
-        public WorldFSMModel_LobbyState LobbyStateModel => lobbyStateModel;
+        WorldStateModel_LobbyState lobbyStateModel;
+        public WorldStateModel_LobbyState LobbyStateModel => lobbyStateModel;
 
-        WorldFSMModel_BattleState battleStateModel;
-        public WorldFSMModel_BattleState BattleStateModel => battleStateModel;
+        WorldStateModel_BattleState battleStateModel;
+        public WorldStateModel_BattleState BattleStateModel => battleStateModel;
 
-        WorldFSMModel_LoadingState loadingStateModel;
-        public WorldFSMModel_LoadingState LoadingStateModel => loadingStateModel;
+        WorldStateModel_LoadingState loadingStateModel;
+        public WorldStateModel_LoadingState LoadingStateModel => loadingStateModel;
 
         int curFieldTypeID;
         public int CurFieldTypeID => curFieldTypeID;
 
         public WorldStateEntity() {
-            this.lobbyStateModel = new WorldFSMModel_LobbyState();
-            this.battleStateModel = new WorldFSMModel_BattleState();
-            this.loadingStateModel = new WorldFSMModel_LoadingState();
+            this.lobbyStateModel = new WorldStateModel_LobbyState();
+            this.battleStateModel = new WorldStateModel_BattleState();
+            this.loadingStateModel = new WorldStateModel_LoadingState();
         }
 
         public void EnterState_Loading(int fromFieldTypeID, int nextFieldTypeID, int doorIndex, int completeLoadingDelayFrame = 30) {

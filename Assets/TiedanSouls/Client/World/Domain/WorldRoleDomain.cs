@@ -422,16 +422,16 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsm = role.FSMCom;
-            if (fsm.ActionState == RoleActionState.Idle
-            || fsm.ActionState == RoleActionState.Moving
-            || fsm.ActionState == RoleActionState.JumpingUp) {
+            if (fsm.FSMState == RoleFSMState.Idle
+            || fsm.FSMState == RoleFSMState.Moving
+            || fsm.FSMState == RoleFSMState.JumpingUp) {
                 CastOriginalSkill(role, originSkillTypeID);
                 return true;
             }
 
             // 连招
-            if (fsm.ActionState == RoleActionState.Casting) {
-                var stateModel = fsm.CastingModel;
+            if (fsm.FSMState == RoleFSMState.Casting) {
+                var stateModel = fsm.CastingStateModel;
                 var castingSkillTypeID = stateModel.CastingSkillTypeID;
                 SkillEntity castingSkill;
                 if (stateModel.IsCombo) {
@@ -492,12 +492,12 @@ namespace TiedanSouls.Client.Domain {
 
         void CastOriginalSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Enter_Cast(skillTypeID, false, role.InputCom.ChosenPoint);
+            fsmCom.Enter_Casting(skillTypeID, false, role.InputCom.ChosenPoint);
         }
 
         void CastComboSkill(RoleEntity role, int skillTypeID) {
             var fsmCom = role.FSMCom;
-            fsmCom.Enter_Cast(skillTypeID, true, role.InputCom.ChosenPoint);
+            fsmCom.Enter_Casting(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion
@@ -511,10 +511,9 @@ namespace TiedanSouls.Client.Domain {
             var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
             var roleDomain = worldContext.RootDomain.RoleDomain;
 
-            // 击退
-            roleFSMDomain.AddCtrlStatus_KnockBack(role, beHitDir, collisionTriggerModel.knockBackModel);
-            // 击飞
-            roleFSMDomain.AddCtrlStatus_KnockUp(role, beHitDir, collisionTriggerModel.knockUpModel);
+            // 受击
+            var beHitModel = collisionTriggerModel.beHitModel;
+            role.FSMCom.Enter_BeHit(beHitDir, beHitModel);
 
             // 伤害 仲裁
             var damageArbitService = worldContext.DamageArbitService;

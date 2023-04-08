@@ -36,21 +36,19 @@ namespace TiedanSouls.Client.Domain {
         void TickFSM(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
 
-            var actionState = fsm.ActionState;
-            if (actionState == RoleActionState.None) return;
+            var fsmState = fsm.FSMState;
+            if (fsmState == RoleFSMState.None) return;
 
             // - 状态
-            if (actionState == RoleActionState.Idle) Tick_Idle(role, fsm, dt);
-            else if (actionState == RoleActionState.JumpingUp) Tick_JumpingUp(role, fsm, dt);
-            else if (actionState == RoleActionState.Casting) Tick_Cast(role, fsm, dt);
-            else if (actionState == RoleActionState.BeHit) ;
-            else if (actionState == RoleActionState.Dying) Tick_Dying(role, fsm, dt);
             TickAny(role, fsm, dt);
-
+            if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsm, dt);
+            else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsm, dt);
+            else if (fsmState == RoleFSMState.Casting) Tick_Cast(role, fsm, dt);
+            else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsm, dt);
+            else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsm, dt);
             // - 控制效果
+
             var ctrlStatus = fsm.CtrlStatus;
-            if (ctrlStatus.Contains(RoleCtrlStatus.KnockUp)) Tick_KnockUp(role, fsm, dt);
-            if (ctrlStatus.Contains(RoleCtrlStatus.KnockBack)) Tick_KnockBack(role, fsm, dt);
             if (ctrlStatus.Contains(RoleCtrlStatus.SkillMove)) Tick_SkillMove(role, fsm, dt);
         }
 
@@ -72,7 +70,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickAny(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            if (fsm.ActionState == RoleActionState.Dying) return;
+            if (fsm.FSMState == RoleFSMState.Dying) return;
 
             var roleDomain = rootDomain.RoleDomain;
 
@@ -90,7 +88,7 @@ namespace TiedanSouls.Client.Domain {
         /// 闲置状态
         /// </summary>
         void Tick_Idle(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.IdleModel;
+            var stateModel = fsm.IdleStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
                 role.RendererModCom.Anim_PlayIdle();
@@ -117,7 +115,7 @@ namespace TiedanSouls.Client.Domain {
         /// 上跳状态
         /// </summary>
         void Tick_JumpingUp(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.JumpingUpModel;
+            var stateModel = fsm.JumpingUpStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
             }
@@ -148,7 +146,7 @@ namespace TiedanSouls.Client.Domain {
         /// 释放技能状态
         /// </summary>
         void Tick_Cast(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.CastingModel;
+            var stateModel = fsm.CastingStateModel;
             var skillTypeID = stateModel.CastingSkillTypeID;
             var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
@@ -236,7 +234,7 @@ namespace TiedanSouls.Client.Domain {
 
                 fsm.RemoveCtrlStatus_SkillMove();
 
-                var castingModel = fsm.CastingModel;
+                var castingModel = fsm.CastingStateModel;
                 castingModel.SetIsWaitingForMoveEnd(false);
             }
         }
@@ -244,56 +242,52 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 被击退状态
         /// </summary>
-        void Tick_KnockBack(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.KnockBackModel;
+        /// 
+        void Tick_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var stateModel = fsm.BeHitStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
             }
 
             stateModel.curFrame++;
             var curFrame = stateModel.curFrame;
+            var beHitDir = stateModel.BeHitDir;
 
             var moveCom = role.MoveCom;
-            var beHitDir = stateModel.beHitDir;
-            var knockBackSpeedArray = stateModel.knockBackSpeedArray;
-            var len = knockBackSpeedArray.Length;
-            bool canKnockBack = curFrame < len;
+            var knockBackSpeedArray = stateModel.KnockBackSpeedArray;
+            var len1 = knockBackSpeedArray.Length;
+            bool canKnockBack = curFrame < len1;
             if (canKnockBack) {
                 beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
                 moveCom.SetHorizontalVelocity(beHitDir * knockBackSpeedArray[curFrame]);
-            } else if (curFrame == len) {
+            } else if (curFrame == len1) {
                 moveCom.StopHorizontalVelocity();
-                fsm.RemoveCtrlStatus_KnockBack();
-            }
-        }
-
-        /// <summary>
-        /// 被击飞状态
-        /// </summary>
-        void Tick_KnockUp(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.KnockUpModel;
-            if (stateModel.IsEntering) {
-                stateModel.SetIsEntering(false);
             }
 
-            stateModel.curFrame++;
-            var curFrame = stateModel.curFrame;
-
-            var moveCom = role.MoveCom;
-
-            var roleDomain = rootDomain.RoleDomain;
-            var knockUpSpeedArray = stateModel.knockUpSpeedArray;
-            var len = knockUpSpeedArray.Length;
-            bool canKnockUp = curFrame < len;
+            bool isOnGround = fsm.PositionStatus.Contains(RolePositionStatus.OnGround);
+            var knockUpSpeedArray = stateModel.KnockUpSpeedArray;
+            var len2 = knockUpSpeedArray.Length;
+            bool canKnockUp = curFrame < len2;
             if (canKnockUp) {
                 var newV = moveCom.Velocity;
                 newV.y = knockUpSpeedArray[curFrame];
                 moveCom.SetVerticalVelocity(newV);
-            } else if (curFrame == len) {
+            } else if (curFrame == len2) {
                 moveCom.StopVerticalVelocity();
-                fsm.RemoveCtrlStatus_KnockUp();
+            } else if (!isOnGround) {
+                role.Fall(dt);
             }
 
+            bool isOver = curFrame >= stateModel.MaintainFrame;
+            if (isOver) {
+                bool hasKnockUp = len2 > 0;
+                if (!hasKnockUp) {
+                    fsm.Enter_Idle();
+                    return;
+                }
+
+                if (isOnGround) fsm.Enter_Idle();
+            }
         }
 
         /// <summary>
@@ -302,7 +296,7 @@ namespace TiedanSouls.Client.Domain {
         void Tick_Dying(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var roleDomain = rootDomain.RoleDomain;
 
-            var stateModel = fsm.DyingModel;
+            var stateModel = fsm.DyingStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
@@ -325,28 +319,6 @@ namespace TiedanSouls.Client.Domain {
             var roleRepo = worldContext.RoleRepo;
             var fsm = role.FSMCom;
             fsm.Enter_Dying(30);
-        }
-
-        #endregion
-
-        #region [控制状态]
-
-        public void AddCtrlStatus_KnockBack(RoleEntity role, Vector3 beHitDir, in KnockBackModel knockBackModel) {
-            var knockBackSpeedArray = knockBackModel.knockBackSpeedArray;
-            if (knockBackSpeedArray == null || knockBackSpeedArray.Length == 0) {
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.AddCtrlStatus_KnockBack(beHitDir, knockBackModel);
-        }
-
-        public void AddCtrlStatus_KnockUp(RoleEntity role, Vector3 beHitDir, in KnockUpModel knockUpModel) {
-            var knockUpSpeedArray = knockUpModel.knockUpSpeedArray;
-            if (knockUpSpeedArray == null || knockUpSpeedArray.Length == 0) {
-                return;
-            }
-            var fsm = role.FSMCom;
-            fsm.AddCtrlStatus_KnockUp(knockUpModel);
         }
 
         #endregion

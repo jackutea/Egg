@@ -8,19 +8,19 @@ namespace TiedanSouls.Client.Entities {
         public BulletFSMState State => state;
 
         // Model
-        BulletFSMModel_Activated activatedModel;
-        public BulletFSMModel_Activated ActivatedModel => activatedModel;
+        BulletStateModel_Activated activatedModel;
+        public BulletStateModel_Activated ActivatedModel => activatedModel;
 
-        BulletFSMModel_Deactivated deactivatedModel;
-        public BulletFSMModel_Deactivated DeactivatedModel => deactivatedModel;
+        BulletStateModel_Deactivated deactivatedModel;
+        public BulletStateModel_Deactivated DeactivatedModel => deactivatedModel;
 
-        BulletFSMModel_Dying dyingModel;
-        public BulletFSMModel_Dying TearDownModel => dyingModel;
+        BulletStateModel_Dying dyingModel;
+        public BulletStateModel_Dying TearDownModel => dyingModel;
 
         public BulletFSMComponent() {
-            activatedModel = new BulletFSMModel_Activated();
-            deactivatedModel = new BulletFSMModel_Deactivated();
-            dyingModel = new BulletFSMModel_Dying();
+            activatedModel = new BulletStateModel_Activated();
+            deactivatedModel = new BulletStateModel_Deactivated();
+            dyingModel = new BulletStateModel_Dying();
             state = BulletFSMState.Deactivated;
         }
 

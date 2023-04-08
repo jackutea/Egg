@@ -118,8 +118,7 @@ namespace TiedanSouls.Client {
             model.hitTargetGroupType = tm.hitTargetGroupType;
 
             model.damageModel = GetDamageModel(tm.damageTM);
-            model.knockBackModel = GetKnockBackModel(tm.knockBackPowerTM);
-            model.knockUpModel = GetKnockUpModel(tm.knockUpPowerTM);
+            model.beHitModel = GetBeHitModel(tm.beHitTM);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
             model.entityColliderArray = GetEntityColliderModelArray(tm.colliderTMArray, tm.hitTargetGroupType);
 
@@ -222,28 +221,24 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [KnockBack]
-
-        public static KnockBackModel GetKnockBackModel(KnockBackTM tm) {
-            KnockBackModel model;
-            model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
-            return model;
-        }
-
-        public static KnockUpModel GetKnockUpModel(KnockUpTM tm) {
-            KnockUpModel model;
-            model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
-            return model;
-        }
-
-        #endregion
-
         #region [Damage]
 
         public static DamageModel GetDamageModel(DamageTM tm) {
             DamageModel model;
             model.damageType = tm.damageType;
             model.damageArray = tm.damageArray?.Clone() as int[];
+            return model;
+        }
+
+        #endregion
+
+        #region [BeHit]
+
+        public static BeHitModel GetBeHitModel(BeHitTM tm) {
+            BeHitModel model;
+            model.maintainFrame = tm.maintainFrame;
+            model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
+            model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
             return model;
         }
 

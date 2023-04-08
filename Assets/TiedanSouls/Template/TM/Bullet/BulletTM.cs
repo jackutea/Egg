@@ -12,7 +12,7 @@ namespace TiedanSouls.Template {
 
         [Header("持续帧数")] public int maintainFrame;
         [Header("轨迹类型")] public TrajectoryType trajectoryType;
-        [Header("模型: 位移曲线")] public MoveCurveTM moveCurveTM;
+        [Header("位移曲线")] public MoveCurveTM moveCurveTM;
         [Header("实体追踪模型")] public EntityTrackTM entityTrackTM;
         [Header("碰撞器")] public EntityColliderTriggerTM collisionTriggerTM;
         [Header("额外穿透次数")] public int extraPenetrateCount;

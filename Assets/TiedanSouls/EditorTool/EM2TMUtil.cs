@@ -246,37 +246,27 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [PhysicsPower]
+        #region [BeHit]
 
-        /// <summary>
-        /// 击退 根据曲线计算每一帧的速度
-        /// </summary>
-        public static KnockBackTM GetKnockBackTM(KnockBackEM em) {
-            KnockBackTM tm;
+        public static BeHitTM GetBeHitTM(BeHitEM em) {
+            BeHitTM tm;
+
+            tm.maintainFrame = em.maintainFrame;
+
             var knockBackDistance_cm = GetInt_Expand100(em.knockBackDistance);
-            var knockBackCostFrame = em.knockBackCostFrame;
-            var knockBackDisCurve = em.knockBackDisCurve;
-            var knockBackSpeedArray_cm = GetSpeedArray_AnimationCurve(knockBackDistance_cm, knockBackCostFrame, knockBackDisCurve);
-            tm.knockBackCostFrame = knockBackCostFrame;
+            var knockBackTotalFrame = em.knockBackTotalFrame;
             tm.knockBackDistance_cm = knockBackDistance_cm;
-            tm.knockBackSpeedArray_cm = knockBackSpeedArray_cm;
-            tm.knockBackDisCurve_KeyframeTMArray = GetKeyframeTMArray(knockBackDisCurve);
-            return tm;
-        }
+            tm.knockBackTotalFrame = knockBackTotalFrame;
+            tm.knockBackSpeedArray_cm = GetSpeedArray_AnimationCurve(knockBackDistance_cm, knockBackTotalFrame, em.knockBackDisCurve);
+            tm.knockBackKeyframeTMArray = GetKeyframeTMArray(em.knockBackDisCurve);
 
-        /// <summary>
-        /// 击飞 根据曲线计算每一帧的速度
-        /// </summary>
-        public static KnockUpTM GetKnockUpTM(KnockUpEM em) {
-            KnockUpTM tm;
-            var knockUpHeight_cm = GetInt_Expand100(em.knockUpHeight);
-            var knockUpCostFrame = em.knockUpCostFrame;
-            var knockUpDisCurve = em.knockUpDisCurve;
-            var knockUpSpeedArray_cm = GetSpeedArray_AnimationCurve(knockUpHeight_cm, knockUpCostFrame, knockUpDisCurve);
-            tm.knockUpCostFrame = knockUpCostFrame;
-            tm.knockUpHeight_cm = knockUpHeight_cm;
-            tm.knockUpSpeedArray_cm = knockUpSpeedArray_cm;
-            tm.knockUpDisCurve_KeyframeTMArray = GetKeyframeTMArray(knockUpDisCurve);
+            var knockUpDis_cm = GetInt_Expand100(em.knockUpDis);
+            var knockUpTotalFrame = em.knockUpTotalFrame;
+            tm.knockUpDis_cm = knockUpDis_cm;
+            tm.knockUpTotalFrame = knockUpTotalFrame;
+            tm.knockUpSpeedArray_cm = GetSpeedArray_AnimationCurve(knockUpDis_cm, knockUpTotalFrame, em.knockUpDisCurve);
+            tm.knockUpKeyframeTMArray = GetKeyframeTMArray(em.knockUpDisCurve);
+
             return tm;
         }
 
@@ -328,8 +318,7 @@ namespace TiedanSouls.EditorTool {
             tm.hitTargetGroupType = em.hitTargetGroupType;
 
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
-            tm.knockBackPowerTM = GetKnockBackTM(em.knockBackEM);
-            tm.knockUpPowerTM = GetKnockUpTM(em.knockUpEM);
+            tm.beHitTM = GetBeHitTM(em.beHitEM);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
             tm.colliderRelativePathArray = GetRelativePathArray<T>(em.colliderGOArray);

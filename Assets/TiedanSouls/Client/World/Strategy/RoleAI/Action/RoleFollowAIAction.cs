@@ -30,7 +30,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool Execute() {
             //OnDisable
-            if (role.FSMCom.ActionState == RoleActionState.Dying) {
+            if (role.FSMCom.FSMState == RoleFSMState.Dying) {
                 TDLog.Warning("hp");
                 return false;
             }

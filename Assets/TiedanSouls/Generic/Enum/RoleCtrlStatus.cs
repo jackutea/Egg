@@ -8,8 +8,6 @@ namespace TiedanSouls.Generic {
 
         None = 0,               // 无状态
         SkillMove = 1 << 0,     // 技能移动
-        KnockBack = 1 << 1,     // 击退
-        KnockUp = 1 << 2,       // 击飞
         Root = 1 << 3,          // 禁锢
         Stun = 1 << 4,          // 眩晕
         Silence = 1 << 5,       // 沉默
@@ -36,8 +34,6 @@ namespace TiedanSouls.Generic {
 
             string result = "控制状态列表: ";
             if (ctrlStatus.Contains(RoleCtrlStatus.SkillMove)) result += "技能移动 ";
-            if (ctrlStatus.Contains(RoleCtrlStatus.KnockBack)) result += "击退 ";
-            if (ctrlStatus.Contains(RoleCtrlStatus.KnockUp)) result += "击飞 ";
             if (ctrlStatus.Contains(RoleCtrlStatus.Root)) result += "禁锢 ";
             if (ctrlStatus.Contains(RoleCtrlStatus.Stun)) result += "眩晕 ";
             if (ctrlStatus.Contains(RoleCtrlStatus.Silence)) result += "沉默 ";

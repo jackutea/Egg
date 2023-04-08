@@ -205,8 +205,7 @@ namespace TiedanSouls.EditorTool {
             em.hitTargetGroupType = tm.hitTargetGroupType;
 
             em.damageEM = GetDamageEM(tm.damageTM);
-            em.knockBackEM = GetKnockBackEM(tm.knockBackPowerTM);
-            em.knockUpEM = GetKnockUpEM(tm.knockUpPowerTM);
+            em.beHitEM = GetBeHitEM(tm.beHitTM);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
 
             return em;
@@ -228,27 +227,26 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [PhysicsPower]
+        #region [BeHit]
 
-        public static KnockBackEM GetKnockBackEM(this KnockBackTM tm) {
-            KnockBackEM em;
+        public static BeHitEM GetBeHitEM(this BeHitTM tm) {
+            BeHitEM em;
 
-            em.knockBackDisCurve = GetAnimationCurve(tm.knockBackDisCurve_KeyframeTMArray);
+            em.maintainFrame = tm.maintainFrame;
+
+            em.knockBackTotalFrame = tm.knockBackTotalFrame;
+            em.knockBackDisCurve = GetAnimationCurve(tm.knockBackKeyframeTMArray);
             em.knockBackDistance = GetFloat_Shrink100(tm.knockBackDistance_cm);
-            em.knockBackCostFrame = tm.knockBackCostFrame;
+            em.knockBackTotalFrame = tm.knockBackTotalFrame;
+
+            em.knockUpTotalFrame = tm.knockUpTotalFrame;
+            em.knockUpDisCurve = GetAnimationCurve(tm.knockUpKeyframeTMArray);
+            em.knockUpDis = GetFloat_Shrink100(tm.knockUpDis_cm);
+            em.knockUpTotalFrame = tm.knockUpTotalFrame;
 
             return em;
         }
 
-        public static KnockUpEM GetKnockUpEM(this KnockUpTM tm) {
-            KnockUpEM em;
-
-            em.knockUpDisCurve = GetAnimationCurve(tm.knockUpDisCurve_KeyframeTMArray);
-            em.knockUpHeight = GetFloat_Shrink100(tm.knockUpHeight_cm);
-            em.knockUpCostFrame = tm.knockUpCostFrame;
-
-            return em;
-        }
 
         #endregion
 

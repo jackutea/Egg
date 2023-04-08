@@ -8,11 +8,11 @@ namespace TiedanSouls.Client.Entities {
         public FieldFSMState State => state;
 
         // ====== FSM Model ======
-        FieldFSMModel_Ready readyModel;
-        public FieldFSMModel_Ready ReadyModel => readyModel;
+        FieldStateModel_Ready readyModel;
+        public FieldStateModel_Ready ReadyModel => readyModel;
 
-        FieldFSMModel_Spawning spawningModel;
-        public FieldFSMModel_Spawning SpawningModel => spawningModel;
+        FieldStateModel_Spawning spawningModel;
+        public FieldStateModel_Spawning SpawningModel => spawningModel;
 
         bool isExiting;
         public bool IsExiting => isExiting;
@@ -20,8 +20,8 @@ namespace TiedanSouls.Client.Entities {
 
         public FieldFSMComponent() {
             state = FieldFSMState.None;
-            readyModel = new FieldFSMModel_Ready();
-            spawningModel = new FieldFSMModel_Spawning();
+            readyModel = new FieldStateModel_Ready();
+            spawningModel = new FieldStateModel_Spawning();
         }
 
         public void Reset() {

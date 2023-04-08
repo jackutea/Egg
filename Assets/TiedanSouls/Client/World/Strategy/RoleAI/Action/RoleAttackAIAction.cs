@@ -33,8 +33,7 @@ namespace TiedanSouls.Client.Entities {
 
         public bool Execute() {
             var fsm = role.FSMCom;
-            if (fsm.CtrlStatus.Contains(RoleCtrlStatus.KnockBack)
-                || fsm.CtrlStatus.Contains(RoleCtrlStatus.KnockUp)) {
+            if (fsm.FSMState != RoleFSMState.BeHit) {
                 return false;
             }
 

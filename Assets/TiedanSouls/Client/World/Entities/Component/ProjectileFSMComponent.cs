@@ -12,20 +12,20 @@ namespace TiedanSouls.Client.Entities {
         public void SetIsExiting(bool value) => isExiting = value;
 
         // Model
-        ProjectileFSMModel_Activated activatedModel;
-        public ProjectileFSMModel_Activated ActivatedModel => activatedModel;
+        ProjectileStateModel_Activated activatedModel;
+        public ProjectileStateModel_Activated ActivatedModel => activatedModel;
 
-        ProjectileFSMModel_Deactivated deactivatedModel;
-        public ProjectileFSMModel_Deactivated DeactivatedModel => deactivatedModel;
+        ProjectileStateModel_Deactivated deactivatedModel;
+        public ProjectileStateModel_Deactivated DeactivatedModel => deactivatedModel;
 
-        ProjectileFSMModel_Dying dyingModel;
-        public ProjectileFSMModel_Dying DyingModel => dyingModel;
+        ProjectileStateModel_Dying dyingModel;
+        public ProjectileStateModel_Dying DyingModel => dyingModel;
 
         public ProjectileFSMComponent() {
             isExiting = false;
-            activatedModel = new ProjectileFSMModel_Activated();
-            deactivatedModel = new ProjectileFSMModel_Deactivated();
-            dyingModel = new ProjectileFSMModel_Dying();
+            activatedModel = new ProjectileStateModel_Activated();
+            deactivatedModel = new ProjectileStateModel_Deactivated();
+            dyingModel = new ProjectileStateModel_Dying();
         }
 
         public void Reset() {

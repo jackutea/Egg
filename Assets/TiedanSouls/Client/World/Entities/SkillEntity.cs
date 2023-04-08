@@ -125,7 +125,6 @@ namespace TiedanSouls.Client.Entities {
             Foreach_CollisionTrigger(TriggerBegin, Triggering, TriggerEnd);
             return true;
 
-            #region [内部方法]
             void TriggerBegin(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
             void Triggering(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
             void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
@@ -140,7 +139,6 @@ namespace TiedanSouls.Client.Entities {
                     else entityColliderModel.Deactivate();
                 }
             }
-            #endregion
         }
 
         void Foreach_CollisionTrigger(

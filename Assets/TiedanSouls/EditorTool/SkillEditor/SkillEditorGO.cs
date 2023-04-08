@@ -20,7 +20,7 @@ namespace TiedanSouls.EditorTool {
         [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
         [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
-        [Header("模型: 技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
+        [Header("技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
         [Header("碰撞器(组) ===================================")] public EntityColliderTriggerEM[] colliderTriggerEMArray;
 
         public void Save() {
