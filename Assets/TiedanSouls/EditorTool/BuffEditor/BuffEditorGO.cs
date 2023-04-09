@@ -15,12 +15,14 @@ namespace TiedanSouls.EditorTool {
         [Header("描述")] public string description;
         [Header("图标")] public Sprite icon;
 
-        [Header("延时(帧)")] public int delayFrame;
-        [Header("间隔(帧)")] public int intervalFrame;
-        [Header("持续时间(帧)")] public int durationFrame;
+        [Header("额外可叠加层数")] public int maxExtraStackCount;
 
-        [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
+        [Header("触发延时帧")] public int delayFrame;
+        [Header("触发间隔帧")] public int intervalFrame;
+        [Header("触发持续帧")] public int durationFrame;
+
         [Header("效果器")] public int effectorTypeID;
+        [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
 
         public void Save() {
             if (so == null) {

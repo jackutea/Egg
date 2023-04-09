@@ -57,7 +57,7 @@ namespace TiedanSouls.Client.Domain {
 
             var buffSlotCom = role.BuffSlotCom;
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
-                buff.curFrame++;
+                buff.AddCurFrame();
                 buffDomain.TryTriggerEffector(buff);
                 buffDomain.TryTriggerAttributeEffect(role.AttributeCom, buff);
                 role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
@@ -66,8 +66,9 @@ namespace TiedanSouls.Client.Domain {
             var buffRepo = worldContext.BuffRepo;
             removeList.ForEach((buff) => {
                 buffDomain.RevokeBuff(buff, role.AttributeCom);
-                buffSlotCom.Remove(buff);
+                buffSlotCom.TryRemove(buff);
                 buffRepo.TryRemoveToPool(buff);
+                buff.ResetAll();
             });
         }
 

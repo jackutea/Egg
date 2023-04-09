@@ -15,12 +15,13 @@ MonoBehaviour:
   tm:
     typeID: 99993
     buffName: "Melee\u653B\u901F\u52A0\u6210"
-    description: "\u7ACB\u5373\u83B7\u5F97Melee\u653B\u901F\u52A0\u6210 + 30%\uFF0C\u6301\u7EED5\u79D2"
+    description: "\u7ACB\u5373\u83B7\u5F97Melee\u653B\u901F\u52A0\u6210 + 30%\uFF0C\u6301\u7EED5\u79D2,\u6700\u591A\u53E0\u52A02\u5C42"
     iconName: item_
     iconGUID: 31b48c583b66f1249a9f1c0126e7273d
     delayFrame: 0
     intervalFrame: 150
     durationFrame: 150
+    maxExtraStackCount: 1
     attributeEffectTM:
       hpNCT: 0
       hpEV_Expanded: 0
@@ -34,7 +35,7 @@ MonoBehaviour:
       moveSpeedEV_Expanded: 0
       NeedRevokeMoveSpeed: 0
       moveSpeedEffectTimes: 0
-      normalSkillSpeedBonusEV_Expanded: 30
+      normalSkillSpeedBonusEV_Expanded: 33
       normalSkillSpeedBonusEffectTimes: 1
       normalSkillSpeedBonusNeedRevoke: 1
       physicalDamageBonusEV_Expanded: 0

@@ -6,86 +6,55 @@ namespace TiedanSouls.Client.Entities {
 
     public class BuffSlotComponent {
 
-        Dictionary<int, List<BuffEntity>> buffDic;
+        Dictionary<int, BuffEntity> buffDic;
 
         List<BuffEntity> removeList;
 
         public BuffSlotComponent() {
-            buffDic = new Dictionary<int, List<BuffEntity>>();
+            buffDic = new Dictionary<int, BuffEntity>();
             removeList = new List<BuffEntity>();
         }
 
-        #region [增加]
-
-        public void Add(BuffEntity buff) {
+        public bool TryAdd(BuffEntity buff) {
             var idCom = buff.IDCom;
             var typeID = idCom.TypeID;
-            if (!buffDic.TryGetValue(typeID, out var list)) {
-                list = new List<BuffEntity>();
-                buffDic.Add(typeID, list);
+            if (!buffDic.TryAdd((int)typeID, buff)) {
+                return false;
             }
 
-            list.Add(buff);
             TDLog.Log($"BuffSlotComponent 添加 Buff\n{buff.IDCom}\n{buff.Description}");
+            return true;
         }
 
-        #endregion
 
-        #region [删除]
-
-        public void Remove(BuffEntity buff) {
+        public bool TryRemove(BuffEntity buff) {
             var idCom = buff.IDCom;
             var typeID = idCom.TypeID;
-            if (!buffDic.TryGetValue(typeID, out var list)) {
-                return;
+            if (!buffDic.Remove(typeID)) {
+                return false;
             }
 
-            list.Remove(buff);
             TDLog.Log($"BuffSlotComponent 移除 Buff\n{buff.IDCom}\n{buff.Description}");
+            return true;
         }
 
-        public void RemoveByEntityID(int entityID) {
-            var e = buffDic.Values.GetEnumerator();
-            while (e.MoveNext()) {
-                var buffList = e.Current;
-                var count = buffList.Count;
-                for (int i = 0; i < count; i++) {
-                    var buff = buffList[i];
-                    if (buff.IDCom.EntityID == entityID) {
-                        buffList.RemoveAt(i);
-                        TDLog.Log($"BuffSlotComponent 移除 Buff\n{buff.IDCom.TypeID}\n{buff.Description}");
-                        break;
-                    }
-                }
-            }
+        public bool TryGet(int typeID, out BuffEntity buff) {
+            return buffDic.TryGetValue(typeID, out buff);
         }
-
-        #endregion
-
-        #region [改]
 
         public void SetFather(EntityIDArgs father) {
             var e = buffDic.Values.GetEnumerator();
             while (e.MoveNext()) {
-                var buffList = e.Current;
-                buffList.ForEach((buff) => {
-                    buff.IDCom.SetFather(father);
-                });
+                var buff = e.Current;
+                buff.IDCom.SetFather(father);
             }
         }
-
-
-        #endregion
-
-        #region [查询]
 
         public void Foreach(Action<BuffEntity> action) {
             var e = buffDic.Values.GetEnumerator();
             while (e.MoveNext()) {
-                var buffList = e.Current;
-                buffList.ForEach((buff) => {
-                    action(buff);
-                });
+                var buff = e.Current;
+                action(buff);
             }
         }
 
@@ -93,23 +62,16 @@ namespace TiedanSouls.Client.Entities {
             removeList.Clear();
             var e = buffDic.Values.GetEnumerator();
             while (e.MoveNext()) {
-                var buffList = e.Current;
-                buffList.ForEach((buff) => {
-                    if (buff.IsFinished()) {
-                        removeList.Add(buff);
-                    } else {
-                        action(buff);
-                    }
-                });
+                var buff = e.Current;
+                if (buff.IsFinished()) {
+                    removeList.Add(buff);
+                    continue;
+                }
+
+                action(buff);
             }
             return removeList;
         }
-
-        public bool HasSameTypeBuff(int typeID) {
-            return buffDic.ContainsKey(typeID);
-        }
-
-        #endregion
 
     }
 

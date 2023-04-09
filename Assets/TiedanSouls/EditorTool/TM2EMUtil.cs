@@ -17,6 +17,7 @@ namespace TiedanSouls.EditorTool {
             editorGO.delayFrame = tm.delayFrame;
             editorGO.intervalFrame = tm.intervalFrame;
             editorGO.durationFrame = tm.durationFrame;
+            editorGO.maxExtraStackCount = tm.maxExtraStackCount;
 
             editorGO.attributeEffectEM = GetAttributeEffectEM(tm.attributeEffectTM);
             editorGO.effectorTypeID = tm.effectorTypeID;

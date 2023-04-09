@@ -17,6 +17,8 @@ namespace TiedanSouls.Template {
         [Header("间隔(帧)")] public int intervalFrame;
         [Header("持续时间(帧)")] public int durationFrame;
 
+        [Header("额外可叠加层数")] public int maxExtraStackCount;
+
         [Header("属性影响")] public AttributeEffectTM attributeEffectTM;
         [Header("效果器")] public int effectorTypeID;
 

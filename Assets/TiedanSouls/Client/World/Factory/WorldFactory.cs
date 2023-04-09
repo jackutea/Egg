@@ -389,6 +389,7 @@ namespace TiedanSouls.Client {
 
             buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);
+            buff.SetMaxExtraStackCount(tm.maxExtraStackCount);
 
             return true;
         }
