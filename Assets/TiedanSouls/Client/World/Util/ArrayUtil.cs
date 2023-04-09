@@ -30,7 +30,6 @@ namespace TiedanSouls.Client {
             }
         }
 
-
         /// <summary>
         /// 移除数组中的指定元素， 其后元素左移用 ‘下标' 进行覆盖，剩余元素值设置为默认值, 返回移除元素的个数
         /// </summary>

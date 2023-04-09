@@ -30,6 +30,10 @@ namespace TiedanSouls.Client.Entities {
             anim.Play("Dying");
         }
 
+        public void Anim_SetSpeed(float speed) {
+            anim.speed = speed;
+        }
+
     }
 
 }
