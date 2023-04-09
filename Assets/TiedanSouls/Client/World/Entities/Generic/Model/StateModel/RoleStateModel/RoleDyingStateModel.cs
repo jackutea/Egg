@@ -1,20 +1,20 @@
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleStateModel_JumpingUp {
+    public class RoleDyingStateModel {
 
         bool isEntering;
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
-        public int curFrame;
+        public int maintainFrame;
 
-        public RoleStateModel_JumpingUp() {
+        public RoleDyingStateModel() { 
             Reset();
         }
 
         public void Reset() {
             isEntering = false;
-            curFrame = -1;
+            maintainFrame = 0;
         }
 
     }

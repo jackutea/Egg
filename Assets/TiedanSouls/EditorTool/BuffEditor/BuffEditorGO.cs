@@ -14,13 +14,10 @@ namespace TiedanSouls.EditorTool {
         [Header("名称")] public string buffName;
         [Header("描述")] public string description;
         [Header("图标")] public Sprite icon;
-
         [Header("额外可叠加层数")] public int maxExtraStackCount;
-
         [Header("触发延时帧")] public int delayFrame;
         [Header("触发间隔帧")] public int intervalFrame;
         [Header("触发持续帧")] public int durationFrame;
-
         [Header("效果器")] public int effectorTypeID;
         [Header("属性影响")] public AttributeEffectEM attributeEffectEM;
 

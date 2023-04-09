@@ -14,7 +14,6 @@ namespace TiedanSouls.Generic {
         BeHit,                  // 受击
         Dying,                  // 死亡
         Casting,                // 施法
-        SkillPreparing,         // 技能蓄积中
 
     }
 

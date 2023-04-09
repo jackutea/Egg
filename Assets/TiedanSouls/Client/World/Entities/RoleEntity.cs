@@ -149,6 +149,10 @@ namespace TiedanSouls.Client.Entities {
             Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
         }
 
+        public void Hide() {
+            LogicRoot.gameObject.SetActive(false);
+            RendererRoot.gameObject.SetActive(false);
+        }
         #region [Locomotion]
 
         public void TryMoveByInput() {

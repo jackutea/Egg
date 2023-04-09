@@ -31,25 +31,22 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        #region [角色状态 - Tick]
-
         void TickFSM(RoleEntity role, float dt) {
             var fsm = role.FSMCom;
 
             var fsmState = fsm.FSMState;
             if (fsmState == RoleFSMState.None) return;
 
-            // - 状态
             TickAny(role, fsm, dt);
             if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsm, dt);
             else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsm, dt);
             else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsm, dt);
             else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsm, dt);
             else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsm, dt);
-            // - 控制效果
 
+            // - 控制效果
             var ctrlStatus = fsm.CtrlStatus;
-            if (ctrlStatus.Contains(RoleCtrlStatus.SkillMove)) Tick_SkillMove(role, fsm, dt);
+            if (ctrlStatus.Contains(RoleCtrlEffectType.SkillMove)) Tick_SkillMove(role, fsm, dt);
         }
 
         void Tick_Buff(RoleEntity role, RoleFSMComponent fsm, float dt) {
@@ -85,7 +82,22 @@ namespace TiedanSouls.Client.Domain {
             Tick_Buff(role, fsm, dt);
 
             if (role.IDCom.ControlType == ControlType.AI) role.AIStrategy.Tick(dt);
+            
         }
+        
+        #region [位置状态]
+
+        public void AddPositionStatus_OnGround(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.AddPositionStatus_OnGround();
+        }
+
+        public void RemovePositionStatus_OnGround(RoleEntity role) {
+            var fsm = role.FSMCom;
+            fsm.RemovePositionStatus_OnGround();
+        }
+
+        #endregion
 
         /// <summary>
         /// 闲置状态
@@ -210,7 +222,7 @@ namespace TiedanSouls.Client.Domain {
             // Locomotion
             role.TryMoveByInput();
 
-            if (fsm.CtrlStatus != RoleCtrlStatus.SkillMove) role.Fall(dt);
+            if (fsm.CtrlStatus != RoleCtrlEffectType.SkillMove) role.Fall(dt);
 
             roleDomain.TryCastSkillByInput(role);
         }
@@ -325,22 +337,6 @@ namespace TiedanSouls.Client.Domain {
                 roleDomain.TearDownRole(role);
             }
         }
-
-        #endregion
-
-        #region [位置状态]
-
-        public void AddPositionStatus_OnGround(RoleEntity role) {
-            var fsm = role.FSMCom;
-            fsm.AddPositionStatus_OnGround();
-        }
-
-        public void RemovePositionStatus_OnGround(RoleEntity role) {
-            var fsm = role.FSMCom;
-            fsm.RemovePositionStatus_OnGround();
-        }
-
-        #endregion
 
         public void Enter_Dying(RoleEntity role) {
             var roleRepo = worldContext.RoleRepo;

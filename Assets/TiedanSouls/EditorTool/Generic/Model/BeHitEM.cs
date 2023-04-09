@@ -4,12 +4,12 @@ using UnityEngine;
 namespace TiedanSouls.EditorTool {
 
     /// <summary>
-    /// 物理力度模型
+    /// 受击模型
     /// </summary>
     [Serializable]
     public struct BeHitEM {
 
-        [Header("持续帧数")] public int maintainFrame;
+        [Header("受击帧数")] public int beHitTotalFrame;
 
         // 击退
         [Header("击退距离(m)")] public float knockBackDistance;

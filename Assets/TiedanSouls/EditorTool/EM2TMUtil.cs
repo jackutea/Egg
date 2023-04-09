@@ -134,7 +134,7 @@ namespace TiedanSouls.EditorTool {
             tm.maintainFrame = editorGO.maintainFrame;
             tm.extraPenetrateCount = editorGO.extraPenetrateCount;
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
-            tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.collisionTriggerEM);
+            tm.collisionTriggerTM = GetCollisionTriggerTM<BulletEditorGO>(editorGO.entityColliderTriggerEM);
 
             tm.trajectoryType = editorGO.trajectoryType;
 
@@ -172,7 +172,7 @@ namespace TiedanSouls.EditorTool {
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
-            tm.collisionTriggerTMArray = GetCollisionTriggerTMArray<SkillEditorGO>(editorGo.colliderTriggerEMArray);
+            tm.collisionTriggerTMArray = GetCollisionTriggerTMArray<SkillEditorGO>(editorGo.entityColliderTriggerEMArray);
 
             tm.skillMoveCurveTMArray = GetMoveCurveTMArray(editorGo.skillMoveCurveEMArray);
 
@@ -256,7 +256,7 @@ namespace TiedanSouls.EditorTool {
         public static BeHitTM GetBeHitTM(BeHitEM em) {
             BeHitTM tm;
 
-            tm.maintainFrame = em.maintainFrame;
+            tm.maintainFrame = em.beHitTotalFrame;
 
             var knockBackDistance_cm = GetInt_Expand100(em.knockBackDistance);
             var knockBackTotalFrame = em.knockBackTotalFrame;
@@ -294,6 +294,28 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
+        #region [CtrlEffect]
+
+        public static RoleCtrlEffectTM[] GetCtrlEffectTMArray(CtrlEffectEM[] emArray) {
+            var len = emArray.Length;
+            var tmArray = new RoleCtrlEffectTM[len];
+            for (int i = 0; i < len; i++) {
+                tmArray[i] = GetCtrlEffectTM(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static RoleCtrlEffectTM GetCtrlEffectTM(CtrlEffectEM em) {
+            RoleCtrlEffectTM tm;
+            tm.roleCtrlEffectType = em.ctrlEffectType;
+            tm.totalFrame = em.totalFrame;
+            tm.iconName = em.icon.name;
+            tm.iconGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.icon));
+            return tm;
+        }
+
+        #endregion
+
         #region [ColliderTrigger]
 
         public static EntityColliderTriggerTM[] GetCollisionTriggerTMArray<T>(EntityColliderTriggerEM[] emArray) {
@@ -324,6 +346,7 @@ namespace TiedanSouls.EditorTool {
 
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
             tm.beHitTM = GetBeHitTM(em.beHitEM);
+            tm.roleCtrlEffectTMArray = GetCtrlEffectTMArray(em.ctrlEffectEMArray);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
             tm.colliderRelativePathArray = GetRelativePathArray<T>(em.colliderGOArray);

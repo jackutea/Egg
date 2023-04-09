@@ -26,13 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285879737727348702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0.06, y: 0.13, z: 0}
+  m_LocalScale: {x: 3.31, y: 0.73, z: 2}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6453924149412183407}
+  m_Children: []
   m_Father: {fileID: 2118739567234550776}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1271753362772354951
 SpriteRenderer:
@@ -254,11 +253,11 @@ Transform:
   m_GameObject: {fileID: 7048222183906981424}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7815739429759665563}
-  m_Father: {fileID: 7633984100165976188}
+  m_Father: {fileID: 2118739567234550776}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7805025543140648166
@@ -290,6 +289,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6453924149412183407}
   - {fileID: 7633984100165976188}
   m_Father: {fileID: 7242303559924722033}
   m_RootOrder: 0
@@ -310,6 +310,9 @@ MonoBehaviour:
   typeID: 9999
   bulletName: "\u6807\u67AA\u98DE\u77DB"
   maintainFrame: 30
+  extraPenetrateCount: 0
+  deathEffectorTypeID: 0
+  vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
   trajectoryType: 1
   moveCurveEM:
     moveDistance: 30
@@ -365,50 +368,51 @@ MonoBehaviour:
         fallingAcceleration_ComparisonType: 0
         fallingSpeedMax: 0
         fallingSpeedMax_ComparisonType: 0
-  collisionTriggerEM:
+  entityColliderTriggerEM:
     isEnabled: 1
-    frameRange: {x: 0, y: 30}
+    frameRange: {x: 0, y: 29}
     triggerMode: 1
+    triggerCustomEM:
+      frameRangeArray:
+      - {x: 0, y: 29}
     triggerFixedIntervalEM:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
-    triggerCustomEM:
-      frameRangeArray:
-      - {x: 0, y: 30}
     targetEntityType: 1
     hitTargetGroupType: 4
+    hitEffectorTypeID: 0
     damageEM:
       damageType: 1
-      damageBase: 33
+      damageBase: 66
       damageCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 34
+          value: 2.2
+          inSlope: 1.2
+          outSlope: 1.2
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.33333334
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     beHitEM:
-      maintainFrame: 20
+      beHitTotalFrame: 10
       knockBackDistance: 2
-      knockBackTotalFrame: 2
+      knockBackTotalFrame: 5
       knockBackDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -433,8 +437,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpDis: 5
-      knockUpTotalFrame: 2
+      knockUpDis: 2
+      knockUpTotalFrame: 5
       knockUpDisCurve:
         serializedVersion: 2
         m_Curve:
@@ -459,12 +463,14 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorTypeID: 0
-    colliderGOArray:
-    - {fileID: 285879737727348702}
-  extraPenetrateCount: 0
-  deathEffectorTypeID: 0
-  vfxPrefab: {fileID: 6683752914446885422, guid: 255c1b7094df72f4582aa4b9f979e595, type: 3}
+    ctrlEffectEMArray:
+    - ctrlEffectType: 2
+      totalFrame: 30
+      icon: {fileID: 21300000, guid: 99deb5c57c4351d498024f6bc3e915d4, type: 3}
+    - ctrlEffectType: 4
+      totalFrame: 90
+      icon: {fileID: 21300000, guid: abde0ff7191f2ef4295ca472913a00c3, type: 3}
+    colliderGOArray: []
 --- !u!1 &8766878982541236908
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,6 +632,9 @@ MonoBehaviour:
   typeID: 99991
   bulletName: "\u8DDF\u8E2A\u5B50\u5F39"
   maintainFrame: 0
+  extraPenetrateCount: 0
+  deathEffectorTypeID: 0
+  vfxPrefab: {fileID: 6683752914446885422, guid: c57b42eb162926d45b358a9f0055727a, type: 3}
   trajectoryType: 2
   moveCurveEM:
     moveDistance: 0
@@ -663,105 +672,48 @@ MonoBehaviour:
         fallingAcceleration_ComparisonType: 0
         fallingSpeedMax: 0
         fallingSpeedMax_ComparisonType: 0
-  collisionTriggerEM:
-    isEnabled: 1
+  entityColliderTriggerEM:
+    isEnabled: 0
     frameRange: {x: 0, y: 0}
     triggerMode: 0
+    triggerCustomEM:
+      frameRangeArray: []
     triggerFixedIntervalEM:
       delayFrame: 0
       intervalFrame: 0
       maintainFrame: 0
-    triggerCustomEM:
-      frameRangeArray: []
     targetEntityType: 0
     hitTargetGroupType: 0
+    hitEffectorTypeID: 0
     damageEM:
-      damageType: 3
-      damageBase: 33
+      damageType: 0
+      damageBase: 0
       damageCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 2
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
     beHitEM:
-      maintainFrame: 20
-      knockBackDistance: 2
-      knockBackTotalFrame: 2
+      beHitTotalFrame: 0
+      knockBackDistance: 0
+      knockBackTotalFrame: 0
       knockBackDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      knockUpDis: 5
-      knockUpTotalFrame: 2
+      knockUpDis: 0
+      knockUpTotalFrame: 0
       knockUpDisCurve:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    hitEffectorTypeID: 0
-    colliderGOArray:
-    - {fileID: 8766878982541236908}
-  extraPenetrateCount: 0
-  deathEffectorTypeID: 0
-  vfxPrefab: {fileID: 6683752914446885422, guid: c57b42eb162926d45b358a9f0055727a, type: 3}
+    ctrlEffectEMArray: []
+    colliderGOArray: []
 --- !u!1001 &8325092907075036684
 PrefabInstance:
   m_ObjectHideFlags: 0

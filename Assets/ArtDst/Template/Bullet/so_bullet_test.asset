@@ -94,7 +94,7 @@ MonoBehaviour:
           fallingSpeedMax_ComparisonType: 0
     collisionTriggerTM:
       isEnabled: 1
-      frameRange: {x: 0, y: 30}
+      frameRange: {x: 0, y: 29}
       triggerMode: 1
       triggerFixedIntervalTM:
         delayFrame: 0
@@ -102,29 +102,29 @@ MonoBehaviour:
         maintainFrame: 0
       triggerCustomTM:
         frameRangeArray:
-        - {x: 0, y: 30}
+        - {x: 0, y: 29}
       targetEntityType: 1
       hitTargetGroupType: 4
       damageTM:
         damageType: 1
-        damageArray: 21000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000210000002100000021000000
-        damageBase: 33
+        damageArray: 420000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000
+        damageBase: 66
         damageCurve_KeyframeTMArray:
         - time: 0
           value: 1
-          inTangent: 0
-          outTangent: 0
+          inTangent: 1.2
+          outTangent: 1.2
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.33333334
         - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
+          value: 2.2
+          inTangent: 1.2
+          outTangent: 1.2
+          inWeight: 0.33333334
           outWeight: 0
       beHitTM:
-        maintainFrame: 20
-        knockBackSpeedArray_cm: 94110000dc050000
+        maintainFrame: 10
+        knockBackSpeedArray_cm: 7008000090060000b0040000d0020000f0000000
         knockBackKeyframeTMArray:
         - time: 0
           value: 0
@@ -138,9 +138,9 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockBackTotalFrame: 2
+        knockBackTotalFrame: 5
         knockBackDistance_cm: 200
-        knockUpSpeedArray_cm: f22b0000a60e0000
+        knockUpSpeedArray_cm: 7008000090060000b0040000d0020000f0000000
         knockUpKeyframeTMArray:
         - time: 0
           value: 0
@@ -154,16 +154,16 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockUpTotalFrame: 2
-        knockUpDis_cm: 500
+        knockUpTotalFrame: 5
+        knockUpDis_cm: 200
+      ctrlEffectTMArray:
+      - ctrlEffectType: 2
+        totalFrame: 30
+        iconName: item_helmet
+        iconGUID: 99deb5c57c4351d498024f6bc3e915d4
       hitEffectorTypeID: 0
-      colliderTMArray:
-      - colliderType: 0
-        localPosition: {x: 0, y: 0, z: 0}
-        localAngleZ: 0
-        localScale: {x: 2, y: 2, z: 2}
-      colliderRelativePathArray:
-      - collider
+      colliderTMArray: []
+      colliderRelativePathArray: []
     extraPenetrateCount: 0
     deathEffectorTypeID: 0
     vfxPrefabName: vfx_test_bullet

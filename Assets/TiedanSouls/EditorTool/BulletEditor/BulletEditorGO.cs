@@ -12,18 +12,15 @@ namespace TiedanSouls.EditorTool {
 
         [Header("类型ID")] public int typeID;
         [Header("子弹名称")] public string bulletName;
-
         [Header("持续帧数")] public int maintainFrame;
+        [Header("额外穿透次数")] public int extraPenetrateCount;
+        [Header("死亡效果器(类型ID)")] public int deathEffectorTypeID;
+        [Header("子弹特效")] public GameObject vfxPrefab;
         [Header("轨迹类型")] public TrajectoryType trajectoryType;
         [Header("位移曲线")] public MoveCurveEM moveCurveEM;
         [Header("实体追踪")] public EntityTrackEM entityTrackingEM;
-        [Header("碰撞器")] public EntityColliderTriggerEM collisionTriggerEM;
-        [Header("额外穿透次数")] public int extraPenetrateCount;
-
-        [Header("死亡效果器(类型ID)")] public int deathEffectorTypeID;
-
-        [Header("子弹特效")] public GameObject vfxPrefab;
-
+        [Header("碰撞器")] public EntityColliderTriggerEM entityColliderTriggerEM;
+        
         public void Save() {
             if (so == null) {
                 Debug.LogWarning("配置文件为空!");
@@ -51,7 +48,7 @@ namespace TiedanSouls.EditorTool {
 
             this.maintainFrame = tm.maintainFrame;
 
-            this.collisionTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.collisionTriggerTM);
+            this.entityColliderTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.collisionTriggerTM);
             this.deathEffectorTypeID = tm.deathEffectorTypeID;
             this.extraPenetrateCount = tm.extraPenetrateCount;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleStateModel_Casting {
+    public class RoleCastingStateModel {
 
         bool isEntering;
         public bool IsEntering => isEntering;
@@ -33,7 +33,7 @@ namespace TiedanSouls.Client.Entities {
 
         public int curIndex;
 
-        public RoleStateModel_Casting() {
+        public RoleCastingStateModel() {
             frameArray = new short[1000];
         }
 

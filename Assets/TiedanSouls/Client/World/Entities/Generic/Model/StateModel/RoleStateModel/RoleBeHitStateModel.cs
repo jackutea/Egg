@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleStateModel_BeHit {
+    public class RoleBeHitStateModel {
 
         bool isEntering;
         public bool IsEntering => isEntering;
@@ -26,7 +26,7 @@ namespace TiedanSouls.Client.Entities {
 
         public int curFrame;
 
-        public RoleStateModel_BeHit() { }
+        public RoleBeHitStateModel() { }
 
         public void Reset() {
             isEntering = false;

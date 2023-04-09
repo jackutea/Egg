@@ -119,6 +119,7 @@ namespace TiedanSouls.Client {
 
             model.damageModel = GetDamageModel(tm.damageTM);
             model.beHitModel = GetBeHitModel(tm.beHitTM);
+            model.roleCtrlEffectModelArray = GetRoleCtrlEffectModelArray(tm.roleCtrlEffectTMArray);
             model.hitEffectorTypeID = tm.hitEffectorTypeID;
             model.entityColliderArray = GetEntityColliderModelArray(tm.colliderTMArray, tm.hitTargetGroupType);
 
@@ -239,6 +240,28 @@ namespace TiedanSouls.Client {
             model.maintainFrame = tm.maintainFrame;
             model.knockBackSpeedArray = GetFloatArray_Shrink100(tm.knockBackSpeedArray_cm);
             model.knockUpSpeedArray = GetFloatArray_Shrink100(tm.knockUpSpeedArray_cm);
+            return model;
+        }
+
+        #endregion
+
+        #region [RoleCtrlEffect]
+
+        public static RoleCtrlEffectModel[] GetRoleCtrlEffectModelArray(RoleCtrlEffectTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            RoleCtrlEffectModel[] modelArray = new RoleCtrlEffectModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetRoleCtrlEffectModel(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static RoleCtrlEffectModel GetRoleCtrlEffectModel(RoleCtrlEffectTM tm) {
+            RoleCtrlEffectModel model;
+            model.roleCtrlEffectType = tm.roleCtrlEffectType;
+            model.totalFrame = tm.totalFrame;
+            model.iconName = tm.iconName;
             return model;
         }
 

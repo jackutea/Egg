@@ -60,8 +60,8 @@ namespace TiedanSouls.EditorTool {
                     return;
                 }
 
-                if (p.GetType() == typeof(RoleCtrlStatus) &&
-                !chosenRoleStateFlag.Contains((RoleCtrlStatus)p.intValue)) {
+                if (p.GetType() == typeof(RoleCtrlEffectType) &&
+                !chosenRoleStateFlag.Contains((RoleCtrlEffectType)p.intValue)) {
                     return;
                 }
                 
@@ -71,13 +71,13 @@ namespace TiedanSouls.EditorTool {
             serializedObject.ApplyModifiedProperties();
         }
 
-        RoleCtrlStatus GetRoleStateFlag() {
+        RoleCtrlEffectType GetRoleStateFlag() {
             var count = propertyList.Count;
-            var roleStateFlag = RoleCtrlStatus.None;
+            var roleStateFlag = RoleCtrlEffectType.None;
             for (int i = 0; i < count; i++) {
                 var p = propertyList[i];
-                if (p.GetType() == typeof(RoleCtrlStatus)) {
-                    roleStateFlag = (RoleCtrlStatus)p.intValue;
+                if (p.GetType() == typeof(RoleCtrlEffectType)) {
+                    roleStateFlag = (RoleCtrlEffectType)p.intValue;
                     break;
                 }
             }

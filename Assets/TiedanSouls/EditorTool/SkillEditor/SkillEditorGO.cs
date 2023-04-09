@@ -21,7 +21,7 @@ namespace TiedanSouls.EditorTool {
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
         [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
         [Header("技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
-        [Header("碰撞器(组) ===================================")] public EntityColliderTriggerEM[] colliderTriggerEMArray;
+        [Header("碰撞器(组) ===================================")] public EntityColliderTriggerEM[] entityColliderTriggerEMArray;
 
         public void Save() {
             if (so == null) {
@@ -55,7 +55,7 @@ namespace TiedanSouls.EditorTool {
 
             this.comboSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.comboSkillCancelTMArray);
             this.cancelSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.cancelSkillCancelTMArray);
-            this.colliderTriggerEMArray = TM2EMUtil.GetCollisionTriggerEMArray(skillTM.collisionTriggerTMArray);
+            this.entityColliderTriggerEMArray = TM2EMUtil.GetCollisionTriggerEMArray(skillTM.collisionTriggerTMArray);
             this.skillEffectorEMArray = TM2EMUtil.GetSkillEffectorEMArray(skillTM.skillEffectorTMArray);
             this.skillMoveCurveEMArray = TM2EMUtil.GetSkillMoveCurveEMArray(skillTM.skillMoveCurveTMArray);
 

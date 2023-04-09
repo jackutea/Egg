@@ -202,8 +202,9 @@ namespace TiedanSouls.Client.Domain {
 
         #endregion
 
-        #region [玩家角色输入]
-
+        /// <summary>
+        /// 玩家角色输入
+        /// </summary>
         public void BackPlayerInput() {
             RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole == null) {
@@ -278,10 +279,6 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        #endregion
-
-        #region [Locomotion]
-
         public void StopMove(RoleEntity role) {
             var moveCom = role.MoveCom;
             moveCom.Stop();
@@ -313,90 +310,16 @@ namespace TiedanSouls.Client.Domain {
             moveCom.Dash(dir, force);
         }
 
-        #region [Physics Event Handle]
-
-        void OnCollisionEnterField(RoleEntity role, Collision2D collision2D) {
-
-        }
-
-        void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
-            var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_OnGround();
-        }
-
-        void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {
-            var normal = collision2D.contacts[0].normal;
-            var isStand = normal.y > 0;
-
-            if (isStand) {
-                var moveCom = role.MoveCom;
-                var rb = moveCom.RB;
-                var velo = rb.velocity;
-                velo.y = 0;
-                moveCom.SetVelocity(velo);
-
-                var fsmCom = role.FSMCom;
-                fsmCom.AddPositionStatus_StandInCrossPlatform();
-                fsmCom.Enter_Idle();
-            }
-        }
-
-        void OnCollisionLeavePlatform(RoleEntity role, Collision2D collision2D) {
-            var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_StandInCrossPlatform();
-        }
-
-        void OnTriggerEnterField(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerLeaveField(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerEnterCrossPlatform(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerLeaveCrossPlatform(RoleEntity role, Collider2D collider2D) {
-            role.SetTrigger(false);
-            var fsmCom = role.FSMCom;
-            fsmCom.Enter_Falling();
-        }
-
-        #endregion
-
-        #endregion
-
-        #region [Attribute]
-
-        public float ReduceHP(RoleEntity role, float damage) {
-            var attributeCom = role.AttributeCom;
-            var hudSlotCom = role.HudSlotCom;
-
-            var decrease = attributeCom.ReduceHP(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
-
-            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
-            return decrease;
-        }
-
-        public float ReduceHP_Percentage(RoleEntity role, float percentage) {
-            var attributeCom = role.AttributeCom;
-            var hudSlotCom = role.HudSlotCom;
-
-            var curHP = attributeCom.HP;
-            var decrease = curHP * percentage;
-            decrease = attributeCom.ReduceHP(decrease);
-
-            TDLog.Log($"{role.IDCom.EntityName} 受到百分比伤害 百分比: {percentage} HP减少: {decrease}");
-            return decrease;
-        }
-
-        #endregion
-
-        #region [角色释放技能]
-
+        /// <summary>
+        /// 角色释放技能
+        /// </summary>
         public bool TryCastSkillByInput(RoleEntity role) {
             var inputCom = role.InputCom;
             SkillType inputSkillType = inputCom.GetSkillType();
+            return TryCastSkill(role, inputSkillType);
+        }
+
+        public bool TryCastSkill(RoleEntity role, SkillType inputSkillType) {
             if (inputSkillType == SkillType.None) {
                 return false;
             }
@@ -478,10 +401,6 @@ namespace TiedanSouls.Client.Domain {
             return false;
         }
 
-        #endregion
-
-        #region [角色受击处理]
-
         /// <summary>
         /// 角色受击的统一处理方式
         /// </summary>
@@ -511,16 +430,12 @@ namespace TiedanSouls.Client.Domain {
             damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
         }
 
-        #endregion
-
-        #region [角色 TearDown 相关]
-
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.ResetAll();
             role.AttributeCom.ClearHP();
-            Hide(role);
-            DeactivateCollider(role);
+            role.Coll_LogicRoot.enabled = false;
+            role.Hide();
         }
 
         public bool IsRoleDead(RoleEntity role) {
@@ -528,10 +443,9 @@ namespace TiedanSouls.Client.Domain {
             return attrCom.HP <= 0;
         }
 
-        #endregion
-
-        #region [表现层]
-
+        /// <summary>
+        /// 表现层 - 同步逻辑层的位置
+        /// </summary>
         public void Renderer_Sync(RoleEntity role) {
             var logicRoot = role.LogicRoot;
             var rendererRoot = role.RendererRoot;
@@ -546,6 +460,9 @@ namespace TiedanSouls.Client.Domain {
             weaponRoot.rotation = logicRoot.rotation;
         }
 
+        /// <summary>
+        /// 表现层 - 插值逻辑层的位置
+        /// </summary>
         public void Renderer_Easing(RoleEntity role, float dt) {
             var logicRoot = role.LogicRoot;
             var rendererRoot = role.RendererRoot;
@@ -560,36 +477,16 @@ namespace TiedanSouls.Client.Domain {
             weaponRoot.rotation = logicRoot.rotation;
         }
 
-        #endregion
-
-        #region [显示 & 隐藏]
-
         public void Show(RoleEntity role) {
             role.LogicRoot.gameObject.SetActive(true);
             role.RendererRoot.gameObject.SetActive(true);
             TDLog.Log($"显示角色: {role.IDCom.EntityName} ");
         }
 
-        public void Hide(RoleEntity role) {
-            role.LogicRoot.gameObject.SetActive(false);
-            role.RendererRoot.gameObject.SetActive(false);
-            TDLog.Log($"隐藏角色: {role.IDCom.EntityName} ");
-        }
-
-        public void ActivateCollider(RoleEntity role) {
-            role.Coll_LogicRoot.enabled = true;
-        }
-
-        public void DeactivateCollider(RoleEntity role) {
-            role.Coll_LogicRoot.enabled = false;
-        }
-
-        #endregion
-
         public void RecycleFieldRoles(int fieldTypeID) {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                Hide(role);
+                role.Hide();
             });
         }
 
@@ -600,6 +497,84 @@ namespace TiedanSouls.Client.Domain {
                 if (isShow) Show(role);
             });
         }
+
+        #region [Physics Event Handle]
+
+        void OnCollisionEnterField(RoleEntity role, Collision2D collision2D) {
+
+        }
+
+        void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
+            var fsmCom = role.FSMCom;
+            fsmCom.RemovePositionStatus_OnGround();
+        }
+
+        void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {
+            var normal = collision2D.contacts[0].normal;
+            var isStand = normal.y > 0;
+
+            if (isStand) {
+                var moveCom = role.MoveCom;
+                var rb = moveCom.RB;
+                var velo = rb.velocity;
+                velo.y = 0;
+                moveCom.SetVelocity(velo);
+
+                var fsmCom = role.FSMCom;
+                fsmCom.AddPositionStatus_StandInCrossPlatform();
+                fsmCom.Enter_Idle();
+            }
+        }
+
+        void OnCollisionLeavePlatform(RoleEntity role, Collision2D collision2D) {
+            var fsmCom = role.FSMCom;
+            fsmCom.RemovePositionStatus_StandInCrossPlatform();
+        }
+
+        void OnTriggerEnterField(RoleEntity role, Collider2D collider2D) {
+        }
+
+        void OnTriggerLeaveField(RoleEntity role, Collider2D collider2D) {
+        }
+
+        void OnTriggerEnterCrossPlatform(RoleEntity role, Collider2D collider2D) {
+        }
+
+        void OnTriggerLeaveCrossPlatform(RoleEntity role, Collider2D collider2D) {
+            role.SetTrigger(false);
+            var fsmCom = role.FSMCom;
+            fsmCom.Enter_Falling();
+        }
+
+        #endregion
+
+        #region [Attribute]
+
+        public float ReduceHP(RoleEntity role, float damage) {
+            var attributeCom = role.AttributeCom;
+            var hudSlotCom = role.HudSlotCom;
+
+            var decrease = attributeCom.ReduceHP(damage);
+            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
+
+            TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
+            return decrease;
+        }
+
+        public float ReduceHP_Percentage(RoleEntity role, float percentage) {
+            var attributeCom = role.AttributeCom;
+            var hudSlotCom = role.HudSlotCom;
+
+            var curHP = attributeCom.HP;
+            var decrease = curHP * percentage;
+            decrease = attributeCom.ReduceHP(decrease);
+
+            TDLog.Log($"{role.IDCom.EntityName} 受到百分比伤害 百分比: {percentage} HP减少: {decrease}");
+            return decrease;
+        }
+
+        #endregion
+
     }
 
 }

@@ -211,6 +211,7 @@ namespace TiedanSouls.EditorTool {
 
             em.damageEM = GetDamageEM(tm.damageTM);
             em.beHitEM = GetBeHitEM(tm.beHitTM);
+            em.ctrlEffectEMArray = GetCtrlEffectEMArray(tm.roleCtrlEffectTMArray);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
 
             return em;
@@ -237,7 +238,7 @@ namespace TiedanSouls.EditorTool {
         public static BeHitEM GetBeHitEM(this BeHitTM tm) {
             BeHitEM em;
 
-            em.maintainFrame = tm.maintainFrame;
+            em.beHitTotalFrame = tm.maintainFrame;
 
             em.knockBackTotalFrame = tm.knockBackTotalFrame;
             em.knockBackDisCurve = GetAnimationCurve(tm.knockBackKeyframeTMArray);
@@ -252,8 +253,29 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
+        #endregion
+
+        #region [CtrlEffect]
+
+        public static CtrlEffectEM[] GetCtrlEffectEMArray(RoleCtrlEffectTM[] tmArray) {
+            if (tmArray == null) return null;
+            CtrlEffectEM[] emArray = new CtrlEffectEM[tmArray.Length];
+            for (int i = 0; i < tmArray.Length; i++) {
+                emArray[i] = GetCtrlEffectEM(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static CtrlEffectEM GetCtrlEffectEM(RoleCtrlEffectTM tm) {
+            CtrlEffectEM em;
+            em.ctrlEffectType = tm.roleCtrlEffectType;
+            em.totalFrame = tm.totalFrame;
+            em.icon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(tm.iconGUID));
+            return em;
+        }
 
         #endregion
+
 
         #region [Damage]
 

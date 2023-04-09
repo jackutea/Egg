@@ -23,7 +23,8 @@ namespace TiedanSouls.Template {
 
         [Header("伤害")] public DamageTM damageTM;
         [Header("受击")] public BeHitTM beHitTM;
-        [Header("效果器(类型ID)")] public int hitEffectorTypeID;
+        [Header("控制效果(组)")] public RoleCtrlEffectTM[] roleCtrlEffectTMArray;
+        [Header("击中效果器")] public int hitEffectorTypeID;
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
 
