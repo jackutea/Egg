@@ -22,11 +22,13 @@ namespace TiedanSouls.Client.Entities {
         public int IntervalFrame => intervalFrame;
         public void SetIntervalFrame(int value) => intervalFrame = value;
 
-        int durationFrame;
-        public int DurationFrame => durationFrame;
-        public void SetDurationFrame(int value) => durationFrame = value;
+        int totalFrame;
+        public int TotalFrame => totalFrame;
+        public void SetTotalFrame(int value) => totalFrame = value;
 
-        public AttributeEffectModel attributeEffectModel;
+        AttributeEffectModel attributeEffectModel;
+        public AttributeEffectModel AttributeEffectModel => attributeEffectModel;
+        public void SetAttributeEffectModel(AttributeEffectModel value) => attributeEffectModel = value;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;
@@ -42,19 +44,10 @@ namespace TiedanSouls.Client.Entities {
             triggerTimes = 0;
         }
 
-        public void TearDown() {
-        }
-
         public void Reset() {
             curFrame = -1;
             triggerTimes = 0;
-            attributeEffectModel.hpOffset = 0;
-            attributeEffectModel.hpMaxOffset = 0;
-            attributeEffectModel.moveSpeedOffset = 0;
-            attributeEffectModel.physicalDamageBonusOffset = 0;
-            attributeEffectModel.magicalDamageBonusOffset = 0;
-            attributeEffectModel.physicalDefenseBonusOffset = 0;
-            attributeEffectModel.magicalDefenseBonusOffset = 0;
+            attributeEffectModel.ResetOffset();
         }
 
         public void SetAttributeEffectModel(in AttributeEffectModel value) {
@@ -70,7 +63,7 @@ namespace TiedanSouls.Client.Entities {
         #endregion
 
         public bool IsFinished() {
-            return curFrame >= durationFrame;
+            return curFrame >= totalFrame;
         }
 
         public bool IsTriggerFrame() {

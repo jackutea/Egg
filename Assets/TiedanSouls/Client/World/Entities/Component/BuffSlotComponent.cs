@@ -8,11 +8,11 @@ namespace TiedanSouls.Client.Entities {
 
         Dictionary<int, List<BuffEntity>> buffDic;
 
-        List<int> removeList;
+        List<BuffEntity> removeList;
 
         public BuffSlotComponent() {
             buffDic = new Dictionary<int, List<BuffEntity>>();
-            removeList = new List<int>();
+            removeList = new List<BuffEntity>();
         }
 
         #region [增加]
@@ -89,14 +89,14 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public List<int> ForeachAndGetRemoveList(Action<BuffEntity> action) {
+        public List<BuffEntity> ForeachAndGetRemoveList(Action<BuffEntity> action) {
             removeList.Clear();
             var e = buffDic.Values.GetEnumerator();
             while (e.MoveNext()) {
                 var buffList = e.Current;
                 buffList.ForEach((buff) => {
                     if (buff.IsFinished()) {
-                        removeList.Add(buff.IDCom.EntityID);
+                        removeList.Add(buff);
                     } else {
                         action(buff);
                     }

@@ -12,9 +12,9 @@ namespace TiedanSouls.Client.Entities {
         public bool IsCombo => isCombo;
         public void SetIsCombo(bool value) => isCombo = value;
 
-        int castingSkillTypeID;
-        public int CastingSkillTypeID => castingSkillTypeID;
-        public void SetCastingSkillTypeID(int value) => castingSkillTypeID = value;
+        SkillEntity castingSkill;
+        public SkillEntity CastingSkill => castingSkill;
+        public void SetCastingSkill(SkillEntity value) => castingSkill = value;
 
         Vector2 chosedPoint;
         public Vector2 ChosedPoint => chosedPoint;
@@ -24,16 +24,42 @@ namespace TiedanSouls.Client.Entities {
         public bool IsWaitingForMoveEnd => isWaitingForMoveEnd;
         public void SetIsWaitingForMoveEnd(bool value) => isWaitingForMoveEnd = value;
 
-        public int maintainFrame;
+        short[] frameArray;
+        public short[] FrameArray => frameArray;
 
-        public RoleStateModel_Casting() { }
+        int frameCount;
+        public int FrameCount => frameCount;
+        public void SetFrameCount(int value) => frameCount = value;
+
+        public int curIndex;
+
+        public RoleStateModel_Casting() {
+            frameArray = new short[1000];
+        }
 
         public void Reset() {
             isEntering = false;
             isCombo = false;
             isWaitingForMoveEnd = false;
-            castingSkillTypeID = -1;
-            maintainFrame = 0;
+            castingSkill = null;
+            chosedPoint = Vector2.zero;
+            frameCount = 0;
+            curIndex = -1;
+        }
+
+        public bool IsCurrentValid() {
+            return curIndex >= 0 && curIndex < frameCount;
+        }
+
+        public int GetCurFrame() {
+            if (curIndex < 0 || curIndex >= frameCount) return -1;
+            return frameArray[curIndex];
+        }
+
+        public int GetLastFrame() {
+            var lastIndex = curIndex - 1;
+            if (lastIndex < 0 || lastIndex >= frameCount) return 0;
+            return frameArray[lastIndex];
         }
 
     }

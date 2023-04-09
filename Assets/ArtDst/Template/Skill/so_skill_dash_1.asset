@@ -15,13 +15,44 @@ MonoBehaviour:
   tm:
     typeID: 1
     skillName: "\u95EA\u73B0 "
-    skillType: 6
-    maintainFrame: 0
+    skillType: 4
+    maintainFrame: 10
     weaponAnimName: anim_role_tiedan_idle
     weaponAnimClip_GUID: 08f51868a53651949b1dd02025f80ffb
     originSkillTypeID: 0
     comboSkillCancelTMArray: []
     cancelSkillCancelTMArray: []
     skillEffectorTMArray: []
-    skillMoveCurveTMArray: []
+    skillMoveCurveTMArray:
+    - startFrame: 0
+      isFaceTo: 0
+      needWaitForMoveEnd: 0
+      moveCurveTM:
+        moveDistance_cm: 1000
+        moveTotalFrame: 10
+        disCurve_KeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        moveSpeedArray: 44160000ec130000941100003c0f0000e40c00008c0a000034080000dc050000840300002c010000
+        moveDirArray:
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
+        - {x: 1, y: 0, z: 0}
     collisionTriggerTMArray: []

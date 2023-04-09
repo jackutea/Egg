@@ -62,15 +62,6 @@ namespace TiedanSouls.Client.Domain {
                 // - 表现层同步当前位置
                 var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleDomain.Renderer_Sync(playerRole);
-
-                // - 测试buff 
-                var buffSlotCom = playerRole.BuffSlotCom;
-                var buffDomain = worldContext.RootDomain.BuffDomain;
-                if (!buffSlotCom.HasSameTypeBuff(99991)) {
-                    if (buffDomain.TrySpawn(99991, playerRole.IDCom.ToArgs(), out var buff)) {
-                        buffSlotCom.Add(buff);
-                    }
-                }
             }
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......

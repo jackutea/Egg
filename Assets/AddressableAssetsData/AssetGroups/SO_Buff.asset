@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SO_Buff
+  - m_GUID: 0ce17581cdd070940bd82676310b5fde
+    m_Address: so_buff_99993
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SO_Buff
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:

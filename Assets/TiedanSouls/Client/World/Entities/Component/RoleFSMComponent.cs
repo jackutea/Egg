@@ -108,21 +108,20 @@ namespace TiedanSouls.Client.Entities {
             var stateModel = idleStateModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
-
             fsmState = RoleFSMState.Idle;
             TDLog.Log($"角色 状态 - 设置 '{fsmState}'");
         }
 
 
-        public void Enter_Casting(int skillTypeID, bool isCombo, Vector2 chosedPoint) {
+        public void Enter_Casting(SkillEntity skill, bool isCombo, Vector2 chosedPoint) {
             var stateModel = castingStateModel;
             stateModel.Reset();
             stateModel.SetIsEntering(true);
-            stateModel.SetCastingSkillTypeID(skillTypeID);
+            stateModel.SetCastingSkill(skill);
             stateModel.SetIsCombo(isCombo);
             stateModel.SetChosedPoint(chosedPoint);
             fsmState = RoleFSMState.Casting;
-            TDLog.Log($"角色 状态 - 切换  {fsmState} {skillTypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}\n{ctrlStatus.GetString()}");
+            TDLog.Log($"角色 状态 - 切换  {fsmState} {skill.IDCom.TypeID} / 是否连招 {isCombo} / 选择点 {chosedPoint}");
         }
 
         public void Enter_BeHit(Vector3 beHitDir, in BeHitModel beHitModel) {

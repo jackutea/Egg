@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac78f50a39eef0346a71b60b1c59cc6d, type: 3}
-  m_Name: so_buff_99992
+  m_Name: so_buff_99993
   m_EditorClassIdentifier: 
   tm:
-    typeID: 99992
-    buffName: "\u79FB\u901Fbuff"
-    description: "\u7ACB\u5373\u83B7\u5F97\u79FB\u901F+100%\uFF0C\u6301\u7EED2\u79D2"
+    typeID: 99993
+    buffName: "Melee\u653B\u901F\u52A0\u6210"
+    description: "\u7ACB\u5373\u83B7\u5F97Melee\u653B\u901F\u52A0\u6210 + 50%\uFF0C\u6301\u7EED5\u79D2"
     iconName: item_
     iconGUID: 31b48c583b66f1249a9f1c0126e7273d
     delayFrame: 0
-    intervalFrame: 60
-    durationFrame: 60
+    intervalFrame: 150
+    durationFrame: 150
     attributeEffectTM:
       hpNCT: 0
       hpEV_Expanded: 0
@@ -30,13 +30,13 @@ MonoBehaviour:
       hpMaxEV_Expanded: 0
       NeedRevokeHPMax: 0
       hpMaxEffectTimes: 0
-      moveSpeedNCT: 1
-      moveSpeedEV_Expanded: 100
-      NeedRevokeMoveSpeed: 1
-      moveSpeedEffectTimes: 1
+      moveSpeedNCT: 0
+      moveSpeedEV_Expanded: 0
+      NeedRevokeMoveSpeed: 0
+      moveSpeedEffectTimes: 0
       normalSkillSpeedBonusEV_Expanded: 0
-      normalSkillSpeedBonusEffectTimes: 0
-      normalSkillSpeedBonusNeedRevoke: 0
+      normalSkillSpeedBonusEffectTimes: 1
+      normalSkillSpeedBonusNeedRevoke: 1
       physicalDamageBonusEV_Expanded: 0
       physicalDamageBonusEffectTimes: 0
       physicalDamageBonusNeedRevoke: 0

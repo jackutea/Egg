@@ -1,12 +1,11 @@
 namespace TiedanSouls.Generic {
 
     public enum SkillType {
-        None,
-        Melee,      // 普通攻击
-        HoldMelee,  // 蓄力攻击
-        SpecMelee,  // 特殊攻击
-        BoomMelee,  // 爆发攻击
-        Infinity,   // 大招
-        Dash,      // 冲刺
+
+        None,           // 无技能
+        Normal,         // 普通攻击
+        Special,        // 特殊技能
+        Ultimate,       // 终极技能
+        Dash,           // 位移技能
     }
 }

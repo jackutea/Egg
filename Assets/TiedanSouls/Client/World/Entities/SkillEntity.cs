@@ -60,8 +60,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetWeaponAnimName(string value) => this.weaponAnimName = value;
 
         // - 生命周期
-        int maintainFrame;
-        public void SetMaintainFrame(int value) => this.maintainFrame = value;
+        int totalFrame;
+        public int TotalFrame => this.totalFrame;
+        public void SetTotalFrame(int value) => this.totalFrame = value;
 
         int curFrame;
         public int CurFrame => this.curFrame;
@@ -93,8 +94,6 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        #region [Component Wrapper]
-
         public void SetFather(in EntityIDArgs father) {
             IDCom.SetFather(father);
             var len = entityColliderTriggerModelArray.Length;
@@ -110,27 +109,40 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        #endregion
-
-        // TODO: 重构 实体内不做过多逻辑处理
-        public bool TryMoveNext(Vector3 rootPos, Quaternion rootRot) {
-            if (curFrame > maintainFrame) {
-                Reset();
+        public bool TryApplyFrame(Vector3 rootPos, Quaternion rootRot, int frame) {
+            if (curFrame > totalFrame) {
                 return false;
             }
 
-            curFrame++;
+            this.curFrame = frame;
 
             // 碰撞盒控制
             Foreach_CollisionTrigger(TriggerBegin, Triggering, TriggerEnd);
             return true;
 
+            void Foreach_CollisionTrigger(
+                      Action<EntityColliderTriggerModel> action_triggerBegin,
+                      Action<EntityColliderTriggerModel> action_triggering,
+                      Action<EntityColliderTriggerModel> action_triggerEnd) {
+                if (entityColliderTriggerModelArray != null) {
+                    for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
+                        EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
+                        var triggerStatus = model.GetTriggerState(curFrame);
+                        if (triggerStatus == TriggerState.None) continue;
+                        if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
+                        else if (triggerStatus == TriggerState.Stay) action_triggering(model);
+                        else if (triggerStatus == TriggerState.Exit) action_triggerEnd(model);
+                    }
+                }
+            }
+
             void TriggerBegin(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
             void Triggering(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
             void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
+
             void ActivateAllColliderModel(EntityColliderTriggerModel triggerModel, bool active) {
                 var entityColliderModelArray = triggerModel.entityColliderArray;
-                if(entityColliderModelArray == null) return;
+                if (entityColliderModelArray == null) return;
                 for (int i = 0; i < entityColliderModelArray.Length; i++) {
                     var entityColliderModel = entityColliderModelArray[i];
                     entityColliderModel.transform.position = rootPos + rootRot * entityColliderModel.ColliderModel.localPos;
@@ -141,45 +153,12 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        void Foreach_CollisionTrigger(
-            Action<EntityColliderTriggerModel> action_triggerBegin,
-            Action<EntityColliderTriggerModel> action_triggering,
-            Action<EntityColliderTriggerModel> action_triggerEnd) {
+        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel collisionTriggerModel, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
             if (entityColliderTriggerModelArray != null) {
                 for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
                     EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                    var triggerStatus = model.GetTriggerState(curFrame);
-                    if (triggerStatus == TriggerState.None) continue;
-                    if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
-                    else if (triggerStatus == TriggerState.Stay) action_triggering(model);
-                    else if (triggerStatus == TriggerState.Exit) action_triggerEnd(model);
-                }
-            }
-        }
-
-        public void Foreach_CancelModel_Linked_InCurrentFrame(Action<SkillCancelModel> action) {
-            if (linkSkillCancelModelArray != null) {
-                for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
-                    SkillCancelModel model = linkSkillCancelModelArray[i];
-                    if (model.IsInTriggeringFrame(curFrame)) action(model);
-                }
-            }
-        }
-
-        public void Foreach_CancelModel_Combo_InCurrentFrame(Action<SkillCancelModel> action) {
-            if (comboSkillCancelModelArray != null) {
-                for (int i = 0; i < comboSkillCancelModelArray.Length; i++) {
-                    SkillCancelModel model = comboSkillCancelModelArray[i];
-                    if (model.IsInTriggeringFrame(curFrame)) action(model);
-                }
-            }
-        }
-
-        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel collisionTriggerModel) {
-            if (entityColliderTriggerModelArray != null) {
-                for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
-                    EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                    var triggerStatus = model.GetTriggerState(curFrame);
+                    var triggerStatus = model.GetTriggerState(frame);
                     if (triggerStatus != TriggerState.None) {
                         collisionTriggerModel = model;
                         return true;
@@ -190,7 +169,8 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public bool TryGet_ValidSkillEffectorModel(out SkillEffectorModel effectorModel) {
+        public bool TryGet_ValidSkillEffectorModel(out SkillEffectorModel effectorModel, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
             if (skillEffectorModelArray != null) {
                 for (int i = 0; i < skillEffectorModelArray.Length; i++) {
                     SkillEffectorModel model = skillEffectorModelArray[i];
@@ -203,6 +183,31 @@ namespace TiedanSouls.Client.Entities {
             }
             effectorModel = default;
             return false;
+        }
+
+        public void Foreach_CancelModel_Linked(Action<SkillCancelModel> action, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
+            if (linkSkillCancelModelArray != null) {
+                for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
+                    SkillCancelModel model = linkSkillCancelModelArray[i];
+                    if (model.IsInTriggeringFrame(curFrame)) action(model);
+                }
+            }
+        }
+
+        public void Foreach_CancelModel_Combo(Action<SkillCancelModel> action, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
+            if (comboSkillCancelModelArray != null) {
+                for (int i = 0; i < comboSkillCancelModelArray.Length; i++) {
+                    SkillCancelModel model = comboSkillCancelModelArray[i];
+                    if (model.IsInTriggeringFrame(curFrame)) action(model);
+                }
+            }
+        }
+
+        public bool IsKeyFrame(int frame) {
+            return TryGet_ValidCollisionTriggerModel(out _, frame)
+            || TryGet_ValidSkillEffectorModel(out _, frame);
         }
 
     }

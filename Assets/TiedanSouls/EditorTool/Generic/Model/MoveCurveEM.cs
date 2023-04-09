@@ -9,6 +9,7 @@ namespace TiedanSouls.EditorTool {
     [Serializable]
     public struct MoveCurveEM {
 
+// TODO: 帧区间
         [Header("位移(m)")] public float moveDistance;
         [Header("位移时间(帧)")] public int moveTotalFrame;
         [Header("位移曲线")] public AnimationCurve disCurve;

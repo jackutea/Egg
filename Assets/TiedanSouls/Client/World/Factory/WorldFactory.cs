@@ -257,7 +257,7 @@ namespace TiedanSouls.Client {
             var idCom = skill.IDCom;
             idCom.SetTypeID(skillTypeID);
             idCom.SetEntityName(skillTM.skillName);
-            skill.SetMaintainFrame(skillTM.maintainFrame);
+            skill.SetTotalFrame(skillTM.maintainFrame);
             // 技能类型
             skill.SetSkillType(skillTM.skillType);
             // 原始技能类型
@@ -385,7 +385,7 @@ namespace TiedanSouls.Client {
 
             buff.SetDelayFrame(tm.delayFrame);
             buff.SetIntervalFrame(tm.intervalFrame);
-            buff.SetDurationFrame(tm.durationFrame);
+            buff.SetTotalFrame(tm.durationFrame);
 
             buff.SetAttributeEffectModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);

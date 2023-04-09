@@ -274,24 +274,47 @@ namespace TiedanSouls.Client.Entities {
             this.moveSpeedBase = moveSpeedBase;
         }
 
-        public void AddMoveSpeed(float moveSpeed) {
-            if (moveSpeed < 0) {
-                TDLog.Warning("MoveSpeed < 0");
-                return;
-            }
-            this.moveSpeed += moveSpeed;
-        }
+        #endregion
 
-        public void ReduceMoveSpeed(float moveSpeed) {
-            if (moveSpeed < 0) {
-                TDLog.Warning("MoveSpeed < 0");
-                return;
-            }
-            this.moveSpeed -= moveSpeed;
-        }
+        #region [攻速加成]
+
+        float normalSkillSpeedBonus;
+        public float NormalSkillSpeedBonus => normalSkillSpeedBonus;
+        public void SetNormalSkillSpeedBonus(float normalSkillSpeedBonus) => this.normalSkillSpeedBonus = normalSkillSpeedBonus;
 
         #endregion
 
+        #region [伤害加成]
+
+        float physicalDamageBonus;
+        public float PhysicalDamageBonus => physicalDamageBonus;
+        public void SetPhysicalDamageBonus(float physicalDamageBonus) => this.physicalDamageBonus = physicalDamageBonus;
+
+        float magicalDamageBonus;
+        public float MagicalDamageBonus => magicalDamageBonus;
+        public void SetmagicalDamageBonus(float magicalDamageBonus) => this.magicalDamageBonus = magicalDamageBonus;
+
+        #endregion
+
+        #region [防御加成]
+
+        float physicalDefenseBonus;
+        public float PhysicalDefenseBonus => physicalDefenseBonus;
+        public void SetPhysicalDefenseBonus(float physicalDefenseBonus) => this.physicalDefenseBonus = physicalDefenseBonus;
+
+        float magicalDefenseBonus;
+        public float MagicalDefenseBonus => magicalDefenseBonus;
+
+        public void SetMagicalDefenseBonus(float magicalDefenseBonus) {
+            if (magicalDefenseBonus < 0) {
+                TDLog.Warning("magicalDefenseBonus < 0");
+                return;
+            }
+            this.magicalDefenseBonus = magicalDefenseBonus;
+        }
+
+        #endregion
+       
         #region [JumpSpeed]
 
         float jumpSpeed;
@@ -372,44 +395,6 @@ namespace TiedanSouls.Client.Entities {
                 return;
             }
             this.fallSpeedMax = fallSpeedMax;
-        }
-
-        #endregion
-
-        #region [伤害加成]
-
-        float physicalDamageBonus;
-        public float PhysicalDamageBonus => physicalDamageBonus;
-        public void SetPhysicalDamageBonus(float physicalDamageBonus) => this.physicalDamageBonus = physicalDamageBonus;
-
-        float magicalDamageBonus;
-        public float MagicalDamageBonus => magicalDamageBonus;
-        public void SetmagicalDamageBonus(float magicalDamageBonus) => this.magicalDamageBonus = magicalDamageBonus;
-
-        #endregion
-
-        #region [伤害减免]
-
-        float physicalDefenseBonus;
-        public float PhysicalDefenseBonus => physicalDefenseBonus;
-
-        float magicalDefenseBonus;
-        public float MagicalDefenseBonus => magicalDefenseBonus;
-
-        public void SetPhysicalDefenseBonus(float physicalDefenseBonus) {
-            if (physicalDefenseBonus < 0) {
-                TDLog.Warning("PhysicalDefenseBonus < 0");
-                return;
-            }
-            this.physicalDefenseBonus = physicalDefenseBonus;
-        }
-
-        public void SetMagicalDefenseBonus(float magicalDefenseBonus) {
-            if (magicalDefenseBonus < 0) {
-                TDLog.Warning("magicalDefenseBonus < 0");
-                return;
-            }
-            this.magicalDefenseBonus = magicalDefenseBonus;
         }
 
         #endregion

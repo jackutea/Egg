@@ -7,45 +7,61 @@ namespace TiedanSouls.Client.Entities {
     /// 属性影响模型
     /// </summary>
     [Serializable]
-    public struct AttributeEffectModel {
+    public class AttributeEffectModel {
 
         public NumCalculationType hpNCT;
         public float hpEV;
         public float hpEffectTimes;
-        public bool needRevoke_HPEV;
         public float hpOffset;
+        public bool hpNeedRevoke;
 
         public NumCalculationType hpMaxNCT;
         public float hpMaxEV;
         public float hpMaxEffectTimes;
-        public bool needRevoke_HPMaxEV;
         public float hpMaxOffset;
+        public bool hpMaxNeedRevoke;
 
         public NumCalculationType moveSpeedNCT;
         public float moveSpeedEV;
         public float moveSpeedEffectTimes;
-        public bool needRevoke_MoveSpeedEV;
         public float moveSpeedOffset;
+        public bool moveSpeedRevoke;
+
+        public float normalSkillSpeedBonusEV;
+        public float normalSkillSpeedBonusEffectTimes;
+        public float normalSkillSpeedBonusOffset;
+        public bool normalSkillSpeedBonusNeedRevoke;
 
         public float physicalDamageBonusEV;
         public float physicalDamageBonusEffectTimes;
-        public bool needRevokePhysicalDamageBonusEV;
         public float physicalDamageBonusOffset;
+        public bool physicalDamageBonusNeedRevoke;
 
         public float magicalDamageBonusEV;
         public float magicalDamageBonusEffectTimes;
-        public bool needRevokemagicalDamageBonus;
         public float magicalDamageBonusOffset;
+        public bool magicalDamageBonusNeedRevoke;
 
         public float physicalDefenseBonusEV;
         public float physicalDefenseBonusEffectTimes;
-        public bool needRevokePhysicalDefenseBonus;
         public float physicalDefenseBonusOffset;
+        public bool needRevokePhysicalDefenseBonus;
 
         public float magicalDefenseBonusEV;
         public float magicalDefenseBonusEffectTimes;
-        public bool needRevokemagicalDefenseBonus;
         public float magicalDefenseBonusOffset;
+        public bool magicalDefenseBonusNeedRevoke;
+
+        public void ResetOffset() {
+            hpOffset = 0;
+            hpMaxOffset = 0;
+            moveSpeedOffset = 0;
+            normalSkillSpeedBonusOffset = 0;
+            physicalDamageBonusOffset = 0;
+            magicalDamageBonusOffset = 0;
+            physicalDefenseBonusOffset = 0;
+            magicalDefenseBonusOffset = 0;
+        }
 
     }
 

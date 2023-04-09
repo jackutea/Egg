@@ -225,8 +225,8 @@ namespace TiedanSouls.Client.Domain {
             } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
                 moveAxis.y = 1;
             }
-            bool hasPressMove = moveAxis != Vector2.zero;
-            if (hasPressMove) {
+            bool hasInputMove = moveAxis != Vector2.zero;
+            if (hasInputMove) {
                 moveAxis.Normalize();
                 inputCom.SetMoveAxis(moveAxis);
                 inputCom.SetHasMoveOpt(true);
@@ -243,37 +243,32 @@ namespace TiedanSouls.Client.Domain {
 
             // - Jump
             if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
-                inputCom.SetPressJump(true);
+                inputCom.SetInputJump(true);
             }
 
-            // - Skill Melee && HoldMelee
-            if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
-                inputCom.SetPressSkillMelee(true);
+            // - Normal SKill
+            if (inputGetter.GetDown(InputKeyCollection.NORMAL_SKILL)) {
+                inputCom.SetInputSkillMelee(true);
             }
 
-            // - Skill SpecMelee
-            if (inputGetter.GetDown(InputKeyCollection.SPEC_MELEE)) {
-                inputCom.SetPressSkillSpecMelee(true);
+            // - Special Skill
+            if (inputGetter.GetDown(InputKeyCollection.SPECTIAL_SKILL)) {
+                inputCom.SetInputSpecialSkill(true);
             }
 
-            // - Skill BoomMelee
-            if (inputGetter.GetDown(InputKeyCollection.BOOM_MELEE)) {
-                inputCom.SetPressSkillBoomMelee(true);
+            // - Ultimate Skill
+            if (inputGetter.GetDown(InputKeyCollection.ULTIMATE_SKILL)) {
+                inputCom.SetInputUltimateSkill(true);
             }
 
-            // - Skill Infinity
-            if (inputGetter.GetDown(InputKeyCollection.INFINITY)) {
-                inputCom.SetPressSkillInfinity(true);
-            }
-
-            // - Skill Dash
-            if (inputGetter.GetDown(InputKeyCollection.DASH)) {
-                inputCom.SetPressSkillDash(true);
+            // - Dash Skill
+            if (inputGetter.GetDown(InputKeyCollection.DASH_Skill)) {
+                inputCom.SetInputDashSkill(true);
             }
 
             // - Pick
             if (inputGetter.GetDown(InputKeyCollection.PICK)) {
-                inputCom.SetPressPick(true);
+                inputCom.SetInputPick(true);
             }
 
             // - Choose Point
@@ -419,31 +414,26 @@ namespace TiedanSouls.Client.Domain {
             }
 
             int originSkillTypeID = originalSkill.IDCom.TypeID;
+            var roleFSMDomain = this.worldContext.RootDomain.RoleFSMDomain;
 
             // 正常释放
             var fsm = role.FSMCom;
             if (fsm.FSMState == RoleFSMState.Idle
             || fsm.FSMState == RoleFSMState.Moving
             || fsm.FSMState == RoleFSMState.JumpingUp) {
-                CastOriginalSkill(role, originSkillTypeID);
+                roleFSMDomain.Enter_Casting(role, originalSkill, false);
                 return true;
             }
 
             // 连招
             if (fsm.FSMState == RoleFSMState.Casting) {
                 var stateModel = fsm.CastingStateModel;
-                var castingSkillTypeID = stateModel.CastingSkillTypeID;
-                SkillEntity castingSkill;
-                if (stateModel.IsCombo) {
-                    _ = skillSlotCom.TryGet_Combo(castingSkillTypeID, out castingSkill);
-                } else {
-                    _ = skillSlotCom.TryGet_Origin(castingSkillTypeID, out castingSkill);
-                }
+                var castingSkill = stateModel.CastingSkill;
 
                 if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var cancelType)) {
                     castingSkill.Reset();
-                    if (cancelType == SkillCancelType.Combo) CastComboSkill(role, realSkillTypeID);
-                    else CastOriginalSkill(role, realSkillTypeID);
+                    if (cancelType == SkillCancelType.Combo) roleFSMDomain.Enter_Casting(role, realSkillTypeID, true);
+                    else roleFSMDomain.Enter_Casting(role, realSkillTypeID, false);
                     return true;
                 }
             }
@@ -451,36 +441,34 @@ namespace TiedanSouls.Client.Domain {
             return false;
         }
 
-        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out int realSkillTypeID, out SkillCancelType cancelType) {
-            realSkillTypeID = inputSkillTypeID;
+        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out SkillEntity realSkill, out SkillCancelType cancelType) {
+            realSkill = null;
 
             if (castingSkill.OriginalSkillTypeID == inputSkillTypeID) {
-                // 检查是否为 组合技
+                // 组合技
                 bool isComboSkill = false;
-                int comboSkillTypeID = -1;
-                castingSkill.Foreach_CancelModel_Combo_InCurrentFrame((cancelModel) => {
+                SkillEntity comboSkill = null;
+                castingSkill.Foreach_CancelModel_Combo((cancelModel) => {
                     int skillTypeID = cancelModel.skillTypeID;
-                    if (!skillSlotCom.TryGet_Combo(skillTypeID, out _)) return;
-                    comboSkillTypeID = skillTypeID;
+                    if (!skillSlotCom.TryGet_Combo(skillTypeID, out comboSkill)) return;
                     isComboSkill = true;
                 });
                 if (isComboSkill) {
-                    realSkillTypeID = comboSkillTypeID;
+                    realSkill = comboSkill;
                     cancelType = SkillCancelType.Combo;
                     return true;
                 }
             } else {
+                // 连招技
                 bool isLinkedSkill = false;
-                int linkedSkillTypeID = -1;
-                // 检查是否为 非组合技连招
-                castingSkill.Foreach_CancelModel_Linked_InCurrentFrame((cancelModel) => {
+                SkillEntity linkedSkill = null;
+                castingSkill.Foreach_CancelModel_Linked((cancelModel) => {
                     int skillTypeID = cancelModel.skillTypeID;
-                    if (!skillSlotCom.TryGet_Origin(skillTypeID, out var linkedSkill)) return;
-                    linkedSkillTypeID = skillTypeID;
+                    if (!skillSlotCom.TryGet_Origin(skillTypeID, out linkedSkill)) return;
                     isLinkedSkill = true;
                 });
                 if (isLinkedSkill) {
-                    realSkillTypeID = linkedSkillTypeID;
+                    realSkill = linkedSkill;
                     cancelType = SkillCancelType.Link;
                     return true;
                 }
@@ -488,16 +476,6 @@ namespace TiedanSouls.Client.Domain {
 
             cancelType = SkillCancelType.None;
             return false;
-        }
-
-        void CastOriginalSkill(RoleEntity role, int skillTypeID) {
-            var fsmCom = role.FSMCom;
-            fsmCom.Enter_Casting(skillTypeID, false, role.InputCom.ChosenPoint);
-        }
-
-        void CastComboSkill(RoleEntity role, int skillTypeID) {
-            var fsmCom = role.FSMCom;
-            fsmCom.Enter_Casting(skillTypeID, true, role.InputCom.ChosenPoint);
         }
 
         #endregion

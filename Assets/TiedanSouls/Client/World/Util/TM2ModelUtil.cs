@@ -247,34 +247,39 @@ namespace TiedanSouls.Client {
         #region [AttributeEffect]
 
         public static AttributeEffectModel GetAttributeEffectModel(AttributeEffectTM tm) {
-            AttributeEffectModel model;
+            AttributeEffectModel model = new AttributeEffectModel();
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
             model.hpEffectTimes = tm.hpEffectTimes;
-            model.needRevoke_HPEV = tm.needRevokeHP;
+            model.hpNeedRevoke = tm.NeedRevokeHP;
             model.hpOffset = 0;
 
             model.hpMaxNCT = tm.hpMaxNCT;
             model.hpMaxEV = GetFloat_Shrink100(tm.hpMaxEV_Expanded);
             model.hpMaxEffectTimes = tm.hpMaxEffectTimes;
-            model.needRevoke_HPMaxEV = tm.needRevokeHPMax;
+            model.hpMaxNeedRevoke = tm.NeedRevokeHPMax;
             model.hpMaxOffset = 0;
 
             model.moveSpeedNCT = tm.moveSpeedNCT;
             model.moveSpeedEV = GetFloat_Shrink100(tm.moveSpeedEV_Expanded);
             model.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
-            model.needRevoke_MoveSpeedEV = tm.needRevokeMoveSpeed;
+            model.moveSpeedRevoke = tm.NeedRevokeMoveSpeed;
             model.moveSpeedOffset = 0;
+
+            model.normalSkillSpeedBonusEV = GetFloat_Shrink100(tm.normalSkillSpeedBonusEV_Expanded);
+            model.normalSkillSpeedBonusEffectTimes = tm.normalSkillSpeedBonusEffectTimes;
+            model.normalSkillSpeedBonusNeedRevoke = tm.normalSkillSpeedBonusNeedRevoke;
+            model.normalSkillSpeedBonusOffset = 0;
 
             model.physicalDamageBonusEV = GetFloat_Shrink100(tm.physicalDamageBonusEV_Expanded);
             model.physicalDamageBonusEffectTimes = tm.physicalDamageBonusEffectTimes;
-            model.needRevokePhysicalDamageBonusEV = tm.needRevokePhysicalDamageBonus;
+            model.physicalDamageBonusNeedRevoke = tm.physicalDamageBonusNeedRevoke;
             model.physicalDamageBonusOffset = 0;
 
             model.magicalDamageBonusEV = GetFloat_Shrink100(tm.magicalDamageBonusEV_Expanded);
             model.magicalDamageBonusEffectTimes = tm.magicalDamageBonusEffectTimes;
-            model.needRevokemagicalDamageBonus = tm.needRevokePhysicalDamageBonus;
+            model.magicalDamageBonusNeedRevoke = tm.physicalDamageBonusNeedRevoke;
             model.magicalDamageBonusOffset = 0;
 
             model.physicalDefenseBonusEV = GetFloat_Shrink100(tm.physicalDefenseBonusEV_Expanded);
@@ -284,7 +289,7 @@ namespace TiedanSouls.Client {
 
             model.magicalDefenseBonusEV = GetFloat_Shrink100(tm.magicalDefenseBonusEV_Expanded);
             model.magicalDefenseBonusEffectTimes = tm.magicalDefenseBonusEffectTimes;
-            model.needRevokemagicalDefenseBonus = tm.needRevokemagicalDefenseBonus;
+            model.magicalDefenseBonusNeedRevoke = tm.magicalDefenseBonusNeedRevoke;
             model.magicalDefenseBonusOffset = 0;
 
             return model;

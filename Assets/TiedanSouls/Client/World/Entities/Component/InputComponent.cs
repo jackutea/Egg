@@ -13,33 +13,29 @@ namespace TiedanSouls.Client.Entities {
         public bool HasMoveOpt => hasMoveOpt;
         public void SetHasMoveOpt(bool value) => this.hasMoveOpt = value;
 
-        bool pressJump;
-        public bool PressJump => pressJump;
-        public void SetPressJump(bool value) => this.pressJump = value;
+        bool inputJump;
+        public bool InputJump => inputJump;
+        public void SetInputJump(bool value) => this.inputJump = value;
 
-        bool pressSkillMelee;
-        public bool PressSkillMelee => pressSkillMelee;
-        public void SetPressSkillMelee(bool value) => this.pressSkillMelee = value;
+        bool inputNormalSkill;
+        public bool InputSkillMelee => inputNormalSkill;
+        public void SetInputSkillMelee(bool value) => this.inputNormalSkill = value;
 
-        bool pressSkillSpecMelee;
-        public bool PressSkillSpecMelee => pressSkillSpecMelee;
-        public void SetPressSkillSpecMelee(bool value) => this.pressSkillSpecMelee = value;
+        bool inputSpecialSkill;
+        public bool InputSpecialSkill => inputSpecialSkill;
+        public void SetInputSpecialSkill(bool value) => this.inputSpecialSkill = value;
 
-        bool pressSkillBoomMelee;
-        public bool PressSkillBoomMelee => pressSkillBoomMelee;
-        public void SetPressSkillBoomMelee(bool value) => this.pressSkillBoomMelee = value;
+        bool inputUltimateSkill;
+        public bool InputUltimateSkill => inputUltimateSkill;
+        public void SetInputUltimateSkill(bool value) => this.inputUltimateSkill = value;
 
-        bool pressSkillInfinity;
-        public bool PressSkillInfinity => pressSkillInfinity;
-        public void SetPressSkillInfinity(bool value) => this.pressSkillInfinity = value;
+        bool inputDashSkill;
+        public bool InputDashSkill => inputDashSkill;
+        public void SetInputDashSkill(bool value) => this.inputDashSkill = value;
 
-        bool pressSkillDash;
-        public bool PressSkillDash => pressSkillDash;
-        public void SetPressSkillDash(bool value) => this.pressSkillDash = value;
-
-        bool pressPick;
-        public bool PressPick => pressPick;
-        public void SetPressPick(bool value) => this.pressPick = value;
+        bool inputPick;
+        public bool InputPick => inputPick;
+        public void SetInputPick(bool value) => this.inputPick = value;
 
         Vector2 chosenPoint;
         public Vector2 ChosenPoint => chosenPoint;
@@ -50,30 +46,26 @@ namespace TiedanSouls.Client.Entities {
         public void Reset() {
             moveAxis = Vector2.zero;
             hasMoveOpt = false;
-            pressJump = false;
-            pressSkillMelee = false;
-            pressSkillSpecMelee = false;
-            pressSkillBoomMelee = false;
-            pressSkillInfinity = false;
-            pressSkillDash = false;
-            pressPick = false;
+            inputJump = false;
+            inputNormalSkill = false;
+            inputSpecialSkill = false;
+            inputUltimateSkill = false;
+            inputDashSkill = false;
+            inputPick = false;
             chosenPoint = Vector2.zero;
         }
 
         public SkillType GetSkillType() {
-            if (pressSkillMelee) {
-                return SkillType.Melee;
+            if (inputNormalSkill) {
+                return SkillType.Normal;
             }
-            if (pressSkillSpecMelee) {
-                return SkillType.SpecMelee;
+            if (inputSpecialSkill) {
+                return SkillType.Special;
             }
-            if (pressSkillBoomMelee) {
-                return SkillType.BoomMelee;
+            if (inputUltimateSkill) {
+                return SkillType.Ultimate;
             }
-            if (pressSkillInfinity) {
-                return SkillType.Infinity;
-            }
-            if (pressSkillDash) {
+            if (inputDashSkill) {
                 return SkillType.Dash;
             }
             return SkillType.None;

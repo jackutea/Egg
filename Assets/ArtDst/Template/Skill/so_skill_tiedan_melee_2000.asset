@@ -15,7 +15,7 @@ MonoBehaviour:
   tm:
     typeID: 2000
     skillName: "\u7279\u6B8A\u653B\u51FB"
-    skillType: 3
+    skillType: 2
     maintainFrame: 15
     weaponAnimName: anim_spear_melee_2000
     weaponAnimClip_GUID: 37e9cfbf86e646f4da9e4b48d68e6bd5
@@ -24,7 +24,7 @@ MonoBehaviour:
     cancelSkillCancelTMArray: []
     skillEffectorTMArray:
     - triggerFrame: 10
-      effectorTypeID: 9999
+      effectorTypeID: 99993
       offsetPos: {x: 2, y: 0, z: 0}
     skillMoveCurveTMArray: []
     collisionTriggerTMArray: []

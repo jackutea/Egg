@@ -159,7 +159,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool TryJumpByInput() {
-            if (!InputCom.PressJump) return false;
+            if (!InputCom.InputJump) return false;
 
             var rb = MoveCom.RB;
             var velo = rb.velocity;

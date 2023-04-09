@@ -49,13 +49,13 @@ MonoBehaviour:
   typeID: 2000
   skillName: "\u7279\u6B8A\u653B\u51FB"
   maintainFrame: 15
-  skillType: 3
+  skillType: 2
   originSkillTypeID: 2000
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   skillEffectorEMArray:
-  - effectorTypeID: 9999
+  - effectorTypeID: 99993
     triggerFrame: 10
     offsetPos: {x: 2, y: 0, z: 0}
   skillMoveCurveEMArray: []
@@ -503,14 +503,44 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 171e8902a0710d24cbfa970170ef60c6, type: 2}
   typeID: 1
   skillName: "\u95EA\u73B0 "
-  maintainFrame: 0
-  skillType: 6
+  maintainFrame: 10
+  skillType: 4
   originSkillTypeID: 0
   weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   skillEffectorEMArray: []
-  skillMoveCurveEMArray: []
+  skillMoveCurveEMArray:
+  - startFrame: 0
+    isFaceTo: 0
+    needWaitForMoveEnd: 0
+    moveCurveEM:
+      moveDistance: 10
+      moveTotalFrame: 10
+      disCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
   colliderTriggerEMArray: []
 --- !u!1 &3083040265302036843
 GameObject:
