@@ -25,6 +25,9 @@ MonoBehaviour:
     skillEffectorTMArray:
     - triggerFrame: 10
       effectorTypeID: 99993
+      offsetPos: {x: 0, y: 0, z: 0}
+    - triggerFrame: 14
+      effectorTypeID: 9999
       offsetPos: {x: 2, y: 0, z: 0}
     skillMoveCurveTMArray: []
     collisionTriggerTMArray: []

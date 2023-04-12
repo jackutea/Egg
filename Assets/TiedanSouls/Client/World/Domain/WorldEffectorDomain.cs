@@ -18,9 +18,13 @@ namespace TiedanSouls.Client.Domain {
 
         public bool TrySpawnEffectorModel(int typeID, out EffectorModel effectorModel) {
             effectorModel = default;
+            if (typeID == 0) return false;
+
+            effectorModel = default;
 
             var effectorTemplate = infraContext.TemplateCore.EffectorTemplate;
             if (!effectorTemplate.TryGet(typeID, out var tm)) {
+                TDLog.Error($"找不到效果器模板 - {typeID}");
                 return false;
             }
 

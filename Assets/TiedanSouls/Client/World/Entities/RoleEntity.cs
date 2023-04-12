@@ -22,6 +22,7 @@ namespace TiedanSouls.Client.Entities {
         public BuffSlotComponent BuffSlotCom { get; private set; }
         public HUDSlotComponent HudSlotCom { get; private set; }
         public RoleRendererComponent RendererModCom { get; private set; }
+        public RoleCtrlEffectSlotComponent CtrlEffectSlotCom { get; private set; }
 
         #endregion
 
@@ -75,45 +76,24 @@ namespace TiedanSouls.Client.Entities {
             RendererRoot = transform.Find("renderer_root");
             RB_LogicRoot = LogicRoot.GetComponent<Rigidbody2D>();
             Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
-            TDLog.Assert(RB_LogicRoot != null);
-            TDLog.Assert(Coll_LogicRoot != null);
+            WeaponRoot = RendererRoot.Find("weapon_root");
+            var hudRoot = RendererRoot.Find("hud_root");
 
-            // - Move
             MoveCom = new MoveComponent();
             MoveCom.Inject(RB_LogicRoot);
-
-            // - ID
             IDCom = new EntityIDComponent();
             IDCom.SetEntityType(EntityType.Role);
-
-            // - Input
             InputCom = new InputComponent();
-
-            // - Weapon
-            WeaponRoot = RendererRoot.Find("weapon_root");
             WeaponSlotCom = new WeaponSlotComponent();
             WeaponSlotCom.Inject(WeaponRoot);
-
-            // - Attribute
             AttributeCom = new AttributeComponent();
-
-            // - FSM
             FSMCom = new RoleFSMComponent();
-
-            // - Skill
             SkillSlotCom = new SkillSlotComponent();
-
-            // - Buff
             BuffSlotCom = new BuffSlotComponent();
-
-            // - HUD
-            var hudRoot = RendererRoot.Find("hud_root");
-            TDLog.Assert(hudRoot != null);
+            CtrlEffectSlotCom=new RoleCtrlEffectSlotComponent();
             HudSlotCom = new HUDSlotComponent();
             HudSlotCom.Inject(hudRoot);
-
             RendererModCom = new RoleRendererComponent();
-
         }
 
         public void TearDown() {

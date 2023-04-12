@@ -8,7 +8,7 @@ namespace TiedanSouls.Client.Entities {
     public struct RoleCtrlEffectModel {
 
         public int totalFrame;
-        public RoleCtrlEffectType roleCtrlEffectType;
+        public RoleCtrlEffectType ctrlEffectType;
         public string iconName;
 
     }

@@ -466,11 +466,9 @@ MonoBehaviour:
     ctrlEffectEMArray:
     - ctrlEffectType: 2
       totalFrame: 30
-      icon: {fileID: 21300000, guid: 99deb5c57c4351d498024f6bc3e915d4, type: 3}
-    - ctrlEffectType: 4
-      totalFrame: 90
-      icon: {fileID: 21300000, guid: abde0ff7191f2ef4295ca472913a00c3, type: 3}
-    colliderGOArray: []
+      icon: {fileID: 21300000, guid: c6d58f82ed4e6e741b0deb307d58cb23, type: 3}
+    colliderGOArray:
+    - {fileID: 285879737727348702}
 --- !u!1 &8766878982541236908
 GameObject:
   m_ObjectHideFlags: 0

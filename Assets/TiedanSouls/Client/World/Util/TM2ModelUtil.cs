@@ -259,7 +259,7 @@ namespace TiedanSouls.Client {
 
         public static RoleCtrlEffectModel GetRoleCtrlEffectModel(RoleCtrlEffectTM tm) {
             RoleCtrlEffectModel model;
-            model.roleCtrlEffectType = tm.roleCtrlEffectType;
+            model.ctrlEffectType = tm.roleCtrlEffectType;
             model.totalFrame = tm.totalFrame;
             model.iconName = tm.iconName;
             return model;

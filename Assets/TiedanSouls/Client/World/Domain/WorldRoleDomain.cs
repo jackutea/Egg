@@ -412,6 +412,22 @@ namespace TiedanSouls.Client.Domain {
             var beHitModel = collisionTriggerModel.beHitModel;
             role.FSMCom.Enter_BeHit(beHitDir, beHitModel);
 
+            var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
+
+            // 控制效果组
+            var roleCtrlEffectModelArray = collisionTriggerModel.roleCtrlEffectModelArray;
+            var len = roleCtrlEffectModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                var roleCtrlEffectModel = roleCtrlEffectModelArray[i];
+                RoleCtrlEffect roleCtrlEffec;
+                roleCtrlEffec.ctrlEffectType = roleCtrlEffectModel.ctrlEffectType;
+                roleCtrlEffec.totalFrame = roleCtrlEffectModel.totalFrame;
+                roleCtrlEffec.iconName = roleCtrlEffectModel.iconName;
+                roleCtrlEffec.curFrame = 0;
+                roleCtrlEffec.father = hitter;
+                ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffec);
+            }
+
             // 伤害 仲裁
             var damageArbitService = worldContext.DamageArbitService;
             var damageModel = collisionTriggerModel.damageModel;

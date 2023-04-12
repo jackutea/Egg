@@ -57,9 +57,12 @@ MonoBehaviour:
   skillEffectorEMArray:
   - effectorTypeID: 99993
     triggerFrame: 10
+    offsetPos: {x: 0, y: 0, z: 0}
+  - effectorTypeID: 9999
+    triggerFrame: 14
     offsetPos: {x: 2, y: 0, z: 0}
   skillMoveCurveEMArray: []
-  colliderTriggerEMArray: []
+  entityColliderTriggerEMArray: []
 --- !u!1 &946612889277224407
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,85 +268,7 @@ MonoBehaviour:
     endFrame: 15
   skillEffectorEMArray: []
   skillMoveCurveEMArray: []
-  colliderTriggerEMArray:
-  - isEnabled: 1
-    frameRange: {x: 0, y: 15}
-    triggerMode: 1
-    triggerFixedIntervalEM:
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
-    triggerCustomEM:
-      frameRangeArray:
-      - {x: 5, y: 10}
-    targetEntityType: 1
-    hitTargetGroupType: 4
-    damageEM:
-      damageType: 3
-      damageBase: 50
-      damageCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    beHitEM:
-      maintainFrame: 20
-      knockBackDistance: 2
-      knockBackTotalFrame: 2
-      knockBackDisCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockUpDis: 0
-      knockUpTotalFrame: 0
-      knockUpDisCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    hitEffectorTypeID: 0
-    colliderGOArray:
-    - {fileID: 6032330349393271052}
+  entityColliderTriggerEMArray: []
 --- !u!1 &2146176807690415295
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +466,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  colliderTriggerEMArray: []
+  entityColliderTriggerEMArray: []
 --- !u!1 &3083040265302036843
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,85 +888,7 @@ MonoBehaviour:
     endFrame: 15
   skillEffectorEMArray: []
   skillMoveCurveEMArray: []
-  colliderTriggerEMArray:
-  - isEnabled: 1
-    frameRange: {x: 0, y: 15}
-    triggerMode: 1
-    triggerFixedIntervalEM:
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
-    triggerCustomEM:
-      frameRangeArray:
-      - {x: 5, y: 10}
-    targetEntityType: 1
-    hitTargetGroupType: 4
-    damageEM:
-      damageType: 3
-      damageBase: 60
-      damageCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    beHitEM:
-      maintainFrame: 20
-      knockBackDistance: 2
-      knockBackTotalFrame: 2
-      knockBackDisCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockUpDis: 0
-      knockUpTotalFrame: 0
-      knockUpDisCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    hitEffectorTypeID: 0
-    colliderGOArray:
-    - {fileID: 946612889277224407}
+  entityColliderTriggerEMArray: []
 --- !u!1 &8253756743249582019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,85 +1011,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  colliderTriggerEMArray:
-  - isEnabled: 1
-    frameRange: {x: 3, y: 15}
-    triggerMode: 1
-    triggerFixedIntervalEM:
-      delayFrame: 0
-      intervalFrame: 0
-      maintainFrame: 0
-    triggerCustomEM:
-      frameRangeArray:
-      - {x: 5, y: 10}
-    targetEntityType: 1
-    hitTargetGroupType: 4
-    damageEM:
-      damageType: 3
-      damageBase: 70
-      damageCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    beHitEM:
-      maintainFrame: 20
-      knockBackDistance: 2
-      knockBackTotalFrame: 2
-      knockBackDisCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      knockUpDis: 0
-      knockUpTotalFrame: 0
-      knockUpDisCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    hitEffectorTypeID: 0
-    colliderGOArray:
-    - {fileID: 6432408507379964416}
+  entityColliderTriggerEMArray: []
 --- !u!1 &8336571590214725402
 GameObject:
   m_ObjectHideFlags: 0

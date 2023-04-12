@@ -156,14 +156,19 @@ MonoBehaviour:
           outWeight: 0
         knockUpTotalFrame: 5
         knockUpDis_cm: 200
-      ctrlEffectTMArray:
-      - ctrlEffectType: 2
+      roleCtrlEffectTMArray:
+      - roleCtrlEffectType: 2
         totalFrame: 30
-        iconName: item_helmet
-        iconGUID: 99deb5c57c4351d498024f6bc3e915d4
+        iconName: "Boom\u5C55\u793A"
+        iconGUID: c6d58f82ed4e6e741b0deb307d58cb23
       hitEffectorTypeID: 0
-      colliderTMArray: []
-      colliderRelativePathArray: []
+      colliderTMArray:
+      - colliderType: 0
+        localPosition: {x: 0.06, y: 0.13, z: 0}
+        localAngleZ: 0
+        localScale: {x: 3.31, y: 0.73, z: 2}
+      colliderRelativePathArray:
+      - collider
     extraPenetrateCount: 0
     deathEffectorTypeID: 0
     vfxPrefabName: vfx_test_bullet
