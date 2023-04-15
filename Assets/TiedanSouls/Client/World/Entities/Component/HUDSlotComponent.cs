@@ -1,4 +1,5 @@
 using System;
+using TiedanSouls.Generic;
 using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
@@ -8,8 +9,11 @@ namespace TiedanSouls.Client.Entities {
         Transform hudRoot;
         public Transform HudRoot => hudRoot;
 
-        HpBarHUD hpBarHUD;
-        public HpBarHUD HpBarHUD => hpBarHUD;
+        HPBarHUD hpBarHUD;
+        public HPBarHUD HpBarHUD => hpBarHUD;
+
+        DamageFloatTextHUD damageFloatTextHUD;
+        public DamageFloatTextHUD DamageFloatTextHUD => damageFloatTextHUD;
 
         public HUDSlotComponent() { }
 
@@ -17,11 +21,16 @@ namespace TiedanSouls.Client.Entities {
             this.hudRoot = hudRoot;
         }
 
-        public void SetHpBarHUD(HpBarHUD hpBarHUD) {
+        public void SetHpBarHUD(HPBarHUD hpBarHUD) {
             this.hpBarHUD = hpBarHUD;
             hpBarHUD.transform.SetParent(hudRoot, false);
         }
-
+        
+        public void SetDamageFloatTextHUD(DamageFloatTextHUD damageFloatTextHUD) {
+            this.damageFloatTextHUD = damageFloatTextHUD;
+            damageFloatTextHUD.transform.SetParent(hudRoot, false);
+        }
+        
         public void Reset() {
         }
 

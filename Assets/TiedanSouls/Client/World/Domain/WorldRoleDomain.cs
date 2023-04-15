@@ -433,6 +433,10 @@ namespace TiedanSouls.Client.Domain {
             // 伤害结算
             roleDomain.ReduceHP(role, realDamage);
             damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
+
+            // HUD伤害浮字
+            var damageFloatTextHUD = role.HudSlotCom.DamageFloatTextHUD;
+            damageFloatTextHUD.ShowDamageFloatText(damageType, realDamage, 0.5f);
         }
 
         public void TearDownRole(RoleEntity role) {

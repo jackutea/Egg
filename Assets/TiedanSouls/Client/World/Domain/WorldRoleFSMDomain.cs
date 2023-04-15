@@ -182,34 +182,32 @@ namespace TiedanSouls.Client.Domain {
             var curFrame = stateModel.GetCurFrame();
             var lastFrame = stateModel.GetLastFrame();
 
+            bool hasLastFrameMove = castingSkill.HasSkillMoveCurveModel(lastFrame);
             if (!stateModel.IsCurrentValid()) {
-                if (castingSkill.HasSkillMoveCurveModel(lastFrame)) {
-                    role.Stop();
-                }
-
+                if (hasLastFrameMove) role.Stop();
                 var rendererModCom = role.RendererModCom;
                 rendererModCom.Anim_SetSpeed(1);
                 fsm.Enter_Idle();
                 return;
             }
 
+            if (hasLastFrameMove) role.Stop();
             castingSkill.SetCurFrame(curFrame);
 
             // 技能位移
-            bool hasSkillMove = false;
+            bool hasCurFrameMove = false;
             if (curFrame - lastFrame > 1) {
                 for (int i = lastFrame + 1; i < curFrame; i++) {
-                    if (TryApplySkillMove(role, dt, i, true)) {
-                        hasSkillMove = true;
-                    }
+                    hasCurFrameMove = TryApplySkillMove(role, dt, i, true) ? true : hasCurFrameMove;
                 }
             }
-            if (TryApplySkillMove(role, dt, curFrame, false)) {
-                hasSkillMove = true;
+            hasCurFrameMove = TryApplySkillMove(role, dt, curFrame, false) ? true : hasCurFrameMove;
+
+            if (!hasCurFrameMove) {
+                role.TryMoveByInput();
+                role.Fall(dt);
             }
-            if (!hasSkillMove) {
-                role.Stop();
-            }
+            roleDomain.TryCastSkillByInput(role);
 
             // 技能逻辑迭代
             if (!castingSkill.TryApplyFrame(role.LogicRootPos, role.LogicRotation, curFrame)) {
@@ -234,8 +232,6 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
-            role.TryMoveByInput();
-            roleDomain.TryCastSkillByInput(role);
         }
 
         /// <summary>
@@ -292,38 +288,42 @@ namespace TiedanSouls.Client.Domain {
 
             var moveCom = role.MoveCom;
             var knockBackSpeedArray = stateModel.KnockBackSpeedArray;
-            var len1 = knockBackSpeedArray.Length;
-            bool canKnockBack = curFrame < len1;
-            if (canKnockBack) {
-                beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
-                moveCom.SetHorizontalVelocity(beHitDir * knockBackSpeedArray[curFrame]);
-            } else if (curFrame == len1) {
-                moveCom.StopHorizontalVelocity();
+            if (knockBackSpeedArray != null) {
+                var len = knockBackSpeedArray.Length;
+                bool canKnockBack = curFrame < len;
+                if (canKnockBack) {
+                    beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
+                    moveCom.SetHorizontalVelocity(beHitDir * knockBackSpeedArray[curFrame]);
+                } else if (curFrame == len) {
+                    moveCom.StopHorizontalVelocity();
+                }
             }
 
-            bool isOnGround = fsm.PositionStatus.Contains(RolePositionStatus.OnGround);
             var knockUpSpeedArray = stateModel.KnockUpSpeedArray;
-            var len2 = knockUpSpeedArray.Length;
-            bool canKnockUp = curFrame < len2;
-            if (canKnockUp) {
-                var newV = moveCom.Velocity;
-                newV.y = knockUpSpeedArray[curFrame];
-                moveCom.SetVerticalVelocity(newV);
-            } else if (curFrame == len2) {
-                moveCom.StopVerticalVelocity();
-            } else if (!isOnGround) {
-                role.Fall(dt);
-            }
-
-            bool isOver = curFrame >= stateModel.MaintainFrame;
-            if (isOver) {
-                bool hasKnockUp = len2 > 0;
-                if (!hasKnockUp) {
-                    fsm.Enter_Idle();
-                    return;
+            if (knockUpSpeedArray != null) {
+                bool isOnGround = fsm.PositionStatus.Contains(RolePositionStatus.OnGround);
+                var len = knockUpSpeedArray.Length;
+                bool canKnockUp = curFrame < len;
+                if (canKnockUp) {
+                    var newV = moveCom.Velocity;
+                    newV.y = knockUpSpeedArray[curFrame];
+                    moveCom.SetVerticalVelocity(newV);
+                } else if (curFrame == len) {
+                    moveCom.StopVerticalVelocity();
+                } else if (!isOnGround) {
+                    role.Fall(dt);
                 }
 
-                if (isOnGround) fsm.Enter_Idle();
+                bool isOver = curFrame >= stateModel.MaintainFrame;
+                if (isOver) {
+                    bool hasKnockUp = len > 0;
+                    if (!hasKnockUp) {
+                        fsm.Enter_Idle();
+                        return;
+                    }
+
+                    if (isOnGround) fsm.Enter_Idle();
+                }
             }
         }
 

@@ -18,7 +18,12 @@ MonoBehaviour:
   m_GUID: 5a5b9480053c2244fbbb508704d3c378
   m_SerializeEntries:
   - m_GUID: bafc8570f7f99f94399b730abce60f7b
-    m_Address: hud_hp_bar
+    m_Address: HUD_HPBar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HUD
+  - m_GUID: 9ab91d3c81447e345a751da40829d156
+    m_Address: HUD_DamageFloatText
     m_ReadOnly: 0
     m_SerializedLabels:
     - HUD

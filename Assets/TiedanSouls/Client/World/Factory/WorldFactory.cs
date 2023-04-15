@@ -171,7 +171,9 @@ namespace TiedanSouls.Client {
 
             // HUD
             var hpBar = CreateHpBarHUD();
+            var damageFloatTextHUD = CreateDamageFloatTextHUD();
             role.HudSlotCom.SetHpBarHUD(hpBar);
+            role.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
 
             return role;
         }
@@ -225,15 +227,32 @@ namespace TiedanSouls.Client {
 
         }
 
-        public HpBarHUD CreateHpBarHUD() {
+        public HPBarHUD CreateHpBarHUD() {
             var assetCore = infraContext.AssetCore;
             var hudAssets = assetCore.HUDAsset;
-            bool has = hudAssets.TryGet("hud_hp_bar", out GameObject go);
+            bool has = hudAssets.TryGet("HUD_HPBar", out GameObject prefab);
             if (!has) {
-                TDLog.Error("Failed to get asset: hud_hp_bar");
+                TDLog.Error("Failed to get asset: HUD_HPBar");
                 return null;
             }
-            var hud = GameObject.Instantiate(go).GetComponent<HpBarHUD>();
+
+            var go = GameObject.Instantiate(prefab);
+            var hud = go.GetComponent<HPBarHUD>() ?? go.AddComponent<HPBarHUD>();
+            hud.Ctor();
+            return hud;
+        }
+
+        public DamageFloatTextHUD CreateDamageFloatTextHUD() {
+            var assetCore = infraContext.AssetCore;
+            var hudAssets = assetCore.HUDAsset;
+            bool has = hudAssets.TryGet("HUD_DamageFloatText", out GameObject prefab);
+            if (!has) {
+                TDLog.Error("Failed to get asset: HUD_DamageFloatText");
+                return null;
+            }
+
+            var go = GameObject.Instantiate(prefab);
+            var hud = go.GetComponent<DamageFloatTextHUD>() ?? go.AddComponent<DamageFloatTextHUD>();
             hud.Ctor();
             return hud;
         }

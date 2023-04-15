@@ -15,9 +15,9 @@ MonoBehaviour:
   tm:
     typeID: 1000
     roleName: "\u65E0\u654C\u94C1\u86CB"
-    hpMax_Expanded: 10000
-    gpMax_Expanded: 10000
-    mpMax_Expanded: 0
+    hpMax_Expanded: 100000
+    gpMax_Expanded: 100000
+    mpMax_Expanded: 100000
     moveSpeed_Expanded: 1000
     jumpSpeed_Expanded: 1500
     fallSpeed_Expanded: 3000

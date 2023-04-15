@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TiedanSouls.Client.Entities {
-    public class HpBarHUD : MonoBehaviour {
+namespace TiedanSouls.Generic {
+    
+    public class HPBarHUD : MonoBehaviour {
 
         Image hpBarMove;
         public Image HpBarMove => hpBarMove;

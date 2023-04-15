@@ -16,8 +16,8 @@ namespace TiedanSouls.Generic {
             Debug.LogError(message);
         }
 
-        public static void Assert(bool condition) {
-            Debug.Assert(condition);
+        public static void Assert(bool condition, string msg) {
+            Debug.Assert(condition, msg);
         }
 
     }
