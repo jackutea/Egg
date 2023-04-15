@@ -43,10 +43,6 @@ namespace TiedanSouls.Client.Domain {
             else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsm, dt);
             else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsm, dt);
             else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsm, dt);
-
-            // - 控制效果
-            var ctrlStatus = fsm.CtrlStatus;
-            if (ctrlStatus.Contains(RoleCtrlEffectType.SkillMove)) Tick_SkillMove(role, fsm, dt);
         }
 
         void TickAny(RoleEntity role, RoleFSMComponent fsm, float dt) {
@@ -89,7 +85,7 @@ namespace TiedanSouls.Client.Domain {
             var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
             ctrlEffectSlotCom.Tick();
         }
-        
+
         #region [位置状态]
 
         public void AddPositionStatus_OnGround(RoleEntity role) {
@@ -174,6 +170,7 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
+                stateModel.SetCasterRotation(role.LogicRotation);
                 roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
@@ -182,20 +179,36 @@ namespace TiedanSouls.Client.Domain {
             if (stateModel.IsWaitingForMoveEnd) return;
 
             stateModel.curIndex++;
+            var curFrame = stateModel.GetCurFrame();
+            var lastFrame = stateModel.GetLastFrame();
+
             if (!stateModel.IsCurrentValid()) {
+                if (castingSkill.HasSkillMoveCurveModel(lastFrame)) {
+                    role.Stop();
+                }
+
                 var rendererModCom = role.RendererModCom;
                 rendererModCom.Anim_SetSpeed(1);
                 fsm.Enter_Idle();
                 return;
             }
 
-            var curFrame = stateModel.GetCurFrame();
-            var lastFrame = stateModel.GetLastFrame();
+            castingSkill.SetCurFrame(curFrame);
 
-            // 技能位移 TODO APPLY FRAME
-            if (castingSkill.TryGet_ValidSkillMoveCurveModel(out var skillMoveCurveModel)) {
-                fsm.AddCtrlStatus_SkillMove(skillMoveCurveModel);
-                stateModel.SetIsWaitingForMoveEnd(skillMoveCurveModel.needWaitForMoveEnd);
+            // 技能位移
+            bool hasSkillMove = false;
+            if (curFrame - lastFrame > 1) {
+                for (int i = lastFrame + 1; i < curFrame; i++) {
+                    if (TryApplySkillMove(role, dt, i, true)) {
+                        hasSkillMove = true;
+                    }
+                }
+            }
+            if (TryApplySkillMove(role, dt, curFrame, false)) {
+                hasSkillMove = true;
+            }
+            if (!hasSkillMove) {
+                role.Stop();
             }
 
             // 技能逻辑迭代
@@ -210,71 +223,63 @@ namespace TiedanSouls.Client.Domain {
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
                 if (effectorTypeID != 0) {
                     var effectorDomain = this.rootDomain.EffectorDomain;
-                    if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
-                        Debug.LogWarning($"请检查配置! 效果器没有找到! 类型ID {effectorTypeID}");
-                        return;
+                    if (effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
+                        var summoner = role.IDCom.ToArgs();
+                        var baseRot = role.LogicRotation;
+                        var summonPos = role.LogicRootPos + baseRot * skillEffectorModel.offsetPos;
+
+                        this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
+                        this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
                     }
-
-                    var summoner = role.IDCom.ToArgs();
-                    var baseRot = role.LogicRotation;
-                    var summonPos = role.LogicRootPos + baseRot * skillEffectorModel.offsetPos;
-
-                    this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
-                    this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
                 }
             }
 
-            // Locomotion
             role.TryMoveByInput();
-
-            if (fsm.CtrlStatus != RoleCtrlEffectType.SkillMove) role.Fall(dt);
-
             roleDomain.TryCastSkillByInput(role);
         }
 
         /// <summary>
-        /// 技能位移状态
+        /// 应用技能位移
         /// </summary>
-        void Tick_SkillMove(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            var stateModel = fsm.SkillMoveModel;
-            var moveDirArray = stateModel.MoveDirArray;
-            var moveSpeedArray = stateModel.MoveSpeedArray;
-            var len = moveSpeedArray.Length;
+        bool TryApplySkillMove(RoleEntity role, float dt, int frame, bool moveByOffset) {
+            var fsm = role.FSMCom;
+            var castingSkill = fsm.CastingStateModel.CastingSkill;
+            var castingModel = fsm.CastingStateModel;
+            if (!castingSkill.TryGetSkillMoveCurveModel(frame, out var skillMoveCurveModel)) {
+                return false;
+            }
 
-            if (stateModel.IsEntering) {
-                stateModel.SetIsEntering(false);
-                // 位移方向 初始化
-                var baseRot = role.LogicRotation;
-                for (int i = 0; i < len; i++) {
-                    var moveDir = moveDirArray[i];
-                    moveDirArray[i] = baseRot * moveDir;
+            var moveCurveModel = skillMoveCurveModel.moveCurveModel;
+            var moveSpeedArray = moveCurveModel.moveSpeedArray;
+            var moveDirArray = moveCurveModel.moveDirArray;
+            var len = moveSpeedArray.Length;
+            var index = frame - skillMoveCurveModel.startFrame;
+            if (index > len) return false;
+
+            var moveCom = role.MoveCom;
+            if (index < len) {
+                var speed = moveSpeedArray[index];
+                var moveDir = moveDirArray[index];
+                var casterRotation = castingModel.CasterRotation;
+                moveDir = casterRotation * moveDir;
+                var vel = moveDir * speed;
+                if (moveByOffset) {
+                    var pos = role.LogicRootPos + vel * dt;
+                    role.SetLogicPos(pos);
+                } else {
+                    moveCom.SetVelocity(moveDir * speed);
+                }
+                if (skillMoveCurveModel.isFaceTo) {
+                    role.HorizontalFaceTo(vel.x);
                 }
             }
 
-            stateModel.curFrame++;
-
-            var moveCom = role.MoveCom;
-            if (stateModel.curFrame < len) {
-                var speed = moveSpeedArray[stateModel.curFrame];
-                var moveDir = moveDirArray[stateModel.curFrame];
-                var vel = moveDir * speed;
-                moveCom.SetVelocity(moveDir * speed);
-                if (stateModel.IsFaceTo) role.HorizontalFaceTo(vel.x);
-            } else if (stateModel.curFrame == len) {
-                var roleDomain = rootDomain.RoleDomain;
-                roleDomain.StopMove(role);
-
-                fsm.RemoveCtrlStatus_SkillMove();
-
-                var castingModel = fsm.CastingStateModel;
-                castingModel.SetIsWaitingForMoveEnd(false);
-            }
+            return true;
         }
 
         /// <summary>
-        /// 被击退状态
+        /// 受击状态
         /// </summary>
-        /// 
         void Tick_BeHit(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var stateModel = fsm.BeHitStateModel;
             if (stateModel.IsEntering) {
@@ -334,7 +339,7 @@ namespace TiedanSouls.Client.Domain {
 
                 role.HudSlotCom.HideHUD();
                 role.RendererModCom.Anim_Play_Dying();
-                roleDomain.StopMove(role);
+                role.Stop();
             }
 
             stateModel.maintainFrame--;

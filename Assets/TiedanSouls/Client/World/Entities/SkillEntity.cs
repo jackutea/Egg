@@ -40,19 +40,6 @@ namespace TiedanSouls.Client.Entities {
         // - 位移曲线模型
         SkillMoveCurveModel[] skillMoveCurveModelArray;
         public void SetSkillMoveCurveModelArray(SkillMoveCurveModel[] value) => this.skillMoveCurveModelArray = value;
-        public bool TryGet_ValidSkillMoveCurveModel(out SkillMoveCurveModel skillMoveCurveModel) {
-            skillMoveCurveModel = default;
-            if (curFrame < 0) return false;
-            var len = skillMoveCurveModelArray?.Length;
-            for (int i = 0; i < len; i++) {
-                var model = skillMoveCurveModelArray[i];
-                if (model.startFrame != curFrame) continue;
-                skillMoveCurveModel = model;
-                return true;
-            }
-
-            return false;
-        }
 
         // - 表现层
         string weaponAnimName;
@@ -66,6 +53,7 @@ namespace TiedanSouls.Client.Entities {
 
         int curFrame;
         public int CurFrame => this.curFrame;
+        public void SetCurFrame(int value) => this.curFrame = value;
 
         public SkillEntity() {
             IDCom = new EntityIDComponent();
@@ -110,11 +98,9 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool TryApplyFrame(Vector3 rootPos, Quaternion rootRot, int frame) {
-            if (curFrame > totalFrame) {
+            if (frame > totalFrame) {
                 return false;
             }
-
-            this.curFrame = frame;
 
             // 碰撞盒控制
             Foreach_CollisionTrigger(TriggerBegin, Triggering, TriggerEnd);
@@ -127,7 +113,7 @@ namespace TiedanSouls.Client.Entities {
                 if (entityColliderTriggerModelArray != null) {
                     for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
                         EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                        var triggerStatus = model.GetTriggerState(curFrame);
+                        var triggerStatus = model.GetTriggerState(frame);
                         if (triggerStatus == TriggerState.None) continue;
                         if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
                         else if (triggerStatus == TriggerState.Stay) action_triggering(model);
@@ -151,6 +137,47 @@ namespace TiedanSouls.Client.Entities {
                     else entityColliderModel.Deactivate();
                 }
             }
+        }
+
+        public bool TryGetSkillMoveCurveModel(int frame, out SkillMoveCurveModel skillMoveCurveModel) {
+            if (frame < 0) {
+                skillMoveCurveModel = default;
+                return false;
+            }
+
+            var len = skillMoveCurveModelArray?.Length;
+            for (int i = 0; i < len; i++) {
+                var model = skillMoveCurveModelArray[i];
+                var startFrame = model.startFrame;
+                var endFrame = startFrame + model.moveCurveModel.moveDirArray.Length - 1;
+
+                if (startFrame <= frame && frame <= endFrame) {
+                    skillMoveCurveModel = model;
+                    return true;
+                }
+            }
+
+            skillMoveCurveModel = default;
+            return false;
+        }
+
+        public bool HasSkillMoveCurveModel(int frame) {
+            if (frame < 0) {
+                return false;
+            }
+
+            var len = skillMoveCurveModelArray?.Length;
+            for (int i = 0; i < len; i++) {
+                var model = skillMoveCurveModelArray[i];
+                var startFrame = model.startFrame;
+                var endFrame = startFrame + model.moveCurveModel.moveDirArray.Length - 1;
+
+                if (startFrame <= frame && frame <= endFrame) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel collisionTriggerModel, int frame = -1) {

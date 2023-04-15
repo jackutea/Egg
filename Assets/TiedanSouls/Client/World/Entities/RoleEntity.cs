@@ -175,6 +175,10 @@ namespace TiedanSouls.Client.Entities {
             LogicRoot.localRotation = rot;
         }
 
+        public void Stop(){
+            MoveCom.Stop();
+        }
+
         #endregion
 
     }

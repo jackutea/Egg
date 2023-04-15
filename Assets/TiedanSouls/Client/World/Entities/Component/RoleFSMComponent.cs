@@ -19,9 +19,6 @@ namespace TiedanSouls.Client.Entities {
         RoleCastingStateModel castingStateModel;
         public RoleCastingStateModel CastingStateModel => castingStateModel;
 
-        RoleStateModel_SkillMove skillMoveStateModel;
-        public RoleStateModel_SkillMove SkillMoveModel => skillMoveStateModel;
-
         RoleBeHitStateModel beHitStateModel;
         public RoleBeHitStateModel BeHitStateModel => beHitStateModel;
 
@@ -31,9 +28,6 @@ namespace TiedanSouls.Client.Entities {
         #endregion
 
         #region [控制状态]
-
-        RoleCtrlEffectType ctrlStatus;
-        public RoleCtrlEffectType CtrlStatus => ctrlStatus;
 
         RoleStateModel_KnockBack knockBackModel;
         public RoleStateModel_KnockBack KnockBackModel => knockBackModel;
@@ -64,7 +58,6 @@ namespace TiedanSouls.Client.Entities {
             jumpingUpStateModel = new RoleJumpingUpStateModel();
             castingStateModel = new RoleCastingStateModel();
             beHitStateModel = new RoleBeHitStateModel();
-            skillMoveStateModel = new RoleStateModel_SkillMove();
             knockBackModel = new RoleStateModel_KnockBack();
             knockUpModel = new RoleStateModel_KnockUp();
             dyingStateModel = new RoleDyingStateModel();
@@ -84,7 +77,6 @@ namespace TiedanSouls.Client.Entities {
             idleStateModel.Reset();
             castingStateModel.Reset();
             beHitStateModel.Reset();
-            skillMoveStateModel.Reset();
             dyingStateModel.Reset();
             fsmState = RoleFSMState.None;
         }
@@ -92,7 +84,6 @@ namespace TiedanSouls.Client.Entities {
         public void ResetCtrlStatus() {
             knockBackModel.Reset();
             knockUpModel.Reset();
-            ctrlStatus = RoleCtrlEffectType.None;
         }
 
         public void ResetPositionStatus() {
@@ -167,27 +158,6 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [控制状态]
-
-        public void AddCtrlStatus_SkillMove(in SkillMoveCurveModel skillMoveCurveModel) {
-            var stateModel = skillMoveStateModel;
-            stateModel.Reset();
-            stateModel.SetIsEntering(true);
-            stateModel.SetIsFaceTo(skillMoveCurveModel.isFaceTo);
-            stateModel.SetNeedWaitForMoveEnd(skillMoveCurveModel.needWaitForMoveEnd);
-            stateModel.SetMoveSpeedArray(skillMoveCurveModel.moveCurveModel.moveSpeedArray);
-            stateModel.SetMoveDirArray(skillMoveCurveModel.moveCurveModel.moveDirArray);
-            ctrlStatus = ctrlStatus.AddStatus(RoleCtrlEffectType.SkillMove);
-            TDLog.Log($"角色 控制状态 - 添加  '{RoleCtrlEffectType.SkillMove}'\n{ctrlStatus.GetString()}");
-        }
-
-        public void RemoveCtrlStatus_SkillMove() {
-            ctrlStatus = ctrlStatus.RemoveStatus(RoleCtrlEffectType.SkillMove);
-            TDLog.Log($"角色 控制状态 - 移除  '{RoleCtrlEffectType.SkillMove}'\n{ctrlStatus.GetString()}");
-        }
-
-        #endregion
-
         #region [位置状态]
 
         public void AddPositionStatus_OnGround() {
@@ -230,63 +200,6 @@ namespace TiedanSouls.Client.Entities {
         public void RemovePositionStatus_StandInWater() {
             this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.InWater);
             TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.InWater}'\n{positionStatus.GetString()}");
-        }
-
-        #endregion
-
-        #region [Locomotion 判断]
-
-        /// <summary>
-        /// 是否可以移动
-        /// </summary>
-        public bool Can_Move() {
-            return fsmState != RoleFSMState.Dying
-                && fsmState != RoleFSMState.JumpingDown
-                && !ctrlStatus.Contains(RoleCtrlEffectType.SkillMove)
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Root)
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Stun);
-        }
-
-        /// <summary>
-        /// 是否可以下跳
-        /// </summary>
-        public bool CanJumpDown() {
-            return fsmState != RoleFSMState.Dying
-                && fsmState != RoleFSMState.JumpingUp
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Root)
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Stun)
-                && positionStatus.Contains(RolePositionStatus.OnCrossPlatform);
-        }
-
-        /// <summary>
-        /// 是否可以上跳
-        /// </summary>
-        public bool CanJumpUp() {
-            return fsmState != RoleFSMState.Dying
-                && fsmState != RoleFSMState.JumpingUp
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Root)
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Stun)
-                && (positionStatus.Contains(RolePositionStatus.OnGround)
-                    || positionStatus.Contains(RolePositionStatus.OnCrossPlatform)
-                    || positionStatus.Contains(RolePositionStatus.InWater));
-        }
-
-        /// <summary>
-        /// 是否会下落
-        /// </summary>
-        public bool CanFall() {
-            return !ctrlStatus.Contains(RoleCtrlEffectType.Stun)
-                && !positionStatus.Contains(RolePositionStatus.OnGround)
-                && !positionStatus.Contains(RolePositionStatus.OnCrossPlatform);
-        }
-
-        /// <summary>
-        /// 是否可改变面向
-        /// </summary>
-        public bool CanChangeFaceTo() {
-            return fsmState != RoleFSMState.Dying
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Root)
-                && !ctrlStatus.Contains(RoleCtrlEffectType.Stun);
         }
 
         #endregion

@@ -20,6 +20,10 @@ namespace TiedanSouls.Client.Entities {
         public Vector2 ChosedPoint => chosedPoint;
         public void SetChosedPoint(Vector2 value) => chosedPoint = value;
 
+        Quaternion casterRotation;
+        public Quaternion CasterRotation => casterRotation;
+        public void SetCasterRotation(Quaternion value) => casterRotation = value;
+
         bool isWaitingForMoveEnd;
         public bool IsWaitingForMoveEnd => isWaitingForMoveEnd;
         public void SetIsWaitingForMoveEnd(bool value) => isWaitingForMoveEnd = value;

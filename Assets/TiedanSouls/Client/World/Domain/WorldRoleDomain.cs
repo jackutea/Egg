@@ -279,11 +279,6 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        public void StopMove(RoleEntity role) {
-            var moveCom = role.MoveCom;
-            moveCom.Stop();
-        }
-
         public void FaceToHorizontalPoint(RoleEntity role, Vector2 point) {
             if (point != Vector2.zero) {
                 var rolePos = role.LogicRootPos;
