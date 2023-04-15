@@ -4,49 +4,62 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
+    /// <summary>
+    /// 角色控制效果槽, 包括禁锢, 眩晕, 沉默等. 
+    /// 一个角色可以同时受到多种控制效果, 同种控制效果的优先级根据剩余控制帧数来判断
+    /// </summary>
     public class RoleCtrlEffectSlotComponent {
 
-        Dictionary<RoleCtrlEffectType, List<RoleCtrlEffect>> ctrlEffectListDict;
+        RoleCtrlEffect rootCtrlEffect;
+        RoleCtrlEffect stunCtrlEffect;
+        RoleCtrlEffect silenceCtrlEffect;
 
         public RoleCtrlEffectSlotComponent() {
-            ctrlEffectListDict = new Dictionary<RoleCtrlEffectType, List<RoleCtrlEffect>>();
-            ctrlEffectListDict.Add(RoleCtrlEffectType.Root, new List<RoleCtrlEffect>());
-            ctrlEffectListDict.Add(RoleCtrlEffectType.Stun, new List<RoleCtrlEffect>());
-            ctrlEffectListDict.Add(RoleCtrlEffectType.Silence, new List<RoleCtrlEffect>());
         }
 
         public void Reset() {
-            ctrlEffectListDict[RoleCtrlEffectType.Root].Clear();
-            ctrlEffectListDict[RoleCtrlEffectType.Stun].Clear();
-            ctrlEffectListDict[RoleCtrlEffectType.Silence].Clear();
         }
 
-        public void ResetRootCtrlEffect() {
-            ctrlEffectListDict[RoleCtrlEffectType.Root].Clear();
-        }
-
-        public void ResetStunCtrlEffect() {
-            ctrlEffectListDict[RoleCtrlEffectType.Stun].Clear();
-        }
-
-        public void ResetSilenceCtrlEffect() {
-            ctrlEffectListDict[RoleCtrlEffectType.Silence].Clear();
-        }
-
-        public void AddCtrlEffect(in RoleCtrlEffect ctrlEffectModel) {
-            var father = ctrlEffectModel.father;
-            var list = ctrlEffectListDict[ctrlEffectModel.ctrlEffectType];
-            for (int i = 0; i < list.Count; i++) {
-                var effect = list[i];
-                if (effect.father.IsTheSameAs(father)) {
-                    list[i] = ctrlEffectModel;
-                    TDLog.Log($"刷新 技能[{father.typeID}] 控制效果 --》 {ctrlEffectModel}");
-                    return;
-                }
+        public void AddCtrlEffect(in RoleCtrlEffectModel ctrlEffectModel) {
+            var totalFrame = ctrlEffectModel.totalFrame;
+            switch (ctrlEffectModel.ctrlEffectType) {
+                case RoleCtrlEffectType.Root:
+                    if (totalFrame >= rootCtrlEffect.curFrame) {
+                        rootCtrlEffect.curFrame = totalFrame;
+                        rootCtrlEffect.totalFrame = totalFrame;
+                        TDLog.Log($"控制效果 - 禁锢\n{ctrlEffectModel}");
+                    }
+                    break;
+                case RoleCtrlEffectType.Stun:
+                    if (totalFrame >= stunCtrlEffect.curFrame) {
+                        stunCtrlEffect.curFrame = totalFrame;
+                        stunCtrlEffect.totalFrame = totalFrame;
+                        TDLog.Log($"控制效果 - 眩晕\n{ctrlEffectModel}");
+                    }
+                    break;
+                case RoleCtrlEffectType.Silence:
+                    if (totalFrame >= silenceCtrlEffect.curFrame) {
+                        silenceCtrlEffect.curFrame = totalFrame;
+                        silenceCtrlEffect.totalFrame = totalFrame;
+                        TDLog.Log($"控制效果 - 沉默\n{ctrlEffectModel}");
+                    }
+                    break;
+                default:
+                    TDLog.Log($"未处理的控制效果类型 {ctrlEffectModel.ctrlEffectType}");
+                    break;
             }
+        }
 
-            TDLog.Log($"添加 技能[{father.typeID}] 控制效果 --》 {ctrlEffectModel}");
-            list.Add(ctrlEffectModel);
+        public void Tick(){
+            if (rootCtrlEffect.curFrame > 0) {
+                rootCtrlEffect.curFrame--;
+            }
+            if (stunCtrlEffect.curFrame > 0) {
+                stunCtrlEffect.curFrame--;
+            }
+            if (silenceCtrlEffect.curFrame > 0) {
+                silenceCtrlEffect.curFrame--;
+            }
         }
 
     }

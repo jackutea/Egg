@@ -159,8 +159,8 @@ MonoBehaviour:
       roleCtrlEffectTMArray:
       - roleCtrlEffectType: 2
         totalFrame: 30
-        iconName: "Boom\u5C55\u793A"
-        iconGUID: c6d58f82ed4e6e741b0deb307d58cb23
+        iconName: background_cloudA
+        iconGUID: dedfd6c73904bb041a88326b21991027
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0

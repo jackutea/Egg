@@ -134,6 +134,7 @@ MonoBehaviour:
         knockUpKeyframeTMArray: []
         knockUpTotalFrame: 0
         knockUpDis_cm: 0
+      roleCtrlEffectTMArray: []
       hitEffectorTypeID: 0
       colliderTMArray:
       - colliderType: 0

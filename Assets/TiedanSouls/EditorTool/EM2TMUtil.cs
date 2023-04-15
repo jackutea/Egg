@@ -309,7 +309,7 @@ namespace TiedanSouls.EditorTool {
             RoleCtrlEffectTM tm;
             tm.roleCtrlEffectType = em.ctrlEffectType;
             tm.totalFrame = em.totalFrame;
-            tm.iconName = em.icon.name;
+            tm.iconName = em.icon != null ? em.icon.name : "";
             tm.iconGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(em.icon));
             return tm;
         }
@@ -346,7 +346,7 @@ namespace TiedanSouls.EditorTool {
 
             tm.damageTM = GetDamageTM(em.damageEM, totalFrame);
             tm.beHitTM = GetBeHitTM(em.beHitEM);
-            tm.roleCtrlEffectTMArray = GetCtrlEffectTMArray(em.ctrlEffectEMArray);
+            tm.roleCtrlEffectTMArray = GetCtrlEffectTMArray(em.roleCtrlEffectEMArray);
             tm.hitEffectorTypeID = em.hitEffectorTypeID;
 
             tm.colliderRelativePathArray = GetRelativePathArray<T>(em.colliderGOArray);

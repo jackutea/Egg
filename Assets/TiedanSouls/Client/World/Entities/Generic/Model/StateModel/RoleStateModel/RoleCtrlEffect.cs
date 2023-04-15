@@ -1,14 +1,14 @@
 using TiedanSouls.Generic;
-using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
     public struct RoleCtrlEffect {
 
         public RoleCtrlEffectType ctrlEffectType;
-        public EntityIDArgs father;
         public string iconName;
-        public float totalFrame;
+        public int totalFrame;
+
+        public EntityIDArgs father; // 控制效果由谁施加
         public int curFrame;
 
         public override string ToString() {

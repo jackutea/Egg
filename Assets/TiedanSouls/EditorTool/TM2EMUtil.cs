@@ -211,7 +211,7 @@ namespace TiedanSouls.EditorTool {
 
             em.damageEM = GetDamageEM(tm.damageTM);
             em.beHitEM = GetBeHitEM(tm.beHitTM);
-            em.ctrlEffectEMArray = GetCtrlEffectEMArray(tm.roleCtrlEffectTMArray);
+            em.roleCtrlEffectEMArray = GetCtrlEffectEMArray(tm.roleCtrlEffectTMArray);
             em.hitEffectorTypeID = tm.hitEffectorTypeID;
 
             return em;

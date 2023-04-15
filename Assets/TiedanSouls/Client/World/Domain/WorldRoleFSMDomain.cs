@@ -49,6 +49,22 @@ namespace TiedanSouls.Client.Domain {
             if (ctrlStatus.Contains(RoleCtrlEffectType.SkillMove)) Tick_SkillMove(role, fsm, dt);
         }
 
+        void TickAny(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            if (fsm.FSMState == RoleFSMState.Dying) return;
+
+            var roleDomain = rootDomain.RoleDomain;
+
+            // 任意状态下的死亡判定
+            if (roleDomain.IsRoleDead(role)) {
+                roleDomain.TearDownRole(role);
+            }
+
+            Tick_Buff(role, fsm, dt);
+            Tick_CtrlEffect(role, fsm, dt);
+
+            if (role.IDCom.ControlType == ControlType.AI) role.AIStrategy.Tick(dt);
+        }
+
         void Tick_Buff(RoleEntity role, RoleFSMComponent fsm, float dt) {
             var buffDomain = rootDomain.BuffDomain;
 
@@ -69,20 +85,9 @@ namespace TiedanSouls.Client.Domain {
             });
         }
 
-        void TickAny(RoleEntity role, RoleFSMComponent fsm, float dt) {
-            if (fsm.FSMState == RoleFSMState.Dying) return;
-
-            var roleDomain = rootDomain.RoleDomain;
-
-            // 任意状态下的死亡判定
-            if (roleDomain.IsRoleDead(role)) {
-                roleDomain.TearDownRole(role);
-            }
-
-            Tick_Buff(role, fsm, dt);
-
-            if (role.IDCom.ControlType == ControlType.AI) role.AIStrategy.Tick(dt);
-            
+        void Tick_CtrlEffect(RoleEntity role, RoleFSMComponent fsm, float dt) {
+            var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
+            ctrlEffectSlotCom.Tick();
         }
         
         #region [位置状态]

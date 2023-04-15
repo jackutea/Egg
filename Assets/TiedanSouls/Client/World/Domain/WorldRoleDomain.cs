@@ -419,13 +419,7 @@ namespace TiedanSouls.Client.Domain {
             var len = roleCtrlEffectModelArray.Length;
             for (int i = 0; i < len; i++) {
                 var roleCtrlEffectModel = roleCtrlEffectModelArray[i];
-                RoleCtrlEffect roleCtrlEffec;
-                roleCtrlEffec.ctrlEffectType = roleCtrlEffectModel.ctrlEffectType;
-                roleCtrlEffec.totalFrame = roleCtrlEffectModel.totalFrame;
-                roleCtrlEffec.iconName = roleCtrlEffectModel.iconName;
-                roleCtrlEffec.curFrame = 0;
-                roleCtrlEffec.father = hitter;
-                ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffec);
+                ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffectModel);
             }
 
             // 伤害 仲裁

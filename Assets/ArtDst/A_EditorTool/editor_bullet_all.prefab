@@ -463,10 +463,10 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    ctrlEffectEMArray:
+    roleCtrlEffectEMArray:
     - ctrlEffectType: 2
       totalFrame: 30
-      icon: {fileID: 21300000, guid: c6d58f82ed4e6e741b0deb307d58cb23, type: 3}
+      icon: {fileID: 21300000, guid: dedfd6c73904bb041a88326b21991027, type: 3}
     colliderGOArray:
     - {fileID: 285879737727348702}
 --- !u!1 &8766878982541236908
@@ -710,7 +710,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    ctrlEffectEMArray: []
+    roleCtrlEffectEMArray: []
     colliderGOArray: []
 --- !u!1001 &8325092907075036684
 PrefabInstance:
