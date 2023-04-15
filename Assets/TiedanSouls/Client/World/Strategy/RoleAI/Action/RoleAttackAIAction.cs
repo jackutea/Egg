@@ -32,8 +32,8 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool Execute() {
-            var fsm = role.FSMCom;
-            if (fsm.FSMState != RoleFSMState.BeHit) {
+            var fsmCom = role.FSMCom;
+            if (fsmCom.FSMState != RoleFSMState.BeHit) {
                 return false;
             }
 

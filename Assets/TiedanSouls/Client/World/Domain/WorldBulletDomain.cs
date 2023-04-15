@@ -177,8 +177,8 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void MoveStraight(BulletEntity bullet) {
-            var fsm = bullet.FSMCom;
-            var model = fsm.ActivatedModel;
+            var fsmCom = bullet.FSMCom;
+            var model = fsmCom.ActivatedModel;
             var curFrame = model.curFrame;
             var moveCom = bullet.MoveCom;
             // 直线

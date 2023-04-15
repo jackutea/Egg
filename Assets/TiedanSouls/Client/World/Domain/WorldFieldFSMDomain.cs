@@ -25,21 +25,21 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickFSM_CurrentField(FieldEntity field, float dt) {
-            var fsm = field.FSMComponent;
-            if (fsm.IsExiting) return;
+            var fsmCom = field.FSMComponent;
+            if (fsmCom.IsExiting) return;
 
-            var state = fsm.State;
+            var state = fsmCom.State;
             if (state == FieldFSMState.Ready) {
-                ApplyFSMState_Ready(field, fsm, dt);
+                ApplyFSMState_Ready(field, fsmCom, dt);
             } else if (state == FieldFSMState.Spawning) {
                 ApplyFSMState_Spawning(field, dt);
             } else if (state == FieldFSMState.Finished) {
-                ApplyFSMState_Finished(fsm, dt);
+                ApplyFSMState_Finished(fsmCom, dt);
             }
         }
 
-        void ApplyFSMState_Ready(FieldEntity field, FieldFSMComponent fsm, float dt) {
-            var readyModel = fsm.ReadyModel;
+        void ApplyFSMState_Ready(FieldEntity field, FieldFSMComponent fsmCom, float dt) {
+            var readyModel = fsmCom.ReadyModel;
             if (readyModel.IsEntering) {
                 readyModel.SetIsEntering(false);
 
@@ -66,14 +66,14 @@ namespace TiedanSouls.Client.Domain {
 
             // TODO: 触发生成敌人的前置条件 如 玩家进入某个区域 或者 玩家点击某个按钮 或者 玩家等待一段时间 或者 对话结束......
             var totalSpawnCount = field.EntitySpawnCtrlModelArray?.Length ?? 0;
-            fsm.Enter_Spawning(totalSpawnCount);
+            fsmCom.Enter_Spawning(totalSpawnCount);
         }
 
         void ApplyFSMState_Spawning(FieldEntity field, float dt) {
             var idCom = field.IDCom;
             var fieldTypeID = idCom.TypeID;
-            var fsm = field.FSMComponent;
-            var stateModel = fsm.SpawningModel;
+            var fsmCom = field.FSMComponent;
+            var stateModel = fsmCom.SpawningModel;
             var roleRepo = worldContext.RoleRepo;
             var stateEntity = worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
@@ -145,7 +145,7 @@ namespace TiedanSouls.Client.Domain {
                     ai.HudSlotCom.ShowHUD();
                     ai.SetLogicPos(ai.BornPos);
                 }));
-                fsm.Enter_Finished();
+                fsmCom.Enter_Finished();
                 return;
             }
 
@@ -178,7 +178,7 @@ namespace TiedanSouls.Client.Domain {
             bool hasAliveEnemy = stateModel.aliveEnemyCount > 0;
             if (hasSpawnedAll && !hasAliveEnemy) {
                 TDLog.Log($"关卡实体生成完毕,总数: {stateModel.totalSpawnCount}");
-                fsm.Enter_Finished();
+                fsmCom.Enter_Finished();
                 return;
             }
 
@@ -189,7 +189,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void ApplyFSMState_Finished(FieldFSMComponent fsm, float dt) {
+        void ApplyFSMState_Finished(FieldFSMComponent fsmCom, float dt) {
 
         }
 

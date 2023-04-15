@@ -30,24 +30,24 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickFSM(ProjectileEntity projectile, float dt) {
-            var fsm = projectile.FSMCom;
-            var state = fsm.State;
+            var fsmCom = projectile.FSMCom;
+            var state = fsmCom.State;
             if (state == ProjectileFSMState.Deactivated) {
-                Apply_Deactivated(projectile, fsm, dt);
+                Apply_Deactivated(projectile, fsmCom, dt);
             } else if (state == ProjectileFSMState.Activated) {
-                Apply_Activated(projectile, fsm, dt);
+                Apply_Activated(projectile, fsmCom, dt);
             } else if (state == ProjectileFSMState.Dying) {
-                Apply_Dying(projectile, fsm, dt);
+                Apply_Dying(projectile, fsmCom, dt);
             }
         }
 
-        void Apply_Deactivated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
+        void Apply_Deactivated(ProjectileEntity projectile, ProjectileFSMComponent fsmCom, float dt) {
             // 这里可能的业务需求
             // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
         }
 
-        void Apply_Activated(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
-            var stateModel = fsm.ActivatedModel;
+        void Apply_Activated(ProjectileEntity projectile, ProjectileFSMComponent fsmCom, float dt) {
+            var stateModel = fsmCom.ActivatedModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
             }
@@ -80,17 +80,17 @@ namespace TiedanSouls.Client.Domain {
             }
 
             if (aliveCount == 0) {
-                fsm.Enter_Dying(0);
+                fsmCom.Enter_Dying(0);
             }
         }
 
-        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsm, float dt) {
-            var model = fsm.DyingModel;
+        void Apply_Dying(ProjectileEntity projectile, ProjectileFSMComponent fsmCom, float dt) {
+            var model = fsmCom.DyingModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
             }
 
-            fsm.Enter_None();
+            fsmCom.Enter_None();
         }
 
     }

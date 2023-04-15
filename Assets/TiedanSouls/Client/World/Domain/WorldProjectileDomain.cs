@@ -64,8 +64,8 @@ namespace TiedanSouls.Client.Domain {
             projectile.SetBulletIDArray(bulletEntityIDArray);
 
             // 3. 激活弹道 TODO: 走配置，不一定立刻激活，可能需要等待一段时间，或者等待某个条件满足
-            var fsm = projectile.FSMCom;
-            fsm.Enter_Activated();
+            var fsmCom = projectile.FSMCom;
+            fsmCom.Enter_Activated();
 
             // 4. 添加至仓库
             var repo = worldContext.ProjectileRepo;

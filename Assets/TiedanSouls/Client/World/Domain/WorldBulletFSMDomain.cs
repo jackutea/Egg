@@ -32,30 +32,30 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickFSM(BulletEntity bullet, float dt) {
-            var fsm = bullet.FSMCom;
-            var state = fsm.State;
+            var fsmCom = bullet.FSMCom;
+            var state = fsmCom.State;
             if (state == BulletFSMState.Deactivated) {
-                Tick_Deactivated(bullet, fsm, dt);
+                Tick_Deactivated(bullet, fsmCom, dt);
             } else if (state == BulletFSMState.Activated) {
-                Tick_Activated(bullet, fsm, dt);
+                Tick_Activated(bullet, fsmCom, dt);
             } else if (state == BulletFSMState.Dying) {
-                Tick_TearDown(bullet, fsm, dt);
+                Tick_TearDown(bullet, fsmCom, dt);
             }
 
-            Tick_Any(bullet, fsm, dt);
+            Tick_Any(bullet, fsmCom, dt);
         }
 
-        void Tick_Any(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            if (fsm.State == BulletFSMState.None) return;
+        void Tick_Any(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+            if (fsmCom.State == BulletFSMState.None) return;
 
             // TearDown Check
-            if (fsm.State != BulletFSMState.Dying) {
-                if (bullet.ExtraPenetrateCount < 0) fsm.Enter_Dying(0);
+            if (fsmCom.State != BulletFSMState.Dying) {
+                if (bullet.ExtraPenetrateCount < 0) fsmCom.Enter_Dying(0);
             }
         }
 
-        void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            var model = fsm.DeactivatedModel;
+        void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+            var model = fsmCom.DeactivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
                 var moveCom = bullet.MoveCom;
@@ -64,8 +64,8 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_Activated(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            var model = fsm.ActivatedModel;
+        void Tick_Activated(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+            var model = fsmCom.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
                 bullet.Activate();
@@ -85,7 +85,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             if (model.curFrame >= bullet.MaintainFrame) {
-                fsm.Enter_Dying(0);
+                fsmCom.Enter_Dying(0);
                 return;
             }
 
@@ -108,8 +108,8 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_TearDown(BulletEntity bullet, BulletFSMComponent fsm, float dt) {
-            var model = fsm.TearDownModel;
+        void Tick_TearDown(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+            var model = fsmCom.TearDownModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
             }
@@ -118,7 +118,7 @@ namespace TiedanSouls.Client.Domain {
             maintainFrame--;
 
             if (maintainFrame <= 0) {
-                fsm.Enter_None();
+                fsmCom.Enter_None();
                 return;
             }
 
@@ -126,8 +126,8 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Enter_Dying(BulletEntity bullet) {
-            var fsm = bullet.FSMCom;
-            fsm.Enter_Dying(0);
+            var fsmCom = bullet.FSMCom;
+            fsmCom.Enter_Dying(0);
         }
 
     }

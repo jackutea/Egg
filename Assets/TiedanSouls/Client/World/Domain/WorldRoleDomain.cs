@@ -335,17 +335,17 @@ namespace TiedanSouls.Client.Domain {
             var roleFSMDomain = this.worldContext.RootDomain.RoleFSMDomain;
 
             // 正常释放
-            var fsm = role.FSMCom;
-            if (fsm.FSMState == RoleFSMState.Idle
-            || fsm.FSMState == RoleFSMState.Moving
-            || fsm.FSMState == RoleFSMState.JumpingUp) {
+            var fsmCom = role.FSMCom;
+            if (fsmCom.FSMState == RoleFSMState.Idle
+            || fsmCom.FSMState == RoleFSMState.Moving
+            || fsmCom.FSMState == RoleFSMState.JumpingUp) {
                 roleFSMDomain.Enter_Casting(role, originalSkill, false);
                 return true;
             }
 
             // 连招
-            if (fsm.FSMState == RoleFSMState.Casting) {
-                var stateModel = fsm.CastingStateModel;
+            if (fsmCom.FSMState == RoleFSMState.Casting) {
+                var stateModel = fsmCom.CastingStateModel;
                 var castingSkill = stateModel.CastingSkill;
 
                 if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var cancelType)) {
@@ -411,7 +411,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 控制效果组
             var roleCtrlEffectModelArray = collisionTriggerModel.roleCtrlEffectModelArray;
-            var len = roleCtrlEffectModelArray.Length;
+            var len = roleCtrlEffectModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var roleCtrlEffectModel = roleCtrlEffectModelArray[i];
                 ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffectModel);

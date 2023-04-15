@@ -79,8 +79,8 @@ namespace TiedanSouls.Client {
             var e = all.Values.GetEnumerator();
             while (e.MoveNext()) {
                 var bullet = e.Current;
-                var fsm = bullet.FSMCom;
-                if (fsm.State == BulletFSMState.None) {
+                var fsmCom = bullet.FSMCom;
+                if (fsmCom.State == BulletFSMState.None) {
                     bullet.Reset();
                     this.AddToPool(bullet);
                     tempList.Add(bullet.IDCom.EntityID);
