@@ -72,6 +72,7 @@ MonoBehaviour:
         entityType: 0
         isAttributeSelectorEnabled: 0
         attributeSelectorTM:
+          isEnabled: 0
           hp: 0
           hp_ComparisonType: 0
           hpMax: 0
@@ -104,7 +105,7 @@ MonoBehaviour:
         frameRangeArray:
         - {x: 0, y: 29}
       targetEntityType: 1
-      hitTargetGroupType: 4
+      hitAllyType: 4
       damageTM:
         damageType: 1
         damageArray: 420000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000910000009100000091000000
@@ -161,7 +162,8 @@ MonoBehaviour:
         totalFrame: 30
         iconName: background_cloudA
         iconGUID: dedfd6c73904bb041a88326b21991027
-      hitEffectorTypeID: 0
+      targetRoleEffectorTypeIDArray: 
+      selfRoleEffectorTypeIDArray: 97860100
       colliderTMArray:
       - colliderType: 0
         localPosition: {x: 0.06, y: 0.13, z: 0}

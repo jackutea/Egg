@@ -5,28 +5,30 @@ namespace TiedanSouls.Client {
 
     public static class MathUtil {
 
-        public static float GetClampOffset(float curValue, float baseValue, float min, float max, NumCalculationType nct) {
-            float offset = 0;
+        public static float GetClampOffset(float curValue, float baseValue, float effectValue, float min, float max, NumCalculationType nct) {
+            float realOffset = 0;
             switch (nct) {
                 case NumCalculationType.PercentageAdd:
-                    offset = baseValue * curValue;
+                    realOffset = effectValue * baseValue;
                     break;
                 case NumCalculationType.PercentageMul:
-                    offset = curValue * baseValue;
+                    realOffset = effectValue * curValue;
                     break;
                 case NumCalculationType.AbsoluteAdd:
-                    offset = curValue;
+                    realOffset = effectValue;
+                    break;
+                default:
                     break;
             }
 
-            var afterV = curValue + offset;
-            if (afterV < min) {
-                offset = min - curValue;
-            } else if (afterV > max) {
-                offset = max - curValue;
+            var afterValue = curValue + realOffset;
+            if (afterValue < min) {
+                realOffset = min - curValue;
+            } else if (afterValue > max) {
+                realOffset = max - curValue;
             }
 
-            return offset;
+            return realOffset;
         }
 
     }

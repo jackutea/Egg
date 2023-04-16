@@ -100,8 +100,25 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            // TODO : 子弹击中效果器
             bullet.ReduceExtraPenetrateCount();
+
+            // 子弹击中效果器
+            var rootDomain = worldContext.RootDomain;
+            var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var buffDomain = rootDomain.BuffDomain;
+            if (rootDomain.TryGetRoleFromIDArgs(bullet.IDCom.Father, out var role)) {
+                var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
+                var len = selfRoleEffectorTypeIDArray.Length;
+                for (int i = 0; i < len; i++) {
+                    var roleEffectorTypeID = selfRoleEffectorTypeIDArray[i];
+                    if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
+
+                    var attributeCom = role.AttributeCom;
+                    if (!attributeCom.IsMatch(roleEffectorModel.roleAttributeSelectorModel)) continue;
+
+                    buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeEffectModel, 1);
+                }
+            }
         }
 
         /// <summary>

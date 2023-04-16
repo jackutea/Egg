@@ -348,6 +348,7 @@ MonoBehaviour:
       entityType: 0
       isAttributeSelectorEnabled: 0
       attributeSelectorEM:
+        isEnabled: 0
         hp: 0
         hp_ComparisonType: 0
         hpMax: 0
@@ -380,8 +381,9 @@ MonoBehaviour:
       intervalFrame: 0
       maintainFrame: 0
     targetEntityType: 1
-    hitTargetGroupType: 4
-    hitEffectorTypeID: 0
+    hitAllyType: 4
+    targetRoleEffectorTypeIDArray: 
+    selfRoleEffectorTypeIDArray: 97860100
     damageEM:
       damageType: 1
       damageBase: 66
@@ -650,6 +652,7 @@ MonoBehaviour:
       entityType: 1
       isAttributeSelectorEnabled: 0
       attributeSelectorEM:
+        isEnabled: 0
         hp: 0
         hp_ComparisonType: 0
         hpMax: 0
@@ -681,8 +684,9 @@ MonoBehaviour:
       intervalFrame: 0
       maintainFrame: 0
     targetEntityType: 0
-    hitTargetGroupType: 0
-    hitEffectorTypeID: 0
+    hitAllyType: 0
+    targetRoleEffectorTypeIDArray: 
+    selfRoleEffectorTypeIDArray: 
     damageEM:
       damageType: 0
       damageBase: 0

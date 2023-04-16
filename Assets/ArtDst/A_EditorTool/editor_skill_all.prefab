@@ -55,17 +55,12 @@ MonoBehaviour:
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
   effectorTriggerEMArray: []
-  roleSummonEMArray:
-  - triggerFrame: 14
-    typeID: 1000
-    controlType: 2
-    localPos: {x: 2, y: 2, z: 0}
-    localEulerAngles: {x: 0, y: 0, z: 0}
+  roleSummonEMArray: []
   projectileCtorEMArray:
   - triggerFrame: 14
     typeID: 9999
     localPos: {x: 0, y: 5, z: 0}
-    localEulerAngles: {x: 0, y: 0, z: -20}
+    localEulerAngles: {x: 0, y: 0, z: -35}
   buffAttachEMArray: []
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray:

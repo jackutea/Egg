@@ -14,7 +14,7 @@ namespace TiedanSouls.Client.Domain {
 
         public WorldBuffDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext ) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
         }
@@ -197,28 +197,24 @@ namespace TiedanSouls.Client.Domain {
             var curHPMax = attributeCom.HPMax;
             var hpEV = attributeEffectModel.hpEV;
             var hpNCT = attributeEffectModel.hpNCT;
-            if (hpNCT != NumCalculationType.None) {
-                var curHP = attributeCom.HP;
-                offset = MathUtil.GetClampOffset(curHP, curHPMax, 0, curHPMax, hpNCT);
-                offset *= stackCount;
-                curHP += offset;
-                attributeEffectModel.hpOffset += offset;
-                attributeCom.SetHP(curHP);
-                TDLog.Log($"Buff HP 影响 ---> 值 {offset} => 当前 {attributeCom.HP}");
-            }
+            var curHP = attributeCom.HP;
+            offset = MathUtil.GetClampOffset(curHP, curHPMax, hpEV, 0, curHPMax, hpNCT);
+            offset *= stackCount;
+            curHP += offset;
+            attributeEffectModel.hpOffset += offset;
+            attributeCom.SetHP(curHP);
+            TDLog.Log($"角色属性 HP 影响 ---> 值 {offset} => 当前 {attributeCom.HP}");
 
             // - HPMax
             var hpMaxBase = attributeCom.HPMaxBase;
             var hpMaxEV = attributeEffectModel.hpMaxEV;
             var hpMaxNCT = attributeEffectModel.hpMaxNCT;
-            if (hpMaxNCT != NumCalculationType.None) {
-                offset = MathUtil.GetClampOffset(curHPMax, hpMaxBase, 0, curHPMax, hpMaxNCT);
-                offset *= stackCount;
-                curHPMax += offset;
-                attributeEffectModel.hpMaxOffset += offset;
-                attributeCom.SetHPMax(curHPMax);
-                TDLog.Log($"Buff HPMax 影响 --> 值 {offset} => 当前 {attributeCom.HPMax}");
-            }
+            offset = MathUtil.GetClampOffset(curHPMax, hpMaxBase, hpMaxEV, 0, float.MaxValue, hpMaxNCT);
+            offset *= stackCount;
+            curHPMax += offset;
+            attributeEffectModel.hpMaxOffset += offset;
+            attributeCom.SetHPMax(curHPMax);
+            TDLog.Log($"角色属性 HPMax 影响 --> 值 {offset} => 当前 {attributeCom.HPMax}");
 
             // Move Speed
             var moveSpeedBase = attributeCom.MoveSpeedBase;
@@ -226,12 +222,12 @@ namespace TiedanSouls.Client.Domain {
             var finalMoveSpeed = curMoveSpeed;
             var moveSpeedEV = attributeEffectModel.moveSpeedEV;
             var moveSpeedNCT = attributeEffectModel.moveSpeedNCT;
-            offset = MathUtil.GetClampOffset(curMoveSpeed, moveSpeedBase, 0, float.MaxValue, moveSpeedNCT);
+            offset = MathUtil.GetClampOffset(curMoveSpeed, moveSpeedBase, moveSpeedEV, 0, float.MaxValue, moveSpeedNCT);
             offset *= stackCount;
             finalMoveSpeed += offset;
             attributeEffectModel.moveSpeedOffset += offset;
             attributeCom.SetMoveSpeed(finalMoveSpeed);
-            TDLog.Log($"Buff 移动速度 影响 --> 值 {offset} => 当前 {attributeCom.MoveSpeed}");
+            TDLog.Log($"角色属性 移动速度 影响 --> 值 {offset} => 当前 {attributeCom.MoveSpeed}");
 
             // Normal Skill Speed
             ev = attributeEffectModel.normalSkillSpeedBonusEV;
@@ -240,7 +236,7 @@ namespace TiedanSouls.Client.Domain {
             curBonus = attributeCom.NormalSkillSpeedBonus + offset;
             attributeEffectModel.normalSkillSpeedBonusOffset += offset;
             attributeCom.SetNormalSkillSpeedBonus(curBonus);
-            TDLog.Log($"Buff 普技速度加成 影响 --> 值 {offset} => 当前 {attributeCom.NormalSkillSpeedBonus}");
+            TDLog.Log($"角色属性 普技速度加成 影响 --> 值 {offset} => 当前 {attributeCom.NormalSkillSpeedBonus}");
 
             // Damage Bonus
             ev = attributeEffectModel.physicalDamageBonusEV;
@@ -249,7 +245,7 @@ namespace TiedanSouls.Client.Domain {
             curBonus = attributeCom.PhysicalDamageBonus + offset;
             attributeEffectModel.physicalDamageBonusOffset += offset;
             attributeCom.SetPhysicalDamageBonus(curBonus);
-            TDLog.Log($"Buff 物理伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDamageBonus}");
+            TDLog.Log($"角色属性 物理伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDamageBonus}");
 
             ev = attributeEffectModel.magicalDamageBonusEV;
             offset = ev;
@@ -257,7 +253,7 @@ namespace TiedanSouls.Client.Domain {
             curBonus = attributeCom.MagicalDamageBonus + offset;
             attributeEffectModel.magicalDamageBonusOffset += offset;
             attributeCom.SetmagicalDamageBonus(curBonus);
-            TDLog.Log($"Buff 魔法伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDamageBonus}");
+            TDLog.Log($"角色属性 魔法伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDamageBonus}");
 
             //  Defence Bonus
             ev = attributeEffectModel.physicalDefenseBonusEV;
@@ -266,7 +262,7 @@ namespace TiedanSouls.Client.Domain {
             curBonus = attributeCom.PhysicalDefenseBonus + offset;
             attributeEffectModel.physicalDefenseBonusOffset += offset;
             attributeCom.SetPhysicalDefenseBonus(curBonus);
-            TDLog.Log($"Buff 物理减伤 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDefenseBonus}");
+            TDLog.Log($"角色属性 物理减伤 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDefenseBonus}");
 
             ev = attributeEffectModel.magicalDefenseBonusEV;
             offset = ev;
@@ -274,7 +270,7 @@ namespace TiedanSouls.Client.Domain {
             curBonus = attributeCom.MagicalDefenseBonus + offset;
             attributeEffectModel.magicalDefenseBonusOffset += offset;
             attributeCom.SetMagicalDefenseBonus(curBonus);
-            TDLog.Log($"Buff 魔法减伤 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDefenseBonus}");
+            TDLog.Log($"角色属性 魔法减伤 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDefenseBonus}");
 
             return true;
         }

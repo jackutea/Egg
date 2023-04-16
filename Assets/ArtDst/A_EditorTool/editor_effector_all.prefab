@@ -29,6 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2118739567234550776}
+  - {fileID: 9086333045748856911}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,6 +112,88 @@ MonoBehaviour:
       moveSpeedEV: 0
       normalSkillSpeedBonusEV: 0
       physicalDamageBonusEV: 0.1
+      magicalDamageBonusEV: 0
+      physicalDefenseBonusEV: 0
+      magicalDefenseBonusEV: 0
+--- !u!1 &8918312211584033880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9086333045748856911}
+  - component: {fileID: 2662484682475386644}
+  m_Layer: 0
+  m_Name: editor_effector_99991
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9086333045748856911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8918312211584033880}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7242303559924722033}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2662484682475386644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8918312211584033880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68adb40da5429ac45b5b2a2947842f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: 1fa76e7622a3c9f4b8a04af84d5e3868, type: 2}
+  effectorEM:
+    typeID: 99991
+    effectorName: "\u6548\u679C\u5668: \u6700\u5927\u751F\u547D\u503C+100"
+    roleAttributeSelectorEM:
+      isEnabled: 0
+      hp: 0
+      hp_ComparisonType: 0
+      hpMax: 0
+      hpMax_ComparisonType: 0
+      mp: 0
+      ep_ComparisonType: 0
+      mpMax: 0
+      mpMax_ComparisonType: 0
+      gp: 0
+      gp_ComparisonType: 0
+      gpMax: 0
+      gpMax_ComparisonType: 0
+      moveSpeed: 0
+      moveSpeed_ComparisonType: 0
+      jumpSpeed: 0
+      jumpSpeed_ComparisonType: 0
+      fallingAcceleration: 0
+      fallingAcceleration_ComparisonType: 0
+      fallingSpeedMax: 0
+      fallingSpeedMax_ComparisonType: 0
+    roleAttributeEffectEM:
+      hpNCT: 0
+      hpEV: 0
+      hpMaxNCT: 3
+      hpMaxEV: 100
+      moveSpeedNCT: 0
+      moveSpeedEV: 0
+      normalSkillSpeedBonusEV: 0
+      physicalDamageBonusEV: 0
       magicalDamageBonusEV: 0
       physicalDefenseBonusEV: 0
       magicalDefenseBonusEV: 0
