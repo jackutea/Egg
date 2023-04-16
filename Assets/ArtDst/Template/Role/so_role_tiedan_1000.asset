@@ -19,7 +19,7 @@ MonoBehaviour:
     gpMax_Expanded: 30000
     mpMax_Expanded: 30000
     moveSpeed_Expanded: 1000
-    jumpSpeed_Expanded: 1500
+    jumpSpeed_Expanded: 1700
     fallSpeed_Expanded: 3000
     fallSpeedMax_Expanded: 3000
     modName: mod_role_tiedan_1000

@@ -141,7 +141,7 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
         }
-   
+
         void HandleExit(in EntityCollisionEvent evModel) {
             var rootDomain = worldContext.RootDomain;
             var entityColliderModelA = evModel.entityColliderModelA;
@@ -249,7 +249,7 @@ namespace TiedanSouls.Client.Domain {
             var skillDomain = rootDomain.SkillDomain;
             skillDomain.HandleHit(skill, skillColliderPos, collisionTriggerModel);
         }
-     
+
         void HandleExit_Skill_Role(SkillEntity skill, RoleEntity role) {
         }
 
@@ -260,8 +260,9 @@ namespace TiedanSouls.Client.Domain {
             }
 
             var rolePos = role.LogicRootPos;
-            var beHitDir = rolePos - bullet.LogicPos;
-            beHitDir.Normalize();
+            // var beHitDir = rolePos - bullet.LogicPos;
+            // beHitDir.Normalize();
+            var beHitDir = bullet.MoveCom.Velocity.normalized;
 
             // 角色 受击
             var rootDomain = worldContext.RootDomain;
@@ -273,7 +274,7 @@ namespace TiedanSouls.Client.Domain {
             var bulletDomain = rootDomain.BulletDomain;
             bulletDomain.HandleHit(bullet);
         }
-     
+
         void HandleExit_Bullet_Role(BulletEntity bullet, RoleEntity role) {
         }
 
@@ -287,7 +288,7 @@ namespace TiedanSouls.Client.Domain {
             var skillDomain = rootDomain.SkillDomain;
             skillDomain.HandleBeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
         }
-     
+
         void HandleExit_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
         }
 
@@ -304,7 +305,7 @@ namespace TiedanSouls.Client.Domain {
             bulletDomain.HandleBeHit(bullet1);
             bulletDomain.HandleBeHit(bullet2);
         }
-       
+
         void HandleExit_Bullet_Bullet(BulletEntity bullet1, BulletEntity bullet2) {
         }
 
@@ -352,7 +353,7 @@ namespace TiedanSouls.Client.Domain {
         // Role - Role
         void HandleEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
         }
-     
+
         void HandleExit_Role_Role(RoleEntity role1, RoleEntity role2) {
         }
 
