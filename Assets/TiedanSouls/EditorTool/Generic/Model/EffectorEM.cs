@@ -12,7 +12,7 @@ namespace TiedanSouls.EditorTool {
         [Header("角色召唤组")] public RoleSummonEM[] roleSummonEMArray;
         [Header("Buff附加组")] public BuffAttachEM[] buffAttachEMArray;
         [Header("弹幕构造组")] public ProjectileCtorEM[] projectileCtorEMArray;
-        [Header("实体销毁模型(组)")] public EntityDestroyEM[] entityDestroyEMArray;
+        [Header("实体销毁模型(组)")] public EntityModifyEM[] entityDestroyEMArray;
 
     }
 

@@ -5,7 +5,7 @@ using TiedanSouls.Generic;
 namespace TiedanSouls.EditorTool {
 
     [Serializable]
-    public struct EntityDestroyEM {
+    public struct EntityModifyEM {
 
         [Header("销毁实体类型")] public EntityType entityType;
         [Header("目标类型")] public TargetGroupType hitTargetGroupType;

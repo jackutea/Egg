@@ -5,6 +5,6 @@ public struct EffectorModel {
     public int typeID;
     public string effectorName;
 
-    public EntityDestroyModel[] entityDestroyModelArray;
+    public EntityModifyModel[] entityDestroyModelArray;
 
 }

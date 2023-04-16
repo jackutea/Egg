@@ -170,7 +170,7 @@ namespace TiedanSouls.EditorTool {
             em.roleSummonEMArray = GetRoleSummonEMArray(tm.roleSummonTMArray);
             em.buffAttachEMArray = GetBuffAttachEMArray(tm.buffAttachTMArray);
             em.projectileCtorEMArray = GetProjectileCtorEMArray(tm.projectileCtorTMArray);
-            em.entityDestroyEMArray = GetEntityDestroyEMArray(tm.entityDestroyTMArray);
+            em.entityDestroyEMArray = GetEntityModifyEMArray(tm.entityDestroyTMArray);
             return em;
         }
 
@@ -390,18 +390,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [EntityDestroy]
 
-        public static EntityDestroyEM[] GetEntityDestroyEMArray(EntityDestroyTM[] tmArray) {
+        public static EntityModifyEM[] GetEntityModifyEMArray(EntityModifyTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntityDestroyEM[] emArray = new EntityDestroyEM[len];
+            EntityModifyEM[] emArray = new EntityModifyEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEntityDestroyEM(tmArray[i]);
+                emArray[i] = GetEntityModifyEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static EntityDestroyEM GetEntityDestroyEM(EntityDestroyTM tm) {
-            EntityDestroyEM em;
+        public static EntityModifyEM GetEntityModifyEM(EntityModifyTM tm) {
+            EntityModifyEM em;
             em.entityType = tm.entityType;
             em.hitTargetGroupType = tm.hitTargetGroupType;
             em.attributeSelector_IsEnabled = tm.attributeSelector_IsEnabled;

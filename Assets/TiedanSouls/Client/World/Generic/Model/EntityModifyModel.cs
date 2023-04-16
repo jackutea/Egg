@@ -5,7 +5,7 @@ namespace TiedanSouls.Client {
 
     // Use for Entity Spawn.
     [Serializable]
-    public struct EntityDestroyModel {
+    public struct EntityModifyModel {
 
         public EntityType entityType;
         public TargetGroupType hitTargetGroupType;

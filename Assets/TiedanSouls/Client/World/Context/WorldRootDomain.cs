@@ -119,17 +119,17 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体销毁模型 销毁多个实体
         /// </summary>
-        public void DestroyBy_EntityDestroyModelArray(in EntityIDArgs target, EntityDestroyModel[] entityDestroyModel) {
+        public void DestroyBy_EntityModifyModelArray(in EntityIDArgs target, EntityModifyModel[] entityDestroyModel) {
             var len = entityDestroyModel.Length;
             for (int i = 0; i < len; i++) {
-                DestroyBy_EntityDestroyModel(target, entityDestroyModel[i]);
+                DestroyBy_EntityModifyModel(target, entityDestroyModel[i]);
             }
         }
 
         /// <summary>
         /// 根据 实体销毁模型 销毁一个实体  
         /// </summary>
-        public void DestroyBy_EntityDestroyModel(in EntityIDArgs target, in EntityDestroyModel entityDestroyModel) {
+        public void DestroyBy_EntityModifyModel(in EntityIDArgs target, in EntityModifyModel entityDestroyModel) {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 

@@ -325,7 +325,7 @@ namespace TiedanSouls.Client {
             EffectorModel model;
             model.typeID = tm.typeID;
             model.effectorName = tm.effectorName;
-            model.entityDestroyModelArray = GetEntityDestroyModelArray(tm.entityDestroyTMArray);
+            model.entityDestroyModelArray = GetEntityModifyModelArray(tm.entityDestroyTMArray);
             return model;
         }
 
@@ -458,18 +458,18 @@ namespace TiedanSouls.Client {
         #endregion
         #region [EntityDestroy]
 
-        public static EntityDestroyModel[] GetEntityDestroyModelArray(EntityDestroyTM[] tmArray) {
+        public static EntityModifyModel[] GetEntityModifyModelArray(EntityModifyTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntityDestroyModel[] modelArray = new EntityDestroyModel[len];
+            EntityModifyModel[] modelArray = new EntityModifyModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetEntityDestroyModel(tmArray[i]);
+                modelArray[i] = GetEntityModifyModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static EntityDestroyModel GetEntityDestroyModel(EntityDestroyTM tm) {
-            EntityDestroyModel model;
+        public static EntityModifyModel GetEntityModifyModel(EntityModifyTM tm) {
+            EntityModifyModel model;
             model.entityType = tm.entityType;
             model.hitTargetGroupType = tm.hitTargetGroupType;
             model.isEnabled_attributeSelector = tm.attributeSelector_IsEnabled;

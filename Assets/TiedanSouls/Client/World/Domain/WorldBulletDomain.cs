@@ -136,7 +136,7 @@ namespace TiedanSouls.Client.Domain {
             }
             var summoner = bullet.IDCom.ToArgs();
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
+            this.rootDomain.DestroyBy_EntityModifyModelArray(summoner, entityDestroyModelArray);
         }
 
         /// <summary>

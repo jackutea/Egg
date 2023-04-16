@@ -225,7 +225,7 @@ namespace TiedanSouls.Client.Domain {
                     var effectorDomain = this.rootDomain.EffectorDomain;
                     if (effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
                         var target = role.IDCom.ToArgs();
-                        this.rootDomain.DestroyBy_EntityDestroyModelArray(target, effectorModel.entityDestroyModelArray);
+                        this.rootDomain.DestroyBy_EntityModifyModelArray(target, effectorModel.entityDestroyModelArray);
                     }
                 }
             }

@@ -124,7 +124,7 @@ namespace TiedanSouls.Client.Domain {
 
             var summoner = skill.IDCom.ToArgs();
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
+            this.rootDomain.DestroyBy_EntityModifyModelArray(summoner, entityDestroyModelArray);
             TDLog.Log($"击中效果 - {hitEffectorTypeID}");
         }
 

@@ -11,7 +11,7 @@ namespace TiedanSouls.Template {
         [Header("角色召唤组")] public RoleSummonTM[] roleSummonTMArray;
         [Header("Buff附加组")] public BuffAttachTM[] buffAttachTMArray;
         [Header("弹幕构造组")] public ProjectileCtorTM[] projectileCtorTMArray;
-        [Header("实体销毁模型(组)")] public EntityDestroyTM[] entityDestroyTMArray;
+        [Header("实体销毁模型(组)")] public EntityModifyTM[] entityDestroyTMArray;
 
     }
 

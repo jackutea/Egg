@@ -210,7 +210,7 @@ namespace TiedanSouls.Client.Domain {
 
 
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
+            this.rootDomain.DestroyBy_EntityModifyModelArray(summoner, entityDestroyModelArray);
             TDLog.Log($"Buff[{idCom.EntityName}] ======> 效果器触发效果器:{effectorModel.effectorName}");
             return true;
         }
