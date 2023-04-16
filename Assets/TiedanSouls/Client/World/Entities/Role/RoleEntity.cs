@@ -149,6 +149,8 @@ namespace TiedanSouls.Client.Entities {
 
         public bool TryJumpByInput() {
             if (!InputCom.InputJump) return false;
+            if (!FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)
+            && !FSMCom.PositionStatus.Contains(RolePositionStatus.OnCrossPlatform)) return false;
 
             var rb = MoveCom.RB;
             var velo = rb.velocity;
