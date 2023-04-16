@@ -1198,7 +1198,9 @@ MonoBehaviour:
   effectorTriggerEMArray: []
   roleSummonEMArray: []
   projectileCtorEMArray: []
-  buffAttachEMArray: []
+  buffAttachEMArray:
+  - triggerFrame: 0
+    buffID: 99991
   skillMoveCurveEMArray:
   - triggerFrame: 3
     isFaceTo: 1

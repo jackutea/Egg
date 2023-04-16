@@ -21,33 +21,17 @@ MonoBehaviour:
     delayFrame: 0
     intervalFrame: 150
     durationFrame: 150
-    maxExtraStackCount: 1
+    maxExtraStackCount: 0
     attributeEffectTM:
       hpNCT: 0
       hpEV_Expanded: 0
-      NeedRevokeHP: 0
-      hpEffectTimes: 0
       hpMaxNCT: 0
       hpMaxEV_Expanded: 0
-      NeedRevokeHPMax: 0
-      hpMaxEffectTimes: 0
       moveSpeedNCT: 1
       moveSpeedEV_Expanded: 100
-      NeedRevokeMoveSpeed: 1
-      moveSpeedEffectTimes: 1
       normalSkillSpeedBonusEV_Expanded: 0
-      normalSkillSpeedBonusEffectTimes: 0
-      normalSkillSpeedBonusNeedRevoke: 0
       physicalDamageBonusEV_Expanded: 0
-      physicalDamageBonusEffectTimes: 0
-      physicalDamageBonusNeedRevoke: 0
       magicalDamageBonusEV_Expanded: 0
-      magicalDamageBonusEffectTimes: 0
-      magicalDamageBonusNeedRevoke: 0
       physicalDefenseBonusEV_Expanded: 0
-      physicalDefenseBonusEffectTimes: 0
-      needRevokePhysicalDefenseBonus: 0
       magicalDefenseBonusEV_Expanded: 0
-      magicalDefenseBonusEffectTimes: 0
-      magicalDefenseBonusNeedRevoke: 0
     effectorTypeID: 0

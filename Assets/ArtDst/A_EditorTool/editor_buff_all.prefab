@@ -49,7 +49,7 @@ MonoBehaviour:
   buffName: "\u79FB\u901Fbuff"
   description: "\u7ACB\u5373\u83B7\u5F97\u79FB\u901F+100%\uFF0C\u6301\u7EED5\u79D2"
   icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
-  maxExtraStackCount: 1
+  maxExtraStackCount: 0
   delayFrame: 0
   intervalFrame: 150
   durationFrame: 150
@@ -57,31 +57,15 @@ MonoBehaviour:
   attributeEffectEM:
     hpNCT: 0
     hpEV: 0
-    hpEffectTimes: 0
-    hpNeedRevoke: 0
     hpMaxNCT: 0
     hpMaxEV: 0
-    hpMaxEffectTimes: 0
-    hpMaxNeedRevoke: 0
     moveSpeedNCT: 1
     moveSpeedEV: 1
-    moveSpeedEffectTimes: 1
-    moveSpeedRevoke: 1
     normalSkillSpeedBonusEV: 0
-    normalSkillSpeedBonusEffectTimes: 0
-    normalSkillSpeedBonusNeedRevoke: 0
     physicalDamageBonusEV: 0
-    physicalDamageBonusEffectTimes: 0
-    physicalDamageBonusNeedRevoke: 0
     magicalDamageBonusEV: 0
-    magicalDamageBonusEffectTimes: 0
-    magicalDamageBonusNeedRevoke: 0
     physicalDefenseBonusEV: 0
-    physicalDefenseBonusEffectTimes: 0
-    physicalDefenseBonusNeedRevoke: 0
     magicalDefenseBonusEV: 0
-    magicalDefenseBonusEffectTimes: 0
-    magicalDefenseBonusNeedRevoke: 0
 --- !u!1 &3101367388381523425
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,31 +123,15 @@ MonoBehaviour:
   attributeEffectEM:
     hpNCT: 0
     hpEV: 0
-    hpEffectTimes: 0
-    hpNeedRevoke: 0
     hpMaxNCT: 0
     hpMaxEV: 0
-    hpMaxEffectTimes: 0
-    hpMaxNeedRevoke: 0
     moveSpeedNCT: 0
     moveSpeedEV: 0
-    moveSpeedEffectTimes: 0
-    moveSpeedRevoke: 0
     normalSkillSpeedBonusEV: 0.33
-    normalSkillSpeedBonusEffectTimes: 1
-    normalSkillSpeedBonusNeedRevoke: 1
     physicalDamageBonusEV: 0
-    physicalDamageBonusEffectTimes: 0
-    physicalDamageBonusNeedRevoke: 0
     magicalDamageBonusEV: 0
-    magicalDamageBonusEffectTimes: 0
-    magicalDamageBonusNeedRevoke: 0
     physicalDefenseBonusEV: 0
-    physicalDefenseBonusEffectTimes: 0
-    physicalDefenseBonusNeedRevoke: 0
     magicalDefenseBonusEV: 0
-    magicalDefenseBonusEffectTimes: 0
-    magicalDefenseBonusNeedRevoke: 0
 --- !u!1 &6683752914446885422
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,31 +224,15 @@ MonoBehaviour:
   attributeEffectEM:
     hpNCT: 0
     hpEV: 0
-    hpEffectTimes: 0
-    hpNeedRevoke: 0
     hpMaxNCT: 0
     hpMaxEV: 0
-    hpMaxEffectTimes: 0
-    hpMaxNeedRevoke: 0
     moveSpeedNCT: 0
     moveSpeedEV: 0
-    moveSpeedEffectTimes: 0
-    moveSpeedRevoke: 0
     normalSkillSpeedBonusEV: 0
-    normalSkillSpeedBonusEffectTimes: 0
-    normalSkillSpeedBonusNeedRevoke: 0
     physicalDamageBonusEV: 0
-    physicalDamageBonusEffectTimes: 0
-    physicalDamageBonusNeedRevoke: 0
     magicalDamageBonusEV: 0
-    magicalDamageBonusEffectTimes: 0
-    magicalDamageBonusNeedRevoke: 0
     physicalDefenseBonusEV: 0
-    physicalDefenseBonusEffectTimes: 0
-    physicalDefenseBonusNeedRevoke: 0
     magicalDefenseBonusEV: 0
-    magicalDefenseBonusEffectTimes: 0
-    magicalDefenseBonusNeedRevoke: 0
 --- !u!1 &8508007409812613183
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +280,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: b0446eef64d7c5444bcdeec26001bba3, type: 2}
   typeID: 99991
   buffName: "\u56DE\u8840buff"
-  description: "\u7ACB\u5373\u83B7\u5F97\u7269\u7406\u4F24\u5BB3+50%\uFF0C\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D5\u751F\u547D\u503C\uFF0C\u6301\u7EED\u8D85\u7EA7\u4E45"
+  description: "\u7ACB\u5373\u83B7\u5F97\u7269\u7406\u4F24\u5BB3+50%\uFF0C\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D10\u751F\u547D\u503C"
   icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
   maxExtraStackCount: 0
   delayFrame: 30
@@ -337,29 +289,13 @@ MonoBehaviour:
   effectorTypeID: 0
   attributeEffectEM:
     hpNCT: 3
-    hpEV: 5
-    hpEffectTimes: 999999
-    hpNeedRevoke: 0
+    hpEV: 10
     hpMaxNCT: 0
     hpMaxEV: 0
-    hpMaxEffectTimes: 0
-    hpMaxNeedRevoke: 0
     moveSpeedNCT: 0
     moveSpeedEV: 0
-    moveSpeedEffectTimes: 0
-    moveSpeedRevoke: 0
     normalSkillSpeedBonusEV: 0
-    normalSkillSpeedBonusEffectTimes: 0
-    normalSkillSpeedBonusNeedRevoke: 0
     physicalDamageBonusEV: 0.5
-    physicalDamageBonusEffectTimes: 1
-    physicalDamageBonusNeedRevoke: 0
     magicalDamageBonusEV: 0
-    magicalDamageBonusEffectTimes: 0
-    magicalDamageBonusNeedRevoke: 0
     physicalDefenseBonusEV: 0
-    physicalDefenseBonusEffectTimes: 0
-    physicalDefenseBonusNeedRevoke: 0
     magicalDefenseBonusEV: 0
-    magicalDefenseBonusEffectTimes: 0
-    magicalDefenseBonusNeedRevoke: 0
