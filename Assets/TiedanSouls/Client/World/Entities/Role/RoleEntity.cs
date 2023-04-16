@@ -114,7 +114,11 @@ namespace TiedanSouls.Client.Entities {
             MoveCom.Reset();
             // - HUD
             HudSlotCom.Reset();
-            HudSlotCom.HpBarHUD.SetHpBar(AttributeCom.HP, AttributeCom.HPMax);
+
+            var hpBar = HudSlotCom.HPBarHUD;
+            hpBar.SetGP(AttributeCom.GP);
+            hpBar.SetHP(AttributeCom.HP);
+            hpBar.SetHPMax(AttributeCom.HPMax);
         }
 
         public void SetMod(GameObject mod) {

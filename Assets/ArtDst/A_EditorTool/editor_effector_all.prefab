@@ -162,7 +162,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: 1fa76e7622a3c9f4b8a04af84d5e3868, type: 2}
   effectorEM:
     typeID: 99991
-    effectorName: "\u6548\u679C\u5668: \u6700\u5927\u751F\u547D\u503C+100"
+    effectorName: "\u6548\u679C\u5668: \u6700\u5927\u751F\u547D\u503C+33"
     roleAttributeSelectorEM:
       isEnabled: 0
       hp: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
       hpNCT: 0
       hpEV: 0
       hpMaxNCT: 3
-      hpMaxEV: 100
+      hpMaxEV: 33
       moveSpeedNCT: 0
       moveSpeedEV: 0
       normalSkillSpeedBonusEV: 0

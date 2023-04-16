@@ -10,7 +10,7 @@ namespace TiedanSouls.Client.Entities {
         public Transform HudRoot => hudRoot;
 
         HPBarHUD hpBarHUD;
-        public HPBarHUD HpBarHUD => hpBarHUD;
+        public HPBarHUD HPBarHUD => hpBarHUD;
 
         DamageFloatTextHUD damageFloatTextHUD;
         public DamageFloatTextHUD DamageFloatTextHUD => damageFloatTextHUD;
@@ -21,7 +21,7 @@ namespace TiedanSouls.Client.Entities {
             this.hudRoot = hudRoot;
         }
 
-        public void SetHpBarHUD(HPBarHUD hpBarHUD) {
+        public void SetHPBarHUD(HPBarHUD hpBarHUD) {
             this.hpBarHUD = hpBarHUD;
             hpBarHUD.transform.SetParent(hudRoot, false);
         }

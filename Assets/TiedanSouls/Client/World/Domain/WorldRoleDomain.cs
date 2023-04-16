@@ -125,8 +125,8 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // HUD Show
-            if (idCom.AllyStatus == CampType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-            else if (idCom.AllyStatus == CampType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+            if (idCom.AllyStatus == CampType.Two) role.HudSlotCom.HPBarHUD.SetColor(Color.red);
+            else if (idCom.AllyStatus == CampType.Neutral) role.HudSlotCom.HPBarHUD.SetColor(Color.yellow);
         }
 
         #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -586,10 +586,12 @@ namespace TiedanSouls.Client.Domain {
 
         public float ReduceHP(RoleEntity role, float damage) {
             var attributeCom = role.AttributeCom;
-            var hudSlotCom = role.HudSlotCom;
-
             var decrease = attributeCom.ReduceHP(damage);
-            hudSlotCom.HpBarHUD.SetHpBar(attributeCom.HP, attributeCom.HPMax);
+            var hudSlotCom = role.HudSlotCom;
+            var hpBar = hudSlotCom.HPBarHUD;
+            hpBar.SetGP(attributeCom.GP);
+            hpBar.SetHP(attributeCom.HP);
+            hpBar.SetHPMax(attributeCom.HPMax);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
             return decrease;

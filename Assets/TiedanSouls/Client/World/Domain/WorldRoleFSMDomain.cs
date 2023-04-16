@@ -68,7 +68,6 @@ namespace TiedanSouls.Client.Domain {
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
                 buff.AddCurFrame();
                 buffDomain.TryEffectRoleAttribute(role.AttributeCom, buff);
-                role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
             });
 
             var buffRepo = worldContext.BuffRepo;

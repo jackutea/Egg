@@ -2,41 +2,78 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace TiedanSouls.Generic {
-    
+
     public class HPBarHUD : MonoBehaviour {
 
-        Image hpBarMove;
-        public Image HpBarMove => hpBarMove;
+        Transform gpImgTrans;
+        Transform hpImgTrans;
+        Transform hpFadeImgTrans;
 
-        Image hpBarCurrent;
-        public Image HpBarCurrent => hpBarCurrent;
+        Image gpImg;
+        Image hpImg;
+        Image hpFadeImg;
 
-        float percent;
-        float moveSpeed;
+        float gp;
+        public void SetGP(float gp) => this.gp = gp;
+
+        float hp;
+        public void SetHP(float hp) {
+            if (this.hp == hp || this.hp < hp) {
+                hpFadeImg.fillAmount = hpImg.fillAmount;
+            }
+
+            this.hp = hp;
+        }
+
+        float hpMax;
+        public void SetHPMax(float hpMax) => this.hpMax = hpMax;
+
+        float hpFadeDuration;
+        public void SetHPFadeDuration(float fadeDuration) => this.hpFadeDuration = fadeDuration;
+
+        float time;
 
         public void Ctor() {
-            hpBarMove = transform.Find("hud_hp_move").GetComponent<Image>();
-            hpBarCurrent = transform.Find("hud_hp_current").GetComponent<Image>();
+            gpImgTrans = transform.Find("GPImg");
+            hpFadeImgTrans = transform.Find("HPFadeImg");
+            hpImgTrans = transform.Find("HPImg");
+
+            gpImg = gpImgTrans.GetComponent<Image>();
+            hpFadeImg = hpFadeImgTrans.GetComponent<Image>();
+            hpImg = hpImgTrans.GetComponent<Image>();
+
+            TDLog.Assert(gpImg != null, "gpImg != null");
+            TDLog.Assert(hpFadeImg != null, "hpFadeImg != null");
+            TDLog.Assert(hpImg != null, "hpImg != null");
+
+            hpFadeDuration = 0.5f;
         }
 
         public void Tick(float dt) {
-            if (hpBarMove.fillAmount != hpBarCurrent.fillAmount) {
-                moveSpeed = 2 * Mathf.Abs(hpBarMove.fillAmount - hpBarCurrent.fillAmount);
-                if (hpBarMove.fillAmount > hpBarCurrent.fillAmount) {
-                    hpBarMove.fillAmount -= moveSpeed * dt;
-                } else {
-                    hpBarMove.fillAmount += moveSpeed * dt;
-                }
-            }
-        }
-
-        public void SetHpBar(float hpCurrent, float hpMax) {
-            percent = hpCurrent / hpMax;
-            hpBarCurrent.fillAmount = percent;
+            var total = gp + hp;
+            var mom = total > hpMax ? total : hpMax;
+            hpImg.fillAmount = hp / mom;
+            gpImg.fillAmount = (gp + hp) / mom;
+            FadeToCurHP(dt);
         }
 
         public void SetColor(Color color) {
-            hpBarCurrent.color = color;
+            hpImg.color = color;
+        }
+
+        void FadeToCurHP(float dt) {
+            var start = hpFadeImg.fillAmount;
+            var end = hpImg.fillAmount;
+            var offset = end - start;
+            if (Mathf.Abs(offset) < 0.01f) {
+                time = 0;
+                hpFadeImg.fillAmount = end;
+                return;
+            }
+
+            time += dt;
+            time = Mathf.Min(time, hpFadeDuration);
+            hpFadeImg.fillAmount = start + offset * time / hpFadeDuration;
         }
 
     }

@@ -10,7 +10,7 @@ namespace TiedanSouls.Client.Domain {
 
         public WorldRendererDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext ) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
         }
@@ -21,7 +21,14 @@ namespace TiedanSouls.Client.Domain {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_All((role) => {
                 roleDomain.Renderer_Easing(role, dt);
-                role.HudSlotCom.HpBarHUD.Tick(dt);
+
+                var attributeCom = role.AttributeCom;
+                var hudSlotCom = role.HudSlotCom;
+                var hpBar = hudSlotCom.HPBarHUD;
+                hpBar.SetGP(attributeCom.GP);
+                hpBar.SetHP(attributeCom.HP);
+                hpBar.SetHPMax(attributeCom.HPMax);
+                role.HudSlotCom.HPBarHUD.Tick(dt);
             });
 
             // 子弹

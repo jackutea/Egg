@@ -173,8 +173,11 @@ namespace TiedanSouls.Client {
             // HUD
             var hpBar = CreateHpBarHUD();
             var damageFloatTextHUD = CreateDamageFloatTextHUD();
-            role.HudSlotCom.SetHpBarHUD(hpBar);
+            role.HudSlotCom.SetHPBarHUD(hpBar);
             role.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
+            hpBar.SetGP(attrCom.GP);
+            hpBar.SetHP(attrCom.HP);
+            hpBar.SetHPMax(attrCom.HPMax);
 
             return role;
         }
