@@ -16,12 +16,14 @@ namespace TiedanSouls.Template {
         [Header("仅用于编辑时: 武器动画文件GUID")] public string weaponAnimClip_GUID;
 
         [Header("原始技能")] public int originSkillTypeID;
-        [Header("组合技名单")] public SkillCancelTM[] comboSkillCancelTMArray;
-        [Header("连招技名单")] public SkillCancelTM[] cancelSkillCancelTMArray;
-
-        [Header("技能效果器(组)")] public SkillEffectorTM[] skillEffectorTMArray;
-        [Header("技能位移曲线(组)")] public SkillMoveCurveTM[] skillMoveCurveTMArray;
-        [Header("碰撞器(组)")] public EntityColliderTriggerTM[] collisionTriggerTMArray;
+        [Header("组合技名单     =================================== ")] public SkillCancelTM[] comboSkillCancelTMArray;
+        [Header("连招技名单     =================================== ")] public SkillCancelTM[] cancelSkillCancelTMArray;
+        [Header("效果器组       =================================== ")] public EffectorTriggerTM[] effectorTriggerEMArray;
+        [Header("角色召唤组     =================================== ")] public RoleSummonTM[] roleSummonTMArray;
+        [Header("弹幕生成组     =================================== ")] public ProjectileCtorTM[] projectileCtorTMArray;
+        [Header("Buff附加组     =================================== ")] public BuffAttachTM[] buffAttachTMArray;
+        [Header("技能位移组     =================================== ")] public SkillMoveCurveTM[] skillMoveCurveTMArray;
+        [Header("碰撞器组       =================================== ")] public EntityColliderTriggerTM[] collisionTriggerTMArray;
 
     }
 

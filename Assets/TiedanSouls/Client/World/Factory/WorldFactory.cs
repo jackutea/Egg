@@ -285,12 +285,19 @@ namespace TiedanSouls.Client {
             skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.comboSkillCancelTMArray));
             // 连招技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.cancelSkillCancelTMArray));
-            // 碰撞器
-            skill.SetEntityColliderTriggerModelArray(TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray));
-            // 技能效果器
-            skill.SetSkillEffectorModelArray(TM2ModelUtil.GetSkillEffectorModelArray(skillTM.skillEffectorTMArray));
-            // 技能位移曲线
+            // 效果器组
+            skill.SetSkillEffectorModelArray(TM2ModelUtil.GetSkillEffectorModelArray(skillTM.effectorTriggerEMArray));
+            // 技能位移组
             skill.SetSkillMoveCurveModelArray(TM2ModelUtil.GetSkillMoveCurveModelArray(skillTM.skillMoveCurveTMArray));
+            // 角色召唤组
+            skill.SetRoleSummonModelArray(TM2ModelUtil.GetRoleSummonModelArray(skillTM.roleSummonTMArray));
+            // 弹幕生成组
+            skill.SetProjectileCtorModelArray(TM2ModelUtil.GetProjectileCtorModelArray(skillTM.projectileCtorTMArray));
+            // Buff附加
+            skill.SetBuffAttachModelArray(TM2ModelUtil.GetBuffAttachModelArray(skillTM.buffAttachTMArray));
+            // 碰撞器组
+            skill.SetEntityColliderTriggerModelArray(TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray));
+
             // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
 

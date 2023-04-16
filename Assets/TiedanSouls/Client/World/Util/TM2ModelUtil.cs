@@ -70,7 +70,7 @@ namespace TiedanSouls.Client {
             return model;
         }
 
-        public static SkillEffectorModel[] GetSkillEffectorModelArray(SkillEffectorTM[] tmArray) {
+        public static SkillEffectorModel[] GetSkillEffectorModelArray(EffectorTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             SkillEffectorModel[] modelArray = new SkillEffectorModel[len];
@@ -80,11 +80,10 @@ namespace TiedanSouls.Client {
             return modelArray;
         }
 
-        public static SkillEffectorModel GetSkillEffectorModel(SkillEffectorTM tm) {
+        public static SkillEffectorModel GetSkillEffectorModel(EffectorTriggerTM tm) {
             SkillEffectorModel model;
             model.triggerFrame = tm.triggerFrame;
             model.effectorTypeID = tm.effectorTypeID;
-            model.offsetPos = tm.offsetPos;
             return model;
         }
 

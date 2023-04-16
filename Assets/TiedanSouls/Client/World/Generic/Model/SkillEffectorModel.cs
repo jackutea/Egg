@@ -6,7 +6,6 @@ namespace TiedanSouls.Client {
 
         public int triggerFrame;
         public int effectorTypeID;
-        public Vector3 offsetPos;
 
     }
 

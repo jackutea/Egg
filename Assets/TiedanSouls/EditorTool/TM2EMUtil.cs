@@ -142,21 +142,20 @@ namespace TiedanSouls.EditorTool {
             return em;
         }
 
-        public static SkillEffectorEM[] GetSkillEffectorEMArray(SkillEffectorTM[] tmArray) {
+        public static EffectorTriggerEM[] GetSkillEffectorEMArray(EffectorTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            SkillEffectorEM[] emArray = new SkillEffectorEM[len];
+            EffectorTriggerEM[] emArray = new EffectorTriggerEM[len];
             for (int i = 0; i < len; i++) {
                 emArray[i] = GetSkillEffectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static SkillEffectorEM GetSkillEffectorEM(SkillEffectorTM tm) {
-            SkillEffectorEM em;
+        public static EffectorTriggerEM GetSkillEffectorEM(EffectorTriggerTM tm) {
+            EffectorTriggerEM em;
             em.effectorTypeID = tm.effectorTypeID;
             em.triggerFrame = tm.triggerFrame;
-            em.offsetPos = tm.offsetPos;
             return em;
         }
 

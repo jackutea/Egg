@@ -3,12 +3,14 @@ using UnityEngine;
 
 namespace TiedanSouls.EditorTool {
 
+    /// <summary>
+    /// 效果器触发器
+    /// </summary>
     [Serializable]
-    public struct SkillEffectorEM {
+    public struct EffectorTriggerEM {
 
         [Header("触发效果器类型ID")] public int effectorTypeID;
         [Header("触发帧")] public int triggerFrame;
-        [Header("偏移位置")] public Vector3 offsetPos;
 
     }
 

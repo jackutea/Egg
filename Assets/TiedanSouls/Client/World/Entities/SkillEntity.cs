@@ -28,18 +28,30 @@ namespace TiedanSouls.Client.Entities {
         public SkillCancelModel[] LinkSkillCancelModelArray => this.linkSkillCancelModelArray;
         public void SetLinkSkillCancelModelArray(SkillCancelModel[] value) => this.linkSkillCancelModelArray = value;
 
-        // - 碰撞器
-        EntityColliderTriggerModel[] entityColliderTriggerModelArray;
-        public EntityColliderTriggerModel[] EntityColliderTriggerModelArray => this.entityColliderTriggerModelArray;
-        public void SetEntityColliderTriggerModelArray(EntityColliderTriggerModel[] value) => this.entityColliderTriggerModelArray = value;
-
-        // - 技能效果器
+        // - 效果器组
         SkillEffectorModel[] skillEffectorModelArray;
         public void SetSkillEffectorModelArray(SkillEffectorModel[] value) => this.skillEffectorModelArray = value;
 
-        // - 位移曲线模型
+        // - 技能位移组
         SkillMoveCurveModel[] skillMoveCurveModelArray;
         public void SetSkillMoveCurveModelArray(SkillMoveCurveModel[] value) => this.skillMoveCurveModelArray = value;
+
+        // - 角色召唤组
+        RoleSummonModel[] roleSummonModelArray;
+        public void SetRoleSummonModelArray(RoleSummonModel[] value) => this.roleSummonModelArray = value;
+
+        // - 弹幕生成组
+        ProjectileCtorModel[] projectileCtorModelArray;
+        public void SetProjectileCtorModelArray(ProjectileCtorModel[] value) => this.projectileCtorModelArray = value;
+
+        // - Buff附加组
+        BuffAttachModel[] buffAttachModelArray;
+        public void SetBuffAttachModelArray(BuffAttachModel[] value) => this.buffAttachModelArray = value;
+
+        // - 碰撞器组
+        EntityColliderTriggerModel[] entityColliderTriggerModelArray;
+        public EntityColliderTriggerModel[] EntityColliderTriggerModelArray => this.entityColliderTriggerModelArray;
+        public void SetEntityColliderTriggerModelArray(EntityColliderTriggerModel[] value) => this.entityColliderTriggerModelArray = value;
 
         // - 表现层
         string weaponAnimName;

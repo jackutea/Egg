@@ -159,21 +159,21 @@ namespace TiedanSouls.EditorTool {
             SkillTM tm;
 
             tm.typeID = editorGo.typeID;
+            tm.originSkillTypeID = editorGo.originSkillTypeID;
             tm.skillName = editorGo.skillName;
             tm.skillType = editorGo.skillType;
             tm.maintainFrame = editorGo.maintainFrame;
 
-            tm.originSkillTypeID = editorGo.originSkillTypeID;
-            tm.comboSkillCancelTMArray = GetSkillCancelTM(editorGo.comboSkillCancelEMArray);
-            tm.cancelSkillCancelTMArray = GetSkillCancelTM(editorGo.cancelSkillCancelEMArray);
-
-            tm.skillEffectorTMArray = GetSkillEffectorTMArray(editorGo.skillEffectorEMArray);
-
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
+            tm.comboSkillCancelTMArray = GetSkillCancelTM(editorGo.comboSkillCancelEMArray);
+            tm.cancelSkillCancelTMArray = GetSkillCancelTM(editorGo.cancelSkillCancelEMArray);
+            tm.effectorTriggerEMArray = GetSkillEffectorTMArray(editorGo.effectorTriggerEMArray);
             tm.collisionTriggerTMArray = GetCollisionTriggerTMArray<SkillEditorGO>(editorGo.entityColliderTriggerEMArray);
-
+            tm.roleSummonTMArray = GetRoleSummonTMArray(editorGo.roleSummonEMArray);
+            tm.projectileCtorTMArray = GetProjectileCtorTMArray(editorGo.projectileCtorEMArray);
+            tm.buffAttachTMArray = GetBuffAttachTMArray(editorGo.buffAttachEMArray);
             tm.skillMoveCurveTMArray = GetMoveCurveTMArray(editorGo.skillMoveCurveEMArray);
 
             return tm;
@@ -220,19 +220,18 @@ namespace TiedanSouls.EditorTool {
             return tm;
         }
 
-        public static SkillEffectorTM[] GetSkillEffectorTMArray(SkillEffectorEM[] ems) {
-            SkillEffectorTM[] tms = new SkillEffectorTM[ems.Length];
+        public static EffectorTriggerTM[] GetSkillEffectorTMArray(EffectorTriggerEM[] ems) {
+            EffectorTriggerTM[] tms = new EffectorTriggerTM[ems.Length];
             for (int i = 0; i < ems.Length; i++) {
                 tms[i] = GetSkillEffectorTM(ems[i]);
             }
             return tms;
         }
 
-        public static SkillEffectorTM GetSkillEffectorTM(SkillEffectorEM em) {
-            SkillEffectorTM tm;
+        public static EffectorTriggerTM GetSkillEffectorTM(EffectorTriggerEM em) {
+            EffectorTriggerTM tm;
             tm.triggerFrame = em.triggerFrame;
             tm.effectorTypeID = em.effectorTypeID;
-            tm.offsetPos = em.offsetPos;
             return tm;
         }
 

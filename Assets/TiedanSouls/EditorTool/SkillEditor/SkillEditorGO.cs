@@ -10,21 +10,21 @@ namespace TiedanSouls.EditorTool {
 
         [Header("绑定配置文件")] public SkillSO so;
 
-        [Header("类型ID")] public int typeID;
+        [Header("技能ID")] public int typeID;
+        [Header("原始技能ID")] public int originSkillTypeID;
         [Header("技能名称")] public string skillName;
         [Header("技能持续帧")] public int maintainFrame;
         [Header("技能类型")] public SkillType skillType;
-        [Header("原始技能")] public int originSkillTypeID;
         [Header("武器动画文件")] public AnimationClip weaponAnimClip;
 
-        [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
-        [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
-        [Header("技能效果器组")] public SkillEffectorEM[] skillEffectorEMArray;
-        [Header("角色生成组")] public RoleSummonEM[] roleSummonEMArray;
-        [Header("Buff附加组")] public BuffAttachEM[] buffAttachEMArray;
-        [Header("弹幕生成组")] public ProjectileCtorEM[] projectileCtorEMArray;
-        [Header("技能位移曲线组")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
-        [Header("碰撞器组 ===================================")] public EntityColliderTriggerEM[] entityColliderTriggerEMArray;
+        [Header("组合技名单     =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
+        [Header("连招技名单     =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
+        [Header("效果器组       =================================== ")] public EffectorTriggerEM[] effectorTriggerEMArray;
+        [Header("角色召唤组     =================================== ")] public RoleSummonEM[] roleSummonEMArray;
+        [Header("弹幕生成组     =================================== ")] public ProjectileCtorEM[] projectileCtorEMArray;
+        [Header("Buff附加组     =================================== ")] public BuffAttachEM[] buffAttachEMArray;
+        [Header("技能位移组     =================================== ")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
+        [Header("碰撞器组       =================================== ")] public EntityColliderTriggerEM[] entityColliderTriggerEMArray;
 
         public void Save() {
             if (so == null) {
@@ -59,7 +59,7 @@ namespace TiedanSouls.EditorTool {
             this.comboSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.comboSkillCancelTMArray);
             this.cancelSkillCancelEMArray = TM2EMUtil.GetSkillCancelEM(skillTM.cancelSkillCancelTMArray);
             this.entityColliderTriggerEMArray = TM2EMUtil.GetCollisionTriggerEMArray(skillTM.collisionTriggerTMArray);
-            this.skillEffectorEMArray = TM2EMUtil.GetSkillEffectorEMArray(skillTM.skillEffectorTMArray);
+            this.effectorTriggerEMArray = TM2EMUtil.GetSkillEffectorEMArray(skillTM.effectorTriggerEMArray);
             this.skillMoveCurveEMArray = TM2EMUtil.GetSkillMoveCurveEMArray(skillTM.skillMoveCurveTMArray);
 
             this.weaponAnimClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GUIDToAssetPath(skillTM.weaponAnimClip_GUID));
