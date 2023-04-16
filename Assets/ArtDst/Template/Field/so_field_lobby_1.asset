@@ -29,5 +29,5 @@ MonoBehaviour:
       pos_cm: {x: 250, y: 200, z: 0}
       doorIndex: 0
     - fieldTypeID: 1000
-      pos_cm: {x: 300, y: 200, z: 0}
+      pos_cm: {x: 3500, y: 200, z: 0}
       doorIndex: 1

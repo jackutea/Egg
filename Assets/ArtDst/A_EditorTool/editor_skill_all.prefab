@@ -66,7 +66,9 @@ MonoBehaviour:
     typeID: 9999
     localPos: {x: 0, y: 5, z: 0}
     localEulerAngles: {x: 0, y: 0, z: -20}
-  buffAttachEMArray: []
+  buffAttachEMArray:
+  - triggerFrame: 14
+    buffID: 99991
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray: []
 --- !u!1 &946612889277224407
@@ -966,7 +968,7 @@ MonoBehaviour:
   projectileCtorEMArray: []
   buffAttachEMArray: []
   skillMoveCurveEMArray:
-  - triggerFrame: 0
+  - triggerFrame: 3
     isFaceTo: 1
     needWaitForMoveEnd: 0
     moveCurveEM:
@@ -996,7 +998,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  - triggerFrame: 0
+  - triggerFrame: 8
     isFaceTo: 1
     needWaitForMoveEnd: 0
     moveCurveEM:
@@ -1010,7 +1012,7 @@ MonoBehaviour:
           value: 0
           inSlope: 1
           outSlope: 1
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -1019,7 +1021,7 @@ MonoBehaviour:
           value: 1
           inSlope: 1
           outSlope: 1
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0

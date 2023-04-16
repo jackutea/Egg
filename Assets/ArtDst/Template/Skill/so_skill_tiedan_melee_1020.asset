@@ -30,7 +30,7 @@ MonoBehaviour:
     projectileCtorTMArray: []
     buffAttachTMArray: []
     skillMoveCurveTMArray:
-    - triggerFrame: 0
+    - triggerFrame: 3
       isFaceTo: 1
       needWaitForMoveEnd: 0
       moveCurveTM:
@@ -56,7 +56,7 @@ MonoBehaviour:
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
-    - triggerFrame: 0
+    - triggerFrame: 8
       isFaceTo: 1
       needWaitForMoveEnd: 0
       moveCurveTM:
