@@ -334,8 +334,11 @@ namespace TiedanSouls.EditorTool {
 
         public static RoleSummonEM GetRoleSummonEM(RoleSummonTM tm) {
             RoleSummonEM em;
+            em.triggerFrame = tm.triggerFrame;
             em.typeID = tm.typeID;
             em.controlType = tm.controlType;
+            em.localPos = GetVector3_Shrink100(tm.localPosExpanded);
+            em.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);
             return em;
         }
 
@@ -376,6 +379,7 @@ namespace TiedanSouls.EditorTool {
 
         public static ProjectileCtorEM GetProjectileCtorEM(ProjectileCtorTM tm) {
             ProjectileCtorEM em;
+            em.triggerFrame = tm.triggerFrame;
             em.typeID = tm.typeID;
             em.localPos = GetVector3_Shrink100(tm.localPosExpanded);
             em.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);

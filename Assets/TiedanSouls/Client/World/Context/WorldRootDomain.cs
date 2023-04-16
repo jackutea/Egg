@@ -94,7 +94,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 实体生成控制模型 --> 生成一个实体
         /// </summary>
-        public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnCtrlModel, int fromFieldTypeID) {
+        public void SpawnBy_EntitySpawnCtrlModel(in FieldSpawnEntityCtrlModel spawnCtrlModel, int fromFieldTypeID) {
             SpawnBy_EntitySpawnModel(spawnCtrlModel.entitySpawnModel, fromFieldTypeID);
         }
 

@@ -22,7 +22,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [生成]
 
-        public bool TrySpawnProjectile(Vector3 summonPos, Quaternion baseRot, in EntityIDArgs summoner, in ProjectileCtorModel projectileCtorModel, out ProjectileEntity projectile) {
+        public bool TrySpawnProjectile(Vector3 basePos, Quaternion baseRot, in EntityIDArgs father, in ProjectileCtorModel projectileCtorModel, out ProjectileEntity projectile) {
             // 1. 创建弹幕
             var typeID = projectileCtorModel.typeID;
             var factory = worldContext.Factory;
@@ -32,7 +32,7 @@ namespace TiedanSouls.Client.Domain {
             }
             var projectileIDCom = projectile.IDCom;
             projectileIDCom.SetEntityID(worldContext.IDService.PickProjectileID());
-            projectileIDCom.SetFather(summoner);
+            projectileIDCom.SetFather(father);
 
             // 2. 子弹ID数组
             var bulletDomain = rootDomain.BulletDomain;
@@ -50,7 +50,7 @@ namespace TiedanSouls.Client.Domain {
 
                 // Pos & Rot
                 var worldRot = baseRot * Quaternion.Euler(projectileBulletModel.localEulerAngles);
-                var worldPos = worldRot * projectileBulletModel.localPos + summonPos;
+                var worldPos = worldRot * projectileBulletModel.localPos + basePos;
                 bullet.SetLogicPos(worldPos);
                 bullet.SetLogicRotation(worldRot);
                 bullet.SetBaseRotation(worldRot);

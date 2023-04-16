@@ -24,10 +24,10 @@ MonoBehaviour:
     - {x: 7, y: 2}
     - {x: 9, y: 2}
     - {x: 11, y: 2}
-    fieldDoorArray:
-    - fieldTypeID: -1
-      pos: {x: 2, y: 5, z: 0}
-      doorIndex: -1
-    - fieldTypeID: 1000
-      pos: {x: 35, y: 2, z: 0}
+    fieldDoorTMArray:
+    - fieldTypeID: 0
+      pos_cm: {x: 250, y: 200, z: 0}
       doorIndex: 0
+    - fieldTypeID: 1000
+      pos_cm: {x: 300, y: 200, z: 0}
+      doorIndex: 1

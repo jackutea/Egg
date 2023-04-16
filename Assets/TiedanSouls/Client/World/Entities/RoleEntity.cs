@@ -33,6 +33,7 @@ namespace TiedanSouls.Client.Entities {
         public float LogicAngleZ => LogicRoot.rotation.z;
         public Quaternion LogicRotation => LogicRoot.rotation;
         public void SetLogicPos(Vector2 pos) => LogicRoot.position = pos;
+        public void SetLogicRot(Quaternion rot) => LogicRoot.rotation = rot;
 
         public Transform RendererRoot { get; private set; }
         public Vector2 RendererRootPos => RendererRoot.position;
@@ -90,7 +91,7 @@ namespace TiedanSouls.Client.Entities {
             FSMCom = new RoleFSMComponent();
             SkillSlotCom = new SkillSlotComponent();
             BuffSlotCom = new BuffSlotComponent();
-            CtrlEffectSlotCom=new RoleCtrlEffectSlotComponent();
+            CtrlEffectSlotCom = new RoleCtrlEffectSlotComponent();
             HudSlotCom = new HUDSlotComponent();
             HudSlotCom.Inject(hudRoot);
             RendererModCom = new RoleRendererComponent();
@@ -175,7 +176,7 @@ namespace TiedanSouls.Client.Entities {
             LogicRoot.localRotation = rot;
         }
 
-        public void Stop(){
+        public void Stop() {
             MoveCom.Stop();
         }
 

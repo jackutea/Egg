@@ -196,18 +196,13 @@ namespace TiedanSouls.EditorTool {
             return tm;
         }
 
-        public static SkillTM[] GetSkillTMArray(SkillEditorGO[] editorGoArray) {
-            SkillTM[] tmArray = new SkillTM[editorGoArray.Length];
-            for (int i = 0; i < editorGoArray.Length; i++) {
-                tmArray[i] = GetSkillTM(editorGoArray[i]);
+        public static SkillCancelTM[] GetSkillCancelTM(SkillCancelEM[] emArray) {
+            if(emArray == null) {
+                return null;
             }
-            return tmArray;
-        }
-
-        public static SkillCancelTM[] GetSkillCancelTM(SkillCancelEM[] ems) {
-            SkillCancelTM[] tms = new SkillCancelTM[ems.Length];
-            for (int i = 0; i < ems.Length; i++) {
-                tms[i] = GetSkillCancelTM(ems[i]);
+            SkillCancelTM[] tms = new SkillCancelTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tms[i] = GetSkillCancelTM(emArray[i]);
             }
             return tms;
         }
@@ -220,10 +215,13 @@ namespace TiedanSouls.EditorTool {
             return tm;
         }
 
-        public static EffectorTriggerTM[] GetSkillEffectorTMArray(EffectorTriggerEM[] ems) {
-            EffectorTriggerTM[] tms = new EffectorTriggerTM[ems.Length];
-            for (int i = 0; i < ems.Length; i++) {
-                tms[i] = GetSkillEffectorTM(ems[i]);
+        public static EffectorTriggerTM[] GetSkillEffectorTMArray(EffectorTriggerEM[] emArray) {
+            if(emArray == null) {
+                return null;
+            }
+            EffectorTriggerTM[] tms = new EffectorTriggerTM[emArray.Length];
+            for (int i = 0; i < emArray.Length; i++) {
+                tms[i] = GetSkillEffectorTM(emArray[i]);
             }
             return tms;
         }
@@ -426,8 +424,11 @@ namespace TiedanSouls.EditorTool {
 
         public static RoleSummonTM GetRoleSummonTM(RoleSummonEM em) {
             RoleSummonTM tm;
+            tm.triggerFrame = em.triggerFrame;
             tm.typeID = em.typeID;
             tm.controlType = em.controlType;
+            tm.localPosExpanded = GetVector3Int_Expand100(em.localPos);
+            tm.localEulerAnglesExpanded = GetVector3Int_Expand100(em.localEulerAngles);
             return tm;
         }
 
@@ -466,6 +467,7 @@ namespace TiedanSouls.EditorTool {
 
         public static ProjectileCtorTM GetProjectileCtorTM(ProjectileCtorEM em) {
             ProjectileCtorTM tm;
+            tm.triggerFrame = em.triggerFrame;
             tm.typeID = em.typeID;
             tm.localEulerAnglesExpanded = GetVector3Int_Expand100(em.localEulerAngles);
             tm.localPosExpanded = GetVector3Int_Expand100(em.localPos);

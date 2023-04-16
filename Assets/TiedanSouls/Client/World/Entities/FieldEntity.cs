@@ -25,9 +25,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetFieldType(FieldType v) => fieldType = v;
 
         // - 实体生成控制
-        EntitySpawnCtrlModel[] entitySpawnCtrlModelArray;
-        public EntitySpawnCtrlModel[] EntitySpawnCtrlModelArray => entitySpawnCtrlModelArray;
-        public void SetEntitySpawnCtrlModelArray(EntitySpawnCtrlModel[] v) => entitySpawnCtrlModelArray = v;
+        FieldSpawnEntityCtrlModel[] entitySpawnCtrlModelArray;
+        public FieldSpawnEntityCtrlModel[] EntitySpawnCtrlModelArray => entitySpawnCtrlModelArray;
+        public void SetEntitySpawnCtrlModelArray(FieldSpawnEntityCtrlModel[] v) => entitySpawnCtrlModelArray = v;
 
         Vector2[] itemSpawnPosArray;
         public Vector2[] ItemSpawnPosArray => itemSpawnPosArray;
@@ -82,8 +82,13 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public bool TryFindDoorByIndex(int doorIndex, out FieldDoorModel door) {
-            door = default;
+            if(fieldDoorArray == null || fieldDoorArray.Length == 0){
+                door = default;
+                return false;
+            }
+
             if (doorIndex < 0 || doorIndex >= fieldDoorArray.Length) {
+                door = default;
                 return false;
             }
 

@@ -24,34 +24,46 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型
         /// </summary>
-        public bool TryAttachBuff(RoleEntity targetRole, in EntityIDArgs father, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
+        public bool TryAttachBuff(in EntityIDArgs father, in EntityIDArgs target, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
             buff = null;
 
-            // Buff叠加 & 替换
-            var buffTypeID = buffAttachModel.buffID;
-            var buffSlotCom = targetRole.BuffSlotCom;
-            if (buffSlotCom.TryGet(buffTypeID, out buff)) {
-                if (buff.ExtraStackCount < buff.MaxExtraStackCount) {
-                    buff.AddExtraStackCount();
-                    TDLog.Log($"Buff[{buff.IDCom.TypeID}]叠加 当前层数:{buff.ExtraStackCount + 1}");
+            var targetEntityType = target.entityType;
+            if (targetEntityType == EntityType.Role) {
+                var roleRepo = worldContext.RoleRepo;
+                if (!roleRepo.TryGet_FromAll(target.entityID, out var targetRole)) {
+                    TDLog.Error($"召唤Buff失败, 目标角色不存在:{target.entityID}");
+                    return false;
                 }
 
-                RevokeBuff(buff, targetRole.AttributeCom);
-                buff.ResetTriggerTimes();
-                buff.ResetCurFrame();
-                buff.AttributeEffectModel.ResetOffset();
+                // Buff叠加 & 替换
+                var buffTypeID = buffAttachModel.buffID;
+                var buffSlotCom = targetRole.BuffSlotCom;
+                if (buffSlotCom.TryGet(buffTypeID, out buff)) {
+                    if (buff.ExtraStackCount < buff.MaxExtraStackCount) {
+                        buff.AddExtraStackCount();
+                        TDLog.Log($"Buff[{buff.IDCom.TypeID}]叠加 当前层数:{buff.ExtraStackCount + 1}");
+                    }
+
+                    RevokeBuff(buff, targetRole.AttributeCom);
+                    buff.ResetTriggerTimes();
+                    buff.ResetCurFrame();
+                    buff.AttributeEffectModel.ResetOffset();
+                    return true;
+                }
+
+                if (!TrySpawn(buffTypeID, father, out buff)) {
+                    TDLog.Error($"召唤Buff失败, 生成Buff失败:{buffTypeID}");
+                    return false;
+                }
+
+                buff.SetFather(father);
+                buffSlotCom.TryAdd(buff);
+
                 return true;
             }
 
-            if (!TrySpawn(buffTypeID, father, out buff)) {
-                TDLog.Error($"召唤Buff失败, 生成Buff失败:{buffTypeID}");
-                return false;
-            }
-
-            buff.SetFather(father);
-            buffSlotCom.TryAdd(buff);
-
-            return true;
+            TDLog.Warning($"召唤Buff失败, 目标类型不支持:{targetEntityType}");
+            return false;
         }
 
         /// <summary>

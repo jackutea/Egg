@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5685672788143426169}
   - component: {fileID: 8821343473114637066}
   m_Layer: 6
-  m_Name: editor_skill_melee_2000
+  m_Name: editor_skill_melee_1010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,21 +46,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: af553f046feb23840b4bc9db23313e5e, type: 2}
-  typeID: 2000
+  typeID: 1010
+  originSkillTypeID: 0
   skillName: "\u7279\u6B8A\u653B\u51FB"
   maintainFrame: 15
   skillType: 2
-  originSkillTypeID: 2000
   weaponAnimClip: {fileID: 7400000, guid: 37e9cfbf86e646f4da9e4b48d68e6bd5, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
-  skillEffectorEMArray:
-  - effectorTypeID: 99993
-    triggerFrame: 10
-    offsetPos: {x: 0, y: 0, z: 0}
-  - effectorTypeID: 9999
-    triggerFrame: 14
-    offsetPos: {x: 2, y: 0, z: 0}
+  effectorTriggerEMArray: []
+  roleSummonEMArray:
+  - triggerFrame: 14
+    typeID: 1000
+    controlType: 2
+    localPos: {x: 2, y: 2, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  projectileCtorEMArray: []
+  buffAttachEMArray: []
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray: []
 --- !u!1 &946612889277224407
@@ -253,10 +255,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: b8ff395c5a8a50c469b584bd08c1d1b0, type: 2}
   typeID: 1000
+  originSkillTypeID: 1000
   skillName: "\u666E\u653B1\u6BB5"
   maintainFrame: 15
   skillType: 1
-  originSkillTypeID: 1000
   weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
   comboSkillCancelEMArray:
   - skillTypeID: 1010
@@ -266,7 +268,10 @@ MonoBehaviour:
   - skillTypeID: 2000
     startFrame: 10
     endFrame: 15
-  skillEffectorEMArray: []
+  effectorTriggerEMArray: []
+  roleSummonEMArray: []
+  projectileCtorEMArray: []
+  buffAttachEMArray: []
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray: []
 --- !u!1 &2146176807690415295
@@ -427,16 +432,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 171e8902a0710d24cbfa970170ef60c6, type: 2}
   typeID: 1
+  originSkillTypeID: 0
   skillName: "\u95EA\u73B0 "
   maintainFrame: 10
   skillType: 4
-  originSkillTypeID: 0
   weaponAnimClip: {fileID: 7400000, guid: 08f51868a53651949b1dd02025f80ffb, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray: []
-  skillEffectorEMArray: []
+  effectorTriggerEMArray: []
+  roleSummonEMArray: []
+  projectileCtorEMArray: []
+  buffAttachEMArray: []
   skillMoveCurveEMArray:
-  - startFrame: 0
+  - triggerFrame: 0
     isFaceTo: 0
     needWaitForMoveEnd: 0
     moveCurveEM:
@@ -837,7 +845,7 @@ GameObject:
   - component: {fileID: 4739287030692330628}
   - component: {fileID: 6456354250908405727}
   m_Layer: 6
-  m_Name: editor_skill_melee_1010
+  m_Name: editor_skill_melee_1001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -872,11 +880,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 66a0b57e05ce1c0479ba63c0ad97c13e, type: 2}
-  typeID: 1010
+  typeID: 1001
+  originSkillTypeID: 1000
   skillName: "\u666E\u653B2\u6BB5"
   maintainFrame: 15
   skillType: 1
-  originSkillTypeID: 1000
   weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
   comboSkillCancelEMArray:
   - skillTypeID: 1020
@@ -886,7 +894,10 @@ MonoBehaviour:
   - skillTypeID: 2000
     startFrame: 10
     endFrame: 15
-  skillEffectorEMArray: []
+  effectorTriggerEMArray: []
+  roleSummonEMArray: []
+  projectileCtorEMArray: []
+  buffAttachEMArray: []
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray: []
 --- !u!1 &8253756743249582019
@@ -900,7 +911,7 @@ GameObject:
   - component: {fileID: 4040083154844941119}
   - component: {fileID: 8129594698929602776}
   m_Layer: 6
-  m_Name: editor_skill_melee_1020
+  m_Name: editor_skill_melee_1002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -935,23 +946,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 8994e734922b09049867a9f2643a9188, type: 2}
-  typeID: 1020
+  typeID: 1002
+  originSkillTypeID: 1000
   skillName: "\u666E\u653B3\u6BB5"
   maintainFrame: 20
   skillType: 1
-  originSkillTypeID: 1000
   weaponAnimClip: {fileID: 7400000, guid: b4189be50390e1a4b9fb109d58662c73, type: 2}
   comboSkillCancelEMArray: []
   cancelSkillCancelEMArray:
   - skillTypeID: 2000
     startFrame: 15
     endFrame: 20
-  skillEffectorEMArray:
-  - effectorTypeID: 99992
-    triggerFrame: 15
-    offsetPos: {x: 0, y: 0, z: 0}
+  effectorTriggerEMArray: []
+  roleSummonEMArray: []
+  projectileCtorEMArray: []
+  buffAttachEMArray: []
   skillMoveCurveEMArray:
-  - startFrame: 5
+  - triggerFrame: 0
     isFaceTo: 1
     needWaitForMoveEnd: 0
     moveCurveEM:
@@ -981,7 +992,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  - startFrame: 10
+  - triggerFrame: 0
     isFaceTo: 1
     needWaitForMoveEnd: 0
     moveCurveEM:

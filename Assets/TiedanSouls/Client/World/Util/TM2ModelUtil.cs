@@ -345,8 +345,11 @@ namespace TiedanSouls.Client {
 
         public static RoleSummonModel GetRoleSummonModel(RoleSummonTM tm) {
             RoleSummonModel model;
+            model.triggerFrame = tm.triggerFrame;
             model.typeID = tm.typeID;
             model.controlType = tm.controlType;
+            model.localPos = GetVector3_Shrink100(tm.localPosExpanded);
+            model.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);
             return model;
         }
 
@@ -388,6 +391,7 @@ namespace TiedanSouls.Client {
 
         public static ProjectileCtorModel GetProjectileCtorModel(ProjectileCtorTM tm) {
             ProjectileCtorModel model;
+            model.triggerFrame = tm.triggerFrame;
             model.typeID = tm.typeID;
             model.localPos = GetVector3_Shrink100(tm.localPosExpanded);
             model.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);
@@ -396,6 +400,62 @@ namespace TiedanSouls.Client {
 
         #endregion
 
+        #region [Field]
+
+        public static FieldDoorModel[] GetFieldDoorModelArray(FieldDoorTM[] tmArray) {
+            var len = tmArray.Length;
+            var modelArray = new FieldDoorModel[len];
+            for (int i = 0; i < len; i++) {
+                var tm = tmArray[i];
+                var model = GetFieldDoorModel(tm);
+                modelArray[i] = model;
+            }
+            return modelArray;
+        }
+        
+        public static FieldDoorModel GetFieldDoorModel(FieldDoorTM tm) {
+            FieldDoorModel model;
+            model.doorIndex = tm.doorIndex;
+            model.fieldTypeID = tm.fieldTypeID;
+            model.pos = GetVector3_Shrink100(tm.pos_cm);
+            return model;
+        }
+
+        public static FieldSpawnEntityCtrlModel[] GetEntitySpawnCtrlModelArray(FieldSpawnEntityCtrlTM[] tmArray) {
+            var len = tmArray.Length;
+            var modelArray = new FieldSpawnEntityCtrlModel[len];
+            for (int i = 0; i < len; i++) {
+                var tm = tmArray[i];
+                var model = GetEntitySpawnCtrlModel(tm);
+                modelArray[i] = model;
+            }
+            return modelArray;
+        }
+
+        public static FieldSpawnEntityCtrlModel GetEntitySpawnCtrlModel(FieldSpawnEntityCtrlTM tm) {
+            FieldSpawnEntityCtrlModel model;
+            model.spawnFrame = tm.spawnFrame;
+            model.isBreakPoint = tm.isBreakPoint;
+            model.entitySpawnModel = GetEntitySpawnModel(tm.entitySpawnTM);
+            return model;
+        }
+
+        #endregion
+
+        #region [EntitySpawn]
+
+        public static EntitySpawnModel GetEntitySpawnModel(EntitySpawnTM tm) {
+            EntitySpawnModel model;
+            model.entityType = tm.entityType;
+            model.typeID = tm.typeID;
+            model.controlType = tm.controlType;
+            model.allyType = tm.allyType;
+            model.spawnPos = tm.spawnPos;
+            model.isBoss = tm.isBoss;
+            return model;
+        }
+
+        #endregion
         #region [EntityDestroy]
 
         public static EntityDestroyModel[] GetEntityDestroyModelArray(EntityDestroyTM[] tmArray) {

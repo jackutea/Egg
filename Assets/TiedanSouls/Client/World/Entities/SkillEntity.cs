@@ -224,6 +224,51 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
+        public bool TryGet_ValidRoleSummonModel(out RoleSummonModel roleSummonModel, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
+            if (roleSummonModelArray != null) {
+                for (int i = 0; i < roleSummonModelArray.Length; i++) {
+                    RoleSummonModel model = roleSummonModelArray[i];
+                    if (model.triggerFrame == curFrame) {
+                        roleSummonModel = model;
+                        return true;
+                    }
+                }
+            }
+            roleSummonModel = default;
+            return false;
+        }
+
+        public bool TryGet_ValidProjectileCtorModel(out ProjectileCtorModel projectileCtorModel, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
+            if (projectileCtorModelArray != null) {
+                for (int i = 0; i < projectileCtorModelArray.Length; i++) {
+                    ProjectileCtorModel model = projectileCtorModelArray[i];
+                    if (model.triggerFrame == curFrame) {
+                        projectileCtorModel = model;
+                        return true;
+                    }
+                }
+            }
+            projectileCtorModel = default;
+            return false;
+        }
+
+        public bool TryGet_ValidBuffAttachModel(out BuffAttachModel buffAttachModel, int frame = -1) {
+            frame = frame == -1 ? curFrame : frame;
+            if (buffAttachModelArray != null) {
+                for (int i = 0; i < buffAttachModelArray.Length; i++) {
+                    BuffAttachModel model = buffAttachModelArray[i];
+                    if (model.triggerFrame == curFrame) {
+                        buffAttachModel = model;
+                        return true;
+                    }
+                }
+            }
+            buffAttachModel = default;
+            return false;
+        }
+
         public void Foreach_CancelModel_Linked(Action<SkillCancelModel> action, int frame = -1) {
             frame = frame == -1 ? curFrame : frame;
             if (linkSkillCancelModelArray != null) {
@@ -246,7 +291,10 @@ namespace TiedanSouls.Client.Entities {
 
         public bool IsKeyFrame(int frame) {
             return TryGet_ValidCollisionTriggerModel(out _, frame)
-            || TryGet_ValidSkillEffectorModel(out _, frame);
+            || TryGet_ValidSkillEffectorModel(out _, frame)
+            || TryGet_ValidRoleSummonModel(out _, frame)
+            || TryGet_ValidProjectileCtorModel(out _, frame)
+            || TryGet_ValidBuffAttachModel(out _, frame);
         }
 
     }

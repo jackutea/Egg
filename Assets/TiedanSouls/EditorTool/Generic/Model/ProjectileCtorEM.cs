@@ -7,9 +7,10 @@ namespace TiedanSouls.EditorTool {
     [Serializable]
     public struct ProjectileCtorEM {
 
-        [Header("类型ID")] public int typeID;
+        [Header("触发帧")] public int triggerFrame;
+        [Header("弹幕ID")] public int typeID;
         [Header("位置偏移")] public Vector3 localPos;
-        [Header("角度偏移")] public Vector3 localEulerAngles;
+        [Header("欧拉角偏移")] public Vector3 localEulerAngles;
 
     }
 

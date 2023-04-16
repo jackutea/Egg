@@ -34,7 +34,7 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            BaseSetRole(role, typeID, pos, allyType, controlType);
+            BaseSetRole(role, typeID, pos,Quaternion.identity, allyType, controlType);
 
             role.SetFromFieldTypeID(fromFieldTypeID);
             role.SetIsBoss(entitySpawnModel.isBoss);
@@ -55,7 +55,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型 召唤角色
         /// </summary>
-        public bool TrySummonRole(Vector3 basePos, Quaternion baseRot, in EntityIDArgs summoner, in RoleSummonModel roleSummonModel, out RoleEntity role) {
+        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in RoleSummonModel roleSummonModel, out RoleEntity role) {
             var typeID = roleSummonModel.typeID;
             var controlType = roleSummonModel.controlType;
             var factory = worldContext.Factory;
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            BaseSetRole(role, typeID, basePos, summoner.allyType, controlType);
+            BaseSetRole(role, typeID, summonPos, summonRot, summoner.allyType, controlType);
 
             var idCom = role.IDCom;
             idCom.SetFather(summoner);
@@ -84,9 +84,10 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 设置角色基础信息
         /// </summary>
-        void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, AllyType allyType, ControlType controlType) {
+        void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, Quaternion rot, AllyType allyType, ControlType controlType) {
             // Pos
             role.SetLogicPos(pos);
+            role.SetLogicRot(rot);
             Renderer_Sync(role);
 
             // ID

@@ -167,6 +167,8 @@ namespace TiedanSouls.Client.Domain {
             var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
             var roleDomain = rootDomain.RoleDomain;
+            var projectileDomain = rootDomain.ProjectileDomain;
+            var buffDomain = rootDomain.BuffDomain;
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
@@ -216,7 +218,7 @@ namespace TiedanSouls.Client.Domain {
                 fsmCom.Enter_Idle();
             }
 
-            // 技能效果器
+            // 效果器
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
                 if (effectorTypeID != 0) {
@@ -228,6 +230,28 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
+            var basePos = role.LogicRootPos;
+            var baseRot = role.LogicRotation;
+
+            // 角色召唤
+            if (castingSkill.TryGet_ValidRoleSummonModel(out var roleSummonModel)) {
+                var localRot = Quaternion.Euler(roleSummonModel.localEulerAngles);
+                var localPos = roleSummonModel.localPos;
+                var worldRot = baseRot * localRot;
+                var worldPos = basePos + worldRot * localPos;
+                roleDomain.TrySummonRole(worldPos, worldRot, role.IDCom.ToArgs(), roleSummonModel, out _);
+            }
+
+            // 弹幕生成
+            if (castingSkill.TryGet_ValidProjectileCtorModel(out var projectileCtorModel)) {
+                projectileDomain.TrySpawnProjectile(basePos, baseRot, role.IDCom.ToArgs(), projectileCtorModel, out _);
+            }
+
+            // Buff附加
+            if (castingSkill.TryGet_ValidBuffAttachModel(out var buffAttachModel)) {
+                var father = role.IDCom.ToArgs();
+                buffDomain.TryAttachBuff(father, father, buffAttachModel, out _);
+            }
         }
 
         /// <summary>

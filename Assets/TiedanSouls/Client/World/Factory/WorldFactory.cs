@@ -51,10 +51,10 @@ namespace TiedanSouls.Client {
             fieldGO.transform.position = Vector3.zero;
             field.SetFieldMod(fieldGO);
 
-            field.SetEntitySpawnCtrlModelArray(GetEntitySpawnCtrlModelArray(fieldTM.entitySpawnCtrlTMArray));
+            field.SetEntitySpawnCtrlModelArray(TM2ModelUtil.GetEntitySpawnCtrlModelArray(fieldTM.entitySpawnCtrlTMArray));
+            field.SetFieldDoorArray(TM2ModelUtil.GetFieldDoorModelArray(fieldTM.fieldDoorTMArray));
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
-            field.SetFieldDoorArray(fieldTM.fieldDoorTMArray?.Clone() as FieldDoorModel[]);
 
             return true;
         }
@@ -418,44 +418,6 @@ namespace TiedanSouls.Client {
             buff.SetMaxExtraStackCount(tm.maxExtraStackCount);
 
             return true;
-        }
-
-        #endregion
-
-        #region [EntitySpawnCtrl]
-
-        public EntitySpawnCtrlModel[] GetEntitySpawnCtrlModelArray(EntitySpawnCtrlTM[] tmArray) {
-            var len = tmArray.Length;
-            var modelArray = new EntitySpawnCtrlModel[len];
-            for (int i = 0; i < len; i++) {
-                var tm = tmArray[i];
-                var model = GetEntitySpawnCtrlModel(tm);
-                modelArray[i] = model;
-            }
-            return modelArray;
-        }
-
-        public EntitySpawnCtrlModel GetEntitySpawnCtrlModel(EntitySpawnCtrlTM tm) {
-            EntitySpawnCtrlModel model;
-            model.spawnFrame = tm.spawnFrame;
-            model.isBreakPoint = tm.isBreakPoint;
-            model.entitySpawnModel = GetEntitySpawnModel(tm.entitySpawnTM);
-            return model;
-        }
-
-        #endregion
-
-        #region [EntitySpawn]
-
-        public EntitySpawnModel GetEntitySpawnModel(EntitySpawnTM tm) {
-            EntitySpawnModel model;
-            model.entityType = tm.entityType;
-            model.typeID = tm.typeID;
-            model.controlType = tm.controlType;
-            model.allyType = tm.allyType;
-            model.spawnPos = tm.spawnPos;
-            model.isBoss = tm.isBoss;
-            return model;
         }
 
         #endregion

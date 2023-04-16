@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: so_skill_tiedan_melee_1020
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1020
+    typeID: 1002
     skillName: "\u666E\u653B3\u6BB5"
     skillType: 1
     maintainFrame: 20
@@ -25,12 +25,12 @@ MonoBehaviour:
     - skillTypeID: 2000
       startFrame: 15
       endFrame: 20
-    skillEffectorTMArray:
-    - triggerFrame: 15
-      effectorTypeID: 99992
-      offsetPos: {x: 0, y: 0, z: 0}
+    effectorTriggerEMArray: []
+    roleSummonTMArray: []
+    projectileCtorTMArray: []
+    buffAttachTMArray: []
     skillMoveCurveTMArray:
-    - startFrame: 5
+    - triggerFrame: 0
       isFaceTo: 1
       needWaitForMoveEnd: 0
       moveCurveTM:
@@ -56,7 +56,7 @@ MonoBehaviour:
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
         - {x: 1, y: 0, z: 0}
-    - startFrame: 10
+    - triggerFrame: 0
       isFaceTo: 1
       needWaitForMoveEnd: 0
       moveCurveTM:
