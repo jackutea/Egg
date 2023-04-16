@@ -17,7 +17,7 @@ namespace TiedanSouls.Template {
 
         [Header("实体生成控制模型(组)")] public EntitySpawnCtrlTM[] entitySpawnCtrlTMArray;
         [Header("物品生成位置(组)")] public Vector2[] itemSpawnPosArray;
-        [Header("场景门模型(组)")] public FieldDoorModel[] fieldDoorArray;
+        [Header("场景门模型(组)")] public FieldDoorTM[] fieldDoorTMArray;
 
     }
 

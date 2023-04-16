@@ -54,7 +54,7 @@ namespace TiedanSouls.Client {
             field.SetEntitySpawnCtrlModelArray(GetEntitySpawnCtrlModelArray(fieldTM.entitySpawnCtrlTMArray));
             field.SetItemSpawnPosArray(fieldTM.itemSpawnPosArray?.Clone() as Vector2[]);
             field.SetFieldType(fieldTM.fieldType);
-            field.SetFieldDoorArray(fieldTM.fieldDoorArray?.Clone() as FieldDoorModel[]);
+            field.SetFieldDoorArray(fieldTM.fieldDoorTMArray?.Clone() as FieldDoorModel[]);
 
             return true;
         }
@@ -306,7 +306,7 @@ namespace TiedanSouls.Client {
 
             var template = infraContext.TemplateCore.ProjectileTemplate;
             if (!template.TryGet(typeID, out ProjectileTM projetileTM)) {
-                TDLog.Error($"配置出错! 未找到 弹道 模板数据: TypeID {typeID}");
+                TDLog.Error($"配置出错! 未找到 弹幕 模板数据: TypeID {typeID}");
                 return false;
             }
 
@@ -317,7 +317,7 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(typeID);
             idCom.SetEntityName(projetileTM.projectileName);
 
-            // 弹道子弹模型数据
+            // 弹幕子弹模型数据
             var projetileBulletTMArray = projetileTM.projetileBulletTMArray;
             if (projetileBulletTMArray != null) {
                 var len = projetileBulletTMArray.Length;

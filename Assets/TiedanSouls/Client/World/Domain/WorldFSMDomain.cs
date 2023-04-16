@@ -193,7 +193,7 @@ namespace TiedanSouls.Client.Domain {
                 var bulletDomain = worldContext.RootDomain.BulletDomain;
                 bulletDomain.RecycleFieldBullets(curFieldTypeID);
 
-                // Recycle 当前关卡 弹道
+                // Recycle 当前关卡 弹幕
                 var projectileDomain = worldContext.RootDomain.ProjectileDomain;
                 projectileDomain.RecycleProjectiles(curFieldTypeID);
 
@@ -231,7 +231,7 @@ namespace TiedanSouls.Client.Domain {
             var roleFSMDomain = worldDomain.RoleFSMDomain;
             roleFSMDomain.TickFSM(curFieldTypeID, dt);
 
-            // 刷新 弹道 状态机(当前关卡内)
+            // 刷新 弹幕 状态机(当前关卡内)
             var projectileFSMDomain = worldDomain.ProjectileFSMDomain;
             projectileFSMDomain.TickFSM(curFieldTypeID, dt);
 

@@ -222,12 +222,8 @@ namespace TiedanSouls.Client.Domain {
                 if (effectorTypeID != 0) {
                     var effectorDomain = this.rootDomain.EffectorDomain;
                     if (effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
-                        var summoner = role.IDCom.ToArgs();
-                        var baseRot = role.LogicRotation;
-                        var summonPos = role.LogicRootPos + baseRot * skillEffectorModel.offsetPos;
-
-                        this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, effectorModel.entitySummonModelArray);
-                        this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, effectorModel.entityDestroyModelArray);
+                        var target = role.IDCom.ToArgs();
+                        this.rootDomain.DestroyBy_EntityDestroyModelArray(target, effectorModel.entityDestroyModelArray);
                     }
                 }
             }
@@ -249,7 +245,7 @@ namespace TiedanSouls.Client.Domain {
             var moveSpeedArray = moveCurveModel.moveSpeedArray;
             var moveDirArray = moveCurveModel.moveDirArray;
             var len = moveSpeedArray.Length;
-            var index = frame - skillMoveCurveModel.startFrame;
+            var index = frame - skillMoveCurveModel.triggerFrame;
             if (index > len) return false;
 
             var moveCom = role.MoveCom;

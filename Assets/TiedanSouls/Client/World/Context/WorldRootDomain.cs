@@ -92,34 +92,6 @@ namespace TiedanSouls.Client.Facades {
         #region [生成]
 
         /// <summary>
-        /// 根据 实体召唤模型 生成多个实体
-        /// </summary>
-        public void SpawnBy_EntitySummonModelArray(Vector3 summonPos, Quaternion baseRot, in EntityIDArgs summoner, in EntitySummonModel[] entitySummonModel) {
-            var len = entitySummonModel.Length;
-            for (int i = 0; i < len; i++) {
-                SpawnBy_EntitySummonModel(summonPos, baseRot, summoner, entitySummonModel[i]);
-            }
-        }
-
-        /// <summary>
-        /// 根据 实体召唤模型 生成一个实体
-        /// </summary>
-        public void SpawnBy_EntitySummonModel(Vector3 summonPos, Quaternion baseRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel) {
-            var entityType = entitySummonModel.entityType;
-
-            if (entityType == EntityType.Role) {
-                _ = RoleDomain.TrySummon(summonPos, baseRot, summoner, entitySummonModel, out var role);
-                role.name = $"角色(召唤)_{role.IDCom}";
-            } else if (entityType == EntityType.Projectile) {
-                _ = ProjectileDomain.TrySummon(summonPos, baseRot, summoner, entitySummonModel, out var projectile);
-            } else if (entityType == EntityType.Buff) {
-                _ = BuffDomain.TrySummon(summoner, entitySummonModel, out var buff);
-            } else {
-                TDLog.Error($"未知的实体类型 {entityType}");
-            }
-        }
-
-        /// <summary>
         /// 实体生成控制模型 --> 生成一个实体
         /// </summary>
         public void SpawnBy_EntitySpawnCtrlModel(in EntitySpawnCtrlModel spawnCtrlModel, int fromFieldTypeID) {
@@ -147,17 +119,17 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体销毁模型 销毁多个实体
         /// </summary>
-        public void DestroyBy_EntityDestroyModelArray(in EntityIDArgs summoner, EntityDestroyModel[] entityDestroyModel) {
+        public void DestroyBy_EntityDestroyModelArray(in EntityIDArgs target, EntityDestroyModel[] entityDestroyModel) {
             var len = entityDestroyModel.Length;
             for (int i = 0; i < len; i++) {
-                DestroyBy_EntityDestroyModel(summoner, entityDestroyModel[i]);
+                DestroyBy_EntityDestroyModel(target, entityDestroyModel[i]);
             }
         }
 
         /// <summary>
         /// 根据 实体销毁模型 销毁一个实体  
         /// </summary>
-        public void DestroyBy_EntityDestroyModel(in EntityIDArgs summoner, in EntityDestroyModel entityDestroyModel) {
+        public void DestroyBy_EntityDestroyModel(in EntityIDArgs target, in EntityDestroyModel entityDestroyModel) {
             var entityType = entityDestroyModel.entityType;
             if (entityType == EntityType.None) return;
 
@@ -173,7 +145,7 @@ namespace TiedanSouls.Client.Facades {
                     roleRepo.Foreach_AttributeSelector(
                         curFieldTypeID,
                         hitTargetGroupType,
-                        summoner,
+                        target,
                         attributeSelectorModel,
                         roleFSMDomain.Enter_Dying
                     );

@@ -22,7 +22,7 @@ namespace TiedanSouls.Client {
 
         public static ProjectileBulletModel GetProjectileBulletModel(ProjectileBulletTM tm) {
             ProjectileBulletModel model;
-            model.startFrame = tm.startFrame;
+            model.triggerFrame = tm.startFrame;
             model.bulletTypeID = tm.bulletTypeID;
             model.localPos = GetVector3_Shrink100(tm.localPos_cm);
             model.localEulerAngles = tm.localEulerAngles;
@@ -45,7 +45,7 @@ namespace TiedanSouls.Client {
 
         public static SkillMoveCurveModel GetSkillMoveCurveModel(SkillMoveCurveTM tm) {
             SkillMoveCurveModel model;
-            model.startFrame = tm.startFrame;
+            model.triggerFrame = tm.triggerFrame;
             model.isFaceTo = tm.isFaceTo;
             model.needWaitForMoveEnd = tm.needWaitForMoveEnd;
             model.moveCurveModel = GetMoveCurveModel(tm.moveCurveTM);
@@ -326,30 +326,72 @@ namespace TiedanSouls.Client {
             EffectorModel model;
             model.typeID = tm.typeID;
             model.effectorName = tm.effectorName;
-            model.entitySummonModelArray = GetEntitySummonModelArray(tm.entitySummonTMArray);
             model.entityDestroyModelArray = GetEntityDestroyModelArray(tm.entityDestroyTMArray);
             return model;
         }
 
         #endregion
 
-        #region [EntitySummon]
+        #region [RoleSummon]
 
-        public static EntitySummonModel[] GetEntitySummonModelArray(EntitySummonTM[] tmArray) {
+        public static RoleSummonModel[] GetRoleSummonModelArray(RoleSummonTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntitySummonModel[] modelArray = new EntitySummonModel[len];
+            RoleSummonModel[] modelArray = new RoleSummonModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetEntitySummonModel(tmArray[i]);
+                modelArray[i] = GetRoleSummonModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static EntitySummonModel GetEntitySummonModel(EntitySummonTM tm) {
-            EntitySummonModel model;
-            model.entityType = tm.entityType;
+        public static RoleSummonModel GetRoleSummonModel(RoleSummonTM tm) {
+            RoleSummonModel model;
             model.typeID = tm.typeID;
             model.controlType = tm.controlType;
+            return model;
+        }
+
+        #endregion
+
+        #region [BuffAttach]
+
+        public static BuffAttachModel[] GetBuffAttachModelArray(BuffAttachTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            BuffAttachModel[] modelArray = new BuffAttachModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetBuffAttachModel(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+
+        public static BuffAttachModel GetBuffAttachModel(BuffAttachTM tm) {
+            BuffAttachModel model;
+            model.buffID = tm.buffID;
+            model.triggerFrame = tm.triggerFrame;
+            return model;
+        }
+
+        #endregion
+
+        #region [ProjectileCtor]
+
+        public static ProjectileCtorModel[] GetProjectileCtorModelArray(ProjectileCtorTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            ProjectileCtorModel[] modelArray = new ProjectileCtorModel[len];
+            for (int i = 0; i < len; i++) {
+                modelArray[i] = GetProjectileCtorModel(tmArray[i]);
+            }
+            return modelArray;
+        }
+
+        public static ProjectileCtorModel GetProjectileCtorModel(ProjectileCtorTM tm) {
+            ProjectileCtorModel model;
+            model.typeID = tm.typeID;
+            model.localPos = GetVector3_Shrink100(tm.localPosExpanded);
+            model.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);
             return model;
         }
 

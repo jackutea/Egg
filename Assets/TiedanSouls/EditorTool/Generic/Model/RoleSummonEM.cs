@@ -1,6 +1,6 @@
 using System;
-using TiedanSouls.Generic;
 using UnityEngine;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.EditorTool {
 

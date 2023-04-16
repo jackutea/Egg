@@ -189,7 +189,7 @@ namespace TiedanSouls.EditorTool {
 
         public static SkillMoveCurveTM GetMoveCurveTM(SkillMoveCurveEM em) {
             SkillMoveCurveTM tm;
-            tm.startFrame = em.startFrame;
+            tm.triggerFrame = em.triggerFrame;
             tm.isFaceTo = em.isFaceTo;
             tm.needWaitForMoveEnd = em.needWaitForMoveEnd;
             tm.moveCurveTM = GetMoveCurveTM(em.moveCurveEM);
@@ -244,7 +244,9 @@ namespace TiedanSouls.EditorTool {
             EffectorTM tm;
             tm.typeID = em.typeID;
             tm.effectorName = em.effectorName;
-            tm.entitySummonTMArray = GetEntitySummonTMArray(em.entitySummonEMArray);
+            tm.roleSummonTMArray = GetRoleSummonTMArray(em.roleSummonEMArray);
+            tm.buffAttachTMArray = GetBuffAttachTMArray(em.buffAttachEMArray);
+            tm.projectileCtorTMArray = GetProjectileCtorTMArray(em.projectileCtorEMArray);
             tm.entityDestroyTMArray = GetEntityDestroyTMArray(em.entityDestroyEMArray);
             return tm;
         }
@@ -412,20 +414,19 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [Entity Summon]
+        #region [RoleSummon]
 
-        public static EntitySummonTM[] GetEntitySummonTMArray(EntitySummonEM[] emArray) {
+        public static RoleSummonTM[] GetRoleSummonTMArray(RoleSummonEM[] emArray) {
             var len = emArray.Length;
-            var tmArray = new EntitySummonTM[len];
+            var tmArray = new RoleSummonTM[len];
             for (int i = 0; i < len; i++) {
-                tmArray[i] = GetEntitySummonTM(emArray[i]);
+                tmArray[i] = GetRoleSummonTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static EntitySummonTM GetEntitySummonTM(EntitySummonEM em) {
-            EntitySummonTM tm;
-            tm.entityType = em.entityType;
+        public static RoleSummonTM GetRoleSummonTM(RoleSummonEM em) {
+            RoleSummonTM tm;
             tm.typeID = em.typeID;
             tm.controlType = em.controlType;
             return tm;
@@ -433,7 +434,48 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [Entity Destroy]
+        #region [BuffAttach]
+
+        public static BuffAttachTM[] GetBuffAttachTMArray(BuffAttachEM[] emArray) {
+            var len = emArray.Length;
+            var tmArray = new BuffAttachTM[len];
+            for (int i = 0; i < len; i++) {
+                tmArray[i] = GetBuffAttachTM(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static BuffAttachTM GetBuffAttachTM(BuffAttachEM em) {
+            BuffAttachTM tm;
+            tm.buffID = em.buffID;
+            tm.triggerFrame = em.triggerFrame;
+            return tm;
+        }
+
+        #endregion
+
+        #region [ProjectileCtor]
+
+        public static ProjectileCtorTM[] GetProjectileCtorTMArray(ProjectileCtorEM[] emArray) {
+            var len = emArray.Length;
+            var tmArray = new ProjectileCtorTM[len];
+            for (int i = 0; i < len; i++) {
+                tmArray[i] = GetProjectileCtorTM(emArray[i]);
+            }
+            return tmArray;
+        }
+
+        public static ProjectileCtorTM GetProjectileCtorTM(ProjectileCtorEM em) {
+            ProjectileCtorTM tm;
+            tm.typeID = em.typeID;
+            tm.localEulerAnglesExpanded = GetVector3Int_Expand100(em.localEulerAngles);
+            tm.localPosExpanded = GetVector3Int_Expand100(em.localPos);
+            return tm;
+        }
+
+        #endregion
+
+        #region [EntityDestroy]
 
         public static EntityDestroyTM[] GetEntityDestroyTMArray(EntityDestroyEM[] emArray) {
             var len = emArray.Length;

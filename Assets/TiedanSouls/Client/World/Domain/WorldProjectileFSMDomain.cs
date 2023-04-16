@@ -20,7 +20,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         /// <summary>
-        /// 用于更新指定关卡的弹道状态机 -1表示所有关卡
+        /// 用于更新指定关卡的弹幕状态机 -1表示所有关卡
         /// </summary>
         public void TickFSM(int curFieldTypeID, float dt) {
             var projectileRepo = worldContext.ProjectileRepo;
@@ -43,7 +43,7 @@ namespace TiedanSouls.Client.Domain {
 
         void Apply_Deactivated(ProjectileEntity projectile, ProjectileFSMComponent fsmCom, float dt) {
             // 这里可能的业务需求
-            // 比如我放下一个弹道在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
+            // 比如我放下一个弹幕在原地，但是不会立刻触发，而是满足了一定条件才会触发(比如玩家按下某一按键)
         }
 
         void Apply_Activated(ProjectileEntity projectile, ProjectileFSMComponent fsmCom, float dt) {
@@ -68,7 +68,7 @@ namespace TiedanSouls.Client.Domain {
 
                 var bulletFSM = bullet.FSMCom;
 
-                var startFrame = projectileBulletModelArray[i].startFrame;
+                var startFrame = projectileBulletModelArray[i].triggerFrame;
                 if (curFrame == startFrame) {
                     bulletFSM.Enter_Activated();
                 }

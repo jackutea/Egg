@@ -5,11 +5,11 @@ using UnityEngine;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 弹道子弹模型
+    /// 弹幕子弹模型
     /// </summary>
     public struct ProjectileBulletModel {
 
-        public int startFrame;
+        public int triggerFrame;
         public int bulletTypeID;
         public Vector3 localPos;
         public Vector3 localEulerAngles;

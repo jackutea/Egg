@@ -55,16 +55,16 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型 召唤角色
         /// </summary>
-        public bool TrySummon(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out RoleEntity role) {
-            var typeID = entitySummonModel.typeID;
-            var controlType = entitySummonModel.controlType;
+        public bool TrySummonRole(Vector3 basePos, Quaternion baseRot, in EntityIDArgs summoner, in RoleSummonModel roleSummonModel, out RoleEntity role) {
+            var typeID = roleSummonModel.typeID;
+            var controlType = roleSummonModel.controlType;
             var factory = worldContext.Factory;
             if (!factory.TryCreateRoleEntity(typeID, out role)) {
                 TDLog.Error($"创建角色失败! - {typeID}");
                 return false;
             }
 
-            BaseSetRole(role, typeID, summonPos, summoner.allyType, controlType);
+            BaseSetRole(role, typeID, basePos, summoner.allyType, controlType);
 
             var idCom = role.IDCom;
             idCom.SetFather(summoner);

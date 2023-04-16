@@ -8,7 +8,9 @@ namespace TiedanSouls.Template {
 
         [Header("类型ID")] public int typeID;
         [Header("效果器名称")] public string effectorName;
-        [Header("实体生成模型(组)")] public EntitySummonTM[] entitySummonTMArray;
+        [Header("角色召唤组")] public RoleSummonTM[] roleSummonTMArray;
+        [Header("Buff附加组")] public BuffAttachTM[] buffAttachTMArray;
+        [Header("弹幕构造组")] public ProjectileCtorTM[] projectileCtorTMArray;
         [Header("实体销毁模型(组)")] public EntityDestroyTM[] entityDestroyTMArray;
 
     }

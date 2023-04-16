@@ -4,7 +4,7 @@ using System;
 namespace TiedanSouls.Client.Entities {
 
     /// <summary>
-    /// 弹道实体
+    /// 弹幕实体
     /// </summary>
     public class ProjectileEntity : IEntity {
 
@@ -18,7 +18,7 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [弹道子弹模型组]
+        #region [弹幕子弹模型组]
 
         ProjectileBulletModel[] projectileBulletModelArray;
         public ProjectileBulletModel[] ProjectileBulletModelArray => projectileBulletModelArray;

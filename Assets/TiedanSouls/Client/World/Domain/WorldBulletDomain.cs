@@ -134,12 +134,8 @@ namespace TiedanSouls.Client.Domain {
             if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
                 return;
             }
-            var summonPos = bullet.LogicPos;
-            var baseRot = bullet.LogicRotation;
             var summoner = bullet.IDCom.ToArgs();
-            var entitySummonModelArray = effectorModel.entitySummonModelArray;
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
         }
 

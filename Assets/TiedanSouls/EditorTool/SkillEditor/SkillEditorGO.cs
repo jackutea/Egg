@@ -19,9 +19,12 @@ namespace TiedanSouls.EditorTool {
 
         [Header("组合技名单 =================================== ")] public SkillCancelEM[] comboSkillCancelEMArray;
         [Header("连招技名单 =================================== ")] public SkillCancelEM[] cancelSkillCancelEMArray;
-        [Header("技能效果器(组)")] public SkillEffectorEM[] skillEffectorEMArray;
-        [Header("技能位移曲线(组)")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
-        [Header("碰撞器(组) ===================================")] public EntityColliderTriggerEM[] entityColliderTriggerEMArray;
+        [Header("技能效果器组")] public SkillEffectorEM[] skillEffectorEMArray;
+        [Header("角色生成组")] public RoleSummonEM[] roleSummonEMArray;
+        [Header("Buff附加组")] public BuffAttachEM[] buffAttachEMArray;
+        [Header("弹幕生成组")] public ProjectileCtorEM[] projectileCtorEMArray;
+        [Header("技能位移曲线组")] public SkillMoveCurveEM[] skillMoveCurveEMArray;
+        [Header("碰撞器组 ===================================")] public EntityColliderTriggerEM[] entityColliderTriggerEMArray;
 
         public void Save() {
             if (so == null) {

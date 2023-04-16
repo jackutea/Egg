@@ -33,7 +33,7 @@ namespace TiedanSouls.Client {
                 pool.Add(key, list);
             }
             list.Add(projectile);
-            TDLog.Log($"弹道仓库 添加到池 {idCom}");
+            TDLog.Log($"弹幕仓库 添加到池 {idCom}");
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace TiedanSouls.Client {
         #region [改]
 
         /// <summary>
-        /// 移除某个关卡的弹道到池中
+        /// 移除某个关卡的弹幕到池中
         /// </summary>
         public void TearDownToPool(int fieldTypeID) {
             tempList.Clear();

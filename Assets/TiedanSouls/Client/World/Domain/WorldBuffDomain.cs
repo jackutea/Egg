@@ -24,37 +24,31 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据实体召唤模型
         /// </summary>
-        public bool TrySummon(in EntityIDArgs summoner, in EntitySummonModel entitySummonModel, out BuffEntity buff) {
+        public bool TryAttachBuff(RoleEntity targetRole, in EntityIDArgs father, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
             buff = null;
-            RoleEntity roleFather = null;
-            if (!rootDomain.TryFindRoleFather(summoner, ref roleFather)) {
-                TDLog.Error($"召唤Buff失败, 召唤者角色找不到:{summoner}");
-                return false;
-            }
-
-            var buffTypeID = entitySummonModel.typeID;
 
             // Buff叠加 & 替换
-            var buffSlotCom = roleFather.BuffSlotCom;
+            var buffTypeID = buffAttachModel.buffID;
+            var buffSlotCom = targetRole.BuffSlotCom;
             if (buffSlotCom.TryGet(buffTypeID, out buff)) {
                 if (buff.ExtraStackCount < buff.MaxExtraStackCount) {
                     buff.AddExtraStackCount();
                     TDLog.Log($"Buff[{buff.IDCom.TypeID}]叠加 当前层数:{buff.ExtraStackCount + 1}");
                 }
 
-                RevokeBuff(buff, roleFather.AttributeCom);
+                RevokeBuff(buff, targetRole.AttributeCom);
                 buff.ResetTriggerTimes();
                 buff.ResetCurFrame();
                 buff.AttributeEffectModel.ResetOffset();
                 return true;
             }
 
-            if (!TrySpawn(buffTypeID, summoner, out buff)) {
+            if (!TrySpawn(buffTypeID, father, out buff)) {
                 TDLog.Error($"召唤Buff失败, 生成Buff失败:{buffTypeID}");
                 return false;
             }
 
-            buff.SetFather(roleFather.IDCom.ToArgs());
+            buff.SetFather(father);
             buffSlotCom.TryAdd(buff);
 
             return true;
@@ -188,13 +182,13 @@ namespace TiedanSouls.Client.Domain {
 
             var idCom = buff.IDCom;
             var father = idCom.Father;
-            Vector3 summonPos = Vector3.zero;
+            Vector3 basePos = Vector3.zero;
             Quaternion baseRot = Quaternion.identity;
             EntityIDArgs summoner = father;
 
             if (this.rootDomain.TryGetEntityObj(idCom.Father, out var entity)) {
                 if (entity is RoleEntity role) {
-                    summonPos = role.LogicRootPos;
+                    basePos = role.LogicRootPos;
                     baseRot = role.LogicRotation;
                 } else {
                     TDLog.Error($"Buff 效果器触发失败, 父实体不是角色实体");
@@ -202,9 +196,8 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
-            var entitySummonModelArray = effectorModel.entitySummonModelArray;
+
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
             TDLog.Log($"Buff[{idCom.EntityName}] ======> 效果器触发效果器:{effectorModel.effectorName}");
             return true;

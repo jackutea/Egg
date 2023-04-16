@@ -37,26 +37,26 @@ namespace TiedanSouls.Client.Entities {
             var stateModel = deactivatedModel;
             stateModel.Reset();
             state = ProjectileFSMState.Deactivated;
-            TDLog.Log($"弹道 -状态机 - 进入 {state}");
+            TDLog.Log($"弹幕 -状态机 - 进入 {state}");
         }
 
         public void Enter_Activated() {
             var stateModel = activatedModel;
             stateModel.Reset();
             state = ProjectileFSMState.Activated;
-            TDLog.Log($"弹道 -状态机 - 进入 {state}");
+            TDLog.Log($"弹幕 -状态机 - 进入 {state}");
         }
 
         public void Enter_Dying(int maintainFrame) {
             var stateModel = dyingModel;
             stateModel.Reset();
             state = ProjectileFSMState.Dying;
-            TDLog.Log($"弹道 -状态机 - 进入 {state}");
+            TDLog.Log($"弹幕 -状态机 - 进入 {state}");
         }
 
         public void Enter_None() {
             state = ProjectileFSMState.None;
-            TDLog.Log($"弹道 -状态机 - 进入 {state}");
+            TDLog.Log($"弹幕 -状态机 - 进入 {state}");
         }
 
     }

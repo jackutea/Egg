@@ -148,7 +148,7 @@ namespace TiedanSouls.Client.Entities {
             var len = skillMoveCurveModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var model = skillMoveCurveModelArray[i];
-                var startFrame = model.startFrame;
+                var startFrame = model.triggerFrame;
                 var endFrame = startFrame + model.moveCurveModel.moveDirArray.Length - 1;
 
                 if (startFrame <= frame && frame <= endFrame) {
@@ -169,7 +169,7 @@ namespace TiedanSouls.Client.Entities {
             var len = skillMoveCurveModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var model = skillMoveCurveModelArray[i];
-                var startFrame = model.startFrame;
+                var startFrame = model.triggerFrame;
                 var endFrame = startFrame + model.moveCurveModel.moveDirArray.Length - 1;
 
                 if (startFrame <= frame && frame <= endFrame) {

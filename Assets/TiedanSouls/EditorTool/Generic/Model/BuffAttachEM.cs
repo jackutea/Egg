@@ -7,8 +7,8 @@ namespace TiedanSouls.EditorTool {
     [Serializable]
     public struct BuffAttachEM {
 
-        [Header("类型ID")] public int typeID;
-        [Header("作用阵营")] public TargetGroupType targetGroupType;
+        [Header("触发帧")] public int triggerFrame;
+        [Header("BuffID")] public int buffID;
 
     }
 

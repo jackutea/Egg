@@ -1,6 +1,8 @@
+using UnityEngine;
 using TiedanSouls.Infra.Facades;
 using TiedanSouls.Client.Facades;
 using TiedanSouls.Generic;
+using TiedanSouls.Client.Entities;
 
 namespace TiedanSouls.Client.Domain {
 

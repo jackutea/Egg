@@ -117,7 +117,7 @@ namespace TiedanSouls.EditorTool {
 
         public static SkillMoveCurveEM GetSkillMoveCurveEM(SkillMoveCurveTM tm) {
             SkillMoveCurveEM em;
-            em.startFrame = tm.startFrame;
+            em.triggerFrame = tm.triggerFrame;
             em.isFaceTo = tm.isFaceTo;
             em.needWaitForMoveEnd = tm.needWaitForMoveEnd;
             em.moveCurveEM = GetMoveCurveEM(tm.moveCurveTM);
@@ -168,7 +168,9 @@ namespace TiedanSouls.EditorTool {
             EffectorEM em;
             em.typeID = tm.typeID;
             em.effectorName = tm.effectorName;
-            em.entitySummonEMArray = GetEntitySummonEMArray(tm.entitySummonTMArray);
+            em.roleSummonEMArray = GetRoleSummonEMArray(tm.roleSummonTMArray);
+            em.buffAttachEMArray = GetBuffAttachEMArray(tm.buffAttachTMArray);
+            em.projectileCtorEMArray = GetProjectileCtorEMArray(tm.projectileCtorTMArray);
             em.entityDestroyEMArray = GetEntityDestroyEMArray(tm.entityDestroyTMArray);
             return em;
         }
@@ -319,23 +321,65 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [EntitySummon]
+        #region [RoleSummon]
 
-        public static EntitySummonEM[] GetEntitySummonEMArray(EntitySummonTM[] tmArray) {
+        public static RoleSummonEM[] GetRoleSummonEMArray(RoleSummonTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntitySummonEM[] emArray = new EntitySummonEM[len];
+            RoleSummonEM[] emArray = new RoleSummonEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetEffectorSummonEM(tmArray[i]);
+                emArray[i] = GetRoleSummonEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static EntitySummonEM GetEffectorSummonEM(EntitySummonTM tm) {
-            EntitySummonEM em;
-            em.entityType = tm.entityType;
+        public static RoleSummonEM GetRoleSummonEM(RoleSummonTM tm) {
+            RoleSummonEM em;
             em.typeID = tm.typeID;
             em.controlType = tm.controlType;
+            return em;
+        }
+
+        #endregion
+
+        #region [BuffAttach]
+
+        public static BuffAttachEM[] GetBuffAttachEMArray(BuffAttachTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            BuffAttachEM[] emArray = new BuffAttachEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetBuffAttachEM(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static BuffAttachEM GetBuffAttachEM(BuffAttachTM tm) {
+            BuffAttachEM em;
+            em.triggerFrame = tm.triggerFrame;
+            em.buffID = tm.buffID;
+            return em;
+        }
+
+        #endregion
+
+        #region [ProjectileCtor]
+
+        public static ProjectileCtorEM[] GetProjectileCtorEMArray(ProjectileCtorTM[] tmArray) {
+            if (tmArray == null) return null;
+            var len = tmArray.Length;
+            ProjectileCtorEM[] emArray = new ProjectileCtorEM[len];
+            for (int i = 0; i < len; i++) {
+                emArray[i] = GetProjectileCtorEM(tmArray[i]);
+            }
+            return emArray;
+        }
+
+        public static ProjectileCtorEM GetProjectileCtorEM(ProjectileCtorTM tm) {
+            ProjectileCtorEM em;
+            em.typeID = tm.typeID;
+            em.localPos = GetVector3_Shrink100(tm.localPosExpanded);
+            em.localEulerAngles = GetVector3_Shrink100(tm.localEulerAnglesExpanded);
             return em;
         }
 

@@ -122,12 +122,8 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            var summonPos = skillColliderPos;
-            var baseRot = Quaternion.identity;
             var summoner = skill.IDCom.ToArgs();
-            var entitySummonModelArray = effectorModel.entitySummonModelArray;
             var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.SpawnBy_EntitySummonModelArray(summonPos, baseRot, summoner, entitySummonModelArray);
             this.rootDomain.DestroyBy_EntityDestroyModelArray(summoner, entityDestroyModelArray);
             TDLog.Log($"击中效果 - {hitEffectorTypeID}");
         }
