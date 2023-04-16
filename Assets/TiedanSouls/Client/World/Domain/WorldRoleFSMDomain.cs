@@ -244,7 +244,11 @@ namespace TiedanSouls.Client.Domain {
 
             // 弹幕生成
             if (castingSkill.TryGet_ValidProjectileCtorModel(out var projectileCtorModel)) {
-                projectileDomain.TrySpawnProjectile(basePos, baseRot, role.IDCom.ToArgs(), projectileCtorModel, out _);
+                var localRot = Quaternion.Euler(projectileCtorModel.localEulerAngles);
+                var localPos = projectileCtorModel.localPos;
+                var worldRot = baseRot * localRot;
+                var worldPos = basePos + worldRot * localPos;
+                projectileDomain.TrySpawnProjectile(worldPos, worldRot, role.IDCom.ToArgs(), projectileCtorModel, out _);
             }
 
             // Buff附加

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2118739567234550776}
   - component: {fileID: 4359571233480886652}
   m_Layer: 0
-  m_Name: editor_projectile_test
+  m_Name: editor_projectile_9999
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,7 +21,7 @@ MonoBehaviour:
     weaponAnimClip_GUID: 84dd15d653dd41049994690039901695
     originSkillTypeID: 1000
     comboSkillCancelTMArray:
-    - skillTypeID: 1020
+    - skillTypeID: 1002
       startFrame: 10
       endFrame: 15
     cancelSkillCancelTMArray:

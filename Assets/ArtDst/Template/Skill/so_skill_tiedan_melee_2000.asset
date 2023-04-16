@@ -29,7 +29,11 @@ MonoBehaviour:
       controlType: 2
       localPosExpanded: {x: 200, y: 200, z: 0}
       localEulerAnglesExpanded: {x: 0, y: 0, z: 0}
-    projectileCtorTMArray: []
+    projectileCtorTMArray:
+    - triggerFrame: 14
+      typeID: 9999
+      localPosExpanded: {x: 0, y: 500, z: 0}
+      localEulerAnglesExpanded: {x: 0, y: 0, z: -2000}
     buffAttachTMArray: []
     skillMoveCurveTMArray: []
     collisionTriggerTMArray: []

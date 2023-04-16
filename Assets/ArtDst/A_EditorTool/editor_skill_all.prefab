@@ -61,7 +61,11 @@ MonoBehaviour:
     controlType: 2
     localPos: {x: 2, y: 2, z: 0}
     localEulerAngles: {x: 0, y: 0, z: 0}
-  projectileCtorEMArray: []
+  projectileCtorEMArray:
+  - triggerFrame: 14
+    typeID: 9999
+    localPos: {x: 0, y: 5, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: -20}
   buffAttachEMArray: []
   skillMoveCurveEMArray: []
   entityColliderTriggerEMArray: []
@@ -261,7 +265,7 @@ MonoBehaviour:
   skillType: 1
   weaponAnimClip: {fileID: 7400000, guid: 7b87320ad56e2a94aa465d2f7e762aaa, type: 2}
   comboSkillCancelEMArray:
-  - skillTypeID: 1010
+  - skillTypeID: 1001
     startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray:
@@ -887,7 +891,7 @@ MonoBehaviour:
   skillType: 1
   weaponAnimClip: {fileID: 7400000, guid: 84dd15d653dd41049994690039901695, type: 2}
   comboSkillCancelEMArray:
-  - skillTypeID: 1020
+  - skillTypeID: 1002
     startFrame: 10
     endFrame: 15
   cancelSkillCancelEMArray:
