@@ -10,14 +10,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldBulletDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = worldDomain;
         }
 
         /// <summary>
@@ -47,7 +45,8 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetFather(father);
 
             // 碰撞盒关联
-            this.rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
+            var rootDomain = worldContext.RootDomain;
+            rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
 
             bulletRepo.Add(bullet);
 
@@ -70,7 +69,7 @@ namespace TiedanSouls.Client.Domain {
 
             var spawnPos = entitySpawnModel.spawnPos;
             var spawnControlType = entitySpawnModel.controlType;
-            var spawnAllyType = entitySpawnModel.allyType;
+            var spawnAllyType = entitySpawnModel.campType;
 
             // 1. 子弹 ID
             var idCom = bullet.IDCom;
@@ -79,7 +78,8 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetControlType(spawnControlType);
 
             // 2. 子弹 碰撞盒关联
-            this.rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
+            var rootDomain = worldContext.RootDomain;
+            rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
 
             // 3. 添加至仓库
             var repo = worldContext.BulletRepo;
@@ -100,7 +100,7 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            TriggerHitEffector(bullet, collisionTriggerModel);
+            // TODO : 子弹击中效果器
             bullet.ReduceExtraPenetrateCount();
         }
 
@@ -111,32 +111,6 @@ namespace TiedanSouls.Client.Domain {
             if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
-        }
-
-        /// <summary>
-        /// 子弹击中效果器触发
-        /// </summary>
-        public void TriggerHitEffector(BulletEntity bullet, in EntityColliderTriggerModel collisionTriggerModel) {
-            var effectorTypeID = collisionTriggerModel.hitEffectorTypeID;
-            TriggerEffector(bullet, effectorTypeID);
-        }
-
-        /// <summary>
-        /// 子弹死亡效果器触发
-        /// </summary>
-        public void TriggerDeathEffector(BulletEntity bullet) {
-            var effectorTypeID = bullet.DeathEffectorTypeID;
-            TriggerEffector(bullet, effectorTypeID);
-        }
-
-        void TriggerEffector(BulletEntity bullet, int effectorTypeID) {
-            var effectorDomain = rootDomain.EffectorDomain;
-            if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
-                return;
-            }
-            var summoner = bullet.IDCom.ToArgs();
-            var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.DestroyBy_EntityModifyModelArray(summoner, entityDestroyModelArray);
         }
 
         /// <summary>
@@ -154,8 +128,9 @@ namespace TiedanSouls.Client.Domain {
             var entityType = entityTrackSelectorModel.entityType;
             var trackSpeed = entityTrackModel.trackSpeed;
 
-            this.rootDomain.TryGetEntityObj(target, out var entity);
-            this.rootDomain.TryGetEntityPos(entity, out var targetPos);
+            var rootDomain = worldContext.RootDomain;
+            rootDomain.TryGetEntityObj(target, out var entity);
+            rootDomain.TryGetEntityPos(entity, out var targetPos);
             var moveCom = bullet.MoveCom;
             var bulletPos = moveCom.Pos;
             var posOffset = targetPos - bulletPos;

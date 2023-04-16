@@ -25,7 +25,7 @@ namespace TiedanSouls.Client.Domain {
         public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
             var typeID = entitySpawnModel.typeID;
             var pos = entitySpawnModel.spawnPos;
-            var allyType = entitySpawnModel.allyType;
+            var campType = entitySpawnModel.campType;
             var controlType = entitySpawnModel.controlType;
 
             var factory = worldContext.Factory;
@@ -34,7 +34,7 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            BaseSetRole(role, typeID, pos,Quaternion.identity, allyType, controlType);
+            BaseSetRole(role, typeID, pos, Quaternion.identity, campType, controlType);
 
             role.SetFromFieldTypeID(fromFieldTypeID);
             role.SetIsBoss(entitySpawnModel.isBoss);
@@ -64,7 +64,7 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            BaseSetRole(role, typeID, summonPos, summonRot, summoner.allyType, controlType);
+            BaseSetRole(role, typeID, summonPos, summonRot, summoner.campType, controlType);
 
             var idCom = role.IDCom;
             idCom.SetFather(summoner);
@@ -81,10 +81,24 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
+        public void ModifyRole(RoleEntity role, in RoleEffectorModel roleEffectorModel) {
+            var buffDomain = worldContext.RootDomain.BuffDomain;
+            var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
+            var roleAttributeEffectModel = roleEffectorModel.roleAttributeEffectModel;
+            var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
+            var roleRepo = worldContext.RoleRepo;
+
+            roleRepo.Foreach_All((role) => {
+                var attrCom = role.AttributeCom;
+                if (!attrCom.IsMatch(roleAttributeSelectorModel)) return;
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleAttributeEffectModel, 1);
+            });
+        }
+
         /// <summary>
         /// 设置角色基础信息
         /// </summary>
-        void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, Quaternion rot, AllyType allyType, ControlType controlType) {
+        void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, Quaternion rot, CampType campType, ControlType controlType) {
             // Pos
             role.SetLogicPos(pos);
             role.SetLogicRot(rot);
@@ -96,7 +110,7 @@ namespace TiedanSouls.Client.Domain {
             var idCom = role.IDCom;
             idCom.SetEntityID(id);
             idCom.SetControlType(controlType);
-            idCom.SetAllyType(allyType);
+            idCom.SetAllyType(campType);
 
             // Collider Model
             var entityCollider = role.LogicRoot.gameObject.AddComponent<EntityCollider>();
@@ -111,8 +125,8 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // HUD Show
-            if (idCom.AllyStatus == AllyType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
-            else if (idCom.AllyStatus == AllyType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
+            if (idCom.AllyStatus == CampType.Two) role.HudSlotCom.HpBarHUD.SetColor(Color.red);
+            else if (idCom.AllyStatus == CampType.Neutral) role.HudSlotCom.HpBarHUD.SetColor(Color.yellow);
         }
 
         #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -401,8 +415,11 @@ namespace TiedanSouls.Client.Domain {
         /// 角色受击的统一处理方式
         /// </summary>
         public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in EntityColliderTriggerModel collisionTriggerModel) {
-            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
-            var roleDomain = worldContext.RootDomain.RoleDomain;
+            var rootDomain = worldContext.RootDomain;
+            var roleFSMDomain = rootDomain.RoleFSMDomain;
+            var roleDomain = rootDomain.RoleDomain;
+            var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var buffDomain = rootDomain.BuffDomain;
 
             // 受击
             var beHitModel = collisionTriggerModel.beHitModel;
@@ -410,12 +427,21 @@ namespace TiedanSouls.Client.Domain {
 
             var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
 
-            // 控制效果组
+            // 受击附加 角色控制效果
             var roleCtrlEffectModelArray = collisionTriggerModel.roleCtrlEffectModelArray;
             var len = roleCtrlEffectModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var roleCtrlEffectModel = roleCtrlEffectModelArray[i];
                 ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffectModel);
+            }
+
+            // 受击附加 角色效果器
+            var targetRoleEffectorTypeIDArray = collisionTriggerModel.targetRoleEffectorTypeIDArray;
+            len = targetRoleEffectorTypeIDArray.Length;
+            for (int i = 0; i < len; i++) {
+                var roleEffectorTypeID = targetRoleEffectorTypeIDArray[i];
+                if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeEffectModel, 1);
             }
 
             // 伤害 仲裁
@@ -425,10 +451,8 @@ namespace TiedanSouls.Client.Domain {
             var damageType = damageModel.damageType;
             float realDamage = baseDamage;
 
-            RoleEntity roleFather = null;
-            var rootDomain = worldContext.RootDomain;
-            if (rootDomain.TryFindRoleFather(hitter, ref roleFather)) {
-                realDamage = damageArbitService.ArbitrateDamage(damageType, baseDamage, roleFather.AttributeCom, role.AttributeCom);
+            if (rootDomain.TryGetRoleFromIDArgs(hitter, out var hitterRole)) {
+                realDamage = damageArbitService.ArbitrateDamage(damageType, baseDamage, hitterRole.AttributeCom, role.AttributeCom);
             }
 
             // 伤害结算

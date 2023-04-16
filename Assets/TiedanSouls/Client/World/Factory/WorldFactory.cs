@@ -85,14 +85,14 @@ namespace TiedanSouls.Client {
             var assetCore = infraContext.AssetCore;
             var containerModAssets = assetCore.ContainerModAsset;
             var contanerAssetName = "mod_container_item";
-            if (!containerModAssets.TryGet(contanerAssetName, out GameObject itemPrefab)) {
+            if (!containerModAssets.TryGet(contanerAssetName, out GameObject prefab)) {
                 TDLog.Error($"获取实体容器失败! {contanerAssetName}");
                 return false;
             }
 
             // ItemEntity
-            var itemGo = GameObject.Instantiate(itemPrefab);
-            item = itemGo.GetComponent<ItemEntity>();
+            var go = GameObject.Instantiate(prefab);
+            item = go.AddComponent<ItemEntity>();
             item.Ctor();
 
             var idCom = item.IDCom;
@@ -137,13 +137,14 @@ namespace TiedanSouls.Client {
             var assetCore = infraContext.AssetCore;
             var containerModAssets = assetCore.ContainerModAsset;
             var contanerAssetName = "mod_container_role";
-            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject go);
+            bool has = containerModAssets.TryGet(contanerAssetName, out GameObject prefab);
             if (!has) {
                 TDLog.Error($"获取实体容器失败! {contanerAssetName}");
                 return false;
             }
 
-            role = GameObject.Instantiate(go).GetComponent<RoleEntity>();
+            var go = GameObject.Instantiate(prefab);
+            role = go.AddComponent<RoleEntity>();
             role.Ctor();
 
             // ID
@@ -211,7 +212,7 @@ namespace TiedanSouls.Client {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            if (role.IDCom.AllyStatus == AllyType.Two) followRoot.AddChild(attackNode);
+            if (role.IDCom.AllyStatus == CampType.Two) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 
@@ -424,7 +425,7 @@ namespace TiedanSouls.Client {
 
         #region [Component]
 
-        public static void SetAttributeComponent(AttributeComponent attributeComponent, RoleTM tm) {
+        public static void SetAttributeComponent(RoleAttributeComponent attributeComponent, RoleTM tm) {
             // TODO: 天赋系统的初始属性加成
             var hpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.hpMax_Expanded);
             var mpMax_base = TM2ModelUtil.GetFloat_Shrink100(tm.mpMax_Expanded);

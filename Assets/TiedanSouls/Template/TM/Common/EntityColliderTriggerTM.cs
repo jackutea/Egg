@@ -19,12 +19,14 @@ namespace TiedanSouls.Template {
         [Header("自定义")] public TriggerCustomTM triggerCustomTM;
 
         [Header("作用实体类型")] public EntityType targetEntityType;
-        [Header("作用目标")] public TargetGroupType hitTargetGroupType;
+        [Header("作用目标")] public AllyType hitAllyType;
 
         [Header("伤害")] public DamageTM damageTM;
         [Header("受击")] public BeHitTM beHitTM;
         [Header("控制效果(组)")] public RoleCtrlEffectTM[] roleCtrlEffectTMArray;
-        [Header("击中效果器")] public int hitEffectorTypeID;
+
+        [Header("作用目标效果器组")] public int[] targetRoleEffectorTypeIDArray;
+        [Header("作用自身效果器组")] public int[] selfRoleEffectorTypeIDArray;
 
         [Header("碰撞盒(组)")] public ColliderTM[] colliderTMArray;
 

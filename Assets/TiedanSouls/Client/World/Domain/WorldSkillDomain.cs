@@ -11,14 +11,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldSkillDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain rootDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = rootDomain;
         }
 
         #region [添加技能]
@@ -56,6 +54,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // 技能碰撞盒关联
+            var rootDomain = worldContext.RootDomain;
             skillSlotCom.Foreach_Origin((skill) => {
                 var skillIDArgs = skill.IDCom.ToArgs();
                 rootDomain.SetEntityColliderTriggerModelFathers(skill.EntityColliderTriggerModelArray, skillIDArgs);
@@ -97,6 +96,7 @@ namespace TiedanSouls.Client.Domain {
                 }
 
                 // 技能碰撞盒关联
+                var rootDomain = worldContext.RootDomain;
                 skillSlotCom.Foreach_Combo((skill) => {
                     var skillIDArgs = skill.IDCom.ToArgs();
                     rootDomain.SetEntityColliderTriggerModelFathers(skill.EntityColliderTriggerModelArray, skillIDArgs);
@@ -111,21 +111,31 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 技能 击中 处理
         /// </summary>
-        public void HandleHit(SkillEntity skill, Vector3 skillColliderPos) {
-            if (!skill.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
+        public void HandleHit(SkillEntity skill, Vector3 skillColliderPos, in EntityColliderTriggerModel collisionTriggerModel) {
+            var rootDomain = worldContext.RootDomain;
+            var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var buffDomain = rootDomain.BuffDomain;
+
+            // 打击触发自身 角色效果器
+            var skillIDCom = skill.IDCom;
+            if (!rootDomain.TryGetRoleFromIDArgs(skillIDCom.Father, out var selfRole)) {
+                TDLog.Error($"技能击中时, 未找到技能拥有者! - {skillIDCom}");
                 return;
             }
 
-            var hitEffectorTypeID = collisionTriggerModel.hitEffectorTypeID;
-            var effectorDomain = rootDomain.EffectorDomain;
-            if (!effectorDomain.TrySpawnEffectorModel(hitEffectorTypeID, out var effectorModel)) {
-                return;
-            }
+            var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
+            var len = selfRoleEffectorTypeIDArray?.Length;
+            for (int i = 0; i < len; i++) {
+                var roleEffectorTypeID = selfRoleEffectorTypeIDArray[i];
+                if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
 
-            var summoner = skill.IDCom.ToArgs();
-            var entityDestroyModelArray = effectorModel.entityDestroyModelArray;
-            this.rootDomain.DestroyBy_EntityModifyModelArray(summoner, entityDestroyModelArray);
-            TDLog.Log($"击中效果 - {hitEffectorTypeID}");
+                var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
+                var roleAttributeEffectModel = roleEffectorModel.roleAttributeEffectModel;
+                var roleAttrCom = selfRole.AttributeCom;
+                if (!roleAttrCom.IsMatch(roleAttributeSelectorModel)) continue;
+
+                buffDomain.TryEffectRoleAttribute(selfRole.AttributeCom, roleEffectorModel.roleAttributeEffectModel, 1);
+            }
         }
 
         /// <summary>

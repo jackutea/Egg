@@ -34,8 +34,62 @@ MonoBehaviour:
       typeID: 9999
       localPosExpanded: {x: 0, y: 500, z: 0}
       localEulerAnglesExpanded: {x: 0, y: 0, z: -2000}
-    buffAttachTMArray:
-    - triggerFrame: 14
-      buffID: 99991
+    buffAttachTMArray: []
     skillMoveCurveTMArray: []
-    collisionTriggerTMArray: []
+    collisionTriggerTMArray:
+    - isEnabled: 1
+      frameRange: {x: 10, y: 14}
+      triggerMode: 1
+      triggerFixedIntervalTM:
+        delayFrame: 0
+        intervalFrame: 0
+        maintainFrame: 0
+      triggerCustomTM:
+        frameRangeArray:
+        - {x: 10, y: 14}
+      targetEntityType: 1
+      hitAllyType: 4
+      damageTM:
+        damageType: 0
+        damageArray: 0000000000000000000000000000000000000000
+        damageBase: 0
+        damageCurve_KeyframeTMArray:
+        - time: 0
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+      beHitTM:
+        maintainFrame: 0
+        knockBackSpeedArray_cm: 
+        knockBackKeyframeTMArray:
+        - time: 0
+          value: 0
+          inTangent: 2
+          outTangent: 2
+          inWeight: 0
+          outWeight: 0
+        - time: 1
+          value: 1
+          inTangent: 0
+          outTangent: 0
+          inWeight: 0
+          outWeight: 0
+        knockBackTotalFrame: 0
+        knockBackDistance_cm: 0
+        knockUpSpeedArray_cm: 
+        knockUpKeyframeTMArray: []
+        knockUpTotalFrame: 0
+        knockUpDis_cm: 0
+      roleCtrlEffectTMArray: []
+      targetRoleEffectorTypeIDArray: 
+      selfRoleEffectorTypeIDArray: 07270000
+      colliderTMArray: []
+      colliderRelativePathArray: []

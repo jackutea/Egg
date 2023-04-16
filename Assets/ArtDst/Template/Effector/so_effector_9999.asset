@@ -9,14 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be459a8e1ec7a3b4e876d0776595ef4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 79f16db4ed9e89046837fd6790910906, type: 3}
   m_Name: so_effector_9999
   m_EditorClassIdentifier: 
   tm:
     typeID: 9999
-    effectorName: "\u5F39\u9053\u6548\u679C\u5668\uFF1A\u4E07\u7BAD\u7A7F\u5FC3"
-    entitySummonTMArray:
-    - entityType: 5
-      typeID: 9999
-      controlType: 0
-    entityDestroyTMArray: []
+    effectorName: "\u6548\u679C\u5668: \u63D0\u5347\u7269\u7406\u4F24\u5BB3 +10%"
+    roleAttributeSelectorTM:
+      isEnabled: 0
+      hp: 0
+      hp_ComparisonType: 0
+      hpMax: 0
+      hpMax_ComparisonType: 0
+      mp: 0
+      ep_ComparisonType: 0
+      mpMax: 0
+      mpMax_ComparisonType: 0
+      gp: 0
+      gp_ComparisonType: 0
+      gpMax: 0
+      gpMax_ComparisonType: 0
+      moveSpeed: 0
+      moveSpeed_ComparisonType: 0
+      jumpSpeed: 0
+      jumpSpeed_ComparisonType: 0
+      fallingAcceleration: 0
+      fallingAcceleration_ComparisonType: 0
+      fallingSpeedMax: 0
+      fallingSpeedMax_ComparisonType: 0
+    roleAttributeEffectTM:
+      hpNCT: 0
+      hpEV_Expanded: 0
+      hpMaxNCT: 0
+      hpMaxEV_Expanded: 0
+      moveSpeedNCT: 0
+      moveSpeedEV_Expanded: 0
+      normalSkillSpeedBonusEV_Expanded: 0
+      physicalDamageBonusEV_Expanded: 10
+      magicalDamageBonusEV_Expanded: 0
+      physicalDefenseBonusEV_Expanded: 0
+      magicalDefenseBonusEV_Expanded: 0

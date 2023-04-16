@@ -10,14 +10,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldRoleFSMDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = worldDomain;
         }
 
         public void TickFSM(int curFieldTypeID, float dt) {
@@ -48,6 +46,7 @@ namespace TiedanSouls.Client.Domain {
         void TickAny(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
             if (fsmCom.FSMState == RoleFSMState.Dying) return;
 
+            var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
             // 任意状态下的死亡判定
@@ -62,19 +61,19 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void Tick_Buff(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+            var rootDomain = worldContext.RootDomain;
             var buffDomain = rootDomain.BuffDomain;
 
             var buffSlotCom = role.BuffSlotCom;
             var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
                 buff.AddCurFrame();
-                buffDomain.TryTriggerEffector(buff);
-                buffDomain.TryTriggerAttributeEffect(role.AttributeCom, buff);
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, buff);
                 role.HudSlotCom.HpBarHUD.SetHpBar(role.AttributeCom.HP, role.AttributeCom.HPMax);
             });
 
             var buffRepo = worldContext.BuffRepo;
             removeList.ForEach((buff) => {
-                buffDomain.RevokeBuff(buff, role.AttributeCom);
+                buffDomain.TryRevokeBuff(buff, role.AttributeCom);
                 buffSlotCom.TryRemove(buff);
                 buffRepo.TryRemoveToPool(buff);
                 buff.ResetAll();
@@ -110,6 +109,7 @@ namespace TiedanSouls.Client.Domain {
                 role.RendererModCom.Anim_PlayIdle();
             }
 
+            var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
             // 拾取武器
@@ -148,6 +148,7 @@ namespace TiedanSouls.Client.Domain {
             role.Fall(dt);
             role.HorizontalFaceTo(role.InputCom.MoveAxis.x);
 
+            var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
             roleDomain.TryCastSkillByInput(role);
 
@@ -162,6 +163,7 @@ namespace TiedanSouls.Client.Domain {
         /// 释放技能状态
         /// </summary>
         void Tick_Casting(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+            var rootDomain = worldContext.RootDomain;
             var stateModel = fsmCom.CastingStateModel;
             var castingSkill = stateModel.CastingSkill;
             var isCombo = stateModel.IsCombo;
@@ -190,6 +192,7 @@ namespace TiedanSouls.Client.Domain {
                 var rendererModCom = role.RendererModCom;
                 rendererModCom.Anim_SetSpeed(1);
                 fsmCom.Enter_Idle();
+                castingSkill.Reset();
                 return;
             }
 
@@ -209,23 +212,17 @@ namespace TiedanSouls.Client.Domain {
                 role.TryMoveByInput();
                 role.Fall(dt);
             }
-            roleDomain.TryCastSkillByInput(role);
 
             // 技能逻辑迭代
-            if (!castingSkill.TryApplyFrame(role.LogicRootPos, role.LogicRotation, curFrame)) {
-                var rendererModCom = role.RendererModCom;
-                rendererModCom.Anim_SetSpeed(1);
-                fsmCom.Enter_Idle();
-            }
+            castingSkill.TryApplyFrame(role.LogicRootPos, role.LogicRotation, curFrame);
 
             // 效果器
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
                 if (effectorTypeID != 0) {
-                    var effectorDomain = this.rootDomain.EffectorDomain;
-                    if (effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) {
-                        var target = role.IDCom.ToArgs();
-                        this.rootDomain.DestroyBy_EntityModifyModelArray(target, effectorModel.entityDestroyModelArray);
+                    var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+                    if (roleEffectorDomain.TrySpawnRoleEffectorModel(effectorTypeID, out var roleEffectorModel)) {
+                        roleDomain.ModifyRole(role, roleEffectorModel);
                     }
                 }
             }
@@ -256,6 +253,8 @@ namespace TiedanSouls.Client.Domain {
                 var father = role.IDCom.ToArgs();
                 buffDomain.TryAttachBuff(father, father, buffAttachModel, out _);
             }
+
+            roleDomain.TryCastSkillByInput(role);
         }
 
         /// <summary>
@@ -310,12 +309,13 @@ namespace TiedanSouls.Client.Domain {
             var curFrame = stateModel.curFrame;
             var beHitDir = stateModel.BeHitDir;
 
+            bool hasFrameKnockBack = false;
             var moveCom = role.MoveCom;
             var knockBackSpeedArray = stateModel.KnockBackSpeedArray;
             if (knockBackSpeedArray != null) {
                 var len = knockBackSpeedArray.Length;
-                bool canKnockBack = curFrame < len;
-                if (canKnockBack) {
+                hasFrameKnockBack = curFrame < len;
+                if (hasFrameKnockBack) {
                     beHitDir = beHitDir.x > 0 ? Vector2.right : Vector2.left;
                     moveCom.SetHorizontalVelocity(beHitDir * knockBackSpeedArray[curFrame]);
                 } else if (curFrame == len) {
@@ -323,12 +323,13 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
+            bool isOnGround = fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround);
+            bool hasFrameKnockUp = false;
             var knockUpSpeedArray = stateModel.KnockUpSpeedArray;
             if (knockUpSpeedArray != null) {
-                bool isOnGround = fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround);
                 var len = knockUpSpeedArray.Length;
-                bool canKnockUp = curFrame < len;
-                if (canKnockUp) {
+                hasFrameKnockUp = curFrame < len;
+                if (hasFrameKnockUp) {
                     var newV = moveCom.Velocity;
                     newV.y = knockUpSpeedArray[curFrame];
                     moveCom.SetVerticalVelocity(newV);
@@ -337,16 +338,22 @@ namespace TiedanSouls.Client.Domain {
                 } else if (!isOnGround) {
                     role.Fall(dt);
                 }
+            }
 
-                bool isOver = curFrame >= stateModel.MaintainFrame;
-                if (isOver) {
-                    bool hasKnockUp = len > 0;
-                    if (!hasKnockUp) {
-                        fsmCom.Enter_Idle();
-                        return;
-                    }
+            bool isOver = curFrame >= stateModel.MaintainFrame;
+            if (isOver) {
+                bool hasKnockUp = knockUpSpeedArray != null && curFrame >= knockUpSpeedArray.Length;
+                if (!hasKnockUp) {
+                    if (hasFrameKnockBack) moveCom.StopHorizontalVelocity();
+                    if (hasFrameKnockUp) moveCom.StopVerticalVelocity();
+                    fsmCom.Enter_Idle();
+                    return;
+                }
 
-                    if (isOnGround) fsmCom.Enter_Idle();
+                if (isOnGround) {
+                    if (hasFrameKnockBack) moveCom.StopHorizontalVelocity();
+                    if (hasFrameKnockUp) moveCom.StopVerticalVelocity();
+                    fsmCom.Enter_Idle();
                 }
             }
         }
@@ -355,6 +362,7 @@ namespace TiedanSouls.Client.Domain {
         /// 死亡状态
         /// </summary>
         void Tick_Dying(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+            var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
             var stateModel = fsmCom.DyingStateModel;

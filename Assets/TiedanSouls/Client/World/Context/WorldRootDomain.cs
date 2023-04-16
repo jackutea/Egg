@@ -29,7 +29,7 @@ namespace TiedanSouls.Client.Facades {
         #region [杂项 Domain]
 
         public WorldPhxDomain PhysicalDomain { get; private set; }
-        public WorldEffectorDomain EffectorDomain { get; private set; }
+        public WorldRoleEffectorDomain RoleEffectorDomain { get; private set; }
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace TiedanSouls.Client.Facades {
             BuffDomain = new WorldBuffDomain();
 
             PhysicalDomain = new WorldPhxDomain();
-            EffectorDomain = new WorldEffectorDomain();
+            RoleEffectorDomain = new WorldRoleEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
         }
@@ -68,23 +68,23 @@ namespace TiedanSouls.Client.Facades {
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
             worldContext.Inject(this);
 
-            this.WorldFSMDomain.Inject(infraContext, worldContext, this);
+            this.WorldFSMDomain.Inject(infraContext, worldContext);
             this.FieldDomain.Inject(infraContext, worldContext);
             this.FieldFSMDomain.Inject(infraContext, worldContext);
-            this.RoleFSMDomain.Inject(infraContext, worldContext, this);
+            this.RoleFSMDomain.Inject(infraContext, worldContext);
             this.RoleDomain.Inject(infraContext, worldContext);
-            this.SkillDomain.Inject(infraContext, worldContext, this);
+            this.SkillDomain.Inject(infraContext, worldContext);
             this.ItemDomain.Inject(infraContext, worldContext);
-            this.ProjectileDomain.Inject(infraContext, worldContext, this);
-            this.ProjectileFSMDomain.Inject(infraContext, worldContext, this);
-            this.BulletDomain.Inject(infraContext, worldContext, this);
-            this.BulletFSMDomain.Inject(infraContext, worldContext, this);
-            this.BuffDomain.Inject(infraContext, worldContext, this);
+            this.ProjectileDomain.Inject(infraContext, worldContext);
+            this.ProjectileFSMDomain.Inject(infraContext, worldContext);
+            this.BulletDomain.Inject(infraContext, worldContext);
+            this.BulletFSMDomain.Inject(infraContext, worldContext);
+            this.BuffDomain.Inject(infraContext, worldContext);
 
-            this.PhysicalDomain.Inject(infraContext, worldContext, this);
-            this.EffectorDomain.Inject(infraContext, worldContext);
+            this.PhysicalDomain.Inject(infraContext, worldContext);
+            this.RoleEffectorDomain.Inject(infraContext, worldContext);
 
-            this.WorldRendererDomain.Inject(infraContext, worldContext, this);
+            this.WorldRendererDomain.Inject(infraContext, worldContext);
 
             this.worldContext = worldContext;
         }
@@ -109,49 +109,6 @@ namespace TiedanSouls.Client.Facades {
                 role.name = $"角色(生成)_{role.IDCom}";
             } else {
                 TDLog.Error($"未知的实体类型 {spawnEntityType}");
-            }
-        }
-
-        #endregion
-
-        #region [销毁实体]
-
-        /// <summary>
-        /// 根据 实体销毁模型 销毁多个实体
-        /// </summary>
-        public void DestroyBy_EntityModifyModelArray(in EntityIDArgs target, EntityModifyModel[] entityDestroyModel) {
-            var len = entityDestroyModel.Length;
-            for (int i = 0; i < len; i++) {
-                DestroyBy_EntityModifyModel(target, entityDestroyModel[i]);
-            }
-        }
-
-        /// <summary>
-        /// 根据 实体销毁模型 销毁一个实体  
-        /// </summary>
-        public void DestroyBy_EntityModifyModel(in EntityIDArgs target, in EntityModifyModel entityDestroyModel) {
-            var entityType = entityDestroyModel.entityType;
-            if (entityType == EntityType.None) return;
-
-            var hitTargetGroupType = entityDestroyModel.hitTargetGroupType;
-            var isEnabled_attributeSelector = entityDestroyModel.isEnabled_attributeSelector;
-            var attributeSelectorModel = entityDestroyModel.attributeSelectorModel;
-            var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
-
-            if (entityType == EntityType.Role) {
-                var roleRepo = worldContext.RoleRepo;
-                if (isEnabled_attributeSelector) {
-                    roleRepo.Foreach_AttributeSelector(
-                        curFieldTypeID,
-                        hitTargetGroupType,
-                        target,
-                        attributeSelectorModel,
-                        roleFSMDomain.Enter_Dying
-                    );
-                }
-            } else {
-                TDLog.Error($"未知的实体类型 {entityType}");
             }
         }
 
@@ -242,9 +199,24 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [获取实体信息]
+        /// <summary>
+        /// 从实体ID参数中获取相关角色实体
+        /// </summary>
+        /// <param name="idArgs"></param>
+        /// <param name="role"></param>
+        /// <returns></returns> 
+        public bool TryGetRoleFromIDArgs(in EntityIDArgs idArgs, out RoleEntity role) {
+            role = null;
+            return TryGetRoleRecursively(idArgs, ref role);
+        }
 
-        public bool TryFindRoleFather(in EntityIDArgs idArgs, ref RoleEntity role) {
+        /// <summary>
+        /// 递归从实体ID参数中获取相关角色实体
+        /// </summary> 
+        /// <param name="idArgs"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        bool TryGetRoleRecursively(in EntityIDArgs idArgs, ref RoleEntity role) {
             if (!TryGetEntityObj(idArgs, out var entity)) return false;
 
             if (entity is RoleEntity roleEntity) {
@@ -255,19 +227,19 @@ namespace TiedanSouls.Client.Facades {
             if (entity is SkillEntity skillEntity) {
                 var idCom = skillEntity.IDCom;
                 var father = idCom.Father;
-                return TryFindRoleFather(father, ref role);
+                return TryGetRoleRecursively(father, ref role);
             }
 
             if (entity is BulletEntity bulletEntity) {
                 var idCom = bulletEntity.IDCom;
                 var father = idCom.Father;
-                return TryFindRoleFather(father, ref role);
+                return TryGetRoleRecursively(father, ref role);
             }
 
             if (entity is ProjectileEntity projectileEntity) {
                 var idCom = projectileEntity.IDCom;
                 var father = idCom.Father;
-                return TryFindRoleFather(father, ref role);
+                return TryGetRoleRecursively(father, ref role);
             }
 
             TDLog.Error($"未知的实体类型\n{idArgs}");
@@ -344,8 +316,6 @@ namespace TiedanSouls.Client.Facades {
             return false;
         }
 
-        #endregion
-
         #region [实体追踪 目标设置]
 
         /// <summary>
@@ -384,43 +354,43 @@ namespace TiedanSouls.Client.Facades {
         public bool IsValidCollisionEvent(EntityCollider entityColliderA, EntityCollider entityColliderB) {
             var fatherA = entityColliderA.Father;
             var fatherB = entityColliderB.Father;
-            var hitTargetGroupTypeA = entityColliderA.HitTargetGroupType;
-            var hitTargetGroupTypeB = entityColliderB.HitTargetGroupType;
+            var hitAllyTypeA = entityColliderA.HitTargetGroupType;
+            var hitAllyTypeB = entityColliderB.HitTargetGroupType;
 
-            if (!IsInRightTargetGroup(hitTargetGroupTypeA, fatherA, fatherB)
-            && !IsInRightTargetGroup(hitTargetGroupTypeB, fatherB, fatherA)) {
+            if (!IsInRightTargetGroup(hitAllyTypeA, fatherA, fatherB)
+            && !IsInRightTargetGroup(hitAllyTypeB, fatherB, fatherA)) {
                 return false;
             }
 
             return true;
         }
 
-        bool IsInRightTargetGroup(TargetGroupType hitTargetGroupType, in EntityIDArgs self, in EntityIDArgs other) {
+        bool IsInRightTargetGroup(AllyType hitAllyType, in EntityIDArgs self, in EntityIDArgs other) {
             if (self.entityType == EntityType.Field || other.entityType == EntityType.Field) {
                 // TODO: 移除这里对Field的特殊处理
                 return true;
             }
 
-            var selfAllyType = self.allyType;
-            var otherAllyType = other.allyType;
+            var selfAllyType = self.campType;
+            var otherAllyType = other.campType;
             bool isSelf = self.IsTheSameAs(other);
             bool isAlly = selfAllyType.IsAlly(otherAllyType);
             bool isEnemy = selfAllyType.IsEnemy(otherAllyType);
-            bool isOtherNeutral = otherAllyType == AllyType.Neutral;
+            bool isOtherNeutral = otherAllyType == CampType.Neutral;
 
-            if (hitTargetGroupType == TargetGroupType.None)
+            if (hitAllyType == AllyType.None)
                 return false;
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Self) && isSelf)
+            if (hitAllyType.Contains(AllyType.Self) && isSelf)
                 return true;
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Ally) && isAlly)
+            if (hitAllyType.Contains(AllyType.Ally) && isAlly)
                 return true;
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Enemy) && isEnemy)
+            if (hitAllyType.Contains(AllyType.Enemy) && isEnemy)
                 return true;
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Neutral) && isOtherNeutral)
+            if (hitAllyType.Contains(AllyType.Neutral) && isOtherNeutral)
                 return true;
 
             return false;

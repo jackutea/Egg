@@ -9,14 +9,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldRootDomain;
 
         public WorldProjectileFSMDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldRootDomain = worldDomain;
         }
 
         /// <summary>

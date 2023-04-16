@@ -10,14 +10,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldProjectileDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = worldDomain;
         }
 
         #region [生成]
@@ -35,6 +33,7 @@ namespace TiedanSouls.Client.Domain {
             projectileIDCom.SetFather(father);
 
             // 2. 子弹ID数组
+            var rootDomain = worldContext.RootDomain;
             var bulletDomain = rootDomain.BulletDomain;
             var projectileBulletModelArray = projectile.ProjectileBulletModelArray;
             var len = projectileBulletModelArray != null ? projectileBulletModelArray.Length : 0;

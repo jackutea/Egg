@@ -19,8 +19,8 @@ namespace TiedanSouls.Client.Entities {
         /// </summary>
         public float ArbitrateDamage(DamageType damageType,
                                     int damage,
-                                    AttributeComponent atkerAttributeCom,
-                                    AttributeComponent victimAttributeCom) {
+                                    RoleAttributeComponent atkerAttributeCom,
+                                    RoleAttributeComponent victimAttributeCom) {
             if (damageType == DamageType.True) {
                 return damage;
             }

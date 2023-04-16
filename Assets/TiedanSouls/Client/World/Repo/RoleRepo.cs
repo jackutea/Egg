@@ -92,11 +92,11 @@ namespace TiedanSouls.Client {
         #region [查]
 
         public bool TryGet_TrackEntity(int fieldTypeID,
-                                       TargetGroupType hitTargetGroupType,
+                                       AllyType hitAllyType,
                                        in EntityIDArgs compareIDArgs,
-                                       in AttributeSelectorModel attributeSelectorModel,
+                                       in RoleAttributeSelectorModel attributeSelectorModel,
                                        out RoleEntity role) {
-            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, compareIDArgs);
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, compareIDArgs);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var r = list[i];
@@ -128,12 +128,12 @@ namespace TiedanSouls.Client {
             return false;
         }
 
-        public bool HasAliveEnemy(int fieldTypeID, AllyType allyType) {
+        public bool HasAliveEnemy(int fieldTypeID, CampType campType) {
             bool hasAliveEnemy = false;
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 var idCom = role.IDCom;
                 var roleAllyType = idCom.AllyStatus;
-                if (!roleAllyType.IsEnemy(allyType)) return;
+                if (!roleAllyType.IsEnemy(campType)) return;
                 if (role.FSMCom.FSMState != RoleFSMState.Dying) hasAliveEnemy = true;
             });
 
@@ -196,7 +196,7 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历敌对角色 -1代表查找范围为所有关卡
         /// </summary>
-        public void Foreach_Enemy(int fieldTypeID, AllyType selfAllyType, Action<RoleEntity> action) {
+        public void Foreach_Enemy(int fieldTypeID, CampType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID,
             (role) => {
                 var roleAllyType = role.IDCom.AllyStatus;
@@ -207,19 +207,19 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历中立角色 -1代表查找范围为所有关卡
         /// </summary>
-        public void Foreach_Neutral(int fieldTypeID, AllyType selfAllyType, Action<RoleEntity> action) {
+        public void Foreach_Neutral(int fieldTypeID, CampType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 var roleAllyType = role.IDCom.AllyStatus;
-                if (roleAllyType == AllyType.Neutral) action.Invoke(role);
+                if (roleAllyType == CampType.Neutral) action.Invoke(role);
             });
         }
 
         /// <summary>
         /// 获取所有指定相对阵营类型的角色
         /// </summary>
-        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, TargetGroupType hitTargetGroupType, in EntityIDArgs compareIDArgs) {
+        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDArgs compareIDArgs) {
             roleList_temp.Clear();
-            Foreach_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, compareIDArgs, (role) => {
+            Foreach_RelativeTargetGroupType(fieldTypeID, hitAllyType, compareIDArgs, (role) => {
                 roleList_temp.Add(role);
             });
             return roleList_temp;
@@ -228,11 +228,11 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历所有指定相对阵营类型的角色
         /// </summary>
-        public void Foreach_RelativeTargetGroupType(int fieldTypeID, TargetGroupType hitTargetGroupType, in EntityIDArgs compareIDArgs, Action<RoleEntity> action) {
-            if (hitTargetGroupType == TargetGroupType.None) return;
+        public void Foreach_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDArgs compareIDArgs, Action<RoleEntity> action) {
+            if (hitAllyType == AllyType.None) return;
 
             var compareEntityType = compareIDArgs.entityType;
-            var compareAllyType = compareIDArgs.allyType;
+            var compareAllyType = compareIDArgs.campType;
 
             // 若比较的是角色，且角色不存在，则返回
             bool isCompareRole = compareEntityType == EntityType.Role;
@@ -241,19 +241,19 @@ namespace TiedanSouls.Client {
                 return;
             }
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Self)) {
+            if (hitAllyType.Contains(AllyType.Self)) {
                 if (isCompareRole) action.Invoke(selfRole);
             }
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Ally)) {
+            if (hitAllyType.Contains(AllyType.Ally)) {
                 Foreach_Ally(fieldTypeID, compareIDArgs, action);
             }
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Enemy)) {
+            if (hitAllyType.Contains(AllyType.Enemy)) {
                 Foreach_Enemy(fieldTypeID, compareAllyType, action);
             }
 
-            if (hitTargetGroupType.Contains(TargetGroupType.Neutral)) {
+            if (hitAllyType.Contains(AllyType.Neutral)) {
                 Foreach_Neutral(fieldTypeID, compareAllyType, action);
             }
         }
@@ -282,11 +282,11 @@ namespace TiedanSouls.Client {
         /// 遍历所有相对目标组角色, 根据'属性'选择器过滤
         /// </summary>sd
         public void Foreach_AttributeSelector(int fieldTypeID,
-                                              TargetGroupType hitTargetGroupType,
+                                              AllyType hitAllyType,
                                               in EntityIDArgs self,
-                                              in AttributeSelectorModel attributeSelectorModel,
+                                              in RoleAttributeSelectorModel attributeSelectorModel,
                                               Action<RoleEntity> action) {
-            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitTargetGroupType, self);
+            var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, self);
             var count = list.Count;
             for (int i = 0; i < count; i++) {
                 var role = list[i];

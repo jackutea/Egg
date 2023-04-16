@@ -84,7 +84,7 @@ MonoBehaviour:
         - {x: 1, y: 0, z: 0}
     collisionTriggerTMArray:
     - isEnabled: 1
-      frameRange: {x: 3, y: 15}
+      frameRange: {x: 3, y: 14}
       triggerMode: 1
       triggerFixedIntervalTM:
         delayFrame: 0
@@ -92,13 +92,13 @@ MonoBehaviour:
         maintainFrame: 0
       triggerCustomTM:
         frameRangeArray:
-        - {x: 5, y: 10}
+        - {x: 3, y: 14}
       targetEntityType: 1
-      hitTargetGroupType: 4
+      hitAllyType: 4
       damageTM:
-        damageType: 3
-        damageArray: 46000000460000004600000046000000460000004600000046000000460000004600000046000000460000004600000046000000
-        damageBase: 70
+        damageType: 1
+        damageArray: 420000004200000042000000420000004200000042000000420000004200000042000000420000004200000042000000
+        damageBase: 66
         damageCurve_KeyframeTMArray:
         - time: 0
           value: 1
@@ -113,8 +113,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
       beHitTM:
-        maintainFrame: 20
-        knockBackSpeedArray_cm: 94110000dc050000
+        maintainFrame: 0
+        knockBackSpeedArray_cm: 88130000b80b0000e8030000
         knockBackKeyframeTMArray:
         - time: 0
           value: 0
@@ -128,14 +128,15 @@ MonoBehaviour:
           outTangent: 0
           inWeight: 0
           outWeight: 0
-        knockBackTotalFrame: 2
-        knockBackDistance_cm: 200
+        knockBackTotalFrame: 3
+        knockBackDistance_cm: 300
         knockUpSpeedArray_cm: 
         knockUpKeyframeTMArray: []
         knockUpTotalFrame: 0
         knockUpDis_cm: 0
       roleCtrlEffectTMArray: []
-      hitEffectorTypeID: 0
+      targetRoleEffectorTypeIDArray: 
+      selfRoleEffectorTypeIDArray: 0f270000
       colliderTMArray:
       - colliderType: 0
         localPosition: {x: 2.7651, y: 0.94, z: 0}

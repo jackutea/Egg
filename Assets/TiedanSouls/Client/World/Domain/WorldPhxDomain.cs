@@ -10,15 +10,13 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldPhxDomain() {
         }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = worldDomain;
         }
 
         public void Tick(float dt) {
@@ -51,6 +49,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void HandleEnter(in EntityCollisionEvent evModel) {
+            var rootDomain = worldContext.RootDomain;
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -122,7 +121,9 @@ namespace TiedanSouls.Client.Domain {
 
             TDLog.Warning($"未处理的碰撞事件<Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
+
         void HandleStay(in EntityCollisionEvent evModel) {
+            var rootDomain = worldContext.RootDomain;
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -140,7 +141,9 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
         }
+   
         void HandleExit(in EntityCollisionEvent evModel) {
+            var rootDomain = worldContext.RootDomain;
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
             var fatherA = entityColliderModelA.Father;
@@ -230,6 +233,7 @@ namespace TiedanSouls.Client.Domain {
             var fatherA = entityColliderModelA.Father;
             var skillColliderPos = fatherA.IsTheSameAs(skill.IDCom.Father) ? entityColliderModelA.transform.position : entityColliderModelB.transform.position;
 
+            var rootDomain = worldContext.RootDomain;
             _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
             var casterRole = fatherEntity as RoleEntity;
             var casterPos = casterRole.LogicRootPos;
@@ -243,8 +247,9 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能 打击
             var skillDomain = rootDomain.SkillDomain;
-            skillDomain.HandleHit(skill, skillColliderPos);
+            skillDomain.HandleHit(skill, skillColliderPos, collisionTriggerModel);
         }
+     
         void HandleExit_Skill_Role(SkillEntity skill, RoleEntity role) {
         }
 
@@ -259,6 +264,7 @@ namespace TiedanSouls.Client.Domain {
             beHitDir.Normalize();
 
             // 角色 受击
+            var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
             var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
             roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
@@ -267,6 +273,7 @@ namespace TiedanSouls.Client.Domain {
             var bulletDomain = rootDomain.BulletDomain;
             bulletDomain.HandleHit(bullet);
         }
+     
         void HandleExit_Bullet_Role(BulletEntity bullet, RoleEntity role) {
         }
 
@@ -276,9 +283,11 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
+            var rootDomain = worldContext.RootDomain;
             var skillDomain = rootDomain.SkillDomain;
             skillDomain.HandleBeHit(skill, collisionTriggerModel, bullet.FSMCom.ActivatedModel.curFrame);
         }
+     
         void HandleExit_Bullet_Skill(BulletEntity bullet, SkillEntity skill) {
         }
 
@@ -288,17 +297,20 @@ namespace TiedanSouls.Client.Domain {
 
         // Bullet - Bullet
         void HandleEnter_BulletNBullet(BulletEntity bullet1, BulletEntity bullet2) {
+            var rootDomain = worldContext.RootDomain;
             var bulletDomain = rootDomain.BulletDomain;
             bulletDomain.HandleHit(bullet1);
             bulletDomain.HandleHit(bullet2);
             bulletDomain.HandleBeHit(bullet1);
             bulletDomain.HandleBeHit(bullet2);
         }
+       
         void HandleExit_Bullet_Bullet(BulletEntity bullet1, BulletEntity bullet2) {
         }
 
         // Bullet - Field
         void HandleEnter_Bullet_Field(BulletEntity bullet, FieldEntity field) {
+            var rootDomain = worldContext.RootDomain;
             var bulletFSMDomain = rootDomain.BulletFSMDomain;
             bulletFSMDomain.Enter_Dying(bullet);
         }
@@ -340,6 +352,7 @@ namespace TiedanSouls.Client.Domain {
         // Role - Role
         void HandleEnter_Role_Role(RoleEntity role1, RoleEntity role2) {
         }
+     
         void HandleExit_Role_Role(RoleEntity role1, RoleEntity role2) {
         }
 

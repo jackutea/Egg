@@ -16,7 +16,7 @@ namespace TiedanSouls.Template {
 
         [Header("控制类型")] public ControlType controlType;
 
-        [Header("阵营")] public AllyType allyType;
+        [Header("阵营")] public CampType campType;
 
         [Header("是否为Boss")] public bool isBoss;
 

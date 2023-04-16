@@ -9,14 +9,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain rootDomain;
 
         public WorldBulletFSMDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.rootDomain = worldDomain;
         }
 
         /// <summary>
@@ -89,16 +87,17 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
+            var rootDomain = worldContext.RootDomain;
             // 如果是追踪类型，需要设置追踪目标
             if (bullet.TrajectoryType == TrajectoryType.Track) {
                 bullet.entityTrackModel.target = default;
-                this.rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
+                rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom.ToArgs());
             }
 
             // 移动逻辑(根据轨迹类型)
             var moveCom = bullet.MoveCom;
             var trajectoryType = bullet.TrajectoryType;
-            var bulletDomain = this.rootDomain.BulletDomain;
+            var bulletDomain = rootDomain.BulletDomain;
             if (trajectoryType == TrajectoryType.Track) {
                 bulletDomain.MoveToTrackingTarget(bullet);
             } else if (trajectoryType == TrajectoryType.Curve) {

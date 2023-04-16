@@ -11,9 +11,9 @@ namespace TiedanSouls.Client.Entities {
         EntityIDArgs father;
         public EntityIDArgs Father => father;
 
-        TargetGroupType hitTargetGroupType;
-        public TargetGroupType HitTargetGroupType => hitTargetGroupType;
-        public void SetHitTargetGroupType(TargetGroupType v) => hitTargetGroupType = v;
+        AllyType hitAllyType;
+        public AllyType HitTargetGroupType => hitAllyType;
+        public void SetHitTargetGroupType(AllyType v) => hitAllyType = v;
 
         ColliderModel colliderModel;
         public ColliderModel ColliderModel => colliderModel;

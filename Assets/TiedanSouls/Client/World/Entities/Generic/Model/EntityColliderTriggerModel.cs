@@ -19,10 +19,12 @@ namespace TiedanSouls.Client.Entities {
         // 作用实体类型
         public EntityType targetEntityType;
         // 作用目标
-        public TargetGroupType hitTargetGroupType;
+        public AllyType hitAllyType;
 
-        // 击中效果器
-        public int hitEffectorTypeID;
+        // 作用目标效果器
+        public int[] targetRoleEffectorTypeIDArray;
+        // 作用自身效果器
+        public int[] selfRoleEffectorTypeIDArray;
 
         // 伤害
         public DamageModel damageModel;

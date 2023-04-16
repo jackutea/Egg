@@ -19,7 +19,7 @@ namespace TiedanSouls.EditorTool {
             editorGO.durationFrame = tm.durationFrame;
             editorGO.maxExtraStackCount = tm.maxExtraStackCount;
 
-            editorGO.attributeEffectEM = GetAttributeEffectEM(tm.attributeEffectTM);
+            editorGO.attributeEffectEM = GetRoleAttributeEffectEM(tm.attributeEffectTM);
             editorGO.effectorTypeID = tm.effectorTypeID;
         }
 
@@ -27,53 +27,33 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static AttributeEffectEM[] GetAttributeEffectEMArray(AttributeEffectTM[] tmArray) {
+        public static RoleAttributeEffectEM[] GetAttributeEffectEMArray(RoleAttributeEffectTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            AttributeEffectEM[] emArray = new AttributeEffectEM[len];
+            RoleAttributeEffectEM[] emArray = new RoleAttributeEffectEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetAttributeEffectEM(tmArray[i]);
+                emArray[i] = GetRoleAttributeEffectEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeEffectEM GetAttributeEffectEM(AttributeEffectTM tm) {
-            AttributeEffectEM em;
+        public static RoleAttributeEffectEM GetRoleAttributeEffectEM(RoleAttributeEffectTM tm) {
+            RoleAttributeEffectEM em;
 
             em.hpNCT = tm.hpNCT;
             em.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
-            em.hpNeedRevoke = tm.NeedRevokeHP;
-            em.hpEffectTimes = tm.hpEffectTimes;
 
             em.hpMaxNCT = tm.hpMaxNCT;
             em.hpMaxEV = GetFloat_Shrink100(tm.hpMaxEV_Expanded);
-            em.hpMaxNeedRevoke = tm.NeedRevokeHPMax;
-            em.hpMaxEffectTimes = tm.hpMaxEffectTimes;
 
             em.moveSpeedNCT = tm.moveSpeedNCT;
             em.moveSpeedEV = GetFloat_Shrink100(tm.moveSpeedEV_Expanded);
-            em.moveSpeedRevoke = tm.NeedRevokeMoveSpeed;
-            em.moveSpeedEffectTimes = tm.moveSpeedEffectTimes;
 
             em.normalSkillSpeedBonusEV = GetFloat_Shrink100(tm.normalSkillSpeedBonusEV_Expanded);
-            em.normalSkillSpeedBonusEffectTimes = tm.normalSkillSpeedBonusEffectTimes;
-            em.normalSkillSpeedBonusNeedRevoke = tm.normalSkillSpeedBonusNeedRevoke;
-
             em.physicalDamageBonusEV = GetFloat_Shrink100(tm.physicalDamageBonusEV_Expanded);
-            em.physicalDamageBonusEffectTimes = tm.physicalDamageBonusEffectTimes;
-            em.physicalDamageBonusNeedRevoke = tm.physicalDamageBonusNeedRevoke;
-
             em.magicalDamageBonusEV = GetFloat_Shrink100(tm.magicalDamageBonusEV_Expanded);
-            em.magicalDamageBonusEffectTimes = tm.magicalDamageBonusEffectTimes;
-            em.magicalDamageBonusNeedRevoke = tm.magicalDamageBonusNeedRevoke;
-
             em.physicalDefenseBonusEV = GetFloat_Shrink100(tm.physicalDefenseBonusEV_Expanded);
-            em.physicalDefenseBonusEffectTimes = tm.physicalDefenseBonusEffectTimes;
-            em.physicalDefenseBonusNeedRevoke = tm.needRevokePhysicalDefenseBonus;
-
             em.magicalDefenseBonusEV = GetFloat_Shrink100(tm.magicalDefenseBonusEV_Expanded);
-            em.magicalDefenseBonusEffectTimes = tm.magicalDefenseBonusEffectTimes;
-            em.magicalDefenseBonusNeedRevoke = tm.magicalDefenseBonusNeedRevoke;
 
             return em;
         }
@@ -154,8 +134,9 @@ namespace TiedanSouls.EditorTool {
 
         public static EffectorTriggerEM GetSkillEffectorEM(EffectorTriggerTM tm) {
             EffectorTriggerEM em;
-            em.effectorTypeID = tm.effectorTypeID;
             em.triggerFrame = tm.triggerFrame;
+            em.effectorType = tm.effectorType;
+            em.effectorTypeID = tm.effectorTypeID;
             return em;
         }
 
@@ -163,14 +144,12 @@ namespace TiedanSouls.EditorTool {
 
         #region [Effector]
 
-        public static EffectorEM GetEffectorEM(EffectorTM tm) {
-            EffectorEM em;
+        public static RoleEffectorEM GetEffectorEM(RoleEffectorTM tm) {
+            RoleEffectorEM em;
             em.typeID = tm.typeID;
             em.effectorName = tm.effectorName;
-            em.roleSummonEMArray = GetRoleSummonEMArray(tm.roleSummonTMArray);
-            em.buffAttachEMArray = GetBuffAttachEMArray(tm.buffAttachTMArray);
-            em.projectileCtorEMArray = GetProjectileCtorEMArray(tm.projectileCtorTMArray);
-            em.entityDestroyEMArray = GetEntityModifyEMArray(tm.entityDestroyTMArray);
+            em.roleAttributeEffectEM = GetRoleAttributeEffectEM(tm.roleAttributeEffectTM);
+            em.roleAttributeSelectorEM = GetRoleAttributeSelectorEM(tm.roleAttributeSelectorTM);
             return em;
         }
 
@@ -208,12 +187,14 @@ namespace TiedanSouls.EditorTool {
             em.colliderGOArray = colliderGOArray;
 
             em.targetEntityType = tm.targetEntityType;
-            em.hitTargetGroupType = tm.hitTargetGroupType;
+            em.hitAllyType = tm.hitAllyType;
 
             em.damageEM = GetDamageEM(tm.damageTM);
             em.beHitEM = GetBeHitEM(tm.beHitTM);
             em.roleCtrlEffectEMArray = GetCtrlEffectEMArray(tm.roleCtrlEffectTMArray);
-            em.hitEffectorTypeID = tm.hitEffectorTypeID;
+
+            em.targetRoleEffectorTypeIDArray = tm.targetRoleEffectorTypeIDArray.Clone() as int[];
+            em.selfRoleEffectorTypeIDArray = tm.selfRoleEffectorTypeIDArray.Clone() as int[];
 
             return em;
         }
@@ -258,17 +239,17 @@ namespace TiedanSouls.EditorTool {
 
         #region [CtrlEffect]
 
-        public static CtrlEffectEM[] GetCtrlEffectEMArray(RoleCtrlEffectTM[] tmArray) {
+        public static RoleCtrlEffectEM[] GetCtrlEffectEMArray(RoleCtrlEffectTM[] tmArray) {
             if (tmArray == null) return null;
-            CtrlEffectEM[] emArray = new CtrlEffectEM[tmArray.Length];
+            RoleCtrlEffectEM[] emArray = new RoleCtrlEffectEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
                 emArray[i] = GetCtrlEffectEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static CtrlEffectEM GetCtrlEffectEM(RoleCtrlEffectTM tm) {
-            CtrlEffectEM em;
+        public static RoleCtrlEffectEM GetCtrlEffectEM(RoleCtrlEffectTM tm) {
+            RoleCtrlEffectEM em;
             em.ctrlEffectType = tm.roleCtrlEffectType;
             em.totalFrame = tm.totalFrame;
             em.icon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(tm.iconGUID));
@@ -388,24 +369,24 @@ namespace TiedanSouls.EditorTool {
 
         #endregion
 
-        #region [EntityDestroy]
+        #region [Effector]
 
-        public static EntityModifyEM[] GetEntityModifyEMArray(EntityModifyTM[] tmArray) {
+        public static RoleEffectorEM[] GetEntityModifyEMArray(RoleEffectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntityModifyEM[] emArray = new EntityModifyEM[len];
+            RoleEffectorEM[] emArray = new RoleEffectorEM[len];
             for (int i = 0; i < len; i++) {
                 emArray[i] = GetEntityModifyEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static EntityModifyEM GetEntityModifyEM(EntityModifyTM tm) {
-            EntityModifyEM em;
-            em.entityType = tm.entityType;
-            em.hitTargetGroupType = tm.hitTargetGroupType;
-            em.attributeSelector_IsEnabled = tm.attributeSelector_IsEnabled;
-            em.attributeSelectorEM = GetAttributeSelectorEM(tm.attributeSelectorTM);
+        public static RoleEffectorEM GetEntityModifyEM(RoleEffectorTM tm) {
+            RoleEffectorEM em;
+            em.typeID = tm.typeID;
+            em.effectorName = tm.effectorName;
+            em.roleAttributeEffectEM = GetRoleAttributeEffectEM(tm.roleAttributeEffectTM);
+            em.roleAttributeSelectorEM = GetRoleAttributeSelectorEM(tm.roleAttributeSelectorTM);
             return em;
         }
 
@@ -425,7 +406,7 @@ namespace TiedanSouls.EditorTool {
             EntityTrackSelectorEM em;
             em.entityType = tm.entityType;
             em.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
-            em.attributeSelectorEM = GetAttributeSelectorEM(tm.attributeSelectorTM);
+            em.attributeSelectorEM = GetRoleAttributeSelectorEM(tm.attributeSelectorTM);
             return em;
         }
 
@@ -433,17 +414,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static AttributeSelectorEM[] GetAttributeSelectorEMArray(AttributeSelectorTM[] tmArray) {
+        public static RoleAttributeSelectorEM[] GetRoleAttributeSelectorEMArray(RoleAttributeSelectorTM[] tmArray) {
             if (tmArray == null) return null;
-            AttributeSelectorEM[] emArray = new AttributeSelectorEM[tmArray.Length];
+            RoleAttributeSelectorEM[] emArray = new RoleAttributeSelectorEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
-                emArray[i] = GetAttributeSelectorEM(tmArray[i]);
+                emArray[i] = GetRoleAttributeSelectorEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static AttributeSelectorEM GetAttributeSelectorEM(AttributeSelectorTM tm) {
-            AttributeSelectorEM em;
+        public static RoleAttributeSelectorEM GetRoleAttributeSelectorEM(RoleAttributeSelectorTM tm) {
+            RoleAttributeSelectorEM em;
+            em.isEnabled = tm.isEnabled;
             em.hp = tm.hp;
             em.hp_ComparisonType = tm.hp_ComparisonType;
             em.hpMax = tm.hpMax;

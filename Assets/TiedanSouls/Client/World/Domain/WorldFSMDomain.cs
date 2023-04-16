@@ -12,14 +12,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldDomain;
 
         public WorldFSMDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldDomain = worldDomain;
         }
 
         public void StartGame() {
@@ -55,6 +53,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Apply_Lobby(float dt) {
+            var rootDomain = worldContext.RootDomain;
             var roleRepo = worldContext.RoleRepo;
             RoleEntity playerRole = roleRepo.PlayerRole;
 
@@ -68,10 +67,10 @@ namespace TiedanSouls.Client.Domain {
                 var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
                 var tieDanRoleTypeID = gameConfigTM.tiedanRoleTypeID;
 
-                var roleDomain = worldDomain.RoleDomain;
+                var roleDomain = rootDomain.RoleDomain;
                 if (playerRole == null) {
                     roleDomain.TrySpawnRole(curFieldTypeID,
-                                            new EntitySpawnModel { allyType = AllyType.One, controlType = ControlType.Player, typeID = tieDanRoleTypeID },
+                                            new EntitySpawnModel { campType = CampType.One, controlType = ControlType.Player, typeID = tieDanRoleTypeID },
                                             out playerRole);
                 }
                 playerRole.Reset();
@@ -87,7 +86,7 @@ namespace TiedanSouls.Client.Domain {
                 cameraSetter.Confiner_Set_Current(true, field.ModGO.transform.position, (Vector2)field.ModGO.transform.position + field.ConfinerSize);
             }
 
-            var phxDomain = worldDomain.PhysicalDomain;
+            var phxDomain = rootDomain.PhysicalDomain;
             phxDomain.Tick(dt);
 
             TickAllFSM(dt);
@@ -101,7 +100,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             var nextFieldTypeID = door.fieldTypeID;
-            var fieldDomain = worldDomain.FieldDomain;
+            var fieldDomain = rootDomain.FieldDomain;
             if (!fieldDomain.TryGetOrSpawnField(nextFieldTypeID, out var nextField)) {
                 TDLog.Error($"请检查配置! 下一关卡不存在! FieldTypeID: {nextFieldTypeID}");
                 return;
@@ -112,6 +111,7 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Apply_Battle(float dt) {
+            var rootDomain = worldContext.RootDomain;
             var roleRepo = worldContext.RoleRepo;
             var playerRole = roleRepo.PlayerRole;
             var stateEntity = worldContext.StateEntity;
@@ -121,7 +121,7 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.WeaponSlotCom.SetWeaponActive(true);
             }
 
-            var phxDomain = worldDomain.PhysicalDomain;
+            var phxDomain = rootDomain.PhysicalDomain;
             phxDomain.Tick(dt);
 
             TickAllFSM(dt);
@@ -130,7 +130,7 @@ namespace TiedanSouls.Client.Domain {
             if (!IsTieDanWantToLeave(out var door)) return;
 
             // 检查是否有敌人未消灭
-            var fieldDomain = worldDomain.FieldDomain;
+            var fieldDomain = rootDomain.FieldDomain;
             var curField = fieldDomain.GetCurField();
             var fieldFSM = curField.FSMComponent;
             if (fieldFSM.State != FieldFSMState.Finished) {
@@ -148,10 +148,11 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void Apply_Loading(float dt) {
+            var rootDomain = worldContext.RootDomain;
             var stateEntity = worldContext.StateEntity;
             var loadingStateModel = stateEntity.LoadingStateModel;
             var loadingFieldTypeID = loadingStateModel.NextFieldTypeID;
-            var fieldDomain = worldDomain.FieldDomain;
+            var fieldDomain = rootDomain.FieldDomain;
 
             if (loadingStateModel.IsEntering) {
                 loadingStateModel.SetIsEntering(false);
@@ -186,7 +187,7 @@ namespace TiedanSouls.Client.Domain {
                 itemRepo.RecycleFieldItems(curFieldTypeID);
 
                 // Recycle 当前关卡 AI角色
-                var roleDomain = worldDomain.RoleDomain;
+                var roleDomain = rootDomain.RoleDomain;
                 roleDomain.RecycleFieldRoles(curFieldTypeID);
 
                 // Recycle 当前关卡 子弹
@@ -220,23 +221,24 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void TickAllFSM(float dt) {
+            var rootDomain = worldContext.RootDomain;
             var stateEntity = worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
 
             // 刷新 关卡 状态机
-            var fieldFSMDomain = worldDomain.FieldFSMDomain;
+            var fieldFSMDomain = rootDomain.FieldFSMDomain;
             fieldFSMDomain.TickFSM(dt);
 
             // 刷新 角色 状态机(当前关卡内)
-            var roleFSMDomain = worldDomain.RoleFSMDomain;
+            var roleFSMDomain = rootDomain.RoleFSMDomain;
             roleFSMDomain.TickFSM(curFieldTypeID, dt);
 
             // 刷新 弹幕 状态机(当前关卡内)
-            var projectileFSMDomain = worldDomain.ProjectileFSMDomain;
+            var projectileFSMDomain = rootDomain.ProjectileFSMDomain;
             projectileFSMDomain.TickFSM(curFieldTypeID, dt);
 
             // 刷新 子弹 状态机(当前关卡内)
-            var bulletFSMDomain = worldDomain.BulletFSMDomain;
+            var bulletFSMDomain = rootDomain.BulletFSMDomain;
             bulletFSMDomain.TickFSM(curFieldTypeID, dt);
         }
 

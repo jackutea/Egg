@@ -8,7 +8,7 @@ namespace TiedanSouls.Client.Entities {
         public short entityID;
         public int typeID;
         public string entityName;
-        public AllyType allyType;
+        public CampType campType;
         public ControlType controlType;
 
         public int fromFieldTypeID;
@@ -20,7 +20,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public override string ToString() {
-            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {allyType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
+            return $"IDArgs: 实体类型 {entityType} 类型ID {typeID} 实体ID {entityID} 实体名称 {entityName} 阵营 {campType} 控制类型 {controlType} 来自关卡 {fromFieldTypeID}";
         }
 
     }

@@ -1,111 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &340301597720184767
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 355674839727102795}
-  - component: {fileID: 2194927138635562772}
-  m_Layer: 0
-  m_Name: editor_effector_99992
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &355674839727102795
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340301597720184767}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7242303559924722033}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2194927138635562772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340301597720184767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  so: {fileID: 11400000, guid: a2a3216d351c7764e9d477a8665d51de, type: 2}
-  effectorEM:
-    typeID: 99992
-    effectorName: "Buff\u6548\u679C\u5668\uFF1A\u52A0\u79FB\u901F"
-    entitySummonEMArray:
-    - entityType: 8
-      typeID: 99992
-      controlType: 0
-    entityDestroyEMArray: []
---- !u!1 &5965348609736513501
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3375368696092582857}
-  - component: {fileID: 1127944050817279221}
-  m_Layer: 0
-  m_Name: editor_effector_99993
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3375368696092582857
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5965348609736513501}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7242303559924722033}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1127944050817279221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5965348609736513501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  so: {fileID: 11400000, guid: 709d263c02262f94db017a04231da29a, type: 2}
-  effectorEM:
-    typeID: 99993
-    effectorName: "Buff\u6548\u679C\u5668\uFF1A\u52A0\u666E\u6280\u901F\u5EA6"
-    entitySummonEMArray:
-    - entityType: 8
-      typeID: 99993
-      controlType: 0
-    entityDestroyEMArray: []
 --- !u!1 &6683752914446885422
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,9 +29,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2118739567234550776}
-  - {fileID: 2871660758283258345}
-  - {fileID: 355674839727102795}
-  - {fileID: 3375368696092582857}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -182,68 +73,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 7805025543140648166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 68adb40da5429ac45b5b2a2947842f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 11400000, guid: 8e642aad100456a408d16bcaaab5efd3, type: 2}
   effectorEM:
     typeID: 9999
-    effectorName: "\u5F39\u9053\u6548\u679C\u5668\uFF1A\u4E07\u7BAD\u7A7F\u5FC3"
-    entitySummonEMArray:
-    - entityType: 5
-      typeID: 9999
-      controlType: 0
-    entityDestroyEMArray: []
---- !u!1 &8885283600807962991
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2871660758283258345}
-  - component: {fileID: 4131671301290289980}
-  m_Layer: 0
-  m_Name: editor_effector_99991
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2871660758283258345
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8885283600807962991}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7242303559924722033}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4131671301290289980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8885283600807962991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b3c5de59caf414f92c1db3fd5315f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  so: {fileID: 11400000, guid: 1ec73eef17d85ea449be6580384d0b19, type: 2}
-  effectorEM:
-    typeID: 99991
-    effectorName: "Buff\u6548\u679C\u5668\uFF1A\u56DE\u8840"
-    entitySummonEMArray:
-    - entityType: 8
-      typeID: 99991
-      controlType: 0
-    entityDestroyEMArray: []
+    effectorName: "\u6548\u679C\u5668: \u63D0\u5347\u7269\u7406\u4F24\u5BB3 +10%"
+    roleAttributeSelectorEM:
+      isEnabled: 0
+      hp: 0
+      hp_ComparisonType: 0
+      hpMax: 0
+      hpMax_ComparisonType: 0
+      mp: 0
+      ep_ComparisonType: 0
+      mpMax: 0
+      mpMax_ComparisonType: 0
+      gp: 0
+      gp_ComparisonType: 0
+      gpMax: 0
+      gpMax_ComparisonType: 0
+      moveSpeed: 0
+      moveSpeed_ComparisonType: 0
+      jumpSpeed: 0
+      jumpSpeed_ComparisonType: 0
+      fallingAcceleration: 0
+      fallingAcceleration_ComparisonType: 0
+      fallingSpeedMax: 0
+      fallingSpeedMax_ComparisonType: 0
+    roleAttributeEffectEM:
+      hpNCT: 0
+      hpEV: 0
+      hpMaxNCT: 0
+      hpMaxEV: 0
+      moveSpeedNCT: 0
+      moveSpeedEV: 0
+      normalSkillSpeedBonusEV: 0
+      physicalDamageBonusEV: 0.1
+      magicalDamageBonusEV: 0
+      physicalDefenseBonusEV: 0
+      magicalDefenseBonusEV: 0

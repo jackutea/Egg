@@ -19,7 +19,7 @@ namespace TiedanSouls.Template {
 
         [Header("额外可叠加层数")] public int maxExtraStackCount;
 
-        [Header("属性影响")] public AttributeEffectTM attributeEffectTM;
+        [Header("属性影响")] public RoleAttributeEffectTM attributeEffectTM;
         [Header("效果器")] public int effectorTypeID;
 
     }

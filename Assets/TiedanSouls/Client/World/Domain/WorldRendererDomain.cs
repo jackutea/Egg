@@ -7,14 +7,12 @@ namespace TiedanSouls.Client.Domain {
 
         InfraContext infraContext;
         WorldContext worldContext;
-        WorldRootDomain worldDomain;
 
         public WorldRendererDomain() { }
 
-        public void Inject(InfraContext infraContext, WorldContext worldContext, WorldRootDomain worldDomain) {
+        public void Inject(InfraContext infraContext, WorldContext worldContext ) {
             this.infraContext = infraContext;
             this.worldContext = worldContext;
-            this.worldDomain = worldDomain;
         }
 
         public void Tick(float dt) {

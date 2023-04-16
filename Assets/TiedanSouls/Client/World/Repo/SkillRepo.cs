@@ -17,7 +17,6 @@ namespace TiedanSouls.Client {
         }
 
         public bool TryGet(int entityID, out SkillEntity skill) {
-            skill = null;
             return allSkills.TryGetValue(entityID, out skill);
         }
 

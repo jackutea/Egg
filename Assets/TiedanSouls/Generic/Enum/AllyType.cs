@@ -1,31 +1,28 @@
+using System;
+
 namespace TiedanSouls.Generic {
 
-    // 绝对阵营 TODO: CampType
-    public enum AllyType {
+    // 目标群体类型 TODO: AllyType
+    [Flags]
+    public enum AllyType : sbyte {
 
-        None,
-        One,    // 玩家阵营
-        Two,    // 敌人阵营
-        Neutral,
+        None = 0,
+
+        Self = 1 << 0,                      // 自身
+        Ally = 1 << 1,                      // 友军
+        Enemy = 1 << 2,                     // 敌军
+        Neutral = 1 << 3,                   // 中立
 
     }
 
-    public static class AllyTypeExtension {
+    public static class TargetGroupTypeExtension {
 
-        public static bool IsAlly(this AllyType self, AllyType other) {
-            return self == other;
+        public static bool Contains(this AllyType self, AllyType other) {
+            return (self & other) == other;
         }
 
-        public static bool IsEnemy(this AllyType self, AllyType other) {
-            if (self == AllyType.Neutral || other == AllyType.Neutral) {
-                return false;
-            }
-
-            if (self == AllyType.None || other == AllyType.None) {
-                return false;
-            }
-
-            return self != other;
+        public static AllyType ChooseAll() {
+            return (AllyType)sbyte.MaxValue;
         }
 
     }
