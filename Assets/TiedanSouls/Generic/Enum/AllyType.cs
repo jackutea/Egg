@@ -1,6 +1,6 @@
 namespace TiedanSouls.Generic {
 
-    // 绝对阵营
+    // 绝对阵营 TODO: CampType
     public enum AllyType {
 
         None,

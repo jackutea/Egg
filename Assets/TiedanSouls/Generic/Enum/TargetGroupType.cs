@@ -2,7 +2,7 @@ using System;
 
 namespace TiedanSouls.Generic {
 
-    // 目标群体类型
+    // 目标群体类型 TODO: AllyType
     [Flags]
     public enum TargetGroupType : sbyte {
 
