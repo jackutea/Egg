@@ -114,96 +114,9 @@ namespace TiedanSouls.Client.Facades {
 
         #endregion
 
-        #region [碰撞器]
-
-        public void SetEntityColliderTriggerModelFathers(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
-            var len = collisionTriggerModelArray?.Length;
-            for (int i = 0; i < len; i++) {
-                var triggerModel = collisionTriggerModelArray[i];
-                SetEntityColliderTriggerModelFather(triggerModel, father);
-            }
-        }
-
-        public void SetEntityColliderTriggerModelFather(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
-            var array = triggerModel.entityColliderArray;
-            SetEntityColliderFathers(array, father);
-        }
-
-        public void SetEntityColliderFathers(EntityCollider[] colliderModelArray, in EntityIDArgs father) {
-            var len = colliderModelArray.Length;
-            for (int i = 0; i < len; i++) {
-                SetEntityColliderFather(colliderModelArray[i], father);
-            }
-        }
-
-        /// <summary>
-        /// 设置 碰撞器模型 的父级(为了在碰撞事件触发时找到父级实体)
-        /// </summary>
-        public void SetEntityColliderFather(EntityCollider colliderModel, in EntityIDArgs father) {
-            colliderModel.SetFather(father);
-            colliderModel.onTriggerEnter2D = AddToCollisionEventRepo_TriggerEnter;
-            colliderModel.onTriggerStay2D = AddToCollisionEventRepo_TriggerStay;
-            colliderModel.onTriggerExit2D = AddToCollisionEventRepo_TriggerExit;
-            colliderModel.onCollisionEnter2D = AddToCollisionEventRepo_CollisionEnter;
-            colliderModel.onCollisionStay2D = AddToCollisionEventRepo_CollisionStay;
-            colliderModel.onCollisionExit2D = AddToCollisionEventRepo_CollisionExit;
-        }
-
-        void AddToCollisionEventRepo_TriggerEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerEnter(entityColliderA, entityColliderB);
-        }
-
-        void AddToCollisionEventRepo_TriggerStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerStay(entityColliderA, entityColliderB);
-        }
-
-        void AddToCollisionEventRepo_TriggerExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_TriggerExit(entityColliderA, entityColliderB);
-        }
-
-        void AddToCollisionEventRepo_CollisionEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionEnter(entityColliderA, entityColliderB, normalB);
-        }
-
-        void AddToCollisionEventRepo_CollisionStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionStay(entityColliderA, entityColliderB, normalB);
-        }
-
-        void AddToCollisionEventRepo_CollisionExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
-            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
-                return;
-            }
-            var evRepo = worldContext.CollisionEventRepo;
-            evRepo.Add_CollisionExit(entityColliderA, entityColliderB);
-        }
-
-        #endregion
-
         /// <summary>
         /// 从实体ID参数中获取相关角色实体
         /// </summary>
-        /// <param name="idArgs"></param>
-        /// <param name="role"></param>
         /// <returns></returns> 
         public bool TryGetRoleFromIDArgs(in EntityIDArgs idArgs, out RoleEntity role) {
             role = null;
@@ -213,8 +126,6 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 递归从实体ID参数中获取相关角色实体
         /// </summary> 
-        /// <param name="idArgs"></param>
-        /// <param name="role"></param>
         /// <returns></returns>
         bool TryGetRoleRecursively(in EntityIDArgs idArgs, ref RoleEntity role) {
             if (!TryGetEntityObj(idArgs, out var entity)) return false;
@@ -344,14 +255,96 @@ namespace TiedanSouls.Client.Facades {
                 return;
             }
 
-
             TDLog.Error($"EntityTrack 未处理的实体类型 {trackEntityType}");
             return;
         }
 
         #endregion
 
-        public bool IsValidCollisionEvent(EntityCollider entityColliderA, EntityCollider entityColliderB) {
+        #region [碰撞器]
+
+        public void SetEntityColliderTriggerModelFathers(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
+            var len = collisionTriggerModelArray?.Length;
+            for (int i = 0; i < len; i++) {
+                var triggerModel = collisionTriggerModelArray[i];
+                SetEntityColliderTriggerModelFather(triggerModel, father);
+            }
+        }
+
+        public void SetEntityColliderTriggerModelFather(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
+            var array = triggerModel.entityColliderArray;
+            SetEntityColliderFathers(array, father);
+        }
+
+        public void SetEntityColliderFathers(EntityCollider[] colliderModelArray, in EntityIDArgs father) {
+            var len = colliderModelArray.Length;
+            for (int i = 0; i < len; i++) {
+                SetEntityColliderFather(colliderModelArray[i], father);
+            }
+        }
+
+        /// <summary>
+        /// 设置 碰撞器模型 的父级(为了在碰撞事件触发时找到父级实体)
+        /// </summary>
+        public void SetEntityColliderFather(EntityCollider colliderModel, in EntityIDArgs father) {
+            colliderModel.SetFather(father);
+            colliderModel.onTriggerEnter2D = AddToCollisionEventRepo_TriggerEnter;
+            colliderModel.onTriggerStay2D = AddToCollisionEventRepo_TriggerStay;
+            colliderModel.onTriggerExit2D = AddToCollisionEventRepo_TriggerExit;
+            colliderModel.onCollisionEnter2D = AddToCollisionEventRepo_CollisionEnter;
+            colliderModel.onCollisionStay2D = AddToCollisionEventRepo_CollisionStay;
+            colliderModel.onCollisionExit2D = AddToCollisionEventRepo_CollisionExit;
+        }
+
+        void AddToCollisionEventRepo_TriggerEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerEnter(entityColliderA, entityColliderB);
+        }
+
+        void AddToCollisionEventRepo_TriggerStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerStay(entityColliderA, entityColliderB);
+        }
+
+        void AddToCollisionEventRepo_TriggerExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_TriggerExit(entityColliderA, entityColliderB);
+        }
+
+        void AddToCollisionEventRepo_CollisionEnter(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionEnter(entityColliderA, entityColliderB, normalB);
+        }
+
+        void AddToCollisionEventRepo_CollisionStay(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionStay(entityColliderA, entityColliderB, normalB);
+        }
+
+        void AddToCollisionEventRepo_CollisionExit(EntityCollider entityColliderA, EntityCollider entityColliderB, Vector3 normalB) {
+            if (!IsValidCollisionEvent(entityColliderA, entityColliderB)) {
+                return;
+            }
+            var evRepo = worldContext.CollisionEventRepo;
+            evRepo.Add_CollisionExit(entityColliderA, entityColliderB);
+        }
+
+                public bool IsValidCollisionEvent(EntityCollider entityColliderA, EntityCollider entityColliderB) {
             var fatherA = entityColliderA.Father;
             var fatherB = entityColliderB.Father;
             var hitAllyTypeA = entityColliderA.HitTargetGroupType;
@@ -395,6 +388,8 @@ namespace TiedanSouls.Client.Facades {
 
             return false;
         }
+
+        #endregion
 
     }
 
