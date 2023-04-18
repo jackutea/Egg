@@ -186,8 +186,8 @@ namespace TiedanSouls.Client.Domain {
             var lastFrame = stateModel.GetLastFrame();
 
             bool hasLastFrameMove = castingSkill.HasSkillMoveCurveModel(lastFrame);
+            if (hasLastFrameMove) role.Stop();
             if (!stateModel.IsCurrentValid()) {
-                if (hasLastFrameMove) role.Stop();
                 var rendererModCom = role.RendererModCom;
                 rendererModCom.Anim_SetSpeed(1);
                 fsmCom.Enter_Idle();
@@ -195,7 +195,6 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            if (hasLastFrameMove) role.Stop();
             castingSkill.SetCurFrame(curFrame);
 
             // 技能位移

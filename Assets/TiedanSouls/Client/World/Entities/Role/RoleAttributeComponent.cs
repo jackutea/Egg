@@ -20,57 +20,18 @@ namespace TiedanSouls.Client.Entities {
 
         float hp;
         public float HP => hp;
+        public void SetHP(float hp) => this.hp = hp;
 
         float hpMax;
         public float HPMax => hpMax;
+        public void SetHPMax(float hpMax) => this.hpMax = hpMax;
 
         float hpMaxBase;
         public float HPMaxBase => hpMaxBase;
+        public void SetHPMaxBase(float hpMaxBase) => this.hpMaxBase = hpMaxBase;
 
         public void ClearHP() {
             hp = 0;
-        }
-
-        public float SetHP(float hp) {
-            if (hp < 0) {
-                TDLog.Warning("HP < 0");
-                return 0;
-            }
-            if (hp > hpMax) {
-                TDLog.Warning("HP > HPMax");
-                return 0;
-            }
-            this.hp = hp;
-            return hp;
-        }
-
-        public void SetHPMax(float hpMax) {
-            if (hpMax < 0) {
-                TDLog.Warning("HPMax < 0");
-                return;
-            }
-            this.hpMax = hpMax;
-        }
-
-        public void SetHPMaxBase(float hpMaxBase) {
-            if (hpMaxBase < 0) {
-                TDLog.Warning("HPMaxBase < 0");
-                return;
-            }
-            this.hpMaxBase = hpMaxBase;
-        }
-
-        public float AddHP(float heal) {
-            if (heal < 0) {
-                TDLog.Warning("HP恢复值 < 0");
-                return 0;
-            }
-            var newHP = hp + heal;
-            if (newHP > hpMax) {
-                newHP = hpMax;
-            }
-            hp = newHP;
-            return newHP;
         }
 
         public float ReduceHP(float damage) {
