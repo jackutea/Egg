@@ -45,7 +45,7 @@ namespace TiedanSouls.Client.Domain {
                     TryRevokeBuff(buff, targetRole.AttributeCom);
                     buff.ResetTriggerTimes();
                     buff.ResetCurFrame();
-                    buff.AttributeEffectModel.ResetOffset();
+                    buff.RoleAttributeEffectModel.ResetOffset();
                     return true;
                 }
 
@@ -99,7 +99,7 @@ namespace TiedanSouls.Client.Domain {
         /// 撤销对属性值的影响,并回收Buff
         /// </summary>
         public bool TryRevokeBuff(BuffEntity buff, RoleAttributeComponent attributeCom) {
-            var attributeEffectModel = buff.AttributeEffectModel;
+            var attributeEffectModel = buff.RoleAttributeEffectModel;
             var needRevoke = buff.NeedRevoke;
             if (!needRevoke) {
                 return false;
@@ -155,7 +155,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             var stackCount = buff.ExtraStackCount + 1;
-            TryEffectRoleAttribute(attributeCom, buff.AttributeEffectModel, stackCount);
+            TryEffectRoleAttribute(attributeCom, buff.RoleAttributeEffectModel, stackCount);
 
             return true;
         }
