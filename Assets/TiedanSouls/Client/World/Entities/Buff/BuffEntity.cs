@@ -26,9 +26,9 @@ namespace TiedanSouls.Client.Entities {
         public int TotalFrame => totalFrame;
         public void SetTotalFrame(int value) => totalFrame = value;
 
-        RoleAttributeEffectModel attributeEffectModel;
-        public RoleAttributeEffectModel AttributeEffectModel => attributeEffectModel;
-        public void SetAttributeEffectModel(RoleAttributeEffectModel value) => attributeEffectModel = value;
+        RoleAttributeModifyModel attributeEffectModel;
+        public RoleAttributeModifyModel AttributeEffectModel => attributeEffectModel;
+        public void SetAttributeEffectModel(RoleAttributeModifyModel value) => attributeEffectModel = value;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;
@@ -70,7 +70,7 @@ namespace TiedanSouls.Client.Entities {
             attributeEffectModel.ResetOffset();
         }
 
-        public void SetAttributeEffectModel(in RoleAttributeEffectModel value) {
+        public void SetAttributeEffectModel(in RoleAttributeModifyModel value) {
             this.attributeEffectModel = value;
         }
 

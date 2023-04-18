@@ -19,7 +19,7 @@ namespace TiedanSouls.EditorTool {
         [Header("触发间隔帧")] public int intervalFrame;
         [Header("触发持续帧")] public int durationFrame;
         [Header("效果器")] public int effectorTypeID;
-        [Header("属性影响")] public RoleAttributeEffectEM attributeEffectEM;
+        [Header("属性影响")] public RoleAttributeModifyEM attributeEffectEM;
 
         public void Save() {
             if (so == null) {

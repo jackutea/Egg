@@ -69,19 +69,20 @@ namespace TiedanSouls.Client.Entities {
             return model;
         }
 
-        public static SkillEffectorModel[] GetSkillEffectorModelArray(EffectorTriggerTM[] tmArray) {
+        public static EffectorTriggerModel[] GetSkillEffectorModelArray(EffectorTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            SkillEffectorModel[] modelArray = new SkillEffectorModel[len];
+            EffectorTriggerModel[] modelArray = new EffectorTriggerModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetSkillEffectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static SkillEffectorModel GetSkillEffectorModel(EffectorTriggerTM tm) {
-            SkillEffectorModel model;
+        public static EffectorTriggerModel GetSkillEffectorModel(EffectorTriggerTM tm) {
+            EffectorTriggerModel model;
             model.triggerFrame = tm.triggerFrame;
+            model.effectorType = tm.effectorType;
             model.effectorTypeID = tm.effectorTypeID;
             return model;
         }
@@ -268,8 +269,8 @@ namespace TiedanSouls.Client.Entities {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectModel GetAttributeEffectModel(RoleAttributeEffectTM tm) {
-            RoleAttributeEffectModel model = new RoleAttributeEffectModel();
+        public static RoleAttributeModifyModel GetAttributeEffectModel(RoleAttributeModifyTM tm) {
+            RoleAttributeModifyModel model = new RoleAttributeModifyModel();
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
@@ -309,7 +310,7 @@ namespace TiedanSouls.Client.Entities {
             RoleEffectorModel model;
             model.typeID = tm.typeID;
             model.effectorName = tm.effectorName;
-            model.roleAttributeEffectModel = GetAttributeEffectModel(tm.roleAttributeEffectTM);
+            model.roleAttributeModifyModel = GetAttributeEffectModel(tm.roleAttributeModifyTM);
             model.roleAttributeSelectorModel = GetAttributeSelectorModel(tm.roleAttributeSelectorTM);
             return model;
         }

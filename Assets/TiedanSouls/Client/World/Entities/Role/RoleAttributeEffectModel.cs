@@ -7,7 +7,7 @@ namespace TiedanSouls.Client.Entities {
     /// 属性影响模型
     /// </summary>
     [Serializable]
-    public class RoleAttributeEffectModel {
+    public class RoleAttributeModifyModel {
 
         public NumCalculationType hpNCT;
         public float hpEV;

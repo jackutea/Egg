@@ -84,14 +84,14 @@ namespace TiedanSouls.Client.Domain {
         public void ModifyRole(RoleEntity role, in RoleEffectorModel roleEffectorModel) {
             var buffDomain = worldContext.RootDomain.BuffDomain;
             var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
-            var roleAttributeEffectModel = roleEffectorModel.roleAttributeEffectModel;
+            var roleAttributeModifyModel = roleEffectorModel.roleAttributeModifyModel;
             var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
             var roleRepo = worldContext.RoleRepo;
 
             roleRepo.Foreach_All((role) => {
                 var attrCom = role.AttributeCom;
                 if (!attrCom.IsMatch(roleAttributeSelectorModel)) return;
-                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleAttributeEffectModel, 1);
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleAttributeModifyModel, 1);
             });
         }
 
@@ -441,7 +441,7 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var roleEffectorTypeID = targetRoleEffectorTypeIDArray[i];
                 if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
-                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeEffectModel, 1);
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
 
             // 伤害 仲裁

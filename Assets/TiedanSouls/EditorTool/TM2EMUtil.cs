@@ -19,7 +19,7 @@ namespace TiedanSouls.EditorTool {
             editorGO.durationFrame = tm.durationFrame;
             editorGO.maxExtraStackCount = tm.maxExtraStackCount;
 
-            editorGO.attributeEffectEM = GetRoleAttributeEffectEM(tm.attributeEffectTM);
+            editorGO.attributeEffectEM = GetRoleAttributeModifyEM(tm.attributeEffectTM);
             editorGO.effectorTypeID = tm.effectorTypeID;
         }
 
@@ -27,18 +27,18 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeEffectEM[] GetAttributeEffectEMArray(RoleAttributeEffectTM[] tmArray) {
+        public static RoleAttributeModifyEM[] GetAttributeEffectEMArray(RoleAttributeModifyTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            RoleAttributeEffectEM[] emArray = new RoleAttributeEffectEM[len];
+            RoleAttributeModifyEM[] emArray = new RoleAttributeModifyEM[len];
             for (int i = 0; i < len; i++) {
-                emArray[i] = GetRoleAttributeEffectEM(tmArray[i]);
+                emArray[i] = GetRoleAttributeModifyEM(tmArray[i]);
             }
             return emArray;
         }
 
-        public static RoleAttributeEffectEM GetRoleAttributeEffectEM(RoleAttributeEffectTM tm) {
-            RoleAttributeEffectEM em;
+        public static RoleAttributeModifyEM GetRoleAttributeModifyEM(RoleAttributeModifyTM tm) {
+            RoleAttributeModifyEM em;
 
             em.hpNCT = tm.hpNCT;
             em.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
@@ -148,7 +148,7 @@ namespace TiedanSouls.EditorTool {
             RoleEffectorEM em;
             em.typeID = tm.typeID;
             em.effectorName = tm.effectorName;
-            em.roleAttributeEffectEM = GetRoleAttributeEffectEM(tm.roleAttributeEffectTM);
+            em.roleAttributeModifyEM = GetRoleAttributeModifyEM(tm.roleAttributeModifyTM);
             em.roleAttributeSelectorEM = GetRoleAttributeSelectorEM(tm.roleAttributeSelectorTM);
             return em;
         }
@@ -385,7 +385,7 @@ namespace TiedanSouls.EditorTool {
             RoleEffectorEM em;
             em.typeID = tm.typeID;
             em.effectorName = tm.effectorName;
-            em.roleAttributeEffectEM = GetRoleAttributeEffectEM(tm.roleAttributeEffectTM);
+            em.roleAttributeModifyEM = GetRoleAttributeModifyEM(tm.roleAttributeModifyTM);
             em.roleAttributeSelectorEM = GetRoleAttributeSelectorEM(tm.roleAttributeSelectorTM);
             return em;
         }

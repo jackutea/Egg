@@ -65,34 +65,6 @@ namespace TiedanSouls.Client.Domain {
         }
 
         /// <summary>
-        /// 根据实体生成模型 生成Buff
-        /// </summary>
-        public bool TrySpawnBySpawnModel(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BuffEntity buff) {
-            buff = null;
-
-            var typeID = entitySpawnModel.typeID;
-            var factory = worldContext.Factory;
-            if (!factory.TryCreateBuff(typeID, out buff)) {
-                return false;
-            }
-
-            var spawnPos = entitySpawnModel.spawnPos;
-            var spawnControlType = entitySpawnModel.controlType;
-            var spawnAllyType = entitySpawnModel.campType;
-
-            // Buff ID
-            var idCom = buff.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickBuffID());
-            idCom.SetAllyType(spawnAllyType);
-            idCom.SetControlType(spawnControlType);
-
-            // 添加至仓库
-            var repo = worldContext.BuffRepo;
-            repo.Add(buff);
-            return true;
-        }
-
-        /// <summary>
         /// 根据类型ID生成Buff
         /// </summary>
         public bool TrySpawn(int typeID, in EntityIDArgs father, out BuffEntity buff) {
@@ -188,7 +160,7 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public bool TryEffectRoleAttribute(RoleAttributeComponent attributeCom, in RoleAttributeEffectModel attributeEffectModel, int stackCount) {
+        public bool TryEffectRoleAttribute(RoleAttributeComponent attributeCom, in RoleAttributeModifyModel attributeEffectModel, int stackCount) {
             var offset = 0f;
             var ev = 0f;
             var curBonus = 0f;

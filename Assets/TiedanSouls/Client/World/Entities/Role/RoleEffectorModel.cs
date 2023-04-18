@@ -8,7 +8,7 @@ namespace TiedanSouls.Client.Entities {
         public int typeID;
         public string effectorName;
         public RoleAttributeSelectorModel roleAttributeSelectorModel;
-        public RoleAttributeEffectModel roleAttributeEffectModel;
+        public RoleAttributeModifyModel roleAttributeModifyModel;
 
     }
 

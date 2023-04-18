@@ -29,8 +29,8 @@ namespace TiedanSouls.Client.Entities {
         public void SetLinkSkillCancelModelArray(SkillCancelModel[] value) => this.linkSkillCancelModelArray = value;
 
         // - 效果器组
-        SkillEffectorModel[] skillEffectorModelArray;
-        public void SetSkillEffectorModelArray(SkillEffectorModel[] value) => this.skillEffectorModelArray = value;
+        EffectorTriggerModel[] skillEffectorModelArray;
+        public void SetSkillEffectorModelArray(EffectorTriggerModel[] value) => this.skillEffectorModelArray = value;
 
         // - 技能位移组
         SkillMoveCurveModel[] skillMoveCurveModelArray;
@@ -208,11 +208,11 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public bool TryGet_ValidSkillEffectorModel(out SkillEffectorModel effectorModel, int frame = -1) {
+        public bool TryGet_ValidSkillEffectorModel(out EffectorTriggerModel effectorModel, int frame = -1) {
             frame = frame == -1 ? curFrame : frame;
             if (skillEffectorModelArray != null) {
                 for (int i = 0; i < skillEffectorModelArray.Length; i++) {
-                    SkillEffectorModel model = skillEffectorModelArray[i];
+                    EffectorTriggerModel model = skillEffectorModelArray[i];
                     if (model.effectorTypeID == 0) continue;
                     if (model.triggerFrame == curFrame) {
                         effectorModel = model;

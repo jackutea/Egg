@@ -130,11 +130,11 @@ namespace TiedanSouls.Client.Domain {
                 if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
 
                 var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
-                var roleAttributeEffectModel = roleEffectorModel.roleAttributeEffectModel;
+                var roleAttributeModifyModel = roleEffectorModel.roleAttributeModifyModel;
                 var roleAttrCom = selfRole.AttributeCom;
                 if (!roleAttrCom.IsMatch(roleAttributeSelectorModel)) continue;
 
-                buffDomain.TryEffectRoleAttribute(selfRole.AttributeCom, roleEffectorModel.roleAttributeEffectModel, 1);
+                buffDomain.TryEffectRoleAttribute(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
         }
 

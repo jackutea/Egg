@@ -8,7 +8,7 @@ namespace TiedanSouls.EditorTool {
     /// 属性影响模型
     /// </summary>
     [Serializable]
-    public struct RoleAttributeEffectEM {
+    public struct RoleAttributeModifyEM {
 
         [Header("生命值 数值计算类型")] public NumCalculationType hpNCT;
         [Header("生命值 影响值")] public float hpEV;
