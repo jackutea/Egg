@@ -44,18 +44,12 @@ namespace TiedanSouls.Client.Entities {
         public void ResetCurFrame() => curFrame = -1;
 
         int triggerTimes;
-        public int TriggerTimes => triggerTimes;
-        public void AddTriggerTimes() => triggerTimes++;
         public void ResetTriggerTimes() => triggerTimes = 0;
 
         int extraStackCount;
         public int ExtraStackCount => extraStackCount;
         public void AddExtraStackCount() => extraStackCount++;
         public void ResetExtraStackCount() => extraStackCount = 0;
-
-        bool needRevoke;
-        public bool NeedRevoke => needRevoke;
-        public void SetNeedRevoke(bool value) => needRevoke = value;
 
         public void Ctor() {
             IDCom = new EntityIDComponent();

@@ -26,7 +26,6 @@ namespace TiedanSouls.Client.Entities {
             return true;
         }
 
-
         public bool TryRemove(BuffEntity buff) {
             var idCom = buff.IDCom;
             var typeID = idCom.TypeID;

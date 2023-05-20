@@ -128,66 +128,54 @@ namespace TiedanSouls.Client.Domain {
 
         public bool TryRevokeBuff(BuffEntity buff, RoleAttributeComponent attributeCom) {
             var attributeEffectModel = buff.RoleAttrModifyModel;
-            var needRevoke = buff.NeedRevoke;
-            if (!needRevoke) {
-                return false;
-            }
-
-            var hpOffset = attributeEffectModel.hpOffset;
-            if (hpOffset != 0) {
-                var hp = attributeCom.HP;
-                hp = Math.Min(1, hp - hpOffset);
-                attributeCom.SetHP(hp);
-                TDLog.Log($"Buff HP 撤销 --> 值 {hpOffset} => 当前 {attributeCom.HP}");
-            }
 
             var hpMax = attributeCom.HPMax;
             var hpMaxOffset = attributeEffectModel.hpMaxOffset;
             if (hpMaxOffset != 0) {
                 attributeCom.SetHPMax(hpMax - hpMaxOffset);
-                TDLog.Log($"Buff HPMax 撤销 --> 值 {hpMaxOffset} => 当前 {attributeCom.HPMax}");
+                TDLog.Log($"角色属性 撤销 HPMax --> 值 {hpMaxOffset} => 当前 {attributeCom.HPMax}");
             }
 
             var moveSpeed = attributeCom.MoveSpeed;
             var moveSpeedOffset = attributeEffectModel.moveSpeedOffset;
             if (moveSpeedOffset != 0) {
                 attributeCom.SetMoveSpeed(moveSpeed - moveSpeedOffset);
-                TDLog.Log($"Buff 移动速度 撤销 --> 值 {moveSpeedOffset} => 当前 {attributeCom.MoveSpeed}");
+                TDLog.Log($"角色属性 撤销 移动速度 --> 值 {moveSpeedOffset} => 当前 {attributeCom.MoveSpeed}");
             }
 
             var normalSkillSpeedBonus = attributeCom.NormalSkillSpeedBonus;
             var normalSkillSpeedBonusOffset = attributeEffectModel.normalSkillSpeedBonusOffset;
             if (normalSkillSpeedBonusOffset != 0) {
                 attributeCom.SetNormalSkillSpeedBonus(normalSkillSpeedBonus - normalSkillSpeedBonusOffset);
-                TDLog.Log($"Buff 普技速度加成 撤销 --> 值 {normalSkillSpeedBonusOffset}=> 当前 {attributeCom.NormalSkillSpeedBonus}");
+                TDLog.Log($"角色属性 撤销 普技速度加成 --> 值 {normalSkillSpeedBonusOffset}=> 当前 {attributeCom.NormalSkillSpeedBonus}");
             }
 
             var physicalDamageBonus = attributeCom.PhysicalDamageBonus;
             var physicalDamageBonusOffset = attributeEffectModel.physicalDamageBonusOffset;
             if (physicalDamageBonusOffset != 0) {
                 attributeCom.SetPhysicalDamageBonus(physicalDamageBonus - physicalDamageBonusOffset);
-                TDLog.Log($"Buff 物理加伤加成 撤销 --> 值 {physicalDamageBonusOffset}=> 当前 {attributeCom.PhysicalDamageBonus}");
+                TDLog.Log($"角色属性 撤销 物理加伤加成 --> 值 {physicalDamageBonusOffset}=> 当前 {attributeCom.PhysicalDamageBonus}");
             }
 
             var magicDamageBonus = attributeCom.MagicalDamageBonus;
             var magicalDamageBonusOffset = attributeEffectModel.magicalDamageBonusOffset;
             if (magicalDamageBonusOffset != 0) {
                 attributeCom.SetmagicalDamageBonus(magicDamageBonus - magicalDamageBonusOffset);
-                TDLog.Log($"Buff 魔法加伤加成 撤销 --> 值 {magicalDamageBonusOffset}=> 当前 {attributeCom.MagicalDamageBonus}");
+                TDLog.Log($"角色属性 撤销 魔法加伤加成 --> 值 {magicalDamageBonusOffset}=> 当前 {attributeCom.MagicalDamageBonus}");
             }
 
             var physicalDefenseBonus = attributeCom.PhysicalDefenseBonus;
             var physicalDefenseBonusOffset = attributeEffectModel.physicalDefenseBonusOffset;
             if (physicalDefenseBonusOffset != 0) {
                 attributeCom.SetPhysicalDefenseBonus(physicalDefenseBonus - physicalDefenseBonusOffset);
-                TDLog.Log($"Buff 物理防御加成 撤销 --> 值 {physicalDefenseBonusOffset}=> 当前 {attributeCom.PhysicalDefenseBonus}");
+                TDLog.Log($"角色属性 撤销 物理防御加成 --> 值 {physicalDefenseBonusOffset}=> 当前 {attributeCom.PhysicalDefenseBonus}");
             }
 
             var magicDefenseBonus = attributeCom.MagicalDefenseBonus;
             var magicalDefenseBonusOffset = attributeEffectModel.magicalDefenseBonusOffset;
             if (magicalDefenseBonusOffset != 0) {
                 attributeCom.SetMagicalDefenseBonus(magicDefenseBonus - magicalDefenseBonusOffset);
-                TDLog.Log($"Buff 魔法防御加成 撤销 --> 值 {magicalDefenseBonusOffset} => 当前 {attributeCom.MagicalDefenseBonus}");
+                TDLog.Log($"角色属性 撤销 魔法防御加成 --> 值 {magicalDefenseBonusOffset} => 当前 {attributeCom.MagicalDefenseBonus}");
             }
 
             return true;
