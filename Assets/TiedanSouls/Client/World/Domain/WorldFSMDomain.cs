@@ -77,7 +77,7 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.FSMCom.Enter_Idle();
 
                 roleDomain.Show(playerRole);
-                playerRole.HudSlotCom.ShowHUD();
+                playerRole.RendererCom.HudSlotCom.ShowHUD();
 
                 // 设置相机 
                 _ = worldContext.FieldRepo.TryGet(curFieldTypeID, out var field);

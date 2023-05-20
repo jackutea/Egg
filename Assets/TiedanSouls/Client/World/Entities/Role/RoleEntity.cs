@@ -20,29 +20,32 @@ namespace TiedanSouls.Client.Entities {
         public WeaponSlotComponent WeaponSlotCom { get; private set; }
         public SkillSlotComponent SkillSlotCom { get; private set; }
         public BuffSlotComponent BuffSlotCom { get; private set; }
-        public HUDSlotComponent HudSlotCom { get; private set; }
-        public RoleRendererComponent RendererModCom { get; private set; }
         public RoleCtrlEffectSlotComponent CtrlEffectSlotCom { get; private set; }
+
+        RoleRendererComponent rendererCom;
+        public RoleRendererComponent RendererCom => rendererCom;
 
         #endregion
 
         #region [Root]
 
-        public Transform LogicRoot { get; private set; }
+        Transform logicRoot;
+        public Transform LogicRoot => logicRoot;
         public Vector3 LogicRootPos => LogicRoot.position;
         public float LogicAngleZ => LogicRoot.rotation.z;
         public Quaternion LogicRotation => LogicRoot.rotation;
         public void SetLogicPos(Vector2 pos) => LogicRoot.position = pos;
         public void SetLogicRot(Quaternion rot) => LogicRoot.rotation = rot;
 
-        public Transform RendererRoot { get; private set; }
-        public Vector2 RendererRootPos => RendererRoot.position;
 
-        public Transform WeaponRoot { get; private set; }
-        public Vector2 WeaponRootPos() => WeaponRoot.position;
+        Transform weaponRoot;
+        public Transform WeaponRoot => weaponRoot;
 
-        public Rigidbody2D RB_LogicRoot { get; private set; }
-        public CapsuleCollider2D Coll_LogicRoot { get; private set; }
+        Rigidbody2D rb;
+        public Rigidbody2D RB => rb;
+
+        CapsuleCollider2D coll_LogicRoot;
+        public CapsuleCollider2D Coll_LogicRoot => coll_LogicRoot;
 
         public void SetTrigger(bool isTrigger) => Coll_LogicRoot.isTrigger = isTrigger;
 
@@ -72,29 +75,28 @@ namespace TiedanSouls.Client.Entities {
         public void Ctor() {
             faceDirX = 1;
 
-            // - Root
-            LogicRoot = transform.Find("logic_root");
-            RendererRoot = transform.Find("renderer_root");
-            RB_LogicRoot = LogicRoot.GetComponent<Rigidbody2D>();
-            Coll_LogicRoot = LogicRoot.GetComponent<CapsuleCollider2D>();
-            WeaponRoot = RendererRoot.Find("weapon_root");
-            var hudRoot = RendererRoot.Find("hud_root");
-
             MoveCom = new MoveComponent();
-            MoveCom.Inject(RB_LogicRoot);
             IDCom = new EntityIDComponent();
             IDCom.SetEntityType(EntityType.Role);
             InputCom = new InputComponent();
             WeaponSlotCom = new WeaponSlotComponent();
-            WeaponSlotCom.Inject(WeaponRoot);
             AttributeCom = new RoleAttributeComponent();
             FSMCom = new RoleFSMComponent();
             SkillSlotCom = new SkillSlotComponent();
             BuffSlotCom = new BuffSlotComponent();
             CtrlEffectSlotCom = new RoleCtrlEffectSlotComponent();
-            HudSlotCom = new HUDSlotComponent();
-            HudSlotCom.Inject(hudRoot);
-            RendererModCom = new RoleRendererComponent();
+            rendererCom = new RoleRendererComponent();
+            logicRoot = transform.Find("logic_root");
+            var rendererRoot = transform.Find("renderer_root");
+
+            rb = logicRoot.GetComponent<Rigidbody2D>();
+            coll_LogicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
+            weaponRoot = rendererRoot.Find("weapon_root");
+
+            MoveCom.Inject(RB);
+            WeaponSlotCom.Inject(weaponRoot);
+            rendererCom.Inject(rendererRoot);
+
         }
 
         public void TearDown() {
@@ -112,17 +114,8 @@ namespace TiedanSouls.Client.Entities {
             InputCom.Reset();
             // - Movement
             MoveCom.Reset();
-            // - HUD
-            HudSlotCom.Reset();
-
-            var hpBar = HudSlotCom.HPBarHUD;
-            hpBar.SetGP(AttributeCom.GP);
-            hpBar.SetHP(AttributeCom.HP);
-            hpBar.SetHPMax(AttributeCom.HPMax);
-        }
-
-        public void SetMod(GameObject mod) {
-            RendererModCom.SetMod(mod);
+            // - Renderer
+            rendererCom.Reset(AttributeCom.GP, AttributeCom.HP, AttributeCom.HPMax);
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
@@ -136,9 +129,8 @@ namespace TiedanSouls.Client.Entities {
 
         public void Hide() {
             LogicRoot.gameObject.SetActive(false);
-            RendererRoot.gameObject.SetActive(false);
+            rendererCom.Hide();
         }
-        #region [Locomotion]
 
         public void TryMoveByInput() {
             if (!InputCom.HasMoveOpt) return;
@@ -185,8 +177,6 @@ namespace TiedanSouls.Client.Entities {
         public void Stop() {
             MoveCom.Stop();
         }
-
-        #endregion
 
     }
 

@@ -137,77 +137,15 @@ namespace TiedanSouls.Client.Entities {
 
         float gp;
         public float GP => gp;
+        public float SetGP(float gp) => this.gp = gp;
 
         float gpMax;
         public float GPMax => gpMax;
+        public void SetGPMax(float gpMax) => this.gpMax = gpMax;
 
         float gpMaxBase;
         public float GPMaxBase => gpMaxBase;
-
-        public void ClearGP() {
-            gp = 0;
-        }
-
-        public float SetGP(float gp) {
-            if (gp < 0) {
-                TDLog.Warning("GP < 0");
-                return 0;
-            }
-            if (gp > gpMax) {
-                TDLog.Warning("GP > GPMax");
-                return 0;
-            }
-            this.gp = gp;
-            return gp;
-        }
-
-        public void SetGPMax(float gpMax) {
-            if (gpMax < 0) {
-                TDLog.Warning("GPMax < 0");
-                return;
-            }
-            this.gpMax = gpMax;
-        }
-
-        public void SetGPMaxBase(float gpMaxBase) {
-            if (gpMaxBase < 0) {
-                TDLog.Warning("GPMaxBase < 0");
-                return;
-            }
-            this.gpMaxBase = gpMaxBase;
-        }
-
-        public float AddGP(float gp) {
-            if (gp < 0) {
-                TDLog.Warning("GP恢复值 < 0");
-                return 0;
-            }
-            var newGP = this.gp + gp;
-            if (newGP > gpMax) {
-                newGP = gpMax;
-            }
-            this.gp = newGP;
-            return newGP;
-        }
-
-        public float ReduceGP(float gp) {
-            if (gp < 0) {
-                TDLog.Warning("GP消耗值 < 0");
-                return 0;
-            }
-            float realGP = 0;
-            var newGP = this.gp - gp;
-            if (newGP < 0) {
-                realGP = this.gp;
-                newGP = 0;
-            } else {
-                realGP = gp;
-            }
-
-            this.gp = newGP;
-
-            return realGP;
-        }
+        public void SetGPMaxBase(float gpMaxBase) => this.gpMaxBase = gpMaxBase;
 
         #endregion
 
@@ -215,25 +153,11 @@ namespace TiedanSouls.Client.Entities {
 
         float moveSpeed;
         public float MoveSpeed => moveSpeed;
+        public void SetMoveSpeed(float moveSpeed) => this.moveSpeed = moveSpeed;
 
         float moveSpeedBase;
         public float MoveSpeedBase => moveSpeedBase;
-
-        public void SetMoveSpeed(float moveSpeed) {
-            if (moveSpeed < 0) {
-                TDLog.Warning("MoveSpeed < 0");
-                return;
-            }
-            this.moveSpeed = moveSpeed;
-        }
-
-        public void SetMoveSpeedBase(float moveSpeedBase) {
-            if (moveSpeedBase < 0) {
-                TDLog.Warning("MoveSpeedBase < 0");
-                return;
-            }
-            this.moveSpeedBase = moveSpeedBase;
-        }
+        public void SetMoveSpeedBase(float moveSpeedBase) => this.moveSpeedBase = moveSpeedBase;
 
         #endregion
 

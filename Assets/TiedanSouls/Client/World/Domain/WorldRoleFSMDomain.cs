@@ -105,7 +105,7 @@ namespace TiedanSouls.Client.Domain {
             var stateModel = fsmCom.IdleStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-                role.RendererModCom.Anim_PlayIdle();
+                role.RendererCom.Anim_PlayIdle();
             }
 
             var rootDomain = worldContext.RootDomain;
@@ -188,7 +188,7 @@ namespace TiedanSouls.Client.Domain {
             bool hasLastFrameMove = castingSkill.HasSkillMoveCurveModel(lastFrame);
             if (hasLastFrameMove) role.Stop();
             if (!stateModel.IsCurrentValid()) {
-                var rendererModCom = role.RendererModCom;
+                var rendererModCom = role.RendererCom;
                 rendererModCom.Anim_SetSpeed(1);
                 fsmCom.Enter_Idle();
                 castingSkill.Reset();
@@ -367,8 +367,8 @@ namespace TiedanSouls.Client.Domain {
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
-                role.HudSlotCom.HideHUD();
-                role.RendererModCom.Anim_Play_Dying();
+                role.RendererCom.HudSlotCom.HideHUD();
+                role.RendererCom.Anim_Play_Dying();
                 role.Stop();
             }
 
@@ -417,7 +417,7 @@ namespace TiedanSouls.Client.Domain {
             int realFrameCount = skillTotalFrame - realCutFrameCount;
             stateModel.SetFrameCount(realFrameCount);
 
-            var rendererModCom = role.RendererModCom;
+            var rendererModCom = role.RendererCom;
             rendererModCom.Anim_SetSpeed(skillTotalFrame / (float)realFrameCount);
 
             var str = $" =====================\n\t ";

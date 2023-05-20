@@ -163,8 +163,8 @@ namespace TiedanSouls.Client {
                 TDLog.Error($"请检查配置! 角色模型资源不存在! {roleTM.modName}");
                 return false;
             }
-            GameObject roleMod = GameObject.Instantiate(roleModPrefab, role.RendererRoot);
-            role.SetMod(roleMod);
+            GameObject roleMod = GameObject.Instantiate(roleModPrefab);
+            role.RendererCom.SetMod(roleMod);
 
             // Attribute
             var attrCom = role.AttributeCom;
@@ -173,8 +173,8 @@ namespace TiedanSouls.Client {
             // HUD
             var hpBar = CreateHpBarHUD();
             var damageFloatTextHUD = CreateDamageFloatTextHUD();
-            role.HudSlotCom.SetHPBarHUD(hpBar);
-            role.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
+            role.RendererCom.HudSlotCom.SetHPBarHUD(hpBar);
+            role.RendererCom.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
             hpBar.SetGP(attrCom.GP);
             hpBar.SetHP(attrCom.HP);
             hpBar.SetHPMax(attrCom.HPMax);

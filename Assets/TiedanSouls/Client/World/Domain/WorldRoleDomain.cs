@@ -125,8 +125,8 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // HUD Show
-            if (idCom.AllyStatus == CampType.Two) role.HudSlotCom.HPBarHUD.SetColor(Color.red);
-            else if (idCom.AllyStatus == CampType.Neutral) role.HudSlotCom.HPBarHUD.SetColor(Color.yellow);
+            if (idCom.AllyStatus == CampType.Two) role.RendererCom.HudSlotCom.HPBarHUD.SetColor(Color.red);
+            else if (idCom.AllyStatus == CampType.Neutral) role.RendererCom.HudSlotCom.HPBarHUD.SetColor(Color.yellow);
         }
 
         #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
@@ -460,7 +460,7 @@ namespace TiedanSouls.Client.Domain {
             damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
 
             // HUD伤害浮字
-            var damageFloatTextHUD = role.HudSlotCom.DamageFloatTextHUD;
+            var damageFloatTextHUD = role.RendererCom.HudSlotCom.DamageFloatTextHUD;
             damageFloatTextHUD.ShowDamageFloatText(damageType, realDamage, 0.5f);
         }
 
@@ -482,38 +482,13 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         public void Renderer_Sync(RoleEntity role) {
             var logicRoot = role.LogicRoot;
-            var rendererRoot = role.RendererRoot;
-            var weaponRoot = role.WeaponRoot;
-
-            var logicPos = logicRoot.position;
-            rendererRoot.position = logicPos;
-            weaponRoot.position = logicPos;
-
-            var rendererModCom = role.RendererModCom;
-            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
-            weaponRoot.rotation = logicRoot.rotation;
-        }
-
-        /// <summary>
-        /// 表现层 - 插值逻辑层的位置
-        /// </summary>
-        public void Renderer_Easing(RoleEntity role, float dt) {
-            var logicRoot = role.LogicRoot;
-            var rendererRoot = role.RendererRoot;
-            var weaponRoot = role.WeaponRoot;
-            var rendererModCom = role.RendererModCom;
-
-            var lerpPos = Vector3.Lerp(rendererRoot.position, logicRoot.position, dt * 30);
-            rendererRoot.position = lerpPos;
-            weaponRoot.position = lerpPos;
-
-            rendererModCom.Mod.transform.rotation = logicRoot.rotation;
-            weaponRoot.rotation = logicRoot.rotation;
+            role.RendererCom.SetPos(logicRoot.position);
+            role.RendererCom.SetRotation(logicRoot.rotation);
         }
 
         public void Show(RoleEntity role) {
             role.LogicRoot.gameObject.SetActive(true);
-            role.RendererRoot.gameObject.SetActive(true);
+            role.RendererCom.Show();
             TDLog.Log($"显示角色: {role.IDCom.EntityName} ");
         }
 
@@ -587,7 +562,7 @@ namespace TiedanSouls.Client.Domain {
         public float ReduceHP(RoleEntity role, float damage) {
             var attributeCom = role.AttributeCom;
             var decrease = attributeCom.ReduceHP(damage);
-            var hudSlotCom = role.HudSlotCom;
+            var hudSlotCom = role.RendererCom.HudSlotCom;
             var hpBar = hudSlotCom.HPBarHUD;
             hpBar.SetGP(attributeCom.GP);
             hpBar.SetHP(attributeCom.HP);
@@ -599,7 +574,7 @@ namespace TiedanSouls.Client.Domain {
 
         public float ReduceHP_Percentage(RoleEntity role, float percentage) {
             var attributeCom = role.AttributeCom;
-            var hudSlotCom = role.HudSlotCom;
+            var hudSlotCom = role.RendererCom.HudSlotCom;
 
             var curHP = attributeCom.HP;
             var decrease = curHP * percentage;

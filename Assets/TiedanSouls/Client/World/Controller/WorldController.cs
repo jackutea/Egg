@@ -42,7 +42,6 @@ namespace TiedanSouls.Client.Controller {
             while (resTime >= logicIntervalTime) {
                 worldDomain.WorldFSMDomain.ApplyWorldState(logicIntervalTime);
                 resTime -= logicIntervalTime;
-                resTime = resTime < 0 ? 0 : resTime;
             }
 
             // ==== Render ====

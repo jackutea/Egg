@@ -142,7 +142,7 @@ namespace TiedanSouls.Client.Domain {
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
                     roleDomain.Show(ai);
-                    ai.HudSlotCom.ShowHUD();
+                    ai.RendererCom.HudSlotCom.ShowHUD();
                     ai.SetLogicPos(ai.BornPos);
                 }));
                 fsmCom.Enter_Finished();
