@@ -189,14 +189,7 @@ namespace TiedanSouls.Client.Entities {
 
         float magicalDefenseBonus;
         public float MagicalDefenseBonus => magicalDefenseBonus;
-
-        public void SetMagicalDefenseBonus(float magicalDefenseBonus) {
-            if (magicalDefenseBonus < 0) {
-                TDLog.Warning("magicalDefenseBonus < 0");
-                return;
-            }
-            this.magicalDefenseBonus = magicalDefenseBonus;
-        }
+        public void SetMagicalDefenseBonus(float magicalDefenseBonus)=>  this.magicalDefenseBonus = magicalDefenseBonus;
 
         #endregion
 
@@ -204,41 +197,11 @@ namespace TiedanSouls.Client.Entities {
 
         float jumpSpeed;
         public float JumpSpeed => jumpSpeed;
+        public void SetJumpSpeed(float jumpSpeed) =>    this.jumpSpeed = jumpSpeed;
 
         float jumpSpeedBase;
         public float JumpSpeedBase => jumpSpeedBase;
-
-        public void SetJumpSpeed(float jumpSpeed) {
-            if (jumpSpeed < 0) {
-                TDLog.Warning("JumpSpeed < 0");
-                return;
-            }
-            this.jumpSpeed = jumpSpeed;
-        }
-
-        public void SetJumpSpeedBase(float jumpSpeedBase) {
-            if (jumpSpeedBase < 0) {
-                TDLog.Warning("JumpSpeedBase < 0");
-                return;
-            }
-            this.jumpSpeedBase = jumpSpeedBase;
-        }
-
-        public void AddJumpSpeed(float jumpSpeed) {
-            if (jumpSpeed < 0) {
-                TDLog.Warning("JumpSpeed < 0");
-                return;
-            }
-            this.jumpSpeed += jumpSpeed;
-        }
-
-        public void ReduceJumpSpeed(float jumpSpeed) {
-            if (jumpSpeed < 0) {
-                TDLog.Warning("JumpSpeed < 0");
-                return;
-            }
-            this.jumpSpeed -= jumpSpeed;
-        }
+        public void SetJumpSpeedBase(float jumpSpeedBase) =>  this.jumpSpeedBase = jumpSpeedBase;
 
         #endregion
 
@@ -246,41 +209,11 @@ namespace TiedanSouls.Client.Entities {
 
         float fallSpeed;
         public float FallSpeed => fallSpeed;
+        public void SetFallSpeed(float fallSpeed) =>    this.fallSpeed = fallSpeed;
 
         float fallSpeedMax;
         public float FallSpeedMax => fallSpeedMax;
-
-        public void SetFallSpeed(float fallSpeed) {
-            if (fallSpeed < 0) {
-                TDLog.Warning("FallSpeed < 0");
-                return;
-            }
-            this.fallSpeed = fallSpeed;
-        }
-
-        public void AddFallSpeed(float fallSpeed) {
-            if (fallSpeed < 0) {
-                TDLog.Warning("FallSpeed < 0");
-                return;
-            }
-            this.fallSpeed += fallSpeed;
-        }
-
-        public void ReduceFallSpeed(float fallSpeed) {
-            if (fallSpeed < 0) {
-                TDLog.Warning("FallSpeed < 0");
-                return;
-            }
-            this.fallSpeed -= fallSpeed;
-        }
-
-        public void SetFallSpeedMax(float fallSpeedMax) {
-            if (fallSpeedMax < 0) {
-                TDLog.Warning("FallSpeedMax < 0");
-                return;
-            }
-            this.fallSpeedMax = fallSpeedMax;
-        }
+        public void SetFallSpeedMax(float fallSpeedMax) =>    this.fallSpeedMax = fallSpeedMax;
 
         #endregion
 

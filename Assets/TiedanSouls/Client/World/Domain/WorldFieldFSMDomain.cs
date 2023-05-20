@@ -17,14 +17,15 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickFSM(float dt) {
-            var fieldRepo = worldContext.FieldRepo;
-            fieldRepo.Foreach((field) => {
-                TickFSM_CurrentField(field, dt);
-            });
+        public void TickFieldFSM(int fieldTypeID, float dt) {
+            if (!worldContext.FieldRepo.TryGet(fieldTypeID, out var field)) {
+                TDLog.Error($"关卡不存在! FieldTypeID: {fieldTypeID}");
+            }
+
+            TickFieldFSM(field, dt);
         }
 
-        void TickFSM_CurrentField(FieldEntity field, float dt) {
+        void TickFieldFSM(FieldEntity field, float dt) {
             var fsmCom = field.FSMComponent;
             if (fsmCom.IsExiting) return;
 

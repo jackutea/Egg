@@ -219,11 +219,10 @@ namespace TiedanSouls.Client.Domain {
 
         void TickField(int fieldTypeID, float dt) {
             var rootDomain = worldContext.RootDomain;
-            var stateEntity = worldContext.StateEntity;
 
             // 刷新 关卡 状态机
             var fieldFSMDomain = rootDomain.FieldFSMDomain;
-            fieldFSMDomain.TickFSM(dt);
+            fieldFSMDomain.TickFieldFSM(fieldTypeID, dt);
 
             // 刷新 角色 Buff
             var buffDomain = rootDomain.BuffDomain;

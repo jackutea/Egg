@@ -15,7 +15,7 @@ MonoBehaviour:
   tm:
     typeID: 99991
     buffName: "\u56DE\u8840buff"
-    description: "\u7ACB\u5373\u83B7\u5F97\u7269\u7406\u4F24\u5BB3+50%\uFF0C\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D10\u751F\u547D\u503C"
+    description: "\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D10\u751F\u547D\u503C"
     iconName: item_
     iconGUID: 31b48c583b66f1249a9f1c0126e7273d
     delayFrame: 30
@@ -30,7 +30,7 @@ MonoBehaviour:
       moveSpeedNCT: 0
       moveSpeedEV_Expanded: 0
       normalSkillSpeedBonusEV_Expanded: 0
-      physicalDamageBonusEV_Expanded: 50
+      physicalDamageBonusEV_Expanded: 0
       magicalDamageBonusEV_Expanded: 0
       physicalDefenseBonusEV_Expanded: 0
       magicalDefenseBonusEV_Expanded: 0

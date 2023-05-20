@@ -280,7 +280,7 @@ MonoBehaviour:
   so: {fileID: 11400000, guid: b0446eef64d7c5444bcdeec26001bba3, type: 2}
   typeID: 99991
   buffName: "\u56DE\u8840buff"
-  description: "\u7ACB\u5373\u83B7\u5F97\u7269\u7406\u4F24\u5BB3+50%\uFF0C\u5E76\u4E14\u6BCF1\u79D2\u56DE\u590D10\u751F\u547D\u503C"
+  description: "\u5E76\u4E14\u6BCF1\u79D2\u589E\u52A0\u6700\u5927\u751F\u547D\u503C+33"
   icon: {fileID: 21300000, guid: 31b48c583b66f1249a9f1c0126e7273d, type: 3}
   maxExtraStackCount: 0
   delayFrame: 30
@@ -288,14 +288,14 @@ MonoBehaviour:
   durationFrame: 999999
   effectorTypeID: 0
   attributeEffectEM:
-    hpNCT: 3
-    hpEV: 10
-    hpMaxNCT: 0
-    hpMaxEV: 0
+    hpNCT: 0
+    hpEV: 0
+    hpMaxNCT: 3
+    hpMaxEV: 33
     moveSpeedNCT: 0
     moveSpeedEV: 0
     normalSkillSpeedBonusEV: 0
-    physicalDamageBonusEV: 0.5
+    physicalDamageBonusEV: 0
     magicalDamageBonusEV: 0
     physicalDefenseBonusEV: 0
     magicalDefenseBonusEV: 0
