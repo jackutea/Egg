@@ -9,6 +9,7 @@ namespace TiedanSouls.Generic {
         Root = 1 << 0,              // 禁锢
         Stun = 1 << 1,              // 眩晕
         Silence = 1 << 2,           // 沉默
+        Slow = 1 << 3,              // 减速
 
     }
 
@@ -33,6 +34,7 @@ namespace TiedanSouls.Generic {
             if (ctrlStatus.Contains(RoleCtrlEffectType.Root)) result += "禁锢 ";
             if (ctrlStatus.Contains(RoleCtrlEffectType.Stun)) result += "眩晕 ";
             if (ctrlStatus.Contains(RoleCtrlEffectType.Silence)) result += "沉默 ";
+            if (ctrlStatus.Contains(RoleCtrlEffectType.Slow)) result += "减速 ";
 
             return result;
         }

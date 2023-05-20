@@ -19,9 +19,20 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        /// <summary>
-        /// 根据实体生成模型 生成角色
-        /// </summary>
+        public void TickAllCtrlEffect(int curFieldTypeID, float dt) {
+            var roleRepo = worldContext.RoleRepo;
+            var player = roleRepo.PlayerRole;
+            if (player != null) {
+                var ctrlEffectSlotCom = player.CtrlEffectSlotCom;
+                ctrlEffectSlotCom.Tick();
+            }
+
+            roleRepo.Foreach_AI(curFieldTypeID, (aiRole) => {
+                var ctrlEffectSlotCom = aiRole.CtrlEffectSlotCom;
+                ctrlEffectSlotCom.Tick();
+            });
+        }
+
         public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
             var typeID = entitySpawnModel.typeID;
             var pos = entitySpawnModel.spawnPos;
@@ -52,9 +63,6 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        /// <summary>
-        /// 根据实体召唤模型 召唤角色
-        /// </summary>
         public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in RoleSummonModel roleSummonModel, out RoleEntity role) {
             var typeID = roleSummonModel.typeID;
             var controlType = roleSummonModel.controlType;
@@ -91,13 +99,10 @@ namespace TiedanSouls.Client.Domain {
             roleRepo.Foreach_All((role) => {
                 var attrCom = role.AttributeCom;
                 if (!attrCom.IsMatch(roleAttributeSelectorModel)) return;
-                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleAttributeModifyModel, 1);
+                buffDomain.ModifyRole(role.AttributeCom, roleAttributeModifyModel, 1);
             });
         }
 
-        /// <summary>
-        /// 设置角色基础信息
-        /// </summary>
         void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, Quaternion rot, CampType campType, ControlType controlType) {
             // Pos
             role.SetPos(pos);
@@ -434,7 +439,7 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var roleEffectorTypeID = targetRoleEffectorTypeIDArray[i];
                 if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
-                buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                buffDomain.ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
 
             // 伤害 仲裁
@@ -481,13 +486,6 @@ namespace TiedanSouls.Client.Domain {
             role.HudSlotCom.SetPos(headPos);
         }
 
-        public void Show(RoleEntity role) {
-            role.LogicRoot.gameObject.SetActive(true);
-            role.RendererCom.Show();
-            role.HudSlotCom.ShowHUD();
-            TDLog.Log($"显示角色: {role.IDCom.EntityName} ");
-        }
-
         public void RecycleFieldRoles(int fieldTypeID) {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
@@ -499,7 +497,9 @@ namespace TiedanSouls.Client.Domain {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 role.Reset();
-                if (isShow) Show(role);
+                if (isShow){
+                    role.Show();
+                }
             });
         }
 

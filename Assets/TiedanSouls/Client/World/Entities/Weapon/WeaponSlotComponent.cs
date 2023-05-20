@@ -15,10 +15,13 @@ namespace TiedanSouls.Client.Entities {
 
         bool isActive;
         public bool IsActive => isActive;
+        public void SetActive(bool active) => this.isActive = active;
 
         public void Inject(Transform weaponRoot) {
             this.weaponRoot = weaponRoot;
         }
+
+        public void Reset() { }
 
         public void SetWeapon(WeaponEntity weapon) {
             this.weapon = weapon;
@@ -29,12 +32,13 @@ namespace TiedanSouls.Client.Entities {
             return weapon != null;
         }
 
-        public void SetWeaponActive(bool active) {
-            TDLog.Log($"设置武器槽激活状态: {active}");
-            this.isActive = active;
+        public void HideWeapon() {
+            weaponRoot.gameObject.SetActive(false);
         }
 
-        public void Reset() { }
+        public void ShowWeapon() {
+            weaponRoot.gameObject.SetActive(true);
+        }
 
         public void LerpPosition(Vector3 dstPos, float dt) {
             if (Vector3.Distance(weaponRoot.position, dstPos) < GameCollection.LERP_MIN_DISTANCE) {

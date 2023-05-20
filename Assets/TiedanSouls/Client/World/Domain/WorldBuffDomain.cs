@@ -19,9 +19,36 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        /// <summary>
-        /// 根据实体召唤模型
-        /// </summary>
+        public void TickAllBuff(int curFieldTypeID, float dt) {
+            var buffDomain = worldContext.RootDomain.BuffDomain;
+            worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
+                buffDomain.TickRoleBuff(role, dt);
+            });
+            var playerRole = worldContext.RoleRepo.PlayerRole;
+            if (playerRole != null) {
+                buffDomain.TickRoleBuff(playerRole, dt);
+            }
+        }
+
+        void TickRoleBuff(RoleEntity role, float dt) {
+            var rootDomain = worldContext.RootDomain;
+            var buffDomain = rootDomain.BuffDomain;
+
+            var buffSlotCom = role.BuffSlotCom;
+            var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
+                buff.AddCurFrame();
+                buffDomain.TryEffectRoleAttribute(role.AttributeCom, buff);
+            });
+
+            var buffRepo = worldContext.BuffRepo;
+            removeList.ForEach((buff) => {
+                buffDomain.TryRevokeBuff(buff, role.AttributeCom);
+                buffSlotCom.TryRemove(buff);
+                buffRepo.TryRemoveToPool(buff);
+                buff.ResetAll();
+            });
+        }
+
         public bool TryAttachBuff(in EntityIDArgs father, in EntityIDArgs target, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
             buff = null;
 
@@ -64,9 +91,6 @@ namespace TiedanSouls.Client.Domain {
             return false;
         }
 
-        /// <summary>
-        /// 根据类型ID生成Buff
-        /// </summary>
         public bool TrySpawn(int typeID, in EntityIDArgs father, out BuffEntity buff) {
             buff = null;
 
@@ -95,9 +119,6 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        /// <summary>
-        /// 撤销对属性值的影响,并回收Buff
-        /// </summary>
         public bool TryRevokeBuff(BuffEntity buff, RoleAttributeComponent attributeCom) {
             var attributeEffectModel = buff.RoleAttributeEffectModel;
             var needRevoke = buff.NeedRevoke;
@@ -155,12 +176,12 @@ namespace TiedanSouls.Client.Domain {
             }
 
             var stackCount = buff.ExtraStackCount + 1;
-            TryEffectRoleAttribute(attributeCom, buff.RoleAttributeEffectModel, stackCount);
+            ModifyRole(attributeCom, buff.RoleAttributeEffectModel, stackCount);
 
             return true;
         }
 
-        public bool TryEffectRoleAttribute(RoleAttributeComponent attributeCom, in RoleAttributeModifyModel attributeEffectModel, int stackCount) {
+        public void ModifyRole(RoleAttributeComponent attributeCom, in RoleAttributeModifyModel attributeEffectModel, int stackCount) {
             var offset = 0f;
             var ev = 0f;
             var curBonus = 0f;
@@ -243,8 +264,6 @@ namespace TiedanSouls.Client.Domain {
             attributeEffectModel.magicalDefenseBonusOffset += offset;
             attributeCom.SetMagicalDefenseBonus(curBonus);
             TDLog.Log($"角色属性 魔法减伤 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDefenseBonus}");
-
-            return true;
         }
 
     }

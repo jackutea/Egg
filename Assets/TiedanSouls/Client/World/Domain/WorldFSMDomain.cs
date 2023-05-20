@@ -76,7 +76,7 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.Reset();
                 playerRole.FSMCom.Enter_Idle();
 
-                roleDomain.Show(playerRole);
+                playerRole.Show();
                 playerRole.HudSlotCom.ShowHUD();
 
                 // 设置相机 
@@ -86,10 +86,8 @@ namespace TiedanSouls.Client.Domain {
                 cameraSetter.Confiner_Set_Current(true, field.ModGO.transform.position, (Vector2)field.ModGO.transform.position + field.ConfinerSize);
             }
 
-            var phxDomain = rootDomain.PhysicalDomain;
-            phxDomain.Tick(dt);
-
-            TickAllFSM(dt);
+            rootDomain.PhysicalDomain.Tick(dt);
+            TickField(stateEntity.CurFieldTypeID, dt);
 
             // 检查玩家是否满足离开条件: 拾取了武器
             if (!IsTieDanWantToLeave(out var door)) return;
@@ -118,18 +116,17 @@ namespace TiedanSouls.Client.Domain {
             var battleFieldStateModel = stateEntity.BattleStateModel;
             if (battleFieldStateModel.IsEntering) {
                 battleFieldStateModel.SetIsEntering(false);
-                playerRole.WeaponSlotCom.SetWeaponActive(true);
+                playerRole.WeaponSlotCom.SetActive(true);
             }
 
-            var phxDomain = rootDomain.PhysicalDomain;
-            phxDomain.Tick(dt);
+            rootDomain.PhysicalDomain.Tick(dt);
+            TickField(stateEntity.CurFieldTypeID, dt);
 
-            TickAllFSM(dt);
-
-            // 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
+            // ============================= 战斗状态检查 ============================= //
+            // - 检查玩家是否满足离开条件: 消灭所有敌人、拾取奖励、走到出口并按下离开键
             if (!IsTieDanWantToLeave(out var door)) return;
 
-            // 检查是否有敌人未消灭
+            // - 检查是否有敌人未消灭
             var fieldDomain = rootDomain.FieldDomain;
             var curField = fieldDomain.GetCurField();
             var fieldFSM = curField.FSMComponent;
@@ -138,7 +135,7 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            // TODO: 检查是否有奖励未拾取
+            // TODO: - 检查是否有奖励未拾取
             var nextFieldTypeID = door.fieldTypeID;
             var doorIndex = door.doorIndex;
             stateEntity.EnterState_Loading(worldContext.StateEntity.CurFieldTypeID, nextFieldTypeID, doorIndex);
@@ -220,26 +217,33 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void TickAllFSM(float dt) {
+        void TickField(int fieldTypeID, float dt) {
             var rootDomain = worldContext.RootDomain;
             var stateEntity = worldContext.StateEntity;
-            var curFieldTypeID = stateEntity.CurFieldTypeID;
 
             // 刷新 关卡 状态机
             var fieldFSMDomain = rootDomain.FieldFSMDomain;
             fieldFSMDomain.TickFSM(dt);
 
-            // 刷新 角色 状态机(当前关卡内)
+            // 刷新 角色 Buff
+            var buffDomain = rootDomain.BuffDomain;
+            buffDomain.TickAllBuff(fieldTypeID, dt);
+
+            // 刷新 角色 控制效果
+            var roleDomain = rootDomain.RoleDomain;
+            roleDomain.TickAllCtrlEffect(fieldTypeID, dt);
+
+            // 刷新 角色 状态机
             var roleFSMDomain = rootDomain.RoleFSMDomain;
-            roleFSMDomain.TickFSM(curFieldTypeID, dt);
+            roleFSMDomain.TickAllFSM(fieldTypeID, dt);
 
-            // 刷新 弹幕 状态机(当前关卡内)
+            // 刷新 弹幕 状态机
             var projectileFSMDomain = rootDomain.ProjectileFSMDomain;
-            projectileFSMDomain.TickFSM(curFieldTypeID, dt);
+            projectileFSMDomain.TickFSM(fieldTypeID, dt);
 
-            // 刷新 子弹 状态机(当前关卡内)
+            // 刷新 子弹 状态机
             var bulletFSMDomain = rootDomain.BulletFSMDomain;
-            bulletFSMDomain.TickFSM(curFieldTypeID, dt);
+            bulletFSMDomain.TickFSM(fieldTypeID, dt);
         }
 
         bool IsTieDanWantToLeave(out FieldDoorModel door) {

@@ -22,11 +22,11 @@ namespace TiedanSouls.Client.Entities {
         public void Reset() {
         }
 
-        public void Show() {
+        public void ShowRenderer() {
             rendererRoot.gameObject.SetActive(true);
         }
 
-        public void Hide() {
+        public void HideRenderer() {
             rendererRoot.gameObject.SetActive(false);
         }
 

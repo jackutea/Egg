@@ -141,7 +141,7 @@ namespace TiedanSouls.Client.Domain {
                 var roleDomain = worldContext.RootDomain.RoleDomain;
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
-                    roleDomain.Show(ai);
+                    ai.Show();
                     ai.SetPos(ai.BornPos);
                 }));
                 fsmCom.Enter_Finished();

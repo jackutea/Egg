@@ -134,7 +134,7 @@ namespace TiedanSouls.Client.Domain {
                 var roleAttrCom = selfRole.AttributeCom;
                 if (!roleAttrCom.IsMatch(roleAttributeSelectorModel)) continue;
 
-                buffDomain.TryEffectRoleAttribute(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                buffDomain.ModifyRole(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
         }
 

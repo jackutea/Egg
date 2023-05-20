@@ -18,24 +18,23 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickFSM(int curFieldTypeID, float dt) {
+        public void TickAllFSM(int curFieldTypeID, float dt) {
             worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
-                TickFSM(role, dt);
+                TickRoleFSM(role, dt);
             });
-
             var playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole != null) {
-                TickFSM(playerRole, dt);
+                TickRoleFSM(playerRole, dt);
             }
         }
 
-        void TickFSM(RoleEntity role, float dt) {
+        void TickRoleFSM(RoleEntity role, float dt) {
             var fsmCom = role.FSMCom;
-
             var fsmState = fsmCom.FSMState;
             if (fsmState == RoleFSMState.None) return;
 
-            TickAny(role, fsmCom, dt);
+            TickNotDying(role, fsmCom, dt);
+
             if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsmCom, dt);
             else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsmCom, dt);
             else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsmCom, dt);
@@ -43,40 +42,20 @@ namespace TiedanSouls.Client.Domain {
             else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsmCom, dt);
         }
 
-        void TickAny(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void TickNotDying(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
             if (fsmCom.FSMState == RoleFSMState.Dying) return;
 
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
-            // 任意状态下的死亡判定
+            // 死亡检查
             if (roleDomain.IsRoleDead(role)) {
                 roleDomain.TearDownRole(role);
             }
 
-            Tick_Buff(role, fsmCom, dt);
-            Tick_CtrlEffect(role, fsmCom, dt);
-
-            if (role.IDCom.ControlType == ControlType.AI) role.AIStrategy.Tick(dt);
-        }
-
-        void Tick_Buff(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
-            var rootDomain = worldContext.RootDomain;
-            var buffDomain = rootDomain.BuffDomain;
-
-            var buffSlotCom = role.BuffSlotCom;
-            var removeList = buffSlotCom.ForeachAndGetRemoveList((buff) => {
-                buff.AddCurFrame();
-                buffDomain.TryEffectRoleAttribute(role.AttributeCom, buff);
-            });
-
-            var buffRepo = worldContext.BuffRepo;
-            removeList.ForEach((buff) => {
-                buffDomain.TryRevokeBuff(buff, role.AttributeCom);
-                buffSlotCom.TryRemove(buff);
-                buffRepo.TryRemoveToPool(buff);
-                buff.ResetAll();
-            });
+            if (role.IDCom.ControlType == ControlType.AI) {
+                role.AIStrategy.Tick(dt);
+            }
         }
 
         void Tick_CtrlEffect(RoleEntity role, RoleFSMComponent fsmCom, float dt) {

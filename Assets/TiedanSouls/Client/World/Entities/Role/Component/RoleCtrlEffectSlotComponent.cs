@@ -11,6 +11,7 @@ namespace TiedanSouls.Client.Entities {
         RoleCtrlEffect rootCtrlEffect;
         RoleCtrlEffect stunCtrlEffect;
         RoleCtrlEffect silenceCtrlEffect;
+        RoleCtrlEffect slowCtrlEffect;
 
         public RoleCtrlEffectSlotComponent() {
         }
@@ -42,13 +43,20 @@ namespace TiedanSouls.Client.Entities {
                         TDLog.Log($"控制效果 - 沉默\n{ctrlEffectModel}");
                     }
                     break;
+                case RoleCtrlEffectType.Slow:
+                    if (totalFrame >= slowCtrlEffect.curFrame) {
+                        slowCtrlEffect.curFrame = totalFrame;
+                        slowCtrlEffect.totalFrame = totalFrame;
+                        TDLog.Log($"控制效果 - 减速\n{ctrlEffectModel}");
+                    }
+                    break;
                 default:
                     TDLog.Log($"未处理的控制效果类型 {ctrlEffectModel.ctrlEffectType}");
                     break;
             }
         }
 
-        public void Tick(){
+        public void Tick() {
             if (rootCtrlEffect.curFrame > 0) {
                 rootCtrlEffect.curFrame--;
             }

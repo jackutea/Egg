@@ -149,9 +149,18 @@ namespace TiedanSouls.Client.Entities {
             Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
         }
 
+        public void Show(){
+            logicRoot.gameObject.SetActive(true);
+            rendererCom.ShowRenderer();
+            hudSlotCom.ShowHUD();
+            weaponSlotCom.ShowWeapon();
+        }
+
         public void Hide() {
             LogicRoot.gameObject.SetActive(false);
-            rendererCom.Hide();
+            rendererCom.HideRenderer();
+            hudSlotCom.HideHUD();
+            weaponSlotCom.HideWeapon();
         }
 
         public void TryMoveByInput() {

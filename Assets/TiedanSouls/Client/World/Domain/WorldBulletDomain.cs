@@ -116,7 +116,7 @@ namespace TiedanSouls.Client.Domain {
                     var attributeCom = role.AttributeCom;
                     if (!attributeCom.IsMatch(roleEffectorModel.roleAttributeSelectorModel)) continue;
 
-                    buffDomain.TryEffectRoleAttribute(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                    buffDomain.ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
                 }
             }
         }
