@@ -72,7 +72,7 @@ namespace TiedanSouls.Client.Entities {
             return curFrame >= totalFrame;
         }
 
-        public bool IsTriggerFrame() {
+        public bool CanTrigger() {
             return curFrame >= delayFrame && (curFrame - delayFrame) % (intervalFrame + 1) == 0;
         }
 

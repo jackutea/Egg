@@ -89,8 +89,7 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public void ModifyRole(RoleEntity role, in RoleEffectorModel roleEffectorModel) {
-            var buffDomain = worldContext.RootDomain.BuffDomain;
+        public void ApplEffector(RoleEntity role, in RoleEffectorModel roleEffectorModel) {
             var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
             var roleAttributeModifyModel = roleEffectorModel.roleAttributeModifyModel;
             var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
@@ -99,8 +98,110 @@ namespace TiedanSouls.Client.Domain {
             roleRepo.Foreach_All((role) => {
                 var attrCom = role.AttributeCom;
                 if (!attrCom.IsMatch(roleAttributeSelectorModel)) return;
-                buffDomain.ModifyRole(role.AttributeCom, roleAttributeModifyModel, 1);
+                ModifyRole(role.AttributeCom, roleAttributeModifyModel, 1);
             });
+        }
+        
+        public void ModifyRole(RoleAttributeComponent attributeCom, RoleAttributeModifyModel attributeEffectModel, int stackCount) {
+            // - HP
+            var hpNCT = attributeEffectModel.hpNCT;
+            var hpEV = attributeEffectModel.hpEV;
+            if (hpNCT != NumCalculationType.None && hpEV != 0) {
+                var curHPMax = attributeCom.HPMax;
+                var curHP = attributeCom.HP;
+                var offset = MathUtil.GetClampOffset(curHP, curHPMax, hpEV, 0, curHPMax, hpNCT);
+                offset *= stackCount;
+                curHP += offset;
+                attributeEffectModel.hpOffset += offset;
+                attributeCom.SetHP(curHP);
+                TDLog.Log($"角色属性 HP 影响 ---> 值 {offset} => 当前 {attributeCom.HP}");
+            }
+
+            // - HPMax
+            var hpMaxNCT = attributeEffectModel.hpMaxNCT;
+            if (hpMaxNCT != NumCalculationType.None) {
+                var hpMaxBase = attributeCom.HPMaxBase;
+                var hpMaxEV = attributeEffectModel.hpMaxEV;
+                var curHPMax = attributeCom.HPMax;
+                var offset = MathUtil.GetClampOffset(curHPMax, hpMaxBase, hpMaxEV, 0, float.MaxValue, hpMaxNCT);
+                offset *= stackCount;
+                curHPMax += offset;
+                attributeEffectModel.hpMaxOffset += offset;
+                attributeCom.SetHPMax(curHPMax);
+                TDLog.Log($"角色属性 HPMax 影响 --> 值 {offset} => 当前 {attributeCom.HPMax}");
+            }
+
+            // Move Speed
+            var moveSpeedNCT = attributeEffectModel.moveSpeedNCT;
+            if (moveSpeedNCT != NumCalculationType.None) {
+                var moveSpeedBase = attributeCom.MoveSpeedBase;
+                var curMoveSpeed = attributeCom.MoveSpeed;
+                var finalMoveSpeed = curMoveSpeed;
+                var moveSpeedEV = attributeEffectModel.moveSpeedEV;
+                var offset = MathUtil.GetClampOffset(curMoveSpeed, moveSpeedBase, moveSpeedEV, 0, float.MaxValue, moveSpeedNCT);
+                offset *= stackCount;
+                finalMoveSpeed += offset;
+                attributeEffectModel.moveSpeedOffset += offset;
+                attributeCom.SetMoveSpeed(finalMoveSpeed);
+                TDLog.Log($"角色属性 移动速度 影响 --> 值 {offset} => 当前 {attributeCom.MoveSpeed}");
+            }
+
+            // Normal Skill Speed
+            var normalSkillSpeedBonusEV = attributeEffectModel.normalSkillSpeedBonusEV;
+            if (normalSkillSpeedBonusEV != 0) {
+                var offset = normalSkillSpeedBonusEV;
+                offset *= stackCount;
+                var curBonus = attributeCom.NormalSkillSpeedBonus + offset;
+                attributeEffectModel.normalSkillSpeedBonusOffset += offset;
+                attributeCom.SetNormalSkillSpeedBonus(curBonus);
+                TDLog.Log($"角色属性 普技速度加成 影响 --> 值 {offset} => 当前 {attributeCom.NormalSkillSpeedBonus}");
+            }
+
+
+            // Damage Bonus
+            var physicalDamageBonusEV = attributeEffectModel.physicalDamageBonusEV;
+            if (normalSkillSpeedBonusEV != 0) {
+                var offset = normalSkillSpeedBonusEV;
+                offset *= stackCount;
+                var curBonus = attributeCom.PhysicalDamageBonus + offset;
+                attributeEffectModel.physicalDamageBonusOffset += offset;
+                attributeCom.SetPhysicalDamageBonus(curBonus);
+                TDLog.Log($"角色属性 物理伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDamageBonus}");
+            }
+
+            var magicalDamageBonusEV = attributeEffectModel.magicalDamageBonusEV;
+            if (magicalDamageBonusEV != 0) {
+                var offset = magicalDamageBonusEV;
+                offset *= stackCount;
+                var curBonus = attributeCom.MagicalDamageBonus + offset;
+                attributeEffectModel.magicalDamageBonusOffset += offset;
+                attributeCom.SetmagicalDamageBonus(curBonus);
+                TDLog.Log($"角色属性 魔法伤害加成 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDamageBonus}");
+
+            }
+
+            //  Defence Bonus
+            var physicalDefenseBonusEV = attributeEffectModel.physicalDefenseBonusEV;
+            if (physicalDefenseBonusEV != 0) {
+                var offset = physicalDefenseBonusEV;
+                offset *= stackCount;
+                var curBonus = attributeCom.PhysicalDefenseBonus + offset;
+                attributeEffectModel.physicalDefenseBonusOffset += offset;
+                attributeCom.SetPhysicalDefenseBonus(curBonus);
+                TDLog.Log($"角色属性 物理减伤 影响 --> 值 {offset} => 当前 {attributeCom.PhysicalDefenseBonus}");
+
+            }
+
+            var magicalDefenseBonusEV = attributeEffectModel.magicalDefenseBonusEV;
+            if (magicalDefenseBonusEV != 0) {
+                var offset = magicalDefenseBonusEV;
+                offset *= stackCount;
+                var curBonus = attributeCom.MagicalDefenseBonus + offset;
+                attributeEffectModel.magicalDefenseBonusOffset += offset;
+                attributeCom.SetMagicalDefenseBonus(curBonus);
+                TDLog.Log($"角色属性 魔法减伤 影响 --> 值 {offset} => 当前 {attributeCom.MagicalDefenseBonus}");
+            }
+
         }
 
         void BaseSetRole(RoleEntity role, int typeID, Vector3 pos, Quaternion rot, CampType campType, ControlType controlType) {
@@ -417,7 +518,6 @@ namespace TiedanSouls.Client.Domain {
             var roleFSMDomain = rootDomain.RoleFSMDomain;
             var roleDomain = rootDomain.RoleDomain;
             var roleEffectorDomain = rootDomain.RoleEffectorDomain;
-            var buffDomain = rootDomain.BuffDomain;
 
             // 受击
             var beHitModel = collisionTriggerModel.beHitModel;
@@ -439,7 +539,7 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var roleEffectorTypeID = targetRoleEffectorTypeIDArray[i];
                 if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
-                buffDomain.ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
 
             // 伤害 仲裁

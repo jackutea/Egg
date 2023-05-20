@@ -19,14 +19,14 @@ MonoBehaviour:
     iconName: item_
     iconGUID: 31b48c583b66f1249a9f1c0126e7273d
     delayFrame: 30
-    intervalFrame: 30
+    intervalFrame: 10
     durationFrame: 120
     maxExtraStackCount: 0
     attributeEffectTM:
       hpNCT: 0
       hpEV_Expanded: 0
       hpMaxNCT: 1
-      hpMaxEV_Expanded: 50
+      hpMaxEV_Expanded: 25
       moveSpeedNCT: 0
       moveSpeedEV_Expanded: 0
       normalSkillSpeedBonusEV_Expanded: 0

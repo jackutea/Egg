@@ -199,7 +199,7 @@ namespace TiedanSouls.Client.Domain {
                 if (effectorTypeID != 0) {
                     var roleEffectorDomain = rootDomain.RoleEffectorDomain;
                     if (roleEffectorDomain.TrySpawnRoleEffectorModel(effectorTypeID, out var roleEffectorModel)) {
-                        roleDomain.ModifyRole(role, roleEffectorModel);
+                        roleDomain.ApplEffector(role, roleEffectorModel);
                     }
                 }
             }

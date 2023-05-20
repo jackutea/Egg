@@ -105,7 +105,9 @@ namespace TiedanSouls.Client.Domain {
             // 子弹击中效果器
             var rootDomain = worldContext.RootDomain;
             var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var roleDomain = rootDomain.RoleDomain;
             var buffDomain = rootDomain.BuffDomain;
+            
             if (rootDomain.TryGetRoleFromIDArgs(bullet.IDCom.Father, out var role)) {
                 var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
                 var len = selfRoleEffectorTypeIDArray.Length;
@@ -116,7 +118,7 @@ namespace TiedanSouls.Client.Domain {
                     var attributeCom = role.AttributeCom;
                     if (!attributeCom.IsMatch(roleEffectorModel.roleAttributeSelectorModel)) continue;
 
-                    buffDomain.ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                    roleDomain.ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
                 }
             }
         }

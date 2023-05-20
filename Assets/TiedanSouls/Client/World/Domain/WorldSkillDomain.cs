@@ -113,6 +113,7 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         public void HandleHit(SkillEntity skill, Vector3 skillColliderPos, in EntityColliderTriggerModel collisionTriggerModel) {
             var rootDomain = worldContext.RootDomain;
+            var roleDomain = rootDomain.RoleDomain;
             var roleEffectorDomain = rootDomain.RoleEffectorDomain;
             var buffDomain = rootDomain.BuffDomain;
 
@@ -134,7 +135,7 @@ namespace TiedanSouls.Client.Domain {
                 var roleAttrCom = selfRole.AttributeCom;
                 if (!roleAttrCom.IsMatch(roleAttributeSelectorModel)) continue;
 
-                buffDomain.ModifyRole(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                roleDomain.ModifyRole(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
             }
         }
 
