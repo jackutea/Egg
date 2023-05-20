@@ -23,8 +23,8 @@ namespace TiedanSouls.Client.Entities {
         }
 
         bool IBTTreePrecondition.CanEnter() {
-            Vector2 pos_role = role.LogicRootPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
+            Vector2 pos_role = role.RootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RootPos;
             TDLog.Log("检测能否进入");
             return (Vector2.Distance(pos_role, pos_target) > sight);
         }

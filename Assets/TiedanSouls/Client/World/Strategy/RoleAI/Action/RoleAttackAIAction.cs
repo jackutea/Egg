@@ -37,8 +37,8 @@ namespace TiedanSouls.Client.Entities {
                 return false;
             }
 
-            Vector2 pos_role = role.LogicRootPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
+            Vector2 pos_role = role.RootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RootPos;
             time += Time.deltaTime;
             //Attack CD
             if (time < attackCD) {

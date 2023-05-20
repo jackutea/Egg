@@ -20,9 +20,15 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = worldContext.RootDomain.RoleDomain;
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_All((role) => {
-                role.RendererCom.LerpPosition(role.LogicRootPos, dt);
-                role.RendererCom.LerpRotation(role.LogicRotation, dt);
-                role.RendererCom.TickHUD(role.AttributeCom, dt);
+
+                role.RendererCom.LerpPosition(role.RootPos, dt);
+                role.RendererCom.LerpRotation(role.RootRotation, dt);
+
+                role.HudSlotCom.LerpPosition(role.GetHeadPos(), dt);
+                role.HudSlotCom.Tick(role.AttributeCom, dt);
+                
+                role.WeaponSlotCom.LerpPosition(role.RootPos, dt);
+                role.WeaponSlotCom.LerpRotation(role.RootRotation, dt);
             });
 
             // 子弹

@@ -1,4 +1,5 @@
 using UnityEngine;
+using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
@@ -7,26 +8,18 @@ namespace TiedanSouls.Client.Entities {
         GameObject mod;
         public GameObject Mod => mod;
 
-        HUDSlotComponent hudSlotCom;
-        public HUDSlotComponent HudSlotCom => hudSlotCom;
-
         Transform rendererRoot;
         Animator anim;
         SpriteRenderer sr;
 
         public RoleRendererComponent() {
-            hudSlotCom = new HUDSlotComponent();
         }
 
         public void Inject(Transform rendererRoot) {
             this.rendererRoot = rendererRoot;
-
-            var hudRoot = rendererRoot.Find("hud_root");
-            hudSlotCom.Inject(hudRoot);
         }
 
-        public void Reset(float gp, float hp, float hpMax) {
-            hudSlotCom.Reset(gp, hp, hpMax);
+        public void Reset() {
         }
 
         public void Show() {
@@ -60,24 +53,18 @@ namespace TiedanSouls.Client.Entities {
             anim.speed = speed;
         }
 
-        const float lerpDuration = 0.05f;
-        const float minLerpDistance = 0.1f;
         public void LerpPosition(Vector3 dstPos, float dt) {
-            if (Vector3.Distance(rendererRoot.position, dstPos) < minLerpDistance) {
+            if (Vector3.Distance(rendererRoot.position, dstPos) < GameCollection.LERP_MIN_DISTANCE) {
                 rendererRoot.position = dstPos;
                 return;
             }
-            
-            var ratio = dt / lerpDuration;
+
+            var ratio = dt / GameCollection.LERP_DURATION;
             rendererRoot.position = Vector3.Lerp(rendererRoot.position, dstPos, ratio);
         }
 
         public void LerpRotation(Quaternion dstRot, float dt) {
-            rendererRoot.rotation = dstRot;
-        }
-
-        public void TickHUD(RoleAttributeComponent attributeCom, float dt) {
-            hudSlotCom.Tick(attributeCom, dt);
+            mod.transform.rotation = dstRot;
         }
 
         public void SetPos(Vector3 pos) {

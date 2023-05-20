@@ -173,7 +173,7 @@ namespace TiedanSouls.Client.Domain {
 
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-                stateModel.SetCasterRotation(role.LogicRotation);
+                stateModel.SetCasterRotation(role.RootRotation);
                 roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
             }
@@ -212,7 +212,7 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // 技能逻辑迭代
-            castingSkill.TryApplyFrame(role.LogicRootPos, role.LogicRotation, curFrame);
+            castingSkill.TryApplyFrame(role.RootPos, role.RootRotation, curFrame);
 
             // 效果器
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
@@ -225,8 +225,8 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
-            var basePos = role.LogicRootPos;
-            var baseRot = role.LogicRotation;
+            var basePos = role.RootPos;
+            var baseRot = role.RootRotation;
 
             // 角色召唤
             if (castingSkill.TryGet_ValidRoleSummonModel(out var roleSummonModel)) {
@@ -281,8 +281,8 @@ namespace TiedanSouls.Client.Domain {
                 moveDir = casterRotation * moveDir;
                 var vel = moveDir * speed;
                 if (moveByOffset) {
-                    var pos = role.LogicRootPos + vel * dt;
-                    role.SetLogicPos(pos);
+                    var pos = role.RootPos + vel * dt;
+                    role.SetPos(pos);
                 } else {
                     moveCom.SetVelocity(moveDir * speed);
                 }
@@ -367,7 +367,7 @@ namespace TiedanSouls.Client.Domain {
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
-                role.RendererCom.HudSlotCom.HideHUD();
+                role.HudSlotCom.HideHUD();
                 role.RendererCom.Anim_Play_Dying();
                 role.Stop();
             }

@@ -207,7 +207,7 @@ namespace TiedanSouls.Client.Facades {
         /// </summary>
         public bool TryGetEntityPos(IEntity entity, out Vector3 pos) {
             if (entity is RoleEntity role) {
-                pos = role.LogicRootPos;
+                pos = role.RootPos;
                 return true;
             }
 

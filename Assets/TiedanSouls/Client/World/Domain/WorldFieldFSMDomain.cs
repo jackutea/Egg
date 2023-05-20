@@ -53,7 +53,7 @@ namespace TiedanSouls.Client.Domain {
                 // - 位置
                 var door = readyModel.EnterDoorModel;
                 var doorPos = door.pos;
-                playerRole.SetLogicPos(doorPos);
+                playerRole.SetPos(doorPos);
                 TDLog.Log($"关卡切换,玩家位置刷新: {doorPos}");
 
                 // - GO Name
@@ -142,8 +142,7 @@ namespace TiedanSouls.Client.Domain {
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
                     roleDomain.Show(ai);
-                    ai.RendererCom.HudSlotCom.ShowHUD();
-                    ai.SetLogicPos(ai.BornPos);
+                    ai.SetPos(ai.BornPos);
                 }));
                 fsmCom.Enter_Finished();
                 return;

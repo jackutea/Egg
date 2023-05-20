@@ -36,8 +36,8 @@ namespace TiedanSouls.Client.Entities {
             }
 
             //Miss Target
-            Vector2 pos_role = role.LogicRootPos;
-            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.LogicRootPos;
+            Vector2 pos_role = role.RootPos;
+            Vector2 pos_target = worldContext.RoleRepo.PlayerRole.RootPos;
             if (Vector2.Distance(pos_role, pos_target) >= sight) {
                 TDLog.Warning("miss target");
                 return false;

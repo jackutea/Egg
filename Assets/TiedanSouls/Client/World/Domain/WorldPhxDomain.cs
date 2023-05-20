@@ -236,8 +236,8 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
             var casterRole = fatherEntity as RoleEntity;
-            var casterPos = casterRole.LogicRootPos;
-            var rolePos = role.LogicRootPos;
+            var casterPos = casterRole.RootPos;
+            var rolePos = role.RootPos;
             var beHitDir = rolePos - casterPos;
             beHitDir.Normalize();
 
@@ -259,7 +259,7 @@ namespace TiedanSouls.Client.Domain {
                 return;
             }
 
-            var rolePos = role.LogicRootPos;
+            var rolePos = role.RootPos;
             // var beHitDir = rolePos - bullet.LogicPos;
             // beHitDir.Normalize();
             var beHitDir = bullet.MoveCom.Velocity.normalized;

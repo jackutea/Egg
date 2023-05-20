@@ -84,7 +84,7 @@ namespace TiedanSouls.Client {
             // Container
             var assetCore = infraContext.AssetCore;
             var containerModAssets = assetCore.ContainerModAsset;
-            var contanerAssetName = "mod_container_item";
+            var contanerAssetName = "go_container_item";
             if (!containerModAssets.TryGet(contanerAssetName, out GameObject prefab)) {
                 TDLog.Error($"获取实体容器失败! {contanerAssetName}");
                 return false;
@@ -136,7 +136,7 @@ namespace TiedanSouls.Client {
             // Container
             var assetCore = infraContext.AssetCore;
             var containerModAssets = assetCore.ContainerModAsset;
-            var contanerAssetName = "mod_container_role";
+            var contanerAssetName = "go_container_role";
             bool has = containerModAssets.TryGet(contanerAssetName, out GameObject prefab);
             if (!has) {
                 TDLog.Error($"获取实体容器失败! {contanerAssetName}");
@@ -173,8 +173,8 @@ namespace TiedanSouls.Client {
             // HUD
             var hpBar = CreateHpBarHUD();
             var damageFloatTextHUD = CreateDamageFloatTextHUD();
-            role.RendererCom.HudSlotCom.SetHPBarHUD(hpBar);
-            role.RendererCom.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
+            role.HudSlotCom.SetHPBarHUD(hpBar);
+            role.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
             hpBar.SetGP(attrCom.GP);
             hpBar.SetHP(attrCom.HP);
             hpBar.SetHPMax(attrCom.HPMax);

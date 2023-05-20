@@ -77,7 +77,7 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.FSMCom.Enter_Idle();
 
                 roleDomain.Show(playerRole);
-                playerRole.RendererCom.HudSlotCom.ShowHUD();
+                playerRole.HudSlotCom.ShowHUD();
 
                 // 设置相机 
                 _ = worldContext.FieldRepo.TryGet(curFieldTypeID, out var field);
@@ -262,7 +262,7 @@ namespace TiedanSouls.Client.Domain {
                 for (int i = 0; i < count; i++) {
                     var d = allDoors[i];
                     var pos = d.pos;
-                    var rolePos = playerRole.LogicRootPos;
+                    var rolePos = playerRole.RootPos;
                     if (Vector3.SqrMagnitude(pos - rolePos) > 1f) {
                         continue;
                     }

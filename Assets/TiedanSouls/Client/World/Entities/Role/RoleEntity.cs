@@ -12,18 +12,38 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Component]
 
-        public EntityIDComponent IDCom { get; private set; }
-        public InputComponent InputCom { get; private set; }
-        public RoleAttributeComponent AttributeCom { get; private set; }
-        public MoveComponent MoveCom { get; private set; }
-        public RoleFSMComponent FSMCom { get; private set; }
-        public WeaponSlotComponent WeaponSlotCom { get; private set; }
-        public SkillSlotComponent SkillSlotCom { get; private set; }
-        public BuffSlotComponent BuffSlotCom { get; private set; }
-        public RoleCtrlEffectSlotComponent CtrlEffectSlotCom { get; private set; }
+        public EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
+
+        InputComponent inputCom;
+        public InputComponent InputCom => inputCom;
+
+        RoleAttributeComponent attributeCom;
+        public RoleAttributeComponent AttributeCom => attributeCom;
+
+        MoveComponent moveCom;
+        public MoveComponent MoveCom => moveCom;
+
+        RoleFSMComponent fsmCom;
+        public RoleFSMComponent FSMCom => fsmCom;
+
+        WeaponSlotComponent weaponSlotCom;
+        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
+
+        SkillSlotComponent skillSlotCom;
+        public SkillSlotComponent SkillSlotCom => skillSlotCom;
+
+        BuffSlotComponent buffSlotCom;
+        public BuffSlotComponent BuffSlotCom => buffSlotCom;
+
+        RoleCtrlEffectSlotComponent ctrlEffectSlotCom;
+        public RoleCtrlEffectSlotComponent CtrlEffectSlotCom => ctrlEffectSlotCom;
 
         RoleRendererComponent rendererCom;
         public RoleRendererComponent RendererCom => rendererCom;
+
+        HUDSlotComponent hudSlotCom;
+        public HUDSlotComponent HudSlotCom => hudSlotCom;
 
         #endregion
 
@@ -31,15 +51,9 @@ namespace TiedanSouls.Client.Entities {
 
         Transform logicRoot;
         public Transform LogicRoot => logicRoot;
-        public Vector3 LogicRootPos => LogicRoot.position;
-        public float LogicAngleZ => LogicRoot.rotation.z;
-        public Quaternion LogicRotation => LogicRoot.rotation;
-        public void SetLogicPos(Vector2 pos) => LogicRoot.position = pos;
-        public void SetLogicRot(Quaternion rot) => LogicRoot.rotation = rot;
 
-
-        Transform weaponRoot;
-        public Transform WeaponRoot => weaponRoot;
+        public Vector3 RootPos => LogicRoot.position;
+        public Quaternion RootRotation => LogicRoot.rotation;
 
         Rigidbody2D rb;
         public Rigidbody2D RB => rb;
@@ -75,28 +89,35 @@ namespace TiedanSouls.Client.Entities {
         public void Ctor() {
             faceDirX = 1;
 
-            MoveCom = new MoveComponent();
-            IDCom = new EntityIDComponent();
-            IDCom.SetEntityType(EntityType.Role);
-            InputCom = new InputComponent();
-            WeaponSlotCom = new WeaponSlotComponent();
-            AttributeCom = new RoleAttributeComponent();
-            FSMCom = new RoleFSMComponent();
-            SkillSlotCom = new SkillSlotComponent();
-            BuffSlotCom = new BuffSlotComponent();
-            CtrlEffectSlotCom = new RoleCtrlEffectSlotComponent();
-            rendererCom = new RoleRendererComponent();
-            logicRoot = transform.Find("logic_root");
+            this.logicRoot = transform.Find("logic_root");
             var rendererRoot = transform.Find("renderer_root");
+            var weaponRoot = transform.Find("weapon_root");
+            var hudRoot = transform.Find("hud_root");
 
-            rb = logicRoot.GetComponent<Rigidbody2D>();
-            coll_LogicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
-            weaponRoot = rendererRoot.Find("weapon_root");
+            TDLog.Assert(logicRoot != null, "logicRoot == null");
+            TDLog.Assert(rendererRoot != null, "rendererRoot == null");
+            TDLog.Assert(weaponRoot != null, "weaponRoot == null");
+            TDLog.Assert(hudRoot != null, "hudRoot == null");
 
-            MoveCom.Inject(RB);
-            WeaponSlotCom.Inject(weaponRoot);
-            rendererCom.Inject(rendererRoot);
+            this.moveCom = new MoveComponent();
+            this.idCom = new EntityIDComponent();
+            this.idCom.SetEntityType(EntityType.Role);
+            this.inputCom = new InputComponent();
+            this.attributeCom = new RoleAttributeComponent();
+            this.fsmCom = new RoleFSMComponent();
+            this.skillSlotCom = new SkillSlotComponent();
+            this.buffSlotCom = new BuffSlotComponent();
+            this.ctrlEffectSlotCom = new RoleCtrlEffectSlotComponent();
+            this.weaponSlotCom = new WeaponSlotComponent();
+            this.rendererCom = new RoleRendererComponent();
+            this.hudSlotCom = new HUDSlotComponent();
 
+            this.rb = logicRoot.GetComponent<Rigidbody2D>();
+            this.coll_LogicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
+            this.moveCom.Inject(RB);
+            this.weaponSlotCom.Inject(weaponRoot);
+            this.rendererCom.Inject(rendererRoot);
+            this.hudSlotCom.Inject(hudRoot);
         }
 
         public void TearDown() {
@@ -115,7 +136,8 @@ namespace TiedanSouls.Client.Entities {
             // - Movement
             MoveCom.Reset();
             // - Renderer
-            rendererCom.Reset(AttributeCom.GP, AttributeCom.HP, AttributeCom.HPMax);
+            rendererCom.Reset();
+            hudSlotCom.Reset(AttributeCom.GP, AttributeCom.HP, AttributeCom.HPMax);
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
@@ -176,6 +198,18 @@ namespace TiedanSouls.Client.Entities {
 
         public void Stop() {
             MoveCom.Stop();
+        }
+
+        public void SetPos(Vector2 pos) {
+            logicRoot.position = pos;
+        }
+
+        public void SetRotation(Quaternion rot) {
+            logicRoot.rotation = rot;
+        }
+
+        public Vector3 GetHeadPos() {
+            return logicRoot.position + Vector3.up * 2f;
         }
 
     }

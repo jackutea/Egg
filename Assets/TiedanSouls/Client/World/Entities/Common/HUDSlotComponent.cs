@@ -21,7 +21,7 @@ namespace TiedanSouls.Client.Entities {
             this.hudRoot = hudRoot;
         }
 
-        public void Tick(RoleAttributeComponent attrCom, float dt){
+        public void Tick(RoleAttributeComponent attrCom, float dt) {
             hpBarHUD.SetGP(attrCom.GP);
             hpBarHUD.SetHP(attrCom.HP);
             hpBarHUD.SetHPMax(attrCom.HPMax);
@@ -50,6 +50,20 @@ namespace TiedanSouls.Client.Entities {
 
         public void ShowHUD() {
             hpBarHUD.gameObject.SetActive(true);
+        }
+
+        public void SetPos(Vector3 pos) {
+            hudRoot.position = pos;
+        }
+
+        public void LerpPosition(Vector3 dstPos, float dt) {
+            if (Vector3.Distance(hudRoot.position, dstPos) < GameCollection.LERP_MIN_DISTANCE) {
+                hudRoot.position = dstPos;
+                return;
+            }
+
+            var ratio = dt / GameCollection.LERP_DURATION;
+            hudRoot.position = Vector3.Lerp(hudRoot.position, dstPos, ratio);
         }
 
     }
