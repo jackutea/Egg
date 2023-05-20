@@ -417,7 +417,7 @@ namespace TiedanSouls.Client {
             buff.SetIntervalFrame(tm.intervalFrame);
             buff.SetTotalFrame(tm.durationFrame);
 
-            buff.SetRoleAttrModifyModel(TM2ModelUtil.GetAttributeEffectModel(tm.attributeEffectTM));
+            buff.SetRoleAttrModifyModel(TM2ModelUtil.GetRoleModifyModel(tm.attributeEffectTM));
             buff.SetEffectorTypeID(tm.effectorTypeID);
             buff.SetMaxExtraStackCount(tm.maxExtraStackCount);
 

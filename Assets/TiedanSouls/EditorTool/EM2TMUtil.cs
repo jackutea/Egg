@@ -34,16 +34,16 @@ namespace TiedanSouls.EditorTool {
 
         #region [AttributeEffect]
 
-        public static RoleAttributeModifyTM[] GetAttributeEffectTMArray(RoleAttributeModifyEM[] emArray) {
-            RoleAttributeModifyTM[] tmArray = new RoleAttributeModifyTM[emArray.Length];
+        public static RoleModifyTM[] GetAttributeEffectTMArray(RoleModifyEM[] emArray) {
+            RoleModifyTM[] tmArray = new RoleModifyTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
                 tmArray[i] = GetRoleAttributeModifyTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static RoleAttributeModifyTM GetRoleAttributeModifyTM(RoleAttributeModifyEM em) {
-            RoleAttributeModifyTM tm;
+        public static RoleModifyTM GetRoleAttributeModifyTM(RoleModifyEM em) {
+            RoleModifyTM tm;
 
             tm.hpNCT = em.hpNCT;
             tm.hpEV_Expanded = GetInt_Expand100(em.hpEV);
@@ -205,12 +205,12 @@ namespace TiedanSouls.EditorTool {
             }
             EffectorTriggerTM[] tms = new EffectorTriggerTM[emArray.Length];
             for (int i = 0; i < emArray.Length; i++) {
-                tms[i] = GetSkillEffectorTM(emArray[i]);
+                tms[i] = GetEffectorTriggerTM(emArray[i]);
             }
             return tms;
         }
 
-        public static EffectorTriggerTM GetSkillEffectorTM(EffectorTriggerEM em) {
+        public static EffectorTriggerTM GetEffectorTriggerTM(EffectorTriggerEM em) {
             EffectorTriggerTM tm;
             tm.triggerFrame = em.triggerFrame;
             tm.effectorType = em.effectorType;
@@ -222,12 +222,64 @@ namespace TiedanSouls.EditorTool {
 
         #region [Effector]
 
-        public static RoleEffectorTM GetEffectorTM(RoleEffectorEM em) {
-            RoleEffectorTM tm;
+        public static EffectorTM GetEffectorTM(EffectorEM em) {
+            EffectorTM tm;
             tm.typeID = em.typeID;
             tm.effectorName = em.effectorName;
-            tm.roleAttributeSelectorTM = GetRoleAttributeSelectorTM(em.roleAttributeSelectorEM);
-            tm.roleAttributeModifyTM = GetRoleAttributeModifyTM(em.roleAttributeModifyEM);
+            tm.roleEffectorTM = GetRoleEffectorTM(em.roleEffectorEM);
+            tm.skillEffectorTM = GetSkillEffectorTM(em.skillEffectorEM);
+            return tm;
+        }
+
+        public static RoleEffectorTM GetRoleEffectorTM(RoleEffectorEM em) {
+            RoleEffectorTM tm;
+            tm.roleSelectorTM = GetRoleSelectorTM(em.roleSelectorEM);
+            tm.roleModifyTM = GetRoleModifyTM(em.roleModifyEM);
+            return tm;
+        }
+
+        public static SkillEffectorTM GetSkillEffectorTM(SkillEffectorEM em) {
+            SkillEffectorTM tm;
+            tm.skillModifyTM = GetSkillModifyTM(em.skillModifyEM);
+            tm.skillSelectorTM = GetSkillSelectorTM(em.skillSelectorEM);
+            return tm;
+        }
+
+        public static RoleModifyTM GetRoleModifyTM(RoleModifyEM em) {
+            RoleModifyTM tm;
+
+            tm.hpNCT = em.hpNCT;
+            tm.hpEV_Expanded = GetInt_Expand100(em.hpEV);
+
+            tm.hpMaxNCT = em.hpMaxNCT;
+            tm.hpMaxEV_Expanded = GetInt_Expand100(em.hpMaxEV);
+
+            tm.moveSpeedNCT = em.moveSpeedNCT;
+            tm.moveSpeedEV_Expanded = GetInt_Expand100(em.moveSpeedEV);
+
+            tm.normalSkillSpeedBonusEV_Expanded = GetInt_Expand100(em.normalSkillSpeedBonusEV);
+
+            tm.physicalDamageBonusEV_Expanded = GetInt_Expand100(em.physicalDamageBonusEV);
+
+            tm.magicalDamageBonusEV_Expanded = GetInt_Expand100(em.magicalDamageBonusEV);
+
+            tm.physicalDefenseBonusEV_Expanded = GetInt_Expand100(em.physicalDefenseBonusEV);
+
+            tm.magicalDefenseBonusEV_Expanded = GetInt_Expand100(em.magicalDefenseBonusEV);
+
+            return tm;
+        }
+
+        public static SkillSelectorTM GetSkillSelectorTM(SkillSelectorEM em) {
+            SkillSelectorTM tm;
+            tm.skillTypeFlag = em.skillTypeFlag;
+            return tm;
+        }
+
+        public static SkillModifyTM GetSkillModifyTM(SkillModifyEM em) {
+            SkillModifyTM tm;
+            tm.cdTime_NCT = em.cdTime_NCT;
+            tm.cdTime_EV_Expanded = GetInt_Expand100(em.cdTime_EV);
             return tm;
         }
 
@@ -463,21 +515,21 @@ namespace TiedanSouls.EditorTool {
 
         #region [RoleEffector]
 
-        public static RoleEffectorTM[] GetEntityModifyTMArray(RoleEffectorEM[] emArray) {
+        public static EffectorTM[] GetEntityModifyTMArray(EffectorEM[] emArray) {
             var len = emArray.Length;
-            var tmArray = new RoleEffectorTM[len];
+            var tmArray = new EffectorTM[len];
             for (int i = 0; i < len; i++) {
                 tmArray[i] = GetEntityModifyTM(emArray[i]);
             }
             return tmArray;
         }
 
-        public static RoleEffectorTM GetEntityModifyTM(RoleEffectorEM em) {
-            RoleEffectorTM tm;
+        public static EffectorTM GetEntityModifyTM(EffectorEM em) {
+            EffectorTM tm;
             tm.typeID = em.typeID;
             tm.effectorName = em.effectorName;
-            tm.roleAttributeModifyTM = GetRoleAttributeModifyTM(em.roleAttributeModifyEM);
-            tm.roleAttributeSelectorTM = GetRoleAttributeSelectorTM(em.roleAttributeSelectorEM);
+            tm.roleEffectorTM = GetRoleEffectorTM(em.roleEffectorEM);
+            tm.skillEffectorTM = GetSkillEffectorTM(em.skillEffectorEM);
             return tm;
         }
 
@@ -497,7 +549,7 @@ namespace TiedanSouls.EditorTool {
             EntityTrackSelectorTM tm;
             tm.entityType = em.entityType;
             tm.isAttributeSelectorEnabled = em.isAttributeSelectorEnabled;
-            tm.attributeSelectorTM = GetRoleAttributeSelectorTM(em.attributeSelectorEM);
+            tm.attributeSelectorTM = GetRoleSelectorTM(em.attributeSelectorEM);
             return tm;
         }
 
@@ -505,29 +557,20 @@ namespace TiedanSouls.EditorTool {
 
         #region [Selector]
 
-        public static RoleAttributeSelectorTM GetRoleAttributeSelectorTM(RoleAttributeSelectorEM em) {
-            RoleAttributeSelectorTM tm;
-            tm.isEnabled = em.isEnabled;
+        public static RoleSelectorTM GetRoleSelectorTM(RoleSelectorEM em) {
+            RoleSelectorTM tm;
             tm.hp = em.hp;
             tm.hp_ComparisonType = em.hp_ComparisonType;
             tm.hpMax = em.hpMax;
             tm.hpMax_ComparisonType = em.hpMax_ComparisonType;
             tm.mp = em.mp;
-            tm.ep_ComparisonType = em.ep_ComparisonType;
+            tm.mp_ComparisonType = em.mp_ComparisonType;
             tm.mpMax = em.mpMax;
             tm.mpMax_ComparisonType = em.mpMax_ComparisonType;
             tm.gp = em.gp;
             tm.gp_ComparisonType = em.gp_ComparisonType;
             tm.gpMax = em.gpMax;
             tm.gpMax_ComparisonType = em.gpMax_ComparisonType;
-            tm.moveSpeed = em.moveSpeed;
-            tm.moveSpeed_ComparisonType = em.moveSpeed_ComparisonType;
-            tm.jumpSpeed = em.jumpSpeed;
-            tm.jumpSpeed_ComparisonType = em.jumpSpeed_ComparisonType;
-            tm.fallingAcceleration = em.fallingAcceleration;
-            tm.fallingAcceleration_ComparisonType = em.fallingAcceleration_ComparisonType;
-            tm.fallingSpeedMax = em.fallingSpeedMax;
-            tm.fallingSpeedMax_ComparisonType = em.fallingSpeedMax_ComparisonType;
             return tm;
         }
 

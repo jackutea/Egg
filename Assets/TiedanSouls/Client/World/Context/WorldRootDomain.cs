@@ -29,7 +29,7 @@ namespace TiedanSouls.Client.Facades {
         #region [杂项 Domain]
 
         public WorldPhxDomain PhysicalDomain { get; private set; }
-        public WorldRoleEffectorDomain RoleEffectorDomain { get; private set; }
+        public WorldEffectorDomain EffectorDomain { get; private set; }
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace TiedanSouls.Client.Facades {
             BuffDomain = new WorldBuffDomain();
 
             PhysicalDomain = new WorldPhxDomain();
-            RoleEffectorDomain = new WorldRoleEffectorDomain();
+            EffectorDomain = new WorldEffectorDomain();
 
             WorldRendererDomain = new WorldRendererDomain();
         }
@@ -82,7 +82,7 @@ namespace TiedanSouls.Client.Facades {
             this.BuffDomain.Inject(infraContext, worldContext);
 
             this.PhysicalDomain.Inject(infraContext, worldContext);
-            this.RoleEffectorDomain.Inject(infraContext, worldContext);
+            this.EffectorDomain.Inject(infraContext, worldContext);
 
             this.WorldRendererDomain.Inject(infraContext, worldContext);
 

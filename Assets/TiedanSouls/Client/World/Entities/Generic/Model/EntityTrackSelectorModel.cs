@@ -11,7 +11,7 @@ namespace TiedanSouls.Client.Entities {
 
         public EntityType entityType;
         public bool isAttributeSelectorEnabled;
-        public RoleAttributeSelectorModel attributeSelectorModel;
+        public RoleSelectorModel attributeSelectorModel;
 
     }
 

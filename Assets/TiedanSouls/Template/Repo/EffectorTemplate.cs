@@ -8,16 +8,16 @@ namespace TiedanSouls.Template {
 
     public class EffectorTemplate {
 
-        Dictionary<int, RoleEffectorTM> all;
+        Dictionary<int, EffectorTM> all;
 
         public EffectorTemplate() {
-            all = new Dictionary<int, RoleEffectorTM>();
+            all = new Dictionary<int, EffectorTM>();
         }
 
         public async Task LoadAll() {
             AssetLabelReference label = new AssetLabelReference();
             label.labelString = AssetLabelCollection.SO_EFFECTOR;
-            var list = await Addressables.LoadAssetsAsync<RoleEffectorSO>(label, null).Task;
+            var list = await Addressables.LoadAssetsAsync<EffectorSO>(label, null).Task;
             foreach (var item in list) {
                 var tm = item.tm;
                 all.Add(tm.typeID, tm);
@@ -25,7 +25,7 @@ namespace TiedanSouls.Template {
             }
         }
 
-        public bool TryGet(int TypeID, out RoleEffectorTM tm) {
+        public bool TryGet(int TypeID, out EffectorTM tm) {
             return all.TryGetValue(TypeID, out tm);
         }
     }

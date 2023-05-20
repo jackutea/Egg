@@ -26,9 +26,9 @@ namespace TiedanSouls.Client.Entities {
         public int TotalFrame => totalFrame;
         public void SetTotalFrame(int value) => totalFrame = value;
 
-        RoleAttributeModifyModel roleAttrModifyModel;
-        public RoleAttributeModifyModel RoleAttrModifyModel => roleAttrModifyModel;
-        public void SetRoleAttrModifyModel(RoleAttributeModifyModel value) => roleAttrModifyModel = value;
+        RoleModifyModel roleAttrModifyModel;
+        public RoleModifyModel RoleAttrModifyModel => roleAttrModifyModel;
+        public void SetRoleAttrModifyModel(RoleModifyModel value) => roleAttrModifyModel = value;
 
         int effectorTypeID;
         public int EffectorTypeID => effectorTypeID;

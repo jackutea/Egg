@@ -114,7 +114,7 @@ namespace TiedanSouls.Client.Domain {
         public void HandleHit(SkillEntity skill, Vector3 skillColliderPos, in EntityColliderTriggerModel collisionTriggerModel) {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
-            var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var effectorDomain = rootDomain.EffectorDomain;
             var buffDomain = rootDomain.BuffDomain;
 
             // 打击触发自身 角色效果器
@@ -127,15 +127,15 @@ namespace TiedanSouls.Client.Domain {
             var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
             var len = selfRoleEffectorTypeIDArray?.Length;
             for (int i = 0; i < len; i++) {
-                var roleEffectorTypeID = selfRoleEffectorTypeIDArray[i];
-                if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
+                var effectorTypeID = selfRoleEffectorTypeIDArray[i];
+                if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) continue;
 
-                var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
-                var roleAttributeModifyModel = roleEffectorModel.roleAttributeModifyModel;
+                var roleSelectorModel = effectorModel.roleEffectorModel.roleSelectorModel;
+                var roleModifyModel = effectorModel.roleEffectorModel.roleModifyModel;
                 var roleAttrCom = selfRole.AttributeCom;
-                if (!roleAttrCom.IsMatch(roleAttributeSelectorModel)) continue;
+                if (!roleAttrCom.IsMatch(roleSelectorModel)) continue;
 
-                roleDomain.ModifyRole(selfRole.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                roleDomain.ModifyRole(selfRole.AttributeCom, roleModifyModel, 1);
             }
         }
 

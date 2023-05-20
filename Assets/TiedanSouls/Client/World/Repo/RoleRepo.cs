@@ -94,7 +94,7 @@ namespace TiedanSouls.Client {
         public bool TryGet_TrackEntity(int fieldTypeID,
                                        AllyType hitAllyType,
                                        in EntityIDArgs compareIDArgs,
-                                       in RoleAttributeSelectorModel attributeSelectorModel,
+                                       in RoleSelectorModel attributeSelectorModel,
                                        out RoleEntity role) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, compareIDArgs);
             var count = list.Count;
@@ -284,7 +284,7 @@ namespace TiedanSouls.Client {
         public void Foreach_AttributeSelector(int fieldTypeID,
                                               AllyType hitAllyType,
                                               in EntityIDArgs self,
-                                              in RoleAttributeSelectorModel attributeSelectorModel,
+                                              in RoleSelectorModel attributeSelectorModel,
                                               Action<RoleEntity> action) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, self);
             var count = list.Count;

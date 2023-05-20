@@ -197,8 +197,8 @@ namespace TiedanSouls.Client.Domain {
             if (castingSkill.TryGet_ValidSkillEffectorModel(out var skillEffectorModel)) {
                 var effectorTypeID = skillEffectorModel.effectorTypeID;
                 if (effectorTypeID != 0) {
-                    var roleEffectorDomain = rootDomain.RoleEffectorDomain;
-                    if (roleEffectorDomain.TrySpawnRoleEffectorModel(effectorTypeID, out var roleEffectorModel)) {
+                    var effectorDomain = rootDomain.EffectorDomain;
+                    if (effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var roleEffectorModel)) {
                         roleDomain.ApplEffector(role, roleEffectorModel);
                     }
                 }

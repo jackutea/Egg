@@ -89,20 +89,20 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public void ApplEffector(RoleEntity role, in RoleEffectorModel roleEffectorModel) {
-            var roleAttributeSelectorModel = roleEffectorModel.roleAttributeSelectorModel;
-            var roleAttributeModifyModel = roleEffectorModel.roleAttributeModifyModel;
+        public void ApplEffector(RoleEntity role, in EffectorEntity effectorModel) {
+            var roleSelectorModel = effectorModel.roleEffectorModel.roleSelectorModel;
+            var roleModifyModel = effectorModel.roleEffectorModel.roleModifyModel;
             var curFieldTypeID = worldContext.StateEntity.CurFieldTypeID;
             var roleRepo = worldContext.RoleRepo;
 
             roleRepo.Foreach_All((role) => {
                 var attrCom = role.AttributeCom;
-                if (!attrCom.IsMatch(roleAttributeSelectorModel)) return;
-                ModifyRole(role.AttributeCom, roleAttributeModifyModel, 1);
+                if (!attrCom.IsMatch(roleSelectorModel)) return;
+                ModifyRole(role.AttributeCom, roleModifyModel, 1);
             });
         }
         
-        public void ModifyRole(RoleAttributeComponent attributeCom, RoleAttributeModifyModel attributeEffectModel, int stackCount) {
+        public void ModifyRole(RoleAttributeComponent attributeCom, RoleModifyModel attributeEffectModel, int stackCount) {
             // - HP
             var hpNCT = attributeEffectModel.hpNCT;
             var hpEV = attributeEffectModel.hpEV;
@@ -517,7 +517,7 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             var roleFSMDomain = rootDomain.RoleFSMDomain;
             var roleDomain = rootDomain.RoleDomain;
-            var roleEffectorDomain = rootDomain.RoleEffectorDomain;
+            var effectorDomain = rootDomain.EffectorDomain;
 
             // 受击
             var beHitModel = collisionTriggerModel.beHitModel;
@@ -537,9 +537,9 @@ namespace TiedanSouls.Client.Domain {
             var targetRoleEffectorTypeIDArray = collisionTriggerModel.targetRoleEffectorTypeIDArray;
             len = targetRoleEffectorTypeIDArray.Length;
             for (int i = 0; i < len; i++) {
-                var roleEffectorTypeID = targetRoleEffectorTypeIDArray[i];
-                if (!roleEffectorDomain.TrySpawnRoleEffectorModel(roleEffectorTypeID, out var roleEffectorModel)) continue;
-                ModifyRole(role.AttributeCom, roleEffectorModel.roleAttributeModifyModel, 1);
+                var effectorTypeID = targetRoleEffectorTypeIDArray[i];
+                if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) continue;
+                ModifyRole(role.AttributeCom, effectorModel.roleEffectorModel.roleModifyModel, 1);
             }
 
             // 伤害 仲裁

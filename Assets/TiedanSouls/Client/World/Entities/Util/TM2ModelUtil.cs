@@ -74,12 +74,12 @@ namespace TiedanSouls.Client.Entities {
             var len = tmArray.Length;
             EffectorTriggerModel[] modelArray = new EffectorTriggerModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetSkillEffectorModel(tmArray[i]);
+                modelArray[i] = GetEffectorTriggerModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static EffectorTriggerModel GetSkillEffectorModel(EffectorTriggerTM tm) {
+        public static EffectorTriggerModel GetEffectorTriggerModel(EffectorTriggerTM tm) {
             EffectorTriggerModel model;
             model.triggerFrame = tm.triggerFrame;
             model.effectorType = tm.effectorType;
@@ -267,10 +267,10 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [AttributeEffect]
+        #region [Modify]
 
-        public static RoleAttributeModifyModel GetAttributeEffectModel(RoleAttributeModifyTM tm) {
-            RoleAttributeModifyModel model = new RoleAttributeModifyModel();
+        public static RoleModifyModel GetRoleModifyModel(RoleModifyTM tm) {
+            RoleModifyModel model = new RoleModifyModel();
 
             model.hpNCT = tm.hpNCT;
             model.hpEV = GetFloat_Shrink100(tm.hpEV_Expanded);
@@ -302,16 +302,37 @@ namespace TiedanSouls.Client.Entities {
             return model;
         }
 
+        public static SkillModifyModel GetSkillModifyModel(SkillModifyTM tm) {
+            SkillModifyModel model;
+            model.cdTime_EV = GetFloat_Shrink100(tm.cdTime_EV_Expanded);
+            model.cdTime_NCT = tm.cdTime_NCT;
+            return model;
+        }
+
         #endregion
 
         #region [Effector]
 
-        public static RoleEffectorModel GetRoleEffectorModel(RoleEffectorTM tm) {
-            RoleEffectorModel model;
+        public static EffectorEntity GetRoleEffectorEntity(EffectorTM tm) {
+            EffectorEntity model = new EffectorEntity();
             model.typeID = tm.typeID;
             model.effectorName = tm.effectorName;
-            model.roleAttributeModifyModel = GetAttributeEffectModel(tm.roleAttributeModifyTM);
-            model.roleAttributeSelectorModel = GetAttributeSelectorModel(tm.roleAttributeSelectorTM);
+            model.roleEffectorModel = GetRoleEffectorModel(tm.roleEffectorTM);
+            model.skillEffectorModel = GetSkillEffectorModel(tm.skillEffectorTM);
+            return model;
+        }
+
+        public static RoleEffectorModel GetRoleEffectorModel(RoleEffectorTM tm) {
+            RoleEffectorModel model = new RoleEffectorModel();
+            model.roleSelectorModel = GetRoleSelectorModel(tm.roleSelectorTM);
+            model.roleModifyModel = GetRoleModifyModel(tm.roleModifyTM);
+            return model;
+        }
+
+        public static SkillEffectorModel GetSkillEffectorModel(SkillEffectorTM tm) {
+            SkillEffectorModel model = new SkillEffectorModel();
+            model.skillSelectorModel = GetSkillSelectorModel(tm.skillSelectorTM);
+            model.skillModifyModel = GetSkillModifyModel(tm.skillModifyTM);
             return model;
         }
 
@@ -458,7 +479,7 @@ namespace TiedanSouls.Client.Entities {
             EntityTrackSelectorModel model;
             model.entityType = tm.entityType;
             model.isAttributeSelectorEnabled = tm.isAttributeSelectorEnabled;
-            model.attributeSelectorModel = GetAttributeSelectorModel(tm.attributeSelectorTM);
+            model.attributeSelectorModel = GetRoleSelectorModel(tm.attributeSelectorTM);
             return model;
         }
 
@@ -477,39 +498,41 @@ namespace TiedanSouls.Client.Entities {
 
         #region [Selector]
 
-        public static RoleAttributeSelectorModel[] GetAttributeSelectorModelArray(RoleAttributeSelectorTM[] tmArray) {
+        public static RoleSelectorModel[] GetAttributeSelectorModelArray(RoleSelectorTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            RoleAttributeSelectorModel[] modelArray = new RoleAttributeSelectorModel[len];
+            RoleSelectorModel[] modelArray = new RoleSelectorModel[len];
             for (int i = 0; i < len; i++) {
-                modelArray[i] = GetAttributeSelectorModel(tmArray[i]);
+                modelArray[i] = GetRoleSelectorModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static RoleAttributeSelectorModel GetAttributeSelectorModel(RoleAttributeSelectorTM tm) {
-            RoleAttributeSelectorModel model;
-            model.isEnabled = tm.isEnabled;
+        public static RoleSelectorModel GetRoleSelectorModel(RoleSelectorTM tm) {
+            RoleSelectorModel model;
+
             model.hp = tm.hp;
             model.hp_ComparisonType = tm.hp_ComparisonType;
+
             model.hpMax = tm.hpMax;
             model.hpMax_ComparisonType = tm.hpMax_ComparisonType;
+
             model.mp = tm.mp;
-            model.ep_ComparisonType = tm.ep_ComparisonType;
+            model.mp_ComparisonType = tm.mp_ComparisonType;
             model.mpMax = tm.mpMax;
             model.mpMax_ComparisonType = tm.mpMax_ComparisonType;
+
             model.gp = tm.gp;
             model.gp_ComparisonType = tm.gp_ComparisonType;
             model.gpMax = tm.gpMax;
             model.gpMax_ComparisonType = tm.gpMax_ComparisonType;
-            model.moveSpeed = tm.moveSpeed;
-            model.moveSpeed_ComparisonType = tm.moveSpeed_ComparisonType;
-            model.jumpSpeed = tm.jumpSpeed;
-            model.jumpSpeed_ComparisonType = tm.jumpSpeed_ComparisonType;
-            model.fallingAcceleration = tm.fallingAcceleration;
-            model.fallingAcceleration_ComparisonType = tm.fallingAcceleration_ComparisonType;
-            model.fallingSpeedMax = tm.fallingSpeedMax;
-            model.fallingSpeedMax_ComparisonType = tm.fallingSpeedMax_ComparisonType;
+
+            return model;
+        }
+
+        public static SkillSelectorModel GetSkillSelectorModel(SkillSelectorTM tm) {
+            SkillSelectorModel model;
+            model.skillTypeFlag = tm.skillTypeFlag;
             return model;
         }
 
