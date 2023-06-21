@@ -1,0 +1,21 @@
+{
+    "name": "TiedanSouls.Infra",
+    "rootNamespace": "",
+    "references": [
+        "GUID:63e6f4bff2e2d3744bd89f43b2dca43e",
+        "GUID:9ac052a9ac8338446989c332ffe68c7b",
+        "GUID:2f62dc247e88f9f4580757371fcfcc21",
+        "GUID:c83e6e88f3efea142936b417b0b419e2",
+        "GUID:2563dca0e657f5f46b40cbc71840f88f",
+        "GUID:25f98a906b628794b9555b7d48946b6b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,7 +1,8 @@
 {
-    "name": "TiedanSouls.Client",
+    "name": "TiedanSouls.Main",
     "rootNamespace": "",
     "references": [
+        "GUID:799c29ecdfed7ce44810250ccdd3a044",
         "GUID:c83e6e88f3efea142936b417b0b419e2",
         "GUID:9ac052a9ac8338446989c332ffe68c7b",
         "GUID:2f62dc247e88f9f4580757371fcfcc21",

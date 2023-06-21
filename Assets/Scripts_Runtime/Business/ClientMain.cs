@@ -8,7 +8,7 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Main.Entry {
 
-    public class ClientApp : MonoBehaviour {
+    public class ClientMain : MonoBehaviour {
 
         InfraController infraController;
 
