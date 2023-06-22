@@ -100,6 +100,7 @@ namespace TiedanSouls.EditorTool {
             em.triggerFrame = tm.triggerFrame;
             em.isFaceTo = tm.isFaceTo;
             em.needWaitForMoveEnd = tm.needWaitForMoveEnd;
+            em.moveType = tm.moveType;
             em.moveCurveEM = GetMoveCurveEM(tm.moveCurveTM);
             return em;
         }

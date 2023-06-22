@@ -155,6 +155,8 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetCasterRotation(role.RootRotation);
                 roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
                 role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
+
+                role.Stop();
             }
 
             // 先决条件
@@ -180,13 +182,18 @@ namespace TiedanSouls.Client.Domain {
             bool hasCurFrameMove = false;
             if (curFrame - lastFrame > 1) {
                 for (int i = lastFrame + 1; i < curFrame; i++) {
-                    hasCurFrameMove = TryApplySkillMove(role, dt, i, true) ? true : hasCurFrameMove;
+                    _ = TryApplySkillMove(role, dt, i, true);
                 }
             }
             hasCurFrameMove = TryApplySkillMove(role, dt, curFrame, false) ? true : hasCurFrameMove;
 
             if (!hasCurFrameMove) {
-                role.TryMoveByInput();
+                bool has = castingSkill.TryGetSkillMoveCurveModel(curFrame, out var skillMoveCurveModel);
+                if (has) {
+                    if (skillMoveCurveModel.moveType == SkillMoveType.MoveByInput) {
+                        role.TryMoveByInput();
+                    }
+                }
                 role.Fall(dt);
             }
 

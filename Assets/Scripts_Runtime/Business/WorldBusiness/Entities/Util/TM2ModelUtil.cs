@@ -47,6 +47,7 @@ namespace TiedanSouls.Client.Entities {
             model.triggerFrame = tm.triggerFrame;
             model.isFaceTo = tm.isFaceTo;
             model.needWaitForMoveEnd = tm.needWaitForMoveEnd;
+            model.moveType = tm.moveType;
             model.moveCurveModel = GetMoveCurveModel(tm.moveCurveTM);
             return model;
         }
