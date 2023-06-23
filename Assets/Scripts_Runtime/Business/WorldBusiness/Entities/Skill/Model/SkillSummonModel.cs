@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client {
 
-    public struct RoleSummonModel {
+    public struct SkillSummonModel {
 
         public int triggerFrame;
         public int typeID;

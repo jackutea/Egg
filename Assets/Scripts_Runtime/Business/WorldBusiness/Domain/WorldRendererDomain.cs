@@ -24,11 +24,6 @@ namespace TiedanSouls.Client.Domain {
                 role.RendererCom.LerpPosition(role.RootPos, dt);
                 role.RendererCom.LerpRotation(role.RootRotation, dt);
 
-                role.HudSlotCom.LerpPosition(role.GetHeadPos(), dt);
-                role.HudSlotCom.Tick(role.AttributeCom, dt);
-                
-                role.WeaponSlotCom.LerpPosition(role.RootPos, dt);
-                role.WeaponSlotCom.LerpRotation(role.RootRotation, dt);
             });
 
             // 子弹

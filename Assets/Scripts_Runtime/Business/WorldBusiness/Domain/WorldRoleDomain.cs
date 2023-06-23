@@ -19,20 +19,6 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickAllCtrlEffect(int curFieldTypeID, float dt) {
-            var roleRepo = worldContext.RoleRepo;
-            var player = roleRepo.PlayerRole;
-            if (player != null) {
-                var ctrlEffectSlotCom = player.CtrlEffectSlotCom;
-                ctrlEffectSlotCom.Tick();
-            }
-
-            roleRepo.Foreach_AI(curFieldTypeID, (aiRole) => {
-                var ctrlEffectSlotCom = aiRole.CtrlEffectSlotCom;
-                ctrlEffectSlotCom.Tick();
-            });
-        }
-
         public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
             var typeID = entitySpawnModel.typeID;
             var pos = entitySpawnModel.spawnPos;
@@ -63,7 +49,7 @@ namespace TiedanSouls.Client.Domain {
             return true;
         }
 
-        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in RoleSummonModel roleSummonModel, out RoleEntity role) {
+        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in SkillSummonModel roleSummonModel, out RoleEntity role) {
             var typeID = roleSummonModel.typeID;
             var controlType = roleSummonModel.controlType;
             var factory = worldContext.Factory;
@@ -230,91 +216,7 @@ namespace TiedanSouls.Client.Domain {
                 role.SetAIStrategy(ai);
             }
 
-            // HUD Show
-            if (idCom.AllyStatus == CampType.Two) role.HudSlotCom.HPBarHUD.SetColor(Color.red);
-            else if (idCom.AllyStatus == CampType.Neutral) role.HudSlotCom.HPBarHUD.SetColor(Color.yellow);
         }
-
-        #region [玩家角色 拾取武器 -> 初始化武器组件 -> 添加对应技能]
-
-        public bool TryPickUpSomethingFromField(RoleEntity role) {
-            var repo = worldContext.ItemRepo;
-            var fieldTypeID = worldContext.StateEntity.CurFieldTypeID;
-            if (!repo.TryGetOneItemFromField(fieldTypeID, role.RootPos, 1, out var item)) {
-                return false;
-            }
-
-            if (item.ItemType == ItemType.Weapon) {
-                // TODO: 拾取武器时，如果已经有武器，需要判断是否替换武器
-                if (!role.WeaponSlotCom.HasWeapon()) {
-                    PickUpWeapon(role, item.TypeIDForPickUp);
-                    return true;
-                }
-
-                return false;
-            }
-
-            TDLog.Error($"未知的拾取物品类型 - {item.ItemType}");
-            return false;
-        }
-
-        public void PickUpWeapon(RoleEntity role, int weaponTypeID) {
-            var weaponEntity = SpawnWeapon(weaponTypeID);
-            if (weaponEntity == null) {
-                TDLog.Error($"武器生成失败 - {weaponTypeID}");
-                return;
-            }
-
-            var mod = weaponEntity.Mod;
-            mod.transform.SetParent(role.WeaponSlotCom.WeaponRoot, false);
-            role.WeaponSlotCom.SetWeapon(weaponEntity);
-
-            // Skill Slot
-            var skillSlotCom = role.SkillSlotCom;
-            var curWeapon = role.WeaponSlotCom.Weapon;
-            var skillTypeIDArray = new int[] { curWeapon.SkillMeleeTypeID, curWeapon.SkillHoldMeleeTypeID, curWeapon.SkillSpecMeleeTypeID };
-
-            var skillDomain = worldContext.RootDomain.SkillDomain;
-            var roleIDArgs = role.IDCom.ToArgs();
-            skillDomain.AddAllSkillToSlot_Origin(skillSlotCom, skillTypeIDArray, roleIDArgs);
-            skillDomain.AddAllSkillToSlot_Combo(skillSlotCom, roleIDArgs);
-        }
-
-        public WeaponEntity SpawnWeapon(int typeID) {
-            WeaponEntity weapon = new WeaponEntity();
-
-            var assetCore = infraContext.AssetCore;
-            var templateCore = infraContext.TemplateCore;
-
-            // Weapon TM
-            bool has = templateCore.WeaponTemplate.TryGet(typeID, out WeaponTM weaponTM);
-            if (!has) {
-                TDLog.Error("Failed to get weapon template: " + typeID);
-                return null;
-            }
-
-            // Weapon Mod
-            has = assetCore.WeaponModAsset.TryGet(weaponTM.meshName, out GameObject weaponModPrefab);
-            if (!has) {
-                TDLog.Error("Failed to get weapon mod: " + weaponTM.meshName);
-                return null;
-            }
-
-            var idCom = weapon.IDCom;
-            idCom.SetTypeID(weaponTM.typeID);
-
-            weapon.SetWeaponType(weaponTM.weaponType);
-            weapon.SetSkillMeleeTypeID(weaponTM.skillMeleeTypeID);
-            weapon.SetSkillHoldMeleeTypeID(weaponTM.skillHoldMeleeTypeID);
-            weapon.SetSkillSpecMeleeTypeID(weaponTM.skillSpecMeleeTypeID);
-
-            var go = GameObject.Instantiate(weaponModPrefab);
-            weapon.SetMod(go);
-
-            return weapon;
-        }
-
-        #endregion
 
         /// <summary>
         /// 玩家角色输入
@@ -433,12 +335,6 @@ namespace TiedanSouls.Client.Domain {
                 return false;
             }
 
-            var weaponSlotCom = role.WeaponSlotCom;
-            if (!weaponSlotCom.IsActive) {
-                TDLog.Warning($"无法施放技能 - 武器未激活");
-                return false;
-            }
-
             var skillSlotCom = role.SkillSlotCom;
             if (!skillSlotCom.TrgGet_OriginSkill_BySkillType(inputSkillType, out var originalSkill)) {
                 TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
@@ -513,7 +409,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 角色受击的统一处理方式
         /// </summary>
-        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in EntityColliderTriggerModel collisionTriggerModel) {
+        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in ColliderToggleModel collisionTriggerModel) {
             var rootDomain = worldContext.RootDomain;
             var roleFSMDomain = rootDomain.RoleFSMDomain;
             var roleDomain = rootDomain.RoleDomain;
@@ -522,25 +418,6 @@ namespace TiedanSouls.Client.Domain {
             // 受击
             var beHitModel = collisionTriggerModel.beHitModel;
             role.FSMCom.Enter_BeHit(beHitDir, beHitModel);
-
-            var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
-
-            // 受击附加 角色控制效果
-            var roleCtrlEffectModelArray = collisionTriggerModel.roleCtrlEffectModelArray;
-            var len = roleCtrlEffectModelArray?.Length;
-            for (int i = 0; i < len; i++) {
-                var roleCtrlEffectModel = roleCtrlEffectModelArray[i];
-                ctrlEffectSlotCom.AddCtrlEffect(roleCtrlEffectModel);
-            }
-
-            // 受击附加 角色效果器
-            var targetRoleEffectorTypeIDArray = collisionTriggerModel.targetRoleEffectorTypeIDArray;
-            len = targetRoleEffectorTypeIDArray.Length;
-            for (int i = 0; i < len; i++) {
-                var effectorTypeID = targetRoleEffectorTypeIDArray[i];
-                if (!effectorDomain.TrySpawnEffectorModel(effectorTypeID, out var effectorModel)) continue;
-                ModifyRole(role.AttributeCom, effectorModel.roleEffectorModel.roleModifyModel, 1);
-            }
 
             // 伤害 仲裁
             var damageArbitService = worldContext.DamageArbitService;
@@ -557,9 +434,6 @@ namespace TiedanSouls.Client.Domain {
             roleDomain.ReduceHP(role, realDamage);
             damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
 
-            // HUD伤害浮字
-            var damageFloatTextHUD = role.HudSlotCom.DamageFloatTextHUD;
-            damageFloatTextHUD.ShowDamageFloatText(damageType, realDamage, 0.5f);
         }
 
         public void TearDownRole(RoleEntity role) {
@@ -583,7 +457,6 @@ namespace TiedanSouls.Client.Domain {
             role.RendererCom.SetPos(rootPos);
             role.RendererCom.SetRotation(rootRotation);
 
-            role.HudSlotCom.SetPos(headPos);
         }
 
         public void RecycleFieldRoles(int fieldTypeID) {
@@ -658,11 +531,6 @@ namespace TiedanSouls.Client.Domain {
         public float ReduceHP(RoleEntity role, float damage) {
             var attributeCom = role.AttributeCom;
             var decrease = attributeCom.ReduceHP(damage);
-            var hudSlotCom = role.HudSlotCom;
-            var hpBar = hudSlotCom.HPBarHUD;
-            hpBar.SetGP(attributeCom.GP);
-            hpBar.SetHP(attributeCom.HP);
-            hpBar.SetHPMax(attributeCom.HPMax);
 
             TDLog.Log($"{role.IDCom.EntityName} 受到伤害 {damage} HP减少: {decrease}");
             return decrease;
@@ -670,7 +538,6 @@ namespace TiedanSouls.Client.Domain {
 
         public float ReduceHP_Percentage(RoleEntity role, float percentage) {
             var attributeCom = role.AttributeCom;
-            var hudSlotCom = role.HudSlotCom;
 
             var curHP = attributeCom.HP;
             var decrease = curHP * percentage;

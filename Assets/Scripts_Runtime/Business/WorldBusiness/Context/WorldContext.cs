@@ -19,7 +19,6 @@ namespace TiedanSouls.Client.Facades {
         public RoleRepo RoleRepo { get; private set; }
         public SkillRepo SkillRepo { get; private set; }
         public FieldRepo FieldRepo { get; private set; }
-        public ItemRepo ItemRepo { get; private set; }
         public ProjectileRepo ProjectileRepo { get; private set; }
         public BulletRepo BulletRepo { get; private set; }
         public BuffRepo BuffRepo { get; private set; }
@@ -39,7 +38,6 @@ namespace TiedanSouls.Client.Facades {
             RoleRepo = new RoleRepo();
             SkillRepo = new SkillRepo();
             FieldRepo = new FieldRepo();
-            ItemRepo = new ItemRepo();
             ProjectileRepo = new ProjectileRepo();
             BulletRepo = new BulletRepo();
             BuffRepo = new BuffRepo();

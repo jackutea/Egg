@@ -58,11 +58,6 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_CtrlEffect(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
-            var ctrlEffectSlotCom = role.CtrlEffectSlotCom;
-            ctrlEffectSlotCom.Tick();
-        }
-
         #region [位置状态]
 
         public void AddPositionStatus_OnGround(RoleEntity role) {
@@ -90,11 +85,7 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
-            // 拾取武器
             var inputCom = role.InputCom;
-            if (inputCom.InputPick) {
-                roleDomain.TryPickUpSomethingFromField(role);
-            }
 
             role.RendererCom.Anim_PlayIdle(role.InputCom.MoveAxis.sqrMagnitude);
 
@@ -156,7 +147,6 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
                 stateModel.SetCasterRotation(role.RootRotation);
                 roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
-                role.WeaponSlotCom.Weapon.PlayAnim(castingSkill.WeaponAnimName);
 
                 role.Stop();
             }
@@ -355,7 +345,6 @@ namespace TiedanSouls.Client.Domain {
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
 
-                role.HudSlotCom.HideHUD();
                 role.RendererCom.Anim_Play_Dying();
                 role.Stop();
             }

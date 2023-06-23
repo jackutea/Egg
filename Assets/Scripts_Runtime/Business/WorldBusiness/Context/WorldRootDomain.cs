@@ -17,7 +17,6 @@ namespace TiedanSouls.Client.Facades {
         public WorldRoleDomain RoleDomain { get; private set; }
         public WorldRoleFSMDomain RoleFSMDomain { get; private set; }
         public WorldSkillDomain SkillDomain { get; private set; }
-        public WorldItemDomain ItemDomain { get; private set; }
         public WorldProjectileDomain ProjectileDomain { get; private set; }
         public WorldProjectileFSMDomain ProjectileFSMDomain { get; private set; }
         public WorldBulletDomain BulletDomain { get; private set; }
@@ -52,7 +51,6 @@ namespace TiedanSouls.Client.Facades {
             RoleDomain = new WorldRoleDomain();
             RoleFSMDomain = new WorldRoleFSMDomain();
             SkillDomain = new WorldSkillDomain();
-            ItemDomain = new WorldItemDomain();
             ProjectileDomain = new WorldProjectileDomain();
             ProjectileFSMDomain = new WorldProjectileFSMDomain();
             BulletDomain = new WorldBulletDomain();
@@ -74,7 +72,6 @@ namespace TiedanSouls.Client.Facades {
             this.RoleFSMDomain.Inject(infraContext, worldContext);
             this.RoleDomain.Inject(infraContext, worldContext);
             this.SkillDomain.Inject(infraContext, worldContext);
-            this.ItemDomain.Inject(infraContext, worldContext);
             this.ProjectileDomain.Inject(infraContext, worldContext);
             this.ProjectileFSMDomain.Inject(infraContext, worldContext);
             this.BulletDomain.Inject(infraContext, worldContext);
@@ -263,7 +260,7 @@ namespace TiedanSouls.Client.Facades {
 
         #region [碰撞器]
 
-        public void SetEntityColliderTriggerModelFathers(EntityColliderTriggerModel[] collisionTriggerModelArray, in EntityIDArgs father) {
+        public void SetEntityColliderTriggerModelFathers(ColliderToggleModel[] collisionTriggerModelArray, in EntityIDArgs father) {
             var len = collisionTriggerModelArray?.Length;
             for (int i = 0; i < len; i++) {
                 var triggerModel = collisionTriggerModelArray[i];
@@ -271,7 +268,7 @@ namespace TiedanSouls.Client.Facades {
             }
         }
 
-        public void SetEntityColliderTriggerModelFather(in EntityColliderTriggerModel triggerModel, in EntityIDArgs father) {
+        public void SetEntityColliderTriggerModelFather(in ColliderToggleModel triggerModel, in EntityIDArgs father) {
             var array = triggerModel.entityColliderArray;
             SetEntityColliderFathers(array, father);
         }

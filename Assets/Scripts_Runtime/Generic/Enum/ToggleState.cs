@@ -1,6 +1,6 @@
 namespace TiedanSouls.Generic {
 
-    public enum TriggerState : byte {
+    public enum ToggleState : byte {
 
         None,
         Enter,

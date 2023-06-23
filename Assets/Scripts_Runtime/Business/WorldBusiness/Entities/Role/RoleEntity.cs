@@ -10,8 +10,6 @@ namespace TiedanSouls.Client.Entities {
         public RoleAIStrategy AIStrategy => aiStrategy;
         public void SetAIStrategy(RoleAIStrategy value) => this.aiStrategy = value;
 
-        #region [Component]
-
         public EntityIDComponent idCom;
         public EntityIDComponent IDCom => idCom;
 
@@ -27,27 +25,14 @@ namespace TiedanSouls.Client.Entities {
         RoleFSMComponent fsmCom;
         public RoleFSMComponent FSMCom => fsmCom;
 
-        WeaponSlotComponent weaponSlotCom;
-        public WeaponSlotComponent WeaponSlotCom => weaponSlotCom;
-
         SkillSlotComponent skillSlotCom;
         public SkillSlotComponent SkillSlotCom => skillSlotCom;
 
         BuffSlotComponent buffSlotCom;
         public BuffSlotComponent BuffSlotCom => buffSlotCom;
 
-        RoleCtrlEffectSlotComponent ctrlEffectSlotCom;
-        public RoleCtrlEffectSlotComponent CtrlEffectSlotCom => ctrlEffectSlotCom;
-
         RoleRendererComponent rendererCom;
         public RoleRendererComponent RendererCom => rendererCom;
-
-        HUDSlotComponent hudSlotCom;
-        public HUDSlotComponent HudSlotCom => hudSlotCom;
-
-        #endregion
-
-        #region [Root]
 
         Transform logicRoot;
         public Transform LogicRoot => logicRoot;
@@ -56,35 +41,20 @@ namespace TiedanSouls.Client.Entities {
         public Quaternion RootRotation => LogicRoot.rotation;
 
         Rigidbody2D rb;
-        public Rigidbody2D RB => rb;
 
         CapsuleCollider2D coll_LogicRoot;
         public CapsuleCollider2D Coll_LogicRoot => coll_LogicRoot;
 
         public void SetTrigger(bool isTrigger) => Coll_LogicRoot.isTrigger = isTrigger;
 
-        #endregion
-
-        #region [Locomotion]
-
         sbyte faceDirX;
         public sbyte FaceDirX => faceDirX;
 
         public int groundCount;
 
-        #endregion
-
-        #region [出生点 & 是否为Boss]
-
-        Vector2 bornPos;
-        public Vector2 BornPos => bornPos;
-        public void SetBornPos(Vector2 value) => this.bornPos = value;
-
         bool isBoss;
         public bool IsBoss => isBoss;
         public void SetIsBoss(bool value) => this.isBoss = value;
-
-        #endregion
 
         public void Ctor() {
             faceDirX = 1;
@@ -107,17 +77,12 @@ namespace TiedanSouls.Client.Entities {
             this.fsmCom = new RoleFSMComponent();
             this.skillSlotCom = new SkillSlotComponent();
             this.buffSlotCom = new BuffSlotComponent();
-            this.ctrlEffectSlotCom = new RoleCtrlEffectSlotComponent();
-            this.weaponSlotCom = new WeaponSlotComponent();
             this.rendererCom = new RoleRendererComponent();
-            this.hudSlotCom = new HUDSlotComponent();
 
             this.rb = logicRoot.GetComponent<Rigidbody2D>();
             this.coll_LogicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
-            this.moveCom.Inject(RB);
-            this.weaponSlotCom.Inject(weaponRoot);
+            this.moveCom.Inject(rb);
             this.rendererCom.Inject(rendererRoot);
-            this.hudSlotCom.Inject(hudRoot);
         }
 
         public void TearDown() {
@@ -125,8 +90,6 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Reset() {
-            // - Weapon
-            WeaponSlotCom.Reset();
             // - Attribute
             AttributeCom.Reset();
             // - FSM
@@ -137,7 +100,6 @@ namespace TiedanSouls.Client.Entities {
             MoveCom.Reset();
             // - Renderer
             rendererCom.Reset();
-            hudSlotCom.Reset(AttributeCom.GP, AttributeCom.HP, AttributeCom.HPMax);
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
@@ -152,15 +114,11 @@ namespace TiedanSouls.Client.Entities {
         public void Show(){
             logicRoot.gameObject.SetActive(true);
             rendererCom.ShowRenderer();
-            hudSlotCom.ShowHUD();
-            weaponSlotCom.ShowWeapon();
         }
 
         public void Hide() {
             LogicRoot.gameObject.SetActive(false);
             rendererCom.HideRenderer();
-            hudSlotCom.HideHUD();
-            weaponSlotCom.HideWeapon();
         }
 
         public void TryMoveByInput() {

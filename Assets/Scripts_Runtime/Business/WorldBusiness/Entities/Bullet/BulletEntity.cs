@@ -57,9 +57,9 @@ namespace TiedanSouls.Client.Entities {
 
         #region [碰撞器]
 
-        EntityColliderTriggerModel collisionTriggerModel;
-        public EntityColliderTriggerModel CollisionTriggerModel => collisionTriggerModel;
-        public void SetCollisionTriggerModel(in EntityColliderTriggerModel value) {
+        ColliderToggleModel collisionTriggerModel;
+        public ColliderToggleModel CollisionTriggerModel => collisionTriggerModel;
+        public void SetCollisionTriggerModel(in ColliderToggleModel value) {
             var colliderModelArray = value.entityColliderArray;
             var len = colliderModelArray.Length;
             for (int i = 0; i < len; i++) {
@@ -178,11 +178,11 @@ namespace TiedanSouls.Client.Entities {
             return index == moveSpeedArray.Length - 1;
         }
 
-        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel triggerModel) {
+        public bool TryGet_ValidCollisionTriggerModel(out ColliderToggleModel triggerModel) {
             triggerModel = default;
             var model = fsmCom.ActivatedModel;
-            var triggerStatus = collisionTriggerModel.GetTriggerState(model.curFrame);
-            if (triggerStatus != TriggerState.None) {
+            var triggerStatus = collisionTriggerModel.GetToggleState(model.curFrame);
+            if (triggerStatus != ToggleState.None) {
                 triggerModel = collisionTriggerModel;
                 return true;
             }

@@ -18,11 +18,11 @@ namespace TiedanSouls.Client {
 
         public void Update() {
             foreach (var ev in triggerEvents.Values) {
-                ev.triggerState = ev.triggerState == TriggerState.Exit ? TriggerState.None : ev.triggerState;
+                ev.triggerState = ev.triggerState == ToggleState.Exit ? ToggleState.None : ev.triggerState;
                 ev.lastTriggerState = ev.triggerState;
             }
             foreach (var ev in collisionEvents.Values) {
-                ev.triggerState = ev.triggerState == TriggerState.Exit ? TriggerState.None : ev.triggerState;
+                ev.triggerState = ev.triggerState == ToggleState.Exit ? ToggleState.None : ev.triggerState;
                 ev.lastTriggerState = ev.triggerState;
             }
         }
@@ -35,24 +35,24 @@ namespace TiedanSouls.Client {
                 eventModel.entityColliderModelB = entityColliderModelB;
                 eventModel.normalA = Vector3.zero;
                 eventModel.normalB = Vector3.zero;
-                eventModel.triggerState = TriggerState.Enter;
+                eventModel.triggerState = ToggleState.Enter;
                 triggerEvents.Add(key, eventModel);
             } else {
-                eventModel.triggerState = eventModel.lastTriggerState == TriggerState.None ? TriggerState.Enter : TriggerState.Stay;
+                eventModel.triggerState = eventModel.lastTriggerState == ToggleState.None ? ToggleState.Enter : ToggleState.Stay;
             }
         }
 
         public void Add_TriggerExit(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (triggerEvents.TryGetValue(key, out var eventModel)) {
-                eventModel.triggerState = TriggerState.Exit;
+                eventModel.triggerState = ToggleState.Exit;
             }
         }
 
         public void Add_TriggerStay(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (triggerEvents.TryGetValue(key, out var eventModel)) {
-                eventModel.triggerState = TriggerState.Stay;
+                eventModel.triggerState = ToggleState.Stay;
             }
         }
 
@@ -64,17 +64,17 @@ namespace TiedanSouls.Client {
                 eventModel.entityColliderModelB = entityColliderModelB;
                 eventModel.normalA = -normalB;
                 eventModel.normalB = normalB;
-                eventModel.triggerState = TriggerState.Enter;
+                eventModel.triggerState = ToggleState.Enter;
                 collisionEvents.Add(key, eventModel);
             } else {
-                eventModel.triggerState = eventModel.lastTriggerState == TriggerState.None ? TriggerState.Enter : TriggerState.Stay;
+                eventModel.triggerState = eventModel.lastTriggerState == ToggleState.None ? ToggleState.Enter : ToggleState.Stay;
             }
         }
 
         public void Add_CollisionExit(EntityCollider entityColliderModelA, EntityCollider entityColliderModelB) {
             var key = GetKey(entityColliderModelA.Father, entityColliderModelB.Father);
             if (collisionEvents.TryGetValue(key, out var eventModel)) {
-                eventModel.triggerState = TriggerState.Exit;
+                eventModel.triggerState = ToggleState.Exit;
             }
         }
 
@@ -83,13 +83,13 @@ namespace TiedanSouls.Client {
             if (collisionEvents.TryGetValue(key, out var eventModel)) {
                 eventModel.normalA = -normalB;
                 eventModel.normalB = normalB;
-                eventModel.triggerState = TriggerState.Stay;
+                eventModel.triggerState = ToggleState.Stay;
             }
         }
 
         public void Foreach_TriggerEnter(InAction<EntityCollisionEvent> action) {
             foreach (var eventModel in triggerEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Enter) {
+                if (eventModel.triggerState == ToggleState.Enter) {
                     action(eventModel);
                 }
             }
@@ -97,7 +97,7 @@ namespace TiedanSouls.Client {
 
         public void Foreach_TriggerStay(InAction<EntityCollisionEvent> action) {
             foreach (var eventModel in triggerEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Stay) {
+                if (eventModel.triggerState == ToggleState.Stay) {
                     action(eventModel);
                 }
             }
@@ -105,16 +105,16 @@ namespace TiedanSouls.Client {
 
         public void Foreach_TriggerExit(InAction<EntityCollisionEvent> action) {
             foreach (var eventModel in triggerEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Exit) {
+                if (eventModel.triggerState == ToggleState.Exit) {
                     action(eventModel);
-                    eventModel.triggerState = TriggerState.None;
+                    eventModel.triggerState = ToggleState.None;
                 }
             }
         }
 
         public void Foreach_CollisionEnter(InAction<EntityCollisionEvent> action) {
             foreach (var eventModel in collisionEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Enter) {
+                if (eventModel.triggerState == ToggleState.Enter) {
                     action(eventModel);
                 }
             }
@@ -122,7 +122,7 @@ namespace TiedanSouls.Client {
 
         public void Foreach_CollisionStay(InAction<EntityCollisionEvent> action) {
             foreach (var eventModel in collisionEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Stay) {
+                if (eventModel.triggerState == ToggleState.Stay) {
                     action(eventModel);
                 }
             }
@@ -131,7 +131,7 @@ namespace TiedanSouls.Client {
         public void Foreach_CollisionExit(InAction<EntityCollisionEvent> action) {
 
             foreach (var eventModel in collisionEvents.Values) {
-                if (eventModel.triggerState == TriggerState.Exit) {
+                if (eventModel.triggerState == ToggleState.Exit) {
                     action(eventModel);
                 }
             }

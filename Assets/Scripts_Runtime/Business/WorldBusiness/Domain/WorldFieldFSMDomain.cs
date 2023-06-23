@@ -93,22 +93,6 @@ namespace TiedanSouls.Client.Domain {
                 if (!stateModel.IsRespawning) {
                     // TODO: 大厅物件生成逻辑也统一到SpawnModel里面去(这样就不需要特殊处理了，物件并非只有大厅有)
                     if (field.FieldType == FieldType.Lobby) {
-                        TDLog.Log($"大厅物件生成开始 -------------------------------------------- ");
-                        var gameConfigTM = infraContext.TemplateCore.GameConfigTM;
-                        var lobbyItemTypeIDArray = gameConfigTM.lobbyItemTypeIDs;
-                        var itemCount = lobbyItemTypeIDArray?.Length;
-                        var itemSpawnPosArray = field.ItemSpawnPosArray;
-                        for (int i = 0; i < itemCount; i++) {
-                            if (i >= itemSpawnPosArray.Length) {
-                                TDLog.Error("物件生成位置不足!");
-                                break;
-                            }
-
-                            var typeID = lobbyItemTypeIDArray[i];
-                            var itemSpawnPos = itemSpawnPosArray[i];
-                            worldContext.RootDomain.ItemDomain.SpawnItemEntity(typeID, itemSpawnPos, field.IDCom.ToArgs());
-                        }
-                        TDLog.Log($"大厅物件生成结束 -------------------------------------------- ");
                     }
                 }
 
@@ -143,7 +127,6 @@ namespace TiedanSouls.Client.Domain {
                 roleRepo.Foreach_AI(fieldTypeID, ((ai) => {
                     ai.Reset();
                     ai.Show();
-                    ai.SetPos(ai.BornPos);
                 }));
                 fsmCom.Enter_Finished();
                 return;

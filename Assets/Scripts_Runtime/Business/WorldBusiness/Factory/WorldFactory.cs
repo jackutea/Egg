@@ -61,66 +61,6 @@ namespace TiedanSouls.Client {
 
         #endregion
 
-        #region [Item]
-
-        public bool TryCreateItemEntity(int typeID, out ItemEntity item) {
-            item = null;
-
-            var templateCore = infraContext.TemplateCore;
-
-            // Template
-            if (!templateCore.ItemTemplate.TryGet(typeID, out ItemTM itemTM)) {
-                TDLog.Error($"配置出错! 未找到 物件 模板数据: TypeID {typeID}");
-                return false;
-            }
-
-            // Check
-            var itemType = itemTM.itemType;
-            if (itemType == ItemType.None) {
-                TDLog.Error("物件类型 is None");
-                return false;
-            }
-
-            // Container
-            var assetCore = infraContext.AssetCore;
-            var containerModAssets = assetCore.ContainerModAsset;
-            var contanerAssetName = "go_container_item";
-            if (!containerModAssets.TryGet(contanerAssetName, out GameObject prefab)) {
-                TDLog.Error($"获取实体容器失败! {contanerAssetName}");
-                return false;
-            }
-
-            // ItemEntity
-            var go = GameObject.Instantiate(prefab);
-            item = go.AddComponent<ItemEntity>();
-            item.Ctor();
-
-            var idCom = item.IDCom;
-            var idService = worldContext.IDService;
-            var itemID = idService.PickItemID();
-            idCom.SetEntityID(itemID);
-            idCom.SetTypeID(typeID);
-
-            item.SetTypeIDForPickUp(itemTM.typeIDForPickUp);
-            item.SetItemType(itemType);
-
-            // Asset
-            var itemAssetName = itemTM.itemAssetName;
-            var itemModAssets = assetCore.ItemModAsset;
-            if (!itemModAssets.TryGet(itemAssetName, out GameObject modPrefab)) {
-                TDLog.Error($"Failed to get ModAsset: {itemAssetName}");
-                return false;
-            }
-
-            // Set Mod
-            var mod = GameObject.Instantiate(modPrefab);
-            item.SetMod(mod);
-
-            return item;
-        }
-
-        #endregion
-
         #region [Role]
 
         public bool TryCreateRoleEntity(int typeID, out RoleEntity role) {
@@ -169,15 +109,6 @@ namespace TiedanSouls.Client {
             // Attribute
             var attrCom = role.AttributeCom;
             SetAttributeComponent(attrCom, roleTM);
-
-            // HUD
-            var hpBar = CreateHpBarHUD();
-            var damageFloatTextHUD = CreateDamageFloatTextHUD();
-            role.HudSlotCom.SetHPBarHUD(hpBar);
-            role.HudSlotCom.SetDamageFloatTextHUD(damageFloatTextHUD);
-            hpBar.SetGP(attrCom.GP);
-            hpBar.SetHP(attrCom.HP);
-            hpBar.SetHPMax(attrCom.HPMax);
 
             return role;
         }
@@ -229,36 +160,6 @@ namespace TiedanSouls.Client {
 
             return ai;
 
-        }
-
-        public HPBarHUD CreateHpBarHUD() {
-            var assetCore = infraContext.AssetCore;
-            var hudAssets = assetCore.HUDAsset;
-            bool has = hudAssets.TryGet("HUD_HPBar", out GameObject prefab);
-            if (!has) {
-                TDLog.Error("Failed to get asset: HUD_HPBar");
-                return null;
-            }
-
-            var go = GameObject.Instantiate(prefab);
-            var hud = go.GetComponent<HPBarHUD>() ?? go.AddComponent<HPBarHUD>();
-            hud.Ctor();
-            return hud;
-        }
-
-        public DamageFloatTextHUD CreateDamageFloatTextHUD() {
-            var assetCore = infraContext.AssetCore;
-            var hudAssets = assetCore.HUDAsset;
-            bool has = hudAssets.TryGet("HUD_DamageFloatText", out GameObject prefab);
-            if (!has) {
-                TDLog.Error("Failed to get asset: HUD_DamageFloatText");
-                return null;
-            }
-
-            var go = GameObject.Instantiate(prefab);
-            var hud = go.GetComponent<DamageFloatTextHUD>() ?? go.AddComponent<DamageFloatTextHUD>();
-            hud.Ctor();
-            return hud;
         }
 
         #endregion

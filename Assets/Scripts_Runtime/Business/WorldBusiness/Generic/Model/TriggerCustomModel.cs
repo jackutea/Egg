@@ -7,7 +7,7 @@ namespace TiedanSouls.Client {
     [Serializable]
     public struct TriggerCustomModel {
 
-        public Dictionary<int, TriggerState> triggerStateDic;
+        public Dictionary<int, ToggleState> triggerStateDic;
 
     }
 

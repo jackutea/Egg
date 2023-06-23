@@ -37,8 +37,8 @@ namespace TiedanSouls.Client.Entities {
         public void SetSkillMoveCurveModelArray(SkillMoveCurveModel[] value) => this.skillMoveCurveModelArray = value;
 
         // - 角色召唤组
-        RoleSummonModel[] roleSummonModelArray;
-        public void SetRoleSummonModelArray(RoleSummonModel[] value) => this.roleSummonModelArray = value;
+        SkillSummonModel[] roleSummonModelArray;
+        public void SetRoleSummonModelArray(SkillSummonModel[] value) => this.roleSummonModelArray = value;
 
         // - 弹幕生成组
         ProjectileCtorModel[] projectileCtorModelArray;
@@ -49,9 +49,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetBuffAttachModelArray(BuffAttachModel[] value) => this.buffAttachModelArray = value;
 
         // - 碰撞器组
-        EntityColliderTriggerModel[] entityColliderTriggerModelArray;
-        public EntityColliderTriggerModel[] EntityColliderTriggerModelArray => this.entityColliderTriggerModelArray;
-        public void SetEntityColliderTriggerModelArray(EntityColliderTriggerModel[] value) => this.entityColliderTriggerModelArray = value;
+        ColliderToggleModel[] entityColliderTriggerModelArray;
+        public ColliderToggleModel[] EntityColliderTriggerModelArray => this.entityColliderTriggerModelArray;
+        public void SetEntityColliderTriggerModelArray(ColliderToggleModel[] value) => this.entityColliderTriggerModelArray = value;
 
         // - 表现层
         string weaponAnimName;
@@ -119,26 +119,26 @@ namespace TiedanSouls.Client.Entities {
             return true;
 
             void Foreach_CollisionTrigger(
-                      Action<EntityColliderTriggerModel> action_triggerBegin,
-                      Action<EntityColliderTriggerModel> action_triggering,
-                      Action<EntityColliderTriggerModel> action_triggerEnd) {
+                      Action<ColliderToggleModel> action_triggerBegin,
+                      Action<ColliderToggleModel> action_triggering,
+                      Action<ColliderToggleModel> action_triggerEnd) {
                 if (entityColliderTriggerModelArray != null) {
                     for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
-                        EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                        var triggerStatus = model.GetTriggerState(frame);
-                        if (triggerStatus == TriggerState.None) continue;
-                        if (triggerStatus == TriggerState.Enter) action_triggerBegin(model);
-                        else if (triggerStatus == TriggerState.Stay) action_triggering(model);
-                        else if (triggerStatus == TriggerState.Exit) action_triggerEnd(model);
+                        ColliderToggleModel model = entityColliderTriggerModelArray[i];
+                        var triggerStatus = model.GetToggleState(frame);
+                        if (triggerStatus == ToggleState.None) continue;
+                        if (triggerStatus == ToggleState.Enter) action_triggerBegin(model);
+                        else if (triggerStatus == ToggleState.Stay) action_triggering(model);
+                        else if (triggerStatus == ToggleState.Exit) action_triggerEnd(model);
                     }
                 }
             }
 
-            void TriggerBegin(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void Triggering(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void TriggerEnd(EntityColliderTriggerModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
+            void TriggerBegin(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void Triggering(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
+            void TriggerEnd(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
 
-            void ActivateAllColliderModel(EntityColliderTriggerModel triggerModel, bool active) {
+            void ActivateAllColliderModel(ColliderToggleModel triggerModel, bool active) {
                 var entityColliderModelArray = triggerModel.entityColliderArray;
                 if (entityColliderModelArray == null) return;
                 for (int i = 0; i < entityColliderModelArray.Length; i++) {
@@ -192,13 +192,13 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public bool TryGet_ValidCollisionTriggerModel(out EntityColliderTriggerModel collisionTriggerModel, int frame = -1) {
+        public bool TryGet_ValidCollisionTriggerModel(out ColliderToggleModel collisionTriggerModel, int frame = -1) {
             frame = frame == -1 ? curFrame : frame;
             if (entityColliderTriggerModelArray != null) {
                 for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
-                    EntityColliderTriggerModel model = entityColliderTriggerModelArray[i];
-                    var triggerStatus = model.GetTriggerState(frame);
-                    if (triggerStatus != TriggerState.None) {
+                    ColliderToggleModel model = entityColliderTriggerModelArray[i];
+                    var triggerStatus = model.GetToggleState(frame);
+                    if (triggerStatus != ToggleState.None) {
                         collisionTriggerModel = model;
                         return true;
                     }
@@ -224,11 +224,11 @@ namespace TiedanSouls.Client.Entities {
             return false;
         }
 
-        public bool TryGet_ValidRoleSummonModel(out RoleSummonModel roleSummonModel, int frame = -1) {
+        public bool TryGet_ValidRoleSummonModel(out SkillSummonModel roleSummonModel, int frame = -1) {
             frame = frame == -1 ? curFrame : frame;
             if (roleSummonModelArray != null) {
                 for (int i = 0; i < roleSummonModelArray.Length; i++) {
-                    RoleSummonModel model = roleSummonModelArray[i];
+                    SkillSummonModel model = roleSummonModelArray[i];
                     if (model.triggerFrame == curFrame) {
                         roleSummonModel = model;
                         return true;

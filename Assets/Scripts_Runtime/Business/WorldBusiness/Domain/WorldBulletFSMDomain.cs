@@ -73,12 +73,12 @@ namespace TiedanSouls.Client.Domain {
 
             // 碰撞盒控制
             var collisionTriggerModel = bullet.CollisionTriggerModel;
-            var collisionTriggerStatus = collisionTriggerModel.GetTriggerState(model.curFrame);
-            if (collisionTriggerStatus == TriggerState.Enter) {
+            var collisionTriggerStatus = collisionTriggerModel.GetToggleState(model.curFrame);
+            if (collisionTriggerStatus == ToggleState.Enter) {
                 collisionTriggerModel.ActivateAll();
-            } else if (collisionTriggerStatus == TriggerState.Exit) {
+            } else if (collisionTriggerStatus == ToggleState.Exit) {
                 collisionTriggerModel.DeactivateAll();
-            } else if (collisionTriggerStatus == TriggerState.None) {
+            } else if (collisionTriggerStatus == ToggleState.None) {
                 collisionTriggerModel.DeactivateAll();
             }
 

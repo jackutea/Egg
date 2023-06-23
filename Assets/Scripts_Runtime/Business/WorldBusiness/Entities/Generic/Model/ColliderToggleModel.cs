@@ -5,7 +5,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 实体碰撞器触发器模型
     /// </summary>
-    public struct EntityColliderTriggerModel {
+    public struct ColliderToggleModel {
 
         public bool isEnabled;
 
@@ -37,29 +37,29 @@ namespace TiedanSouls.Client.Entities {
 
         public EntityCollider[] entityColliderArray;
 
-        public TriggerState GetTriggerState(int frame) {
-            if (!isEnabled) return TriggerState.None;
+        public ToggleState GetToggleState(int frame) {
+            if (!isEnabled) return ToggleState.None;
 
             if (triggerMode == TriggerMode.Custom) {
                 var triggerStateDic = triggerCustomModel.triggerStateDic;
-                return triggerStateDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : TriggerState.None;
+                return triggerStateDic.TryGetValue(frame, out var triggerStatus) ? triggerStatus : ToggleState.None;
             }
 
             if (triggerMode == TriggerMode.FixedInterval) {
                 var delayFrame = triggerFixedIntervalModel.delayFrame;
                 var intervalFrame = triggerFixedIntervalModel.intervalFrame;
                 var maintainFrame = triggerFixedIntervalModel.maintainFrame;
-                if (frame < delayFrame) return TriggerState.None;
-                if (frame == delayFrame) return TriggerState.Enter;
+                if (frame < delayFrame) return ToggleState.None;
+                if (frame == delayFrame) return ToggleState.Enter;
 
                 var mod = (frame - delayFrame) % (intervalFrame + maintainFrame);
-                if (mod == 0) return TriggerState.Enter;
-                if (mod < intervalFrame) return TriggerState.Stay;
-                if (mod == intervalFrame) return TriggerState.Exit;
-                if (mod > intervalFrame) return TriggerState.None;
+                if (mod == 0) return ToggleState.Enter;
+                if (mod < intervalFrame) return ToggleState.Stay;
+                if (mod == intervalFrame) return ToggleState.Exit;
+                if (mod > intervalFrame) return ToggleState.None;
             }
 
-            return TriggerState.None;
+            return ToggleState.None;
         }
 
         public void ActivateAll() {

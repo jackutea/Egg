@@ -77,7 +77,6 @@ namespace TiedanSouls.Client.Domain {
                 playerRole.FSMCom.Enter_Idle();
 
                 playerRole.Show();
-                playerRole.HudSlotCom.ShowHUD();
 
                 // 设置相机 
                 _ = worldContext.FieldRepo.TryGet(curFieldTypeID, out var field);
@@ -91,11 +90,6 @@ namespace TiedanSouls.Client.Domain {
 
             // 检查玩家是否满足离开条件: 拾取了武器
             if (!IsTieDanWantToLeave(out var door)) return;
-
-            if (!playerRole.WeaponSlotCom.HasWeapon()) {
-                TDLog.Warning("请选择你使用的武器!");
-                return;
-            }
 
             var nextFieldTypeID = door.fieldTypeID;
             var fieldDomain = rootDomain.FieldDomain;
@@ -116,7 +110,6 @@ namespace TiedanSouls.Client.Domain {
             var battleFieldStateModel = stateEntity.BattleStateModel;
             if (battleFieldStateModel.IsEntering) {
                 battleFieldStateModel.SetIsEntering(false);
-                playerRole.WeaponSlotCom.SetActive(true);
             }
 
             rootDomain.PhysicalDomain.Tick(dt);
@@ -179,10 +172,6 @@ namespace TiedanSouls.Client.Domain {
                 var curFieldTypeID = stateEntity.CurFieldTypeID;
                 fieldDomain.RecycleField(curFieldTypeID);
 
-                // Recycle 当前关卡 物件
-                var itemRepo = worldContext.ItemRepo;
-                itemRepo.RecycleFieldItems(curFieldTypeID);
-
                 // Recycle 当前关卡 AI角色
                 var roleDomain = rootDomain.RoleDomain;
                 roleDomain.RecycleFieldRoles(curFieldTypeID);
@@ -230,7 +219,6 @@ namespace TiedanSouls.Client.Domain {
 
             // 刷新 角色 控制效果
             var roleDomain = rootDomain.RoleDomain;
-            roleDomain.TickAllCtrlEffect(fieldTypeID, dt);
 
             // 刷新 角色 状态机
             var roleFSMDomain = rootDomain.RoleFSMDomain;

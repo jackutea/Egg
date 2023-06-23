@@ -92,10 +92,10 @@ namespace TiedanSouls.Client.Entities {
 
         #region [CollisionTrigger]
 
-        public static EntityColliderTriggerModel[] GetEntityColliderTriggerModelArray(EntityColliderTriggerTM[] tmArray) {
+        public static ColliderToggleModel[] GetEntityColliderTriggerModelArray(EntityColliderTriggerTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            EntityColliderTriggerModel[] modelArray = new EntityColliderTriggerModel[len];
+            ColliderToggleModel[] modelArray = new ColliderToggleModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
                 modelArray[i] = GetEntityColliderTriggerModel(tm);
@@ -103,12 +103,12 @@ namespace TiedanSouls.Client.Entities {
             return modelArray;
         }
 
-        public static EntityColliderTriggerModel GetEntityColliderTriggerModel(EntityColliderTriggerTM tm) {
+        public static ColliderToggleModel GetEntityColliderTriggerModel(EntityColliderTriggerTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;
 
-            EntityColliderTriggerModel model;
+            ColliderToggleModel model;
             model.isEnabled = tm.isEnabled;
             model.triggerMode = triggerMode;
             model.triggerFixedIntervalModel = GetTriggerFixedIntervalModel(tm.triggerFixedIntervalTM);
@@ -138,17 +138,17 @@ namespace TiedanSouls.Client.Entities {
         public static TriggerCustomModel GetTriggerCustomModel(TriggerCustomTM tm) {
             TriggerCustomModel model;
 
-            Dictionary<int, TriggerState> triggerStatusDic = new Dictionary<int, TriggerState>();
+            Dictionary<int, ToggleState> triggerStatusDic = new Dictionary<int, ToggleState>();
             var frameRangeArray = tm.frameRangeArray;
             var len = frameRangeArray.Length;
             for (int i = 0; i < len; i++) {
                 var frameRange = frameRangeArray[i];
                 var startFrame = frameRange.x;
                 var endFrame = frameRange.y;
-                triggerStatusDic.Add(startFrame, TriggerState.Enter);
-                triggerStatusDic.Add(endFrame, TriggerState.Exit);
+                triggerStatusDic.Add(startFrame, ToggleState.Enter);
+                triggerStatusDic.Add(endFrame, ToggleState.Exit);
                 for (int j = startFrame + 1; j < endFrame; j++) {
-                    triggerStatusDic.Add(j, TriggerState.Stay);
+                    triggerStatusDic.Add(j, ToggleState.Stay);
                 }
             }
             model.triggerStateDic = triggerStatusDic;
@@ -341,18 +341,18 @@ namespace TiedanSouls.Client.Entities {
 
         #region [RoleSummon]
 
-        public static RoleSummonModel[] GetRoleSummonModelArray(RoleSummonTM[] tmArray) {
+        public static SkillSummonModel[] GetRoleSummonModelArray(RoleSummonTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
-            RoleSummonModel[] modelArray = new RoleSummonModel[len];
+            SkillSummonModel[] modelArray = new SkillSummonModel[len];
             for (int i = 0; i < len; i++) {
                 modelArray[i] = GetRoleSummonModel(tmArray[i]);
             }
             return modelArray;
         }
 
-        public static RoleSummonModel GetRoleSummonModel(RoleSummonTM tm) {
-            RoleSummonModel model;
+        public static SkillSummonModel GetRoleSummonModel(RoleSummonTM tm) {
+            SkillSummonModel model;
             model.triggerFrame = tm.triggerFrame;
             model.typeID = tm.typeID;
             model.controlType = tm.controlType;

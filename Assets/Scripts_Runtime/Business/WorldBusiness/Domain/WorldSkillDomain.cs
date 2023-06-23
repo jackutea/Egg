@@ -111,7 +111,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 技能 击中 处理
         /// </summary>
-        public void HandleHit(SkillEntity skill, Vector3 skillColliderPos, in EntityColliderTriggerModel collisionTriggerModel) {
+        public void HandleHit(SkillEntity skill, Vector3 skillColliderPos, in ColliderToggleModel collisionTriggerModel) {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
             var effectorDomain = rootDomain.EffectorDomain;
@@ -142,7 +142,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 技能 受击 处理
         /// </summary>
-        public void HandleBeHit(SkillEntity skill, in EntityColliderTriggerModel collisionTriggerModel, int hitFrame) {
+        public void HandleBeHit(SkillEntity skill, in ColliderToggleModel collisionTriggerModel, int hitFrame) {
 
         }
 

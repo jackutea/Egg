@@ -9,8 +9,8 @@ namespace TiedanSouls.Client.Entities {
         public EntityCollider entityColliderModelB;
         public Vector3 normalA;
         public Vector3 normalB;
-        public TriggerState triggerState;
-        public TriggerState lastTriggerState;
+        public ToggleState triggerState;
+        public ToggleState lastTriggerState;
 
         public override string ToString() {
             return $"triggerState {triggerState} lastTriggerState {lastTriggerState}\nnormalA {normalA} normalB {normalB} A方-{entityColliderModelA.Father}\nB方-{entityColliderModelB.Father}";
