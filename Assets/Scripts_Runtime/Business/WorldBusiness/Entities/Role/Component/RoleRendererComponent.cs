@@ -12,6 +12,8 @@ namespace TiedanSouls.Client.Entities {
         Animator anim;
         SpriteRenderer sr;
 
+        string curState;
+
         public RoleRendererComponent() {
         }
 
@@ -37,8 +39,18 @@ namespace TiedanSouls.Client.Entities {
             anim = mod.GetComponent<Animator>();
         }
 
-        public void Anim_PlayIdle() {
-            anim.Play("Idle");
+        public void Anim_PlayIdle(float moveMagnitudeSqr) {
+            if (moveMagnitudeSqr > 0.001f) {
+                if (curState != "Walk") {
+                    anim.CrossFade("Walk", 0.1f);
+                    curState = "Walk";
+                }
+            } else {
+                if (curState != "Idle") {
+                    anim.CrossFade("Idle", 0.1f);
+                    curState = "Idle";
+                }
+            }
         }
 
         public void Anim_Play_BeHit() {

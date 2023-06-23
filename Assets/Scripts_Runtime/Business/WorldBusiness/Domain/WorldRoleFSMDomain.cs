@@ -84,7 +84,7 @@ namespace TiedanSouls.Client.Domain {
             var stateModel = fsmCom.IdleStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-                role.RendererCom.Anim_PlayIdle();
+
             }
 
             var rootDomain = worldContext.RootDomain;
@@ -95,6 +95,8 @@ namespace TiedanSouls.Client.Domain {
             if (inputCom.InputPick) {
                 roleDomain.TryPickUpSomethingFromField(role);
             }
+
+            role.RendererCom.Anim_PlayIdle(role.InputCom.MoveAxis.sqrMagnitude);
 
             // Locomotion
             role.HorizontalFaceTo(inputCom.MoveAxis.x);

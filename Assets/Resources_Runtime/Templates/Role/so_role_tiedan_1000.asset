@@ -18,7 +18,7 @@ MonoBehaviour:
     hpMax_Expanded: 50000
     gpMax_Expanded: 30000
     mpMax_Expanded: 30000
-    moveSpeed_Expanded: 1000
+    moveSpeed_Expanded: 650
     jumpSpeed_Expanded: 1700
     fallSpeed_Expanded: 3000
     fallSpeedMax_Expanded: 3000
