@@ -11,8 +11,7 @@ namespace TiedanSouls.Client.Domain {
         InfraContext infraContext;
         WorldContext worldContext;
 
-        public WorldPhxDomain() {
-        }
+        public WorldPhxDomain() { }
 
         public void Inject(InfraContext infraContext, WorldContext worldContext) {
             this.infraContext = infraContext;

@@ -19,22 +19,19 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
-            var typeID = entitySpawnModel.typeID;
-            var pos = entitySpawnModel.spawnPos;
-            var campType = entitySpawnModel.campType;
-            var controlType = entitySpawnModel.controlType;
+        public RoleEntity SpawnRole(int fromFieldTypeID, EntityType entityType, int typeID, ControlType controlType, Vector3 pos, CampType campType, bool isBoss) {
 
             var factory = worldContext.Factory;
-            if (!factory.TryCreateRoleEntity(typeID, out role)) {
+            bool has = factory.TryCreateRoleEntity(typeID, out var role);
+            if (!has) {
                 TDLog.Error($"创建角色失败! - {typeID}");
-                return false;
+                return null;
             }
 
             BaseSetRole(role, typeID, pos, Quaternion.identity, campType, controlType);
 
             role.SetFromFieldTypeID(fromFieldTypeID);
-            role.SetIsBoss(entitySpawnModel.isBoss);
+            role.SetIsBoss(isBoss);
 
             var repo = worldContext.RoleRepo;
             var idCom = role.IDCom;
@@ -46,33 +43,23 @@ namespace TiedanSouls.Client.Domain {
                 repo.Add_ToAI(role);
             }
 
-            return true;
+            return role;
+        }
+
+        public bool TrySpawnRole(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out RoleEntity role) {
+            role = SpawnRole(fromFieldTypeID, entitySpawnModel.entityType, entitySpawnModel.typeID, entitySpawnModel.controlType, entitySpawnModel.spawnPos, entitySpawnModel.campType, entitySpawnModel.isBoss);
+            return role != null;
         }
 
         public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in SkillSummonModel roleSummonModel, out RoleEntity role) {
-            var typeID = roleSummonModel.typeID;
-            var controlType = roleSummonModel.controlType;
-            var factory = worldContext.Factory;
-            if (!factory.TryCreateRoleEntity(typeID, out role)) {
-                TDLog.Error($"创建角色失败! - {typeID}");
+            role = SpawnRole(summoner.fromFieldTypeID, EntityType.Role, roleSummonModel.typeID, roleSummonModel.controlType, summonPos, summoner.campType, false);
+            if (role != null) {
+                var idCom = role.IDCom;
+                idCom.SetFather(summoner);
+                return true;
+            } else {
                 return false;
             }
-
-            BaseSetRole(role, typeID, summonPos, summonRot, summoner.campType, controlType);
-
-            var idCom = role.IDCom;
-            idCom.SetFather(summoner);
-
-            var repo = worldContext.RoleRepo;
-            if (idCom.ControlType == ControlType.Player) {
-                repo.Set_Player(role);
-            } else if (idCom.ControlType == ControlType.AI) {
-                var ai = role.AIStrategy;
-                ai.Activate();
-                repo.Add_ToAI(role);
-            }
-
-            return true;
         }
 
         public void ApplEffector(RoleEntity role, in EffectorEntity effectorModel) {
@@ -87,7 +74,7 @@ namespace TiedanSouls.Client.Domain {
                 ModifyRole(role.AttributeCom, roleModifyModel, 1);
             });
         }
-        
+
         public void ModifyRole(RoleAttributeComponent attributeCom, RoleModifyModel attributeEffectModel, int stackCount) {
             // - HP
             var hpNCT = attributeEffectModel.hpNCT;
@@ -470,7 +457,7 @@ namespace TiedanSouls.Client.Domain {
             var roleRepo = worldContext.RoleRepo;
             roleRepo.Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 role.Reset();
-                if (isShow){
+                if (isShow) {
                     role.Show();
                 }
             });
