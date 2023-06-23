@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tm:
     typeID: 1000
-    roleName: "\u65E0\u654C\u94C1\u86CB"
+    roleName: Hero
     hpMax_Expanded: 50000
     gpMax_Expanded: 30000
     mpMax_Expanded: 30000
@@ -22,4 +22,4 @@ MonoBehaviour:
     jumpSpeed_Expanded: 1700
     fallSpeed_Expanded: 3000
     fallSpeedMax_Expanded: 3000
-    modName: mod_role_tiedan_1000
+    modName: mod_role_hero_0001

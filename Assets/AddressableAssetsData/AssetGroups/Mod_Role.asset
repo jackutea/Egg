@@ -22,21 +22,31 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Role
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 59991da135126fc429351472e36536f6
     m_Address: mod_role_enemy_1000000
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Role
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 05be6130d0afaf44190e2b3a91ed4aa4
     m_Address: mod_role_neutral_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Role
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 798640f71209c9747b751950ae67406d
     m_Address: mod_role_enemy_1000001
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Role
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02b003275d7944e30bb2714b4979f38a
+    m_Address: mod_role_hero_0001
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod_Role
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 89d1187d694cd66428eb976831e1c2b4, type: 2}
   m_SchemaSet:
