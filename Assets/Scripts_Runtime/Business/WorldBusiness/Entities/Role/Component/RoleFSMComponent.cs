@@ -39,9 +39,6 @@ namespace TiedanSouls.Client.Entities {
 
         #region [角色位置状态]
 
-        RolePositionStatus positionStatus;
-        public RolePositionStatus PositionStatus => positionStatus;
-
         RoleStateModel_OnGround onGroundModel;
         public RoleStateModel_OnGround OnGroundModel => onGroundModel;
 
@@ -90,7 +87,6 @@ namespace TiedanSouls.Client.Entities {
             onGroundModel.Reset();
             onCrossPlatformStateModel.Reset();
             inWaterStateModel.Reset();
-            positionStatus = RolePositionStatus.None;
         }
 
         #region [状态]
@@ -154,52 +150,6 @@ namespace TiedanSouls.Client.Entities {
         public void Enter_Falling() {
             fsmState = RoleFSMState.Falling;
             TDLog.Log($"角色 状态 - 切换 '{fsmState}'");
-        }
-
-        #endregion
-
-        #region [位置状态]
-
-        public void AddPositionStatus_OnGround() {
-            var stateModel = onGroundModel;
-            stateModel.Reset();
-            stateModel.SetIsEntering(true);
-
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnGround);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnGround}'\n{positionStatus.GetString()}");
-        }
-
-        public void AddPositionStatus_StandInCrossPlatform() {
-            var stateModel = onCrossPlatformStateModel;
-            stateModel.Reset();
-            stateModel.SetIsEntering(true);
-
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.OnCrossPlatform);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.OnCrossPlatform}'\n{positionStatus.GetString()}");
-        }
-
-        public void AddPositionStatus_StandInWater() {
-            var stateModel = inWaterStateModel;
-            stateModel.Reset();
-            stateModel.SetIsEntering(true);
-
-            this.positionStatus = this.positionStatus.AddStatus(RolePositionStatus.InWater);
-            TDLog.Log($"角色 位置状态 - 添加  '{RolePositionStatus.InWater}'\n{positionStatus.GetString()}");
-        }
-
-        public void RemovePositionStatus_OnGround() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnGround);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnGround}'\n{positionStatus.GetString()}");
-        }
-
-        public void RemovePositionStatus_StandInCrossPlatform() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.OnCrossPlatform);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.OnCrossPlatform}'\n{positionStatus.GetString()}");
-        }
-
-        public void RemovePositionStatus_StandInWater() {
-            this.positionStatus = positionStatus.RemoveStatus(RolePositionStatus.InWater);
-            TDLog.Log($"角色 位置状态 - 移除  '{RolePositionStatus.InWater}'\n{positionStatus.GetString()}");
         }
 
         #endregion

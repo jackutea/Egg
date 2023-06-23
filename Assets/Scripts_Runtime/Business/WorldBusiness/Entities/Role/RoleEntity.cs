@@ -42,10 +42,10 @@ namespace TiedanSouls.Client.Entities {
 
         Rigidbody2D rb;
 
-        CapsuleCollider2D coll_LogicRoot;
-        public CapsuleCollider2D Coll_LogicRoot => coll_LogicRoot;
-
-        public void SetTrigger(bool isTrigger) => Coll_LogicRoot.isTrigger = isTrigger;
+        EntityCollider entityCollider;
+        public EntityCollider EntityCollider => entityCollider;
+        public void SetColliderTrigger(bool isTrigger) => entityCollider.Coll.isTrigger = isTrigger;
+        public void SetColliderActive(bool isActive) => entityCollider.gameObject.SetActive(isActive);
 
         sbyte faceDirX;
         public sbyte FaceDirX => faceDirX;
@@ -69,9 +69,11 @@ namespace TiedanSouls.Client.Entities {
             TDLog.Assert(weaponRoot != null, "weaponRoot == null");
             TDLog.Assert(hudRoot != null, "hudRoot == null");
 
-            this.moveCom = new MoveComponent();
             this.idCom = new EntityIDComponent();
             this.idCom.SetEntityType(EntityType.Role);
+            idCom.SetHolderPtr(this);
+
+            this.moveCom = new MoveComponent();
             this.inputCom = new InputComponent();
             this.attributeCom = new RoleAttributeComponent();
             this.fsmCom = new RoleFSMComponent();
@@ -80,7 +82,7 @@ namespace TiedanSouls.Client.Entities {
             this.rendererCom = new RoleRendererComponent();
 
             this.rb = logicRoot.GetComponent<Rigidbody2D>();
-            this.coll_LogicRoot = logicRoot.GetComponent<CapsuleCollider2D>();
+            this.entityCollider = logicRoot.GetComponent<EntityCollider>();
             this.moveCom.Inject(rb);
             this.rendererCom.Inject(rendererRoot);
         }
@@ -108,7 +110,7 @@ namespace TiedanSouls.Client.Entities {
             var idArgs = IDCom.ToArgs();
             SkillSlotCom.SetFather(idArgs);
             BuffSlotCom.SetFather(idArgs);
-            Coll_LogicRoot.GetComponent<EntityCollider>().SetFather(idArgs);
+            entityCollider.SetHolder(idCom);
         }
 
         public void Show(){
@@ -130,8 +132,6 @@ namespace TiedanSouls.Client.Entities {
 
         public bool TryJumpByInput() {
             if (!InputCom.InputJump) return false;
-            if (!FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)
-            && !FSMCom.PositionStatus.Contains(RolePositionStatus.OnCrossPlatform)) return false;
 
             var rb = MoveCom.RB;
             var velo = rb.velocity;

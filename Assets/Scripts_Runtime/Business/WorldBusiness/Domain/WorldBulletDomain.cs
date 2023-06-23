@@ -45,45 +45,8 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetFather(father);
 
             // 碰撞盒关联
-            var rootDomain = worldContext.RootDomain;
-            rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
-
             bulletRepo.Add(bullet);
 
-            return true;
-        }
-
-        /// <summary>
-        /// 根据实体生成模型 生成子弹
-        /// </summary>
-        public bool TrySpawn(int fromFieldTypeID, in EntitySpawnModel entitySpawnModel, out BulletEntity bullet) {
-            bullet = null;
-
-            var typeID = entitySpawnModel.typeID;
-            var factory = worldContext.Factory;
-            if (!factory.TryCreateBullet(typeID, out bullet)) {
-                TDLog.Error($"生成子弹失败 typeID:{typeID}");
-                return false;
-            }
-            bullet.SetFromFieldTypeID(fromFieldTypeID);
-
-            var spawnPos = entitySpawnModel.spawnPos;
-            var spawnControlType = entitySpawnModel.controlType;
-            var spawnAllyType = entitySpawnModel.campType;
-
-            // 1. 子弹 ID
-            var idCom = bullet.IDCom;
-            idCom.SetEntityID(worldContext.IDService.PickBulletID());
-            idCom.SetAllyType(spawnAllyType);
-            idCom.SetControlType(spawnControlType);
-
-            // 2. 子弹 碰撞盒关联
-            var rootDomain = worldContext.RootDomain;
-            rootDomain.SetEntityColliderTriggerModelFather(bullet.CollisionTriggerModel, idCom.ToArgs());
-
-            // 3. 添加至仓库
-            var repo = worldContext.BulletRepo;
-            repo.Add(bullet);
             return true;
         }
 
@@ -107,7 +70,7 @@ namespace TiedanSouls.Client.Domain {
             var effectorDomain = rootDomain.EffectorDomain;
             var roleDomain = rootDomain.RoleDomain;
             var buffDomain = rootDomain.BuffDomain;
-            
+
             if (rootDomain.TryGetRoleFromIDArgs(bullet.IDCom.Father, out var role)) {
                 var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
                 var len = selfRoleEffectorTypeIDArray.Length;
@@ -146,10 +109,18 @@ namespace TiedanSouls.Client.Domain {
             var entityTrackSelectorModel = entityTrackModel.entityTrackSelectorModel;
             var entityType = entityTrackSelectorModel.entityType;
             var trackSpeed = entityTrackModel.trackSpeed;
+            Vector3 targetPos;
+            if (entityType == EntityType.Role) {
+                var targetRole = worldContext.RoleRepo.GetByID(target.entityID);
+                targetPos = targetRole.MoveCom.Pos;
+            } else if (entityType == EntityType.Bullet) {
+                worldContext.BulletRepo.TryGetByID(target.entityID, out var targetBullet);
+                targetPos = targetBullet.MoveCom.Pos;
+            } else {
+                TDLog.Error($"子弹追踪目标类型错误! - {entityType}");
+                return;
+            }
 
-            var rootDomain = worldContext.RootDomain;
-            rootDomain.TryGetEntityObj(target, out var entity);
-            rootDomain.TryGetEntityPos(entity, out var targetPos);
             var moveCom = bullet.MoveCom;
             var bulletPos = moveCom.Pos;
             var posOffset = targetPos - bulletPos;

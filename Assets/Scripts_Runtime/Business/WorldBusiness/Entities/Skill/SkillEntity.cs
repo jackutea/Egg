@@ -6,7 +6,8 @@ namespace TiedanSouls.Client.Entities {
 
     public class SkillEntity : IEntity {
 
-        public EntityIDComponent IDCom { get; private set; }
+        EntityIDComponent idCom;
+        public EntityIDComponent IDCom => idCom;
 
         // - 技能类型
         SkillType skillType;
@@ -68,8 +69,9 @@ namespace TiedanSouls.Client.Entities {
         public void SetCurFrame(int value) => this.curFrame = value;
 
         public SkillEntity() {
-            IDCom = new EntityIDComponent();
-            IDCom.SetEntityType(EntityType.Skill);
+            idCom = new EntityIDComponent();
+            idCom.SetEntityType(EntityType.Skill);
+            idCom.SetHolderPtr(this);
         }
 
         public void Reset() {
@@ -85,10 +87,6 @@ namespace TiedanSouls.Client.Entities {
                 var colliderCount = entityColliderModelArray.Length;
                 for (int j = 0; j < colliderCount; j++) {
                     var entityColliderModel = entityColliderModelArray[j];
-                    entityColliderModel.transform.position = entityColliderModel.ColliderModel.localPos;
-                    entityColliderModel.transform.rotation = Quaternion.Euler(0, 0, entityColliderModel.ColliderModel.localAngleZ);
-                    var localScale = entityColliderModel.ColliderModel.localScale;
-                    entityColliderModel.transform.localScale = localScale;
                     entityColliderModel.Deactivate();
                 }
             }
@@ -96,17 +94,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void SetFather(in EntityIDArgs father) {
             IDCom.SetFather(father);
-            var len = entityColliderTriggerModelArray.Length;
-            var idArgs = IDCom.ToArgs();
-            for (int i = 0; i < len; i++) {
-                var triggerModel = entityColliderTriggerModelArray[i];
-                var colliderModelArray = triggerModel.entityColliderArray;
-                var colliderCount = colliderModelArray.Length;
-                for (int j = 0; j < colliderCount; j++) {
-                    var colliderModel = colliderModelArray[j];
-                    colliderModel.SetFather(idArgs);
-                }
-            }
         }
 
         public bool TryApplyFrame(Vector3 rootPos, Quaternion rootRot, int frame) {
@@ -115,40 +102,37 @@ namespace TiedanSouls.Client.Entities {
             }
 
             // 碰撞盒控制
-            Foreach_CollisionTrigger(TriggerBegin, Triggering, TriggerEnd);
-            return true;
-
-            void Foreach_CollisionTrigger(
-                      Action<ColliderToggleModel> action_triggerBegin,
-                      Action<ColliderToggleModel> action_triggering,
-                      Action<ColliderToggleModel> action_triggerEnd) {
-                if (entityColliderTriggerModelArray != null) {
-                    for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
-                        ColliderToggleModel model = entityColliderTriggerModelArray[i];
-                        var triggerStatus = model.GetToggleState(frame);
-                        if (triggerStatus == ToggleState.None) continue;
-                        if (triggerStatus == ToggleState.Enter) action_triggerBegin(model);
-                        else if (triggerStatus == ToggleState.Stay) action_triggering(model);
-                        else if (triggerStatus == ToggleState.Exit) action_triggerEnd(model);
+            if (entityColliderTriggerModelArray != null) {
+                for (int i = 0; i < entityColliderTriggerModelArray.Length; i++) {
+                    ColliderToggleModel model = entityColliderTriggerModelArray[i];
+                    var triggerStatus = model.GetToggleState(frame);
+                    if (triggerStatus == ToggleState.None) {
+                        continue;
+                    }
+                    if (triggerStatus == ToggleState.Enter) {
+                        ActivateAllColliderModel(model, true);
+                    } else if (triggerStatus == ToggleState.Stay) {
+                        ActivateAllColliderModel(model, true);
+                    } else if (triggerStatus == ToggleState.Exit) {
+                        ActivateAllColliderModel(model, false);
                     }
                 }
             }
-
-            void TriggerBegin(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void Triggering(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, true);
-            void TriggerEnd(ColliderToggleModel triggerModel) => ActivateAllColliderModel(triggerModel, false);
 
             void ActivateAllColliderModel(ColliderToggleModel triggerModel, bool active) {
                 var entityColliderModelArray = triggerModel.entityColliderArray;
                 if (entityColliderModelArray == null) return;
                 for (int i = 0; i < entityColliderModelArray.Length; i++) {
                     var entityColliderModel = entityColliderModelArray[i];
-                    entityColliderModel.transform.position = rootPos + rootRot * entityColliderModel.ColliderModel.localPos;
-                    entityColliderModel.transform.rotation = rootRot * Quaternion.Euler(0, 0, entityColliderModel.ColliderModel.localAngleZ);
-                    if (active) entityColliderModel.Activate();
-                    else entityColliderModel.Deactivate();
+                    entityColliderModel.SetActive(active);
+                    if (active) {
+                        entityColliderModel.transform.position = rootPos + rootRot * entityColliderModel.ColliderModel.localPos;
+                        entityColliderModel.transform.rotation = rootRot * Quaternion.Euler(0, 0, entityColliderModel.ColliderModel.localAngleZ);
+                        entityColliderModel.transform.localScale = entityColliderModel.ColliderModel.localScale;
+                    }
                 }
             }
+            return true;
         }
 
         public bool TryGetSkillMoveCurveModel(int frame, out SkillMoveCurveModel skillMoveCurveModel) {

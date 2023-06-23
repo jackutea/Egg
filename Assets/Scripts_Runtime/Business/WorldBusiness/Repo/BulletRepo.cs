@@ -95,6 +95,9 @@ namespace TiedanSouls.Client {
         #endregion
 
         #region [查]
+        public bool TryGetByID(int entityID, out BulletEntity bullet) {
+            return all.TryGetValue(entityID, out bullet);
+        }
 
         public bool TryGet(int entityID, out BulletEntity bullet) {
             return all.TryGetValue(entityID, out bullet);

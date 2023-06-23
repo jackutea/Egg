@@ -19,206 +19,362 @@ namespace TiedanSouls.Client.Domain {
         }
 
         public void Tick(float dt) {
+
             Physics2D.Simulate(dt);
 
             var collisionEventRepo = worldContext.CollisionEventRepo;
 
-            collisionEventRepo.Foreach_TriggerEnter(HandleEnter);
-            collisionEventRepo.Foreach_CollisionEnter(HandleEnter);
+            collisionEventRepo.Foreach_TriggerEnter(HandleTriggerEnter);
+            collisionEventRepo.Foreach_CollisionEnter(HandleCollisionEnter);
 
-            collisionEventRepo.Foreach_TriggerStay(HandleStay);
-            collisionEventRepo.Foreach_CollisionStay(HandleStay);
+            collisionEventRepo.Foreach_TriggerStay(HandleTriggerStay);
+            collisionEventRepo.Foreach_CollisionStay(HandleCollisionStay);
 
-            collisionEventRepo.Foreach_TriggerExit(HandleExit);
-            collisionEventRepo.Foreach_CollisionExit(HandleExit);
-
-            collisionEventRepo.Update();
-
-            var roleRepo = worldContext.RoleRepo;
-            var roleFSMDomain = worldContext.RootDomain.RoleFSMDomain;
-            roleRepo.Foreach_All((role) => {
-                if (role.groundCount > 0) {
-                    if (!role.FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)) roleFSMDomain.AddPositionStatus_OnGround(role);
-                } else {
-                    if (role.FSMCom.PositionStatus.Contains(RolePositionStatus.OnGround)) roleFSMDomain.RemovePositionStatus_OnGround(role);
-                }
-                role.groundCount = 0;
-            });
+            collisionEventRepo.Foreach_TriggerExit(HandleTriggerExit);
+            collisionEventRepo.Foreach_CollisionExit(HandleCollisionExit);
 
         }
 
-        void HandleEnter(in EntityCollisionEvent evModel) {
-            var rootDomain = worldContext.RootDomain;
+        void HandleTriggerEnter(in EntityCollisionEvent evModel) {
+
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
-            var fatherA = entityColliderModelA.Father;
-            var fatherB = entityColliderModelB.Father;
-            if (!rootDomain.TryGetEntityObj(fatherA, out var entityA)) return;
-            if (!rootDomain.TryGetEntityObj(fatherB, out var entityB)) return;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
 
             // 技能 & 角色 
-            if (entityA is SkillEntity skillEntity && entityB is RoleEntity roleEntity) {
+            if (aPtr is SkillEntity skillEntity && bPtr is RoleEntity roleEntity) {
                 HandleEnter_Skill_Role(skillEntity, roleEntity, evModel);
                 return;
             }
-            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity2) {
+            if (aPtr is RoleEntity roleEntity2 && bPtr is SkillEntity skillEntity2) {
                 HandleEnter_Skill_Role(skillEntity2, roleEntity2, evModel);
                 return;
             }
 
             // 子弹 & 角色
-            if (entityA is BulletEntity bulletEntity && entityB is RoleEntity roleEntity5) {
+            if (aPtr is BulletEntity bulletEntity && bPtr is RoleEntity roleEntity5) {
                 HandleTriggerEnter_Bullet_Role(bulletEntity, roleEntity5);
                 return;
             }
-            if (entityA is RoleEntity roleEntity6 && entityB is BulletEntity bulletEntity2) {
+            if (aPtr is RoleEntity roleEntity6 && bPtr is BulletEntity bulletEntity2) {
                 HandleTriggerEnter_Bullet_Role(bulletEntity2, roleEntity6);
                 return;
             }
 
             // 子弹 & 技能
-            if (entityA is BulletEntity bulletEntity3 && entityB is SkillEntity skillEntity3) {
+            if (aPtr is BulletEntity bulletEntity3 && bPtr is SkillEntity skillEntity3) {
                 HandleEnter_Bullet_Skill(bulletEntity3, skillEntity3);
                 return;
             }
-            if (entityA is SkillEntity skillEntity4 && entityB is BulletEntity bulletEntity4) {
+            if (aPtr is SkillEntity skillEntity4 && bPtr is BulletEntity bulletEntity4) {
                 HandleEnter_Bullet_Skill(bulletEntity4, skillEntity4);
                 return;
             }
 
             // 角色 & 角色
-            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
+            if (aPtr is RoleEntity roleEntity3 && bPtr is RoleEntity roleEntity4) {
                 HandleEnter_Role_Role(roleEntity3, roleEntity4);
                 return;
             }
 
             // 子弹 & 子弹
-            if (entityA is BulletEntity bulletEntity5 && entityB is BulletEntity bulletEntity6) {
+            if (aPtr is BulletEntity bulletEntity5 && bPtr is BulletEntity bulletEntity6) {
                 HandleEnter_BulletNBullet(bulletEntity5, bulletEntity6);
                 return;
             }
 
             // 角色 & Field
-            if (entityA is RoleEntity roleEntity7 && entityB is FieldEntity fieldEntity) {
+            if (aPtr is RoleEntity roleEntity7 && bPtr is FieldEntity fieldEntity) {
                 HandleEnter_Role_Field(roleEntity7, fieldEntity, evModel);
                 return;
             }
-            if (entityA is FieldEntity fieldEntity2 && entityB is RoleEntity roleEntity8) {
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity8) {
                 HandleEnter_Role_Field(roleEntity8, fieldEntity2, evModel);
                 return;
             }
 
             // 子弹 & Field
-            if (entityA is BulletEntity bulletEntity7 && entityB is FieldEntity fieldEntity3) {
+            if (aPtr is BulletEntity bulletEntity7 && bPtr is FieldEntity fieldEntity3) {
                 HandleEnter_Bullet_Field(bulletEntity7, fieldEntity3);
                 return;
             }
-            if (entityA is FieldEntity fieldEntity4 && entityB is BulletEntity bulletEntity8) {
+            if (aPtr is FieldEntity fieldEntity4 && bPtr is BulletEntity bulletEntity8) {
                 HandleEnter_Bullet_Field(bulletEntity8, fieldEntity4);
                 return;
             }
 
-            TDLog.Warning($"未处理的碰撞事件<Enter>:\n{entityA.IDCom}\n{entityB.IDCom}");
         }
 
-        void HandleStay(in EntityCollisionEvent evModel) {
-            var rootDomain = worldContext.RootDomain;
+        void HandleCollisionEnter(in EntityCollisionEvent evModel) {
+
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
-            var fatherA = entityColliderModelA.Father;
-            var fatherB = entityColliderModelB.Father;
-            if (!rootDomain.TryGetEntityObj(fatherA, out var entityA)) return;
-            if (!rootDomain.TryGetEntityObj(fatherB, out var entityB)) return;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
+
+            // 技能 & 角色 
+            if (aPtr is SkillEntity skillEntity && bPtr is RoleEntity roleEntity) {
+                HandleEnter_Skill_Role(skillEntity, roleEntity, evModel);
+                return;
+            }
+            if (aPtr is RoleEntity roleEntity2 && bPtr is SkillEntity skillEntity2) {
+                HandleEnter_Skill_Role(skillEntity2, roleEntity2, evModel);
+                return;
+            }
+
+            // 子弹 & 角色
+            if (aPtr is BulletEntity bulletEntity && bPtr is RoleEntity roleEntity5) {
+                HandleTriggerEnter_Bullet_Role(bulletEntity, roleEntity5);
+                return;
+            }
+            if (aPtr is RoleEntity roleEntity6 && bPtr is BulletEntity bulletEntity2) {
+                HandleTriggerEnter_Bullet_Role(bulletEntity2, roleEntity6);
+                return;
+            }
+
+            // 子弹 & 技能
+            if (aPtr is BulletEntity bulletEntity3 && bPtr is SkillEntity skillEntity3) {
+                HandleEnter_Bullet_Skill(bulletEntity3, skillEntity3);
+                return;
+            }
+            if (aPtr is SkillEntity skillEntity4 && bPtr is BulletEntity bulletEntity4) {
+                HandleEnter_Bullet_Skill(bulletEntity4, skillEntity4);
+                return;
+            }
+
+            // 角色 & 角色
+            if (aPtr is RoleEntity roleEntity3 && bPtr is RoleEntity roleEntity4) {
+                HandleEnter_Role_Role(roleEntity3, roleEntity4);
+                return;
+            }
+
+            // 子弹 & 子弹
+            if (aPtr is BulletEntity bulletEntity5 && bPtr is BulletEntity bulletEntity6) {
+                HandleEnter_BulletNBullet(bulletEntity5, bulletEntity6);
+                return;
+            }
 
             // 角色 & Field
-            if (entityA is RoleEntity roleEntity && entityB is FieldEntity fieldEntity) {
+            if (aPtr is RoleEntity roleEntity7 && bPtr is FieldEntity fieldEntity) {
+                HandleEnter_Role_Field(roleEntity7, fieldEntity, evModel);
+                return;
+            }
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity8) {
+                HandleEnter_Role_Field(roleEntity8, fieldEntity2, evModel);
+                return;
+            }
+
+            // 子弹 & Field
+            if (aPtr is BulletEntity bulletEntity7 && bPtr is FieldEntity fieldEntity3) {
+                HandleEnter_Bullet_Field(bulletEntity7, fieldEntity3);
+                return;
+            }
+            if (aPtr is FieldEntity fieldEntity4 && bPtr is BulletEntity bulletEntity8) {
+                HandleEnter_Bullet_Field(bulletEntity8, fieldEntity4);
+                return;
+            }
+
+        }
+
+        void HandleTriggerStay(in EntityCollisionEvent evModel) {
+            var entityColliderModelA = evModel.entityColliderModelA;
+            var entityColliderModelB = evModel.entityColliderModelB;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
+
+            // 角色 & Field
+            if (aPtr is RoleEntity roleEntity && bPtr is FieldEntity fieldEntity) {
                 HandleStay_Role_Field(roleEntity, fieldEntity, evModel);
                 return;
             }
-            if (entityA is FieldEntity fieldEntity2 && entityB is RoleEntity roleEntity2) {
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity2) {
                 HandleStay_Role_Field(roleEntity2, fieldEntity2, evModel);
                 return;
             }
         }
 
-        void HandleExit(in EntityCollisionEvent evModel) {
-            var rootDomain = worldContext.RootDomain;
+        void HandleCollisionStay(in EntityCollisionEvent evModel) {
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
-            var fatherA = entityColliderModelA.Father;
-            var fatherB = entityColliderModelB.Father;
-            if (!rootDomain.TryGetEntityObj(fatherA, out var entityA)) return;
-            if (!rootDomain.TryGetEntityObj(fatherB, out var entityB)) return;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
+
+            // 角色 & Field
+            if (aPtr is RoleEntity roleEntity && bPtr is FieldEntity fieldEntity) {
+                HandleStay_Role_Field(roleEntity, fieldEntity, evModel);
+                return;
+            }
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity2) {
+                HandleStay_Role_Field(roleEntity2, fieldEntity2, evModel);
+                return;
+            }
+        }
+
+        void HandleTriggerExit(in EntityCollisionEvent evModel) {
+
+            var entityColliderModelA = evModel.entityColliderModelA;
+            var entityColliderModelB = evModel.entityColliderModelB;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
 
             // 技能 & 角色
-            if (entityA is SkillEntity skillEntity3 && entityB is RoleEntity roleEntity) {
+            if (aPtr is SkillEntity skillEntity3 && bPtr is RoleEntity roleEntity) {
                 HandleExit_Skill_Role(skillEntity3, roleEntity);
                 return;
             }
-            if (entityA is RoleEntity roleEntity2 && entityB is SkillEntity skillEntity4) {
+            if (aPtr is RoleEntity roleEntity2 && bPtr is SkillEntity skillEntity4) {
                 HandleExit_Skill_Role(skillEntity4, roleEntity2);
                 return;
             }
 
             // 子弹 & 角色
-            if (entityA is BulletEntity bulletEntity && entityB is RoleEntity roleEntity5) {
+            if (aPtr is BulletEntity bulletEntity && bPtr is RoleEntity roleEntity5) {
                 HandleExit_Bullet_Role(bulletEntity, roleEntity5);
                 return;
             }
-            if (entityA is RoleEntity roleEntity6 && entityB is BulletEntity bulletEntity2) {
+            if (aPtr is RoleEntity roleEntity6 && bPtr is BulletEntity bulletEntity2) {
                 HandleExit_Bullet_Role(bulletEntity2, roleEntity6);
                 return;
             }
 
             // 子弹 & 技能
-            if (entityA is BulletEntity bulletEntity3 && entityB is SkillEntity skillEntity5) {
+            if (aPtr is BulletEntity bulletEntity3 && bPtr is SkillEntity skillEntity5) {
                 HandleExit_Bullet_Skill(bulletEntity3, skillEntity5);
                 return;
             }
-            if (entityA is SkillEntity skillEntity6 && entityB is BulletEntity bulletEntity4) {
+            if (aPtr is SkillEntity skillEntity6 && bPtr is BulletEntity bulletEntity4) {
                 HandleExit_Bullet_Skill(bulletEntity4, skillEntity6);
                 return;
             }
 
             // 角色 & 角色
-            if (entityA is RoleEntity roleEntity3 && entityB is RoleEntity roleEntity4) {
+            if (aPtr is RoleEntity roleEntity3 && bPtr is RoleEntity roleEntity4) {
                 HandleExit_Role_Role(roleEntity3, roleEntity4);
                 return;
             }
 
             // 子弹 & 子弹
-            if (entityA is BulletEntity bulletEntity5 && entityB is BulletEntity bulletEntity6) {
+            if (aPtr is BulletEntity bulletEntity5 && bPtr is BulletEntity bulletEntity6) {
                 HandleExit_Bullet_Bullet(bulletEntity5, bulletEntity6);
                 return;
             }
 
             // 技能 & 技能
-            if (entityA is SkillEntity skillEntity && entityB is SkillEntity skillEntity2) {
+            if (aPtr is SkillEntity skillEntity && bPtr is SkillEntity skillEntity2) {
                 HandleExit_Skill_Skill(skillEntity, skillEntity2);
                 return;
             }
 
             // 角色 & Field
-            if (entityA is RoleEntity roleEntity7 && entityB is FieldEntity fieldEntity) {
+            if (aPtr is RoleEntity roleEntity7 && bPtr is FieldEntity fieldEntity) {
                 HandleExit_Role_Field(roleEntity7, fieldEntity, evModel);
                 return;
             }
-            if (entityA is FieldEntity fieldEntity2 && entityB is RoleEntity roleEntity8) {
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity8) {
                 HandleExit_Role_Field(roleEntity8, fieldEntity2, evModel);
                 return;
             }
 
             // 子弹 & Field
-            if (entityA is BulletEntity bulletEntity7 && entityB is FieldEntity fieldEntity3) {
+            if (aPtr is BulletEntity bulletEntity7 && bPtr is FieldEntity fieldEntity3) {
                 HandleExit_Bullet_Field(bulletEntity7, fieldEntity3);
                 return;
             }
-            if (entityA is FieldEntity fieldEntity4 && entityB is BulletEntity bulletEntity8) {
+            if (aPtr is FieldEntity fieldEntity4 && bPtr is BulletEntity bulletEntity8) {
                 HandleExit_Bullet_Field(bulletEntity8, fieldEntity4);
                 return;
             }
 
-            TDLog.Warning($"未处理的碰撞事件<Trigger - Exit>:\n{entityA.IDCom}\n{entityB.IDCom}");
+        }
+
+        void HandleCollisionExit(in EntityCollisionEvent evModel) {
+            
+            var entityColliderModelA = evModel.entityColliderModelA;
+            var entityColliderModelB = evModel.entityColliderModelB;
+            var entityA = entityColliderModelA.HolderIDCom;
+            var entityB = entityColliderModelB.HolderIDCom;
+            var aPtr = entityA.HolderPtr;
+            var bPtr = entityB.HolderPtr;
+
+            // 技能 & 角色
+            if (aPtr is SkillEntity skillEntity3 && bPtr is RoleEntity roleEntity) {
+                HandleExit_Skill_Role(skillEntity3, roleEntity);
+                return;
+            }
+            if (aPtr is RoleEntity roleEntity2 && bPtr is SkillEntity skillEntity4) {
+                HandleExit_Skill_Role(skillEntity4, roleEntity2);
+                return;
+            }
+
+            // 子弹 & 角色
+            if (aPtr is BulletEntity bulletEntity && bPtr is RoleEntity roleEntity5) {
+                HandleExit_Bullet_Role(bulletEntity, roleEntity5);
+                return;
+            }
+            if (aPtr is RoleEntity roleEntity6 && bPtr is BulletEntity bulletEntity2) {
+                HandleExit_Bullet_Role(bulletEntity2, roleEntity6);
+                return;
+            }
+
+            // 子弹 & 技能
+            if (aPtr is BulletEntity bulletEntity3 && bPtr is SkillEntity skillEntity5) {
+                HandleExit_Bullet_Skill(bulletEntity3, skillEntity5);
+                return;
+            }
+            if (aPtr is SkillEntity skillEntity6 && bPtr is BulletEntity bulletEntity4) {
+                HandleExit_Bullet_Skill(bulletEntity4, skillEntity6);
+                return;
+            }
+
+            // 角色 & 角色
+            if (aPtr is RoleEntity roleEntity3 && bPtr is RoleEntity roleEntity4) {
+                HandleExit_Role_Role(roleEntity3, roleEntity4);
+                return;
+            }
+
+            // 子弹 & 子弹
+            if (aPtr is BulletEntity bulletEntity5 && bPtr is BulletEntity bulletEntity6) {
+                HandleExit_Bullet_Bullet(bulletEntity5, bulletEntity6);
+                return;
+            }
+
+            // 技能 & 技能
+            if (aPtr is SkillEntity skillEntity && bPtr is SkillEntity skillEntity2) {
+                HandleExit_Skill_Skill(skillEntity, skillEntity2);
+                return;
+            }
+
+            // 角色 & Field
+            if (aPtr is RoleEntity roleEntity7 && bPtr is FieldEntity fieldEntity) {
+                HandleExit_Role_Field(roleEntity7, fieldEntity, evModel);
+                return;
+            }
+            if (aPtr is FieldEntity fieldEntity2 && bPtr is RoleEntity roleEntity8) {
+                HandleExit_Role_Field(roleEntity8, fieldEntity2, evModel);
+                return;
+            }
+
+            // 子弹 & Field
+            if (aPtr is BulletEntity bulletEntity7 && bPtr is FieldEntity fieldEntity3) {
+                HandleExit_Bullet_Field(bulletEntity7, fieldEntity3);
+                return;
+            }
+            if (aPtr is FieldEntity fieldEntity4 && bPtr is BulletEntity bulletEntity8) {
+                HandleExit_Bullet_Field(bulletEntity8, fieldEntity4);
+                return;
+            }
+
         }
 
         // Skill - Role
@@ -229,8 +385,6 @@ namespace TiedanSouls.Client.Domain {
 
             var entityColliderModelA = evModel.entityColliderModelA;
             var entityColliderModelB = evModel.entityColliderModelB;
-            var fatherA = entityColliderModelA.Father;
-            var skillColliderPos = fatherA.IsTheSameAs(skill.IDCom.Father) ? entityColliderModelA.transform.position : entityColliderModelB.transform.position;
 
             var rootDomain = worldContext.RootDomain;
             _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
@@ -246,6 +400,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 技能 打击
             var skillDomain = rootDomain.SkillDomain;
+            var skillColliderPos = entityColliderModelA.transform.position;
             skillDomain.HandleHit(skill, skillColliderPos, collisionTriggerModel);
         }
 
@@ -317,10 +472,6 @@ namespace TiedanSouls.Client.Domain {
 
         // Role - Field
         void HandleEnter_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
-            var entityA = evModel.entityColliderModelA.Father;
-            var entityB = evModel.entityColliderModelB.Father;
-            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
-            var normal = isRoleA ? evModel.normalB : evModel.normalA;
             // 第一次接触地面
             var moveCom = role.MoveCom;
             var rb = moveCom.RB;
@@ -331,21 +482,15 @@ namespace TiedanSouls.Client.Domain {
         }
 
         void HandleStay_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
-            var entityA = evModel.entityColliderModelA.Father;
-            var entityB = evModel.entityColliderModelB.Father;
-            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
-            var normal = isRoleA ? evModel.normalA : -evModel.normalA;
             role.groundCount++;
         }
 
         void HandleExit_Role_Field(RoleEntity role, FieldEntity field, in EntityCollisionEvent evModel) {
-            var entityA = evModel.entityColliderModelA.Father;
-            var entityB = evModel.entityColliderModelB.Father;
-            var isRoleA = entityA.IsTheSameAs(role.IDCom.Father);
+            var entityA = evModel.entityColliderModelA.HolderIDCom;
+            var isRoleA = entityA.IsEqualTo(role.IDCom);
             var normal = isRoleA ? evModel.normalB : evModel.normalA;
             if (normal.y > 0.01f) {
                 var fsmCom = role.FSMCom;
-                fsmCom.RemovePositionStatus_OnGround();
             }
         }
 

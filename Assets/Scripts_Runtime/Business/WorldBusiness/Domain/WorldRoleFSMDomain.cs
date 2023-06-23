@@ -58,20 +58,6 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        #region [位置状态]
-
-        public void AddPositionStatus_OnGround(RoleEntity role) {
-            var fsmCom = role.FSMCom;
-            fsmCom.AddPositionStatus_OnGround();
-        }
-
-        public void RemovePositionStatus_OnGround(RoleEntity role) {
-            var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_OnGround();
-        }
-
-        #endregion
-
         /// <summary>
         /// 闲置状态
         /// </summary>
@@ -110,8 +96,7 @@ namespace TiedanSouls.Client.Domain {
             stateModel.curFrame++;
 
             if (stateModel.curFrame < 2) {
-                fsmCom.RemovePositionStatus_OnGround();
-                fsmCom.RemovePositionStatus_StandInCrossPlatform();
+
             }
 
             // Locomotion
@@ -123,11 +108,7 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = rootDomain.RoleDomain;
             roleDomain.TryCastSkillByInput(role);
 
-            var posStatus = fsmCom.PositionStatus;
-            if (posStatus.Contains(RolePositionStatus.OnGround)
-            || posStatus.Contains(RolePositionStatus.OnCrossPlatform)) {
-                fsmCom.Enter_Idle();
-            }
+            fsmCom.Enter_Idle();
         }
 
         /// <summary>
@@ -299,7 +280,6 @@ namespace TiedanSouls.Client.Domain {
                 }
             }
 
-            bool isOnGround = fsmCom.PositionStatus.Contains(RolePositionStatus.OnGround);
             bool hasFrameKnockUp = false;
             var knockUpSpeedArray = stateModel.KnockUpSpeedArray;
             if (knockUpSpeedArray != null) {
@@ -311,9 +291,8 @@ namespace TiedanSouls.Client.Domain {
                     moveCom.SetVerticalVelocity(newV);
                 } else if (curFrame == len) {
                     moveCom.StopVerticalVelocity();
-                } else if (!isOnGround) {
-                    role.Fall(dt);
                 }
+                role.Fall(dt);
             }
 
             bool isOver = curFrame >= stateModel.MaintainFrame;
@@ -326,11 +305,9 @@ namespace TiedanSouls.Client.Domain {
                     return;
                 }
 
-                if (isOnGround) {
-                    if (hasFrameKnockBack) moveCom.StopHorizontalVelocity();
-                    if (hasFrameKnockUp) moveCom.StopVerticalVelocity();
-                    fsmCom.Enter_Idle();
-                }
+                if (hasFrameKnockBack) moveCom.StopHorizontalVelocity();
+                if (hasFrameKnockUp) moveCom.StopVerticalVelocity();
+                fsmCom.Enter_Idle();
             }
         }
 

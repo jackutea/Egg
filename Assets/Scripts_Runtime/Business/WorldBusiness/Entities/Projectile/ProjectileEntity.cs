@@ -41,6 +41,7 @@ namespace TiedanSouls.Client.Entities {
         public ProjectileEntity() {
             idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Projectile);
+            idCom.SetHolderPtr(this);
             fsmCom = new ProjectileFSMComponent();
             curFrame = -1;
         }

@@ -7,10 +7,6 @@ namespace TiedanSouls.Client.Entities {
         ProjectileFSMState state;
         public ProjectileFSMState State => state;
 
-        bool isExiting;
-        public bool IsExiting => isExiting;
-        public void SetIsExiting(bool value) => isExiting = value;
-
         // Model
         ProjectileStateModel_Activated activatedModel;
         public ProjectileStateModel_Activated ActivatedModel => activatedModel;
@@ -22,14 +18,12 @@ namespace TiedanSouls.Client.Entities {
         public ProjectileStateModel_Dying DyingModel => dyingModel;
 
         public ProjectileFSMComponent() {
-            isExiting = false;
             activatedModel = new ProjectileStateModel_Activated();
             deactivatedModel = new ProjectileStateModel_Deactivated();
             dyingModel = new ProjectileStateModel_Dying();
         }
 
         public void Reset() {
-            isExiting = false;
             state = ProjectileFSMState.Deactivated;
         }
 

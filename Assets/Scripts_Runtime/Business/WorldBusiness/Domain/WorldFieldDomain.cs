@@ -28,7 +28,6 @@ namespace TiedanSouls.Client.Domain {
                 fieldRepo.Add(field);
             }
 
-
             // Father
             var idCom = field.IDCom;
             idCom.SetFather(new EntityIDArgs { entityType = EntityType.Field, fromFieldTypeID = typeID });
@@ -36,10 +35,6 @@ namespace TiedanSouls.Client.Domain {
             field.Show();
 
             field.ModGO.name = $"关卡_{field.IDCom}";
-
-            // 碰撞盒关联
-            var rootDomain = worldContext.RootDomain;
-            rootDomain.SetEntityColliderFathers(field.EntityColliderModelArray, idCom.ToArgs());
 
             return true;
         }

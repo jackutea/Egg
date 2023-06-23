@@ -182,26 +182,42 @@ namespace TiedanSouls.Client {
             idCom.SetTypeID(skillTypeID);
             idCom.SetEntityName(skillTM.skillName);
             skill.SetTotalFrame(skillTM.maintainFrame);
+
             // 技能类型
             skill.SetSkillType(skillTM.skillType);
+
             // 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
+
             // 组合技能清单
             skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.comboSkillCancelTMArray));
+
             // 连招技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.cancelSkillCancelTMArray));
+
             // 效果器组
             skill.SetSkillEffectorModelArray(TM2ModelUtil.GetSkillEffectorModelArray(skillTM.effectorTriggerEMArray));
+
             // 技能位移组
             skill.SetSkillMoveCurveModelArray(TM2ModelUtil.GetSkillMoveCurveModelArray(skillTM.skillMoveCurveTMArray));
+
             // 角色召唤组
             skill.SetRoleSummonModelArray(TM2ModelUtil.GetRoleSummonModelArray(skillTM.roleSummonTMArray));
+
             // 弹幕生成组
             skill.SetProjectileCtorModelArray(TM2ModelUtil.GetProjectileCtorModelArray(skillTM.projectileCtorTMArray));
+
             // Buff附加
             skill.SetBuffAttachModelArray(TM2ModelUtil.GetBuffAttachModelArray(skillTM.buffAttachTMArray));
+
             // 碰撞器组
-            skill.SetEntityColliderTriggerModelArray(TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray));
+            var colliderToggles = TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray);
+            skill.SetEntityColliderTriggerModelArray(colliderToggles);
+            foreach (var colliderToggle in colliderToggles) {
+                foreach (var collider in colliderToggle.entityColliderArray) {
+                    collider.SetHolder(skill.IDCom);
+                }
+            }
 
             // 武器动画
             skill.SetWeaponAnimName(skillTM.weaponAnimName);
@@ -272,7 +288,13 @@ namespace TiedanSouls.Client {
             bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
             bullet.moveCurveModel = TM2ModelUtil.GetMoveCurveModel(tm.moveCurveTM);// 位移曲线模型
 
-            bullet.SetCollisionTriggerModel(TM2ModelUtil.GetEntityColliderTriggerModel(tm.collisionTriggerTM));
+            var colliderToggleModels = TM2ModelUtil.GetEntityColliderTriggerModel(tm.collisionTriggerTM);
+            if (colliderToggleModels.entityColliderArray != null) {
+                foreach (var collider in colliderToggleModels.entityColliderArray) {
+                    collider.SetHolder(idCom);
+                }
+            }
+            bullet.SetCollisionTriggerModel(colliderToggleModels);
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
 

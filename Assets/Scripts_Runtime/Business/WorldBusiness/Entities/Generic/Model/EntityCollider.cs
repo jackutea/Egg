@@ -6,14 +6,15 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 实体碰撞器
     /// </summary>
+    [RequireComponent(typeof(Collider2D))]
     public class EntityCollider : MonoBehaviour {
 
-        EntityIDArgs father;
-        public EntityIDArgs Father => father;
+        EntityIDComponent holderIDCom;
+        public EntityIDComponent HolderIDCom => holderIDCom;
+        public void SetHolder(EntityIDComponent v) => holderIDCom = v;
 
-        AllyType hitAllyType;
-        public AllyType HitTargetGroupType => hitAllyType;
-        public void SetHitTargetGroupType(AllyType v) => hitAllyType = v;
+        Collider2D coll;
+        public Collider2D Coll => coll;
 
         ColliderModel colliderModel;
         public ColliderModel ColliderModel => colliderModel;
@@ -28,7 +29,13 @@ namespace TiedanSouls.Client.Entities {
         public CollisionEventHandler onCollisionStay2D;
         public CollisionEventHandler onCollisionExit2D;
 
-        public bool IsActivated => gameObject.activeSelf;
+        public void Ctor() {
+            coll = GetComponent<Collider2D>();
+        }
+
+        public void SetActive(bool isActive) {
+            gameObject.SetActive(isActive);
+        }
 
         public void Activate() {
             gameObject.SetActive(true);
@@ -36,10 +43,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void Deactivate() {
             gameObject.SetActive(false);
-        }
-
-        public void SetFather(EntityIDArgs father) {
-            this.father = father;
         }
 
         void OnTriggerEnter2D(Collider2D other) {

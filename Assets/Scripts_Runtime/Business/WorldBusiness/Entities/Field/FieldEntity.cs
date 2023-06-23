@@ -50,6 +50,7 @@ namespace TiedanSouls.Client.Entities {
         public FieldEntity() {
             idCom = new EntityIDComponent();
             idCom.SetEntityType(EntityType.Field);
+            idCom.SetHolderPtr(this);
             fsmComponent = new FieldFSMComponent();
         }
 
@@ -66,7 +67,8 @@ namespace TiedanSouls.Client.Entities {
             for (int i = 0; i < colliderCount; i++) {
                 var collider = colliderArray[i];
                 var entityCollider = collider.gameObject.AddComponent<EntityCollider>();
-                entityCollider.SetHitTargetGroupType(TargetGroupTypeExtension.ChooseAll());
+                entityCollider.Ctor();
+                entityCollider.SetHolder(idCom);
                 EntityColliderModelArray[i] = entityCollider;
             }
         }

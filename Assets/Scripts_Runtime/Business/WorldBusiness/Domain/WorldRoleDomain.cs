@@ -191,11 +191,6 @@ namespace TiedanSouls.Client.Domain {
             idCom.SetControlType(controlType);
             idCom.SetAllyType(campType);
 
-            // Collider Model
-            var entityCollider = role.LogicRoot.gameObject.AddComponent<EntityCollider>();
-            var rootDomain = worldContext.RootDomain;
-            rootDomain.SetEntityColliderFather(entityCollider, idCom.ToArgs());
-
             // AI
             if (controlType == ControlType.AI) {
                 var factory = worldContext.Factory;
@@ -296,9 +291,8 @@ namespace TiedanSouls.Client.Domain {
 
             var wantCrossDown = inputCom.MoveAxis.y < 0;
             if (wantCrossDown) {
-                role.SetTrigger(true);
+                role.SetColliderTrigger(true);
                 var fsmCom = role.FSMCom;
-                fsmCom.RemovePositionStatus_StandInCrossPlatform();
                 fsmCom.Enter_JumpingDown();
             }
         }
@@ -427,7 +421,7 @@ namespace TiedanSouls.Client.Domain {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
             role.FSMCom.ResetAll();
             role.AttributeCom.ClearHP();
-            role.Coll_LogicRoot.enabled = false;
+            role.SetColliderActive(false);
             role.Hide();
         }
 
@@ -462,56 +456,6 @@ namespace TiedanSouls.Client.Domain {
                 }
             });
         }
-
-        #region [Physics Event Handle]
-
-        void OnCollisionEnterField(RoleEntity role, Collision2D collision2D) {
-
-        }
-
-        void OnCollisionLeaveField(RoleEntity role, Collision2D collision2D) {
-            var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_OnGround();
-        }
-
-        void OnCollisionEnterCrossPlatform(RoleEntity role, Collision2D collision2D) {
-            var normal = collision2D.contacts[0].normal;
-            var isStand = normal.y > 0;
-
-            if (isStand) {
-                var moveCom = role.MoveCom;
-                var rb = moveCom.RB;
-                var velo = rb.velocity;
-                velo.y = 0;
-                moveCom.SetVelocity(velo);
-
-                var fsmCom = role.FSMCom;
-                fsmCom.AddPositionStatus_StandInCrossPlatform();
-                fsmCom.Enter_Idle();
-            }
-        }
-
-        void OnCollisionLeavePlatform(RoleEntity role, Collision2D collision2D) {
-            var fsmCom = role.FSMCom;
-            fsmCom.RemovePositionStatus_StandInCrossPlatform();
-        }
-
-        void OnTriggerEnterField(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerLeaveField(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerEnterCrossPlatform(RoleEntity role, Collider2D collider2D) {
-        }
-
-        void OnTriggerLeaveCrossPlatform(RoleEntity role, Collider2D collider2D) {
-            role.SetTrigger(false);
-            var fsmCom = role.FSMCom;
-            fsmCom.Enter_Falling();
-        }
-
-        #endregion
 
         #region [Attribute]
 

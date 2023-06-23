@@ -44,6 +44,7 @@ namespace TiedanSouls.Client.Entities {
         public void ResetCurFrame() => curFrame = -1;
 
         int triggerTimes;
+        public int TriggerTimes => triggerTimes;
         public void ResetTriggerTimes() => triggerTimes = 0;
 
         int extraStackCount;

@@ -7,6 +7,7 @@ namespace TiedanSouls.Client {
 
     public class RoleRepo {
 
+        List<RoleEntity> allRoles;
         Dictionary<int, List<RoleEntity>> allAIRoles_Sorted;
         List<RoleEntity> allAIRoles;
 
@@ -16,6 +17,7 @@ namespace TiedanSouls.Client {
         List<RoleEntity> roleList_temp;
 
         public RoleRepo() {
+            allRoles = new List<RoleEntity>();
             allAIRoles_Sorted = new Dictionary<int, List<RoleEntity>>();
             allAIRoles = new List<RoleEntity>();
             roleList_temp = new List<RoleEntity>();
@@ -39,57 +41,20 @@ namespace TiedanSouls.Client {
             }
 
             list.Add(role);
+            allRoles.Add(role);
             allAIRoles.Add(role);
             TDLog.Log($"添加角色: {role.IDCom.EntityName} ");
         }
 
         #endregion
 
-        #region [删]
-
-        public bool TryRemove_FromAll(RoleEntity role) {
-            var roleIDCom = role.IDCom;
-            if (playerRole != null && playerRole.IDCom.EntityID == roleIDCom.EntityID) {
-                playerRole = null;
-                return true;
-            }
-
-            var len = allAIRoles.Count;
-            for (int i = 0; i < len; i++) {
-                var r = allAIRoles[i];
-                if (r.IDCom.EntityID == roleIDCom.EntityID) {
-                    allAIRoles.RemoveAt(i);
-                    var fromFieldTypeID = role.IDCom.FromFieldTypeID;
-                    if (allAIRoles_Sorted.TryGetValue(fromFieldTypeID, out var list)) {
-                        list.Remove(role);
-                    }
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public void Remove_AI(RoleEntity role) {
-            allAIRoles_Sorted.Remove(role.IDCom.EntityID);
-            allAIRoles.Remove(role);
-        }
-
-        public void Remove_AI(int id) {
-            allAIRoles_Sorted.Remove(id);
-            var len = allAIRoles.Count;
-            for (int i = 0; i < len; i++) {
-                var role = allAIRoles[i];
-                if (role.IDCom.EntityID == id) {
-                    allAIRoles.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        #endregion
-
         #region [查]
+        public RoleEntity GetByID(int roleID) {
+            var role = allRoles.Find((role) => {
+                return role.IDCom.EntityID == roleID;
+            });
+            return role;
+        }
 
         public bool TryGet_TrackEntity(int fieldTypeID,
                                        AllyType hitAllyType,

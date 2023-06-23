@@ -184,8 +184,8 @@ namespace TiedanSouls.Client.Entities {
                 TDLog.Error("未知的碰撞体类型");
             }
             EntityCollider model = go.AddComponent<EntityCollider>();
+            model.Ctor();
             model.SetColliderModel(colliderModel);
-            model.SetHitTargetGroupType(hitAllyType);
             return model;
         }
 

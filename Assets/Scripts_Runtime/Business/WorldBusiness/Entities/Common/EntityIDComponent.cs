@@ -7,6 +7,10 @@ namespace TiedanSouls.Client.Entities {
     /// </summary>
     public class EntityIDComponent {
 
+        object holderPtr;
+        public object HolderPtr => holderPtr;
+        public void SetHolderPtr(object value) => this.holderPtr = value;
+
         EntityType entityType;
         public EntityType EntityType => entityType;
         public void SetEntityType(EntityType value) => this.entityType = value;
@@ -38,28 +42,29 @@ namespace TiedanSouls.Client.Entities {
         EntityIDArgs father;
         public EntityIDArgs Father => father;
 
-        bool hasFather;
-        public bool HasFather => hasFather;
-
         public EntityIDComponent() {
             Reset();
         }
 
         public void Reset() {
-            hasFather = false;
+
+        }
+
+        public bool IsEqualTo(EntityIDComponent other) {
+            return entityType == other.entityType
+                && typeID == other.typeID
+                && entityID == other.entityID;
         }
 
         /// <summary>
         /// 设置父级
         /// </summary>
         public void SetFather(in EntityIDArgs args) {
-            this.hasFather = true;
             this.father = args;
 
             this.campType = args.campType;
             this.fromFieldTypeID = args.fromFieldTypeID;
 
-            // TDLog.Log($"设置父级:\n{this}\n{args}");
         }
 
         public EntityIDArgs ToArgs() {
