@@ -19,18 +19,18 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickAllBuff(int curFieldTypeID, float dt) {
+        public void TickAllBuff(int curFieldTypeID, float logicDT) {
             var buffDomain = worldContext.RootDomain.BuffDomain;
             worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
-                buffDomain.TickRoleBuff(role, dt);
+                buffDomain.TickRoleBuff(role, logicDT);
             });
             var playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole != null) {
-                buffDomain.TickRoleBuff(playerRole, dt);
+                buffDomain.TickRoleBuff(playerRole, logicDT);
             }
         }
 
-        void TickRoleBuff(RoleEntity role, float dt) {
+        void TickRoleBuff(RoleEntity role, float logicDT) {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
             var buffDomain = rootDomain.BuffDomain;

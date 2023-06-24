@@ -18,9 +18,9 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void Tick(float dt) {
+        public void Tick(float logicDT) {
 
-            Physics2D.Simulate(dt);
+            Physics2D.Simulate(logicDT);
 
             var collisionEventRepo = worldContext.CollisionEventRepo;
 

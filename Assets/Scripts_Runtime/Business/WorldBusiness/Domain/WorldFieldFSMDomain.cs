@@ -17,29 +17,29 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickFieldFSM(int fieldTypeID, float dt) {
+        public void TickFieldFSM(int fieldTypeID, float logicDT) {
             if (!worldContext.FieldRepo.TryGet(fieldTypeID, out var field)) {
                 TDLog.Error($"关卡不存在! FieldTypeID: {fieldTypeID}");
             }
 
-            TickFieldFSM(field, dt);
+            TickFieldFSM(field, logicDT);
         }
 
-        void TickFieldFSM(FieldEntity field, float dt) {
+        void TickFieldFSM(FieldEntity field, float logicDT) {
             var fsmCom = field.FSMComponent;
             if (fsmCom.IsExiting) return;
 
             var state = fsmCom.State;
             if (state == FieldFSMState.Ready) {
-                ApplyFSMState_Ready(field, fsmCom, dt);
+                ApplyFSMState_Ready(field, fsmCom, logicDT);
             } else if (state == FieldFSMState.Spawning) {
-                ApplyFSMState_Spawning(field, dt);
+                ApplyFSMState_Spawning(field, logicDT);
             } else if (state == FieldFSMState.Finished) {
-                ApplyFSMState_Finished(fsmCom, dt);
+                ApplyFSMState_Finished(fsmCom, logicDT);
             }
         }
 
-        void ApplyFSMState_Ready(FieldEntity field, FieldFSMComponent fsmCom, float dt) {
+        void ApplyFSMState_Ready(FieldEntity field, FieldFSMComponent fsmCom, float logicDT) {
             var readyModel = fsmCom.ReadyModel;
             if (readyModel.IsEntering) {
                 readyModel.SetIsEntering(false);
@@ -70,7 +70,7 @@ namespace TiedanSouls.Client.Domain {
             fsmCom.Enter_Spawning(totalSpawnCount);
         }
 
-        void ApplyFSMState_Spawning(FieldEntity field, float dt) {
+        void ApplyFSMState_Spawning(FieldEntity field, float logicDT) {
             var idCom = field.IDCom;
             var fieldTypeID = idCom.TypeID;
             var fsmCom = field.FSMComponent;
@@ -101,8 +101,7 @@ namespace TiedanSouls.Client.Domain {
             // 刷新当前关卡存活敌人数量
             int aliveEnemyCount = 0;
             int aliveBossCount = 0;
-            roleRepo.Foreach_EnemyOfPlayer(curFieldTypeID,
-            (enemy) => {
+            roleRepo.Foreach_EnemyOfPlayer(curFieldTypeID, (enemy) => {
                 if (!enemy.AttributeCom.IsDead()) {
                     aliveEnemyCount++;
                     if (enemy.IsBoss) aliveBossCount++;
@@ -179,7 +178,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void ApplyFSMState_Finished(FieldFSMComponent fsmCom, float dt) {
+        void ApplyFSMState_Finished(FieldFSMComponent fsmCom, float logicDT) {
 
         }
 

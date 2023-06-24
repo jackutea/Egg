@@ -18,31 +18,31 @@ namespace TiedanSouls.Client.Domain {
             this.worldContext = worldContext;
         }
 
-        public void TickAllFSM(int curFieldTypeID, float dt) {
+        public void TickAllFSM(int curFieldTypeID, float logicDT) {
             worldContext.RoleRepo.Foreach_AI(curFieldTypeID, (role) => {
-                TickRoleFSM(role, dt);
+                TickRoleFSM(role, logicDT);
             });
             var playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole != null) {
-                TickRoleFSM(playerRole, dt);
+                TickRoleFSM(playerRole, logicDT);
             }
         }
 
-        void TickRoleFSM(RoleEntity role, float dt) {
+        void TickRoleFSM(RoleEntity role, float logicDT) {
             var fsmCom = role.FSMCom;
             var fsmState = fsmCom.FSMState;
             if (fsmState == RoleFSMState.None) return;
 
-            TickNotDying(role, fsmCom, dt);
+            TickNotDying(role, fsmCom, logicDT);
 
-            if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsmCom, dt);
-            else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsmCom, dt);
-            else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsmCom, dt);
-            else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsmCom, dt);
-            else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsmCom, dt);
+            if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsmCom, logicDT);
+            else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsmCom, logicDT);
+            else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsmCom, logicDT);
+            else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsmCom, logicDT);
+            else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsmCom, logicDT);
         }
 
-        void TickNotDying(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void TickNotDying(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             if (fsmCom.FSMState == RoleFSMState.Dying) return;
 
             var rootDomain = worldContext.RootDomain;
@@ -54,14 +54,14 @@ namespace TiedanSouls.Client.Domain {
             }
 
             if (role.IDCom.ControlType == ControlType.AI) {
-                role.AIStrategy.Tick(dt);
+                role.AIStrategy.Tick(logicDT);
             }
         }
 
         /// <summary>
         /// 闲置状态
         /// </summary>
-        void Tick_Idle(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void Tick_Idle(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             var stateModel = fsmCom.IdleStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
@@ -79,7 +79,7 @@ namespace TiedanSouls.Client.Domain {
             role.HorizontalFaceTo(inputCom.MoveAxis.x);
             role.TryJumpByInput();
             role.TryMoveByInput();
-            role.Fall(dt);
+            role.Fall(logicDT);
 
             roleDomain.TryCastSkillByInput(role);
         }
@@ -87,7 +87,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 上跳状态
         /// </summary>
-        void Tick_JumpingUp(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void Tick_JumpingUp(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             var stateModel = fsmCom.JumpingUpStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
@@ -101,7 +101,7 @@ namespace TiedanSouls.Client.Domain {
 
             // Locomotion
             role.TryMoveByInput();
-            role.Fall(dt);
+            role.Fall(logicDT);
             role.HorizontalFaceTo(role.InputCom.MoveAxis.x);
 
             var rootDomain = worldContext.RootDomain;
@@ -114,7 +114,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 释放技能状态
         /// </summary>
-        void Tick_Casting(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void Tick_Casting(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             var rootDomain = worldContext.RootDomain;
             var stateModel = fsmCom.CastingStateModel;
             var castingSkill = stateModel.CastingSkill;
@@ -155,10 +155,10 @@ namespace TiedanSouls.Client.Domain {
             bool hasCurFrameMove = false;
             if (curFrame - lastFrame > 1) {
                 for (int i = lastFrame + 1; i < curFrame; i++) {
-                    _ = TryApplySkillMove(role, dt, i, true);
+                    _ = TryApplySkillMove(role, logicDT, i, true);
                 }
             }
-            hasCurFrameMove = TryApplySkillMove(role, dt, curFrame, false) ? true : hasCurFrameMove;
+            hasCurFrameMove = TryApplySkillMove(role, logicDT, curFrame, false) ? true : hasCurFrameMove;
 
             if (!hasCurFrameMove) {
                 bool has = castingSkill.TryGetSkillMoveCurveModel(curFrame, out var skillMoveCurveModel);
@@ -167,7 +167,7 @@ namespace TiedanSouls.Client.Domain {
                         role.TryMoveByInput();
                     }
                 }
-                role.Fall(dt);
+                role.Fall(logicDT);
             }
 
             // 技能逻辑迭代
@@ -217,7 +217,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 应用技能位移
         /// </summary>
-        bool TryApplySkillMove(RoleEntity role, float dt, int frame, bool moveByOffset) {
+        bool TryApplySkillMove(RoleEntity role, float logicDT, int frame, bool moveByOffset) {
             var fsmCom = role.FSMCom;
             var castingSkill = fsmCom.CastingStateModel.CastingSkill;
             var castingModel = fsmCom.CastingStateModel;
@@ -240,7 +240,7 @@ namespace TiedanSouls.Client.Domain {
                 moveDir = casterRotation * moveDir;
                 var vel = moveDir * speed;
                 if (moveByOffset) {
-                    var pos = role.RootPos + vel * dt;
+                    var pos = role.RootPos + vel * logicDT;
                     role.SetPos(pos);
                 } else {
                     moveCom.SetVelocity(moveDir * speed);
@@ -256,7 +256,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 受击状态
         /// </summary>
-        void Tick_BeHit(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void Tick_BeHit(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             var stateModel = fsmCom.BeHitStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
@@ -292,7 +292,7 @@ namespace TiedanSouls.Client.Domain {
                 } else if (curFrame == len) {
                     moveCom.StopVerticalVelocity();
                 }
-                role.Fall(dt);
+                role.Fall(logicDT);
             }
 
             bool isOver = curFrame >= stateModel.MaintainFrame;
@@ -314,7 +314,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 死亡状态
         /// </summary>
-        void Tick_Dying(RoleEntity role, RoleFSMComponent fsmCom, float dt) {
+        void Tick_Dying(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 

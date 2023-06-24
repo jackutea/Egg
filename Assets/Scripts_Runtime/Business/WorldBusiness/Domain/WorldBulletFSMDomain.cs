@@ -20,30 +20,30 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 用于更新指定关卡的 子弹 状态机 -1表示所有关卡
         /// </summary>
-        public void TickFSM(int curFieldTypeID, float dt) {
+        public void TickFSM(int curFieldTypeID, float logicDT) {
             var bulletRepo = worldContext.BulletRepo;
             bulletRepo.Foreach(curFieldTypeID, (bullet) => {
-                TickFSM(bullet, dt);
+                TickFSM(bullet, logicDT);
             });
 
             bulletRepo.ReclycleToPool_NoneState();
         }
 
-        void TickFSM(BulletEntity bullet, float dt) {
+        void TickFSM(BulletEntity bullet, float logicDT) {
             var fsmCom = bullet.FSMCom;
             var state = fsmCom.State;
             if (state == BulletFSMState.Deactivated) {
-                Tick_Deactivated(bullet, fsmCom, dt);
+                Tick_Deactivated(bullet, fsmCom, logicDT);
             } else if (state == BulletFSMState.Activated) {
-                Tick_Activated(bullet, fsmCom, dt);
+                Tick_Activated(bullet, fsmCom, logicDT);
             } else if (state == BulletFSMState.Dying) {
-                Tick_TearDown(bullet, fsmCom, dt);
+                Tick_TearDown(bullet, fsmCom, logicDT);
             }
 
-            Tick_Any(bullet, fsmCom, dt);
+            Tick_Any(bullet, fsmCom, logicDT);
         }
 
-        void Tick_Any(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+        void Tick_Any(BulletEntity bullet, BulletFSMComponent fsmCom, float logicDT) {
             if (fsmCom.State == BulletFSMState.None) return;
 
             // TearDown Check
@@ -52,7 +52,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+        void Tick_Deactivated(BulletEntity bullet, BulletFSMComponent fsmCom, float logicDT) {
             var model = fsmCom.DeactivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
@@ -62,7 +62,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_Activated(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+        void Tick_Activated(BulletEntity bullet, BulletFSMComponent fsmCom, float logicDT) {
             var model = fsmCom.ActivatedModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
@@ -107,7 +107,7 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        void Tick_TearDown(BulletEntity bullet, BulletFSMComponent fsmCom, float dt) {
+        void Tick_TearDown(BulletEntity bullet, BulletFSMComponent fsmCom, float logicDT) {
             var model = fsmCom.TearDownModel;
             if (model.IsEntering) {
                 model.SetIsEntering(false);
