@@ -49,7 +49,7 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 添加伤害记录
         /// </summary>s
-        public void Add(DamageType damageType, float damage, in EntityIDArgs victim, in EntityIDArgs attacker) {
+        public void Add(DamageType damageType, float damage, in EntityIDComponent victim, in EntityIDComponent attacker) {
             var key = GetKey(attacker, victim);
             if (!all.TryGetValue(key, out var list)) {
                 list = new List<DamageRecordModel>();
@@ -68,9 +68,9 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 获取键值. 保证key1 > key2
         /// </summary>
-        public ulong GetKey(in EntityIDArgs attacker, in EntityIDArgs victim) {
-            var key1 = ComineToKey(attacker.entityType, attacker.entityID);
-            var key2 = ComineToKey(victim.entityType, victim.entityID);
+        public ulong GetKey(in EntityIDComponent attacker, in EntityIDComponent victim) {
+            var key1 = ComineToKey(attacker.EntityType, attacker.EntityID);
+            var key2 = ComineToKey(victim.EntityType, victim.EntityID);
             if (key1 < key2) {
                 key1 = key1 ^ key2;
                 key2 = key1 ^ key2;
@@ -79,7 +79,9 @@ namespace TiedanSouls.Client.Entities {
             return key1 << 32 | key2;
         }
 
-        ulong ComineToKey(EntityType entityType, int entityID) => (ulong)entityType << 32 | (uint)entityID;
+        ulong ComineToKey(EntityType entityType, int entityID) {
+            return (ulong)entityType << 32 | (uint)entityID;
+        }
 
     }
 

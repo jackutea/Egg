@@ -28,7 +28,7 @@ namespace TiedanSouls.Client.Entities {
         public void SetEntityName(string name) => this.entityName = name;
 
         CampType campType;
-        public CampType AllyStatus => campType;
+        public CampType CampType => campType;
         public void SetAllyType(CampType value) => this.campType = value;
 
         ControlType controlType;
@@ -39,8 +39,8 @@ namespace TiedanSouls.Client.Entities {
         public int FromFieldTypeID => fromFieldTypeID;
         public void SetFromFieldTypeID(int value) => this.fromFieldTypeID = value;
 
-        EntityIDArgs father;
-        public EntityIDArgs Father => father;
+        EntityIDComponent father;
+        public EntityIDComponent Father => father;
 
         public EntityIDComponent() {
             Reset();
@@ -59,25 +59,12 @@ namespace TiedanSouls.Client.Entities {
         /// <summary>
         /// 设置父级
         /// </summary>
-        public void SetFather(in EntityIDArgs args) {
+        public void SetFather(in EntityIDComponent args) {
             this.father = args;
 
             this.campType = args.campType;
             this.fromFieldTypeID = args.fromFieldTypeID;
 
-        }
-
-        public EntityIDArgs ToArgs() {
-            EntityIDArgs args = new EntityIDArgs();
-            args.entityType = entityType;
-            args.typeID = typeID;
-            args.entityID = entityID;
-            args.entityName = entityName;
-            args.campType = campType;
-            args.controlType = controlType;
-            args.fromFieldTypeID = fromFieldTypeID;
-
-            return args;
         }
 
         public override string ToString() {

@@ -56,14 +56,14 @@ namespace TiedanSouls.Client.Domain {
             });
         }
 
-        public bool TryAttachBuff(in EntityIDArgs father, in EntityIDArgs target, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
+        public bool TryAttachBuff(in EntityIDComponent father, in EntityIDComponent target, in BuffAttachModel buffAttachModel, out BuffEntity buff) {
             buff = null;
 
-            var targetEntityType = target.entityType;
+            var targetEntityType = target.EntityType;
             if (targetEntityType == EntityType.Role) {
                 var roleRepo = worldContext.RoleRepo;
-                if (!roleRepo.TryGet_FromAll(target.entityID, out var targetRole)) {
-                    TDLog.Error($"附加Buff失败, 目标角色不存在:{target.entityID}");
+                if (!roleRepo.TryGet_FromAll(target.EntityID, out var targetRole)) {
+                    TDLog.Error($"附加Buff失败, 目标角色不存在:{target.EntityID}");
                     return false;
                 }
 
@@ -99,7 +99,7 @@ namespace TiedanSouls.Client.Domain {
             return false;
         }
 
-        public bool TrySpawn(int typeID, in EntityIDArgs father, out BuffEntity buff) {
+        public bool TrySpawn(int typeID, in EntityIDComponent father, out BuffEntity buff) {
             buff = null;
 
             var buffRepo = worldContext.BuffRepo;

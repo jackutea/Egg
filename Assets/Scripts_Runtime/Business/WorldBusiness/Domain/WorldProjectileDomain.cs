@@ -20,7 +20,7 @@ namespace TiedanSouls.Client.Domain {
 
         #region [生成]
 
-        public bool TrySpawnProjectile(Vector3 basePos, Quaternion baseRot, in EntityIDArgs father, in ProjectileCtorModel projectileCtorModel, out ProjectileEntity projectile) {
+        public bool TrySpawnProjectile(Vector3 basePos, Quaternion baseRot, in EntityIDComponent father, in ProjectileCtorModel projectileCtorModel, out ProjectileEntity projectile) {
             // 1. 创建弹幕
             var typeID = projectileCtorModel.typeID;
             var factory = worldContext.Factory;
@@ -41,8 +41,7 @@ namespace TiedanSouls.Client.Domain {
             for (int i = 0; i < len; i++) {
                 var projectileBulletModel = projectileBulletModelArray[i];
                 var bulletTypeID = projectileBulletModel.bulletTypeID;
-                var bulletFather = projectileIDCom.ToArgs();
-                if (!bulletDomain.TryGetOrCreate(bulletTypeID, bulletFather, out var bullet)) {
+                if (!bulletDomain.TryGetOrCreate(bulletTypeID, projectileIDCom, out var bullet)) {
                     TDLog.Error($"创建实体弹幕的 '子弹' 失败! - {bulletTypeID}");
                     return false;
                 }

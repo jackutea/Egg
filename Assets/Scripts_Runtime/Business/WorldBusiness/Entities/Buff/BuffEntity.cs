@@ -65,7 +65,7 @@ namespace TiedanSouls.Client.Entities {
             roleAttrModifyModel.ResetOffset();
         }
 
-        public void SetFather(in EntityIDArgs father) {
+        public void SetFather(in EntityIDComponent father) {
             IDCom.SetFather(father);
         }
 

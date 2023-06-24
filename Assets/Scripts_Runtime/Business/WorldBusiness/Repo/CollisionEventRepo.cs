@@ -124,10 +124,6 @@ namespace TiedanSouls.Client {
             return GetKey(a.EntityType, a.EntityID, b.EntityType, b.EntityID);
         }
 
-        public ulong GetKey(in EntityIDArgs args1, in EntityIDArgs args2) {
-            return GetKey(args1.entityType, args1.entityID, args2.entityType, args2.entityID);
-        }
-
         public ulong GetKey(EntityType typeA, short idA, EntityType typeB, short idB) {
 
             uint key1 = (uint)(ushort)typeA << 16;

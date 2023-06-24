@@ -193,7 +193,7 @@ namespace TiedanSouls.Client.Domain {
                 var localPos = roleSummonModel.localPos;
                 var worldRot = baseRot * localRot;
                 var worldPos = basePos + worldRot * localPos;
-                roleDomain.TrySummonRole(worldPos, worldRot, role.IDCom.ToArgs(), roleSummonModel, out _);
+                roleDomain.TrySummonRole(worldPos, worldRot, role.IDCom, roleSummonModel, out _);
             }
 
             // 弹幕生成
@@ -202,12 +202,12 @@ namespace TiedanSouls.Client.Domain {
                 var localPos = projectileCtorModel.localPos;
                 var worldRot = baseRot * localRot;
                 var worldPos = basePos + worldRot * localPos;
-                projectileDomain.TrySpawnProjectile(worldPos, worldRot, role.IDCom.ToArgs(), projectileCtorModel, out _);
+                projectileDomain.TrySpawnProjectile(worldPos, worldRot, role.IDCom, projectileCtorModel, out _);
             }
 
             // Buff附加
             if (castingSkill.TryGet_ValidBuffAttachModel(out var buffAttachModel)) {
-                var father = role.IDCom.ToArgs();
+                var father = role.IDCom;
                 buffDomain.TryAttachBuff(father, father, buffAttachModel, out _);
             }
 

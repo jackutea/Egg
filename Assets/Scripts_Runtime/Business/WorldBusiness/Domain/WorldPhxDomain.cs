@@ -396,7 +396,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 角色 受击
             var roleDomain = rootDomain.RoleDomain;
-            roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom.ToArgs(), collisionTriggerModel);
+            roleDomain.HandleBeHit(skill.CurFrame, beHitDir, role, skill.IDCom, collisionTriggerModel);
 
             // 技能 打击
             var skillDomain = rootDomain.SkillDomain;
@@ -422,7 +422,7 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
             var hitFrame = bullet.FSMCom.ActivatedModel.curFrame;
-            roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom.ToArgs(), collisionTriggerModel);
+            roleDomain.HandleBeHit(hitFrame, beHitDir, role, bullet.IDCom, collisionTriggerModel);
 
             // 子弹 打击
             var bulletDomain = rootDomain.BulletDomain;

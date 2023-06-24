@@ -67,7 +67,7 @@ namespace TiedanSouls.Client.Entities {
 
         #region [改]
 
-        public void SetFather(EntityIDArgs father) {
+        public void SetFather(EntityIDComponent father) {
             var e = skillDic_origin.Values.GetEnumerator(); 
             while (e.MoveNext()) {
                 var skill = e.Current;

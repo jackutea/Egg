@@ -115,7 +115,7 @@ namespace TiedanSouls.Client.Facades {
         /// 从实体ID参数中获取相关角色实体
         /// </summary>
         /// <returns></returns> 
-        public bool TryGetRoleFromIDArgs(in EntityIDArgs idArgs, out RoleEntity role) {
+        public bool TryGetRoleFromIDArgs(in EntityIDComponent idArgs, out RoleEntity role) {
             role = null;
             return TryGetRoleRecursively(idArgs, ref role);
         }
@@ -124,7 +124,7 @@ namespace TiedanSouls.Client.Facades {
         /// 递归从实体ID参数中获取相关角色实体
         /// </summary> 
         /// <returns></returns>
-        bool TryGetRoleRecursively(in EntityIDArgs idArgs, ref RoleEntity role) {
+        bool TryGetRoleRecursively(in EntityIDComponent idArgs, ref RoleEntity role) {
             if (!TryGetEntityObj(idArgs, out var entity)) return false;
 
             if (entity is RoleEntity roleEntity) {
@@ -154,11 +154,11 @@ namespace TiedanSouls.Client.Facades {
             return false;
         }
 
-        public bool TryGetEntityObj(in EntityIDArgs idArgs, out IEntity entity) {
+        public bool TryGetEntityObj(in EntityIDComponent idArgs, out IEntity entity) {
             entity = null;
 
-            var entityType = idArgs.entityType;
-            var entityID = idArgs.entityID;
+            var entityType = idArgs.EntityType;
+            var entityID = idArgs.EntityID;
 
             if (entityType == EntityType.Role) {
                 var roleRepo = worldContext.RoleRepo;
@@ -204,7 +204,7 @@ namespace TiedanSouls.Client.Facades {
         /// <summary>
         /// 根据 实体追踪模型 设置 第一个满足条件的实体目标
         /// </summary>
-        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in EntityIDArgs self) {
+        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in EntityIDComponent self) {
             var stateEntity = this.worldContext.StateEntity;
             var curFieldTypeID = stateEntity.CurFieldTypeID;
 
@@ -221,7 +221,7 @@ namespace TiedanSouls.Client.Facades {
                     attributeSelectorModel,
                     out var role
                 )) {
-                    entityTrackModel.target = role.IDCom.ToArgs();
+                    entityTrackModel.target = role.IDCom;
                 }
 
                 return;

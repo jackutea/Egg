@@ -58,7 +58,7 @@ namespace TiedanSouls.Client {
 
         public bool TryGet_TrackEntity(int fieldTypeID,
                                        AllyType hitAllyType,
-                                       in EntityIDArgs compareIDArgs,
+                                       in EntityIDComponent compareIDArgs,
                                        in RoleSelectorModel attributeSelectorModel,
                                        out RoleEntity role) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, compareIDArgs);
@@ -97,7 +97,7 @@ namespace TiedanSouls.Client {
             bool hasAliveEnemy = false;
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
                 var idCom = role.IDCom;
-                var roleAllyType = idCom.AllyStatus;
+                var roleAllyType = idCom.CampType;
                 if (!roleAllyType.IsEnemy(campType)) return;
                 if (role.FSMCom.FSMState != RoleFSMState.Dying) hasAliveEnemy = true;
             });
@@ -139,13 +139,13 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历指定角色的友军角色 -1代表查找范围为所有关卡
         /// </summary>
-        public void Foreach_Ally(int fieldTypeID, in EntityIDArgs iDArgs, Action<RoleEntity> action) {
-            var selfEntityID = iDArgs.entityID;
+        public void Foreach_Ally(int fieldTypeID, in EntityIDComponent iDArgs, Action<RoleEntity> action) {
+            var selfEntityID = iDArgs.EntityID;
             if (TryGet_FromAll(selfEntityID, out var selfRole)) return;
-            var selfAllyType = selfRole.IDCom.AllyStatus;
+            var selfAllyType = selfRole.IDCom.CampType;
 
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                var roleAllyType = role.IDCom.AllyStatus;
+                var roleAllyType = role.IDCom.CampType;
                 if (roleAllyType.IsAlly(selfAllyType)) action.Invoke(role);
             });
         }
@@ -154,7 +154,7 @@ namespace TiedanSouls.Client {
         /// 遍历玩家角色的敌对角色 -1代表查找范围为所有关卡
         /// </summary>
         public void Foreach_EnemyOfPlayer(int fieldTypeID, Action<RoleEntity> action) {
-            var playerAllyType = playerRole.IDCom.AllyStatus;
+            var playerAllyType = playerRole.IDCom.CampType;
             Foreach_Enemy(fieldTypeID, playerAllyType, action);
         }
 
@@ -164,7 +164,7 @@ namespace TiedanSouls.Client {
         public void Foreach_Enemy(int fieldTypeID, CampType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID,
             (role) => {
-                var roleAllyType = role.IDCom.AllyStatus;
+                var roleAllyType = role.IDCom.CampType;
                 if (roleAllyType.IsEnemy(selfAllyType)) action.Invoke(role);
             });
         }
@@ -174,7 +174,7 @@ namespace TiedanSouls.Client {
         /// </summary>
         public void Foreach_Neutral(int fieldTypeID, CampType selfAllyType, Action<RoleEntity> action) {
             Foreach_ByFieldTypeID(fieldTypeID, (role) => {
-                var roleAllyType = role.IDCom.AllyStatus;
+                var roleAllyType = role.IDCom.CampType;
                 if (roleAllyType == CampType.Neutral) action.Invoke(role);
             });
         }
@@ -182,7 +182,7 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 获取所有指定相对阵营类型的角色
         /// </summary>
-        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDArgs compareIDArgs) {
+        public List<RoleEntity> GetRoleList_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDComponent compareIDArgs) {
             roleList_temp.Clear();
             Foreach_RelativeTargetGroupType(fieldTypeID, hitAllyType, compareIDArgs, (role) => {
                 roleList_temp.Add(role);
@@ -193,15 +193,15 @@ namespace TiedanSouls.Client {
         /// <summary>
         /// 遍历所有指定相对阵营类型的角色
         /// </summary>
-        public void Foreach_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDArgs compareIDArgs, Action<RoleEntity> action) {
+        public void Foreach_RelativeTargetGroupType(int fieldTypeID, AllyType hitAllyType, in EntityIDComponent compareIDArgs, Action<RoleEntity> action) {
             if (hitAllyType == AllyType.None) return;
 
-            var compareEntityType = compareIDArgs.entityType;
-            var compareAllyType = compareIDArgs.campType;
+            var compareEntityType = compareIDArgs.EntityType;
+            var compareAllyType = compareIDArgs.CampType;
 
             // 若比较的是角色，且角色不存在，则返回
             bool isCompareRole = compareEntityType == EntityType.Role;
-            bool hasRole = TryGet_FromAll(compareIDArgs.entityID, out var selfRole);
+            bool hasRole = TryGet_FromAll(compareIDArgs.EntityID, out var selfRole);
             if (isCompareRole && !hasRole) {
                 return;
             }
@@ -248,7 +248,7 @@ namespace TiedanSouls.Client {
         /// </summary>sd
         public void Foreach_AttributeSelector(int fieldTypeID,
                                               AllyType hitAllyType,
-                                              in EntityIDArgs self,
+                                              in EntityIDComponent self,
                                               in RoleSelectorModel attributeSelectorModel,
                                               Action<RoleEntity> action) {
             var list = GetRoleList_RelativeTargetGroupType(fieldTypeID, hitAllyType, self);

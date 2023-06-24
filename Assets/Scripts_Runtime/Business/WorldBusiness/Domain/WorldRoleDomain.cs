@@ -51,8 +51,8 @@ namespace TiedanSouls.Client.Domain {
             return role != null;
         }
 
-        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDArgs summoner, in SkillSummonModel roleSummonModel, out RoleEntity role) {
-            role = SpawnRole(summoner.fromFieldTypeID, EntityType.Role, roleSummonModel.typeID, roleSummonModel.controlType, summonPos, summoner.campType, false);
+        public bool TrySummonRole(Vector3 summonPos, Quaternion summonRot, in EntityIDComponent summoner, in SkillSummonModel roleSummonModel, out RoleEntity role) {
+            role = SpawnRole(summoner.FromFieldTypeID, EntityType.Role, roleSummonModel.typeID, roleSummonModel.controlType, summonPos, summoner.CampType, false);
             if (role != null) {
                 var idCom = role.IDCom;
                 idCom.SetFather(summoner);
@@ -390,7 +390,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 角色受击的统一处理方式
         /// </summary>
-        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDArgs hitter, in ColliderToggleModel collisionTriggerModel) {
+        public void HandleBeHit(int hitFrame, Vector2 beHitDir, RoleEntity role, in EntityIDComponent hitter, in ColliderToggleModel collisionTriggerModel) {
             var rootDomain = worldContext.RootDomain;
             var roleFSMDomain = rootDomain.RoleFSMDomain;
             var roleDomain = rootDomain.RoleDomain;
@@ -413,7 +413,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 伤害结算
             roleDomain.ReduceHP(role, realDamage);
-            damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom.ToArgs(), hitter);
+            damageArbitService.Add(damageModel.damageType, realDamage, role.IDCom, hitter);
 
         }
 

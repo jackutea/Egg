@@ -146,7 +146,7 @@ namespace TiedanSouls.Client {
             BTTreeNode root = BTTreeFactory.CreateSelectorNode();
 
             followRoot.AddChild(followNode);
-            if (role.IDCom.AllyStatus == CampType.Two) followRoot.AddChild(attackNode);
+            if (role.IDCom.CampType == CampType.Two) followRoot.AddChild(attackNode);
             root.AddChild(patrolNode);
             root.AddChild(followRoot);
 

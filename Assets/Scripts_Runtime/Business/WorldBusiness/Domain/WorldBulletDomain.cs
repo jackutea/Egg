@@ -21,7 +21,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 根据类型ID生成子弹
         /// </summary>
-        public bool TryGetOrCreate(int typeID, in EntityIDArgs father, out BulletEntity bullet) {
+        public bool TryGetOrCreate(int typeID, in EntityIDComponent father, out BulletEntity bullet) {
             bullet = null;
 
             var bulletRepo = worldContext.BulletRepo;
@@ -101,7 +101,7 @@ namespace TiedanSouls.Client.Domain {
         public void MoveToTrackingTarget(BulletEntity bullet) {
             var entityTrackModel = bullet.entityTrackModel;
             var target = entityTrackModel.target;
-            if (target.entityType == EntityType.None) {
+            if (target.EntityType == EntityType.None) {
                 // 说明没有目标了
                 return;
             }
@@ -111,10 +111,10 @@ namespace TiedanSouls.Client.Domain {
             var trackSpeed = entityTrackModel.trackSpeed;
             Vector3 targetPos;
             if (entityType == EntityType.Role) {
-                var targetRole = worldContext.RoleRepo.GetByID(target.entityID);
+                var targetRole = worldContext.RoleRepo.GetByID(target.EntityID);
                 targetPos = targetRole.MoveCom.Pos;
             } else if (entityType == EntityType.Bullet) {
-                worldContext.BulletRepo.TryGetByID(target.entityID, out var targetBullet);
+                worldContext.BulletRepo.TryGetByID(target.EntityID, out var targetBullet);
                 targetPos = targetBullet.MoveCom.Pos;
             } else {
                 TDLog.Error($"子弹追踪目标类型错误! - {entityType}");

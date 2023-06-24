@@ -92,7 +92,7 @@ namespace TiedanSouls.Client.Entities {
             }
         }
 
-        public void SetFather(in EntityIDArgs father) {
+        public void SetFather(in EntityIDComponent father) {
             IDCom.SetFather(father);
         }
 

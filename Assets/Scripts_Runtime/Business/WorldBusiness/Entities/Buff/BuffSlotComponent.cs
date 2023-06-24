@@ -41,7 +41,7 @@ namespace TiedanSouls.Client.Entities {
             return buffDic.TryGetValue(typeID, out buff);
         }
 
-        public void SetFather(EntityIDArgs father) {
+        public void SetFather(EntityIDComponent father) {
             var e = buffDic.Values.GetEnumerator();
             while (e.MoveNext()) {
                 var buff = e.Current;

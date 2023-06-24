@@ -105,11 +105,10 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void SetFromFieldTypeID(int fieldTypeID) {
-            IDCom.SetFromFieldTypeID(fieldTypeID);
+            idCom.SetFromFieldTypeID(fieldTypeID);
 
-            var idArgs = IDCom.ToArgs();
-            SkillSlotCom.SetFather(idArgs);
-            BuffSlotCom.SetFather(idArgs);
+            SkillSlotCom.SetFather(idCom);
+            BuffSlotCom.SetFather(idCom);
             entityCollider.SetHolder(idCom);
         }
 
