@@ -387,8 +387,7 @@ namespace TiedanSouls.Client.Domain {
             var entityColliderModelB = evModel.entityColliderModelB;
 
             var rootDomain = worldContext.RootDomain;
-            _ = rootDomain.TryGetEntityObj(skill.IDCom.Father, out var fatherEntity);
-            var casterRole = fatherEntity as RoleEntity;
+            var casterRole = skill.IDCom.Father.HolderPtr as RoleEntity;
             var casterPos = casterRole.RootPos;
             var rolePos = role.RootPos;
             var beHitDir = rolePos - casterPos;

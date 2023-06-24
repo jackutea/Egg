@@ -407,7 +407,9 @@ namespace TiedanSouls.Client.Domain {
             var damageType = damageModel.damageType;
             float realDamage = baseDamage;
 
-            if (rootDomain.TryGetRoleFromIDArgs(hitter, out var hitterRole)) {
+            // Hitter 可能是: SkillEntity or BulletEntity
+            RoleEntity hitterRole = hitter.Father.HolderPtr as RoleEntity;
+            if (hitterRole != null) {
                 realDamage = damageArbitService.ArbitrateDamage(damageType, baseDamage, hitterRole.AttributeCom, role.AttributeCom);
             }
 

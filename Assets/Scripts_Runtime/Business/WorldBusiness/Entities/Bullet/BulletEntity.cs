@@ -6,7 +6,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 子弹
     /// </summary>
-    public class BulletEntity : IEntity {
+    public class BulletEntity {
 
         #region [组件]
 

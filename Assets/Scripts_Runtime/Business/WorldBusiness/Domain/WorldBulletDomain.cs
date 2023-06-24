@@ -71,7 +71,9 @@ namespace TiedanSouls.Client.Domain {
             var roleDomain = rootDomain.RoleDomain;
             var buffDomain = rootDomain.BuffDomain;
 
-            if (rootDomain.TryGetRoleFromIDArgs(bullet.IDCom.Father, out var role)) {
+            object fatherHolder = bullet.IDCom.Father.HolderPtr;
+
+            if (fatherHolder is RoleEntity role) {
                 var selfRoleEffectorTypeIDArray = collisionTriggerModel.selfRoleEffectorTypeIDArray;
                 var len = selfRoleEffectorTypeIDArray.Length;
                 for (int i = 0; i < len; i++) {
@@ -93,6 +95,36 @@ namespace TiedanSouls.Client.Domain {
             if (!bullet.TryGet_ValidCollisionTriggerModel(out var collisionTriggerModel)) {
                 return;
             }
+        }
+
+        /// <summary>
+        /// 根据 实体追踪模型 设置 第一个满足条件的实体目标
+        /// </summary>
+        public void TrySetEntityTrackTarget(ref EntityTrackModel entityTrackModel, in EntityIDComponent self) {
+            var stateEntity = this.worldContext.StateEntity;
+            var curFieldTypeID = stateEntity.CurFieldTypeID;
+
+            var entityTrackSelectorModel = entityTrackModel.entityTrackSelectorModel;
+            var trackEntityType = entityTrackSelectorModel.entityType;
+            var attributeSelectorModel = entityTrackSelectorModel.attributeSelectorModel;
+
+            if (trackEntityType == EntityType.Role) {
+                var roleRepo = this.worldContext.RoleRepo;
+                if (roleRepo.TryGet_TrackEntity(
+                    curFieldTypeID,
+                    entityTrackModel.relativeTrackTargetGroupType,
+                    self,
+                    attributeSelectorModel,
+                    out var role
+                )) {
+                    entityTrackModel.target = role.IDCom;
+                }
+
+                return;
+            }
+
+            TDLog.Error($"EntityTrack 未处理的实体类型 {trackEntityType}");
+            return;
         }
 
         /// <summary>

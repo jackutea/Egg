@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class SkillEntity : IEntity {
+    public class SkillEntity {
 
         EntityIDComponent idCom;
         public EntityIDComponent IDCom => idCom;

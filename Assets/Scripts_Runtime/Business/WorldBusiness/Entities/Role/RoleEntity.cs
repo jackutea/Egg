@@ -4,7 +4,7 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class RoleEntity : MonoBehaviour, IEntity {
+    public class RoleEntity : MonoBehaviour {
 
         RoleAIStrategy aiStrategy;
         public RoleAIStrategy AIStrategy => aiStrategy;

@@ -143,8 +143,15 @@ namespace TiedanSouls.Client.Domain {
 
                 if (entitySpawnCtrlModel.spawnFrame == curFrame) {
                     if (!stateModel.IsRespawning) {
-                        var worldDomain = worldContext.RootDomain;
-                        worldDomain.SpawnBy_EntitySpawnCtrlModel(entitySpawnCtrlModel, curFieldTypeID);
+                        var spawnModel = entitySpawnCtrlModel.entitySpawnModel;
+                        var spawnEntityType = spawnModel.entityType;
+                        if (spawnEntityType == EntityType.Role) {
+                            var roleDomain = worldContext.RootDomain.RoleDomain;
+                            _ = roleDomain.TrySpawnRole(curFieldTypeID, spawnModel, out var role);
+                            role.name = $"角色(生成)_{role.IDCom}";
+                        } else {
+                            TDLog.Error($"未知的实体类型 {spawnEntityType}");
+                        }
                     } else {
                         TDLog.Warning("未处理 关卡实体生成 -- 重复加载关卡");
                     }

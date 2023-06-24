@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class FieldEntity : IEntity {
+    public class FieldEntity {
 
         // - 组件
         EntityIDComponent idCom;

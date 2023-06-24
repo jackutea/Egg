@@ -6,7 +6,7 @@ namespace TiedanSouls.Client.Entities {
     /// <summary>
     /// 弹幕实体
     /// </summary>
-    public class ProjectileEntity : IEntity {
+    public class ProjectileEntity {
 
         #region [组件]
 

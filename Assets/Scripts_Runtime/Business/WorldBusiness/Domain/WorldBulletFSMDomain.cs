@@ -89,15 +89,15 @@ namespace TiedanSouls.Client.Domain {
 
             var rootDomain = worldContext.RootDomain;
             // 如果是追踪类型，需要设置追踪目标
+            var bulletDomain = rootDomain.BulletDomain;
             if (bullet.TrajectoryType == TrajectoryType.Track) {
                 bullet.entityTrackModel.target = default;
-                rootDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom);
+                bulletDomain.TrySetEntityTrackTarget(ref bullet.entityTrackModel, bullet.IDCom);
             }
 
             // 移动逻辑(根据轨迹类型)
             var moveCom = bullet.MoveCom;
             var trajectoryType = bullet.TrajectoryType;
-            var bulletDomain = rootDomain.BulletDomain;
             if (trajectoryType == TrajectoryType.Track) {
                 bulletDomain.MoveToTrackingTarget(bullet);
             } else if (trajectoryType == TrajectoryType.Curve) {

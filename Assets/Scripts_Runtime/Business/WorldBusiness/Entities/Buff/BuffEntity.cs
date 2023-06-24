@@ -2,7 +2,7 @@ using TiedanSouls.Generic;
 
 namespace TiedanSouls.Client.Entities {
 
-    public class BuffEntity : IEntity {
+    public class BuffEntity {
 
         public EntityIDComponent IDCom { get; private set; }
 

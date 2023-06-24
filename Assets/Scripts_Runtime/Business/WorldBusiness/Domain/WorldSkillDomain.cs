@@ -32,7 +32,9 @@ namespace TiedanSouls.Client.Domain {
 
             // 打击触发自身 角色效果器
             var skillIDCom = skill.IDCom;
-            if (!rootDomain.TryGetRoleFromIDArgs(skillIDCom.Father, out var selfRole)) {
+            object fatherHolder = skillIDCom.Father.HolderPtr;
+            RoleEntity selfRole = fatherHolder as RoleEntity;
+            if (selfRole == null) {
                 TDLog.Error($"技能击中时, 未找到技能拥有者! - {skillIDCom}");
                 return;
             }
