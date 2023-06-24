@@ -35,11 +35,15 @@ namespace TiedanSouls.Client.Domain {
 
             TickNotDying(role, fsmCom, logicDT);
 
-            if (fsmState == RoleFSMState.Idle) Tick_Idle(role, fsmCom, logicDT);
-            else if (fsmState == RoleFSMState.JumpingUp) Tick_JumpingUp(role, fsmCom, logicDT);
-            else if (fsmState == RoleFSMState.Casting) Tick_Casting(role, fsmCom, logicDT);
-            else if (fsmState == RoleFSMState.BeHit) Tick_BeHit(role, fsmCom, logicDT);
-            else if (fsmState == RoleFSMState.Dying) Tick_Dying(role, fsmCom, logicDT);
+            if (fsmState == RoleFSMState.Idle) {
+                Tick_Idle(role, fsmCom, logicDT);
+            } else if (fsmState == RoleFSMState.Casting) {
+                Tick_Casting(role, fsmCom, logicDT);
+            } else if (fsmState == RoleFSMState.BeHit) {
+                Tick_BeHit(role, fsmCom, logicDT);
+            } else if (fsmState == RoleFSMState.Dying) {
+                Tick_Dying(role, fsmCom, logicDT);
+            }
         }
 
         void TickNotDying(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
@@ -82,33 +86,6 @@ namespace TiedanSouls.Client.Domain {
             role.Fall(logicDT);
 
             roleDomain.TryCastSkillByInput(role);
-        }
-
-        /// <summary>
-        /// 上跳状态
-        /// </summary>
-        void Tick_JumpingUp(RoleEntity role, RoleFSMComponent fsmCom, float logicDT) {
-            var stateModel = fsmCom.JumpingUpStateModel;
-            if (stateModel.IsEntering) {
-                stateModel.SetIsEntering(false);
-            }
-
-            stateModel.curFrame++;
-
-            if (stateModel.curFrame < 2) {
-
-            }
-
-            // Locomotion
-            role.TryMoveByInput();
-            role.Fall(logicDT);
-            role.HorizontalFaceTo(role.InputCom.MoveAxis.x);
-
-            var rootDomain = worldContext.RootDomain;
-            var roleDomain = rootDomain.RoleDomain;
-            roleDomain.TryCastSkillByInput(role);
-
-            fsmCom.Enter_Idle();
         }
 
         /// <summary>

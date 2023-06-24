@@ -138,8 +138,6 @@ namespace TiedanSouls.Client.Entities {
             velo.y = jumpSpeed;
             MoveCom.SetVelocity(velo);
 
-            FSMCom.Enter_JumpingUp();
-
             return true;
         }
 

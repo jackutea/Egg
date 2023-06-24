@@ -285,18 +285,6 @@ namespace TiedanSouls.Client.Domain {
             }
         }
 
-        public void TryCrossDownPlatformByInput(RoleEntity role) {
-            var inputCom = role.InputCom;
-            if (!inputCom.HasMoveOpt) return;
-
-            var wantCrossDown = inputCom.MoveAxis.y < 0;
-            if (wantCrossDown) {
-                role.SetColliderTrigger(true);
-                var fsmCom = role.FSMCom;
-                fsmCom.Enter_JumpingDown();
-            }
-        }
-
         public void Dash(RoleEntity role, Vector2 dir, Vector2 force) {
             var moveCom = role.MoveCom;
             moveCom.Dash(dir, force);
@@ -327,9 +315,7 @@ namespace TiedanSouls.Client.Domain {
 
             // 正常释放
             var fsmCom = role.FSMCom;
-            if (fsmCom.FSMState == RoleFSMState.Idle
-            || fsmCom.FSMState == RoleFSMState.Moving
-            || fsmCom.FSMState == RoleFSMState.JumpingUp) {
+            if (fsmCom.FSMState == RoleFSMState.Idle) {
                 roleFSMDomain.Enter_Casting(role, originalSkill, false);
                 return true;
             }

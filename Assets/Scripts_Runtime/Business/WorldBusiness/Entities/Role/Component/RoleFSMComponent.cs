@@ -13,9 +13,6 @@ namespace TiedanSouls.Client.Entities {
         RoleIdleStateModel idleStateModel;
         public RoleIdleStateModel IdleStateModel => idleStateModel;
 
-        RoleJumpingUpStateModel jumpingUpStateModel;
-        public RoleJumpingUpStateModel JumpingUpStateModel => jumpingUpStateModel;
-
         RoleCastingStateModel castingStateModel;
         public RoleCastingStateModel CastingStateModel => castingStateModel;
 
@@ -27,47 +24,15 @@ namespace TiedanSouls.Client.Entities {
 
         #endregion
 
-        #region [控制状态]
-
-        RoleStateModel_KnockBack knockBackModel;
-        public RoleStateModel_KnockBack KnockBackModel => knockBackModel;
-
-        RoleStateModel_KnockUp knockUpModel;
-        public RoleStateModel_KnockUp KnockUpModel => knockUpModel;
-
-        #endregion
-
-        #region [角色位置状态]
-
-        RoleStateModel_OnGround onGroundModel;
-        public RoleStateModel_OnGround OnGroundModel => onGroundModel;
-
-        RoleStateModel_OnCrossPlatform onCrossPlatformStateModel;
-        public RoleStateModel_OnCrossPlatform OnCrossPlatformStateModel => onCrossPlatformStateModel;
-
-        RoleInWaterStateModel inWaterStateModel;
-        public RoleInWaterStateModel InWaterStateModel => inWaterStateModel;
-
-        #endregion
-
         public RoleFSMComponent() {
             idleStateModel = new RoleIdleStateModel();
-            jumpingUpStateModel = new RoleJumpingUpStateModel();
             castingStateModel = new RoleCastingStateModel();
             beHitStateModel = new RoleBeHitStateModel();
-            knockBackModel = new RoleStateModel_KnockBack();
-            knockUpModel = new RoleStateModel_KnockUp();
             dyingStateModel = new RoleDyingStateModel();
-
-            onGroundModel = new RoleStateModel_OnGround();
-            onCrossPlatformStateModel = new RoleStateModel_OnCrossPlatform();
-            inWaterStateModel = new RoleInWaterStateModel();
         }
 
         public void ResetAll() {
             ResetFSMState();
-            ResetCtrlStatus();
-            ResetPositionStatus();
         }
 
         public void ResetFSMState() {
@@ -76,17 +41,6 @@ namespace TiedanSouls.Client.Entities {
             beHitStateModel.Reset();
             dyingStateModel.Reset();
             fsmState = RoleFSMState.None;
-        }
-
-        public void ResetCtrlStatus() {
-            knockBackModel.Reset();
-            knockUpModel.Reset();
-        }
-
-        public void ResetPositionStatus() {
-            onGroundModel.Reset();
-            onCrossPlatformStateModel.Reset();
-            inWaterStateModel.Reset();
         }
 
         #region [状态]
@@ -131,24 +85,6 @@ namespace TiedanSouls.Client.Entities {
             stateModel.maintainFrame = maintainFrame;
 
             fsmState = RoleFSMState.Dying;
-            TDLog.Log($"角色 状态 - 切换 '{fsmState}'");
-        }
-
-        public void Enter_JumpingDown() {
-            fsmState = RoleFSMState.JumpingDown;
-            TDLog.Log($"角色 状态 - 切换 '{fsmState}'");
-        }
-
-        public void Enter_JumpingUp() {
-            fsmState = RoleFSMState.JumpingUp;
-            var stateModel = this.jumpingUpStateModel;
-            stateModel.Reset();
-            stateModel.SetIsEntering(true);
-            TDLog.Log($"角色 状态 - 切换 '{fsmState}'");
-        }
-
-        public void Enter_Falling() {
-            fsmState = RoleFSMState.Falling;
             TDLog.Log($"角色 状态 - 切换 '{fsmState}'");
         }
 
