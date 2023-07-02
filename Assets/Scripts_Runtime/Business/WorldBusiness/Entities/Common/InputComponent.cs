@@ -9,10 +9,6 @@ namespace TiedanSouls.Client.Entities {
         public Vector2 MoveAxis => moveAxis;
         public void SetMoveAxis(Vector2 value) => this.moveAxis = value;
 
-        bool hasMoveOpt;
-        public bool HasMoveOpt => hasMoveOpt;
-        public void SetHasMoveOpt(bool value) => this.hasMoveOpt = value;
-
         bool inputJump;
         public bool InputJump => inputJump;
         public void SetInputJump(bool value) => this.inputJump = value;
@@ -45,7 +41,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() {
             moveAxis = Vector2.zero;
-            hasMoveOpt = false;
             inputJump = false;
             inputMelee = false;
             inputSkill1 = false;

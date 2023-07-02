@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8933377606618999774}
   - component: {fileID: 9159335245501537110}
+  - component: {fileID: 6423096217957780887}
   m_Layer: 6
-  m_Name: mod_role_hero_0001
+  m_Name: mod_role_hero_1000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 2975390925075110927}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f48dd5cca16144a59ab166f5ad6a302c, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -54,6 +55,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6423096217957780887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2975390925075110927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b594f3c06aced3248b41bd3313811f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5199770900044644201
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ MonoBehaviour:
     - Mod_Role
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 02b003275d7944e30bb2714b4979f38a
-    m_Address: mod_role_hero_0001
+    m_Address: mod_role_hero_1000
     m_ReadOnly: 0
     m_SerializedLabels:
     - Mod_Role

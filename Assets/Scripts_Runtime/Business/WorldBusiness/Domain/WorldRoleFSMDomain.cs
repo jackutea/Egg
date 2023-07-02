@@ -69,15 +69,19 @@ namespace TiedanSouls.Client.Domain {
             var stateModel = fsmCom.IdleStateModel;
             if (stateModel.IsEntering) {
                 stateModel.SetIsEntering(false);
-
+                TDLog.Log($"Enter Idle");
+                role.RendererCom.Anim_Idle();
             }
 
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
             var inputCom = role.InputCom;
+            role.RendererCom.Anim_Move(inputCom.MoveAxis.x);
+            if (inputCom.MoveAxis.x != 0) {
+            TDLog.Log($"Idle - MoveAxis: {inputCom.MoveAxis.x.ToString("F2")}");
 
-            role.RendererCom.Anim_PlayIdle(role.InputCom.MoveAxis.sqrMagnitude);
+            }
 
             // Locomotion
             role.HorizontalFaceTo(inputCom.MoveAxis.x);
@@ -104,6 +108,8 @@ namespace TiedanSouls.Client.Domain {
                 stateModel.SetIsEntering(false);
                 stateModel.SetCasterRotation(role.RootRotation);
                 roleDomain.FaceToHorizontalPoint(role, stateModel.ChosedPoint);
+
+                role.RendererCom.Anim_PlaySkill(castingSkill.IDCom.EntityName);
 
                 role.Stop();
             }

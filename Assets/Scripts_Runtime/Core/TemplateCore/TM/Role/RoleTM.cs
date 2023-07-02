@@ -1,4 +1,5 @@
 using System;
+using GameArki.Anymotion;
 
 namespace TiedanSouls.Template {
 
@@ -25,6 +26,7 @@ namespace TiedanSouls.Template {
 
         // - Renderer
         public string modName;
+        public AnymotionSO animSO;
 
     }
 

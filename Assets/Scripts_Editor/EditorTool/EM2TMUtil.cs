@@ -118,7 +118,7 @@ namespace TiedanSouls.EditorTool {
             tm.maintainFrame = editorGO.maintainFrame;
             tm.extraPenetrateCount = editorGO.extraPenetrateCount;
             tm.deathEffectorTypeID = editorGO.deathEffectorTypeID;
-            tm.collisionTriggerTM = EntityColliderTriggerTM<BulletEditorGO>(editorGO.entityColliderTriggerEM);
+            tm.hitToggleTM = EntityColliderTriggerTM<BulletEditorGO>(editorGO.entityColliderTriggerEM);
 
             tm.trajectoryType = editorGO.trajectoryType;
 

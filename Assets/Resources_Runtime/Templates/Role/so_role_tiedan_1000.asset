@@ -23,4 +23,5 @@ MonoBehaviour:
     fallSpeed_Expanded: 3000
     fallSpeedMax_Expanded: 3000
     skillTypeIDArray: e8030000f2030000
-    modName: mod_role_hero_0001
+    modName: mod_role_hero_1000
+    animSO: {fileID: 11400000, guid: 85e42f3b44772d64ca8aba42ead07388, type: 2}

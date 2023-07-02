@@ -99,12 +99,12 @@ namespace TiedanSouls.Client.Entities {
             ColliderToggleModel[] modelArray = new ColliderToggleModel[len];
             for (int i = 0; i < len; i++) {
                 var tm = tmArray[i];
-                modelArray[i] = GetEntityColliderTriggerModel(tm);
+                modelArray[i] = GetHitToggleModel(tm);
             }
             return modelArray;
         }
 
-        public static ColliderToggleModel GetEntityColliderTriggerModel(HitToggleTM tm) {
+        public static ColliderToggleModel GetHitToggleModel(HitToggleTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;

@@ -213,32 +213,23 @@ namespace TiedanSouls.Client.Domain {
             var inputGetter = infraContext.InputCore.Getter;
 
             // - Move
-            Vector2 moveAxis = Vector2.zero;
+            Vector2 moveAxis;
             if (inputGetter.GetPressing(InputKeyCollection.MOVE_LEFT)) {
                 moveAxis.x = -1;
             } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_RIGHT)) {
                 moveAxis.x = 1;
+            } else {
+                moveAxis.x = 0;
             }
             if (inputGetter.GetPressing(InputKeyCollection.MOVE_DOWN)) {
                 moveAxis.y = -1;
             } else if (inputGetter.GetPressing(InputKeyCollection.MOVE_UP)) {
                 moveAxis.y = 1;
-            }
-            bool hasInputMove = moveAxis != Vector2.zero;
-            if (hasInputMove) {
-                moveAxis.Normalize();
-                inputCom.SetMoveAxis(moveAxis);
-                inputCom.SetHasMoveOpt(true);
             } else {
-                bool hasLooseMove = inputGetter.GetUp(InputKeyCollection.MOVE_LEFT)
-                                    || inputGetter.GetUp(InputKeyCollection.MOVE_RIGHT)
-                                    || inputGetter.GetUp(InputKeyCollection.MOVE_UP)
-                                    || inputGetter.GetUp(InputKeyCollection.MOVE_DOWN);
-                if (hasLooseMove) {
-                    inputCom.SetHasMoveOpt(true);
-                    inputCom.SetMoveAxis(Vector2.zero);
-                }
+                moveAxis.y = 0;
             }
+            moveAxis.Normalize();
+            inputCom.SetMoveAxis(moveAxis);
 
             // - Jump
             if (inputGetter.GetDown(InputKeyCollection.JUMP)) {
@@ -406,7 +397,7 @@ namespace TiedanSouls.Client.Domain {
 
         public void TearDownRole(RoleEntity role) {
             TDLog.Log($"角色 TearDown - {role.IDCom.TypeID}");
-            role.FSMCom.ResetAll();
+            role.Reset();
             role.AttributeCom.ClearHP();
             role.SetColliderActive(false);
             role.Hide();

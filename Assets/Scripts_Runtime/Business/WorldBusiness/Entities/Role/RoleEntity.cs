@@ -123,8 +123,6 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void TryMoveByInput() {
-            if (!InputCom.HasMoveOpt) return;
-
             Vector2 moveAxis = InputCom.MoveAxis;
             MoveCom.MoveHorizontal(moveAxis.x, AttributeCom.MoveSpeed);
         }

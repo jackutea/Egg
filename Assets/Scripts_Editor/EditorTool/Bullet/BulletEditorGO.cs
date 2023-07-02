@@ -48,7 +48,7 @@ namespace TiedanSouls.EditorTool {
 
             this.maintainFrame = tm.maintainFrame;
 
-            this.entityColliderTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.collisionTriggerTM);
+            this.entityColliderTriggerEM = TM2EMUtil.GetCollisionTriggerEM(tm.hitToggleTM);
             this.deathEffectorTypeID = tm.deathEffectorTypeID;
             this.extraPenetrateCount = tm.extraPenetrateCount;
 

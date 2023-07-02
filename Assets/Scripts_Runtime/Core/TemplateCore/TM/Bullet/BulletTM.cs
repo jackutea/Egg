@@ -14,7 +14,7 @@ namespace TiedanSouls.Template {
         [Header("轨迹类型")] public TrajectoryType trajectoryType;
         [Header("位移曲线")] public MoveCurveTM moveCurveTM;
         [Header("实体追踪模型")] public EntityTrackTM entityTrackTM;
-        [Header("碰撞器")] public HitToggleTM collisionTriggerTM;
+        [Header("碰撞器")] public HitToggleTM hitToggleTM;
         [Header("额外穿透次数")] public int extraPenetrateCount;
 
         [Header("死亡效果器")] public int deathEffectorTypeID;

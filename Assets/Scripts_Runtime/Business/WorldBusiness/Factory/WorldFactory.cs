@@ -119,6 +119,7 @@ namespace TiedanSouls.Client {
             }
             GameObject roleMod = GameObject.Instantiate(roleModPrefab);
             role.RendererCom.SetMod(roleMod);
+            role.RendererCom.Init(roleTM.animSO);
 
             // Attribute
             var attrCom = role.AttributeCom;
@@ -301,13 +302,13 @@ namespace TiedanSouls.Client {
             bullet.entityTrackModel = TM2ModelUtil.GetEntityTrackModel(tm.entityTrackTM);// 实体追踪模型
             bullet.moveCurveModel = TM2ModelUtil.GetMoveCurveModel(tm.moveCurveTM);// 位移曲线模型
 
-            var colliderToggleModels = TM2ModelUtil.GetEntityColliderTriggerModel(tm.collisionTriggerTM);
-            if (colliderToggleModels.entityColliderArray != null) {
-                foreach (var collider in colliderToggleModels.entityColliderArray) {
+            var hitToggleModels = TM2ModelUtil.GetHitToggleModel(tm.hitToggleTM);
+            if (hitToggleModels.entityColliderArray != null) {
+                foreach (var collider in hitToggleModels.entityColliderArray) {
                     collider.SetHolder(idCom);
                 }
             }
-            bullet.SetCollisionTriggerModel(colliderToggleModels);
+            bullet.SetCollisionTriggerModel(hitToggleModels);
 
             bullet.SetDeathEffectorTypeID(tm.deathEffectorTypeID);
 
