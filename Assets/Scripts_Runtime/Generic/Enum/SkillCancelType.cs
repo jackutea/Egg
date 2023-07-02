@@ -1,4 +1,4 @@
-namespace TiedanSouls.Generic {
+namespace TiedanSouls {
 
     public enum SkillCancelType {
         None,

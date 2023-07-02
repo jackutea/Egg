@@ -145,16 +145,16 @@ namespace TiedanSouls.EditorTool {
             tm.typeID = editorGo.typeID;
             tm.originSkillTypeID = editorGo.originSkillTypeID;
             tm.skillName = editorGo.skillName;
+            tm.castKey = editorGo.castKey;
             tm.skillType = editorGo.skillType;
             tm.maintainFrame = editorGo.maintainFrame;
 
             tm.weaponAnimName = editorGo.weaponAnimClip == null ? string.Empty : editorGo.weaponAnimClip.name;
             tm.weaponAnimClip_GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(editorGo.weaponAnimClip));
 
-            tm.comboSkillCancelTMArray = GetSkillCancelTM(editorGo.comboSkillCancelEMArray);
             tm.cancelSkillCancelTMArray = GetSkillCancelTM(editorGo.cancelSkillCancelEMArray);
             tm.effectorTriggerEMArray = GetSkillEffectorTMArray(editorGo.effectorTriggerEMArray);
-            tm.collisionTriggerTMArray = EntityColliderTriggerTMArray<SkillEditorGO>(editorGo.entityColliderTriggerEMArray);
+            tm.hitToggleTMArray = EntityColliderTriggerTMArray<SkillEditorGO>(editorGo.entityColliderTriggerEMArray);
             tm.roleSummonTMArray = GetRoleSummonTMArray(editorGo.roleSummonEMArray);
             tm.projectileCtorTMArray = GetProjectileCtorTMArray(editorGo.projectileCtorEMArray);
             tm.buffAttachTMArray = GetBuffAttachTMArray(editorGo.buffAttachEMArray);
@@ -194,9 +194,10 @@ namespace TiedanSouls.EditorTool {
 
         public static SkillCancelTM GetSkillCancelTM(SkillCancelEM em) {
             SkillCancelTM tm;
-            tm.skillTypeID = em.skillTypeID;
             tm.startFrame = em.startFrame;
             tm.endFrame = em.endFrame;
+            tm.cancelType = em.cancelType;
+            tm.skillTypeID = em.skillTypeID;
             return tm;
         }
 
@@ -353,20 +354,20 @@ namespace TiedanSouls.EditorTool {
 
         #region [ColliderTrigger]
 
-        public static EntityColliderTriggerTM[] EntityColliderTriggerTMArray<T>(EntityColliderTriggerEM[] emArray) {
+        public static HitToggleTM[] EntityColliderTriggerTMArray<T>(EntityColliderTriggerEM[] emArray) {
             var len = emArray.Length;
-            var tmArray = new EntityColliderTriggerTM[len];
+            var tmArray = new HitToggleTM[len];
             for (int i = 0; i < len; i++) {
                 tmArray[i] = EntityColliderTriggerTM<T>(emArray[i]);
             }
             return tmArray;
         }
 
-        public static EntityColliderTriggerTM EntityColliderTriggerTM<T>(EntityColliderTriggerEM em) {
+        public static HitToggleTM EntityColliderTriggerTM<T>(EntityColliderTriggerEM em) {
             var frameRange = em.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
 
-            EntityColliderTriggerTM tm;
+            HitToggleTM tm;
             tm.isEnabled = em.isEnabled;
             tm.frameRange = frameRange;
 

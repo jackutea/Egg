@@ -13,74 +13,47 @@ MonoBehaviour:
   m_Name: so_skill_tiedan_melee_1010
   m_EditorClassIdentifier: 
   tm:
-    typeID: 1001
+    typeID: 1010
     skillName: "\u666E\u653B2\u6BB5"
+    castKey: 0
     skillType: 1
     maintainFrame: 15
-    weaponAnimName: anim_spear_melee_1010
+    weaponAnimName: anim_role_hero_1010_attack
     weaponAnimClip_GUID: 84dd15d653dd41049994690039901695
     originSkillTypeID: 1000
-    comboSkillCancelTMArray:
-    - skillTypeID: 1002
-      startFrame: 10
-      endFrame: 15
     cancelSkillCancelTMArray:
-    - skillTypeID: 2000
-      startFrame: 10
+    - startFrame: 10
       endFrame: 15
+      cancelType: 0
+      skillTypeID: 2000
     effectorTriggerEMArray: []
     roleSummonTMArray: []
     projectileCtorTMArray: []
     buffAttachTMArray: []
     skillMoveCurveTMArray: []
-    collisionTriggerTMArray:
+    hitToggleTMArray:
     - isEnabled: 1
       frameRange: {x: 10, y: 14}
-      triggerMode: 1
+      triggerMode: 0
       triggerFixedIntervalTM:
         delayFrame: 0
         intervalFrame: 0
         maintainFrame: 0
       triggerCustomTM:
-        frameRangeArray:
-        - {x: 10, y: 14}
+        frameRangeArray: []
       targetEntityType: 1
       hitAllyType: 4
       damageTM:
-        damageType: 1
-        damageArray: 4200000042000000420000004200000042000000
-        damageBase: 66
-        damageCurve_KeyframeTMArray:
-        - time: 0
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
+        damageType: 0
+        damageArray: 
+        damageBase: 0
+        damageCurve_KeyframeTMArray: []
       beHitTM:
         maintainFrame: 0
-        knockBackSpeedArray_cm: 88130000b80b0000e8030000
-        knockBackKeyframeTMArray:
-        - time: 0
-          value: 0
-          inTangent: 2
-          outTangent: 2
-          inWeight: 0
-          outWeight: 0
-        - time: 1
-          value: 1
-          inTangent: 0
-          outTangent: 0
-          inWeight: 0
-          outWeight: 0
-        knockBackTotalFrame: 3
-        knockBackDistance_cm: 300
+        knockBackSpeedArray_cm: 
+        knockBackKeyframeTMArray: []
+        knockBackTotalFrame: 0
+        knockBackDistance_cm: 0
         knockUpSpeedArray_cm: 
         knockUpKeyframeTMArray: []
         knockUpTotalFrame: 0
@@ -90,8 +63,7 @@ MonoBehaviour:
       selfRoleEffectorTypeIDArray: 
       colliderTMArray:
       - colliderType: 0
-        localPosition: {x: 2.0966, y: 0.94, z: 0}
+        localPosition: {x: 0, y: 0, z: 0}
         localAngleZ: 0
-        localScale: {x: 4.0717864, y: 1.7378125, z: 1}
-      colliderRelativePathArray:
-      - colliders_0/b1
+        localScale: {x: 1, y: 1, z: 1}
+      colliderRelativePathArray: []

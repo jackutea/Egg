@@ -92,6 +92,20 @@ namespace TiedanSouls.Client {
             roleIDCom.SetTypeID(typeID);
             roleIDCom.SetEntityName(roleTM.roleName);
 
+            // Skill
+            var skillSlot = role.SkillSlotCom;
+            if (roleTM.skillTypeIDArray != null) {
+                for (int i = 0; i < roleTM.skillTypeIDArray.Length; i++) {
+                    var skillTypeID = roleTM.skillTypeIDArray[i];
+                    if (skillTypeID == 0) continue;
+                    if (!TryCreateSkillEntity(skillTypeID, out SkillEntity skill)) {
+                        TDLog.Error($"配置出错! 未找到技能模板数据: TypeID {skillTypeID}");
+                        return false;
+                    }
+                    skillSlot.TryAdd(skill);
+                }
+            }
+
             // FSM
             var fsmCom = role.FSMCom;
             fsmCom.Enter_Idle();
@@ -183,14 +197,13 @@ namespace TiedanSouls.Client {
             idCom.SetEntityName(skillTM.skillName);
             skill.SetTotalFrame(skillTM.maintainFrame);
 
+            skill.SetCastKey(skillTM.castKey);
+
             // 技能类型
             skill.SetSkillType(skillTM.skillType);
 
             // 原始技能类型
             skill.SetOriginalSkillTypeID(skillTM.originSkillTypeID);
-
-            // 组合技能清单
-            skill.SetComboSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.comboSkillCancelTMArray));
 
             // 连招技能清单
             skill.SetLinkSkillCancelModelArray(TM2ModelUtil.GetSkillCancelModelArray(skillTM.cancelSkillCancelTMArray));
@@ -211,7 +224,7 @@ namespace TiedanSouls.Client {
             skill.SetBuffAttachModelArray(TM2ModelUtil.GetBuffAttachModelArray(skillTM.buffAttachTMArray));
 
             // 碰撞器组
-            var colliderToggles = TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.collisionTriggerTMArray);
+            var colliderToggles = TM2ModelUtil.GetEntityColliderTriggerModelArray(skillTM.hitToggleTMArray);
             skill.SetEntityColliderTriggerModelArray(colliderToggles);
             foreach (var colliderToggle in colliderToggles) {
                 foreach (var collider in colliderToggle.entityColliderArray) {

@@ -34,7 +34,7 @@ namespace TiedanSouls.Client.Controller {
         float resTime;
         public void Tick(float dt) {
             // ==== Input ====
-            worldDomain.RoleDomain.BackPlayerInput();
+            worldDomain.RoleDomain.BakePlayerInput();
 
             // ==== Logic ====
             resTime += dt;

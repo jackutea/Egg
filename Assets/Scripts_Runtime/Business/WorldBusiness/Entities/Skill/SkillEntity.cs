@@ -9,6 +9,11 @@ namespace TiedanSouls.Client.Entities {
         EntityIDComponent idCom;
         public EntityIDComponent IDCom => idCom;
 
+        // - 技能按键
+        SkillCastKey castKey;
+        public SkillCastKey CastKey => this.castKey;
+        public void SetCastKey(SkillCastKey value) => this.castKey = value;
+
         // - 技能类型
         SkillType skillType;
         public SkillType SkillType => this.skillType;
@@ -18,11 +23,6 @@ namespace TiedanSouls.Client.Entities {
         int originalSkillTypeID;
         public int OriginalSkillTypeID => this.originalSkillTypeID;
         public void SetOriginalSkillTypeID(int value) => this.originalSkillTypeID = value;
-
-        // - 组合技
-        SkillCancelModel[] comboSkillCancelModelArray;
-        public SkillCancelModel[] ComboSkillCancelModelArray => this.comboSkillCancelModelArray;
-        public void SetComboSkillCancelModelArray(SkillCancelModel[] value) => this.comboSkillCancelModelArray = value;
 
         // - 连招技
         SkillCancelModel[] linkSkillCancelModelArray;
@@ -258,16 +258,6 @@ namespace TiedanSouls.Client.Entities {
             if (linkSkillCancelModelArray != null) {
                 for (int i = 0; i < linkSkillCancelModelArray.Length; i++) {
                     SkillCancelModel model = linkSkillCancelModelArray[i];
-                    if (model.IsInTriggeringFrame(curFrame)) action(model);
-                }
-            }
-        }
-
-        public void Foreach_CancelModel_Combo(Action<SkillCancelModel> action, int frame = -1) {
-            frame = frame == -1 ? curFrame : frame;
-            if (comboSkillCancelModelArray != null) {
-                for (int i = 0; i < comboSkillCancelModelArray.Length; i++) {
-                    SkillCancelModel model = comboSkillCancelModelArray[i];
                     if (model.IsInTriggeringFrame(curFrame)) action(model);
                 }
             }

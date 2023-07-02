@@ -22,4 +22,5 @@ MonoBehaviour:
     jumpSpeed_Expanded: 1700
     fallSpeed_Expanded: 3000
     fallSpeedMax_Expanded: 3000
+    skillTypeIDArray: e8030000f2030000
     modName: mod_role_hero_0001

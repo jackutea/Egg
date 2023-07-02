@@ -8,7 +8,7 @@ namespace TiedanSouls.Template {
     /// 碰撞触发器模型
     /// </summary>
     [Serializable]
-    public struct EntityColliderTriggerTM {
+    public struct HitToggleTM {
 
         [Header("启用/关闭")] public bool isEnabled;
 

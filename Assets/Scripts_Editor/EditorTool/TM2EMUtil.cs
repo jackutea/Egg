@@ -117,9 +117,10 @@ namespace TiedanSouls.EditorTool {
 
         public static SkillCancelEM GetSkillCancelEM(SkillCancelTM tm) {
             SkillCancelEM em;
-            em.skillTypeID = tm.skillTypeID;
             em.startFrame = tm.startFrame;
             em.endFrame = tm.endFrame;
+            em.cancelType = tm.cancelType;
+            em.skillTypeID = tm.skillTypeID;
             return em;
         }
 
@@ -202,7 +203,7 @@ namespace TiedanSouls.EditorTool {
 
         #region [CollisionTrigger]
 
-        public static EntityColliderTriggerEM[] GetCollisionTriggerEMArray(EntityColliderTriggerTM[] tmArray) {
+        public static EntityColliderTriggerEM[] GetCollisionTriggerEMArray(HitToggleTM[] tmArray) {
             if (tmArray == null) return null;
             EntityColliderTriggerEM[] emArray = new EntityColliderTriggerEM[tmArray.Length];
             for (int i = 0; i < tmArray.Length; i++) {
@@ -211,7 +212,7 @@ namespace TiedanSouls.EditorTool {
             return emArray;
         }
 
-        public static EntityColliderTriggerEM GetCollisionTriggerEM(EntityColliderTriggerTM tm) {
+        public static EntityColliderTriggerEM GetCollisionTriggerEM(HitToggleTM tm) {
             EntityColliderTriggerEM em;
             em.isEnabled = tm.isEnabled;
             em.frameRange = tm.frameRange;

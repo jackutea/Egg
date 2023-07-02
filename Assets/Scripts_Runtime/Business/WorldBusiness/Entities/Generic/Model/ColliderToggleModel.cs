@@ -18,6 +18,7 @@ namespace TiedanSouls.Client.Entities {
 
         // 作用实体类型
         public EntityType targetEntityType;
+        
         // 作用目标
         public AllyType hitAllyType;
 

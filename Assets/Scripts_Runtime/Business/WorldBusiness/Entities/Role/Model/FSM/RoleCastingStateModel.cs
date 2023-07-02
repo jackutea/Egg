@@ -8,10 +8,6 @@ namespace TiedanSouls.Client.Entities {
         public bool IsEntering => isEntering;
         public void SetIsEntering(bool value) => isEntering = value;
 
-        bool isCombo;
-        public bool IsCombo => isCombo;
-        public void SetIsCombo(bool value) => isCombo = value;
-
         SkillEntity castingSkill;
         public SkillEntity CastingSkill => castingSkill;
         public void SetCastingSkill(SkillEntity value) => castingSkill = value;
@@ -43,7 +39,6 @@ namespace TiedanSouls.Client.Entities {
 
         public void Reset() {
             isEntering = false;
-            isCombo = false;
             isWaitingForMoveEnd = false;
             castingSkill = null;
             chosedPoint = Vector2.zero;

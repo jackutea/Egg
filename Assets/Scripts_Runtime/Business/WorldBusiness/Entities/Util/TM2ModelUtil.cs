@@ -64,9 +64,10 @@ namespace TiedanSouls.Client.Entities {
 
         public static SkillCancelModel GetSkillCancelModel(SkillCancelTM tm) {
             SkillCancelModel model;
-            model.skillTypeID = tm.skillTypeID;
             model.startFrame = tm.startFrame;
             model.endFrame = tm.endFrame;
+            model.cancelType = tm.cancelType;
+            model.skillTypeID = tm.skillTypeID;
             return model;
         }
 
@@ -92,7 +93,7 @@ namespace TiedanSouls.Client.Entities {
 
         #region [CollisionTrigger]
 
-        public static ColliderToggleModel[] GetEntityColliderTriggerModelArray(EntityColliderTriggerTM[] tmArray) {
+        public static ColliderToggleModel[] GetEntityColliderTriggerModelArray(HitToggleTM[] tmArray) {
             if (tmArray == null) return null;
             var len = tmArray.Length;
             ColliderToggleModel[] modelArray = new ColliderToggleModel[len];
@@ -103,7 +104,7 @@ namespace TiedanSouls.Client.Entities {
             return modelArray;
         }
 
-        public static ColliderToggleModel GetEntityColliderTriggerModel(EntityColliderTriggerTM tm) {
+        public static ColliderToggleModel GetEntityColliderTriggerModel(HitToggleTM tm) {
             var frameRange = tm.frameRange;
             var totalFrame = frameRange.y - frameRange.x + 1;
             var triggerMode = tm.triggerMode;

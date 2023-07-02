@@ -95,7 +95,6 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             var stateModel = fsmCom.CastingStateModel;
             var castingSkill = stateModel.CastingSkill;
-            var isCombo = stateModel.IsCombo;
             var skillSlotCom = role.SkillSlotCom;
             var roleDomain = rootDomain.RoleDomain;
             var projectileDomain = rootDomain.ProjectileDomain;
@@ -315,9 +314,9 @@ namespace TiedanSouls.Client.Domain {
             fsmCom.Enter_Dying(30);
         }
 
-        public void Enter_Casting(RoleEntity role, SkillEntity skill, bool isCombo) {
+        public void Enter_Casting(RoleEntity role, SkillEntity skill) {
             var fsmCom = role.FSMCom;
-            fsmCom.Enter_Casting(skill, isCombo, role.InputCom.ChosenPoint);
+            fsmCom.Enter_Casting(skill, role.InputCom.ChosenPoint);
 
             var stateModel = fsmCom.CastingStateModel;
             var frameArray = stateModel.FrameArray;

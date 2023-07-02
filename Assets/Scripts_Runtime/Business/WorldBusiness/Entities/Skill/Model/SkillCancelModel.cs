@@ -4,7 +4,7 @@ namespace TiedanSouls.Client.Entities {
 
         public int startFrame;
         public int endFrame;
-
+        public SkillCancelType cancelType;
         public int skillTypeID;
 
         public bool IsInTriggeringFrame(int frame) {

@@ -15,25 +15,23 @@ MonoBehaviour:
   tm:
     typeID: 1000
     skillName: "\u666E\u653B1\u6BB5"
+    castKey: 1
     skillType: 1
     maintainFrame: 15
-    weaponAnimName: anim_spear_melee_1000
+    weaponAnimName: anim_role_hero_1000_attack
     weaponAnimClip_GUID: 7b87320ad56e2a94aa465d2f7e762aaa
     originSkillTypeID: 1000
-    comboSkillCancelTMArray:
-    - skillTypeID: 1001
-      startFrame: 10
-      endFrame: 15
     cancelSkillCancelTMArray:
-    - skillTypeID: 2000
-      startFrame: 10
+    - startFrame: 10
       endFrame: 15
+      cancelType: 1
+      skillTypeID: 1010
     effectorTriggerEMArray: []
     roleSummonTMArray: []
     projectileCtorTMArray: []
     buffAttachTMArray: []
     skillMoveCurveTMArray: []
-    collisionTriggerTMArray:
+    hitToggleTMArray:
     - isEnabled: 1
       frameRange: {x: 10, y: 14}
       triggerMode: 1

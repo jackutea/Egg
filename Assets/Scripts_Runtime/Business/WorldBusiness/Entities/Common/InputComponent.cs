@@ -17,21 +17,21 @@ namespace TiedanSouls.Client.Entities {
         public bool InputJump => inputJump;
         public void SetInputJump(bool value) => this.inputJump = value;
 
-        bool inputNormalSkill;
-        public bool InputSkillMelee => inputNormalSkill;
-        public void SetInputSkillMelee(bool value) => this.inputNormalSkill = value;
+        bool inputMelee;
+        public bool InputSkillMelee => inputMelee;
+        public void SetInputSkillMelee(bool value) => this.inputMelee = value;
 
-        bool inputSpecialSkill;
-        public bool InputSpecialSkill => inputSpecialSkill;
-        public void SetInputSpecialSkill(bool value) => this.inputSpecialSkill = value;
+        bool inputSkill1;
+        public bool InputSpecialSkill => inputSkill1;
+        public void SetInputSpecialSkill(bool value) => this.inputSkill1 = value;
 
-        bool inputUltimateSkill;
-        public bool InputUltimateSkill => inputUltimateSkill;
-        public void SetInputUltimateSkill(bool value) => this.inputUltimateSkill = value;
+        bool inputSkill2;
+        public bool InputUltimateSkill => inputSkill2;
+        public void SetInputUltimateSkill(bool value) => this.inputSkill2 = value;
 
-        bool inputDashSkill;
-        public bool InputDashSkill => inputDashSkill;
-        public void SetInputDashSkill(bool value) => this.inputDashSkill = value;
+        bool inputDash;
+        public bool InputDashSkill => inputDash;
+        public void SetInputDashSkill(bool value) => this.inputDash = value;
 
         bool inputPick;
         public bool InputPick => inputPick;
@@ -47,28 +47,28 @@ namespace TiedanSouls.Client.Entities {
             moveAxis = Vector2.zero;
             hasMoveOpt = false;
             inputJump = false;
-            inputNormalSkill = false;
-            inputSpecialSkill = false;
-            inputUltimateSkill = false;
-            inputDashSkill = false;
+            inputMelee = false;
+            inputSkill1 = false;
+            inputSkill2 = false;
+            inputDash = false;
             inputPick = false;
             chosenPoint = Vector2.zero;
         }
 
-        public SkillType GetSkillType() {
-            if (inputNormalSkill) {
-                return SkillType.Normal;
+        public SkillCastKey GetSkillCastKey() {
+            if (inputMelee) {
+                return SkillCastKey.Melee;
             }
-            if (inputSpecialSkill) {
-                return SkillType.Special;
+            if (inputSkill1) {
+                return SkillCastKey.Skill1;
             }
-            if (inputUltimateSkill) {
-                return SkillType.Ultimate;
+            if (inputSkill2) {
+                return SkillCastKey.Skill2;
             }
-            if (inputDashSkill) {
-                return SkillType.Dash;
+            if (inputDash) {
+                return SkillCastKey.Dash;
             }
-            return SkillType.None;
+            return SkillCastKey.None;
         }
 
     }

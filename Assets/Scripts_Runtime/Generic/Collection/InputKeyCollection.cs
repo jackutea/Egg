@@ -8,10 +8,10 @@ namespace TiedanSouls.Generic {
         public const ushort MOVE_DOWN = 4;
         public const ushort JUMP = 5;
 
-        public const ushort NORMAL_SKILL = 10;
-        public const ushort SPECTIAL_SKILL = 11;
-        public const ushort ULTIMATE_SKILL = 12;
-        public const ushort DASH_Skill = 13;
+        public const ushort MELEE = 10;
+        public const ushort SKILL1 = 11;
+        public const ushort SKILL2 = 12;
+        public const ushort DASH = 13;
 
         public const ushort PICK = 21;
         public const ushort CHOOSE_POINT = 22;

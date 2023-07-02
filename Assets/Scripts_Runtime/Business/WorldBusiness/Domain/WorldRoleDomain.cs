@@ -203,7 +203,7 @@ namespace TiedanSouls.Client.Domain {
         /// <summary>
         /// 玩家角色输入
         /// </summary>
-        public void BackPlayerInput() {
+        public void BakePlayerInput() {
             RoleEntity playerRole = worldContext.RoleRepo.PlayerRole;
             if (playerRole == null) {
                 return;
@@ -246,22 +246,22 @@ namespace TiedanSouls.Client.Domain {
             }
 
             // - Normal SKill
-            if (inputGetter.GetDown(InputKeyCollection.NORMAL_SKILL)) {
+            if (inputGetter.GetDown(InputKeyCollection.MELEE)) {
                 inputCom.SetInputSkillMelee(true);
             }
 
             // - Special Skill
-            if (inputGetter.GetDown(InputKeyCollection.SPECTIAL_SKILL)) {
+            if (inputGetter.GetDown(InputKeyCollection.SKILL1)) {
                 inputCom.SetInputSpecialSkill(true);
             }
 
             // - Ultimate Skill
-            if (inputGetter.GetDown(InputKeyCollection.ULTIMATE_SKILL)) {
+            if (inputGetter.GetDown(InputKeyCollection.SKILL2)) {
                 inputCom.SetInputUltimateSkill(true);
             }
 
             // - Dash Skill
-            if (inputGetter.GetDown(InputKeyCollection.DASH_Skill)) {
+            if (inputGetter.GetDown(InputKeyCollection.DASH)) {
                 inputCom.SetInputDashSkill(true);
             }
 
@@ -295,18 +295,18 @@ namespace TiedanSouls.Client.Domain {
         /// </summary>
         public bool TryCastSkillByInput(RoleEntity role) {
             var inputCom = role.InputCom;
-            SkillType inputSkillType = inputCom.GetSkillType();
-            return TryCastSkill(role, inputSkillType);
+            SkillCastKey inputCastKey = inputCom.GetSkillCastKey();
+            return TryCastSkill(role, inputCastKey);
         }
 
-        public bool TryCastSkill(RoleEntity role, SkillType inputSkillType) {
-            if (inputSkillType == SkillType.None) {
+        public bool TryCastSkill(RoleEntity role, SkillCastKey inputCastKey) {
+            if (inputCastKey == SkillCastKey.None) {
                 return false;
             }
 
             var skillSlotCom = role.SkillSlotCom;
-            if (!skillSlotCom.TrgGet_OriginSkill_BySkillType(inputSkillType, out var originalSkill)) {
-                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputSkillType}");
+            if (!skillSlotCom.TrgGetByCastKey(inputCastKey, out var originalSkill)) {
+                TDLog.Error($"施放技能失败 - 不存在原始技能类型 {inputCastKey}");
                 return false;
             }
 
@@ -316,7 +316,7 @@ namespace TiedanSouls.Client.Domain {
             // 正常释放
             var fsmCom = role.FSMCom;
             if (fsmCom.FSMState == RoleFSMState.Idle) {
-                roleFSMDomain.Enter_Casting(role, originalSkill, false);
+                roleFSMDomain.Enter_Casting(role, originalSkill);
                 return true;
             }
 
@@ -325,10 +325,9 @@ namespace TiedanSouls.Client.Domain {
                 var stateModel = fsmCom.CastingStateModel;
                 var castingSkill = stateModel.CastingSkill;
 
-                if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID, out var cancelType)) {
+                if (CanCancelSkill(skillSlotCom, castingSkill, originSkillTypeID, out var realSkillTypeID)) {
                     castingSkill.Reset();
-                    if (cancelType == SkillCancelType.Combo) roleFSMDomain.Enter_Casting(role, realSkillTypeID, true);
-                    else roleFSMDomain.Enter_Casting(role, realSkillTypeID, false);
+                    roleFSMDomain.Enter_Casting(role, realSkillTypeID);
                     return true;
                 }
             }
@@ -336,40 +335,40 @@ namespace TiedanSouls.Client.Domain {
             return false;
         }
 
-        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out SkillEntity realSkill, out SkillCancelType cancelType) {
+        bool CanCancelSkill(SkillSlotComponent skillSlotCom, SkillEntity castingSkill, int inputSkillTypeID, out SkillEntity realSkill) {
             realSkill = null;
 
             if (castingSkill.OriginalSkillTypeID == inputSkillTypeID) {
                 // 组合技
                 bool isComboSkill = false;
                 SkillEntity comboSkill = null;
-                castingSkill.Foreach_CancelModel_Combo((cancelModel) => {
+                castingSkill.Foreach_CancelModel_Linked((System.Action<SkillCancelModel>)((cancelModel) => {
+                    if (cancelModel.cancelType != SkillCancelType.Combo) {
+                        return;
+                    }
                     int skillTypeID = cancelModel.skillTypeID;
-                    if (!skillSlotCom.TryGet_Combo(skillTypeID, out comboSkill)) return;
+                    if (!skillSlotCom.TryGet(skillTypeID, out comboSkill)) return;
                     isComboSkill = true;
-                });
+                }));
                 if (isComboSkill) {
                     realSkill = comboSkill;
-                    cancelType = SkillCancelType.Combo;
                     return true;
                 }
             } else {
                 // 连招技
                 bool isLinkedSkill = false;
                 SkillEntity linkedSkill = null;
-                castingSkill.Foreach_CancelModel_Linked((cancelModel) => {
+                castingSkill.Foreach_CancelModel_Linked((System.Action<SkillCancelModel>)((cancelModel) => {
                     int skillTypeID = cancelModel.skillTypeID;
-                    if (!skillSlotCom.TryGet_Origin(skillTypeID, out linkedSkill)) return;
+                    if (!skillSlotCom.TryGet(skillTypeID, out linkedSkill)) return;
                     isLinkedSkill = true;
-                });
+                }));
                 if (isLinkedSkill) {
                     realSkill = linkedSkill;
-                    cancelType = SkillCancelType.Link;
                     return true;
                 }
             }
 
-            cancelType = SkillCancelType.None;
             return false;
         }
 

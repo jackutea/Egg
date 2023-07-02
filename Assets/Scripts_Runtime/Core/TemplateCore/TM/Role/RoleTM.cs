@@ -20,6 +20,9 @@ namespace TiedanSouls.Template {
         public int fallSpeed_Expanded;
         public int fallSpeedMax_Expanded;
 
+        // - Skill
+        public int[] skillTypeIDArray;
+
         // - Renderer
         public string modName;
 
