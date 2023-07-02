@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "ab78c402688107129c02cd634e35460f21db6496"
     },
+    "com.gamearki.anymotion": {
+      "version": "ssh://git@github.com/gamearki/anymotion.git?path=Assets/com.gamearki.anymotion#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d20cd293606c073a991085d99bbfb0360c282764"
+    },
     "com.gamearki.fpeasing": {
       "version": "ssh://git@github.com/gamearki/FPEasing.git?path=Assets/com.gamearki.fpeasing#main",
       "depth": 0,
