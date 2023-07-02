@@ -40,19 +40,21 @@ namespace TiedanSouls.Client.Controller {
             resTime += dt;
             var logicDT = GameCollection.LOGIC_INTERVAL_TIME;
             while (resTime >= logicDT) {
+                
                 // - Logic
                 worldDomain.WorldFSMDomain.ApplyWorldState(logicDT);
+
+                // Clear Input
+                var roleRepo = worldContext.RoleRepo;
+                roleRepo.Foreach_All((role) => {
+                    role.InputCom.Reset();
+                });
+
                 resTime -= logicDT;
             }
 
             // ==== Render ====
             worldDomain.WorldRendererDomain.Tick(dt);
-
-            // Clear Input
-            var roleRepo = worldContext.RoleRepo;
-            roleRepo.Foreach_All((role) => {
-                role.InputCom.Reset();
-            });
 
         }
 
