@@ -88,6 +88,7 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void TearDown() {
+            rendererCom.TearDown();
             GameObject.Destroy(gameObject);
         }
 

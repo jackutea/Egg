@@ -12,7 +12,6 @@ namespace TiedanSouls.Client.Entities {
         AnymotionGo anymotion;
 
         SpriteRenderer sr;
-        string currentAnimName;
 
         public RoleRendererComponent() { }
 
@@ -22,6 +21,14 @@ namespace TiedanSouls.Client.Entities {
 
         public void Init(AnymotionSO so) {
             AnymotionUtil.InitializeAndPlayDefault(0, anymotion, so);
+        }
+
+        public void Tick(float dt) {
+            anymotion.Tick(dt);
+        }
+
+        public void TearDown() {
+            anymotion.TearDown();
         }
 
         public void Reset() {
@@ -44,28 +51,19 @@ namespace TiedanSouls.Client.Entities {
         }
 
         public void Anim_Idle() {
-            anymotion.Play(0, "Idle", true);
-            currentAnimName = "Idle";
+            // anymotion.Play(0, "Idle", true);
         }
 
         public void Anim_Move(float moveMagnitudeSqr) {
             if (moveMagnitudeSqr == 0) {
-                if (currentAnimName == "Walk") {
-                    anymotion.EnterCrossFade(0, "Idle",AnymotionCrossFadeSameStateStrategyType.NothingTodo);
-                    currentAnimName = "Idle";
-                    TDLog.Log($"角色 动画 - 设置 Idle'{currentAnimName}'");
-                }
+                anymotion.Play(0, "Idle", false);
             } else {
-                if (currentAnimName == "Idle") {
-                    anymotion.EnterCrossFade(0, "Walk",AnymotionCrossFadeSameStateStrategyType.NothingTodo);
-                    currentAnimName = "Walk";
-                    TDLog.Log($"角色 动画 - 设置 Walk'{currentAnimName}'");
-                }
+                anymotion.Play(0, "Walk", false);
             }
         }
 
         public void Anim_PlaySkill(string skillName) {
-            anymotion.EnterCrossFade(0, skillName);
+            anymotion.Play(0, skillName, true);
         }
 
         public void Anim_Play_BeHit() {

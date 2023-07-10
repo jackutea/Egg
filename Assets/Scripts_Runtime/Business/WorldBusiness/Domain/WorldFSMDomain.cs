@@ -28,6 +28,13 @@ namespace TiedanSouls.Client.Domain {
             stateEntity.EnterState_Loading(-1, lobbyFieldTypeID, 0);
         }
 
+        public void TearDown() {
+            var repo = worldContext.RoleRepo;
+            repo?.Foreach_All((role) => {
+                role.TearDown();
+            });
+        }
+
         public void ApplyWorldState(float logicDT) {
             var stateEntity = worldContext.StateEntity;
             var worldState = stateEntity.State;

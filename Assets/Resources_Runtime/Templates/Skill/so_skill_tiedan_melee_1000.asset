@@ -17,13 +17,13 @@ MonoBehaviour:
     skillName: "\u666E\u653B1\u6BB5"
     castKey: 1
     skillType: 1
-    maintainFrame: 15
+    maintainFrame: 8
     weaponAnimName: anim_role_hero_1000_attack
     weaponAnimClip_GUID: 7b87320ad56e2a94aa465d2f7e762aaa
     originSkillTypeID: 1000
     cancelSkillCancelTMArray:
-    - startFrame: 10
-      endFrame: 15
+    - startFrame: 4
+      endFrame: 8
       cancelType: 1
       skillTypeID: 1010
     effectorTriggerEMArray: []

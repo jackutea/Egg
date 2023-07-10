@@ -71,6 +71,24 @@ namespace TiedanSouls.Main.Entry {
             infraController.LateTick(dt);
         }
 
+        void OnDestory() {
+            TearDown();
+        }
+
+        void OnApplicationQuit() {
+            TearDown();
+        }
+
+        void TearDown() {
+            if (isClientReady) {
+                return;
+            }
+
+            isClientReady = true;
+
+            worldController.TearDown();
+        }
+
     }
 
 }

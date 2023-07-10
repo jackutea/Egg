@@ -31,6 +31,10 @@ namespace TiedanSouls.Client.Controller {
             });
         }
 
+        public void TearDown() {
+            worldDomain.WorldFSMDomain.TearDown();
+        }
+
         float resTime;
         public void Tick(float dt) {
             // ==== Input ====

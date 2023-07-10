@@ -52,6 +52,8 @@ namespace TiedanSouls.Client.Domain {
             var rootDomain = worldContext.RootDomain;
             var roleDomain = rootDomain.RoleDomain;
 
+            role.RendererCom.Tick(logicDT);
+
             // 死亡检查
             if (roleDomain.IsRoleDead(role)) {
                 roleDomain.TearDownRole(role);
@@ -78,10 +80,6 @@ namespace TiedanSouls.Client.Domain {
 
             var inputCom = role.InputCom;
             role.RendererCom.Anim_Move(inputCom.MoveAxis.x);
-            if (inputCom.MoveAxis.x != 0) {
-            TDLog.Log($"Idle - MoveAxis: {inputCom.MoveAxis.x.ToString("F2")}");
-
-            }
 
             // Locomotion
             role.HorizontalFaceTo(inputCom.MoveAxis.x);
