@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "faf7dba09a4dd58af27eb5aec506a35476bb69d7"
+      "hash": "10a0129c51b13cffc39a68494e842ec712e63f41"
     },
     "com.gamearki.fpeasing": {
       "version": "ssh://git@github.com/gamearki/FPEasing.git?path=Assets/com.gamearki.fpeasing#main",

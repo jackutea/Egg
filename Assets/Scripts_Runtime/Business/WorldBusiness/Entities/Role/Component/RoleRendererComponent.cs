@@ -56,9 +56,9 @@ namespace TiedanSouls.Client.Entities {
 
         public void Anim_Move(float moveMagnitudeSqr) {
             if (moveMagnitudeSqr == 0) {
-                anymotion.Play(0, "Idle", false);
+                anymotion.EnterCrossFade(0, "Idle", AnymotionCrossFadeSameStateStrategyType.NothingTodo);
             } else {
-                anymotion.Play(0, "Walk", false);
+                anymotion.EnterCrossFade(0, "Walk", AnymotionCrossFadeSameStateStrategyType.NothingTodo);
             }
         }
 
